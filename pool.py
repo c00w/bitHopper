@@ -1,19 +1,30 @@
-#!/bin/python
+#!/bin/python2.7
+#License#
+#bitHopper by Colin Rice is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
+#Based on a work at github.com.
 
 import json
 import time
 from jsonrpc import ServiceProxy
+import socket
 
 from twisted.web import server, resource
 from twisted.web.client import getPage
 from twisted.internet import reactor
 from twisted.internet.task import LoopingCall
 
+#SET THESE
+bclc_user  = "FSkyvM"
+bclc_pass = "xndzEU"
+mtred_user = 'scarium'
+mtred_pass = 'x'
+
+
 access = None
 #access = ServiceProxy("http://19ErX2nDvNQgazXweD1pKrjbBLKQQDM5RY:x@mining.eligius.st:8337")
 servers = {
-        'bclc':{'time':time.time(), 'shares':0, 'name':'bitcoins.lc', 'mine_address':'bitcoins.lc:8080', 'user':'FSkyvM', 'pass':'xndzEU'},
-        'mtred':{'time':time.time(), 'shares':0, 'name':'mtred',  'mine_address':'mtred.com:8337', 'user':'scarium', 'pass':'x'}}
+        'bclc':{'time':time.time(), 'shares':0, 'name':'bitcoins.lc', 'mine_address':'bitcoins.lc:8080', 'user':bclc_user, 'pass':bclc_pass, 'lag':False},
+        'mtred':{'time':time.time(), 'shares':0, 'name':'mtred',  'mine_address':'mtred.com:8337', 'user':mtred_user, 'pass':mtred_pass, 'lag':False}}
 current_server = 'mtred'
 difficulty = 1563027.996116
 
@@ -21,15 +32,30 @@ def select_best_server():
 
     global servers
     global access
+    global current_server
     server_name = None
     min_shares = 10**9
     
     for server in servers:
         info = servers[server]
-        if info['shares']< min_shares and time.time() - info['time'] < 360:
+        if info['shares']< min_shares and info['lag'] == False:
             min_shares = servers[server]['shares']
             server_name = server
+
+    if server_name == None:
+        for server in servers:
+            info = servers[server]
+            if info['shares']< min_shares:
+                min_shares = servers[server]['shares']
+                server_name = server
+
+    if server_name == None:
+        for server in servers:
+            server_name = server
+            break
+
     current_server = server_name
+    server = servers[current_server]
     access = ServiceProxy("http://" + server['user']+ ":" + server['pass'] + "@" + server['mine_address'])
     return
 
@@ -50,7 +76,6 @@ def bclc_sharesResponse(response):
     global servers
     info = json.loads(response)
     round_shares = int(info['round_shares'])
-    servers['bclc']['time'] = time.time()
     servers['bclc']['shares'] = round_shares
     print 'bitcoin.lc :' + str(round_shares)
     server_update()
@@ -59,7 +84,6 @@ def mtred_sharesResponse(response):
     global servers
     info = json.loads(response)
     round_shares = int(info['server']['servers']['n0']['roundshares'])
-    servers['mtred']['time'] = time.time()
     servers['mtred']['shares'] = round_shares
     print 'mtred :' + str(round_shares)
     server_update()
@@ -84,13 +108,20 @@ def jsonrpc_getwork(data):
     if access == None:
         if current_server == None:
             server_update()
-            current_server = select_best_server()
+            select_best_server()
             
         server = servers[current_server]
         access = ServiceProxy("http://" + server['user']+ ":" + server['pass'] + "@" + server['mine_address'])
-    v = access.getwork()
-    print "Pulled From " + current_server + ", Current shares " + str(servers[current_server]['shares'])
-    return v
+    while True:
+        try:
+            v = access.getwork()
+        except socket.timeout, e:
+            servers[current_server]['lag'] = True
+            select_best_server()
+        else:    
+            servers[current_server]['lag'] = False
+            print "Pulled From " + current_server + ", Current shares " + str(servers[current_server]['shares'])
+            return v
 
 
 
