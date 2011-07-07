@@ -18,6 +18,9 @@ current_server = 'mtred'
 difficulty = 1563027.996116
 
 def select_best_server():
+
+    global servers
+    global access
     server_name = None
     min_shares = 10**9
     
@@ -30,6 +33,7 @@ def select_best_server():
     return
 
 def server_update():
+    global servers
     if current_server == None:
         select_best_server()
         return
@@ -42,23 +46,19 @@ def server_update():
         return
 
 def bclc_sharesResponse(response):
-    info = json.load(response)
+    global servers
+    info = json.loads(response)
     round_shares = int(info['round_shares'])
-    if 'bclc' not in server:
-        servers['bclc'] = {'time':time.time(), 'shares':round_shares, 'name':'bitcoins.lc', 'mine_address':'bitcoins.lc:8080', 'user':'FSkyvM', 'pass':'xndzEU'}
-    else:
-        servers['bclc']['time'] = time.time()
-        servers['bclc']['shares'] = round_shares
+    servers['bclc']['time'] = time.time()
+    servers['bclc']['shares'] = round_shares
     server_update()
     
 def mtred_sharesResponse(response):
-    info = json.load(response)
+    global servers
+    info = json.loads(response)
     round_shares = int(info['server']['servers']['n0']['roundshares'])
-    if 'bclc' not in server:
-        servers['mtred'] = {'time':time.time(), 'shares':round_shares, 'name':'mtred', 'mine_address':'mtred.com:8337', 'user':'scarium', 'pass':'x'}
-    else:
-        servers['mtred']['time'] = time.time()
-        servers['mtred']['shares'] = round_shares
+    servers['mtred']['time'] = time.time()
+    servers['mtred']['shares'] = round_shares
     server_update()
 
 def bclc_getshares():
@@ -74,14 +74,19 @@ def update_servers():
 
 
 def jsonrpc_getwork(data):
+    global access
+    global servers
+    global current_server
+    
     if access == None:
         if current_server == None:
             server_update()
             current_server = select_best_server()
             
-        server = server[current_server]
+        server = servers[current_server]
         access = ServiceProxy("http://" + server['user']+ ":" + server['pass'] + "@" + server['mine_address'])
     v = access.getwork()
+    print "Pulled From " + current_server + ", Current shares " + servers[current_server]['shares']
     return v
 
 
@@ -93,7 +98,6 @@ class Simple(resource.Resource):
 
     def render_POST(self, request):
         rpc_request = json.load(request.content)
-        print rpc_request
         #check if they are sending a valid message
         if rpc_request['method'] != "getwork":
             return json.dumps({'result':None, 'error':'Not supported', 'id':rpc_request['id']})
@@ -103,7 +107,6 @@ class Simple(resource.Resource):
         data = rpc_request['params']
         data = jsonrpc_getwork(data)
         response = json.dumps({"result":data,'error':None,'id':rpc_request['id']})
-        print response
         return response
 
 
