@@ -9,25 +9,36 @@ from twisted.internet import reactor
 from twisted.web.client import getPage
 
 access = None
-access = ServiceProxy("http://19ErX2nDvNQgazXweD1pKrjbBLKQQDM5RY:x@mining.eligius.st:8337")
-servers = {'bclc':{'time':time.time(), 'shares':0, 'name':'bitcoins.lc', 'mine_address':'bitcoins.lc:8080', 'user':'FSkyvM', 'pass':'xndzEU'}}
-current_server = None
+#access = ServiceProxy("http://19ErX2nDvNQgazXweD1pKrjbBLKQQDM5RY:x@mining.eligius.st:8337")
+servers = {
+        'bclc':{'time':time.time(), 'shares':0, 'name':'bitcoins.lc', 'mine_address':'bitcoins.lc:8080', 'user':'FSkyvM', 'pass':'xndzEU'},
+        'mtred':{'time':time.time(), 'shares':0, 'name':'mtred',  'mine_address':'mtred.com:8337', 'user':'scarium', 'pass':'x'}}
+current_server = 'mtred'
 difficulty = 1563027.996116
 
 def select_best_server():
-    return 'bclc'
+    server_name = None
+    min_shares = 10**9
+    
+    for server in servers:
+        if servers[server]['shares']< min_shares:
+            min_shares = servers[server]['shares']
+            server_name = server
+    current_server = server_name
+    access = ServiceProxy("http://" + server['user']+ ":" + server['pass'] + "@" + server['mine_address'])
+    return
 
 def server_update():
     if current_server == None:
-        current_server = select_best_server()
+        select_best_server()
         return
 
     if current_server not in servers:
         return
 
     if servers[current_server]['shares'] > difficulty * .40:
-        current_server = select_best_server()
-        access = ServiceProxy("http://" + server['user']+ ":" + server['pass'] + "@" + server['mine_address'])
+        select_best_server()
+        return
 
 def bclc_sharesResponse(response):
     info = json.load(response)
@@ -39,14 +50,26 @@ def bclc_sharesResponse(response):
         servers['bclc']['shares'] = round_shares
     server_update()
     
-    
+def mtred_sharesResponse(response):
+    info = json.load(response)
+    round_shares = int(info['server']['servers']['n0']['roundshares'])
+    if 'bclc' not in server:
+        servers['mtred'] = {'time':time.time(), 'shares':round_shares, 'name':'mtred', 'mine_address':'mtred.com:8337', 'user':'scarium', 'pass':'x'}
+    else:
+        servers['mtred']['time'] = time.time()
+        servers['mtred']['shares'] = round_shares
+    server_update()
 
 def bclc_getshares():
     getPage('https://www.bitcoins.lc/stats.json').addCallback(bclc_sharesResponse)
 
+def mtred_getshares():
+    getPage('https://mtred.com/api/user/key/d91c52cfe1609f161f28a1268a2915b8').addCallback( mtred_sharesResponse )
+
 def update_servers():
     global servers
     bclc_getshares()
+    mtred_getshares()
 
 
 def jsonrpc_getwork(data):
