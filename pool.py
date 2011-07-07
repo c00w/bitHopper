@@ -120,6 +120,8 @@ def jsonrpc_getwork(data):
                 v = access.getwork()
             else :
                 v = access.getwork(data[0])
+                select_best_server()
+                
         except socket.error, e:
             print e
             servers[current_server]['lag'] = True
