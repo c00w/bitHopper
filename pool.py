@@ -18,23 +18,28 @@ bclc_user  = "FSkyvM"
 bclc_pass = "xndzEU"
 mtred_user = 'scarium'
 mtred_pass = 'x'
+eligius_address = '1AofHmwVef5QkamCW6KqiD4cRqEcq5U7hZ'
 
 
+
+difficulty = 1563027.996116
 access = None
 #access = ServiceProxy("http://19ErX2nDvNQgazXweD1pKrjbBLKQQDM5RY:x@mining.eligius.st:8337")
 servers = {
         'bclc':{'time':time.time(), 'shares':0, 'name':'bitcoins.lc', 'mine_address':'bitcoins.lc:8080', 'user':bclc_user, 'pass':bclc_pass, 'lag':False},
-        'mtred':{'time':time.time(), 'shares':0, 'name':'mtred',  'mine_address':'mtred.com:8337', 'user':mtred_user, 'pass':mtred_pass, 'lag':False}}
+        'mtred':{'time':time.time(), 'shares':0, 'name':'mtred',  'mine_address':'mtred.com:8337', 'user':mtred_user, 'pass':mtred_pass, 'lag':False},
+        'eligius':{'time':time.time(), 'shares':difficulty*.41, 'name':'eligius', 'mine_address':'mining.eligius.st:8337', 'user':eligius_address, 'pass':'x', 'lag':False}
+        }
 current_server = 'mtred'
-difficulty = 1563027.996116
 
 def select_best_server():
 
     global servers
     global access
     global current_server
+    global difficulty
     server_name = None
-    min_shares = 10**9
+    min_shares = difficulty*.40
     
     for server in servers:
         info = servers[server]
@@ -43,16 +48,7 @@ def select_best_server():
             server_name = server
 
     if server_name == None:
-        for server in servers:
-            info = servers[server]
-            if info['shares']< min_shares:
-                min_shares = servers[server]['shares']
-                server_name = server
-
-    if server_name == None:
-        for server in servers:
-            server_name = server
-            break
+        server_name = 'eligius'
 
     current_server = server_name
     server = servers[current_server]
