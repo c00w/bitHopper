@@ -1,18 +1,63 @@
 #!/bin/python
 
 import json
+import time
 from jsonrpc import ServiceProxy
 
 from twisted.web import server, resource
 from twisted.internet import reactor
+from twisted.web.client import getPage
 
+access = None
 access = ServiceProxy("http://19ErX2nDvNQgazXweD1pKrjbBLKQQDM5RY:x@mining.eligius.st:8337")
+servers = {'bclc':{'time':time.time(), 'shares':0, 'name':'bitcoins.lc', 'mine_address':'bitcoins.lc:8080', 'user':'FSkyvM', 'pass':'xndzEU'}}
+current_server = None
+difficulty = 1563027.996116
+
+def select_best_server():
+    return 'bclc'
+
+def server_update():
+    if current_server == None:
+        current_server = select_best_server()
+        return
+
+    if current_server not in servers:
+        return
+
+    if servers[current_server]['shares'] > difficulty * .40:
+        current_server = select_best_server()
+        access = ServiceProxy("http://" + server['user']+ ":" + server['pass'] + "@" + server['mine_address'])
+
+def bclc_sharesResponse(response):
+    info = json.load(response)
+    round_shares = int(info['round_shares'])
+    if 'bclc' not in server:
+        servers['bclc'] = {'time':time.time(), 'shares':round_shares, 'name':'bitcoins.lc', 'mine_address':'bitcoins.lc:8080', 'user':'FSkyvM', 'pass':'xndzEU'}
+    else:
+        servers['bclc']['time'] = time.time()
+        servers['bclc']['shares'] = round_shares
+    server_update()
+    
+    
+
+def bclc_getshares():
+    getPage('https://www.bitcoins.lc/stats.json').addCallback(bclc_sharesResponse)
+
+def update_servers():
+    global servers
+    bclc_getshares()
+
 
 def jsonrpc_getwork(data):
-    global access
-    if data == None or data == []:
-        v = access.getwork()
-    else: v = access.getwork(data)
+    if access == None:
+        if current_server == None:
+            server_update()
+            current_server = select_best_server()
+            
+        server = server[current_server]
+        access = ServiceProxy("http://" + server['user']+ ":" + server['pass'] + "@" + server['mine_address'])
+    v = access.getwork()
     return v
 
 
@@ -46,6 +91,7 @@ def main():
 
     site = server.Site(Simple())
     reactor.listenTCP(8337, site)
+    update_servers()
     reactor.run()
 
 if __name__ == "__main__":
