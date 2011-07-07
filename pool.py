@@ -5,8 +5,9 @@ import time
 from jsonrpc import ServiceProxy
 
 from twisted.web import server, resource
-from twisted.internet import reactor
 from twisted.web.client import getPage
+from twisted.internet import reactor
+from twisted.internet.task import LoopingCall
 
 access = None
 #access = ServiceProxy("http://19ErX2nDvNQgazXweD1pKrjbBLKQQDM5RY:x@mining.eligius.st:8337")
@@ -114,7 +115,8 @@ def main():
 
     site = server.Site(Simple())
     reactor.listenTCP(8337, site)
-    update_servers()
+    update_call = LoopingCall(update_servers)
+    update_call.start(20)
     reactor.run()
 
 if __name__ == "__main__":
