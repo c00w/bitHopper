@@ -25,7 +25,8 @@ def select_best_server():
     min_shares = 10**9
     
     for server in servers:
-        if servers[server]['shares']< min_shares:
+        info = servers[server]
+        if info['shares']< min_shares and time.time() - info['time'] < 360:
             min_shares = servers[server]['shares']
             server_name = server
     current_server = server_name
@@ -51,6 +52,7 @@ def bclc_sharesResponse(response):
     round_shares = int(info['round_shares'])
     servers['bclc']['time'] = time.time()
     servers['bclc']['shares'] = round_shares
+    print 'bitcoin.lc :' + str(round_shares)
     server_update()
     
 def mtred_sharesResponse(response):
@@ -59,6 +61,7 @@ def mtred_sharesResponse(response):
     round_shares = int(info['server']['servers']['n0']['roundshares'])
     servers['mtred']['time'] = time.time()
     servers['mtred']['shares'] = round_shares
+    print 'mtred :' + str(round_shares)
     server_update()
 
 def bclc_getshares():
@@ -119,7 +122,7 @@ def main():
     site = server.Site(Simple())
     reactor.listenTCP(8337, site)
     update_call = LoopingCall(update_servers)
-    update_call.start(20)
+    update_call.start(57)
     reactor.run()
 
 if __name__ == "__main__":
