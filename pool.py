@@ -7,10 +7,11 @@ import json
 import time
 from jsonrpc import ServiceProxy
 import socket
+import os
 
 from twisted.web import server, resource
 from twisted.web.client import getPage
-from twisted.internet import reactor
+from twisted.internet import reactor, threads, defer
 from twisted.internet.task import LoopingCall
 
 #SET THESE
@@ -21,14 +22,15 @@ mtred_pass = 'x'
 eligius_address = '1AofHmwVef5QkamCW6KqiD4cRqEcq5U7hZ'
 
 
+LP_URL = 'non existant adress'
 
 difficulty = 1563027.996116
 access = None
 #access = ServiceProxy("http://19ErX2nDvNQgazXweD1pKrjbBLKQQDM5RY:x@mining.eligius.st:8337")
 servers = {
-        'bclc':{'time':time.time(), 'shares':0, 'name':'bitcoins.lc', 'mine_address':'bitcoins.lc:8080', 'user':bclc_user, 'pass':bclc_pass, 'lag':False},
-        'mtred':{'time':time.time(), 'shares':0, 'name':'mtred',  'mine_address':'mtred.com:8337', 'user':mtred_user, 'pass':mtred_pass, 'lag':False},
-        'eligius':{'time':time.time(), 'shares':difficulty*.41, 'name':'eligius', 'mine_address':'mining.eligius.st:8337', 'user':eligius_address, 'pass':'x', 'lag':False}
+        'bclc':{'time':time.time(), 'shares':0, 'name':'bitcoins.lc', 'mine_address':'bitcoins.lc:8080', 'user':bclc_user, 'pass':bclc_pass, 'lag':False, 'LP':None},
+        'mtred':{'time':time.time(), 'shares':0, 'name':'mtred',  'mine_address':'mtred.com:8337', 'user':mtred_user, 'pass':mtred_pass, 'lag':False, 'LP':None},
+        'eligius':{'time':time.time(), 'shares':difficulty*.41, 'name':'eligius', 'mine_address':'mining.eligius.st:8337', 'user':eligius_address, 'pass':'x', 'lag':False, 'LP':None}
         }
 current_server = 'mtred'
 
@@ -95,12 +97,15 @@ def update_servers():
     bclc_getshares()
     mtred_getshares()
 
+def jsonrpc_call(server, call, data):
+    pass
 
 def jsonrpc_getwork(data):
     global access
     global servers
     global current_server
     
+    print 'Data sent:' + str(data)
     if access == None:
         if current_server == None:
             server_update()
@@ -108,10 +113,15 @@ def jsonrpc_getwork(data):
             
         server = servers[current_server]
         access = ServiceProxy("http://" + server['user']+ ":" + server['pass'] + "@" + server['mine_address'])
+
     while True:
         try:
-            v = access.getwork()
-        except socket.timeout, e:
+            if data == []:
+                v = access.getwork()
+            else :
+                v = access.getwork(data)
+        except Exception, e:
+            print e
             servers[current_server]['lag'] = True
             select_best_server()
         else:    
@@ -121,12 +131,23 @@ def jsonrpc_getwork(data):
 
 
 
-class Simple(resource.Resource):
+class bitSite(resource.Resource):
     isLeaf = True
     def render_GET(self, request):
-        return "<html></html>"
+        return ""
+        while True:
+            try:
+                new_work = threads.blockingCallFromThread(reactor, getPage, LP_URL) 
+            except:
+                threads.blockingCallFromThread(reactor, time.sleep, 20)
+            else:
+                break
+
+        update_servers()
+        return new_work
 
     def render_POST(self, request):
+        #request.setHeader('X-Long-Polling', 'localhost:8337')
         rpc_request = json.load(request.content)
         #check if they are sending a valid message
         if rpc_request['method'] != "getwork":
@@ -146,7 +167,7 @@ class Simple(resource.Resource):
 
 def main():
 
-    site = server.Site(Simple())
+    site = server.Site(bitSite())
     reactor.listenTCP(8337, site)
     update_call = LoopingCall(update_servers)
     update_call.start(57)
