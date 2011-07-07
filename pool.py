@@ -86,7 +86,7 @@ def jsonrpc_getwork(data):
         server = servers[current_server]
         access = ServiceProxy("http://" + server['user']+ ":" + server['pass'] + "@" + server['mine_address'])
     v = access.getwork()
-    print "Pulled From " + current_server + ", Current shares " + servers[current_server]['shares']
+    print "Pulled From " + current_server + ", Current shares " + str(servers[current_server]['shares'])
     return v
 
 
