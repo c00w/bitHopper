@@ -8,6 +8,8 @@ import time
 from jsonrpc import ServiceProxy
 import socket
 import os
+import base64
+
 from zope.interface import implements
 
 from twisted.web import server, resource
@@ -15,7 +17,7 @@ from twisted.web.client import getPage, Agent
 from twisted.web.iweb import IBodyProducer
 from twisted.web.http_headers import Headers
 from twisted.internet import reactor, threads, defer
-from twisted.internet.defer import succeed
+from twisted.internet.defer import succeed, Deferred
 from twisted.internet.task import LoopingCall
 from twisted.internet.protocol import Protocol
 
@@ -37,7 +39,7 @@ servers = {
         'mtred':{'time':time.time(), 'shares':0, 'name':'mtred',  'mine_address':'mtred.com:8337', 'user':mtred_user, 'pass':mtred_pass, 'lag':False, 'LP':None},
         'eligius':{'time':time.time(), 'shares':difficulty*.41, 'name':'eligius', 'mine_address':'mining.eligius.st:8337', 'user':eligius_address, 'pass':'x', 'lag':False, 'LP':None}
         }
-current_server = 'eligius'
+current_server = 'mtred'
 
 i = 1
 
@@ -63,8 +65,9 @@ class StringProducer(object):
 
 class WorkProtocol(Protocol):
 
-    def __init__(self):
+    def __init__(self, finished):
         self.data = ""
+        self.finished = finished
         print "initialized"
     
     def dataRecieved(self, data):
@@ -73,12 +76,15 @@ class WorkProtocol(Protocol):
 
     def connectionLost(self, reason):
         global work
-        if reason is twisted.internet.error.ConnectionDone:
-            work['used'] = False
-            work['unit'] = json.loads(data)['result']
-            print 'Updated work unit: ' + str(work['unit'])
-        print "closed"
+        print self.data
+
+        try:
+            data = json.loads(self.data)['result']
+        except Exception as e:
+            print "Error " + str(e)
+
         print work
+        self.finished.callback(None)
 
 def select_best_server():
 
@@ -145,12 +151,13 @@ def update_servers():
 
 def jsonrpc_update(result):
     print 'Response Recieved'
-    result.deliverBody(WorkProtocol())
+    finish = Deferred()
+    result.deliverBody(WorkProtocol(finish))
     print 'Body Delivered'
-    return
+    return finish
 
 def errorback(error):
-    #print error.getErrorMessage()
+    print error.getErrorMessage()
     #print dir(error)
     #print error.printDetailedTraceback()
     error.throwExceptionIntoGenerator
@@ -163,17 +170,17 @@ def jsonrpc_call(data = []):
     global json_agent
     global servers
     global current_server
-   
+
+    server = servers[current_server]
     
-    d = json_agent.request('POST', "http://" + servers[current_server]['mine_address'] , None, StringProducer(request))
+    header = {'Authorization':["Basic " +base64.b64encode(server['user']+ ":" + server['pass'])]}
+
+    d = json_agent.request('POST', "http://" + server['mine_address'], Headers(header), StringProducer(request))
     d.addCallback(jsonrpc_update)
     d.addErrback(errorback)
 
-    if work['used'] == False:
-        return work['unit']
-    else:
-        return None
-
+    return work
+    
 def jsonrpc_call_wrapper():
     jsonrpc_call()
 
@@ -191,8 +198,9 @@ def jsonrpc_getwork(data = []):
     while True:
         try:
             work = jsonrpc_call(data)
-            if work == None:
-                time.sleep(0.1)
+            print work
+            if work['used'] :
+                time.sleep(0.5)
         except socket.error, e:
             print e
             servers[current_server]['lag'] = True
@@ -208,18 +216,19 @@ class bitSite(resource.Resource):
     isLeaf = True
     def render_GET(self, request):
         return ""
-        while True:
-            try:
-                new_work = threads.blockingCallFromThread(reactor, getPage, LP_URL) 
-            except:
-                threads.blockingCallFromThread(reactor, time.sleep, 20)
-            else:
-                break
+        #while False:
+        #    try:
+        #        new_work = threads.blockingCallFromThread(reactor, getPage, LP_URL) 
+        #    except:
+        #        threads.blockingCallFromThread(reactor, time.sleep, 20)
+        #    else:
+        #        break
 
-        update_servers()
-        return new_work
+        #update_servers()
+        #return new_work
 
     def render_POST(self, request):
+        print 'RPC request'
         #request.setHeader('X-Long-Polling', 'localhost:8337')
         rpc_request = json.load(request.content)
         #check if they are sending a valid message
@@ -229,8 +238,11 @@ class bitSite(resource.Resource):
 
         #Check for data to be validated
         data = rpc_request['params']
-        data = threads.blockingCallFromThread(reactor, jsonrpc_getwork, data)
-        response = json.dumps({"result":data,'error':None,'id':rpc_request['id']})
+        data = jsonrpc_getwork(data)['unit']
+        if work['unit'] == None:
+            response = json.dumps({"result":'','error':{'message':"Unable to connect to server"} ,'id':rpc_request['id']})          
+        else:
+            response = json.dumps({"result":data,'error':None,'id':rpc_request['id']})
         return response
 
 
