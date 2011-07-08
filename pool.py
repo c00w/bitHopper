@@ -9,6 +9,7 @@ from jsonrpc import ServiceProxy
 import socket
 import os
 import base64
+import work
 
 from zope.interface import implements
 
@@ -38,56 +39,11 @@ access = None
 servers = {
         'bclc':{'time':time.time(), 'shares':0, 'name':'bitcoins.lc', 'mine_address':'bitcoins.lc:8080', 'user':bclc_user, 'pass':bclc_pass, 'lag':False, 'LP':None},
         'mtred':{'time':time.time(), 'shares':0, 'name':'mtred',  'mine_address':'mtred.com:8337', 'user':mtred_user, 'pass':mtred_pass, 'lag':False, 'LP':None},
-        'btcg':{'time':time.time(), 'shares':10**9, 'name':'BTC Guild',  'mine_address':'useast.btcguild.com', 'user':btcguild_user, 'pass':btcguild_pass, 'lag':False, 'LP':None},
+        'btcg':{'time':time.time(), 'shares':0, 'name':'BTC Guild',  'mine_address':'mtred.com:8337', 'user':btcguild_user, 'pass':btcguild_pass, 'lag':False, 'LP':None},
         'eligius':{'time':time.time(), 'shares':difficulty*.41, 'name':'eligius', 'mine_address':'mining.eligius.st:8337', 'user':eligius_address, 'pass':'x', 'lag':False, 'LP':None}
         }
-current_server = 'mtred'
-
-i = 1
-
+current_server = 'bclc'
 json_agent = Agent(reactor)
-
-work = {'used':True, 'unit':None}
-
-class StringProducer(object):
-    implements(IBodyProducer)
-
-    def __init__(self, body):
-        self.body = body
-        self.length = len(body)
-    def startProducing(self, consumer):
-        consumer.write(self.body)
-        return succeed(None)
-
-    def pauseProducing(self):
-        pass
-
-    def stopProducing(self):
-        pass
-
-class WorkProtocol(Protocol):
-
-    def __init__(self, finished):
-        self.data = ""
-        self.finished = finished
-        print "initialized"
-    
-    def dataRecieved(self, data):
-        self.data += data
-        print "data recieved"
-
-    def connectionLost(self, reason):
-        global work
-        print self.data
-
-        try:
-            data = json.loads(self.data)['result']
-        except Exception as e:
-            print "Error " + str(e)
-
-        print work
-        self.finished.callback(None)
-
 def select_best_server():
 
     global servers
@@ -151,68 +107,43 @@ def update_servers():
     bclc_getshares()
     mtred_getshares()
 
-def jsonrpc_update(result):
-    print 'Response Recieved'
-    finish = Deferred()
-    result.deliverBody(WorkProtocol(finish))
-    print 'Body Delivered'
-    return finish
+result = {'used':True, 'work':None}
 
-def errorback(error):
-    print error.getErrorMessage()
-    #print dir(error)
-    #print error.printDetailedTraceback()
-    error.throwExceptionIntoGenerator
+def update_work(data):
+    global result
+    result['used'] = False
+    result['work'] = data
 
-def jsonrpc_call(data = []):
-    global i
-    global work
-    request = json.dumps({'method':'getwork', 'params':data, 'id':i}, ensure_ascii = True)
-    i = i +1
+def bitHopper_Post(request):
+    print 'RPC request'
+    #request.setHeader('X-Long-Polling', 'localhost:8337')
+    rpc_request = json.load(request.content)
+    #check if they are sending a valid message
+    if rpc_request['method'] != "getwork":
+        return json.dumps({'result':None, 'error':'Not supported', 'id':rpc_request['id']})
+
+
+    #Check for data to be validated
+    global servers
+    global current_server
     global json_agent
-    global servers
-    global current_server
+    server=servers[current_server]
+    data = rpc_request['params']
+    data = work.jsonrpc_getwork(json_agent, server, data)
+    data.addCallback(update_work)
 
-    server = servers[current_server]
-    
-    header = {'Authorization':["Basic " +base64.b64encode(server['user']+ ":" + server['pass'])], 'User-Agent': ['bitHopper'],'Content-Type': ['application/json'] }
-
-    d = json_agent.request('POST', "http://" + server['mine_address'], Headers(header), StringProducer(request))
-    d.addCallback(jsonrpc_update)
-    d.addErrback(errorback)
-
-    return work
-    
-def jsonrpc_call_wrapper():
-    jsonrpc_call()
-
-def jsonrpc_getwork(data = []):
-    global access
-    global servers
-    global current_server
-    
-    print 'Data sent:' + str(data)
-    if current_server == None:
-        server_update()
-        select_best_server()
-        
-    server = servers[current_server]
-    while True:
-        try:
-            work = jsonrpc_call(data)
-            print work
-            if work['used'] :
-                time.sleep(0.5)
-        except socket.error, e:
-            print e
-            servers[current_server]['lag'] = True
-            select_best_server()
-        else:    
-            servers[current_server]['lag'] = False
-            print "Pulled From " + current_server + ", Current shares " + str(servers[current_server]['shares'])
-            return work
-
-
+    global result
+    if result['used'] == True:
+        data = None
+    else:
+        data = result['work']
+        print data
+    #server may be down
+    if data == None:
+        response = json.dumps({"result":'','error':{'message':"Unable to connect to server"} ,'id':rpc_request['id']})          
+    else:
+        response = json.dumps({"result":data,'error':None,'id':rpc_request['id']})
+    return response
 
 class bitSite(resource.Resource):
     isLeaf = True
@@ -230,27 +161,20 @@ class bitSite(resource.Resource):
         #return new_work
 
     def render_POST(self, request):
-        print 'RPC request'
-        #request.setHeader('X-Long-Polling', 'localhost:8337')
-        rpc_request = json.load(request.content)
-        #check if they are sending a valid message
-        if rpc_request['method'] != "getwork":
-            return json.dumps({'result':None, 'error':'Not supported', 'id':rpc_request['id']})
-
-
-        #Check for data to be validated
-        data = rpc_request['params']
-        data = jsonrpc_getwork(data)['unit']
-        if work['unit'] == None:
-            response = json.dumps({"result":'','error':{'message':"Unable to connect to server"} ,'id':rpc_request['id']})          
-        else:
-            response = json.dumps({"result":data,'error':None,'id':rpc_request['id']})
-        return response
+        return bitHopper_Post(request)
 
 
     def getChild(self,name,request):
         return self
 
+
+def jsonrpc_call_wrapper():
+    global servers
+    global current_server
+    global json_agent
+    server=servers[current_server]
+    data = work.jsonrpc_getwork(json_agent,server)
+    data.addCallback(update_work)
 
 def main():
 
