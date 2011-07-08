@@ -13,6 +13,7 @@ from twisted.web import server, resource
 from twisted.web.client import getPage
 from twisted.internet import reactor, threads, defer
 from twisted.internet.task import LoopingCall
+import urllib2
 
 #SET THESE
 bclc_user  = "FSkyvM"
@@ -20,11 +21,16 @@ bclc_pass = "xndzEU"
 mtred_user = 'scarium'
 mtred_pass = 'x'
 eligius_address = '1AofHmwVef5QkamCW6KqiD4cRqEcq5U7hZ'
-
+#SERIOUSLY DO IT
 
 LP_URL = 'non existant adress'
 
-difficulty = 1563027.996116
+
+req = urllib2.Request('http://blockexplorer.com/q/getdifficulty')
+response = urllib2.urlopen(req)
+diff_string = response.read()
+
+difficulty = float(diff_string)
 access = None
 #access = ServiceProxy("http://19ErX2nDvNQgazXweD1pKrjbBLKQQDM5RY:x@mining.eligius.st:8337")
 servers = {
