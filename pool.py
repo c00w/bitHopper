@@ -30,17 +30,34 @@ mtred_pass = 'x'
 eligius_address = '1AofHmwVef5QkamCW6KqiD4cRqEcq5U7hZ'
 btcguild_user = 'c00w_test'
 btcguild_pass = 'x'
-
+bitclockers_user = 'flargle'
+bitclockers_pass = 'x'
+mineco_user = 'c00w.test'
+mineco_pass = 'x'
 LP_URL = 'non existant adress'
 
 difficulty = 1563027.996116
 access = None
 #access = ServiceProxy("http://19ErX2nDvNQgazXweD1pKrjbBLKQQDM5RY:x@mining.eligius.st:8337")
 servers = {
-        'bclc':{'time':time.time(), 'shares':0, 'name':'bitcoins.lc', 'mine_address':'bitcoins.lc:8080', 'user':bclc_user, 'pass':bclc_pass, 'lag':False, 'LP':None},
-        'mtred':{'time':time.time(), 'shares':0, 'name':'mtred',  'mine_address':'mtred.com:8337', 'user':mtred_user, 'pass':mtred_pass, 'lag':False, 'LP':None},
-        'btcg':{'time':time.time(), 'shares':0, 'name':'BTC Guild',  'mine_address':'mtred.com:8337', 'user':btcguild_user, 'pass':btcguild_pass, 'lag':False, 'LP':None},
-        'eligius':{'time':time.time(), 'shares':difficulty*.41, 'name':'eligius', 'mine_address':'mining.eligius.st:8337', 'user':eligius_address, 'pass':'x', 'lag':False, 'LP':None}
+        'bclc':{'time':time.time(), 'shares':0, 'name':'bitcoins.lc', 
+            'mine_address':'bitcoins.lc:8080', 'user':bclc_user, 'pass':bclc_pass, 
+            'lag':False, 'LP':None},
+        'mtred':{'time':time.time(), 'shares':0, 'name':'mtred',  
+            'mine_address':'mtred.com:8337', 'user':mtred_user, 'pass':mtred_pass, 
+            'lag':False, 'LP':None},
+        'btcg':{'time':time.time(), 'shares':0, 'name':'BTC Guild',  
+            'mine_address':'mtred.com:8337', 'user':btcguild_user, 
+            'pass':btcguild_pass, 'lag':False, 'LP':None},
+        'eligius':{'time':time.time(), 'shares':difficulty*.41, 'name':'eligius', 
+            'mine_address':'mining.eligius.st:8337', 'user':eligius_address, 
+            'pass':'x', 'lag':False, 'LP':None}
+        'mineco':{'time': time.time(), 'shares': 0, 'name': 'mineco.in',
+            'mine_address': 'mineco.in:3000', 'user': mineco_user,
+            'pass': mineco_pass, 'lag': False, 'LP': None},
+        'bitclockers':{'time': time.time(), 'shares': 0, 'name': 'bitclockers.com',
+            'mine_address': 'pool.bitclockers.com:8332', 'user': bitclockers_user,
+            'pass': bitclockers_pass, 'lag': False, 'LP': None}
         }
 current_server = 'bclc'
 json_agent = Agent(reactor)
@@ -96,17 +113,41 @@ def mtred_sharesResponse(response):
     print 'mtred :' + str(round_shares)
     server_update()
 
+
+def mineco_sharesResponse(response):
+    global servers
+    info = json.loads(response)
+    round_shares = int(info['shares_this_round'])
+    servers['mineco']['shares'] = round_shares
+    print 'mineco :' + str(round_shares)
+    server_update()
+
+def bitclockers_sharesResponse(response):
+    global servers
+    info = json.loads(response)
+    round_shares = int(info['roundshares'])
+    servers['bitclockers']['shares'] = round_shares
+    print 'bitclockers :' + str(round_shares)
+    server_update()
+
 def bclc_getshares():
     getPage('https://www.bitcoins.lc/stats.json').addCallback(bclc_sharesResponse)
 
 def mtred_getshares():
     getPage('https://mtred.com/api/user/key/d91c52cfe1609f161f28a1268a2915b8').addCallback( mtred_sharesResponse )
 
+def mineco_getshares():
+    getPage('https://mineco.in/stats.json').addCallback(mineco_sharesResponse)
+
+def bitclockers_getshares():
+    getPage('https://bitclockers.com/api').addCallback(bitclockers_sharesResponse)
+
 def update_servers():
     global servers
     bclc_getshares()
     mtred_getshares()
-
+    bitclockers_getshares)
+    mineco_getshares()
 result = {'used':True, 'work':None}
 
 def update_work(data):
