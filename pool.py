@@ -192,9 +192,9 @@ def bitHopper_Post(request):
         print data
     #server may be down
     if data == None:
-        response = json.dumps({"result":{},'error':{'message':"Unable to connect to server"} ,'id':rpc_request['id']})          
+        response = json.dumps({"result":None,'error':{'message':"Unable to connect to server"} ,'id':rpc_request['id']})          
     else:
-        response = json.dumps({"result":data,'error':{},'id':rpc_request['id']})
+        response = json.dumps({"result":data,'error':None,'id':rpc_request['id']})
     return response
 
 class bitSite(resource.Resource):
