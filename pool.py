@@ -8,10 +8,13 @@ import time
 from jsonrpc import ServiceProxy
 import socket
 import os
+from zope.interface import implements
 
 from twisted.web import server, resource
-from twisted.web.client import getPage
+from twisted.web.client import getPage, Agent
+from twisted.web.iweb import IBodyProducer
 from twisted.internet import reactor, threads, defer
+from twisted.internet.defer import succeed
 from twisted.internet.task import LoopingCall
 
 #SET THESE
@@ -32,7 +35,30 @@ servers = {
         'mtred':{'time':time.time(), 'shares':0, 'name':'mtred',  'mine_address':'mtred.com:8337', 'user':mtred_user, 'pass':mtred_pass, 'lag':False, 'LP':None},
         'eligius':{'time':time.time(), 'shares':difficulty*.41, 'name':'eligius', 'mine_address':'mining.eligius.st:8337', 'user':eligius_address, 'pass':'x', 'lag':False, 'LP':None}
         }
-current_server = 'mtred'
+current_server = 'eligius'
+
+i = 1
+
+json_agent = Agent(reactor)
+
+work = {'used':False, 'unit':None}
+
+class StringProducer(object):
+    implements(IBodyProducer)
+
+    def __init__(self, body):
+        self.body = body
+        self.length = len(body)
+
+    def startProducing(self, consumer):
+        consumer.write(self.body)
+        return succeed(None)
+
+    def pauseProducing(self):
+        pass
+
+    def stopProducing(self):
+        pass
 
 def select_best_server():
 
@@ -97,31 +123,46 @@ def update_servers():
     bclc_getshares()
     mtred_getshares()
 
-def jsonrpc_call(server, call, data):
-    pass
+def jsonrpc_update(result):
+    print 'recieved responce'
+    global work
+    work['used'] = False
+    response = json.loads(result.deliverBody())
+    work['unit'] = response['result']
+    return
 
-def jsonrpc_getwork(data):
+def jsonrpc_call(data = []):
+    global i
+    global work
+    request = json.dumps({'method':'getwork', 'params':data, 'id':i})
+    i = i +1
+    global json_agent
+    print 'sending request'
+    d = json_agent.request('POST', "http://" + servers[current_server]['mine_address'],None,StringProducer(request))
+
+    d.addCallback(jsonrpc_update)
+
+    if work['used'] == False:
+        return work['unit']
+    else:
+        return None
+
+def jsonrpc_getwork(data = []):
     global access
     global servers
     global current_server
     
     print 'Data sent:' + str(data)
-    if access == None:
-        if current_server == None:
-            server_update()
-            select_best_server()
-            
-        server = servers[current_server]
-        access = ServiceProxy("http://" + server['user']+ ":" + server['pass'] + "@" + server['mine_address'])
-
+    if current_server == None:
+        server_update()
+        select_best_server()
+        
+    server = servers[current_server]
     while True:
         try:
-            if data == []:
-                v = access.getwork()
-            else :
-                v = access.getwork(data[0])
-                select_best_server()
-                
+            work = jsonrpc_call(data)
+            if work == None:
+                time.sleep(0.1)
         except socket.error, e:
             print e
             servers[current_server]['lag'] = True
@@ -129,7 +170,7 @@ def jsonrpc_getwork(data):
         else:    
             servers[current_server]['lag'] = False
             print "Pulled From " + current_server + ", Current shares " + str(servers[current_server]['shares'])
-            return v
+            return work
 
 
 
@@ -158,7 +199,7 @@ class bitSite(resource.Resource):
 
         #Check for data to be validated
         data = rpc_request['params']
-        data = jsonrpc_getwork(data)
+        data = threads.blockingCallFromThread(reactor, jsonrpc_getwork, data)
         response = json.dumps({"result":data,'error':None,'id':rpc_request['id']})
         return response
 
@@ -173,6 +214,8 @@ def main():
     reactor.listenTCP(8337, site)
     update_call = LoopingCall(update_servers)
     update_call.start(57)
+    work_call = LoopingCall(jsonrpc_call)
+    work_call.start(10)
     reactor.run()
 
 if __name__ == "__main__":
