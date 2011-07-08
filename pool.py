@@ -156,16 +156,24 @@ def bitclockers_sharesResponse(response):
     server_update()
 
 def bclc_getshares():
-    getPage('https://www.bitcoins.lc/stats.json').addCallback(bclc_sharesResponse)
+    d = getPage('https://www.bitcoins.lc/stats.json')
+    d.addCallback(bclc_sharesResponse)
+    d.addErrback(log.err)
 
 def mtred_getshares():
-    getPage('https://mtred.com/api/user/key/d91c52cfe1609f161f28a1268a2915b8').addCallback( mtred_sharesResponse )
+    d = getPage('https://mtred.com/api/user/key/d91c52cfe1609f161f28a1268a2915b8')
+    d.addCallback( mtred_sharesResponse )
+    d.addErrback(log.err)
 
 def mineco_getshares():
-    getPage('https://mineco.in/stats.json').addCallback(mineco_sharesResponse)
+    d = getPage('https://mineco.in/stats.json')
+    d.addCallback(mineco_sharesResponse)
+    d.addErrback(log.err)
 
 def bitclockers_getshares():
-    getPage('https://bitclockers.com/api').addCallback(bitclockers_sharesResponse)
+    d = getPage('https://bitclockers.com/api')
+    d.addCallback(bitclockers_sharesResponse)
+    d.addErrback(log.err)
 
 def update_servers():
     global servers
