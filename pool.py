@@ -70,6 +70,8 @@ servers = {
 
 current_server = 'eligius'
 json_agent = Agent(reactor)
+new_server = Deferred()
+
 
 def select_best_server():
     """selects the best server for pool hopping. If there is not good server it returns eligious"""
@@ -89,7 +91,13 @@ def select_best_server():
     if server_name == None:
         server_name = 'eligius'
 
-    current_server = server_name
+    global new_server
+
+    if current_server != server_name:
+        current_server = server_name
+        new_server.callback(None)
+        new_server = Deferred()
+
     server = servers[current_server]
     access = ServiceProxy("http://" + server['user']+ ":" + server['pass'] + "@" + server['mine_address'])
     return
@@ -175,7 +183,7 @@ def update_work(data):
 
 def bitHopper_Post(request):
    
-    #request.setHeader('X-Long-Polling', 'localhost:8337')
+    request.setHeader('X-Long-Polling', 'localhost:8337')
     rpc_request = json.load(request.content)
     #check if they are sending a valid message
     if rpc_request['method'] != "getwork":
@@ -196,20 +204,16 @@ def bitHopper_Post(request):
 
     return server.NOT_DONE_YET
 
+def bitHopperLP(value, *methodArgs):
+    request = methodArgs[0]
+    bitHopper_Post(request)
+    return
+
 class bitSite(resource.Resource):
     isLeaf = True
     def render_GET(self, request):
-        return ""
-        #while False:
-        #    try:
-        #        new_work = threads.blockingCallFromThread(reactor, getPage, LP_URL) 
-        #    except:
-        #        threads.blockingCallFromThread(reactor, time.sleep, 20)
-        #    else:
-        #        break
-
-        #update_servers()
-        #return new_work
+        new_server.addCallback(bitHopperLP, (request))
+        return server.NOT_DONE_YET
 
     def render_POST(self, request):
         return bitHopper_Post(request)
