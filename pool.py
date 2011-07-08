@@ -176,7 +176,7 @@ def update_servers():
 
 def bitHopper_Post(request):
    
-    request.setHeader('X-Long-Polling', 'localhost:8337')
+    request.setHeader('X-Long-Polling', 'http://localhost:8337')
     rpc_request = json.load(request.content)
     #check if they are sending a valid message
     if rpc_request['method'] != "getwork":
