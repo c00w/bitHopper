@@ -74,19 +74,16 @@ def jsonrpc_call(agent, server,data = []):
         defer.returnValue(None)
 
 @defer.inlineCallbacks
-def jsonrpc_getwork(agent, server, data,j_id, request, new_server):
+def jsonrpc_getwork(agent, server, data, j_id, request, new_server):
     work = None
     i = 0
     while work == None:
         i += 1
-        if i > 5:
+        if i > 10:
             new_server(server)
         work = yield jsonrpc_call(agent, server,data)
 
-    if work == None:
-        response = json.dumps({"result":None,'error':{'message':"Unable to connect to server"} ,'id':j_id})          
-    else:
-        response = json.dumps({"result":work,'error':None,'id':j_id})
+    response = json.dumps({"result":work,'error':None,'id':j_id})
 
     request.write(response)
     request.finish()

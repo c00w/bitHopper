@@ -111,13 +111,6 @@ def get_new_server(server):
 
 def server_update():
     global servers
-    if current_server == None:
-        select_best_server()
-        return
-
-    if current_server not in servers:
-        return
-
     if servers[current_server]['shares'] > difficulty * .40:
         select_best_server()
         return
