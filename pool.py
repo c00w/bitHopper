@@ -37,8 +37,6 @@ mineco_user = 'c00w.test'
 mineco_pass = 'x'
 #REALLY
 
-LP_URL = 'non existant adress'
-
 def get_difficulty():
     req = urllib2.Request('http://blockexplorer.com/q/getdifficulty')
     response = urllib2.urlopen(req)
