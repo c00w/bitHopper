@@ -94,6 +94,13 @@ def select_best_server():
     access = ServiceProxy("http://" + server['user']+ ":" + server['pass'] + "@" + server['mine_address'])
     return
 
+def get_new_server(server):
+    global servers
+    global current_server
+    server['lag'] = True
+    select_best_server()
+    return servers[current_server]
+
 def server_update():
     global servers
     if current_server == None:
@@ -167,7 +174,7 @@ def update_work(data):
 
 
 def bitHopper_Post(request):
-    print 'RPC request'
+   
     #request.setHeader('X-Long-Polling', 'localhost:8337')
     rpc_request = json.load(request.content)
     #check if they are sending a valid message
@@ -179,23 +186,15 @@ def bitHopper_Post(request):
     global servers
     global current_server
     global json_agent
-    server=servers[current_server]
+    pool_server=servers[current_server]
+    
     data = rpc_request['params']
-    data = work.jsonrpc_getwork(json_agent, server, data)
-    data.addCallback(update_work)
+    j_id = rpc_request['id']
 
-    global result
-    if result['used'] == True:
-        data = None
-    else:
-        data = result['work']
-        print data
-    #server may be down
-    if data == None:
-        response = json.dumps({"result":None,'error':{'message':"Unable to connect to server"} ,'id':rpc_request['id']})          
-    else:
-        response = json.dumps({"result":data,'error':None,'id':rpc_request['id']})
-    return response
+    print 'RPC request ' + str(data)
+    work.jsonrpc_getwork(json_agent, pool_server, data, j_id, request, get_new_server)
+
+    return server.NOT_DONE_YET
 
 class bitSite(resource.Resource):
     isLeaf = True
@@ -219,15 +218,6 @@ class bitSite(resource.Resource):
     def getChild(self,name,request):
         return self
 
-
-def jsonrpc_call_wrapper():
-    global servers
-    global current_server
-    global json_agent
-    server=servers[current_server]
-    data = work.jsonrpc_getwork(json_agent,server)
-    data.addCallback(update_work)
-
 def main():
 
     site = server.Site(bitSite())
@@ -235,8 +225,6 @@ def main():
     reactor.suggestThreadPoolSize(10)
     update_call = LoopingCall(update_servers)
     update_call.start(57)
-    work_call = LoopingCall(jsonrpc_call_wrapper)
-    work_call.start(53)
     reactor.run()
 
 if __name__ == "__main__":
