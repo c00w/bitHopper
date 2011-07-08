@@ -13,9 +13,11 @@ from zope.interface import implements
 from twisted.web import server, resource
 from twisted.web.client import getPage, Agent
 from twisted.web.iweb import IBodyProducer
+from twisted.web.http_headers import Headers
 from twisted.internet import reactor, threads, defer
 from twisted.internet.defer import succeed
 from twisted.internet.task import LoopingCall
+from twisted.internet.protocol import Protocol
 
 #SET THESE
 bclc_user  = "FSkyvM"
@@ -41,7 +43,7 @@ i = 1
 
 json_agent = Agent(reactor)
 
-work = {'used':False, 'unit':None}
+work = {'used':True, 'unit':None}
 
 class StringProducer(object):
     implements(IBodyProducer)
@@ -49,7 +51,6 @@ class StringProducer(object):
     def __init__(self, body):
         self.body = body
         self.length = len(body)
-
     def startProducing(self, consumer):
         consumer.write(self.body)
         return succeed(None)
@@ -59,6 +60,25 @@ class StringProducer(object):
 
     def stopProducing(self):
         pass
+
+class WorkProtocol(Protocol):
+
+    def __init__(self):
+        self.data = ""
+        print "initialized"
+    
+    def dataRecieved(self, data):
+        self.data += data
+        print "data recieved"
+
+    def connectionLost(self, reason):
+        global work
+        if reason is twisted.internet.error.ConnectionDone:
+            work['used'] = False
+            work['unit'] = json.loads(data)['result']
+            print 'Updated work unit: ' + str(work['unit'])
+        print "closed"
+        print work
 
 def select_best_server():
 
@@ -124,28 +144,38 @@ def update_servers():
     mtred_getshares()
 
 def jsonrpc_update(result):
-    print 'recieved responce'
-    global work
-    work['used'] = False
-    response = json.loads(result.deliverBody())
-    work['unit'] = response['result']
+    print 'Response Recieved'
+    result.deliverBody(WorkProtocol())
+    print 'Body Delivered'
     return
+
+def errorback(error):
+    #print error.getErrorMessage()
+    #print dir(error)
+    #print error.printDetailedTraceback()
+    error.throwExceptionIntoGenerator
 
 def jsonrpc_call(data = []):
     global i
     global work
-    request = json.dumps({'method':'getwork', 'params':data, 'id':i})
+    request = json.dumps({'method':'getwork', 'params':data, 'id':i}, ensure_ascii = True)
     i = i +1
     global json_agent
-    print 'sending request'
-    d = json_agent.request('POST', "http://" + servers[current_server]['mine_address'],None,StringProducer(request))
-
+    global servers
+    global current_server
+   
+    
+    d = json_agent.request('POST', "http://" + servers[current_server]['mine_address'] , None, StringProducer(request))
     d.addCallback(jsonrpc_update)
+    d.addErrback(errorback)
 
     if work['used'] == False:
         return work['unit']
     else:
         return None
+
+def jsonrpc_call_wrapper():
+    jsonrpc_call()
 
 def jsonrpc_getwork(data = []):
     global access
@@ -214,8 +244,8 @@ def main():
     reactor.listenTCP(8337, site)
     update_call = LoopingCall(update_servers)
     update_call.start(57)
-    work_call = LoopingCall(jsonrpc_call)
-    work_call.start(10)
+    work_call = LoopingCall(jsonrpc_call_wrapper)
+    work_call.start(53)
     reactor.run()
 
 if __name__ == "__main__":
