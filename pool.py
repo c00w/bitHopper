@@ -172,6 +172,19 @@ def update_servers():
     bitclockers_getshares()
     mineco_getshares()
 
+@defer.inlineCallbacks
+def delag_server():
+    print 'Trying to delag'
+    global servers
+    global json_agent
+    for index in servers:
+        server = servers[index]
+        if server['lag'] == True:
+            data = yield work.jsonrpc_call(json_agent, server)
+            if data != None:
+                server['lag'] = False
+    
+
 def bitHopper_Post(request):
    
     request.setHeader('X-Long-Polling', 'http://localhost:8337')
@@ -196,6 +209,7 @@ def bitHopper_Post(request):
     return server.NOT_DONE_YET
 
 def bitHopperLP(value, *methodArgs):
+    print 'LP Client Side Reset'
     request = methodArgs[0]
     bitHopper_Post(request)
     return
@@ -220,6 +234,8 @@ def main():
     reactor.suggestThreadPoolSize(10)
     update_call = LoopingCall(update_servers)
     update_call.start(57)
+    delag_call = LoopingCall(delag_server)
+    delag_call.start(132)
     reactor.run()
 
 if __name__ == "__main__":
