@@ -191,7 +191,7 @@ def bitHopper_Post(request):
     data = rpc_request['params']
     j_id = rpc_request['id']
 
-    print 'RPC request ' + str(data)
+    print 'RPC request ' + str(data) + " From " + str(pool_server['name'])
     work.jsonrpc_getwork(json_agent, pool_server, data, j_id, request, get_new_server)
 
     return server.NOT_DONE_YET
