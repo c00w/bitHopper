@@ -72,12 +72,20 @@ def jsonrpc_call(agent, server,data = []):
         print e
         defer.returnValue(None)
 
-def jsonrpc_getwork(agent, server, data = []):
-    try:
-        work = jsonrpc_call(agent, server,data)
-    except socket.error, e:
-        print e
-        return None
-    else:    
-        print "Pulled From " + str(server['name']) + ", Current shares " + str(server['shares'])
-        return work
+@defer.inlineCallbacks
+def jsonrpc_getwork(agent, server, data,j_id, request, new_server):
+    work = None
+    i = 0
+    while work == None:
+        i += 1
+        if i > 5:
+            new_server(server)
+        work = yield jsonrpc_call(agent, server,data)
+
+    if work == None:
+        response = json.dumps({"result":None,'error':{'message':"Unable to connect to server"} ,'id':j_id})          
+    else:
+        response = json.dumps({"result":work,'error':None,'id':j_id})
+
+    request.write(response)
+    request.finish()
