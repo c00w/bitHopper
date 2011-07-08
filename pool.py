@@ -173,13 +173,6 @@ def update_servers():
     mtred_getshares()
     bitclockers_getshares()
     mineco_getshares()
-result = {'used':True, 'work':None}
-
-def update_work(data):
-    global result
-    result['used'] = False
-    result['work'] = data
-
 
 def bitHopper_Post(request):
    
