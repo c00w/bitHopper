@@ -25,23 +25,24 @@ eligius_address = '1AofHmwVef5QkamCW6KqiD4cRqEcq5U7hZ'
 
 LP_URL = 'non existant adress'
 
+def get_difficulty():
+    req = urllib2.Request('http://blockexplorer.com/q/getdifficulty')
+    response = urllib2.urlopen(req)
+    diff_string = response.read()
+    return float(diff_string)
 
-req = urllib2.Request('http://blockexplorer.com/q/getdifficulty')
-response = urllib2.urlopen(req)
-diff_string = response.read()
+difficulty = get_difficulty()
 
-difficulty = float(diff_string)
-access = None
-#access = ServiceProxy("http://19ErX2nDvNQgazXweD1pKrjbBLKQQDM5RY:x@mining.eligius.st:8337")
 servers = {
         'bclc':{'time':time.time(), 'shares':0, 'name':'bitcoins.lc', 'mine_address':'bitcoins.lc:8080', 'user':bclc_user, 'pass':bclc_pass, 'lag':False, 'LP':None},
         'mtred':{'time':time.time(), 'shares':0, 'name':'mtred',  'mine_address':'mtred.com:8337', 'user':mtred_user, 'pass':mtred_pass, 'lag':False, 'LP':None},
         'eligius':{'time':time.time(), 'shares':difficulty*.41, 'name':'eligius', 'mine_address':'mining.eligius.st:8337', 'user':eligius_address, 'pass':'x', 'lag':False, 'LP':None}
         }
 current_server = None
+access = None
 
 def select_best_server():
-
+    """selects the best server for pool hopping. If there is not good server it returns eligious"""
     global servers
     global access
     global current_server
