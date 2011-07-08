@@ -32,7 +32,7 @@ servers = {
         'mtred':{'time':time.time(), 'shares':0, 'name':'mtred',  'mine_address':'mtred.com:8337', 'user':mtred_user, 'pass':mtred_pass, 'lag':False, 'LP':None},
         'eligius':{'time':time.time(), 'shares':difficulty*.41, 'name':'eligius', 'mine_address':'mining.eligius.st:8337', 'user':eligius_address, 'pass':'x', 'lag':False, 'LP':None}
         }
-current_server = 'mtred'
+current_server = None
 
 def select_best_server():
 
@@ -121,7 +121,7 @@ def jsonrpc_getwork(data):
             else :
                 v = access.getwork(data[0])
                 select_best_server()
-                
+
         except socket.error, e:
             print e
             servers[current_server]['lag'] = True
@@ -171,6 +171,7 @@ def main():
 
     site = server.Site(bitSite())
     reactor.listenTCP(8337, site)
+    reactor.suggestThreadPoolSize(10)
     update_call = LoopingCall(update_servers)
     update_call.start(57)
     reactor.run()
