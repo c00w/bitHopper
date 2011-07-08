@@ -46,12 +46,12 @@ servers = {
         'mtred':{'time':time.time(), 'shares':0, 'name':'mtred',  
             'mine_address':'mtred.com:8337', 'user':mtred_user, 'pass':mtred_pass, 
             'lag':False, 'LP':None},
-        'btcg':{'time':time.time(), 'shares':0, 'name':'BTC Guild',  
-            'mine_address':'mtred.com:8337', 'user':btcguild_user, 
+        'btcg':{'time':time.time(), 'shares':10**9, 'name':'BTC Guild',  
+            'mine_address':'uscentral.btcguild.com:8332', 'user':btcguild_user, 
             'pass':btcguild_pass, 'lag':False, 'LP':None},
         'eligius':{'time':time.time(), 'shares':difficulty*.41, 'name':'eligius', 
             'mine_address':'mining.eligius.st:8337', 'user':eligius_address, 
-            'pass':'x', 'lag':False, 'LP':None}
+            'pass':'x', 'lag':False, 'LP':None},
         'mineco':{'time': time.time(), 'shares': 0, 'name': 'mineco.in',
             'mine_address': 'mineco.in:3000', 'user': mineco_user,
             'pass': mineco_pass, 'lag': False, 'LP': None},
@@ -59,7 +59,7 @@ servers = {
             'mine_address': 'pool.bitclockers.com:8332', 'user': bitclockers_user,
             'pass': bitclockers_pass, 'lag': False, 'LP': None}
         }
-current_server = 'bclc'
+current_server = 'eligius'
 json_agent = Agent(reactor)
 def select_best_server():
 
@@ -146,7 +146,7 @@ def update_servers():
     global servers
     bclc_getshares()
     mtred_getshares()
-    bitclockers_getshares)
+    bitclockers_getshares()
     mineco_getshares()
 result = {'used':True, 'work':None}
 
