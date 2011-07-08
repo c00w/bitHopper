@@ -21,6 +21,7 @@ from twisted.internet import reactor, threads, defer
 from twisted.internet.defer import succeed, Deferred
 from twisted.internet.task import LoopingCall
 from twisted.internet.protocol import Protocol
+from twisted.python import log
 
 i = 1
 
@@ -69,7 +70,7 @@ def jsonrpc_call(agent, server,data = []):
         value =  message['result']
         defer.returnValue(value)
     except exceptions.ValueError, e:
-        print e
+        log.err(e)
         defer.returnValue(None)
 
 @defer.inlineCallbacks

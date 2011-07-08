@@ -10,7 +10,7 @@ import socket
 import os
 import base64
 import work
-
+import sys
 from zope.interface import implements
 
 from twisted.web import server, resource
@@ -21,7 +21,8 @@ from twisted.internet import reactor, threads, defer
 from twisted.internet.defer import succeed, Deferred
 from twisted.internet.task import LoopingCall
 import urllib2
-from twisted.internet.protocol import Protocol\
+from twisted.internet.protocol import Protocol
+from twisted.python import log
 
 #SET THESE
 bclc_user  = "FSkyvM"
@@ -95,6 +96,7 @@ def select_best_server():
         current_server = server_name
         new_server.callback(None)
         new_server = Deferred()
+        new_server.addErrback(log.err)
 
     server = servers[current_server]
     access = ServiceProxy("http://" + server['user']+ ":" + server['pass'] + "@" + server['mine_address'])
@@ -125,7 +127,7 @@ def bclc_sharesResponse(response):
     info = json.loads(response)
     round_shares = int(info['round_shares'])
     servers['bclc']['shares'] = round_shares
-    print 'bitcoin.lc :' + str(round_shares)
+    log.msg( 'bitcoin.lc :' + str(round_shares))
     server_update()
     
 def mtred_sharesResponse(response):
@@ -133,7 +135,7 @@ def mtred_sharesResponse(response):
     info = json.loads(response)
     round_shares = int(info['server']['servers']['n0']['roundshares'])
     servers['mtred']['shares'] = round_shares
-    print 'mtred :' + str(round_shares)
+    log.msg('mtred :' + str(round_shares))
     server_update()
 
 
@@ -142,7 +144,7 @@ def mineco_sharesResponse(response):
     info = json.loads(response)
     round_shares = int(info['shares_this_round'])
     servers['mineco']['shares'] = round_shares
-    print 'mineco :' + str(round_shares)
+    log.msg( 'mineco :' + str(round_shares))
     server_update()
 
 def bitclockers_sharesResponse(response):
@@ -150,7 +152,7 @@ def bitclockers_sharesResponse(response):
     info = json.loads(response)
     round_shares = int(info['roundshares'])
     servers['bitclockers']['shares'] = round_shares
-    print 'bitclockers :' + str(round_shares)
+    log.msg( 'bitclockers :' + str(round_shares))
     server_update()
 
 def bclc_getshares():
@@ -174,7 +176,7 @@ def update_servers():
 
 @defer.inlineCallbacks
 def delag_server():
-    print 'Trying to delag'
+    log.msg( 'Trying to delag')
     global servers
     global json_agent
     for index in servers:
@@ -203,13 +205,13 @@ def bitHopper_Post(request):
     data = rpc_request['params']
     j_id = rpc_request['id']
 
-    print 'RPC request ' + str(data) + " From " + str(pool_server['name'])
+    log.msg('RPC request ' + str(data) + " From " + str(pool_server['name']))
     work.jsonrpc_getwork(json_agent, pool_server, data, j_id, request, get_new_server)
 
     return server.NOT_DONE_YET
 
 def bitHopperLP(value, *methodArgs):
-    print 'LP Client Side Reset'
+    log.msg('LP Client Side Reset')
     request = methodArgs[0]
     bitHopper_Post(request)
     return
@@ -228,7 +230,7 @@ class bitSite(resource.Resource):
         return self
 
 def main():
-
+    log.startLogging(sys.stdout)
     site = server.Site(bitSite())
     reactor.listenTCP(8337, site)
     reactor.suggestThreadPoolSize(10)
