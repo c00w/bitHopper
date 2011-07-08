@@ -113,14 +113,14 @@ def jsonrpc_getwork(data):
             
         server = servers[current_server]
         access = ServiceProxy("http://" + server['user']+ ":" + server['pass'] + "@" + server['mine_address'])
-
-    while True:
+    i = 0
+    while i < 5:
+        i += 1
         try:
             if data == []:
                 v = access.getwork()
             else :
                 v = access.getwork(data[0])
-                select_best_server()
 
         except socket.error, e:
             print e
@@ -130,6 +130,7 @@ def jsonrpc_getwork(data):
             servers[current_server]['lag'] = False
             print "Pulled From " + current_server + ", Current shares " + str(servers[current_server]['shares'])
             return v
+    return None
 
 
 
@@ -159,7 +160,10 @@ class bitSite(resource.Resource):
         #Check for data to be validated
         data = rpc_request['params']
         data = jsonrpc_getwork(data)
-        response = json.dumps({"result":data,'error':None,'id':rpc_request['id']})
+        if data != None:
+            response = json.dumps({"result":data,'error':None,'id':rpc_request['id']})
+        else:
+            response = json.dumps({'result':0, 'error':{'message':'Timeout'}, 'id': rpc_request['id']})
         return response
 
 
