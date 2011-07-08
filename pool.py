@@ -27,7 +27,8 @@ bclc_pass = "xndzEU"
 mtred_user = 'scarium'
 mtred_pass = 'x'
 eligius_address = '1AofHmwVef5QkamCW6KqiD4cRqEcq5U7hZ'
-
+btcguild_user = 'c00w_test'
+btcguild_pass = 'x'
 
 LP_URL = 'non existant adress'
 
@@ -37,6 +38,7 @@ access = None
 servers = {
         'bclc':{'time':time.time(), 'shares':0, 'name':'bitcoins.lc', 'mine_address':'bitcoins.lc:8080', 'user':bclc_user, 'pass':bclc_pass, 'lag':False, 'LP':None},
         'mtred':{'time':time.time(), 'shares':0, 'name':'mtred',  'mine_address':'mtred.com:8337', 'user':mtred_user, 'pass':mtred_pass, 'lag':False, 'LP':None},
+        'btcg':{'time':time.time(), 'shares':10**9, 'name':'BTC Guild',  'mine_address':'useast.btcguild.com', 'user':btcguild_user, 'pass':btcguild_pass, 'lag':False, 'LP':None},
         'eligius':{'time':time.time(), 'shares':difficulty*.41, 'name':'eligius', 'mine_address':'mining.eligius.st:8337', 'user':eligius_address, 'pass':'x', 'lag':False, 'LP':None}
         }
 current_server = 'mtred'
@@ -173,7 +175,7 @@ def jsonrpc_call(data = []):
 
     server = servers[current_server]
     
-    header = {'Authorization':["Basic " +base64.b64encode(server['user']+ ":" + server['pass'])]}
+    header = {'Authorization':["Basic " +base64.b64encode(server['user']+ ":" + server['pass'])], 'User-Agent': ['bitHopper'],'Content-Type': ['application/json'] }
 
     d = json_agent.request('POST', "http://" + server['mine_address'], Headers(header), StringProducer(request))
     d.addCallback(jsonrpc_update)
