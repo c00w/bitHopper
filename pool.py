@@ -75,7 +75,7 @@ current_server = 'eligius'
 json_agent = Agent(reactor)
 new_server = Deferred()
 
-lp_set = False
+lp_set = True
 
 def update_lp(body):
     global current_server
@@ -99,14 +99,17 @@ def set_lp(url, check = False):
     if check:
         return not lp_set
 
-    if lp_set == False:
-        global json_agent
-        global servers
-        global current_server
-        server = servers[current_server]
-        log.msg("LP Call " + str(server['mine_address']) + str(url))
-        lp_set = True
-        work.jsonrpc_lpcall(json_agent,server, url, update_lp)
+    if lp_set:
+        return
+
+    log.err('LP IS DISABLED BUT SOMEHOW IT JUST EXECUTED')
+    global json_agent
+    global servers
+    global current_server
+    server = servers[current_server]
+    log.msg("LP Call " + str(server['mine_address']) + str(url))
+    lp_set = True
+    work.jsonrpc_lpcall(json_agent,server, url, update_lp)
 
 
 def select_best_server():
@@ -156,7 +159,7 @@ def server_update():
                 min_shares = servers[server]['shares']
 
         if min_shares < servers[current_server]['shares']:
-            if servers[current_server]['shares'] - min_shares < .50 * servers[current_server]['shares']:
+            if servers[current_server]['shares'] - min_shares > .50 * servers[current_server]['shares']:
                 select_best_server()
                 return
 
