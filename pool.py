@@ -84,7 +84,7 @@ def set_lp(url, check = False):
     
     global lp_set
     if check:
-        return lp_set
+        return not lp_set
 
     if lp_set == False:
         log.msg("LP SET")
