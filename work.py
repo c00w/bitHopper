@@ -79,6 +79,7 @@ def jsonrpc_call(agent, server,data , set_lp):
         for k,v in header.getAllRawHeaders():
             if k.lower() == 'x-long-polling':
                 set_lp(v[0])
+                break
 
     finish = Deferred()
     response.deliverBody(WorkProtocol(finish))

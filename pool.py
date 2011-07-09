@@ -91,6 +91,7 @@ def update_lp(body):
         new_server.callback(None)
         new_server = Deferred()
         new_server.addErrback(log.err)
+    return None
 
 def set_lp(url, check = False):
     
@@ -104,6 +105,7 @@ def set_lp(url, check = False):
         global current_server
         server = servers[current_server]
         log.msg("LP Call " + str(server['mine_address']) + str(url))
+        lp_set = True
         work.jsonrpc_lpcall(json_agent,server, url, update_lp)
 
 
@@ -280,7 +282,7 @@ def bitHopperLP(value, *methodArgs):
     log.msg('LP RPC request ' + str(data) + " From " + str(pool_server['name']))
     work.jsonrpc_getwork(json_agent, pool_server, data, j_id, request, get_new_server, set_lp)
 
-    return
+    return None
 
 class bitSite(resource.Resource):
     isLeaf = True
