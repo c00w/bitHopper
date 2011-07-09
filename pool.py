@@ -89,8 +89,6 @@ def update_lp(body):
     if current == current_server:
         log.msg("LP triggering clients manually")
         new_server.callback(None)
-        new_server = Deferred()
-        new_server.addErrback(log.err)
     return None
 
 def set_lp(url, check = False):
@@ -138,8 +136,6 @@ def select_best_server():
         lp_set = False
         log.msg("LP Triggering clients on server change")
         new_server.callback(None)
-        new_server = Deferred()
-        new_server.addErrback(log.err)
         
     return
 
@@ -166,6 +162,13 @@ def server_update():
     if servers[current_server]['shares'] > difficulty * .40:
         select_best_server()
         return
+
+def btcguild_sharesResponse(response):
+    global servers
+    info = json.loads(response)
+    round_shares = int(info['round_shares'])
+    servers['btcg']['shares'] = round_shares
+    log.msg( 'btcguild :' + str(round_shares))
 
 def bclc_sharesResponse(response):
     global servers
@@ -200,24 +203,40 @@ def bitclockers_sharesResponse(response):
     log.msg( 'bitclockers :' + str(round_shares))
     server_update()
 
+def errsharesResponse(error, args):
+    log.msg('Error in pool api for ' + str(args))
+    pool = args
+    global servers
+    servers[pool]['shares'] = 10**10
+
+def btcg_getshares():
+    d = getPage('https://www.btcguild.com/pool_stats.php')
+    d.addCallback(bclc_sharesResponse)
+    d.addErrback(errsharesResponse, ('btcg'))
+    d.addErrback(log.err)
+
 def bclc_getshares():
     d = getPage('https://www.bitcoins.lc/stats.json')
     d.addCallback(bclc_sharesResponse)
+    d.addErrback(errsharesResponse, ('bclc'))
     d.addErrback(log.err)
 
 def mtred_getshares():
     d = getPage('https://mtred.com/api/user/key/d91c52cfe1609f161f28a1268a2915b8')
     d.addCallback( mtred_sharesResponse )
+    d.addErrback(errsharesResponse,('mtred'))
     d.addErrback(log.err)
 
 def mineco_getshares():
     d = getPage('https://mineco.in/stats.json')
     d.addCallback(mineco_sharesResponse)
+    d.addErrback(errsharesResponse,('mineco'))
     d.addErrback(log.err)
 
 def bitclockers_getshares():
     d = getPage('https://bitclockers.com/api')
     d.addCallback(bitclockers_sharesResponse)
+    d.addErrback(errsharesResponse,('bitclockers'))
     d.addErrback(log.err)
 
 def update_servers():
