@@ -50,6 +50,19 @@ class WorkProtocol(Protocol):
     def connectionLost(self, reason):
         self.finished.callback(self.data)
 
+
+@defer.inlineCallbacks
+def jsonrpc_lpcall(agent,server, url, update):
+    global i
+    request = json.dumps({'method':'getwork', 'params':[], 'id':i}, ensure_ascii = True)
+    i = i +1
+    
+    header = {'Authorization':["Basic " +base64.b64encode(server['user']+ ":" + server['pass'])], 'User-Agent': ['bitHopper'],'Content-Type': ['application/json'] }
+    d = agent.request('GET', "http://" + server['mine_address']+ url)
+    d.addErrback(lambda x: defer.returnValue(None))
+    body = yield d
+    update(body)
+
 @defer.inlineCallbacks
 def jsonrpc_call(agent, server,data , set_lp):
     global i
@@ -61,19 +74,12 @@ def jsonrpc_call(agent, server,data , set_lp):
     d.addErrback(lambda x: defer.returnValue(None))
     response = yield d
     header = response.headers
-    print str(header)
     #Check for long polling header
-    if header.hasHeader('X-Long-Polling')and set_lp(None, True):
-        values = header.getRawHeaders('X-Long-Polling')
-        print 'LP_HEADER: ' + str(values)
-        if len(values) >0:
-            set_lp(value[0])
-    #Some people can't capitalize
-    if header.hasHeader('x-long-polling')and set_lp(None, True):
-        values = header.getRawHeaders('x-long-polling')
-        print 'LP_HEADER: ' + str(values)
-        if len(values) >0:
-            set_lp(value[0])
+    if set_lp(None, True):
+        for k,v in header.getAllRawHeaders():
+            if k.lower() == 'x-long-polling':
+                set_lp(v[0])
+
     finish = Deferred()
     response.deliverBody(WorkProtocol(finish))
     finish.addErrback(lambda x: defer.returnValue(None))

@@ -73,8 +73,8 @@ new_server = Deferred()
 
 lp_set = False
 
-def update_lp():
-    log.msg("LP triggered")
+def update_lp(body):
+    log.msg("LP triggered " + str(body))
     global lp_set
     lp_set = False
     update_servers()
@@ -87,13 +87,13 @@ def set_lp(url, check = False):
         return not lp_set
 
     if lp_set == False:
-        log.msg("LP SET")
-        lp_set= True
-        d = getPage(url)
-        d.addCallback(update_lp)
-        d.addErrback(log.err)
-        return True
-    return False
+        global json_agent
+        global servers
+        global current_server
+        server = servers[current_server]
+        log.msg("LP Call " + str(server['mine_address']) + str(url))
+        work.jsonrpc_lpcall(json_agent,server, url, update_lp)
+
 
 def select_best_server():
     """selects the best server for pool hopping. If there is not good server it returns eligious"""
@@ -138,6 +138,16 @@ def get_new_server(server):
 
 def server_update():
     global servers
+    min_shares = 10**10
+    for server in servers:
+        if servers[server]['shares'] < min_shares:
+            mine_shares = servers[server]['shares']
+
+    if min_shares < servers[current_server]['shares']:
+        if servers[current_server]['shares'] - min_shares < .25 * servers[current_server]['shares']:
+            select_best_server()
+            return
+
     if servers[current_server]['shares'] > difficulty * .40:
         select_best_server()
         return
