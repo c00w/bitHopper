@@ -61,8 +61,15 @@ def jsonrpc_call(agent, server,data , set_lp):
     response = yield d
     header = response.headers
     print str(header)
+    #Check for long polling header
     if header.hasHeader('X-Long-Polling')and set_lp(None, True):
         values = header.getRawHeaders('X-Long-Polling')
+        print 'LP_HEADER: ' + str(values)
+        if len(values) >0:
+            set_lp(value[0])
+    #Some people can't capitalize
+    if header.hasHeader('x-long-polling')and set_lp(None, True):
+        values = header.getRawHeaders('x-long-polling')
         print 'LP_HEADER: ' + str(values)
         if len(values) >0:
             set_lp(value[0])
