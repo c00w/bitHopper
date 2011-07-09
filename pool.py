@@ -137,6 +137,7 @@ def select_best_server():
         lp_set = False
         log.msg("LP Triggering clients on server change")
         new_server.callback(None)
+        new_server = Deferred()
         
     return
 
@@ -310,6 +311,7 @@ def bitHopperLP(value, *methodArgs):
 class bitSite(resource.Resource):
     isLeaf = True
     def render_GET(self, request):
+        global new_server
         new_server.addCallback(bitHopperLP, (request))
         return server.NOT_DONE_YET
 
