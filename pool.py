@@ -52,24 +52,29 @@ difficulty = get_difficulty()
 default_shares = difficulty
 
 servers = {
-        'bclc':{'time':time.time(), 'shares':default_shares, 'name':'bitcoins.lc', 
+        'bclc':{'shares':default_shares, 'name':'bitcoins.lc', 
             'mine_address':'bitcoins.lc:8080', 'user':bclc_user, 'pass':bclc_pass, 
-            'lag':False, 'LP':None},
-        'mtred':{'time':time.time(), 'shares':default_shares, 'name':'mtred',  
+            'lag':False, 'LP':None, 
+            'api_address':'https://www.bitcoins.lc/stats.json' },
+        'mtred':{'shares':default_shares, 'name':'mtred',  
             'mine_address':'mtred.com:8337', 'user':mtred_user, 'pass':mtred_pass, 
-            'lag':False, 'LP':None},
-        'btcg':{'time':time.time(), 'shares':default_shares, 'name':'BTC Guild',  
+            'lag':False, 'LP':None,
+            'api_address':'https://mtred.com/api/user/key/d91c52cfe1609f161f28a1268a2915b8'},
+        'btcg':{'shares':default_shares, 'name':'BTC Guild',  
             'mine_address':'useast.btcguild.com:8332', 'user':btcguild_user, 
-            'pass':btcguild_pass, 'lag':False, 'LP':None},
-        'eligius':{'time':time.time(), 'shares':difficulty*.41, 'name':'eligius', 
+            'pass':btcguild_pass, 'lag':False, 'LP':None, 
+            'api_address':'https://www.btcguild.com/pool_stats.php'},
+        'eligius':{'shares':difficulty*.41, 'name':'eligius', 
             'mine_address':'mining.eligius.st:8337', 'user':eligius_address, 
             'pass':'x', 'lag':False, 'LP':None},
-        'mineco':{'time': time.time(), 'shares': default_shares, 'name': 'mineco.in',
+        'mineco':{'shares': default_shares, 'name': 'mineco.in',
             'mine_address': 'mineco.in:3000', 'user': mineco_user,
-            'pass': mineco_pass, 'lag': False, 'LP': None},
-        'bitclockers':{'time': time.time(), 'shares': 0, 'name': 'bitclockers.com',
+            'pass': mineco_pass, 'lag': False, 'LP': None,
+            'api_address':'https://mineco.in/stats.json'},
+        'bitclockers':{'shares': 0, 'name': 'bitclockers.com',
             'mine_address': 'pool.bitclockers.com:8332', 'user': bitclockers_user,
-            'pass': bitclockers_pass, 'lag': False, 'LP': None}
+            'pass': bitclockers_pass, 'lag': False, 'LP': None,
+            'api_address':'https://bitclockers.com/api'}
         }
 
 current_server = 'btcg'
@@ -145,7 +150,7 @@ def select_best_server():
     if current_server != server_name:
         current_server = server_name
         lp_set = False
-        log_msg("LP Triggering clients on server change to" + str(current_server))
+        log_msg("LP Triggering clients on server change to " + str(current_server))
         new_server.callback(None)
         new_server = Deferred()
         
@@ -181,7 +186,6 @@ def btcguild_sharesResponse(response):
     round_shares = int(info['round_shares'])
     servers['btcg']['shares'] = round_shares
     log_msg( 'btcguild :' + str(round_shares))
-    server_update()
 
 def bclc_sharesResponse(response):
     global servers
@@ -189,7 +193,6 @@ def bclc_sharesResponse(response):
     round_shares = int(info['round_shares'])
     servers['bclc']['shares'] = round_shares
     log_msg( 'bitcoin.lc :' + str(round_shares))
-    server_update()
     
 def mtred_sharesResponse(response):
     global servers
@@ -197,7 +200,6 @@ def mtred_sharesResponse(response):
     round_shares = int(info['server']['servers']['n0']['roundshares'])
     servers['mtred']['shares'] = round_shares
     log_msg('mtred :' + str(round_shares))
-    server_update()
 
 
 def mineco_sharesResponse(response):
@@ -206,7 +208,6 @@ def mineco_sharesResponse(response):
     round_shares = int(info['shares_this_round'])
     servers['mineco']['shares'] = round_shares
     log_msg( 'mineco :' + str(round_shares))
-    server_update()
 
 def bitclockers_sharesResponse(response):
     global servers
@@ -214,7 +215,6 @@ def bitclockers_sharesResponse(response):
     round_shares = int(info['roundshares'])
     servers['bitclockers']['shares'] = round_shares
     log_msg( 'bitclockers :' + str(round_shares))
-    server_update()
 
 def errsharesResponse(error, args):
     log_msg('Error in pool api for ' + str(args))
@@ -222,43 +222,26 @@ def errsharesResponse(error, args):
     global servers
     servers[pool]['shares'] = 10**10
 
-def btcg_getshares():
-    d = getPage('https://www.btcguild.com/pool_stats.php')
-    d.addCallback(btcguild_sharesResponse)
-    d.addErrback(errsharesResponse, ('btcg'))
-    d.addErrback(log_msg)
-
-def bclc_getshares():
-    d = getPage('https://www.bitcoins.lc/stats.json')
-    d.addCallback(bclc_sharesResponse)
-    d.addErrback(errsharesResponse, ('bclc'))
-    d.addErrback(log_msg)
-
-def mtred_getshares():
-    d = getPage('https://mtred.com/api/user/key/d91c52cfe1609f161f28a1268a2915b8')
-    d.addCallback( mtred_sharesResponse )
-    d.addErrback(errsharesResponse,('mtred'))
-    d.addErrback(log_msg)
-
-def mineco_getshares():
-    d = getPage('https://mineco.in/stats.json')
-    d.addCallback(mineco_sharesResponse)
-    d.addErrback(errsharesResponse,('mineco'))
-    d.addErrback(log_msg)
-
-def bitclockers_getshares():
-    d = getPage('https://bitclockers.com/api')
-    d.addCallback(bitclockers_sharesResponse)
-    d.addErrback(errsharesResponse,('bitclockers'))
-    d.addErrback(log_msg)
+def selectsharesResponse(response, args):
+    log_msg('Calling sharesResponse for '+ args)
+    func_map= {'bitclockers':bitclockers_sharesResponse,
+        'mineco':mineco_sharesResponse,
+        'mtred':mtred_sharesResponse,
+        'bclc':bclc_sharesResponse,
+        'bitclockers':bitclockers_sharesResponse,
+        'btcg':btcguild_sharesResponse}
+    func_map[args](response)
+    server_update()
 
 def update_servers():
     global servers
-    bclc_getshares()
-    mtred_getshares()
-    bitclockers_getshares()
-    mineco_getshares()
-    btcg_getshares()
+    for server in servers:
+        if server is not 'eligius':
+            info = servers[server]
+            d = getPage(info['api_address'])
+            d.addCallback(selectsharesResponse, (server))
+            d.addErrback(errsharesResponse, ('btcg'))
+            d.addErrback(log_msg)
 
 @defer.inlineCallbacks
 def delag_server():
@@ -347,9 +330,8 @@ def main():
     if options.debug: log.startLogging(sys.stdout)
     site = server.Site(bitSite())
     reactor.listenTCP(8337, site)
-    reactor.suggestThreadPoolSize(10)
     update_call = LoopingCall(update_servers)
-    update_call.start(57)
+    update_call.start(117)
     delag_call = LoopingCall(delag_server)
     delag_call.start(132)
     reactor.run()
