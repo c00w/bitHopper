@@ -181,6 +181,7 @@ def btcguild_sharesResponse(response):
     round_shares = int(info['round_shares'])
     servers['btcg']['shares'] = round_shares
     log_msg( 'btcguild :' + str(round_shares))
+    server_update()
 
 def bclc_sharesResponse(response):
     global servers
@@ -223,7 +224,7 @@ def errsharesResponse(error, args):
 
 def btcg_getshares():
     d = getPage('https://www.btcguild.com/pool_stats.php')
-    d.addCallback(bclc_sharesResponse)
+    d.addCallback(btcguild_sharesResponse)
     d.addErrback(errsharesResponse, ('btcg'))
     d.addErrback(log_msg)
 
@@ -257,6 +258,7 @@ def update_servers():
     mtred_getshares()
     bitclockers_getshares()
     mineco_getshares()
+    btcg_getshares()
 
 @defer.inlineCallbacks
 def delag_server():
