@@ -78,6 +78,7 @@ new_server = Deferred()
 lp_set = True
 
 def update_lp(body):
+    return
     global current_server
     log.msg("LP triggered from server " + str(current_server))
     global lp_set
@@ -92,7 +93,7 @@ def update_lp(body):
     return None
 
 def set_lp(url, check = False):
-    
+    return
     global lp_set
     if check:
         return not lp_set
