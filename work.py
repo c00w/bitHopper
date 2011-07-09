@@ -99,7 +99,7 @@ def jsonrpc_getwork(agent, server, data, j_id, request, new_server, set_lp):
     i = 0
     while work == None:
         i += 1
-        if i > 10:
+        if i > 3:
             new_server(server)
         work = yield jsonrpc_call(agent, server,data,set_lp)
 

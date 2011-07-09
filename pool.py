@@ -11,6 +11,8 @@ import os
 import base64
 import work
 import sys
+import exceptions
+
 from zope.interface import implements
 
 from twisted.web import server, resource
@@ -46,20 +48,22 @@ def get_difficulty():
 
 difficulty = get_difficulty()
 
+default_shares = difficulty
+
 servers = {
-        'bclc':{'time':time.time(), 'shares':0, 'name':'bitcoins.lc', 
+        'bclc':{'time':time.time(), 'shares':default_shares, 'name':'bitcoins.lc', 
             'mine_address':'bitcoins.lc:8080', 'user':bclc_user, 'pass':bclc_pass, 
             'lag':False, 'LP':None},
-        'mtred':{'time':time.time(), 'shares':0, 'name':'mtred',  
+        'mtred':{'time':time.time(), 'shares':default_shares, 'name':'mtred',  
             'mine_address':'mtred.com:8337', 'user':mtred_user, 'pass':mtred_pass, 
             'lag':False, 'LP':None},
-        'btcg':{'time':time.time(), 'shares':10**9, 'name':'BTC Guild',  
+        'btcg':{'time':time.time(), 'shares':default_shares, 'name':'BTC Guild',  
             'mine_address':'uscentral.btcguild.com:8332', 'user':btcguild_user, 
             'pass':btcguild_pass, 'lag':False, 'LP':None},
         'eligius':{'time':time.time(), 'shares':difficulty*.41, 'name':'eligius', 
             'mine_address':'mining.eligius.st:8337', 'user':eligius_address, 
             'pass':'x', 'lag':False, 'LP':None},
-        'mineco':{'time': time.time(), 'shares': 0, 'name': 'mineco.in',
+        'mineco':{'time': time.time(), 'shares': default_shares, 'name': 'mineco.in',
             'mine_address': 'mineco.in:3000', 'user': mineco_user,
             'pass': mineco_pass, 'lag': False, 'LP': None},
         'bitclockers':{'time': time.time(), 'shares': 0, 'name': 'bitclockers.com',
@@ -74,11 +78,19 @@ new_server = Deferred()
 lp_set = False
 
 def update_lp(body):
-    log.msg("LP triggered " + str(body))
+    global current_server
+    log.msg("LP triggered from server " + str(current_server))
     global lp_set
+    global new_server
     lp_set = False
     update_servers()
+    current = current_server
     select_best_server()
+    if current == current_server:
+        log.msg("LP triggering clients manually")
+        new_server.callback(None)
+        new_server = Deferred()
+        new_server.addErrback(log.err)
 
 def set_lp(url, check = False):
     
@@ -119,14 +131,11 @@ def select_best_server():
     if current_server != server_name:
         current_server = server_name
         lp_set = False
+        log.msg("LP Triggering clients on server change")
         new_server.callback(None)
         new_server = Deferred()
         new_server.addErrback(log.err)
         
-        
-
-    server = servers[current_server]
-    access = ServiceProxy("http://" + server['user']+ ":" + server['pass'] + "@" + server['mine_address'])
     return
 
 def get_new_server(server):
@@ -229,7 +238,7 @@ def delag_server():
 def bitHopper_Post(request):
    
     request.setHeader('X-Long-Polling', 'http://localhost:8337')
-    rpc_request = json.load(request.content)
+    rpc_request = json.loads(request.content.read())
     #check if they are sending a valid message
     if rpc_request['method'] != "getwork":
         return json.dumps({'result':None, 'error':'Not supported', 'id':rpc_request['id']})
@@ -252,7 +261,25 @@ def bitHopper_Post(request):
 def bitHopperLP(value, *methodArgs):
     log.msg('LP Client Side Reset')
     request = methodArgs[0]
-    bitHopper_Post(request)
+    #Duplicated from above because its a little less of a hack
+    #But apparently people expect well formed json-rpc back but won't actually make the call 
+    json_request = request.content.read()
+    try:
+        rpc_request = json.loads(json_request)
+    except exceptions.ValueError, e:
+        rpc_request = {'params':[],'id':1}
+    #Check for data to be validated
+    global servers
+    global current_server
+    global json_agent
+    pool_server=servers[current_server]
+    
+    data = rpc_request['params']
+    j_id = rpc_request['id']
+
+    log.msg('LP RPC request ' + str(data) + " From " + str(pool_server['name']))
+    work.jsonrpc_getwork(json_agent, pool_server, data, j_id, request, get_new_server, set_lp)
+
     return
 
 class bitSite(resource.Resource):
