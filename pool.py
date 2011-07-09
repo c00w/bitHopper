@@ -87,8 +87,10 @@ options = None
 def log_msg(msg):
     if options == None:
         print str(msg)
+        return
     if options.debug == True:
         log.msg(msg)
+        return
     print str(msg)
 
 def update_lp(body):
