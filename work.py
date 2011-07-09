@@ -71,7 +71,6 @@ def jsonrpc_call(agent, server,data , set_lp):
     
     header = {'Authorization':["Basic " +base64.b64encode(server['user']+ ":" + server['pass'])], 'User-Agent': ['bitHopper'],'Content-Type': ['application/json'] }
     d = agent.request('POST', "http://" + server['mine_address'], Headers(header), StringProducer(request))
-    d.addErrback(lambda x: defer.returnValue(None))
     response = yield d
     header = response.headers
     #Check for long polling header
@@ -83,7 +82,6 @@ def jsonrpc_call(agent, server,data , set_lp):
 
     finish = Deferred()
     response.deliverBody(WorkProtocol(finish))
-    finish.addErrback(lambda x: defer.returnValue(None))
     body = yield finish
 
     try:
