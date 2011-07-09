@@ -4,7 +4,6 @@
 #Based on a work at github.com.
 
 import json
-import time
 from jsonrpc import ServiceProxy
 import socket
 import os
@@ -17,12 +16,10 @@ from twisted.web import server, resource
 from twisted.web.client import getPage, Agent
 from twisted.web.iweb import IBodyProducer
 from twisted.web.http_headers import Headers
-from twisted.internet import reactor, threads, defer
+from twisted.internet import defer
 from twisted.internet.defer import succeed, Deferred
 from twisted.internet.task import LoopingCall
 from twisted.internet.protocol import Protocol
-from twisted.python import log
-
 i = 1
 
 class StringProducer(object):
@@ -63,9 +60,10 @@ def jsonrpc_call(agent, server,data , set_lp):
     d = agent.request('POST', "http://" + server['mine_address'], Headers(header), StringProducer(request))
     response = yield d
     header = response.headers
+    print str(header)
     if header.hasHeader('X-Long-Polling')and set_lp(None, True):
         values = header.getRawHeaders('X-Long-Polling')
-        log.msg('LP_HEADER: ' + str(values))
+        print 'LP_HEADER: ' + str(values)
         if len(values) >0:
             set_lp(value[0])
     finish = Deferred()
@@ -77,7 +75,7 @@ def jsonrpc_call(agent, server,data , set_lp):
         value =  message['result']
         defer.returnValue(value)
     except exceptions.ValueError, e:
-        log.err(e)
+        print e
         defer.returnValue(None)
 
 @defer.inlineCallbacks
