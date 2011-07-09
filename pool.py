@@ -139,14 +139,15 @@ def get_new_server(server):
 def server_update():
     global servers
     min_shares = 10**10
-    for server in servers:
-        if servers[server]['shares'] < min_shares:
-            mine_shares = servers[server]['shares']
+    if servers[current_server]['shares'] > difficulty * .10:
+        for server in servers:
+            if servers[server]['shares'] < min_shares:
+                min_shares = servers[server]['shares']
 
-    if min_shares < servers[current_server]['shares']:
-        if servers[current_server]['shares'] - min_shares < .25 * servers[current_server]['shares']:
-            select_best_server()
-            return
+        if min_shares < servers[current_server]['shares']:
+            if servers[current_server]['shares'] - min_shares < .50 * servers[current_server]['shares']:
+                select_best_server()
+                return
 
     if servers[current_server]['shares'] > difficulty * .40:
         select_best_server()
