@@ -34,7 +34,7 @@ mtred_user = 'scarium'
 mtred_pass = 'x'
 eligius_address = '1AofHmwVef5QkamCW6KqiD4cRqEcq5U7hZ'
 btcguild_user = 'c00w_test'
-btcguild_pass = 'x'
+btcguild_pass = '1234'
 bitclockers_user = 'flargle'
 bitclockers_pass = 'x'
 mineco_user = 'c00w.test'
@@ -59,7 +59,7 @@ servers = {
             'mine_address':'mtred.com:8337', 'user':mtred_user, 'pass':mtred_pass, 
             'lag':False, 'LP':None},
         'btcg':{'time':time.time(), 'shares':default_shares, 'name':'BTC Guild',  
-            'mine_address':'uscentral.btcguild.com:8332', 'user':btcguild_user, 
+            'mine_address':'useast.btcguild.com:8332', 'user':btcguild_user, 
             'pass':btcguild_pass, 'lag':False, 'LP':None},
         'eligius':{'time':time.time(), 'shares':difficulty*.41, 'name':'eligius', 
             'mine_address':'mining.eligius.st:8337', 'user':eligius_address, 
