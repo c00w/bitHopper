@@ -91,7 +91,8 @@ def jsonrpc_call(agent, server,data , set_lp):
         value =  message['result']
         defer.returnValue(value)
     except exceptions.ValueError, e:
-        print e
+        print "Error in json decoding, Server probably down"
+        print body
         defer.returnValue(None)
 
 @defer.inlineCallbacks
