@@ -54,7 +54,7 @@ class WorkProtocol(Protocol):
         self.finished.callback(self.data)
 
 @defer.inlineCallbacks
-def jsonrpc_call(agent, server,data = []):
+def jsonrpc_call(agent, server,data , set_lp):
     global i
     request = json.dumps({'method':'getwork', 'params':data, 'id':i}, ensure_ascii = True)
     i = i +1
@@ -62,9 +62,16 @@ def jsonrpc_call(agent, server,data = []):
     header = {'Authorization':["Basic " +base64.b64encode(server['user']+ ":" + server['pass'])], 'User-Agent': ['bitHopper'],'Content-Type': ['application/json'] }
     d = agent.request('POST', "http://" + server['mine_address'], Headers(header), StringProducer(request))
     response = yield d
+    header = response.headers
+    if header.hasHeader('X-Long-Polling')and set_lp(None, True):
+        values = header.getRawHeaders('X-Long-Polling')
+        log.msg('LP_HEADER: ' + str(values))
+        if len(values) >0:
+            set_lp(value[0])
     finish = Deferred()
     response.deliverBody(WorkProtocol(finish))
     body = yield finish
+
     try:
         message = json.loads(body)
         value =  message['result']
@@ -74,14 +81,14 @@ def jsonrpc_call(agent, server,data = []):
         defer.returnValue(None)
 
 @defer.inlineCallbacks
-def jsonrpc_getwork(agent, server, data, j_id, request, new_server):
+def jsonrpc_getwork(agent, server, data, j_id, request, new_server, set_lp):
     work = None
     i = 0
     while work == None:
         i += 1
         if i > 10:
             new_server(server)
-        work = yield jsonrpc_call(agent, server,data)
+        work = yield jsonrpc_call(agent, server,data,set_lp)
 
     response = json.dumps({"result":work,'error':None,'id':j_id})
 

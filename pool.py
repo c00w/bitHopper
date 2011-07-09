@@ -71,6 +71,27 @@ current_server = 'eligius'
 json_agent = Agent(reactor)
 new_server = Deferred()
 
+lp_set = False
+
+def update_lp():
+    global lp_set
+    lp_set = False
+    update_servers()
+    select_best_server()
+
+def set_lp(url, check = False):
+    
+    global lp_set
+    if check:
+        return lp_set
+
+    if lp_set == False:
+        lp_set= True
+        d = getPage(url)
+        d.addCallback(update_lp)
+        d.addErrback(log.err)
+        return True
+    return False
 
 def select_best_server():
     """selects the best server for pool hopping. If there is not good server it returns eligious"""
@@ -91,12 +112,16 @@ def select_best_server():
         server_name = 'eligius'
 
     global new_server
+    global lp_set
 
     if current_server != server_name:
         current_server = server_name
+        lp_set = False
         new_server.callback(None)
         new_server = Deferred()
         new_server.addErrback(log.err)
+        
+        
 
     server = servers[current_server]
     access = ServiceProxy("http://" + server['user']+ ":" + server['pass'] + "@" + server['mine_address'])
@@ -207,7 +232,7 @@ def bitHopper_Post(request):
     j_id = rpc_request['id']
 
     log.msg('RPC request ' + str(data) + " From " + str(pool_server['name']))
-    work.jsonrpc_getwork(json_agent, pool_server, data, j_id, request, get_new_server)
+    work.jsonrpc_getwork(json_agent, pool_server, data, j_id, request, get_new_server, set_lp)
 
     return server.NOT_DONE_YET
 
