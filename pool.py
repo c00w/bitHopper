@@ -87,7 +87,7 @@ def set_lp(url, check = False):
         return lp_set
 
     if lp_set == False:
-        log.msg("LP SET)
+        log.msg("LP SET")
         lp_set= True
         d = getPage(url)
         d.addCallback(update_lp)
