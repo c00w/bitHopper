@@ -230,7 +230,6 @@ def selectsharesResponse(response, args):
         'mineco':mineco_sharesResponse,
         'mtred':mtred_sharesResponse,
         'bclc':bclc_sharesResponse,
-        'bitclockers':bitclockers_sharesResponse,
         'btcg':btcguild_sharesResponse}
     func_map[args](response)
     server_update()
