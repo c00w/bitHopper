@@ -561,7 +561,7 @@ def downloadPage(url, file, contextFactory=None, *args, **kwargs):
 
 from twisted.internet.protocol import ClientCreator
 from twisted.web.error import SchemeNotSupported
-from twisted.web._newclient import ResponseDone, ResponseFailed, Request, \
+from _newclient import ResponseDone, ResponseFailed, Request, \
     Response, HTTP11ClientProtocol
 from twisted.internet.error import ConnectionDone
 

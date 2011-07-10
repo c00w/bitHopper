@@ -4,28 +4,20 @@
 #Based on a work at github.com.
 
 import json
-import time
-from jsonrpc import ServiceProxy
-import socket
-import os
-import base64
 import work
 import sys
 import exceptions
 import optparse
 
-from zope.interface import implements
-
 from twisted.web import server, resource
-from client import Agent, getPage
-from twisted.web.iweb import IBodyProducer
-from twisted.web.http_headers import Headers
-from twisted.internet import reactor, threads, defer
-from twisted.internet.defer import succeed, Deferred
+from client import Agent
+from _newclient import Request
+from twisted.internet import reactor, defer
+from twisted.internet.defer import Deferred
 from twisted.internet.task import LoopingCall
-import urllib2
-from twisted.internet.protocol import Protocol
 from twisted.python import log
+
+import urllib2
 
 #SET THESE
 bclc_user  = "FSkyvM"
@@ -102,9 +94,11 @@ def update_lp(body):
     update_servers()
     current = current_server
     select_best_server()
-    if current == current_server:
-        log_msg("LP triggering clients manually")
-        new_server.callback(None)
+    #if current == current_server:
+    #    log_msg("LP triggering clients manually")
+    #    new_server.callback(None)
+    #    new_server = Deferred()
+        
     return None
 
 def set_lp(url, check = False):
@@ -217,6 +211,7 @@ def bitclockers_sharesResponse(response):
 
 def errsharesResponse(error, args):
     log_msg('Error in pool api for ' + str(args))
+    log_msg(str(error))
     pool = args
     global servers
     servers[pool]['shares'] = 10**10
@@ -235,9 +230,10 @@ def selectsharesResponse(response, args):
 def update_servers():
     global servers
     for server in servers:
+        global json_agent
         if server is not 'eligius':
             info = servers[server]
-            d = getPage(info['api_address'])
+            d = work.get(json_agent,info['api_address'])
             d.addCallback(selectsharesResponse, (server))
             d.addErrback(errsharesResponse, ('btcg'))
             d.addErrback(log_msg)

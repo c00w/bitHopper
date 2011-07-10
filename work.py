@@ -4,7 +4,6 @@
 #Based on a work at github.com.
 
 import json
-from jsonrpc import ServiceProxy
 import socket
 import os
 import base64
@@ -12,13 +11,10 @@ import exceptions
 
 from zope.interface import implements
 
-from twisted.web import server, resource
-from client import getPage, Agent
 from twisted.web.iweb import IBodyProducer
 from twisted.web.http_headers import Headers
 from twisted.internet import defer
 from twisted.internet.defer import succeed, Deferred
-from twisted.internet.task import LoopingCall
 from twisted.internet.protocol import Protocol
 i = 1
 
@@ -62,6 +58,15 @@ def jsonrpc_lpcall(agent,server, url, update):
     d.addErrback(lambda x: defer.returnValue(None))
     body = yield d
     update(body)
+
+@defer.inlineCallbacks
+def get(agent,url):
+    d = agent.request('GET', url, None, None)
+    response = yield d
+    finish = Deferred()
+    response.deliverBody(WorkProtocol(finish))
+    body = yield finish
+    defer.returnValue(body)
 
 @defer.inlineCallbacks
 def jsonrpc_call(agent, server,data , set_lp):
