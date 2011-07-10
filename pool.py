@@ -15,7 +15,7 @@ from _newclient import Request
 from twisted.internet import reactor, defer
 from twisted.internet.defer import Deferred
 from twisted.internet.task import LoopingCall
-from twisted.python import log
+from twisted.python import log, failure
 
 import urllib2
 
@@ -85,11 +85,29 @@ def log_msg(msg):
         return
     print str(msg)
 
-def update_lp(body):
+@defer.inlineCallbacks
+def update_lp(response):
     global current_server
     log_msg("LP triggered from server " + str(current_server))
     global lp_set
     global new_server
+
+    finish = Deferred()
+    response.deliverBody(work.WorkProtocol(finish))
+    try:
+        body = yield finish
+    except ResponseFailed:
+        return
+
+    try:
+        message = json.loads(body)
+        value =  message['result']
+        defer.returnValue(value)
+    except exceptions.ValueError, e:
+        print "Error in json decoding, Probably not a real LP response"
+        print body
+        defer.returnValue(None)
+
     lp_set = False
     update_servers()
     current = current_server
@@ -99,7 +117,7 @@ def update_lp(body):
     #    new_server.callback(None)
     #    new_server = Deferred()
         
-    return None
+    defer.returnValue(None)
 
 def set_lp(url, check = False):
     global lp_set

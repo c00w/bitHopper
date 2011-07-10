@@ -46,6 +46,8 @@ class WorkProtocol(Protocol):
     def connectionLost(self, reason):
         self.finished.callback(self.data)
 
+def print_error(x):
+    print x
 
 @defer.inlineCallbacks
 def jsonrpc_lpcall(agent,server, url, update):
@@ -55,9 +57,9 @@ def jsonrpc_lpcall(agent,server, url, update):
     
     header = {'Authorization':["Basic " +base64.b64encode(server['user']+ ":" + server['pass'])], 'User-Agent': ['bitHopper'],'Content-Type': ['application/json'] }
     d = agent.request('GET', "http://" + server['mine_address']+ url)
-    d.addErrback(lambda x: defer.returnValue(None))
+    d.addErrback(print_error)
     body = yield d
-    update(body)
+    d = update(body)
 
 @defer.inlineCallbacks
 def get(agent,url):
