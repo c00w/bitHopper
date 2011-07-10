@@ -95,15 +95,19 @@ def jsonrpc_call(agent, server,data , set_lp):
 
 @defer.inlineCallbacks
 def jsonrpc_getwork(agent, server, data, j_id, request, new_server, set_lp):
-    work = None
+    work = yield jsonrpc_call(agent, server,data,set_lp)
     i = 0
-    while work == None:
+    while work == None and data != []:
         i += 1
         if i > 3:
             new_server(server)
         work = yield jsonrpc_call(agent, server,data,set_lp)
+        time.sleep(0.1)
 
-    response = json.dumps({"result":work,'error':None,'id':j_id})
-
+    if work != None:
+        response = json.dumps({"result":work,'error':None,'id':j_id})
+    else:
+        new_server(server)
+        response = json.dumps({"result":none,'error':{"message':'Server isn't responding"},'id':j_id})
     request.write(response)
     request.finish()
