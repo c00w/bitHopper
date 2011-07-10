@@ -143,8 +143,15 @@ def select_best_server():
             min_shares = servers[server]['shares']
             server_name = server
 
-    if server_name == None :
+    if server_name == None  and servers['eligius']['lag'] == False:
         server_name = 'eligius'
+    else if server_name == None:
+        min_shares = 10**10
+        for server in servers:
+            info = servers[server]
+            if info['shares']< min_shares and info['lag'] == False:
+                min_shares = servers[server]['shares']
+                server_name = server
 
     global new_server
     global lp_set
@@ -173,10 +180,9 @@ def server_update():
             if servers[server]['shares'] < min_shares:
                 min_shares = servers[server]['shares']
 
-        if min_shares < servers[current_server]['shares']:
-            if servers[current_server]['shares'] - min_shares > .50 * servers[current_server]['shares']:
-                select_best_server()
-                return
+        if min_shares < servers[current_server]['shares']/2:
+            select_best_server()
+            return
 
     if servers[current_server]['shares'] > difficulty * .40:
         select_best_server()
