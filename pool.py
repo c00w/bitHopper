@@ -235,7 +235,7 @@ def update_servers():
             info = servers[server]
             d = work.get(json_agent,info['api_address'])
             d.addCallback(selectsharesResponse, (server))
-            d.addErrback(errsharesResponse, ('btcg'))
+            d.addErrback(errsharesResponse, (server))
             d.addErrback(log_msg)
 
 @defer.inlineCallbacks
@@ -255,7 +255,7 @@ def bitHopper_Post(request):
    
     global options
     if not options.noLP:
-        request.setHeader('X-Long-Polling', '/')
+        request.setHeader('X-Long-Polling', '/LP')
     rpc_request = json.loads(request.content.read())
     #check if they are sending a valid message
     if rpc_request['method'] != "getwork":
@@ -300,6 +300,22 @@ def bitHopperLP(value, *methodArgs):
 
     return None
 
+class lpSite(resource.Resource):
+    isLeaf = True
+    def render_GET(self, request):
+        global new_server
+        new_server.addCallback(bitHopperLP, (request))
+        return server.NOT_DONE_YET
+
+    def render_POST(self, request):
+        global new_server
+        new_server.addCallback(bitHopperLP, (request))
+        return server.NOT_DONE_YET
+
+
+    def getChild(self,name,request):
+        return self
+
 class bitSite(resource.Resource):
     isLeaf = True
     def render_GET(self, request):
@@ -312,6 +328,8 @@ class bitSite(resource.Resource):
 
 
     def getChild(self,name,request):
+        if name == 'LP':
+            return lpSite
         return self
 
 def main():
