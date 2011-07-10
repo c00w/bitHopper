@@ -145,7 +145,7 @@ def select_best_server():
 
     if server_name == None  and servers['eligius']['lag'] == False:
         server_name = 'eligius'
-    else if server_name == None:
+    elif server_name == None:
         min_shares = 10**10
         for server in servers:
             info = servers[server]
