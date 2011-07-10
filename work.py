@@ -13,7 +13,7 @@ import exceptions
 from zope.interface import implements
 
 from twisted.web import server, resource
-from twisted.web.client import getPage, Agent
+from client import getPage, Agent
 from twisted.web.iweb import IBodyProducer
 from twisted.web.http_headers import Headers
 from twisted.internet import defer

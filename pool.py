@@ -17,7 +17,7 @@ import optparse
 from zope.interface import implements
 
 from twisted.web import server, resource
-from twisted.web.client import getPage, Agent
+from client import Agent, getPage
 from twisted.web.iweb import IBodyProducer
 from twisted.web.http_headers import Headers
 from twisted.internet import reactor, threads, defer
@@ -78,10 +78,10 @@ servers = {
         }
 
 current_server = 'btcg'
-json_agent = Agent(reactor)
+json_agent = Agent(reactor, persistent=True)
 new_server = Deferred()
 
-lp_set = True
+lp_set = False
 options = None
 
 def log_msg(msg):
@@ -94,7 +94,6 @@ def log_msg(msg):
     print str(msg)
 
 def update_lp(body):
-    return
     global current_server
     log_msg("LP triggered from server " + str(current_server))
     global lp_set
@@ -109,7 +108,6 @@ def update_lp(body):
     return None
 
 def set_lp(url, check = False):
-    return
     global lp_set
     if check:
         return not lp_set
@@ -117,7 +115,6 @@ def set_lp(url, check = False):
     if lp_set:
         return
 
-    log.err('LP IS DISABLED BUT SOMEHOW IT JUST EXECUTED')
     global json_agent
     global servers
     global current_server
