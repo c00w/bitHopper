@@ -241,7 +241,7 @@ def update_servers():
             info = servers[server]
             d = getPage(info['api_address'])
             d.addCallback(selectsharesResponse, (server))
-            d.addErrback(errsharesResponse, ('btcg'))
+            d.addErrback(errsharesResponse, (server))
             d.addErrback(log_msg)
 
 @defer.inlineCallbacks
@@ -334,7 +334,7 @@ class bitSite(resource.Resource):
 
 
     def getChild(self,name,request):
-        if name == 'LP:
+        if name == 'LP':
             return lpSite()
         return self
 
