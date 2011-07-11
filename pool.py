@@ -70,7 +70,7 @@ servers = {
         'mineco':{'shares': default_shares, 'name': 'mineco.in',
             'mine_address': 'mineco.in:3000', 'user': mineco_user,
             'pass': mineco_pass, 'lag': False, 'LP': None,
-            'api_address':'https://mineco.in/stats.json'},
+            'api_address':'https://mineco.in/stats.json', 'info':''},
         'bitclockers':{'shares': 0, 'name': 'bitclockers.com',
             'mine_address': 'pool.bitclockers.com:8332', 'user': bitclockers_user,
             'pass': bitclockers_pass, 'lag': False, 'LP': None,
@@ -139,6 +139,8 @@ def select_best_server():
     
     for server in servers:
         info = servers[server]
+        if 'info' in info:
+            continue
         if info['shares']< min_shares and info['lag'] == False:
             min_shares = servers[server]['shares']
             server_name = server
@@ -156,6 +158,9 @@ def select_best_server():
 
     if server_name == None:
         server_name = 'eligius'
+
+    if server_name == 'mineco':
+        print "MINECO SELECTED THIS SHOULD NEVER HAPPEN"
 
     global new_server
     global lp_set
