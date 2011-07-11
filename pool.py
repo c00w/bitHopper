@@ -214,7 +214,7 @@ def bclc_sharesResponse(response):
 def mtred_sharesResponse(response):
     global servers
     info = json.loads(response)
-    round_shares = int(info['server']['servers']['n0']['roundshares'])
+    round_shares = int(info['server']['roundshares'])
     servers['mtred']['shares'] = round_shares
     log_msg('mtred :' + str(round_shares))
 
