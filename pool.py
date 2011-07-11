@@ -145,6 +145,7 @@ def select_best_server():
 
     if server_name == None  and servers['eligius']['lag'] == False:
         server_name = 'eligius'
+
     elif server_name == None:
         min_shares = 10**10
         for server in servers:
@@ -152,6 +153,9 @@ def select_best_server():
             if info['shares']< min_shares and info['lag'] == False:
                 min_shares = servers[server]['shares']
                 server_name = server
+
+    if server_name == None:
+        server_name = 'eligius'
 
     global new_server
     global lp_set
@@ -294,10 +298,15 @@ def bitHopperLP(value, *methodArgs):
         request = methodArgs[0]
         #Duplicated from above because its a little less of a hack
         #But apparently people expect well formed json-rpc back but won't actually make the call 
-        json_request = request.content.read()
+        try:
+            json_request = request.content.read()
+        except Exception,e:
+            print 'reading request content failed'
+            json_request = None
         try:
             rpc_request = json.loads(json_request)
-        except exceptions.ValueError, e:
+        except Exception, e:
+            print 'Loading the request failed'
             rpc_request = {'params':[],'id':1}
         #Check for data to be validated
         global servers
@@ -313,6 +322,11 @@ def bitHopperLP(value, *methodArgs):
     except Exception, e:
         log_msg('Caught in bitHopperLP')
         log_msg(str(e))
+        try:
+            request.finish()
+        except Exception, e:
+            print "Client already disconnected"
+
     return None
 
 class lpSite(resource.Resource):
