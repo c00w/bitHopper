@@ -93,6 +93,14 @@ def log_msg(msg):
         return
     print str(msg)
 
+def log_dbg(msg):
+    if options == None:
+        return
+    if options.debug == True:
+        log.err(msg)
+        return
+    return
+
 def update_lp(body):
     return
     global current_server
@@ -325,12 +333,12 @@ def bitHopperLP(value, *methodArgs):
         log_msg('LP RPC request ' + str(data) + " From " + str(pool_server['name']))
         work.jsonrpc_getwork(json_agent, pool_server, data, j_id, request, get_new_server, set_lp)
     except Exception, e:
-        log_msg('Caught in bitHopperLP')
-        log_msg(str(e))
+        log_msg('Error Caught in bitHopperLP')
+        log_dbg(str(e))
         try:
             request.finish()
         except Exception, e:
-            print "Client already disconnected"
+            print "Client already disconnected Urgh."
 
     return None
 
