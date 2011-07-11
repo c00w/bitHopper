@@ -289,27 +289,30 @@ def bitHopper_Post(request):
     return server.NOT_DONE_YET
 
 def bitHopperLP(value, *methodArgs):
-    log_msg('LP Client Side Reset')
-    request = methodArgs[0]
-    #Duplicated from above because its a little less of a hack
-    #But apparently people expect well formed json-rpc back but won't actually make the call 
-    json_request = request.content.read()
     try:
-        rpc_request = json.loads(json_request)
-    except exceptions.ValueError, e:
-        rpc_request = {'params':[],'id':1}
-    #Check for data to be validated
-    global servers
-    global current_server
-    global json_agent
-    pool_server=servers[current_server]
-    
-    data = rpc_request['params']
-    j_id = rpc_request['id']
+        log_msg('LP Client Side Reset')
+        request = methodArgs[0]
+        #Duplicated from above because its a little less of a hack
+        #But apparently people expect well formed json-rpc back but won't actually make the call 
+        json_request = request.content.read()
+        try:
+            rpc_request = json.loads(json_request)
+        except exceptions.ValueError, e:
+            rpc_request = {'params':[],'id':1}
+        #Check for data to be validated
+        global servers
+        global current_server
+        global json_agent
+        pool_server=servers[current_server]
+        
+        data = rpc_request['params']
+        j_id = rpc_request['id']
 
-    log_msg('LP RPC request ' + str(data) + " From " + str(pool_server['name']))
-    work.jsonrpc_getwork(json_agent, pool_server, data, j_id, request, get_new_server, set_lp)
-
+        log_msg('LP RPC request ' + str(data) + " From " + str(pool_server['name']))
+        work.jsonrpc_getwork(json_agent, pool_server, data, j_id, request, get_new_server, set_lp)
+    except Exception, e:
+        log_msg('Caught in bitHopperLP')
+        log_msg(str(e))
     return None
 
 class lpSite(resource.Resource):
