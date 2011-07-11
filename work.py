@@ -9,6 +9,7 @@ import socket
 import os
 import base64
 import exceptions
+import time
 
 from zope.interface import implements
 
@@ -20,6 +21,7 @@ from twisted.internet import defer
 from twisted.internet.defer import succeed, Deferred
 from twisted.internet.task import LoopingCall
 from twisted.internet.protocol import Protocol
+
 i = 1
 
 class StringProducer(object):
