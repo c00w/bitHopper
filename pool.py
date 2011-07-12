@@ -64,11 +64,11 @@ servers = {
         'miningmainframe':{'shares': default_shares, 'name': 'mining.mainframe.nl',
            'mine_address': 'mining.mainframe.nl:8343', 'user': miningmainframe_user,
            'pass': miningmainframe_pass, 'lag': False, 'LP': None,
-            'api_address':'http://mining.mainframe.nl/api'},
+            'api_address':'http://mining.mainframe.nl/api', 'info':''},
         'bitp':{'shares': default_shares, 'name': 'bitp.it',
            'mine_address': 'pool.bitp.it:8334', 'user': bitp_user,
            'pass': bitp_pass, 'lag': False, 'LP': None,
-            'api_address':'https://pool.bitp.it/api/pool', 'info':''}
+            'api_address':'https://pool.bitp.it/api/pool'}
         }
 
 current_server = 'btcg'
