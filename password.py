@@ -14,4 +14,6 @@ mineco_pass = 'x'
 eclipsemc_user = 'c00w_worker'
 eclipsemc_pass = 'x'
 eclipsemc_apikey = 'bd0eded7e35b1b5fc48f8d10214d98'
+miningmainframe_user = 'c00w.1'
+miningmainframe_pass = 'x'  
 #REALLY
