@@ -8,6 +8,7 @@ import work
 import sys
 import exceptions
 import optparse
+import time
 
 from twisted.web import server, resource
 from client import Agent
@@ -54,7 +55,11 @@ servers = {
         'bitclockers':{'shares': 0, 'name': 'bitclockers.com',
             'mine_address': 'pool.bitclockers.com:8332', 'user': bitclockers_user,
             'pass': bitclockers_pass, 'lag': False, 'LP': None,
-            'api_address':'https://bitclockers.com/api'}
+            'api_address':'https://bitclockers.com/api'},
+       'eclipsemc':{'shares': 0, 'name': 'eclipsemc.com',
+            'mine_address': 'pacrim.eclipsemc.com:8337', 'user': eclipsemc_user,
+            'pass': eclipsemc_pass, 'lag': False, 'LP': None,
+            'api_address':'https://eclipsemc.com/api.php?key='+ eclipsemc_apikey +'&action=poolstats'}
         }
 
 current_server = 'btcg'
@@ -67,12 +72,12 @@ options = None
 
 def log_msg(msg):
     if options == None:
-        print str(msg)
+        print time.strftime("[%H:%M:%S] ") +str(msg)
         return
     if options.debug == True:
         log.msg(msg)
         return
-    print str(msg)
+    print time.strftime("[%H:%M:%S] ") +str(msg)
 
 def log_dbg(msg):
     if options == None:
@@ -209,6 +214,14 @@ def server_update():
         select_best_server()
         return
 
+def eclipsemc_sharesResponse(response):
+    global servers
+    info = json.loads(response[:response.find('}')+1])
+    round_shares = int(info['round_shares'])
+    servers['eclipsemc']['roundshares'] = round_shares
+    log_msg( 'eclipsemc :' + str(round_shares))
+
+
 def btcguild_sharesResponse(response):
     global servers
     info = json.loads(response)
@@ -258,7 +271,8 @@ def selectsharesResponse(response, args):
         'mineco':mineco_sharesResponse,
         'mtred':mtred_sharesResponse,
         'bclc':bclc_sharesResponse,
-        'btcg':btcguild_sharesResponse}
+        'btcg':btcguild_sharesResponse,
+        'eclipsemc':eclipsemc_sharesResponse}
     func_map[args](response)
     server_update()
 
