@@ -313,7 +313,7 @@ def bitHopper_Post(request):
 
 def bitHopperLP(value, *methodArgs):
     try:
-        log_msg('LP Client Side Reset')
+        log_msg('LP triggered serving miner')
         request = methodArgs[0]
         #Duplicated from above because its a little less of a hack
         #But apparently people expect well formed json-rpc back but won't actually make the call 
@@ -336,8 +336,8 @@ def bitHopperLP(value, *methodArgs):
         data = rpc_request['params']
         j_id = rpc_request['id']
 
-        log_msg('LP RPC request ' + str(data) + " From " + str(pool_server['name']))
         work.jsonrpc_getwork(json_agent, pool_server, data, j_id, request, get_new_server, set_lp)
+
     except Exception, e:
         log_msg('Error Caught in bitHopperLP')
         log_dbg(str(e))
