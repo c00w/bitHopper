@@ -3,13 +3,22 @@ bitHopper by Colin Rice is licensed under a Creative Commons Attribution-NonComm
 Based on a work at github.com.
 
 #Instructions#
-In order to run bithopper you need twisted phyton installed.
+In order to run bithopper you need twisted phython installed.
+http://twistedmatrix.com/trac
 
-Modify python pool.py to include your bitcoin addresses instead of mine.
+Modify python password.py to include your bitcoin addresses instead of mine.
 
 Run python pool.py
 
 It listens on localhost:8337.
+So you should direct your miner to localhost:8337.
+
+#Windows installation
+Download and install 
+https://launchpad.net/pyopenssl
+http://pypi.python.org/pypi/zope.interface
+http://twistedmatrix.com/trac
+Then follow the above instructions
 
 #Donations
 1HEmzeuVEKxBQkEenysV1yM8oAddQ4o2TX
