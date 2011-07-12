@@ -94,8 +94,8 @@ def update_lp(response):
     try:
         body = yield finish
     except ResponseFailed:
-        print 'Reading LP Response failed'
-        lp_set = False
+        log_dbg('Reading LP Response failed')
+        lp_set = True
         return
 
     try:
@@ -103,15 +103,16 @@ def update_lp(response):
         value =  message['result']
         #defer.returnValue(value)
     except exceptions.ValueError, e:
-        print "Error in json decoding, Probably not a real LP response"
-        print body
+        log_dbg("Error in json decoding, Probably not a real LP response")
+        lp_set = True
+        log_dbg(body)
         defer.returnValue(None)
 
-    lp_set = False
     update_servers()
     current = current_server
     select_best_server()
     if current == current_server:
+        lp_set = False      
         log_msg("LP triggering clients manually")
         new_server.callback(None)
         new_server = Deferred()
@@ -130,7 +131,10 @@ def set_lp(url, check = False):
     global servers
     global current_server
     server = servers[current_server]
-    lp_address = str(server['mine_address']) + str(url)
+    if url[0] == '/':
+        lp_address = str(server['mine_address']) + str(url)
+    else:
+        lp_address = str(url)
     log_msg("LP Call " + lp_address)
     lp_set = True
     work.jsonrpc_lpcall(json_agent,server, lp_address, update_lp)
@@ -161,15 +165,14 @@ def select_best_server():
         min_shares = 10**10
         for server in servers:
             info = servers[server]
+            if 'info' in info:
+                continue
             if info['shares']< min_shares and info['lag'] == False:
                 min_shares = servers[server]['shares']
                 server_name = server
 
     if server_name == None:
         server_name = 'eligius'
-
-    if server_name == 'mineco':
-        print "MINECO SELECTED THIS SHOULD NEVER HAPPEN"
 
     global new_server
     global lp_set
@@ -250,7 +253,7 @@ def errsharesResponse(error, args):
     servers[pool]['shares'] = 10**10
 
 def selectsharesResponse(response, args):
-    log_msg('Calling sharesResponse for '+ args)
+    #log_dbg('Calling sharesResponse for '+ args)
     func_map= {'bitclockers':bitclockers_sharesResponse,
         'mineco':mineco_sharesResponse,
         'mtred':mtred_sharesResponse,
