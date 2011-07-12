@@ -52,19 +52,23 @@ servers = {
             'mine_address': 'mineco.in:3000', 'user': mineco_user,
             'pass': mineco_pass, 'lag': False, 'LP': None,
             'api_address':'https://mineco.in/stats.json', 'info':''},
-        'bitclockers':{'shares': 0, 'name': 'bitclockers.com',
+        'bitclockers':{'shares': default_shares, 'name': 'bitclockers.com',
             'mine_address': 'pool.bitclockers.com:8332', 'user': bitclockers_user,
             'pass': bitclockers_pass, 'lag': False, 'LP': None,
             'api_address':'https://bitclockers.com/api'},
-       'eclipsemc':{'shares': 0, 'name': 'eclipsemc.com',
+       'eclipsemc':{'shares': default_shares, 'name': 'eclipsemc.com',
             'mine_address': 'pacrim.eclipsemc.com:8337', 'user': eclipsemc_user,
             'pass': eclipsemc_pass, 'lag': False, 'LP': None,
             'api_address':'https://eclipsemc.com/api.php?key='+ eclipsemc_apikey
              +'&action=poolstats'},
-   'miningmainframe':{'shares': 0, 'name': 'mining.mainframe.nl',
+        'miningmainframe':{'shares': default_shares, 'name': 'mining.mainframe.nl',
            'mine_address': 'mining.mainframe.nl:8343', 'user': miningmainframe_user,
            'pass': miningmainframe_pass, 'lag': False, 'LP': None,
-            'api_address':'http://mining.mainframe.nl/api'}
+            'api_address':'http://mining.mainframe.nl/api'},
+        'bitp':{'shares': default_shares, 'name': 'bitp.it',
+           'mine_address': 'pool.bitp.it:8334', 'user': bitp_user,
+           'pass': bitp_pass, 'lag': False, 'LP': None,
+            'api_address':'https://pool.bitp.it/api/pool'}
         }
 
 current_server = 'btcg'
@@ -218,13 +222,19 @@ def server_update():
     if servers[current_server]['shares'] > difficulty * .40:
         select_best_server()
         return
-
 def mmf_sharesResponse(response):
     global servers
     info = json.loads(response)
     round_shares = int(info['shares_this_round'])
     servers['miningmainframe']['shares'] = round_shares
     log_msg( 'mining.mainframe.nl :' + str(round_shares))
+
+def bitp_sharesResponse(response):
+    global servers
+    info = json.loads(response)
+    round_shares = int(info['shares'])
+    servers['bitp']['shares'] = round_shares
+    log_msg( 'pool.bitp.nl :' + str(round_shares))
 
 
 def eclipsemc_sharesResponse(response):
@@ -286,7 +296,8 @@ def selectsharesResponse(response, args):
         'bclc':bclc_sharesResponse,
         'btcg':btcguild_sharesResponse,
         'eclipsemc':eclipsemc_sharesResponse,
-        'miningmainframe':mmf_sharesResponse}
+        'miningmainframe':mmf_sharesResponse,
+        'bitp':bitp_sharesResponse}
     func_map[args](response)
     server_update()
 

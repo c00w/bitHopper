@@ -16,4 +16,7 @@ eclipsemc_pass = 'x'
 eclipsemc_apikey = 'bd0eded7e35b1b5fc48f8d10214d98'
 miningmainframe_user = 'c00w.1'
 miningmainframe_pass = 'x'  
+#pool.bitp.it
+bitp_user = '4bjibc3R1RGF9'
+bitp_pass= 'u5cpmndZq4Jvp'
 #REALLY
