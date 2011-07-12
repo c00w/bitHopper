@@ -281,7 +281,7 @@ def delag_server():
     for index in servers:
         server = servers[index]
         if server['lag'] == True:
-            data = yield work.jsonrpc_call(json_agent, server, set_lp)
+            data = yield work.jsonrpc_call(json_agent, server,[], set_lp)
             if data != None:
                 server['lag'] = False
     
