@@ -101,7 +101,7 @@ def jsonrpc_call(agent, server,data , set_lp):
     except Exception, e:
         print 'Caught, jsonrpc_call insides'
         print e
-        defer.returnValue(None)
+        defer.returnValue("error")
 
     try:
         message = json.loads(body)
@@ -120,7 +120,7 @@ def jsonrpc_getwork(agent, server, data, j_id, request, new_server, set_lp):
             print 'caught, first response/writing'
             print e
             work = None
-    i = 0
+    i = 1
     while work == None and data != []:
         i += 1
         if i > 3:
@@ -131,6 +131,7 @@ def jsonrpc_getwork(agent, server, data, j_id, request, new_server, set_lp):
         except Exception, e:
             print 'caught, inner jsonrpc_call loop'
             print e
+            work = None
             continue
 
     try:
