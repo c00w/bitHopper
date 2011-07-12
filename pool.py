@@ -68,7 +68,7 @@ servers = {
         'bitp':{'shares': default_shares, 'name': 'bitp.it',
            'mine_address': 'pool.bitp.it:8334', 'user': bitp_user,
            'pass': bitp_pass, 'lag': False, 'LP': None,
-            'api_address':'https://pool.bitp.it/api/pool'}
+            'api_address':'https://pool.bitp.it/api/pool', 'info':''}
         }
 
 current_server = 'btcg'
