@@ -132,8 +132,7 @@ def jsonrpc_getwork(agent, server, data, j_id, request, new_server, set_lp):
             continue
 
     try:
-        new_server(server)
-        response = json.dumps({"result":None,'error':{'message':"Server isn't responding"},'id':j_id})
+        response = json.dumps({"result":work,'error':None,'id':j_id})
         request.write(response)
         request.finish()
     except Exception, e:
