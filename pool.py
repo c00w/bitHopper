@@ -4,28 +4,20 @@
 #Based on a work at github.com.
 
 import json
-import time
-from jsonrpc import ServiceProxy
-import socket
-import os
-import base64
 import work
 import sys
 import exceptions
 import optparse
 
-from zope.interface import implements
-
 from twisted.web import server, resource
-from twisted.web.client import getPage, Agent
-from twisted.web.iweb import IBodyProducer
-from twisted.web.http_headers import Headers
-from twisted.internet import reactor, threads, defer
-from twisted.internet.defer import succeed, Deferred
+from client import Agent
+from _newclient import Request
+from twisted.internet import reactor, defer
+from twisted.internet.defer import Deferred
 from twisted.internet.task import LoopingCall
+from twisted.python import log, failure
+
 import urllib2
-from twisted.internet.protocol import Protocol
-from twisted.python import log
 
 from password import *
 
@@ -67,9 +59,10 @@ servers = {
 
 current_server = 'btcg'
 json_agent = Agent(reactor)
+lp_agent = Agent(reactor, persistent=True)
 new_server = Deferred()
 
-lp_set = True
+lp_set = False
 options = None
 
 def log_msg(msg):
@@ -89,12 +82,31 @@ def log_dbg(msg):
         return
     return
 
-def update_lp(body):
-    return
+@defer.inlineCallbacks
+def update_lp(response):
     global current_server
     log_msg("LP triggered from server " + str(current_server))
     global lp_set
     global new_server
+
+    finish = Deferred()
+    response.deliverBody(work.WorkProtocol(finish))
+    try:
+        body = yield finish
+    except ResponseFailed:
+        print 'Reading LP Response failed'
+        lp_set = False
+        return
+
+    try:
+        message = json.loads(body)
+        value =  message['result']
+        #defer.returnValue(value)
+    except exceptions.ValueError, e:
+        print "Error in json decoding, Probably not a real LP response"
+        print body
+        defer.returnValue(None)
+
     lp_set = False
     update_servers()
     current = current_server
@@ -102,10 +114,11 @@ def update_lp(body):
     if current == current_server:
         log_msg("LP triggering clients manually")
         new_server.callback(None)
-    return None
+        new_server = Deferred()
+        
+    defer.returnValue(None)
 
 def set_lp(url, check = False):
-    return
     global lp_set
     if check:
         return not lp_set
@@ -113,14 +126,14 @@ def set_lp(url, check = False):
     if lp_set:
         return
 
-    log.err('LP IS DISABLED BUT SOMEHOW IT JUST EXECUTED')
     global json_agent
     global servers
     global current_server
     server = servers[current_server]
-    log_msg("LP Call " + str(server['mine_address']) + str(url))
+    lp_address = str(server['mine_address']) + str(url)
+    log_msg("LP Call " + lp_address)
     lp_set = True
-    work.jsonrpc_lpcall(json_agent,server, url, update_lp)
+    work.jsonrpc_lpcall(json_agent,server, lp_address, update_lp)
 
 
 def select_best_server():
@@ -231,6 +244,7 @@ def bitclockers_sharesResponse(response):
 
 def errsharesResponse(error, args):
     log_msg('Error in pool api for ' + str(args))
+    log_msg(str(error))
     pool = args
     global servers
     servers[pool]['shares'] = 10**10
@@ -248,9 +262,10 @@ def selectsharesResponse(response, args):
 def update_servers():
     global servers
     for server in servers:
+        global json_agent
         if server is not 'eligius':
             info = servers[server]
-            d = getPage(info['api_address'])
+            d = work.get(json_agent,info['api_address'])
             d.addCallback(selectsharesResponse, (server))
             d.addErrback(errsharesResponse, (server))
             d.addErrback(log_msg)

@@ -4,7 +4,6 @@
 #Based on a work at github.com.
 
 import json
-from jsonrpc import ServiceProxy
 import socket
 import os
 import base64
@@ -13,13 +12,10 @@ import time
 
 from zope.interface import implements
 
-from twisted.web import server, resource
-from twisted.web.client import getPage, Agent
 from twisted.web.iweb import IBodyProducer
 from twisted.web.http_headers import Headers
 from twisted.internet import defer
 from twisted.internet.defer import succeed, Deferred
-from twisted.internet.task import LoopingCall
 from twisted.internet.protocol import Protocol
 
 i = 1
@@ -52,6 +48,8 @@ class WorkProtocol(Protocol):
     def connectionLost(self, reason):
         self.finished.callback(self.data)
 
+def print_error(x):
+    print x
 
 @defer.inlineCallbacks
 def jsonrpc_lpcall(agent,server, url, update):
@@ -61,14 +59,23 @@ def jsonrpc_lpcall(agent,server, url, update):
         i = i +1
         
         header = {'Authorization':["Basic " +base64.b64encode(server['user']+ ":" + server['pass'])], 'User-Agent': ['bitHopper'],'Content-Type': ['application/json'] }
-        d = agent.request('GET', "http://" + server['mine_address']+ url)
-        d.addErrback(lambda x: defer.returnValue(None))
+        d = agent.request('GET', "http://" + url, Headers(header), None)
+        d.addErrback(print_error)
         body = yield d
-        update(body)
+        d = update(body)
     except Exception, e:
         print 'Caught, jsonrpc_lpcall'
         print e
         defer.returnValue(None)
+
+@defer.inlineCallbacks
+def get(agent,url):
+    d = agent.request('GET', url, None, None)
+    response = yield d
+    finish = Deferred()
+    response.deliverBody(WorkProtocol(finish))
+    body = yield finish
+    defer.returnValue(body)
 
 @defer.inlineCallbacks
 def jsonrpc_call(agent, server,data , set_lp):
