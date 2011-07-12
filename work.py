@@ -56,7 +56,7 @@ def jsonrpc_lpcall(agent,server, url, update):
     i = i +1
     
     header = {'Authorization':["Basic " +base64.b64encode(server['user']+ ":" + server['pass'])], 'User-Agent': ['bitHopper'],'Content-Type': ['application/json'] }
-    d = agent.request('GET', "http://" + server['mine_address']+ url)
+    d = agent.request('GET', "http://" + url, Headers(header), None)
     d.addErrback(print_error)
     body = yield d
     d = update(body)

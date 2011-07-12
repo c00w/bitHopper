@@ -70,7 +70,8 @@ servers = {
         }
 
 current_server = 'btcg'
-json_agent = Agent(reactor, persistent=True)
+json_agent = Agent(reactor)
+lp_agent = Agent(reactor, persistent=True)
 new_server = Deferred()
 
 lp_set = False
@@ -97,12 +98,14 @@ def update_lp(response):
     try:
         body = yield finish
     except ResponseFailed:
+        print 'Reading LP Response failed'
+        lp_set = False
         return
 
     try:
         message = json.loads(body)
         value =  message['result']
-        defer.returnValue(value)
+        #defer.returnValue(value)
     except exceptions.ValueError, e:
         print "Error in json decoding, Probably not a real LP response"
         print body
@@ -112,10 +115,10 @@ def update_lp(response):
     update_servers()
     current = current_server
     select_best_server()
-    #if current == current_server:
-    #    log_msg("LP triggering clients manually")
-    #    new_server.callback(None)
-    #    new_server = Deferred()
+    if current == current_server:
+        log_msg("LP triggering clients manually")
+        new_server.callback(None)
+        new_server = Deferred()
         
     defer.returnValue(None)
 
@@ -131,9 +134,10 @@ def set_lp(url, check = False):
     global servers
     global current_server
     server = servers[current_server]
-    log_msg("LP Call " + str(server['mine_address']) + str(url))
+    lp_address = str(server['mine_address']) + str(url)
+    log_msg("LP Call " + lp_address)
     lp_set = True
-    work.jsonrpc_lpcall(json_agent,server, url, update_lp)
+    work.jsonrpc_lpcall(json_agent,server, lp_address, update_lp)
 
 
 def select_best_server():
