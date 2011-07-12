@@ -180,7 +180,7 @@ def select_best_server():
     if current_server != server_name:
         current_server = server_name
         lp_set = False
-        log_msg("LP Triggering clients on server change to " + str(current_server))
+        log_msg("Server change to " + str(current_server) + ", telling client with LP")
         new_server.callback(None)
         new_server = Deferred()
         
@@ -275,7 +275,7 @@ def update_servers():
 
 @defer.inlineCallbacks
 def delag_server():
-    log_msg( 'Trying to delag')
+    log_dbg('Running Delager')
     global servers
     global json_agent
     for index in servers:
@@ -306,7 +306,7 @@ def bitHopper_Post(request):
     data = rpc_request['params']
     j_id = rpc_request['id']
 
-    log_msg('RPC request ' + str(data) + " From " + str(pool_server['name']))
+    log_msg('RPC request ' + str(data) + " submitted to " + str(pool_server['name']))
     work.jsonrpc_getwork(json_agent, pool_server, data, j_id, request, get_new_server, set_lp)
 
     return server.NOT_DONE_YET
@@ -320,12 +320,12 @@ def bitHopperLP(value, *methodArgs):
         try:
             json_request = request.content.read()
         except Exception,e:
-            print 'reading request content failed'
+            log_dbg( 'reading request content failed')
             json_request = None
         try:
             rpc_request = json.loads(json_request)
         except Exception, e:
-            print 'Loading the request failed'
+            log_dbg('Loading the request failed')
             rpc_request = {'params':[],'id':1}
         #Check for data to be validated
         global servers
@@ -344,7 +344,7 @@ def bitHopperLP(value, *methodArgs):
         try:
             request.finish()
         except Exception, e:
-            print "Client already disconnected Urgh."
+            log_dbg( "Client already disconnected Urgh.")
 
     return None
 
@@ -394,7 +394,7 @@ def main():
     update_call = LoopingCall(update_servers)
     update_call.start(117)
     delag_call = LoopingCall(delag_server)
-    delag_call.start(132)
+    delag_call.start(30)
     reactor.run()
 
 if __name__ == "__main__":
