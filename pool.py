@@ -231,7 +231,7 @@ def eclipsemc_sharesResponse(response):
     global servers
     info = json.loads(response[:response.find('}')+1])
     round_shares = int(info['round_shares'])
-    servers['eclipsemc']['roundshares'] = round_shares
+    servers['eclipsemc']['shares'] = round_shares
     log_msg( 'eclipsemc :' + str(round_shares))
 
 
