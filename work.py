@@ -137,5 +137,4 @@ def jsonrpc_getwork(agent, server, data, j_id, request, new_server, set_lp):
         request.finish()
     except Exception, e:
         print 'caught, Final response/writing'
-        request.finish()
         print e
