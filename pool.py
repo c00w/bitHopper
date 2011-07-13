@@ -328,7 +328,7 @@ def delag_server():
     for index in servers:
         server = servers[index]
         if server['lag'] == True:
-            data = yield work.jsonrpc_call(json_agent, server,[], set_lp)
+            data = yield work.jsonrpc_call(json_agent, server,[], None)
             if data != None:
                 server['lag'] = False
     
@@ -461,7 +461,7 @@ def main():
     update_call = LoopingCall(update_servers)
     update_call.start(117)
     delag_call = LoopingCall(delag_server)
-    delag_call.start(30)
+    delag_call.start(119)
     reactor.run()
 
 if __name__ == "__main__":
