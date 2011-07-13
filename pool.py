@@ -103,14 +103,17 @@ def update_lp(response):
     global lp_set
     global new_server
 
-    finish = Deferred()
-    response.deliverBody(work.WorkProtocol(finish))
+    if response == None:
+        defer.returnValue(None)
+
     try:
+        finish = Deferred()
+        response.deliverBody(work.WorkProtocol(finish))
         body = yield finish
     except ResponseFailed:
         log_dbg('Reading LP Response failed')
         lp_set = True
-        return
+        defer.returnValue(None)
 
     try:
         message = json.loads(body)
