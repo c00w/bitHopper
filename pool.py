@@ -422,13 +422,33 @@ class bitSite(resource.Resource):
             return lpSite()
         return self
 
+def parse_server_disable(option, opt, value, parser):
+    setattr(parser.values, option.dest, value.split(','))
+    
+
 def main():
     global options
+    global servers
     parser = optparse.OptionParser(description='bitHopper')
     parser.add_option('--noLP', action = 'store_true' ,default=False, help='turns off client side longpolling')
     parser.add_option('--debug', action= 'store_true', default = False, help='Use twisted output')
+    parser.add_option('--list', action= 'store_true', default = False, help='List servers')
+    parser.add_option('--disable', type=str, default = None, action='callback', callback=parse_server_disable, help='Servers to disable. Get name from --list. Servera,Serverb,Serverc')
     args, rest = parser.parse_args()
     options = args
+    if options.list:
+        for k in servers:
+            print k
+        return
+    
+    if options.disable != None:
+        for k in options.disable:
+            if k in servers:
+                servers[k]['info'] = ''
+            else:
+                print k + " Not a valid server"
+            if k == 'eligius':
+                print "You just disabled the backup pool. I hope you know what you are doing"
 
     if options.debug: log.startLogging(sys.stdout)
     site = server.Site(bitSite())
