@@ -154,8 +154,11 @@ def set_lp(url, check = False):
         lp_address = str(url)
     log_msg("LP Call " + lp_address)
     lp_set = True
-    work.jsonrpc_lpcall(json_agent,server, lp_address, update_lp)
-
+    try:
+        work.jsonrpc_lpcall(json_agent,server, lp_address, update_lp)
+    except Exception,e :
+        log_dbg('set_lp error')
+        log_dbg(e)
 
 def select_best_server():
     """selects the best server for pool hopping. If there is not good server it returns eligious"""
