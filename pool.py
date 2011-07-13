@@ -75,7 +75,7 @@ current_server = 'btcg'
 json_agent = Agent(reactor)
 lp_agent = Agent(reactor, persistent=True)
 new_server = Deferred()
-
+stats_file = None
 lp_set = False
 options = None
 
@@ -160,6 +160,12 @@ def set_lp(url, check = False):
         log_dbg('set_lp error')
         log_dbg(e)
 
+def stats_dump(server):
+    global stats_file
+    global difficulty
+    if stats_file != None:
+        stats_file.write(server['name'] + " " + str(server['user_shares']) + " " + str(difficulty) + "\n")
+
 def select_best_server():
     """selects the best server for pool hopping. If there is not good server it returns eligious"""
     global servers
@@ -198,6 +204,7 @@ def select_best_server():
     global lp_set
 
     if current_server != server_name:
+        stats_dump(current_server)
         current_server = server_name
         lp_set = False
         log_msg("Server change to " + str(current_server) + ", telling client with LP")
@@ -230,19 +237,20 @@ def server_update():
     if servers[current_server]['shares'] > difficulty * .40:
         select_best_server()
         return
+
 def mmf_sharesResponse(response):
     global servers
     info = json.loads(response)
     round_shares = int(info['shares_this_round'])
     servers['miningmainframe']['shares'] = round_shares
-    log_dbg( 'mining.mainframe.nl :' + str(round_shares))
+    log_msg( 'mining.mainframe.nl :' + str(round_shares))
 
 def bitp_sharesResponse(response):
     global servers
     info = json.loads(response)
     round_shares = int(info['shares'])
     servers['bitp']['shares'] = round_shares
-    log_dbg( 'pool.bitp.nl :' + str(round_shares))
+    log_msg( 'pool.bitp.nl :' + str(round_shares))
 
 
 def eclipsemc_sharesResponse(response):
@@ -250,7 +258,7 @@ def eclipsemc_sharesResponse(response):
     info = json.loads(response[:response.find('}')+1])
     round_shares = int(info['round_shares'])
     servers['eclipsemc']['shares'] = round_shares
-    log_dbg( 'eclipsemc :' + str(round_shares))
+    log_msg( 'eclipsemc :' + str(round_shares))
 
 
 def btcguild_sharesResponse(response):
@@ -258,21 +266,21 @@ def btcguild_sharesResponse(response):
     info = json.loads(response)
     round_shares = int(info['round_shares'])
     servers['btcg']['shares'] = round_shares
-    log_dbg( 'btcguild :' + str(round_shares))
+    log_msg( 'btcguild :' + str(round_shares))
 
 def bclc_sharesResponse(response):
     global servers
     info = json.loads(response)
     round_shares = int(info['round_shares'])
     servers['bclc']['shares'] = round_shares
-    log_dbg( 'bitcoin.lc :' + str(round_shares))
+    log_msg( 'bitcoin.lc :' + str(round_shares))
     
 def mtred_sharesResponse(response):
     global servers
     info = json.loads(response)
     round_shares = int(info['server']['roundshares'])
     servers['mtred']['shares'] = round_shares
-    log_dbg('mtred :' + str(round_shares))
+    log_msg('mtred :' + str(round_shares))
 
 
 def mineco_sharesResponse(response):
@@ -280,14 +288,14 @@ def mineco_sharesResponse(response):
     info = json.loads(response)
     round_shares = int(info['shares_this_round'])
     servers['mineco']['shares'] = round_shares
-    log_dbg( 'mineco :' + str(round_shares))
+    log_msg( 'mineco :' + str(round_shares))
 
 def bitclockers_sharesResponse(response):
     global servers
     info = json.loads(response)
     round_shares = int(info['roundshares'])
     servers['bitclockers']['shares'] = round_shares
-    log_dbg( 'bitclockers :' + str(round_shares))
+    log_msg( 'bitclockers :' + str(round_shares))
 
 def errsharesResponse(error, args):
     log_msg('Error in pool api for ' + str(args))
@@ -352,6 +360,8 @@ def bitHopper_Post(request):
     
     data = rpc_request['params']
     j_id = rpc_request['id']
+    if data != []:
+        pool_server['user_shares'] +=1
 
     log_msg('RPC request ' + str(data) + " submitted to " + str(pool_server['name']))
     work.jsonrpc_getwork(json_agent, pool_server, data, j_id, request, get_new_server, set_lp)
@@ -439,6 +449,7 @@ def main():
     parser.add_option('--debug', action= 'store_true', default = False, help='Use twisted output')
     parser.add_option('--list', action= 'store_true', default = False, help='List servers')
     parser.add_option('--disable', type=str, default = None, action='callback', callback=parse_server_disable, help='Servers to disable. Get name from --list. Servera,Serverb,Serverc')
+    parser.add_option('--statsdump', type=str, default = None, help='dump stats to filename')
     args, rest = parser.parse_args()
     options = args
     if options.list:
@@ -446,6 +457,18 @@ def main():
             print k
         return
     
+    for k in servers:
+        servers[k]['user_shares'] = 0
+
+    global stats_file
+    if options.statsdump != None:
+        try:
+            f = open(options.stats,'ab')
+        except Exception, e:
+            print 'Error opening file bad --statsdump option'
+            print e
+        stats_file = f
+
     if options.disable != None:
         for k in options.disable:
             if k in servers:
