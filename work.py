@@ -97,7 +97,7 @@ def jsonrpc_call(agent, server,data , set_lp):
     except Exception, e:
         print 'Caught, jsonrpc_call insides'
         print e
-        defer.returnValue("error")
+        defer.returnValue(None)
 
     try:
         message = json.loads(body)
