@@ -131,7 +131,7 @@ def update_lp(response):
     if current == current_server:
         lp_set = False      
         log_msg("LP triggering clients manually")
-        new_server.callback(None)
+        reactor.callLater(1,new_server.callback(None))
         new_server = Deferred()
         
     defer.returnValue(None)
@@ -208,7 +208,7 @@ def select_best_server():
         current_server = server_name
         lp_set = False
         log_msg("Server change to " + str(current_server) + ", telling client with LP")
-        new_server.callback(None)
+        reactor.callLater(1,new_server.callback(None))
         new_server = Deferred()
         
     return
