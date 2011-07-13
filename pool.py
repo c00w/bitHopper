@@ -209,6 +209,8 @@ def select_best_server():
 def get_new_server(server):
     global servers
     global current_server
+    if server != servers[current_server]:
+        return servers[current_server]
     servers[current_server]['lag'] = True
     select_best_server()
     return servers[current_server]

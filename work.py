@@ -116,8 +116,10 @@ def jsonrpc_getwork(agent, server, data, j_id, request, new_server, set_lp):
             print 'caught, first response/writing'
             print e
             work = None
+    i = 0
     while work == None:
-        new_server(server)
+        if i > 3:
+            server = new_server(server)
         try:
             time.sleep(0.2)
             work = yield jsonrpc_call(agent, server,data,set_lp)
