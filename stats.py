@@ -7,4 +7,4 @@ import pool
 
 def stats_dump(server, stats_file):
     if stats_file != None:
-        stats_file.write(pool.get_current()['name'] + " " + str(pool.get_current()['user_shares']) + " " + str(diff.difficulty) + "\n")
+        stats_file.write(pool.get_entry(pool.get_current())['name'] + " " + str(pool.get_entry(pool.get_current())['user_shares']) + " " + str(diff.difficulty) + "\n")
