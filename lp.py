@@ -4,6 +4,7 @@
 
 import bitHopper
 import pool
+import work
 
 from twisted.internet import reactor, defer
 
