@@ -11,7 +11,8 @@ ars_pass = 'fire'
 #mtred.com
 mtred_user = 'scarium'
 mtred_pass = 'x'
-mtred_user_apikey
+mtred_user_apikey = 'd91c52cfe1609f161f28a1268a2915b8'
+
 #eligius. Just needs a valid address on where to send money
 eligius_address = '1AofHmwVef5QkamCW6KqiD4cRqEcq5U7hZ'
 
