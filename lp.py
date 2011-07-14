@@ -5,6 +5,8 @@
 import bitHopper
 import pool
 import work
+import json
+import exceptions
 
 from twisted.internet import reactor, defer
 
@@ -37,13 +39,13 @@ def update_lp(response):
         bitHopper.log_dbg(body)
         defer.returnValue(None)
 
-    update_servers()
+    pool.update_servers()
     current = bitHopper.get_server()
-    select_best_server()
+    pool.select_best_server()
     if current == bitHopper.get_server():
-        bitHopper.log_msg("LP triggering clients manually")
-        reactor.callLater(1,new_server.callback,None)
-        new_server = Deferred()
+        bitHopper.log_dbg("LP triggering clients manually")
+        reactor.callLater(1,bitHopper.new_server.callback,None)
+        bitHopper.new_server = Deferred()
         lp_set = False 
         
     defer.returnValue(None)
