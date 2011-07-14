@@ -87,21 +87,21 @@ def ozco_sharesResponse(response):
     info = json.loads(response)
     round_shares = int(info['shares'])
     servers['ozco']['shares'] = round_shares
-    bitHopper.log_msg('ozco.in:' + str(round_shares))
+    bitHopper.log_msg('ozco.in:' + str('{:,d}'.format(round_shares)))
 
 def mmf_sharesResponse(response):
     global servers
     info = json.loads(response)
     round_shares = int(info['shares_this_round'])
     servers['miningmainframe']['shares'] = round_shares
-    bitHopper.log_msg( 'mining.mainframe.nl :' + str(round_shares))
+    bitHopper.log_msg( 'mining.mainframe.nl :' + str('{:,d}'.format(round_shares)))
 
 def bitp_sharesResponse(response):
     global servers
     info = json.loads(response)
     round_shares = int(info['shares'])
     servers['bitp']['shares'] = round_shares
-    bitHopper.log_msg( 'pool.bitp.it :' + str(round_shares))
+    bitHopper.log_msg( 'pool.bitp.it :' + str('{:,d}'.format(round_shares)))
 
 
 def eclipsemc_sharesResponse(response):
@@ -109,7 +109,7 @@ def eclipsemc_sharesResponse(response):
     info = json.loads(response[:response.find('}')+1])
     round_shares = int(info['round_shares'])
     servers['eclipsemc']['shares'] = round_shares
-    bitHopper.log_msg( 'eclipsemc :' + str(round_shares))
+    bitHopper.log_msg( 'eclipsemc :' + str('{:,d}'.format(round_shares)))
 
 
 def btcguild_sharesResponse(response):
@@ -117,35 +117,35 @@ def btcguild_sharesResponse(response):
     info = json.loads(response)
     round_shares = int(info['round_shares'])
     servers['btcg']['shares'] = round_shares
-    bitHopper.log_msg( 'btcguild :' + str(round_shares))
+    bitHopper.log_msg( 'btcguild :' + str('{:,d}'.format(round_shares)))
 
 def bclc_sharesResponse(response):
     global servers
     info = json.loads(response)
     round_shares = int(info['round_shares'])
     servers['bclc']['shares'] = round_shares
-    bitHopper.log_msg( 'bitcoin.lc :' + str(round_shares))
+    bitHopper.log_msg( 'bitcoin.lc :' + str('{:,d}'.format(round_shares)))
     
 def mtred_sharesResponse(response):
     global servers
     info = json.loads(response)
     round_shares = int(info['server']['roundshares'])
     servers['mtred']['shares'] = round_shares
-    bitHopper.log_msg('mtred :' + str(round_shares))
+    bitHopper.log_msg('mtred :' + str('{:,d}'.format(round_shares)))
 
 def mineco_sharesResponse(response):
     global servers
     info = json.loads(response)
     round_shares = int(info['shares_this_round'])
     servers['mineco']['shares'] = round_shares
-    bitHopper.log_msg( 'mineco :' + str(round_shares))
+    bitHopper.log_msg( 'mineco :' + str('{:,d}'.format(round_shares)))
 
 def bitclockers_sharesResponse(response):
     global servers
     info = json.loads(response)
     round_shares = int(info['roundshares'])
     servers['bitclockers']['shares'] = round_shares
-    bitHopper.log_msg( 'bitclockers :' + str(round_shares))
+    bitHopper.log_msg( 'bitclockers :' + str('{:,d}'.format(round_shares)))
 
 def errsharesResponse(error, args):
     bitHopper.log_msg('Error in pool api for ' + str(args))
