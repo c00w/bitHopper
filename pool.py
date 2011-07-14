@@ -301,7 +301,7 @@ def bitclockers_sharesResponse(response):
 
 def errsharesResponse(error, args):
     log_msg('Error in pool api for ' + str(args))
-    log_msg(str(error))
+    log_dbg(str(error))
     pool = args
     global servers
     servers[pool]['shares'] = 10**10
