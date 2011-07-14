@@ -15,7 +15,6 @@ lp_set = False
 def update_lp(response):
     bitHopper.log_msg("LP triggered from server " + bitHopper.get_server())
     global lp_set
-    global new_server
 
     if response == None:
         defer.returnValue(None)
@@ -25,7 +24,7 @@ def update_lp(response):
         response.deliverBody(work.WorkProtocol(finish))
         body = yield finish
     except Exception, e:
-        bitHopper.log_dbg('Reading LP Response failed')
+        bitHopper.log_msg('Reading LP Response failed')
         lp_set = True
         defer.returnValue(None)
 
@@ -34,18 +33,17 @@ def update_lp(response):
         value =  message['result']
         #defer.returnValue(value)
     except exceptions.ValueError, e:
-        bitHopper.log_dbg("Error in json decoding, Probably not a real LP response")
+        bitHopper.log_msg("Error in json decoding, Probably not a real LP response")
         lp_set = True
         bitHopper.log_dbg(body)
         defer.returnValue(None)
 
     pool.update_servers()
     current = bitHopper.get_server()
-    pool.select_best_server()
+    bitHopper.select_best_server()
     if current == bitHopper.get_server():
         bitHopper.log_dbg("LP triggering clients manually")
-        reactor.callLater(1,bitHopper.new_server.callback,None)
-        bitHopper.new_server = Deferred()
+        bitHopper.lp_callback()
         lp_set = False 
         
     defer.returnValue(None)

@@ -30,6 +30,11 @@ new_server = Deferred()
 stats_file = None
 options = None
 
+def lp_callback():
+    global new_server
+    reactor.callLater(0.1,new_server.callback,None)
+    new_server = Deferred()
+
 def get_json_agent():
     global json_agent
     return json_agent
@@ -113,8 +118,7 @@ def select_best_server():
         stats_dump(pool.get_current(), stats_file)
         pool.set_current(server_name)
         log_msg("Server change to " + str(pool.get_current()) + ", telling client with LP")
-        reactor.callLater(1,new_server.callback, None)
-        new_server = Deferred()        
+        bitHopper.lp_callback()      
         lp.clear_lp()
         
     return
