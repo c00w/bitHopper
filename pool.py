@@ -87,7 +87,7 @@ def bitp_sharesResponse(response):
     info = json.loads(response)
     round_shares = int(info['shares'])
     servers['bitp']['shares'] = round_shares
-    bitHopper.log_msg( 'pool.bitp.nl :' + str(round_shares))
+    bitHopper.log_msg( 'pool.bitp.it :' + str(round_shares))
 
 
 def eclipsemc_sharesResponse(response):
