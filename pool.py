@@ -14,7 +14,7 @@ servers = {
         'bclc':{'shares':default_shares, 'name':'bitcoins.lc', 
             'mine_address':'bitcoins.lc:8080', 'user':bclc_user, 'pass':bclc_pass, 
             'lag':False, 'LP':None, 
-            'api_address':'https://www.bitcoins.lc/stats.json', 'role':'mine' },
+            'api_address':'https://www.bitcoins.lc/stats.json', 'role':'info' },
         'mtred':{'shares':default_shares, 'name':'mtred',  
             'mine_address':'mtred.com:8337', 'user':mtred_user, 'pass':mtred_pass, 
             'lag':False, 'LP':None,

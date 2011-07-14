@@ -6,9 +6,7 @@
 ars_user = 'c00w.default'
 ars_pass = 'fire'
 
-#bitcoins.lc
-bclc_user  = "FSkyvM"
-bclc_pass = "xndzEU"
+
 
 #mtred.com
 mtred_user = 'scarium'
@@ -34,6 +32,11 @@ bitp_user_apikey = '80c5dbea750563eb24e5310f94a56b38bad14dc35efb41e9ca421c92f315
 
 #These passswords are not currently used.
 #So if you have them replace them with your own. Otherwise don't worry
+
+#bitcoins.lc
+#They ban poolhoppers.
+bclc_user  = "FSkyvM"
+bclc_pass = "xndzEU"
 
 mineco_user = 'c00w.test'
 mineco_pass = 'x'
