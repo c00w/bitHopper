@@ -127,19 +127,22 @@ def get_new_server(server):
     return pool.get_entry(pool.get_current())
 
 def server_update():
-    min_shares = 10**10
-    if pool.get_entry(pool.get_current())['shares'] > diff.difficulty * .10:
-        for server in pool.get_servers():
-            if pool.get_entry(server)['shares'] < min_shares:
-                min_shares = pool.get_entry(server)['shares']
-
-        if min_shares < pool.get_entry(pool.get_current())['shares']*.90:
-            select_best_server()
-            return
 
     if pool.get_entry(pool.get_current())['shares'] > diff.difficulty * .40:
         select_best_server()
         return
+
+    min_shares = 10**10
+
+    for server in pool.get_servers():
+        if pool.get_entry(server)['shares'] < min_shares:
+            min_shares = pool.get_entry(server)['shares']
+
+    if min_shares < pool.get_entry(pool.get_current())['shares']*.90:
+        select_best_server()
+        return
+
+
 
 @defer.inlineCallbacks
 def delag_server():
