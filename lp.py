@@ -68,7 +68,7 @@ def set_lp(url, check = False):
     bitHopper.log_msg("LP Call " + lp_address)
     lp_set = True
     try:
-        work.jsonrpc_lpcall(bitHopper.get_json_agent(),server, lp_address, update_lp)
+        work.jsonrpc_lpcall(bitHopper.get_lp_agent(),server, lp_address, update_lp)
     except Exception,e :
         bitHopper.log_dbg('set_lp error')
         bitHopper.log_dbg(e)

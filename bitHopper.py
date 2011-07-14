@@ -39,6 +39,10 @@ def get_json_agent():
     global json_agent
     return json_agent
 
+def get_lp_agent():
+    global lp_agent
+    return lp_agent
+
 def get_options():
     global options
     return options

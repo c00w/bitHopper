@@ -86,10 +86,10 @@ def jsonrpc_call(agent, server, data , set_lp):
         response = yield d
         header = response.headers
         #Check for long polling header
-        if set_lp != None and set_lp(None, True):
+        if lp.set_lp(None, True):
             for k,v in header.getAllRawHeaders():
                 if k.lower() == 'x-long-polling':
-                    set_lp(v[0])
+                    lp.set_lp(v[0])
                     break
 
         finish = Deferred()
