@@ -163,6 +163,8 @@ def set_lp(url, check = False):
 def stats_dump(server):
     global stats_file
     global difficulty
+    global servers
+    server = servers[server]
     if stats_file != None:
         stats_file.write(server['name'] + " " + str(server['user_shares']) + " " + str(difficulty) + "\n")
 
