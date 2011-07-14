@@ -71,27 +71,38 @@ def select_best_server():
     
     for server in pool.get_servers():
         info = pool.get_entry(server)
-        if 'info' in info:
+        if info['role'] != 'mine':
             continue
         if info['shares']< min_shares and info['lag'] == False:
             min_shares = info['shares']
             server_name = server
 
-    if server_name == None  and pool.get_entry('eligius')['lag'] == False:
-        server_name = 'eligius'
+    if server_name == None:
+        for server in pool.get_servers():
+            info = pool.get_entry(server)
+            if info['role'] != 'backup':
+                continue
+            if info['lag'] == False:
+                server_name = server
+                break
 
-    elif server_name == None:
+    if server_name == None:
         min_shares = 10**10
         for server in pool.get_servers():
             info = pool.get_entry(server)
-            if 'info' in info:
+            if info['role'] != 'mine':
                 continue
             if info['shares']< min_shares and info['lag'] == False:
                 min_shares = info['shares']
                 server_name = server
 
     if server_name == None:
-        server_name = 'eligius'
+        for server in pool.get_servers():
+            info = pool.get_entry(server)
+            if info['role'] != 'backup':
+                continue
+            server_name = server
+            break
 
     global new_server
 
@@ -266,7 +277,7 @@ def main():
     if options.disable != None:
         for k in options.disable:
             if k in pool.get_servers():
-                pool.get_servers()[k]['info'] = ''
+                pool.get_servers()[k]['role'] = 'disable'
             else:
                 print k + " Not a valid server"
             if k == 'eligius':
