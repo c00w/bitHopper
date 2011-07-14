@@ -1,4 +1,3 @@
-#!/bin/python2.7
 #License#
 #bitHopper by Colin Rice is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
@@ -9,6 +8,8 @@ import os
 import base64
 import exceptions
 import time
+
+from bitHopper import *
 
 from zope.interface import implements
 
@@ -74,7 +75,7 @@ def get(agent,url):
     defer.returnValue(body)
 
 @defer.inlineCallbacks
-def jsonrpc_call(agent, server,data , set_lp):
+def jsonrpc_call(agent, server, data , set_lp):
     global i
     try:
         request = json.dumps({'method':'getwork', 'params':data, 'id':i}, ensure_ascii = True)

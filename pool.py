@@ -1,34 +1,12 @@
-#!/bin/env python
 #License#
 #bitHopper by Colin Rice is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-import json
 import work
-import sys
-import exceptions
-import optparse
-import time
-
-from twisted.web import server, resource
-from client import Agent
-from _newclient import Request
-from twisted.internet import reactor, defer
-from twisted.internet.defer import Deferred
-from twisted.internet.task import LoopingCall
-from twisted.python import log, failure
-
-import urllib2
-
+import json
 from password import *
-
-def get_difficulty():
-    req = urllib2.Request('http://blockexplorer.com/q/getdifficulty')
-    response = urllib2.urlopen(req)
-    diff_string = response.read()
-    return float(diff_string)
-
-difficulty = get_difficulty()
+import bitHopper
+from diff import difficulty
 
 default_shares = difficulty
 
@@ -72,187 +50,39 @@ servers = {
         }
 
 current_server = 'btcg'
-json_agent = Agent(reactor)
-lp_agent = Agent(reactor, persistent=True)
-new_server = Deferred()
-stats_file = None
-lp_set = False
-options = None
 
-def log_msg(msg):
-    if options == None:
-        print time.strftime("[%H:%M:%S] ") +str(msg)
-        return
-    if options.debug == True:
-        log.msg(msg)
-        return
-    print time.strftime("[%H:%M:%S] ") +str(msg)
-
-def log_dbg(msg):
-    if options == None:
-        return
-    if options.debug == True:
-        log.err(msg)
-        return
-    return
-
-@defer.inlineCallbacks
-def update_lp(response):
-    global current_server
-    log_msg("LP triggered from server " + str(current_server))
-    global lp_set
-    global new_server
-
-    if response == None:
-        defer.returnValue(None)
-
-    try:
-        finish = Deferred()
-        response.deliverBody(work.WorkProtocol(finish))
-        body = yield finish
-    except ResponseFailed:
-        log_dbg('Reading LP Response failed')
-        lp_set = True
-        defer.returnValue(None)
-
-    try:
-        message = json.loads(body)
-        value =  message['result']
-        #defer.returnValue(value)
-    except exceptions.ValueError, e:
-        log_dbg("Error in json decoding, Probably not a real LP response")
-        lp_set = True
-        log_dbg(body)
-        defer.returnValue(None)
-
-    update_servers()
-    current = current_server
-    select_best_server()
-    if current == current_server:
-        log_msg("LP triggering clients manually")
-        reactor.callLater(1,new_server.callback,None)
-        new_server = Deferred()
-        lp_set = False 
-        
-    defer.returnValue(None)
-
-def set_lp(url, check = False):
-    global lp_set
-    if check:
-        return not lp_set
-
-    if lp_set:
-        return
-
-    global json_agent
+def get_entry(server):
     global servers
-    global current_server
-    server = servers[current_server]
-    if url[0] == '/':
-        lp_address = str(server['mine_address']) + str(url)
+    if server in servers:
+        return servers[server]
     else:
-        lp_address = str(url)
-    log_msg("LP Call " + lp_address)
-    lp_set = True
-    try:
-        work.jsonrpc_lpcall(json_agent,server, lp_address, update_lp)
-    except Exception,e :
-        log_dbg('set_lp error')
-        log_dbg(e)
+        return None
 
-def stats_dump(server):
-    global stats_file
-    global difficulty
+def get_servers():
     global servers
-    server = servers[server]
-    if stats_file != None:
-        stats_file.write(server['name'] + " " + str(server['user_shares']) + " " + str(difficulty) + "\n")
+    return servers
 
-def select_best_server():
-    """selects the best server for pool hopping. If there is not good server it returns eligious"""
-    global servers
-    global access
+def get_current():
     global current_server
-    global difficulty
-    server_name = None
+    return current_server
 
-    min_shares = difficulty*.40
-    
-    for server in servers:
-        info = servers[server]
-        if 'info' in info:
-            continue
-        if info['shares']< min_shares and info['lag'] == False:
-            min_shares = servers[server]['shares']
-            server_name = server
-
-    if server_name == None  and servers['eligius']['lag'] == False:
-        server_name = 'eligius'
-
-    elif server_name == None:
-        min_shares = 10**10
-        for server in servers:
-            info = servers[server]
-            if 'info' in info:
-                continue
-            if info['shares']< min_shares and info['lag'] == False:
-                min_shares = servers[server]['shares']
-                server_name = server
-
-    if server_name == None:
-        server_name = 'eligius'
-
-    global new_server
-    global lp_set
-
-    if current_server != server_name:
-        stats_dump(current_server)
-        current_server = server_name
-        log_msg("Server change to " + str(current_server) + ", telling client with LP")
-        reactor.callLater(1,new_server.callback, None)
-        new_server = Deferred()        
-        lp_set = False
-        
-    return
-
-def get_new_server(server):
-    global servers
+def set_current(server):
     global current_server
-    if server != servers[current_server]:
-        return servers[current_server]
-    servers[current_server]['lag'] = True
-    select_best_server()
-    return servers[current_server]
-
-def server_update():
-    global servers
-    min_shares = 10**10
-    if servers[current_server]['shares'] > difficulty * .10:
-        for server in servers:
-            if servers[server]['shares'] < min_shares:
-                min_shares = servers[server]['shares']
-
-        if min_shares < servers[current_server]['shares']/2:
-            select_best_server()
-            return
-
-    if servers[current_server]['shares'] > difficulty * .40:
-        select_best_server()
-        return
+    current_server = server
 
 def mmf_sharesResponse(response):
     global servers
     info = json.loads(response)
     round_shares = int(info['shares_this_round'])
     servers['miningmainframe']['shares'] = round_shares
-    log_msg( 'mining.mainframe.nl :' + str(round_shares))
+    bitHopper.log_msg( 'mining.mainframe.nl :' + str(round_shares))
 
 def bitp_sharesResponse(response):
     global servers
     info = json.loads(response)
     round_shares = int(info['shares'])
     servers['bitp']['shares'] = round_shares
-    log_msg( 'pool.bitp.nl :' + str(round_shares))
+    bitHopper.log_msg( 'pool.bitp.nl :' + str(round_shares))
 
 
 def eclipsemc_sharesResponse(response):
@@ -260,7 +90,7 @@ def eclipsemc_sharesResponse(response):
     info = json.loads(response[:response.find('}')+1])
     round_shares = int(info['round_shares'])
     servers['eclipsemc']['shares'] = round_shares
-    log_msg( 'eclipsemc :' + str(round_shares))
+    bitHopper.log_msg( 'eclipsemc :' + str(round_shares))
 
 
 def btcguild_sharesResponse(response):
@@ -268,46 +98,45 @@ def btcguild_sharesResponse(response):
     info = json.loads(response)
     round_shares = int(info['round_shares'])
     servers['btcg']['shares'] = round_shares
-    log_msg( 'btcguild :' + str(round_shares))
+    bitHopper.log_msg( 'btcguild :' + str(round_shares))
 
 def bclc_sharesResponse(response):
     global servers
     info = json.loads(response)
     round_shares = int(info['round_shares'])
     servers['bclc']['shares'] = round_shares
-    log_msg( 'bitcoin.lc :' + str(round_shares))
+    bitHopper.log_msg( 'bitcoin.lc :' + str(round_shares))
     
 def mtred_sharesResponse(response):
     global servers
     info = json.loads(response)
     round_shares = int(info['server']['roundshares'])
     servers['mtred']['shares'] = round_shares
-    log_msg('mtred :' + str(round_shares))
-
+    bitHopper.log_msg('mtred :' + str(round_shares))
 
 def mineco_sharesResponse(response):
     global servers
     info = json.loads(response)
     round_shares = int(info['shares_this_round'])
     servers['mineco']['shares'] = round_shares
-    log_msg( 'mineco :' + str(round_shares))
+    bitHopper.log_msg( 'mineco :' + str(round_shares))
 
 def bitclockers_sharesResponse(response):
     global servers
     info = json.loads(response)
     round_shares = int(info['roundshares'])
     servers['bitclockers']['shares'] = round_shares
-    log_msg( 'bitclockers :' + str(round_shares))
+    bitHopper.log_msg( 'bitclockers :' + str(round_shares))
 
 def errsharesResponse(error, args):
-    log_msg('Error in pool api for ' + str(args))
-    log_dbg(str(error))
+    bitHopper.log_msg('Error in pool api for ' + str(args))
+    bitHopper.log_dbg(str(error))
     pool = args
     global servers
     servers[pool]['shares'] = 10**10
 
 def selectsharesResponse(response, args):
-    #log_dbg('Calling sharesResponse for '+ args)
+    #bitHopper.log_dbg('Calling sharesResponse for '+ args)
     func_map= {'bitclockers':bitclockers_sharesResponse,
         'mineco':mineco_sharesResponse,
         'mtred':mtred_sharesResponse,
@@ -317,179 +146,14 @@ def selectsharesResponse(response, args):
         'miningmainframe':mmf_sharesResponse,
         'bitp':bitp_sharesResponse}
     func_map[args](response)
-    server_update()
+    bitHopper.server_update()
 
-def update_servers():
+def update_api_servers():
     global servers
     for server in servers:
-        global json_agent
         if server is not 'eligius':
             info = servers[server]
-            d = work.get(json_agent,info['api_address'])
+            d = work.get(bitHopper.json_agent,info['api_address'])
             d.addCallback(selectsharesResponse, (server))
             d.addErrback(errsharesResponse, (server))
-            d.addErrback(log_msg)
-
-@defer.inlineCallbacks
-def delag_server():
-    log_dbg('Running Delager')
-    global servers
-    global json_agent
-    for index in servers:
-        server = servers[index]
-        if server['lag'] == True:
-            data = yield work.jsonrpc_call(json_agent, server,[], None)
-            if data != None:
-                server['lag'] = False
-    
-
-def bitHopper_Post(request):
-   
-    global options
-    if not options.noLP:
-        request.setHeader('X-Long-Polling', '/LP')
-    rpc_request = json.loads(request.content.read())
-    #check if they are sending a valid message
-    if rpc_request['method'] != "getwork":
-        return json.dumps({'result':None, 'error':'Not supported', 'id':rpc_request['id']})
-
-
-    #Check for data to be validated
-    global servers
-    global current_server
-    global json_agent
-    pool_server=servers[current_server]
-    
-    data = rpc_request['params']
-    j_id = rpc_request['id']
-    if data != []:
-        pool_server['user_shares'] +=1
-
-    log_msg('RPC request ' + str(data) + " submitted to " + str(pool_server['name']))
-    work.jsonrpc_getwork(json_agent, pool_server, data, j_id, request, get_new_server, set_lp)
-
-    return server.NOT_DONE_YET
-
-def bitHopperLP(value, *methodArgs):
-    try:
-        log_msg('LP triggered serving miner')
-        request = methodArgs[0]
-        #Duplicated from above because its a little less of a hack
-        #But apparently people expect well formed json-rpc back but won't actually make the call 
-        try:
-            json_request = request.content.read()
-        except Exception,e:
-            log_dbg( 'reading request content failed')
-            json_request = None
-        try:
-            rpc_request = json.loads(json_request)
-        except Exception, e:
-            log_dbg('Loading the request failed')
-            rpc_request = {'params':[],'id':1}
-        #Check for data to be validated
-        global servers
-        global current_server
-        global json_agent
-        pool_server=servers[current_server]
-        
-        data = rpc_request['params']
-        j_id = rpc_request['id']
-
-        work.jsonrpc_getwork(json_agent, pool_server, data, j_id, request, get_new_server, set_lp)
-
-    except Exception, e:
-        log_msg('Error Caught in bitHopperLP')
-        log_dbg(str(e))
-        try:
-            request.finish()
-        except Exception, e:
-            log_dbg( "Client already disconnected Urgh.")
-
-    return None
-
-class lpSite(resource.Resource):
-    isLeaf = True
-    def render_GET(self, request):
-        global new_server
-        new_server.addCallback(bitHopperLP, (request))
-        return server.NOT_DONE_YET
-
-    def render_POST(self, request):
-        global new_server
-        new_server.addCallback(bitHopperLP, (request))
-        return server.NOT_DONE_YET
-
-
-    def getChild(self,name,request):
-        return self
-
-class bitSite(resource.Resource):
-    isLeaf = True
-    def render_GET(self, request):
-        global new_server
-        new_server.addCallback(bitHopperLP, (request))
-        return server.NOT_DONE_YET
-
-    def render_POST(self, request):
-        return bitHopper_Post(request)
-
-
-    def getChild(self,name,request):
-        if name == 'LP':
-            return lpSite()
-        return self
-
-def parse_server_disable(option, opt, value, parser):
-    setattr(parser.values, option.dest, value.split(','))
-    
-
-def main():
-    global options
-    global servers
-    parser = optparse.OptionParser(description='bitHopper')
-    parser.add_option('--noLP', action = 'store_true' ,default=False, help='turns off client side longpolling')
-    parser.add_option('--debug', action= 'store_true', default = False, help='Use twisted output')
-    parser.add_option('--list', action= 'store_true', default = False, help='List servers')
-    parser.add_option('--disable', type=str, default = None, action='callback', callback=parse_server_disable, help='Servers to disable. Get name from --list. Servera,Serverb,Serverc')
-    parser.add_option('--statsdump', type=str, default = None, help='dump stats to filename')
-    args, rest = parser.parse_args()
-    options = args
-    if options.list:
-        for k in servers:
-            print k
-        return
-    
-    for k in servers:
-        servers[k]['user_shares'] = 0
-
-    global stats_file
-    if options.statsdump != None:
-        try:
-            f = open(options.statsdump,'ab')
-            stats_file = f
-        except Exception, e:
-            print 'Error opening file bad --statsdump option'
-            print e
-        
-
-    if options.disable != None:
-        for k in options.disable:
-            if k in servers:
-                servers[k]['info'] = ''
-            else:
-                print k + " Not a valid server"
-            if k == 'eligius':
-                print "You just disabled the backup pool. I hope you know what you are doing"
-
-    if options.debug: log.startLogging(sys.stdout)
-    site = server.Site(bitSite())
-    reactor.listenTCP(8337, site)
-    update_call = LoopingCall(update_servers)
-    update_call.start(117)
-    delag_call = LoopingCall(delag_server)
-    delag_call.start(119)
-    reactor.run()
-
-if __name__ == "__main__":
-    main()
-
+            d.addErrback(bitHopper.log_msg)
