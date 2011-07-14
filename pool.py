@@ -83,7 +83,12 @@ def set_current(server):
     current_server = server
 
 def FormatShares(shares):
-    return str('{0:,d}'.format(shares))
+    try:
+        return str('{0:,d}'.format(shares))
+    except Exception, e:
+        bitHopper.log_dbg("Error formatting")
+        bitHopper.log_dbg(e)
+        return str(shares)
 
 def ozco_sharesResponse(response):
     global servers
