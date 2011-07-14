@@ -86,8 +86,8 @@ def FormatShares(shares):
     try:
         k =  str('{0:,d}'.format(shares))
     except Exception, e:
-        bitHopper.log_dbg("Error formatting")
-        bitHopper.log_dbg(e)
+        #bitHopper.log_dbg("Error formatting")
+        #bitHopper.log_dbg(e)
         return str(shares)
     return k
 
