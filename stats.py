@@ -24,10 +24,27 @@ def parse_btcguild(response):
 
     bitHopper.log_msg('btcguild efficiency: ' + str(percent) + "%")
 
+def parse_bitclockers(response):
+    info = json.loads(response)
+    actual = 0.0
+    balances  = ['balance', 'estimatedearnings', 'payout']
+    for item in balances:
+        actual += float(info[item])
+
+    shares = 0.0
+    shares += info['totalshares']
+
+    expected = shares/diff.difficulty * 50
+
+    percent = actual/expected * 100
+
+    bitHopper.log_msg('bitclockers efficiency: ' + str(percent) + "%")
+
 def selectsharesResponse(response, args):
     #bitHopper.log_dbg('Calling sharesResponse for '+ args)
     func_map= {
-        'btcg':parse_btcguild,}
+        'btcg':parse_btcguild,
+        'bitclockers':parse_bitclockers}
     func_map[args](response)
     bitHopper.server_update()
 
