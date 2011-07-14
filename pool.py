@@ -463,11 +463,12 @@ def main():
     global stats_file
     if options.statsdump != None:
         try:
-            f = open(options.stats,'ab')
+            f = open(options.statsdump,'ab')
+            stats_file = f
         except Exception, e:
             print 'Error opening file bad --statsdump option'
             print e
-        stats_file = f
+        
 
     if options.disable != None:
         for k in options.disable:
