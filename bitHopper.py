@@ -294,7 +294,7 @@ def main():
     delag_call = LoopingCall(delag_server)
     delag_call.start(119)
     stats_call = LoopingCall(stats.update_api_stats)
-    stats_call.start(300)
+    stats_call.start(117*4)
     reactor.run()
 
 if __name__ == "__main__":
