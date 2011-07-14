@@ -156,8 +156,8 @@ def selectsharesResponse(response, args):
 def update_api_servers():
     global servers
     for server in servers:
-        if server is not 'eligius':
-            info = servers[server]
+        info = servers[server]
+        if info['role'] != 'backup':
             d = work.get(bitHopper.json_agent,info['api_address'])
             d.addCallback(selectsharesResponse, (server))
             d.addErrback(errsharesResponse, (server))
