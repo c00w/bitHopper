@@ -133,7 +133,7 @@ def server_update():
             if pool.get_entry(server)['shares'] < min_shares:
                 min_shares = pool.get_entry(server)['shares']
 
-        if min_shares < pool.get_entry(pool.get_current())['shares']/2:
+        if min_shares < pool.get_entry(pool.get_current())['shares']*.90:
             select_best_server()
             return
 
@@ -274,7 +274,6 @@ def main():
         except Exception, e:
             print 'Error opening file bad --statsdump option'
             print e
-        
 
     if options.disable != None:
         for k in options.disable:
@@ -284,7 +283,6 @@ def main():
                 pool.get_servers()[k]['role'] = 'disable'
             else:
                 print k + " Not a valid server"
-            
 
     if options.debug: log.startLogging(sys.stdout)
     site = server.Site(bitSite())

@@ -118,10 +118,13 @@ def jsonrpc_getwork(agent, server, data, j_id, request, new_server, set_lp):
             print e
             work = None
 
+    i = 1
     while work == None:
+        i += 1
         server = new_server(server)
         try:
-            time.sleep(0.1)
+            if i > 4:
+                time.sleep(0.1)
             work = yield jsonrpc_call(agent, server,data,set_lp)
         except Exception, e:
             print 'caught, inner jsonrpc_call loop'
