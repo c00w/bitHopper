@@ -160,7 +160,8 @@ def update_api_servers():
     global servers
     for server in servers:
         info = servers[server]
-        if info['role'] != 'backup':
+        update = ['info','mine']
+        if info['role'] in update:
             d = work.get(bitHopper.json_agent,info['api_address'])
             d.addCallback(selectsharesResponse, (server))
             d.addErrback(errsharesResponse, (server))
