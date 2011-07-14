@@ -6,6 +6,7 @@
 import json
 import work
 import diff
+import stats
 
 import sys
 import exceptions
@@ -48,6 +49,7 @@ def log_msg(msg):
 
 def log_dbg(msg):
     if get_options() == None:
+        log.err(msg)
         return
     if get_options().debug == True:
         log.err(msg)
@@ -277,11 +279,12 @@ def main():
     if options.disable != None:
         for k in options.disable:
             if k in pool.get_servers():
+                if pool.get_servers()[k]['role'] == 'backup':
+                    print "You just disabled the backup pool. I hope you know what you are doing"
                 pool.get_servers()[k]['role'] = 'disable'
             else:
                 print k + " Not a valid server"
-            if k == 'eligius':
-                print "You just disabled the backup pool. I hope you know what you are doing"
+            
 
     if options.debug: log.startLogging(sys.stdout)
     site = server.Site(bitSite())
@@ -290,6 +293,8 @@ def main():
     update_call.start(117)
     delag_call = LoopingCall(delag_server)
     delag_call.start(119)
+    stats_call = LoopingCall(stats.update_api_stats)
+    stats_call.start(300)
     reactor.run()
 
 if __name__ == "__main__":

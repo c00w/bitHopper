@@ -8,7 +8,7 @@ http://twistedmatrix.com/trac
 
 Modify python password.py to include your bitcoin addresses instead of mine.
 
-Run python pool.py
+Run python bitHopper.py
 
 It listens on localhost:8337.
 So you should direct your miner to localhost:8337.
