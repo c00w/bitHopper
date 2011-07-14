@@ -38,7 +38,7 @@ def update_lp(response):
         bitHopper.log_dbg(body)
         defer.returnValue(None)
 
-    pool.update_servers()
+    pool.update_api_servers()
     current = bitHopper.get_server()
     bitHopper.select_best_server()
     if current == bitHopper.get_server():
