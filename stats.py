@@ -20,8 +20,10 @@ def parse_btcguild(response):
         shares += info['workers'][item]['total_shares']
     expected = shares/diff.difficulty * 50
 
-    percent = actual/expected * 100
-
+    percent = 0
+    if expected != 0.0:
+        percent = actual/expected * 100
+    
     bitHopper.log_msg('btcguild efficiency: ' + str(percent) + "%")
 
 def parse_bitclockers(response):
@@ -36,7 +38,9 @@ def parse_bitclockers(response):
 
     expected = shares/diff.difficulty * 50
 
-    percent = actual/expected * 100
+    percent = 0
+    if expected != 0.0:
+        percent = actual/expected * 100
 
     bitHopper.log_msg('bitclockers efficiency: ' + str(percent) + "%")
 
@@ -52,7 +56,9 @@ def parse_bitp(response):
 
     expected = shares/diff.difficulty * 50
 
-    percent = actual/expected * 100
+    percent = 0
+    if expected != 0.0:
+        percent = actual/expected * 100
 
     bitHopper.log_msg('bitp.it efficiency: ' + str(percent) + "%")
 
