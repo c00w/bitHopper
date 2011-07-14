@@ -117,7 +117,7 @@ def btcguild_sharesResponse(response):
     info = json.loads(response)
     round_shares = int(info['round_shares'])
     servers['btcg']['shares'] = round_shares
-    bitHopper.log_msg( 'btcguild :' + str('{:,d}'.format(round_shares)))
+    bitHopper.log_msg( 'btcguild :' + str('{0:,d}'.format(round_shares)))
 
 def bclc_sharesResponse(response):
     global servers
