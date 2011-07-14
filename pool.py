@@ -162,3 +162,6 @@ def update_api_servers():
             d.addCallback(selectsharesResponse, (server))
             d.addErrback(errsharesResponse, (server))
             d.addErrback(bitHopper.log_msg)
+
+if __name__ == "__main__":
+    print 'Run python bitHopper.py instead.'
