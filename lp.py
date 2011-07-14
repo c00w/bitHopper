@@ -22,7 +22,7 @@ def update_lp(response):
         finish = Deferred()
         response.deliverBody(work.WorkProtocol(finish))
         body = yield finish
-    except ResponseFailed:
+    except Exception, e:
         bitHopper.log_dbg('Reading LP Response failed')
         lp_set = True
         defer.returnValue(None)
