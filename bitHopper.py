@@ -66,8 +66,6 @@ def log_dbg(msg):
     return
 
 import pool
-from lp import *
-from stats import *
 
 def get_server():
     return pool.get_current()
@@ -119,10 +117,10 @@ def select_best_server():
 
     if pool.get_current() != server_name:
         global stats_file
-        stats_dump(pool.get_current(), stats_file)
+        stats.stats_dump(pool.get_current(), stats_file)
         pool.set_current(server_name)
         log_msg("Server change to " + str(pool.get_current()) + ", telling client with LP")
-        bitHopper.lp_callback()      
+        lp_callback()      
         lp.clear_lp()
         
     return
@@ -184,7 +182,7 @@ def bitHopper_Post(request):
         pool_server['user_shares'] +=1
 
     log_msg('RPC request ' + str(data) + " submitted to " + str(pool_server['name']))
-    work.jsonrpc_getwork(json_agent, pool_server, data, j_id, request, get_new_server, set_lp)
+    work.jsonrpc_getwork(json_agent, pool_server, data, j_id, request, get_new_server, lp.set_lp)
 
     return server.NOT_DONE_YET
 
@@ -211,7 +209,7 @@ def bitHopperLP(value, *methodArgs):
         data = rpc_request['params']
         j_id = rpc_request['id']
 
-        work.jsonrpc_getwork(json_agent, pool_server, data, j_id, request, get_new_server, set_lp)
+        work.jsonrpc_getwork(json_agent, pool_server, data, j_id, request, get_new_server, lp.set_lp)
 
     except Exception, e:
         log_msg('Error Caught in bitHopperLP')
