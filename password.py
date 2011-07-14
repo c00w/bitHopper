@@ -6,7 +6,9 @@
 ars_user = 'c00w.default'
 ars_pass = 'fire'
 
-
+#ozco.in
+ozco_user = 'c00w.1'
+ozco_pass = '1234'
 
 #mtred.com
 mtred_user = 'scarium'

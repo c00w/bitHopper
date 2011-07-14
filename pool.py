@@ -54,7 +54,11 @@ servers = {
            'mine_address': 'pool.bitp.it:8334', 'user': bitp_user,
            'pass': bitp_pass, 'lag': False, 'LP': None,
            'api_address':'https://pool.bitp.it/api/pool', 'role':'mine',
-           'user_api_address':'https://pool.bitp.it/api/user?token=' + bitp_user_apikey}
+           'user_api_address':'https://pool.bitp.it/api/user?token=' + bitp_user_apikey},
+        'ozco':{'shares': default_shares, 'name': 'ozco.in',
+           'mine_address': 'ozco.in:8332', 'user': ozco_user,
+           'pass': ozco_pass, 'lag': False, 'LP': None,
+           'api_address':'https://ozco.in/api.php', 'role':'mine'}
         }
 
 current_server = 'btcg'
@@ -77,6 +81,13 @@ def get_current():
 def set_current(server):
     global current_server
     current_server = server
+
+def ozco_sharesResponse(response):
+    global servers
+    info = json.loads(response)
+    round_shares = int(info['shares'])
+    servers['ozco']['shares'] = round_shares
+    bitHopper.log_msg('ozco.in:' + str(round_shares))
 
 def mmf_sharesResponse(response):
     global servers
@@ -152,7 +163,8 @@ def selectsharesResponse(response, args):
         'btcg':btcguild_sharesResponse,
         'eclipsemc':eclipsemc_sharesResponse,
         'miningmainframe':mmf_sharesResponse,
-        'bitp':bitp_sharesResponse}
+        'bitp':bitp_sharesResponse,
+        'ozco':ozco_sharesResponse}
     func_map[args](response)
     bitHopper.server_update()
 
