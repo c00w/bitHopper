@@ -121,7 +121,8 @@ def jsonrpc_getwork(agent, server, data, j_id, request, new_server, set_lp):
     i = 1
     while work == None:
         i += 1
-        server = new_server(server)
+        if data == []:
+            server = new_server(server)
         try:
             if i > 4:
                 time.sleep(0.1)
