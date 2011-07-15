@@ -45,7 +45,7 @@ servers = {
             'mine_address': 'pacrim.eclipsemc.com:8337', 'user': eclipsemc_user,
             'pass': eclipsemc_pass, 'lag': False, 'LP': None,
             'api_address':'https://eclipsemc.com/api.php?key='+ eclipsemc_apikey
-             +'&action=poolstats', 'role':'mine'},
+             +'&action=poolstats', 'role':'info'},
         'miningmainframe':{'shares': default_shares, 'name': 'mining.mainframe.nl',
            'mine_address': 'mining.mainframe.nl:8343', 'user': miningmainframe_user,
            'pass': miningmainframe_pass, 'lag': False, 'LP': None,

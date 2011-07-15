@@ -5,9 +5,11 @@
 import urllib2
 
 def get_difficulty():
-    req = urllib2.Request('http://blockexplorer.com/q/getdifficulty')
-    response = urllib2.urlopen(req)
-    diff_string = response.read()
-    return float(diff_string)
-
+    try:
+        req = urllib2.Request('http://blockexplorer.com/q/getdifficulty')
+        response = urllib2.urlopen(req)
+        diff_string = response.read()
+        return float(diff_string)
+    except:
+        return 1563027.99611622
 difficulty = get_difficulty()
