@@ -7,6 +7,7 @@ import pool
 import bitHopper
 import work
 import json
+import database
 
 def parse_btcguild(response):
     info = json.loads(response)
@@ -15,9 +16,18 @@ def parse_btcguild(response):
         actual += float(info['user'][item])
     actual -= float(info['user']['24hour_rewards'])
 
+    db_payout = bitHopper.data_get_payout('btcg')
+    #if db_payout < actual:
+        #bitHopper.data_payout('btcg',actual-db_payout)
+
     shares = 0.0
     for item in info['workers']:
         shares += info['workers'][item]['total_shares']
+
+    db_shares = bitHopper.data_get_shares('btcg')
+    #if db_shares < shares:
+        #bitHopper.data_shares('btcg',shares-db_shares)
+
     expected = shares/diff.difficulty * 50
 
     percent = 0

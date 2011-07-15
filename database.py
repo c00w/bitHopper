@@ -27,10 +27,29 @@ def check_database():
             curs.execute(sql)
     print 'Database Setup'
 
-def update_database(server,shares):
+def update_shares(server,shares):
 
     sql = 'UPDATE '+ server +'Set shares= shares + '+ shares +' WHERE diff='+ diff.difficulty
     curs.execute(sql)
+
+def get_shares(server,shares):
+    sql = 'select shares from ' + server
+    curs.execute(sql)
+    shares = 0
+    for info in curs.fetchall():
+        shares += int(info[0])
+    return shares
     
-    
+def update_payout(server,payout):
+
+    sql = 'UPDATE '+ server +'Set stored_payout= stored_payout + '+ payout +' WHERE diff='+ diff.difficulty
+    curs.execute(sql)
+
+def get_payout(server,shares):
+    sql = 'select stored_payout from ' + server
+    curs.execute(sql)
+    payout = 0
+    for info in curs.fetchall():
+        payout += float(info[0])
+    return payout
     

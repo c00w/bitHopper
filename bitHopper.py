@@ -32,6 +32,33 @@ new_server = Deferred()
 stats_file = None
 options = None
 
+def data_callback(server, data):
+    global options
+    if options.database:
+        database.update_shares(server, 1)
+
+def data_shares(server,shares):
+    global options
+    if options.database:
+        database.update_shares(server,shares)
+
+def data_get_shares(server):
+    global options
+    if options.database:
+        return database.get_shares(server)
+    return 0
+
+def data_payout(server,payout):
+    global options
+    if options.database:
+        database.update_payout(server,payout)
+
+def data_get_payout(server):
+    global options
+    if options.database:
+        return database.get_payout(server)
+    return 0
+
 def lp_callback():
     global new_server
     reactor.callLater(0.1,new_server.callback,None)
@@ -118,8 +145,6 @@ def select_best_server():
     global new_server
 
     if pool.get_current() != server_name:
-        global stats_file
-        stats.stats_dump(pool.get_current(), stats_file)
         pool.set_current(server_name)
         log_msg("Server change to " + str(pool.get_current()) + ", telling client with LP")
         lp_callback()      
@@ -176,15 +201,18 @@ def bitHopper_Post(request):
 
     #Check for data to be validated
     global json_agent
-    pool_server=pool.get_entry(pool.get_current())
+    current = pool.get_current()
+    pool_server=pool.get_entry(current)
     
     data = rpc_request['params']
     j_id = rpc_request['id']
     if data != []:
-        pool_server['user_shares'] +=1
+        data_callback(current,data)
 
     log_msg('RPC request ' + str(data) + " submitted to " + str(pool_server['name']))
     work.jsonrpc_getwork(json_agent, pool_server, data, j_id, request, get_new_server, lp.set_lp)
+
+    
 
     return server.NOT_DONE_YET
 
@@ -266,7 +294,6 @@ def main():
     parser.add_option('--debug', action= 'store_true', default = False, help='Use twisted output')
     parser.add_option('--list', action= 'store_true', default = False, help='List servers')
     parser.add_option('--disable', type=str, default = None, action='callback', callback=parse_server_disable, help='Servers to disable. Get name from --list. Servera,Serverb,Serverc')
-    parser.add_option('--statsdump', type=str, default = None, help='dump stats to filename')
     parser.add_option('--database', action= 'store_true', default = False, help='dump stats to filename')
     args, rest = parser.parse_args()
     options = args
@@ -277,15 +304,6 @@ def main():
     
     for k in pool.get_servers():
         pool.get_servers()[k]['user_shares'] = 0
-
-    global stats_file
-    if options.statsdump != None:
-        try:
-            f = open(options.statsdump,'ab')
-            stats_file = f
-        except Exception, e:
-            print 'Error opening file bad --statsdump option'
-            print e
 
     if options.disable != None:
         for k in options.disable:
