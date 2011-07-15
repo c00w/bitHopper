@@ -8,6 +8,7 @@ import work
 import diff
 import stats
 
+import database
 import sys
 import exceptions
 import optparse
@@ -21,6 +22,7 @@ from twisted.internet import reactor, defer
 from twisted.internet.defer import Deferred
 from twisted.internet.task import LoopingCall
 from twisted.python import log, failure
+
 
 
 
@@ -265,6 +267,7 @@ def main():
     parser.add_option('--list', action= 'store_true', default = False, help='List servers')
     parser.add_option('--disable', type=str, default = None, action='callback', callback=parse_server_disable, help='Servers to disable. Get name from --list. Servera,Serverb,Serverc')
     parser.add_option('--statsdump', type=str, default = None, help='dump stats to filename')
+    parser.add_option('--database', action= 'store_true', default = False, help='dump stats to filename')
     args, rest = parser.parse_args()
     options = args
     if options.list:
@@ -292,6 +295,9 @@ def main():
                 pool.get_servers()[k]['role'] = 'disable'
             else:
                 print k + " Not a valid server"
+
+    if options.database:
+        database.check_database()
 
     if options.debug: log.startLogging(sys.stdout)
     site = server.Site(bitSite())
