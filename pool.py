@@ -18,7 +18,7 @@ servers = {
         'mtred':{'shares':default_shares, 'name':'mtred',  
             'mine_address':'mtred.com:8337', 'user':mtred_user, 'pass':mtred_pass, 
             'lag':False, 'LP':None,
-            'api_address':'https://mtred.com/api/user/key/d91c52cfe1609f161f28a1268a2915b8', 
+            'api_address':'https://mtred.com/api/user/key/' + mtred_user_apikey, 
             'role':'mine'},
         'btcg':{'shares':default_shares, 'name':'BTC Guild',  
             'mine_address':'us.btcguild.com:8332', 'user':btcguild_user, 
