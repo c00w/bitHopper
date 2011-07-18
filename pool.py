@@ -6,6 +6,7 @@ import work
 import json
 from password import *
 from diff import difficulty
+import re
 
 class Pool():
     def __init__(self):
@@ -54,7 +55,7 @@ class Pool():
                 'bitp':{'shares': default_shares, 'name': 'bitp.it',
                    'mine_address': 'pool.bitp.it:8334', 'user': bitp_user,
                    'pass': bitp_pass, 'lag': False, 'LP': None,
-                   'api_address':'https://pool.bitp.it/api/pool', 'role':'info',
+                   'api_address':'https://pool.bitp.it/leaderboard', 'role':'mine',
                    'user_api_address':'https://pool.bitp.it/api/user?token=' + bitp_user_apikey},
                 'ozco':{'shares': default_shares, 'name': 'ozco.in',
                    'mine_address': 'ozco.in:8332', 'user': ozco_user,
@@ -100,8 +101,10 @@ class Pool():
         self.UpdateShares('miningmainframe',round_shares)
 
     def bitp_sharesResponse(self, response):
-        info = json.loads(response)
-        round_shares = int(info['shares'])
+        output = re.search('Total</b></td>\n        <td>\d+', response)
+        match = output.group(0)
+        match = match[match.find('<td>')+4:]
+        round_shares = int(match)
         self.UpdateShares('bitp',round_shares)
 
     def eclipsemc_sharesResponse(self, response):
