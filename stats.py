@@ -4,12 +4,11 @@
 
 import diff
 import pool
-import bitHopper
 import work
 import json
 import database
 
-def parse_btcguild(response):
+def parse_btcguild(response, bitHopper):
     info = json.loads(response)
     actual = 0.0
     for item in info['user']:
@@ -36,7 +35,7 @@ def parse_btcguild(response):
     
     bitHopper.log_msg('btcguild efficiency: ' + str(percent) + "%")
 
-def parse_bitclockers(response):
+def parse_bitclockers(response, bitHopper):
     info = json.loads(response)
     actual = 0.0
     balances  = ['balance', 'estimatedearnings', 'payout']
@@ -54,7 +53,7 @@ def parse_bitclockers(response):
 
     bitHopper.log_msg('bitclockers efficiency: ' + str(percent) + "%")
 
-def parse_bitp(response):
+def parse_bitp(response, bitHopper):
     info = json.loads(response)
     actual = 0.0
     balances  = ['estimated_reward', 'unconfirmed_balance', 'confirmed_balance']
@@ -73,26 +72,28 @@ def parse_bitp(response):
     bitHopper.log_msg('bitp.it efficiency: ' + str(percent) + "%")
 
 def selectsharesResponse(response, args):
+    bitHopper = args[1]
     #bitHopper.log_dbg('Calling sharesResponse for '+ args)
     func_map= {
         'btcg':parse_btcguild,
         'bitclockers':parse_bitclockers,
         'bitp':parse_bitp}
-    func_map[args](response)
+    func_map[args[0]](response,bitHopper)
     bitHopper.server_update()
 
-def errsharesResponse(error, args):
+def errsharesResponse(error, args): 
+    bitHopper = args[1]
     bitHopper.log_msg('Error in user api for ' + str(args))
     bitHopper.log_dbg(str(error))
 
-def update_api_stats():
-    servers = pool.get_servers()
+def update_api_stats(bitHopper):
+    servers = bitHopper.pool.get_servers()
     for server in servers:
         if 'user_api_address' in servers[server]:
             info = servers[server]
             d = work.get(bitHopper.json_agent,info['user_api_address'])
-            d.addCallback(selectsharesResponse, (server))
-            d.addErrback(errsharesResponse, (server))
+            d.addCallback(selectsharesResponse, (server,bitHopper))
+            d.addErrback(errsharesResponse, (server,bitHopper))
             d.addErrback(bitHopper.log_msg)
 
 def stats_dump(server, stats_file):

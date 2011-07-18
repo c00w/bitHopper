@@ -7,6 +7,7 @@ import json
 import work
 import diff
 import stats
+import pool
 
 import database
 import sys
@@ -23,175 +24,141 @@ from twisted.internet.defer import Deferred
 from twisted.internet.task import LoopingCall
 from twisted.python import log, failure
 
+class BitHopper():
+    def __init__(self):
+        self.json_agent = Agent(reactor)
+        self.lp_agent = Agent(reactor, persistent=True)
+        self.new_server = Deferred()
+        self.stats_file = None
+        self.options = None
+        self.pool = pool.Pool()
+        self.lp = lp.LongPoll(self)
 
+    def lp_callback(self, ):
+        reactor.callLater(0.1,self.new_server.callback,None)
+        self.new_server = Deferred()
 
+    def get_json_agent(self, ):
+        return self.json_agent
 
-json_agent = Agent(reactor)
-lp_agent = Agent(reactor, persistent=True)
-new_server = Deferred()
-stats_file = None
-options = None
+    def get_lp_agent(self, ):
+        return self.lp_agent
 
-def data_callback(server, data):
-    global options
-    if options.database:
-        database.update_shares(server, 1)
+    def get_options(self, ):
+        return self.options
 
-def data_shares(server,shares):
-    global options
-    if options.database:
-        database.update_shares(server,shares)
-
-def data_get_shares(server):
-    global options
-    if options.database:
-        return database.get_shares(server)
-    return 0
-
-def data_payout(server,payout):
-    global options
-    if options.database:
-        database.update_payout(server,payout)
-
-def data_get_payout(server):
-    global options
-    if options.database:
-        return database.get_payout(server)
-    return 0
-
-def lp_callback():
-    global new_server
-    reactor.callLater(0.1,new_server.callback,None)
-    new_server = Deferred()
-
-def get_json_agent():
-    global json_agent
-    return json_agent
-
-def get_lp_agent():
-    global lp_agent
-    return lp_agent
-
-def get_options():
-    global options
-    return options
-
-def log_msg(msg):
-    if get_options() == None:
+    def log_msg(self, msg):
+        if self.get_options() == None:
+            print time.strftime("[%H:%M:%S] ") +str(msg)
+            return
+        if self.get_options().debug == True:
+            log.msg(msg)
+            return
         print time.strftime("[%H:%M:%S] ") +str(msg)
+
+    def log_dbg(self, msg):
+        if self.get_options() == None:
+            log.err(msg)
+            return
+        if self.get_options().debug == True:
+            log.err(msg)
+            return
         return
-    if get_options().debug == True:
-        log.msg(msg)
-        return
-    print time.strftime("[%H:%M:%S] ") +str(msg)
 
-def log_dbg(msg):
-    if get_options() == None:
-        log.err(msg)
-        return
-    if get_options().debug == True:
-        log.err(msg)
-        return
-    return
+    def get_server(self, ):
+        return self.pool.get_current()
 
-import pool
+    def select_best_server(self, ):
+        """selects the best server for pool hopping. If there is not good server it returns eligious"""
+        server_name = None
+        difficulty = diff.difficulty
 
-def get_server():
-    return pool.get_current()
-
-def select_best_server():
-    """selects the best server for pool hopping. If there is not good server it returns eligious"""
-    global access
-    server_name = None
-    difficulty = diff.difficulty
-
-    min_shares = difficulty*.40
-    
-    for server in pool.get_servers():
-        info = pool.get_entry(server)
-        if info['role'] != 'mine':
-            continue
-        if info['shares']< min_shares and info['lag'] == False:
-            min_shares = info['shares']
-            server_name = server
-
-    if server_name == None:
-        for server in pool.get_servers():
-            info = pool.get_entry(server)
-            if info['role'] != 'backup':
-                continue
-            if info['lag'] == False:
-                server_name = server
-                break
-
-    if server_name == None:
-        min_shares = 10**10
-        for server in pool.get_servers():
-            info = pool.get_entry(server)
+        min_shares = difficulty*.40
+        
+        for server in self.pool.get_servers():
+            info = self.pool.get_entry(server)
             if info['role'] != 'mine':
                 continue
             if info['shares']< min_shares and info['lag'] == False:
                 min_shares = info['shares']
                 server_name = server
 
-    if server_name == None:
-        for server in pool.get_servers():
-            info = pool.get_entry(server)
-            if info['role'] != 'backup':
-                continue
-            server_name = server
-            break
+        if server_name == None:
+            for server in self.pool.get_servers():
+                info = self.pool.get_entry(server)
+                if info['role'] != 'backup':
+                    continue
+                if info['lag'] == False:
+                    server_name = server
+                    break
 
-    global new_server
+        if server_name == None:
+            min_shares = 10**10
+            for server in self.pool.get_servers():
+                info = self.pool.get_entry(server)
+                if info['role'] != 'mine':
+                    continue
+                if info['shares']< min_shares and info['lag'] == False:
+                    min_shares = info['shares']
+                    server_name = server
 
-    if pool.get_current() != server_name:
-        pool.set_current(server_name)
-        log_msg("Server change to " + str(pool.get_current()) + ", telling client with LP")
-        lp_callback()      
-        lp.clear_lp()
-        
-    return
+        if server_name == None:
+            for server in self.pool.get_servers():
+                info = self.pool.get_entry(server)
+                if info['role'] != 'backup':
+                    continue
+                server_name = server
+                break
 
-def get_new_server(server):
-    if server != pool.get_entry(pool.get_current()):
-        return pool.get_entry(pool.get_current())
-    pool.get_entry(pool.get_current())['lag'] = True
-    select_best_server()
-    return pool.get_entry(pool.get_current())
+        global new_server
 
-def server_update():
-
-    if pool.get_entry(pool.get_current())['shares'] > diff.difficulty * .40:
-        select_best_server()
+        if self.pool.get_current() != server_name:
+            self.pool.set_current(server_name)
+            self.log_msg("Server change to " + str(self.pool.get_current()) + ", telling client with LP")
+            self.lp_callback()      
+            self.lp.clear_lp()
+            
         return
 
-    min_shares = 10**10
+    def get_new_server(self, server):
+        if server != self.pool.get_entry(self.pool.get_current()):
+            return self.pool.get_entry(self.pool.get_current())
+        self.pool.get_entry(self.pool.get_current())['lag'] = True
+        self.select_best_server()
+        return self.pool.get_entry(self.pool.get_current())
 
-    for server in pool.get_servers():
-        if pool.get_entry(server)['shares'] < min_shares:
-            min_shares = pool.get_entry(server)['shares']
+    def server_update(self, ):
 
-    if min_shares < pool.get_entry(pool.get_current())['shares']*.90:
-        select_best_server()
-        return
+        if self.pool.get_entry(self.pool.get_current())['shares'] > diff.difficulty * .40:
+            self.select_best_server()
+            return
+
+        min_shares = 10**10
+
+        for server in self.pool.get_servers():
+            if self.pool.get_entry(server)['shares'] < min_shares:
+                min_shares = self.pool.get_entry(server)['shares']
+
+        if min_shares < self.pool.get_entry(self.pool.get_current())['shares']*.90:
+            self.select_best_server()
+            return
 
 
 
-@defer.inlineCallbacks
-def delag_server():
-    log_dbg('Running Delager')
-    global json_agent
-    for index in pool.get_servers():
-        server = pool.get_entry(index)
-        if server['lag'] == True:
-            data = yield work.jsonrpc_call(json_agent, server,[], None)
-            if data != None:
-                server['lag'] = False
+    @defer.inlineCallbacks
+    def delag_server(self, ):
+        self.log_dbg('Running Delager')
+        for index in self.pool.get_servers():
+            server = self.pool.get_entry(index)
+            if server['lag'] == True:
+                data = yield work.jsonrpc_call(self.json_agent, server,[], None)
+                if data != None:
+                    server['lag'] = False
+
+bithopper_global = BitHopper()
 
 def bitHopper_Post(request):
-   
-    global options
-    if not options.noLP:
+    if not bithopper_global.options.noLP:
         request.setHeader('X-Long-Polling', '/LP')
     rpc_request = json.loads(request.content.read())
     #check if they are sending a valid message
@@ -200,17 +167,16 @@ def bitHopper_Post(request):
 
 
     #Check for data to be validated
-    global json_agent
-    current = pool.get_current()
-    pool_server=pool.get_entry(current)
+    current = bithopper_global.pool.get_current()
+    pool_server=bithopper_global.pool.get_entry(current)
     
     data = rpc_request['params']
     j_id = rpc_request['id']
-    if data != []:
-        data_callback(current,data)
+    #if data != []:
+    #    self.data_callback(current,data)
 
-    log_msg('RPC request ' + str(data) + " submitted to " + str(pool_server['name']))
-    work.jsonrpc_getwork(json_agent, pool_server, data, j_id, request, get_new_server, lp.set_lp)
+    bithopper_global.log_msg('RPC request ' + str(data) + " submitted to " + str(pool_server['name']))
+    work.jsonrpc_getwork(bithopper_global.json_agent, pool_server, data, j_id, request, bithopper_global.get_new_server, bithopper_global.lp.set_lp)
 
     
 
@@ -218,36 +184,35 @@ def bitHopper_Post(request):
 
 def bitHopperLP(value, *methodArgs):
     try:
-        log_msg('LP triggered serving miner')
+        bithopper_global.log_msg('LP triggered serving miner')
         request = methodArgs[0]
         #Duplicated from above because its a little less of a hack
         #But apparently people expect well formed json-rpc back but won't actually make the call 
         try:
             json_request = request.content.read()
         except Exception,e:
-            log_dbg( 'reading request content failed')
+            bithopper_global.log_dbg( 'reading request content failed')
             json_request = None
         try:
             rpc_request = json.loads(json_request)
         except Exception, e:
-            log_dbg('Loading the request failed')
+            bithopper_global.log_dbg('Loading the request failed')
             rpc_request = {'params':[],'id':1}
         #Check for data to be validated
-        global json_agent
-        pool_server=pool.get_entry(pool.get_current())
+        pool_server=bithopper_global.pool.get_entry(bithopper_global.pool.get_current())
         
         data = rpc_request['params']
         j_id = rpc_request['id']
 
-        work.jsonrpc_getwork(json_agent, pool_server, data, j_id, request, get_new_server, lp.set_lp)
+        work.jsonrpc_getwork(bithopper_global.json_agent, pool_server, data, j_id, request, bithopper_global.get_new_server, bithopper_global.lp.set_lp)
 
     except Exception, e:
-        log_msg('Error Caught in bitHopperLP')
-        log_dbg(str(e))
+        bithopper_global.log_msg('Error Caught in bitHopperLP')
+        bithopper_global.log_dbg(str(e))
         try:
             request.finish()
         except Exception, e:
-            log_dbg( "Client already disconnected Urgh.")
+            bithopper_global.log_dbg( "Client already disconnected Urgh.")
 
     return None
 
@@ -255,12 +220,12 @@ class lpSite(resource.Resource):
     isLeaf = True
     def render_GET(self, request):
         global new_server
-        new_server.addCallback(bitHopperLP, (request))
+        bithopper_global.new_server.addCallback(bitHopperLP, (request))
         return server.NOT_DONE_YET
 
     def render_POST(self, request):
         global new_server
-        new_server.addCallback(bitHopperLP, (request))
+        bithopper_global.new_server.addCallback(bitHopperLP, (request))
         return server.NOT_DONE_YET
 
 
@@ -270,8 +235,7 @@ class lpSite(resource.Resource):
 class bitSite(resource.Resource):
     isLeaf = True
     def render_GET(self, request):
-        global new_server
-        new_server.addCallback(bitHopperLP, (request))
+        bithopper_global.new_server.addCallback(bitHopperLP, (request))
         return server.NOT_DONE_YET
 
     def render_POST(self, request):
@@ -288,7 +252,6 @@ def parse_server_disable(option, opt, value, parser):
     
 
 def main():
-    global options
     parser = optparse.OptionParser(description='bitHopper')
     parser.add_option('--noLP', action = 'store_true' ,default=False, help='turns off client side longpolling')
     parser.add_option('--debug', action= 'store_true', default = False, help='Use twisted output')
@@ -297,20 +260,22 @@ def main():
     parser.add_option('--database', action= 'store_true', default = False, help='dump stats to filename')
     args, rest = parser.parse_args()
     options = args
+    bithopper_global.options = args
+
     if options.list:
-        for k in pool.get_servers():
+        for k in bithopper_global.pool.get_servers():
             print k
         return
     
-    for k in pool.get_servers():
-        pool.get_servers()[k]['user_shares'] = 0
+    for k in bithopper_global.pool.get_servers():
+        bithopper_global.pool.get_servers()[k]['user_shares'] = 0
 
     if options.disable != None:
         for k in options.disable:
-            if k in pool.get_servers():
-                if pool.get_servers()[k]['role'] == 'backup':
+            if k in bithopper_global.pool.get_servers():
+                if bithopper_global.pool.get_servers()[k]['role'] == 'backup':
                     print "You just disabled the backup pool. I hope you know what you are doing"
-                pool.get_servers()[k]['role'] = 'disable'
+                bithopper_global.pool.get_servers()[k]['role'] = 'disable'
             else:
                 print k + " Not a valid server"
 
@@ -320,11 +285,11 @@ def main():
     if options.debug: log.startLogging(sys.stdout)
     site = server.Site(bitSite())
     reactor.listenTCP(8337, site)
-    update_call = LoopingCall(pool.update_api_servers)
+    update_call = LoopingCall(bithopper_global.pool.update_api_servers, bithopper_global)
     update_call.start(117)
-    delag_call = LoopingCall(delag_server)
+    delag_call = LoopingCall(bithopper_global.delag_server)
     delag_call.start(119)
-    stats_call = LoopingCall(stats.update_api_stats)
+    stats_call = LoopingCall(stats.update_api_stats,bithopper_global)
     stats_call.start(117*4)
     reactor.run()
 
