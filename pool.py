@@ -25,7 +25,7 @@ servers = {
             'pass':btcguild_pass, 'lag':False, 'LP':None, 
             'api_address':'https://www.btcguild.com/pool_stats.php', 
             'user_api_address':'https://www.btcguild.com/api.php?api_key='+btcguild_user_apikey, 
-            'role':'mine'},
+            'role':'info'},
         'eligius':{'shares':difficulty*.41, 'name':'eligius', 
             'mine_address':'su.mining.eligius.st:8337', 'user':eligius_address, 
             'pass':'x', 'lag':False, 'LP':None, 'role':'backup'},
