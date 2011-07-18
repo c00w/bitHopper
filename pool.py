@@ -54,7 +54,7 @@ class Pool():
                 'bitp':{'shares': default_shares, 'name': 'bitp.it',
                    'mine_address': 'pool.bitp.it:8334', 'user': bitp_user,
                    'pass': bitp_pass, 'lag': False, 'LP': None,
-                   'api_address':'https://pool.bitp.it/api/pool', 'role':'mine',
+                   'api_address':'https://pool.bitp.it/api/pool', 'role':'info',
                    'user_api_address':'https://pool.bitp.it/api/user?token=' + bitp_user_apikey},
                 'ozco':{'shares': default_shares, 'name': 'ozco.in',
                    'mine_address': 'ozco.in:8332', 'user': ozco_user,
