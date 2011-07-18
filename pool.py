@@ -65,7 +65,13 @@ class Pool():
                    'mine_address': 'eu1.triplemining.com:8344', 'user': triple_user,
                    'pass': triple_pass, 'lag': False, 'LP': None,
                    'api_address':'https://www.triplemining.com/stats',  
-                    'role':'mine'}
+                    'role':'mine'},
+                'x8s':{'shares': default_shares, 'name': 'btc.x8s.de',
+                    'mine_address': 'pit.x8s.de:8337', 'user': x8s_user,
+                    'pass': x8s_pass, 'lag': False, 'LP': None,
+                    'api_address':'', 
+                    'role':'disable'},
+                   
                 }
 
         self.current_server = 'mtred'
