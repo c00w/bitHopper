@@ -60,7 +60,12 @@ class Pool():
                 'ozco':{'shares': default_shares, 'name': 'ozco.in',
                    'mine_address': 'ozco.in:8332', 'user': ozco_user,
                    'pass': ozco_pass, 'lag': False, 'LP': None,
-                   'api_address':'https://ozco.in/api.php', 'role':'mine'}
+                   'api_address':'https://ozco.in/api.php', 'role':'mine'},
+               'triple':{'shares': default_shares, 'name': 'triplemining.com',
+                   'mine_address': 'eu1.triplemining.com:8344', 'user': triple_user,
+                   'pass': triple_pass, 'lag': False, 'LP': None,
+                   'api_address':'https://www.triplemining.com/stats',  
+                    'role':'mine'}
                 }
 
         self.current_server = 'mtred'
@@ -89,6 +94,13 @@ class Pool():
             k =  str(shares)
         self.bitHopper.log_msg(str(server) +": "+ k)
         self.servers[server]['shares'] = shares
+
+    def triple_sharesResponse(self, response):
+        output = re.search('<td>\d+</td>', response)
+        match = output.group(0)
+        match = match[4:-5]
+        round_shares = int(match)
+        self.UpdateShares('triple',round_shares)
 
     def ozco_sharesResponse(self, response):
         info = json.loads(response)
@@ -153,7 +165,8 @@ class Pool():
             'eclipsemc':self.eclipsemc_sharesResponse,
             'miningmainframe':self.mmf_sharesResponse,
             'bitp':self.bitp_sharesResponse,
-            'ozco':self.ozco_sharesResponse}
+            'ozco':self.ozco_sharesResponse,
+            'triple':self.triple_sharesResponse}
         func_map[args](response)
         self.bitHopper.server_update()
 

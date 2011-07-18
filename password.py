@@ -33,6 +33,10 @@ bitp_user = '4bjibc3R1RGF9'
 bitp_pass= 'u5cpmndZq4Jvp'
 bitp_user_apikey = '80c5dbea750563eb24e5310f94a56b38bad14dc35efb41e9ca421c92f31563ed'
 
+#triplemining
+triple_user = 'c00w_test'
+triple_pass = 'x'
+
 #These passswords are not currently used.
 #So if you have them replace them with your own. Otherwise don't worry
 
