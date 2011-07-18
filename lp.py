@@ -71,7 +71,7 @@ class LongPoll():
         self.bitHopper.log_msg("LP Call " + lp_address)
         lp_set = True
         try:
-            work.jsonrpc_lpcall(bitHopper.get_lp_agent(),server, lp_address, update_lp)
+            work.jsonrpc_lpcall(self.bitHopper.get_lp_agent(),server, lp_address, self.update_lp)
         except Exception,e :
             self.bitHopper.log_dbg('set_lp error')
             self.bitHopper.log_dbg(e)
