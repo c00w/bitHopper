@@ -30,6 +30,10 @@ triple_pass = 'x'
 #rfcpool.com
 rfc_user = 'c00w_test'
 
+#bitcoinpool.com
+bcpool_user = 'c00w_test'
+bcpool_pass = 'x'
+
 #These passswords are not currently used.
 #So if you have them replace them with your own. Otherwise don't worry
 

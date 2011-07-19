@@ -61,6 +61,11 @@ class Pool():
                    'mine_address': 'ozco.in:8332', 'user': ozco_user,
                    'pass': ozco_pass, 'lag': False, 'LP': None,
                    'api_address':'https://ozco.in/api.php', 'role':'mine'},
+                'bcpool':{'shares': default_shares, 'name': 'bitcoinpool.com',
+                   'mine_address': 'bitcoinpool.com:8334', 'user': bcpool_user,
+                   'pass': bcpool_pass, 'lag': False, 'LP': None,
+                   'api_address':'http://bitcoinpool.com/pooljson.php',
+                   'role':'mine'}
                'triple':{'shares': default_shares, 'name': 'triplemining.com',
                    'mine_address': 'eu1.triplemining.com:8344', 'user': triple_user,
                    'pass': triple_pass, 'lag': False, 'LP': None,
@@ -163,6 +168,10 @@ class Pool():
         round_shares = int(info['roundshares'])
         self.UpdateShares('bitclockers',round_shares)
 
+    def bcpool_sharesResponse(self, response):
+        round_shares = json.loads(response)['round_shares']
+        self.UpdateShares('bcpool', round_shares)
+
     def errsharesResponse(self, error, args):
         self.bitHopper.log_msg('Error in pool api for ' + str(args))
         self.bitHopper.log_dbg(str(error))
@@ -181,6 +190,7 @@ class Pool():
             'bitp':self.bitp_sharesResponse,
             'ozco':self.ozco_sharesResponse,
             'triple':self.triple_sharesResponse,
+            'bcpool':self.bcpool_sharesResponse,
             'rfc':self.rfc_sharesResponse}
         func_map[args](response)
         self.bitHopper.server_update()
