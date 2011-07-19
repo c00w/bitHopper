@@ -76,6 +76,11 @@ class Pool():
                     'pass': 'x', 'lag': False, 'LP': None,
                     'api_address':'https://www.rfcpool.com/api/pool/stats', 
                     'role':'mine'},  
+                 'nofeemining':{'shares': default_shares, 'name': 'nofeemining.com',
+                    'mine_address': 'nofeemining.com:8332', 'user': nofeemining_user,
+                    'pass': nofeemining_pass, 'lag': False, 'LP': None,
+                    'api_address': 'https://www.nofeemining.com/api.php?key=' + nofeemining_user_apikey,
+                    'role':'mine'},
                 }
 
         self.current_server = 'mtred'
@@ -163,6 +168,11 @@ class Pool():
         round_shares = int(info['roundshares'])
         self.UpdateShares('bitclockers',round_shares)
 
+    def nofeemining_sharesResponse(self, response):
+        info = json.loads(response)
+        round_shares = int(info['poolRoundShares'])
+        self.UpdateShares('nofeemining',round_shares)
+
     def errsharesResponse(self, error, args):
         self.bitHopper.log_msg('Error in pool api for ' + str(args))
         self.bitHopper.log_dbg(str(error))
@@ -181,7 +191,8 @@ class Pool():
             'bitp':self.bitp_sharesResponse,
             'ozco':self.ozco_sharesResponse,
             'triple':self.triple_sharesResponse,
-            'rfc':self.rfc_sharesResponse}
+            'rfc':self.rfc_sharesResponse,
+            'nofeemining':self.nofeemining_sharesResponse}
         func_map[args](response)
         self.bitHopper.server_update()
 

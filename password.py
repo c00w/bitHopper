@@ -30,6 +30,11 @@ triple_pass = 'x'
 #rfcpool.com
 rfc_user = 'c00w_test'
 
+#nofeemining.com
+nofeemining_user = 'my@email.address_workername'
+nofeemining_pass = 'password'
+nofeemining_user_apikey = 'INSERT_API_KEY_HERE'
+
 #These passswords are not currently used.
 #So if you have them replace them with your own. Otherwise don't worry
 
