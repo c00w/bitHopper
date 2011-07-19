@@ -109,7 +109,7 @@ def jsonrpc_call(agent, server, data , set_lp):
         defer.returnValue(None)
 
 @defer.inlineCallbacks
-def jsonrpc_getwork(agent, server, data, j_id, request, new_server, set_lp):
+def jsonrpc_getwork(agent, server, data, j_id, request, new_server, set_lp, bitHopper):
     try:
         work = yield jsonrpc_call(agent, server,data,set_lp)
     except Exception, e:
@@ -133,7 +133,8 @@ def jsonrpc_getwork(agent, server, data, j_id, request, new_server, set_lp):
             continue
 
     try:
-        
+        if str(work) == 'False':
+            bitHopper.reject_callback(server, data)
         response = json.dumps({"result":work,'error':None,'id':j_id})
         request.write(response)
         request.finish()

@@ -11,7 +11,7 @@ import re
 class Pool():
     def __init__(self):
         default_shares = difficulty
-
+        
         self.servers = {
                 'bclc':{'shares':default_shares, 'name':'bitcoins.lc', 
                     'mine_address':'bitcoins.lc:8080', 'user':bclc_user, 'pass':bclc_pass, 
@@ -80,8 +80,12 @@ class Pool():
 
         self.current_server = 'mtred'
 
+        
+    def setup(self,bitHopper):
+        self.bitHopper = bitHopper
         for server in self.servers:
             self.servers[server]['refresh_time'] = 60
+            self.servers[server]['rejects'] = self.bitHopper.db.get_rejects(server)
 
     def get_entry(self, server):
         if server in self.servers:

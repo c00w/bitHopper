@@ -33,9 +33,16 @@ class BitHopper():
         self.options = None
         self.reactor = reactor
         self.pool = pool.Pool()
-        self.lp = lp.LongPoll(self)
         self.db = database.Database(self)
+        self.pool.setup(self)
+        self.lp = lp.LongPoll(self)
+
         self.stats = stats.Statistics(self)
+
+    def reject_callback(self,server,data):
+        if data != []:
+            self.db.update_rejects(server,1)
+            self.pool[server]['rejects'] += 1
 
     def data_callback(self,server,data):
         if data != []:
@@ -189,7 +196,7 @@ def bitHopper_Post(request):
         else:
             rep = str(data[0][155:163])
         bithopper_global.log_msg('RPC request [' + rep + "] submitted to " + str(pool_server['name']))
-    work.jsonrpc_getwork(bithopper_global.json_agent, pool_server, data, j_id, request, bithopper_global.get_new_server, bithopper_global.lp.set_lp)
+    work.jsonrpc_getwork(bithopper_global.json_agent, pool_server, data, j_id, request, bithopper_global.get_new_server, bithopper_global.lp.set_lp, self)
 
     return server.NOT_DONE_YET
 
@@ -215,7 +222,7 @@ def bitHopperLP(value, *methodArgs):
         data = rpc_request['params']
         j_id = rpc_request['id']
 
-        work.jsonrpc_getwork(bithopper_global.json_agent, pool_server, data, j_id, request, bithopper_global.get_new_server, bithopper_global.lp.set_lp)
+        work.jsonrpc_getwork(bithopper_global.json_agent, pool_server, data, j_id, request, bithopper_global.get_new_server, bithopper_global.lp.set_lp, self)
 
     except Exception, e:
         bithopper_global.log_msg('Error Caught in bitHopperLP')
@@ -231,14 +238,18 @@ def flat_info(request):
     response = '<html><head><title>bitHopper Info</title></head><body>'
     response += '<p>Pools:</p>'
     response += '<table border="1"><tr><td>Name</td><td>Role</td><td>Shares'
-    response += '</td><td>Payouts</td><td>Efficiency</td></tr>'
+    response += '</td><td>Rejects</td><td>Payouts</td><td>Efficiency</td></tr>'
     servers = bithopper_global.pool.get_servers()
     for server in servers:
         info = servers[server]
         if info['role'] not in ['backup','mine']:
             continue
+        shares = str(bithopper_global.db.get_shares(server))
+        rejects = bithopper_global.pool.get_servers()[server]['rejects']
+        rejects_str = str(rejects/(int(shares)+1)*100) + "%(" + str(rejects)+")"
         response += '<tr><td>' + info['name'] + '</td><td>' + info['role'] + \
-                      '</td><td>' + str(bithopper_global.db.get_shares(server)) + \
+                      '</td><td>' + shares + \
+                      '</td><td>' + rejects_str +\
                       '</td><td>' + str(bithopper_global.db.get_payout(server)) + \
                       '</td><td>' + str(bithopper_global.stats.get_efficiency(server)) \
                       + '</td></tr>'
