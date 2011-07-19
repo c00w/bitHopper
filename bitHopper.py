@@ -226,7 +226,7 @@ def bitHopperLP(value, *methodArgs):
         data = rpc_request['params']
         j_id = rpc_request['id']
 
-        work.jsonrpc_getwork(bithopper_global.json_agent, pool_server, data, j_id, request, bithopper_global.get_new_server, bithopper_global.lp.set_lp, self)
+        work.jsonrpc_getwork(bithopper_global.json_agent, pool_server, data, j_id, request, bithopper_global.get_new_server, bithopper_global.lp.set_lp, bithopper_global)
 
     except Exception, e:
         bithopper_global.log_msg('Error Caught in bitHopperLP')
