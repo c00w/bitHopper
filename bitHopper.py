@@ -42,12 +42,12 @@ class BitHopper():
     def reject_callback(self,server,data):
         if data != []:
             self.db.update_rejects(server,1)
-            self.pool[server]['rejects'] += 1
+            self.pool.get_servers()[server]['rejects'] += 1
 
     def data_callback(self,server,data):
         if data != []:
             self.db.update_shares(server, 1)
-            self.pool[server]['user_shares'] +=1
+            self.pool.get_servers()[server]['user_shares'] +=1
 
     def lp_callback(self, ):
         reactor.callLater(0.1,self.new_server.callback,None)
