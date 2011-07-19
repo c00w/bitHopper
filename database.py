@@ -33,7 +33,7 @@ class Database():
 
     def update_shares(self,server,shares):
 
-        sql = 'UPDATE '+ server +'Set shares= shares + '+ str(shares) +' WHERE diff='+ str(diff.difficulty)
+        sql = 'UPDATE '+ server +' SET shares= shares + '+ str(shares) +' WHERE diff='+ str(diff.difficulty)
         self.curs.execute(sql)
 
     def get_shares(self,server):
