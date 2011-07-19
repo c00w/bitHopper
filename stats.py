@@ -9,6 +9,19 @@ class Statistics():
     def __init__(self,bitHopper):
         self.bitHopper = bitHopper
         self.pool = bitHopper.pool
+        self.efficiencies = {}
+
+    def update_db_shares(self,server,shares):
+        db_shares = self.bitHopper.data_get_shares(server)
+        if db_shares < shares:
+            self.bitHopper.data_shares(server,shares-db_shares)
+
+    def update_db_payout(self,server,payout):
+        db_payout = self.bitHopper.data_get_payout(server)
+        if db_payout < payout:
+            self.bitHopper.data_payout(server,payout-db_payout)
+
+
     def parse_btcguild(self, response, bitHopper):
         info = json.loads(response)
         actual = 0.0
@@ -16,25 +29,19 @@ class Statistics():
             actual += float(info['user'][item])
         actual -= float(info['user']['24hour_rewards'])
 
-        db_payout = self.bitHopper.data_get_payout('btcg')
-        if db_payout < actual:
-            self.bitHopper.data_payout('btcg',actual-db_payout)
+        self.update_db_payout('btcg',actual)
 
         shares = 0.0
         for item in info['workers']:
             shares += info['workers'][item]['total_shares']
 
-        db_shares = self.bitHopper.data_get_shares('btcg')
-        if db_shares < shares:
-            self.bitHopper.data_shares('btcg',shares-db_shares)
+        self.update_db_shares('btcg',actual)
 
         expected = shares/diff.difficulty * 50
 
-        percent = 0
-        if expected != 0.0:
-            percent = actual/expected * 100
+        percent = actual/(expected+1) * 100
         
-        self.bitHopper.log_msg('btcguild efficiency: ' + str(percent) + "%")
+        self.efficiencies['btcg'] = percent
 
     def parse_bitclockers(self, response):
         info = json.loads(response)
@@ -48,11 +55,9 @@ class Statistics():
 
         expected = shares/diff.difficulty * 50
 
-        percent = 0
-        if expected != 0.0:
-            percent = actual/expected * 100
+        percent = actual/(expected+1) * 100
 
-        self.bitHopper.log_msg('bitclockers efficiency: ' + str(percent) + "%")
+        self.efficiencies['bitclockers'] = percent
 
     def parse_bitp(response, bitHopper):
         info = json.loads(response)
@@ -72,14 +77,19 @@ class Statistics():
 
         self.bitHopper.log_msg('bitp.it efficiency: ' + str(percent) + "%")
 
+    def parse_mtred(response, bitHopper):
+        info = json.loads(response)
+        actual += info['balance']
+
     def selectsharesResponse(self, response, args):
         self.bitHopper.log_dbg('Calling api sharesResponse for '+ args)
         func_map= {
             'btcg':self.parse_btcguild,
             'bitclockers':self.parse_bitclockers,
-            'bitp':self.parse_bitp}
+            'bitp':self.parse_bitp,
+            #'mtred':self.parse_mtred
+            }
         func_map[args[0]](response,bitHopper)
-        self.bitHopper.server_update()
 
     def errsharesResponse(self, error, args): 
         
@@ -99,7 +109,9 @@ class Statistics():
                 d.addErrback(self.bitHopper.log_msg)
 
     def get_efficiency(self,server):
-        return 'NA'
+        if server in self.efficiencies:
+            return self.efficiencies[server]
+        return "NA"
 
     def stats_dump(self, server, stats_file):
         if stats_file != None:

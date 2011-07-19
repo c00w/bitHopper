@@ -31,6 +31,7 @@ class BitHopper():
         self.new_server = Deferred()
         self.stats_file = None
         self.options = None
+        self.reactor = reactor
         self.pool = pool.Pool()
         self.lp = lp.LongPoll(self)
         self.db = database.Database(self)
@@ -328,8 +329,7 @@ def main():
     if options.debug: log.startLogging(sys.stdout)
     site = server.Site(bitSite())
     reactor.listenTCP(8337, site)
-    update_call = LoopingCall(bithopper_global.pool.update_api_servers, bithopper_global)
-    update_call.start(117)
+    reactor.callLater(0, bithopper_global.pool.update_api_servers, bithopper_global)
     delag_call = LoopingCall(bithopper_global.delag_server)
     delag_call.start(119)
     stats_call = LoopingCall(bithopper_global.stats.update_api_stats)

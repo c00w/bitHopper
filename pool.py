@@ -54,16 +54,16 @@ class Pool():
                     'api_address':'http://mining.mainframe.nl/api', 'role':'disable'},
                 'bitp':{'shares': default_shares, 'name': 'bitp.it',
                    'mine_address': 'pool.bitp.it:8334', 'user': bitp_user,
-                   'pass': bitp_pass, 'lag': False, 'LP': None,
+                   'pass': bitp_pass, 'lag': False,
                    'api_address':'https://pool.bitp.it/leaderboard', 'role':'disable',
                    'user_api_address':'https://pool.bitp.it/api/user?token=' + bitp_user_apikey},
                 'ozco':{'shares': default_shares, 'name': 'ozco.in',
                    'mine_address': 'ozco.in:8332', 'user': ozco_user,
-                   'pass': ozco_pass, 'lag': False, 'LP': None,
+                   'pass': ozco_pass, 'lag': False,
                    'api_address':'https://ozco.in/api.php', 'role':'mine'},
                'triple':{'shares': default_shares, 'name': 'triplemining.com',
                    'mine_address': 'eu1.triplemining.com:8344', 'user': triple_user,
-                   'pass': triple_pass, 'lag': False, 'LP': None,
+                   'pass': triple_pass, 'lag': False,
                    'api_address':'https://www.triplemining.com/stats',  
                     'role':'mine'},
                 'x8s':{'shares': default_shares, 'name': 'btc.x8s.de',
@@ -79,6 +79,9 @@ class Pool():
                 }
 
         self.current_server = 'mtred'
+
+        for server in self.servers:
+            self.servers[server]['refresh_time'] = 60
 
     def get_entry(self, server):
         if server in self.servers:
@@ -96,6 +99,18 @@ class Pool():
         self.current_server = server
 
     def UpdateShares(self, server, shares):
+        if self.servers[server]['refresh_time'] > 60*30:
+            return
+
+        prev_shares = self.servers[server]['shares']
+        if shares == prev_shares:
+            self.servers[server]['refresh_time'] += 5
+            self.bitHopper.reactor.callLater(5,self.update_api_server,server)
+        else:
+            self.servers[server]['refresh_time'] -= 5
+            time = self.servers[server]['refresh_time']
+            self.bitHopper.reactor.callLater(time,self.update_api_server,server)
+
         try:
             k =  str('{0:,d}'.format(shares))
         except Exception, e:
@@ -185,14 +200,20 @@ class Pool():
         func_map[args](response)
         self.bitHopper.server_update()
 
+    def update_api_server(self,server):
+        info = self.servers[server]
+        d = work.get(self.bitHopper.json_agent,info['api_address'])
+        d.addCallback(self.selectsharesResponse, (server))
+        d.addErrback(self.errsharesResponse, (server))
+        d.addErrback(self.bitHopper.log_msg)
+
     def update_api_servers(self, bitHopper):
         self.bitHopper = bitHopper
-        global servers
         for server in self.servers:
             info = self.servers[server]
             update = ['info','mine']
             if info['role'] in update:
-                d = work.get(bitHopper.json_agent,info['api_address'])
+                d = work.get(self.bitHopper.json_agent,info['api_address'])
                 d.addCallback(self.selectsharesResponse, (server))
                 d.addErrback(self.errsharesResponse, (server))
                 d.addErrback(self.bitHopper.log_msg)
