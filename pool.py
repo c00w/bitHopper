@@ -187,7 +187,7 @@ class Pool():
         pool = args
         self.servers[pool]['shares'] = 10**10
         time = self.servers[pool]['refresh_time']
-        self.bitHopper.reactor.callLater(time, self.update_api_server, server)
+        self.bitHopper.reactor.callLater(time, self.update_api_server, pool)
 
     def selectsharesResponse(self, response, args):
         self.bitHopper.log_dbg('Calling sharesResponse for '+ args)
