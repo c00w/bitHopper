@@ -100,6 +100,7 @@ class Pool():
 
     def UpdateShares(self, server, shares):
         if self.servers[server]['refresh_time'] > 60*10:
+            self.bitHopper.log_msg('Disabled due to unchanging api: ' + server)
             return
 
         prev_shares = self.servers[server]['shares']
