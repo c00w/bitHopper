@@ -14,7 +14,7 @@ class Database():
         self.check_database()
 
     def check_database(self):
-        print 'Checking Database'
+        self.bitHopper.log_msg('Checking Database')
         database = sqlite3.connect('stats.db')
         self.curs = database.cursor()
         
@@ -29,14 +29,14 @@ class Database():
             if len(rows) == 0:
                 sql = 'INSERT INTO ' + server + '(diff,shares,stored_payout) values( '+str(diff.difficulty) +', '+str(0) + ', '+str(0)+ ')'
                 self.curs.execute(sql)
-        print 'Database Setup'
+        self.bitHopper.log_msg('Database Setup')
 
     def update_shares(self,server,shares):
 
         sql = 'UPDATE '+ server +'Set shares= shares + '+ shares +' WHERE diff='+ diff.difficulty
         self.curs.execute(sql)
 
-    def get_shares(self,server,shares):
+    def get_shares(self,server):
         sql = 'select shares from ' + server
         self.curs.execute(sql)
         shares = 0
@@ -49,7 +49,7 @@ class Database():
         sql = 'UPDATE '+ server +'Set stored_payout= stored_payout + '+ payout +' WHERE diff='+ diff.difficulty
         self.curs.execute(sql)
 
-    def get_payout(self,server,shares):
+    def get_payout(self,server):
         sql = 'select stored_payout from ' + server
         self.curs.execute(sql)
         payout = 0

@@ -190,8 +190,6 @@ def bitHopper_Post(request):
         bithopper_global.log_msg('RPC request [' + rep + "] submitted to " + str(pool_server['name']))
     work.jsonrpc_getwork(bithopper_global.json_agent, pool_server, data, j_id, request, bithopper_global.get_new_server, bithopper_global.lp.set_lp)
 
-    
-
     return server.NOT_DONE_YET
 
 def bitHopperLP(value, *methodArgs):
@@ -228,15 +226,48 @@ def bitHopperLP(value, *methodArgs):
 
     return None
 
+def flat_info(request):
+    response = '<html><head><title>bitHopper Info</title></head><body>'
+    response += '<p>Pools:</p>'
+    response += '<tr><td>Name</td><td>Role</td><td>Shares</td><td>Payouts</td>\
+<td>Efficiency</td></tr>'
+    servers = bithopper_global.pool.get_servers()
+    for server in servers:
+        info = servers[server]
+        response += '<tr><td>' + info['name'] + '</td><td>' + info['role'] + \
+                      '</td><td>' + str(bithopper_global.db.get_shares(server)) + \
+                      '</td><td>' + str(bithopper_global.db.get_payout(server)) + \
+                      '</td><td>' + str(bithopper_global.stats.get_efficiency(server)) \
+                      + '</td></tr>'
+
+    response += '</body></html>'
+    request.write(response)
+    request.finish()
+    return
+
+class infoSite(resource.Resource):
+    isLeaf = True
+    def render_GET(self, request):
+        print 'Website request'
+        flat_info(request)
+        return server.NOT_DONE_YET
+
+    #def render_POST(self, request):
+    #    global new_server
+    #    bithopper_global.new_server.addCallback(bitHopperLP, (request))
+    #    return server.NOT_DONE_YET
+
+
+    def getChild(self,name,request):
+        return self
+
 class lpSite(resource.Resource):
     isLeaf = True
     def render_GET(self, request):
-        global new_server
         bithopper_global.new_server.addCallback(bitHopperLP, (request))
         return server.NOT_DONE_YET
 
     def render_POST(self, request):
-        global new_server
         bithopper_global.new_server.addCallback(bitHopperLP, (request))
         return server.NOT_DONE_YET
 
@@ -255,8 +286,11 @@ class bitSite(resource.Resource):
 
 
     def getChild(self,name,request):
+        print name
         if name == 'LP':
             return lpSite()
+        elif name == 'stats':
+            return infoSite()
         return self
 
 def parse_server_disable(option, opt, value, parser):

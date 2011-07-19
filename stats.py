@@ -98,6 +98,9 @@ class Statistics():
                 d.addErrback(errsharesResponse, (server))
                 d.addErrback(self.bitHopper.log_msg)
 
+    def get_efficiency(self):
+        return 'NA'
+
     def stats_dump(self, server, stats_file):
         if stats_file != None:
             stats_file.write(self.pool.get_entry(self.pool.get_current())['name'] + " " + str(self.pool.get_entry(self.pool.get_current())['user_shares']) + " " + str(diff.difficulty) + "\n")

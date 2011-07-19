@@ -17,7 +17,6 @@ class LongPoll():
     @defer.inlineCallbacks
     def update_lp(self,response):
         self.bitHopper.log_msg("LP triggered from server " + self.bitHopper.get_server())
-        global lp_set
 
         if response == None:
             defer.returnValue(None)
@@ -28,7 +27,7 @@ class LongPoll():
             body = yield finish
         except Exception, e:
             self.bitHopper.log_msg('Reading LP Response failed')
-            lp_set = True
+            self.lp_set = True
             defer.returnValue(None)
 
         try:
@@ -37,7 +36,7 @@ class LongPoll():
             #defer.returnValue(value)
         except exceptions.ValueError, e:
             self.bitHopper.log_msg("Error in json decoding, Probably not a real LP response")
-            lp_set = True
+            self.lp_set = True
             self.bitHopper.log_dbg(body)
             defer.returnValue(None)
 
@@ -47,20 +46,18 @@ class LongPoll():
         if current == self.bitHopper.get_server():
             self.bitHopper.log_dbg("LP triggering clients manually")
             self.bitHopper.lp_callback()
-            lp_set = False 
+            self.lp_set = False 
             
         defer.returnValue(None)
 
     def clear_lp(self,):
-        global lp_set
-        lp_set = False
+        self.lp_set = False
 
     def set_lp(self,url, check = False):
-        global lp_set
         if check:
-            return not lp_set
+            return not self.lp_set
 
-        if lp_set:
+        if self.lp_set:
             return
 
         server = self.pool.get_entry(self.pool.get_current())
