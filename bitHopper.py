@@ -240,7 +240,8 @@ def bitHopperLP(value, *methodArgs):
 
 def flat_info(request):
     response = '<html><head><title>bitHopper Info</title></head><body>'
-    response += '<p>Pools:</p>'
+    current_name = bithopper_global.pool.get_entry(bithopper_global.pool.get_current())['name']
+    response += '<p>Current Pool: ' + current_name+'</p>'
     response += '<table border="1"><tr><td>Name</td><td>Role</td><td>Shares'
     response += '</td><td>Rejects</td><td>Payouts</td><td>Efficiency</td></tr>'
     servers = bithopper_global.pool.get_servers()
