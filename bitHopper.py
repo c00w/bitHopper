@@ -33,6 +33,12 @@ class BitHopper():
         self.options = None
         self.pool = pool.Pool()
         self.lp = lp.LongPoll(self)
+        self.db = database.Database(self)
+        self.stats = stats.Statistics(self)
+
+    def data_callback(self,server,data):
+        if data != []:
+            self.db.update_shares(server, 1)
 
     def lp_callback(self, ):
         reactor.callLater(0.1,self.new_server.callback,None)
@@ -172,8 +178,8 @@ def bitHopper_Post(request):
     
     data = rpc_request['params']
     j_id = rpc_request['id']
-    #if data != []:
-    #    self.data_callback(current,data)
+    if data != []:
+        self.data_callback(current,data)
     if bithopper_global.options.debug:
         bithopper_global.log_msg('RPC request ' + str(data) + " submitted to " + str(pool_server['name']))
     else:
@@ -295,7 +301,7 @@ def main():
     update_call.start(117)
     delag_call = LoopingCall(bithopper_global.delag_server)
     delag_call.start(119)
-    stats_call = LoopingCall(stats.update_api_stats,bithopper_global)
+    stats_call = LoopingCall(bithopper_global.stats.update_api_stats)
     stats_call.start(117*4)
     reactor.run()
 

@@ -2,8 +2,8 @@
 #bitHopper by Colin Rice is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-import work
 import json
+import work
 from password import *
 from diff import difficulty
 import re
