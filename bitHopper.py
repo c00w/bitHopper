@@ -47,6 +47,7 @@ class BitHopper():
     def data_callback(self,server,data):
         if data != []:
             self.db.update_shares(server, 1)
+            self.pool[server]['user_shares'] +=1
 
     def lp_callback(self, ):
         reactor.callLater(0.1,self.new_server.callback,None)
@@ -98,13 +99,16 @@ class BitHopper():
                 server_name = server
 
         if server_name == None:
+            reject_rate = 1
             for server in self.pool.get_servers():
                 info = self.pool.get_entry(server)
                 if info['role'] != 'backup':
                     continue
                 if info['lag'] == False:
-                    server_name = server
-                    break
+                    rr_server = float(info['rejects'])/(info['user_shares']+1)
+                    if  rr_server < reject_rate:
+                        server_name = server
+                        reject_rate = rr_server
 
         if server_name == None:
             min_shares = 10**10
