@@ -247,7 +247,7 @@ def flat_info(request):
     servers = bithopper_global.pool.get_servers()
     for server in servers:
         info = servers[server]
-        if info['role'] not in ['backup','mine']:
+        if info['role'] not in ['backup','mine', 'api_disable']:
             continue
         shares = str(bithopper_global.db.get_shares(server))
         rejects = bithopper_global.pool.get_servers()[server]['rejects']
