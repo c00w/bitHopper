@@ -69,17 +69,17 @@ class Pool():
                     'role':'mine'},
                 'x8s':{'shares': default_shares, 'name': 'btc.x8s.de',
                     'mine_address': 'pit.x8s.de:8337', 'user': x8s_user,
-                    'pass': x8s_pass, 'lag': False, '
+                    'pass': x8s_pass, 'lag': False, 
                     'api_address':'', 
                     'role':'disable'},   
                 'rfc':{'shares': default_shares, 'name': 'rfcpool.com',
                     'mine_address': 'pool.rfcpool.com:8332', 'user': rfc_user,
-                    'pass': 'x', 'lag': False, '
+                    'pass': 'x', 'lag': False,
                     'api_address':'https://www.rfcpool.com/api/pool/stats', 
                     'role':'mine'},  
                  'nofeemining':{'shares': default_shares, 'name': 'nofeemining.com',
                     'mine_address': 'nofeemining.com:8332', 'user': nofeemining_user,
-                    'pass': nofeemining_pass, 'lag': False, '
+                    'pass': nofeemining_pass, 'lag': False, 
                     'api_address': 'https://www.nofeemining.com/api.php?key=' + nofeemining_user_apikey,
                     'role':'mine'},
                 }
