@@ -16,7 +16,7 @@ class Pool():
                 'bclc':{'shares':default_shares, 'name':'bitcoins.lc', 
                     'mine_address':'bitcoins.lc:8080', 'user':bclc_user, 'pass':bclc_pass, 
                     'lag':False, 'LP':None, 
-                    'api_address':'https://www.bitcoins.lc/stats.json', 'role':'info' },
+                    'api_address':'https://www.bitcoins.lc/stats.json', 'role':'disable' },
                 'mtred':{'shares':default_shares, 'name':'mtred',  
                     'mine_address':'mtred.com:8337', 'user':mtred_user, 'pass':mtred_pass, 
                     'lag':False, 'LP':None,
@@ -37,21 +37,21 @@ class Pool():
                 'mineco':{'shares': default_shares, 'name': 'mineco.in',
                     'mine_address': 'mineco.in:3000', 'user': mineco_user,
                     'pass': mineco_pass, 'lag': False, 'LP': None,
-                    'api_address':'https://mineco.in/stats.json', 'role':'info'},
+                    'api_address':'https://mineco.in/stats.json', 'role':'disable'},
                 'bitclockers':{'shares': default_shares, 'name': 'bitclockers.com',
                     'mine_address': 'pool.bitclockers.com:8332', 'user': bitclockers_user,
                     'pass': bitclockers_pass, 'lag': False, 'LP': None,
-                    'api_address':'https://bitclockers.com/api', 'role':'info',
+                    'api_address':'https://bitclockers.com/api', 'role':'disable',
                     'user_api_address':'https://bitclockers.com/api/'+bitclockers_user_apikey},
                'eclipsemc':{'shares': default_shares, 'name': 'eclipsemc.com',
                     'mine_address': 'pacrim.eclipsemc.com:8337', 'user': eclipsemc_user,
                     'pass': eclipsemc_pass, 'lag': False, 'LP': None,
                     'api_address':'https://eclipsemc.com/api.php?key='+ eclipsemc_apikey
-                     +'&action=poolstats', 'role':'info'},
+                     +'&action=poolstats', 'role':'disable'},
                 'miningmainframe':{'shares': default_shares, 'name': 'mining.mainframe.nl',
                    'mine_address': 'mining.mainframe.nl:8343', 'user': miningmainframe_user,
                    'pass': miningmainframe_pass, 'lag': False, 'LP': None,
-                    'api_address':'http://mining.mainframe.nl/api', 'role':'info'},
+                    'api_address':'http://mining.mainframe.nl/api', 'role':'disable'},
                 'bitp':{'shares': default_shares, 'name': 'bitp.it',
                    'mine_address': 'pool.bitp.it:8334', 'user': bitp_user,
                    'pass': bitp_pass, 'lag': False, 'LP': None,
@@ -70,8 +70,12 @@ class Pool():
                     'mine_address': 'pit.x8s.de:8337', 'user': x8s_user,
                     'pass': x8s_pass, 'lag': False, 'LP': None,
                     'api_address':'', 
-                    'role':'disable'},
-                   
+                    'role':'disable'},   
+                'rfc':{'shares': default_shares, 'name': 'rfcpool.com',
+                    'mine_address': 'pool.rfcpool.com:8332', 'user': rfc_user,
+                    'pass': 'x', 'lag': False, 'LP': None,
+                    'api_address':'https://www.rfcpool.com/api/pool/stats', 
+                    'role':'mine'},  
                 }
 
         self.current_server = 'mtred'
@@ -95,11 +99,15 @@ class Pool():
         try:
             k =  str('{0:,d}'.format(shares))
         except Exception, e:
-            #bitHopper.log_dbg("Error formatting")
-            #bitHopper.log_dbg(e)
+            self.bitHopper.log_dbg("Error formatting")
+            self.bitHopper.log_dbg(e)
             k =  str(shares)
         self.bitHopper.log_msg(str(server) +": "+ k)
         self.servers[server]['shares'] = shares
+
+    def rfc_sharesResponse(self, response):
+        round_shares = json.loads(response)['poolstats']['round_shares']
+        self.UpdateShares('rfc',round_shares)
 
     def triple_sharesResponse(self, response):
         output = re.search('<td>\d+</td>', response)
@@ -172,7 +180,8 @@ class Pool():
             'miningmainframe':self.mmf_sharesResponse,
             'bitp':self.bitp_sharesResponse,
             'ozco':self.ozco_sharesResponse,
-            'triple':self.triple_sharesResponse}
+            'triple':self.triple_sharesResponse,
+            'rfc':self.rfc_sharesResponse}
         func_map[args](response)
         self.bitHopper.server_update()
 
