@@ -105,12 +105,12 @@ class Pool():
 
         prev_shares = self.servers[server]['shares']
         if shares == prev_shares:
-            self.servers[server]['refresh_time'] += 10
+            self.servers[server]['refresh_time'] += .10*self.servers[server]['refresh_time']
             self.bitHopper.reactor.callLater(5,self.update_api_server,server)
         else:
-            self.servers[server]['refresh_time'] -= 10
+            self.servers[server]['refresh_time'] -= .10*self.servers[server]['refresh_time']
             time = self.servers[server]['refresh_time']
-            if time <= 0:
+            if time <= 10:
                 self.servers[server]['refresh_time'] = 10
             self.bitHopper.reactor.callLater(time,self.update_api_server,server)
 
