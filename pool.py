@@ -104,9 +104,6 @@ class Pool():
         self.current_server = server
 
     def UpdateShares(self, server, shares):
-        if self.servers[server]['refresh_time'] > 60*10:
-            self.bitHopper.log_msg('Disabled due to unchanging api: ' + server)
-            return
 
         prev_shares = self.servers[server]['shares']
         if shares == prev_shares:
@@ -128,6 +125,10 @@ class Pool():
         if shares != prev_shares:
             self.bitHopper.log_msg(str(server) +": "+ k)
         self.servers[server]['shares'] = shares
+        if self.servers[server]['refresh_time'] > 60*30:
+            self.bitHopper.log_msg('Disabled due to unchanging api: ' + server)
+            return
+
 
     def rfc_sharesResponse(self, response):
         round_shares = json.loads(response)['poolstats']['round_shares']
