@@ -23,7 +23,9 @@ class Database():
             try:
                 versionfd = open('db-version', 'rb')
                 version = versionfd.read()
+                self.bitHopper.log_msg("DB Verson: " + version)
                 if version != "0.1":
+                    self.bitHopper.log_msg('Old Database')
                     os.remove('stats.db')
                 versionfd.close()
             except:
