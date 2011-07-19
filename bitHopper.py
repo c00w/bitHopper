@@ -177,7 +177,11 @@ def bitHopper_Post(request):
     if bithopper_global.options.debug:
         bithopper_global.log_msg('RPC request ' + str(data) + " submitted to " + str(pool_server['name']))
     else:
-        bithopper_global.log_msg('RPC request [' + str(data[155:163]) + "] submitted to " + str(pool_server['name']))
+        if data == []:
+            rep = ""
+        else:
+            rep = str(data[0][155:163])
+        bithopper_global.log_msg('RPC request [' + rep + "] submitted to " + str(pool_server['name']))
     work.jsonrpc_getwork(bithopper_global.json_agent, pool_server, data, j_id, request, bithopper_global.get_new_server, bithopper_global.lp.set_lp)
 
     
