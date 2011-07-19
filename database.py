@@ -33,7 +33,7 @@ class Database():
 
     def update_shares(self,server,shares):
 
-        sql = 'UPDATE '+ server +'Set shares= shares + '+ shares +' WHERE diff='+ diff.difficulty
+        sql = 'UPDATE '+ server +'Set shares= shares + '+ str(shares) +' WHERE diff='+ diff.difficulty
         self.curs.execute(sql)
 
     def get_shares(self,server):
@@ -46,7 +46,7 @@ class Database():
         
     def update_payout(self,server,payout):
 
-        sql = 'UPDATE '+ server +'Set stored_payout= stored_payout + '+ payout +' WHERE diff='+ diff.difficulty
+        sql = 'UPDATE '+ server +'Set stored_payout= stored_payout + '+ str(payout) +' WHERE diff='+ diff.difficulty
         self.curs.execute(sql)
 
     def get_payout(self,server):
