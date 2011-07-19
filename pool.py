@@ -65,7 +65,7 @@ class Pool():
                    'mine_address': 'bitcoinpool.com:8334', 'user': bcpool_user,
                    'pass': bcpool_pass, 'lag': False, 'LP': None,
                    'api_address':'http://bitcoinpool.com/pooljson.php',
-                   'role':'mine'}
+                   'role':'mine'},
                'triple':{'shares': default_shares, 'name': 'triplemining.com',
                    'mine_address': 'eu1.triplemining.com:8344', 'user': triple_user,
                    'pass': triple_pass, 'lag': False, 'LP': None,
