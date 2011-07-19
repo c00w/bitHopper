@@ -109,6 +109,8 @@ class Pool():
         else:
             self.servers[server]['refresh_time'] -= 10
             time = self.servers[server]['refresh_time']
+            if time <= 0:
+                self.servers[server]['refresh_time'] = 10
             self.bitHopper.reactor.callLater(time,self.update_api_server,server)
 
         try:
@@ -117,7 +119,8 @@ class Pool():
             self.bitHopper.log_dbg("Error formatting")
             self.bitHopper.log_dbg(e)
             k =  str(shares)
-        self.bitHopper.log_msg(str(server) +": "+ k)
+        if shares != prev_shares:
+            self.bitHopper.log_msg(str(server) +": "+ k)
         self.servers[server]['shares'] = shares
 
     def rfc_sharesResponse(self, response):
