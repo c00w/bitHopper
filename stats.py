@@ -98,7 +98,7 @@ class Statistics():
                 d.addErrback(errsharesResponse, (server))
                 d.addErrback(self.bitHopper.log_msg)
 
-    def get_efficiency(self):
+    def get_efficiency(self,server):
         return 'NA'
 
     def stats_dump(self, server, stats_file):

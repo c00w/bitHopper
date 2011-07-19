@@ -229,18 +229,20 @@ def bitHopperLP(value, *methodArgs):
 def flat_info(request):
     response = '<html><head><title>bitHopper Info</title></head><body>'
     response += '<p>Pools:</p>'
-    response += '<tr><td>Name</td><td>Role</td><td>Shares</td><td>Payouts</td>\
-<td>Efficiency</td></tr>'
+    response += '<table border="1"><tr><td>Name</td><td>Role</td><td>Shares'
+    response += '</td><td>Payouts</td><td>Efficiency</td></tr>'
     servers = bithopper_global.pool.get_servers()
     for server in servers:
         info = servers[server]
+        if info['role'] not in ['backup','mine']:
+            continue
         response += '<tr><td>' + info['name'] + '</td><td>' + info['role'] + \
                       '</td><td>' + str(bithopper_global.db.get_shares(server)) + \
                       '</td><td>' + str(bithopper_global.db.get_payout(server)) + \
                       '</td><td>' + str(bithopper_global.stats.get_efficiency(server)) \
                       + '</td></tr>'
 
-    response += '</body></html>'
+    response += '</table></body></html>'
     request.write(response)
     request.finish()
     return
@@ -248,7 +250,6 @@ def flat_info(request):
 class infoSite(resource.Resource):
     isLeaf = True
     def render_GET(self, request):
-        print 'Website request'
         flat_info(request)
         return server.NOT_DONE_YET
 
@@ -276,7 +277,7 @@ class lpSite(resource.Resource):
         return self
 
 class bitSite(resource.Resource):
-    isLeaf = True
+
     def render_GET(self, request):
         bithopper_global.new_server.addCallback(bitHopperLP, (request))
         return server.NOT_DONE_YET
@@ -286,7 +287,7 @@ class bitSite(resource.Resource):
 
 
     def getChild(self,name,request):
-        print name
+        #bithopper_global.log_msg(str(name))
         if name == 'LP':
             return lpSite()
         elif name == 'stats':
@@ -303,7 +304,6 @@ def main():
     parser.add_option('--debug', action= 'store_true', default = False, help='Use twisted output')
     parser.add_option('--list', action= 'store_true', default = False, help='List servers')
     parser.add_option('--disable', type=str, default = None, action='callback', callback=parse_server_disable, help='Servers to disable. Get name from --list. Servera,Serverb,Serverc')
-    parser.add_option('--database', action= 'store_true', default = False, help='dump stats to filename')
     args, rest = parser.parse_args()
     options = args
     bithopper_global.options = args
@@ -324,9 +324,6 @@ def main():
                 bithopper_global.pool.get_servers()[k]['role'] = 'disable'
             else:
                 print k + " Not a valid server"
-
-    if options.database:
-        database.check_database()
 
     if options.debug: log.startLogging(sys.stdout)
     site = server.Site(bitSite())
