@@ -350,6 +350,7 @@ def main():
     stats_call = LoopingCall(bithopper_global.stats.update_api_stats)
     stats_call.start(117*4)
     reactor.run()
+    bithopper_global.db.close()
 
 if __name__ == "__main__":
     main()

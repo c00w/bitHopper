@@ -14,6 +14,9 @@ class Database():
         self.pool = bitHopper.pool
         self.check_database()
 
+    def close(self):
+        self.curs.close()
+
     def check_database(self):
         self.bitHopper.log_msg('Checking Database')
         if os.path.exists('stats.db'):
