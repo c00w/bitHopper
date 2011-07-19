@@ -31,9 +31,9 @@ triple_pass = 'x'
 rfc_user = 'c00w_test'
 
 #nofeemining.com
-nofeemining_user = 'my@email.address_workername'
-nofeemining_pass = 'password'
-nofeemining_user_apikey = 'INSERT_API_KEY_HERE'
+nofeemining_user = 'dah4k0r@gmail.com_test'
+nofeemining_pass = 'x'
+nofeemining_user_apikey = '4140cbc6405f4425cf91ca74e1450b66'
 
 #These passswords are not currently used.
 #So if you have them replace them with your own. Otherwise don't worry
