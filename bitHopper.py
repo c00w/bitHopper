@@ -151,7 +151,8 @@ class BitHopper():
         return self.pool.get_entry(self.pool.get_current())
 
     def server_update(self, ):
-        if self.pool.get_entry(self.pool.get_current()['role'] not in ['mine','backup']:
+        valid_roles = ['mine','backup']
+        if self.pool.get_entry(self.pool.get_current())['role'] not in valid_roles:
             self.select_best_server()
             return
 
