@@ -3,13 +3,25 @@
 #Based on a work at github.com.
 
 import urllib2
+from twisted.internet.task import LoopingCall
 
-def get_difficulty():
-    try:
-        req = urllib2.Request('http://blockexplorer.com/q/getdifficulty')
-        response = urllib2.urlopen(req)
-        diff_string = response.read()
-        return float(diff_string)
-    except:
-        return 1563027.99611622
-difficulty = get_difficulty()
+class Difficulty():
+    def __init__(self,bitHopper):
+        self.bitHopper = bitHopper
+        self.difficulty = 1563027.99611622
+        call = LoopingCall(self.update_difficulty)
+        call.start(60*60*6)
+
+    def get_difficulty(self):
+        return self.difficulty
+
+    def update_difficulty(self):
+        self.bitHopper.log_msg('Updating Difficulty')
+        try:
+            req = urllib2.Request('http://blockexplorer.com/q/getdifficulty')
+            response = urllib2.urlopen(req)
+            diff_string = response.read()
+            self.difficulty = float(diff_string)
+            self.bitHopper.log_msg(str(diff_string))
+        except:
+            pass

@@ -32,7 +32,8 @@ class BitHopper():
         self.stats_file = None
         self.options = None
         self.reactor = reactor
-        self.pool = pool.Pool()
+        self.difficulty = diff.Difficulty(self)
+        self.pool = pool.Pool(self)
         self.db = database.Database(self)
         self.pool.setup(self)
         self.lp = lp.LongPoll(self)
@@ -86,7 +87,7 @@ class BitHopper():
     def select_best_server(self, ):
         """selects the best server for pool hopping. If there is not good server it returns eligious"""
         server_name = None
-        difficulty = diff.difficulty
+        difficulty = self.difficulty.get_difficulty()
 
         min_shares = difficulty*.40
         
@@ -146,8 +147,8 @@ class BitHopper():
         return self.pool.get_entry(self.pool.get_current())
 
     def server_update(self, ):
-
-        if self.pool.get_entry(self.pool.get_current())['shares'] > diff.difficulty * .40:
+        difficulty = self.difficulty.get_difficulty()
+        if self.pool.get_entry(self.pool.get_current())['shares'] > difficulty * .40:
             self.select_best_server()
             return
 

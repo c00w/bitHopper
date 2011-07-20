@@ -3,7 +3,6 @@
 #Based on a work at github.com.
 
 import sqlite3
-import diff
 import os
 import os.path
 
@@ -39,21 +38,22 @@ class Database():
         self.curs = database.cursor()
         
         for server_name in self.pool.get_servers():
+            difficulty = self.bitHopper.difficulty.get_difficulty()
             sql = "CREATE TABLE IF NOT EXISTS "+server_name +" (diff REAL, shares INTEGER, rejects INTEGER, stored_payout REAL)"
             self.curs.execute(sql)
         
         for server in self.pool.get_servers():
-            sql = 'select * from ' + server +' where diff = ' + str(diff.difficulty)
+            sql = 'select * from ' + server +' where diff = ' + str(difficulty)
             rows = self.curs.execute(sql)
             rows = rows.fetchall()
             if len(rows) == 0:
-                sql = 'INSERT INTO ' + server + '(diff, shares, rejects, stored_payout) values( '+str(diff.difficulty) +', '+str(0) +', '+str(0) + ', '+str(0)+ ')'
+                sql = 'INSERT INTO ' + server + '(diff, shares, rejects, stored_payout) values( '+str(difficulty) +', '+str(0) +', '+str(0) + ', '+str(0)+ ')'
                 self.curs.execute(sql)
         self.bitHopper.log_msg('Database Setup')
 
     def update_shares(self,server,shares):
-
-        sql = 'UPDATE '+ server +' SET shares= shares + '+ str(shares) +' WHERE diff='+ str(diff.difficulty)
+        difficulty = self.bitHopper.difficulty.get_difficulty()
+        sql = 'UPDATE '+ server +' SET shares= shares + '+ str(shares) +' WHERE diff='+ str(difficulty)
         self.curs.execute(sql)
 
     def get_shares(self,server):
@@ -65,8 +65,8 @@ class Database():
         return shares
 
     def update_rejects(self,server,shares):
-
-        sql = 'UPDATE '+ server +' SET rejects= rejects + '+ str(shares) +' WHERE diff='+ str(diff.difficulty)
+        difficulty = self.bitHopper.difficulty.get_difficulty()
+        sql = 'UPDATE '+ server +' SET rejects= rejects + '+ str(shares) +' WHERE diff='+ str(difficulty)
         self.curs.execute(sql)
 
     def get_rejects(self,server):
@@ -78,8 +78,8 @@ class Database():
         return shares
         
     def update_payout(self,server,payout):
-
-        sql = 'UPDATE '+ server +'Set stored_payout= stored_payout + '+ str(payout) +' WHERE diff='+ str(diff.difficulty)
+        difficulty = self.bitHopper.difficulty.get_difficulty()
+        sql = 'UPDATE '+ server +'Set stored_payout= stored_payout + '+ str(payout) +' WHERE diff='+ str(difficulty)
         self.curs.execute(sql)
 
     def get_payout(self,server):

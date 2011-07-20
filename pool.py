@@ -5,12 +5,12 @@
 import json
 import work
 from password import *
-from diff import difficulty
 import re
 
 class Pool():
-    def __init__(self):
-        default_shares = difficulty
+    def __init__(self,bitHopper):
+        difficulty = bitHopper.difficulty.get_difficulty()
+        default_shares = bitHopper.difficulty.get_difficulty()
         
         self.servers = {
                 'bclc':{'shares':default_shares, 'name':'bitcoins.lc', 
