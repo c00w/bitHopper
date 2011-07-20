@@ -9,7 +9,7 @@ class Speed():
         self.bitHopper= bitHopper
         self.shares = 0
         call = LoopingCall(self.update_rate)
-        call.start(60*10)
+        call.start(60)
         self.rate = 0
 
     def add_shares(self, share):
