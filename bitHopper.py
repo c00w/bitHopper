@@ -151,6 +151,10 @@ class BitHopper():
         return self.pool.get_entry(self.pool.get_current())
 
     def server_update(self, ):
+        if self.pool.get_entry(self.pool.get_current()['role'] not in ['mine','backup']:
+            self.select_best_server()
+            return
+
         difficulty = self.difficulty.get_difficulty()
         if self.pool.get_entry(self.pool.get_current())['shares'] > difficulty * .40:
             self.select_best_server()
