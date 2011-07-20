@@ -126,7 +126,7 @@ class Pool():
             self.bitHopper.reactor.callLater(time,self.update_api_server,server)
 
         try:
-            k =  str('{0:,d}'.format(shares))
+            k =  str('{0:,d}'.format(int(shares)))
         except Exception, e:
             self.bitHopper.log_dbg("Error formatting")
             self.bitHopper.log_dbg(e)
