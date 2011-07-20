@@ -36,10 +36,11 @@ class BitHopper():
         self.difficulty = diff.Difficulty(self)
         self.pool = pool.Pool(self)
         self.db = database.Database(self)
-        self.pool.setup(self)
         self.lp = lp.LongPoll(self)
         self.speed = speed.Speed(self)
         self.stats = stats.Statistics(self)
+        
+        self.pool.setup(self)
 
     def reject_callback(self,server,data):
         try:
