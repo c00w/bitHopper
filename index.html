@@ -55,7 +55,7 @@
 						var srv = data["servers"][v]
 						
 						var na  = srv['name'];
-						if(na == data["current"]) {
+						if(v == data["current"]) {
 							na = "<span style='color:yellow;'>" + v + "</span>";
 						}
 						if(srv["lag"]) {
