@@ -34,8 +34,8 @@ class Database():
         version.write("0.1")
         version.close()
         
-        database = sqlite3.connect('stats.db')
-        self.curs = database.cursor()
+        self.database = sqlite3.connect('stats.db')
+        self.curs = self.database.cursor()
         
         for server_name in self.pool.get_servers():
             difficulty = self.bitHopper.difficulty.get_difficulty()
@@ -55,6 +55,7 @@ class Database():
         difficulty = self.bitHopper.difficulty.get_difficulty()
         sql = 'UPDATE '+ server +' SET shares= shares + '+ str(shares) +' WHERE diff='+ str(difficulty)
         self.curs.execute(sql)
+        self.database.commit()
 
     def get_shares(self,server):
         sql = 'select shares from ' + server
@@ -68,6 +69,7 @@ class Database():
         difficulty = self.bitHopper.difficulty.get_difficulty()
         sql = 'UPDATE '+ server +' SET rejects= rejects + '+ str(shares) +' WHERE diff='+ str(difficulty)
         self.curs.execute(sql)
+        self.database.commit()
 
     def get_rejects(self,server):
         sql = 'select rejects from ' + server
@@ -81,6 +83,7 @@ class Database():
         difficulty = self.bitHopper.difficulty.get_difficulty()
         sql = 'UPDATE '+ server +'Set stored_payout= stored_payout + '+ str(payout) +' WHERE diff='+ str(difficulty)
         self.curs.execute(sql)
+        self.database.commit()
 
     def get_payout(self,server):
         sql = 'select stored_payout from ' + server
