@@ -67,12 +67,12 @@ class Database():
 
     def update_rejects(self,server,shares):
         difficulty = self.bitHopper.difficulty.get_difficulty()
-        sql = 'UPDATE '+ server +' SET rejects= rejects + '+ str(shares) +' WHERE diff='+ str(difficulty)
+        sql = 'UPDATE '+ str(server) +' SET rejects= rejects + '+ str(shares) +' WHERE diff='+ str(difficulty)
         self.curs.execute(sql)
         self.database.commit()
 
     def get_rejects(self,server):
-        sql = 'select rejects from ' + server
+        sql = 'select rejects from ' + str(server)
         self.curs.execute(sql)
         shares = 0
         for info in self.curs.fetchall():

@@ -41,9 +41,13 @@ class BitHopper():
         self.stats = stats.Statistics(self)
 
     def reject_callback(self,server,data):
-        if data != []:
-            self.db.update_rejects(server,1)
-            self.pool.get_servers()[server]['rejects'] += 1
+        try:
+            if data != []:
+                self.db.update_rejects(server,1)
+                self.pool.get_servers()[server]['rejects'] += 1
+        except:
+            self.log_dbg('reject_callback_error')
+            return
 
     def data_callback(self,server,data):
         if data != []:

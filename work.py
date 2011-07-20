@@ -133,10 +133,8 @@ def jsonrpc_getwork(agent, server, data, j_id, request, new_server, set_lp, bitH
             continue
 
     try:
-        if data != []:
-            bitHopper.log_dbg(str(work))
         if str(work) == 'False':
-            bitHopper.reject_callback(server, data)
+            bitHopper.reject_callback(bitHopper.pool.get_current(), data)
         response = json.dumps({"result":work,'error':None,'id':j_id})
         request.write(response)
         request.finish()
