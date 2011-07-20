@@ -141,12 +141,12 @@ class Pool():
 
 
     def rfc_sharesResponse(self, response):
-        round_shares = json.loads(response)['poolstats']['round_shares']
+        round_shares = int(json.loads(response)['poolstats']['round_shares'])
         self.UpdateShares('rfc',round_shares)
 
     def x8s_sharesResponse(self, response):
-        round_shares = json.loads(response)['poolstats']['round_shares']
-        self.UpdateShares('x8s',round_shares
+        round_shares = int(json.loads(response)['round_shares'])
+        self.UpdateShares('x8s',round_shares)
 
     def triple_sharesResponse(self, response):
         output = re.search('<td>\d+</td>', response)
