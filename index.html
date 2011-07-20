@@ -42,7 +42,7 @@
 			function update() {
 				$.getJSON('/data', function(data) {
 					$("#current").html("<span style='color:yellow;'>" + data["current"] + "</span> @" + parseInt(data["mhash"]) + "MHash");
-					var h = "<table border=0 padding=0 cellpadding=0 cellspacing=0><tr><td class=head><b>Server</b></td><td class=head align=right><b>Shares</b></td><td class=head align=right><b>Role</b></td><td class=head align=right><b>User Shares</b></td><td class=head align=right><b>Payout</b></td><td class=head align=right><b>Efficiency</b></td></tr>";
+					var h = "<table border=0 padding=0 cellpadding=0 cellspacing=0><tr><td class=head><b>Server</b></td><td class=head align=right><b>Shares</b></td><td class=head align=right><b>Role</b></td><td class=head align=right><b>User Shares / Reject</b></td><td class=head align=right><b>Payout</b></td><td class=head align=right><b>Efficiency</b></td></tr>";
 					var maxlrej = 0;
 					for(v in data["servers"]) {
 						if(!data["servers"][v]["lag"]) {
@@ -65,7 +65,7 @@
 						h += "<td><b>" + na + "</b></td>";
 						shares = srv['shares'];
 						if(srv["role"] != "mine"|| srv["role"] != "info") {
-							shares = "&nbsp;";
+							shares = "Not Gathered";
 						}
 						
 						h += "<td align=right>" + shares  + "</td>";
