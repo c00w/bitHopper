@@ -256,7 +256,7 @@ def flat_info(request):
             continue
         shares = str(bithopper_global.db.get_shares(server))
         rejects = bithopper_global.pool.get_servers()[server]['rejects']
-        rejects_str = str(rejects/(int(shares)+1)*100) + "%(" + str(rejects)+")"
+        rejects_str = "{:.2}%".format(float(rejects/(int(shares)+1)*100)) + "(" + str(rejects)+")"
         response += '<tr><td>' + info['name'] + '</td><td>' + info['role'] + \
                       '</td><td>' + shares + \
                       '</td><td>' + rejects_str +\
