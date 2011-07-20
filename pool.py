@@ -93,7 +93,7 @@ class Pool():
             self.servers[server]['refresh_time'] = 60
             self.servers[server]['rejects'] = self.bitHopper.db.get_rejects(server)
             self.servers[server]['user_shares']=self.bitHopper.db.get_shares(server)
-
+            self.servers[server]['payout'] = self.bitHopper.db.get_payout(server)
     def get_entry(self, server):
         if server in self.servers:
             return self.servers[server]

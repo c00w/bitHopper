@@ -289,16 +289,9 @@ class flatSite(resource.Resource):
     def getChild(self,name,request):
         return self
 
-class dynamicSite(resource.Resource):
+class dataSite(resource.Resource):
     isLeaf = True
     def render_GET(self, request):
-        if str(request).find("index") >= 0:
-			file = open('index.html', 'r')
-			linestring = file.read()
-			file.close
-			request.write(linestring)
-			request.finish()
-			return server.NOT_DONE_YET
         response = json.dumps({"current":bithopper_global.pool.get_current(), 'mhash':'0', 'difficulty':bithopper_global.difficulty.get_difficulty(), 'servers':bithopper_global.pool.get_servers()})
         request.write(response)
         request.finish()
@@ -309,9 +302,15 @@ class dynamicSite(resource.Resource):
     #    bithopper_global.new_server.addCallback(bitHopperLP, (request))
     #    return server.NOT_DONE_YET
 
-
-    def getChild(self,name,request):
-        return self
+class dynamicSite(resource.Resource):
+    isleaF = True
+    def render_GET(self,request):
+		file = open('index.html', 'r')
+		linestring = file.read()
+		file.close
+		request.write(linestring)
+		request.finish()
+		return server.NOT_DONE_YET
 
 class lpSite(resource.Resource):
     isLeaf = True
@@ -322,10 +321,6 @@ class lpSite(resource.Resource):
     def render_POST(self, request):
         bithopper_global.new_server.addCallback(bitHopperLP, (request))
         return server.NOT_DONE_YET
-
-
-    def getChild(self,name,request):
-        return self
 
 class bitSite(resource.Resource):
 
@@ -341,10 +336,12 @@ class bitSite(resource.Resource):
         #bithopper_global.log_msg(str(name))
         if name == 'LP':
             return lpSite()
-        elif name == 'flat' or name == 'stats':
+        elif name == 'flat':
             return flatSite()
-        elif name == 'dynamic':
+        elif name == 'stats':
             return dynamicSite()
+        elif name == 'data':
+            return dataSite()
         return self
 
 def parse_server_disable(option, opt, value, parser):

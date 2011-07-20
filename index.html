@@ -40,14 +40,12 @@
 			}
 		
 			function update() {
-				$.getJSON('/current', function(data) {
+				$.getJSON('/data', function(data) {
 					$("#current").html("<span style='color:yellow;'>" + data["current"] + "</span> @" + parseInt(data["mhash"]) + "MHash");
-					var h = "<table border=0 padding=0 cellpadding=0 cellspacing=0><tr><td class=head><b>Server</b></td><td class=head align=right><b>GHash</b></td><td class=head align=right><b>Round / GH Bonus</b></td><td class=head align=right><b>Shares</b></td><td class=head align=right><b>Seconds</b></td><td class=head align=right><b>Slice</b></td></tr>";
-					var tw = 0;
+					var h = "<table border=0 padding=0 cellpadding=0 cellspacing=0><tr><td class=head><b>Server</b></td><td class=head align=right><b>Shares</b></td><td class=head align=right><b>Role</b></td><td class=head align=right><b>User Shares</b></td><td class=head align=right><b>Payout</b></td><td class=head align=right><b>Efficiency</b></td></tr>";
 					var maxlrej = 0;
 					for(v in data["servers"]) {
 						if(!data["servers"][v]["lag"]) {
-							tw += data["servers"][v]["weight"];
 							if(maxlrej > (""+data["servers"][v]["rejects"]).length)
 								maxlrej = (""+data["servers"][v]["rejects"]).length;
 						}
@@ -65,30 +63,14 @@
 						}
 						
 						h += "<td><b>" + na + "</b></td>";
-						gh = srv['ghash'] + "GH";
-						if(srv["name"] == "multiclone" || srv["name"] == "eligius") {
-							gh = "&nbsp;";
+						shares = srv['shares'];
+						if(srv["role"] != "mine"|| srv["role"] != "info") {
+							shares = "&nbsp;";
 						}
 						
-						h += "<td align=right>" + gh  + "</td>";
+						h += "<td align=right>" + shares  + "</td>";
 						
-						
-						var sh = ""; //fixLength(""+parseInt(srv["shares"]),12);
-						if(srv["name"] == "multiclone" || srv["name"] == "eligius") {
-							sh = "&nbsp;";
-						} else {
-							var perc = fixLength(""+srv["shares"], 14);
-							var ghashbonus = srv["ghashweight"].toFixed(2);
-							sh = sh + perc + " /" + fixLength(ghashbonus, 5) + "GHb";
-						}
-						
-						var util = parseFloat(parseFloat((parseFloat(srv["shares"]) / data["difficulty"]) )/srv["ghashweight"]);
-						if(util <= 0.43) {
-							sh += " = <span style='color:lightgreen'>" + util.toFixed(3) + "</span>";
-						} else {
-							sh += " = <span style='color:red'>" + util.toFixed(3) + "</span>";
-						}
-						h += "<td align=right>" + sh + "</td>";
+						h += "<td align=right>" + srv["role"] + "</td>";
 
 						var pp = 0;
 						if(parseInt(srv["rejects"]) > 0) {
@@ -99,29 +81,18 @@
 							
 							+ " (" + fixLength("" + pp.toFixed(2), 5) + "%)";
 							+ "</td>";
-						lag = srv["lag"]
-						secs = parseInt(srv["slice"]);
-						if(secs <= 0) {
-							secs = "&nbsp;";
-						} else {
-							var minu = 0;
-							while( secs >= 60 ) {
-								minu = minu + 1;
-								secs = secs-60;
-							}
-							if(secs < 10) {
-								secs = "0" + secs;
-							}
-							secs = minu + ":" + secs;
-						}
-						h += "<td align=right>" + secs + "</td>";
-						var x = parseInt(srv["weight"]/tw*100) + "%";
-						if(srv["lag"] || x == "0%" || "NaN%") {
-							x = "&nbsp;";
-						}
+						lag = srv["lag"];
+
+                        payout = srv["payout"]
 						
-						
-						h += "<td align=right>" + x + "</td>";
+						h += "<td align=right>" + payout + "</td>";
+
+                        var expect = srv["shares"] * 50 / data["difficulty"];
+                        var payout = parseFloat(payout)/expect * 100;
+                        var pay_str = fixLength("" + payout.toFixed(2),5) + "%";
+
+                        h += "<td align=right>" + pay_str + "</td>"; 
+
 						h += "</tr>";
 					}
 					h += "</table>";
