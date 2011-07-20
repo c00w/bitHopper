@@ -58,7 +58,7 @@ class Database():
         self.database.commit()
 
     def get_shares(self,server):
-        sql = 'select shares from ' + server
+        sql = 'select shares from ' + str(server)
         self.curs.execute(sql)
         shares = 0
         for info in self.curs.fetchall():
