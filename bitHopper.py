@@ -104,6 +104,7 @@ class BitHopper():
         
         for server in self.pool.get_servers():
             info = self.pool.get_entry(server)
+            info['shares'] = int(info['shares'])
             if info['role'] != 'mine':
                 continue
             if info['shares']< min_shares and info['lag'] == False:
