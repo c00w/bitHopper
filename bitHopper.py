@@ -8,8 +8,9 @@ import work
 import diff
 import stats
 import pool
-
+import speed
 import database
+
 import sys
 import exceptions
 import optparse
@@ -37,7 +38,7 @@ class BitHopper():
         self.db = database.Database(self)
         self.pool.setup(self)
         self.lp = lp.LongPoll(self)
-
+        self.speed = speed.Speed(self)
         self.stats = stats.Statistics(self)
 
     def reject_callback(self,server,data):
@@ -53,6 +54,7 @@ class BitHopper():
     def data_callback(self,server,data):
         try:
             if data != []:
+                self.speed.add_shares(1)
                 self.db.update_shares(server, 1)
                 self.pool.get_servers()[server]['user_shares'] +=1
         except Exception, e:
@@ -297,7 +299,7 @@ class flatSite(resource.Resource):
 class dataSite(resource.Resource):
     isLeaf = True
     def render_GET(self, request):
-        response = json.dumps({"current":bithopper_global.pool.get_current(), 'mhash':'0', 'difficulty':bithopper_global.difficulty.get_difficulty(), 'servers':bithopper_global.pool.get_servers()})
+        response = json.dumps({"current":bithopper_global.pool.get_current(), 'mhash':bithopper_global.speed.get_rate(), 'difficulty':bithopper_global.difficulty.get_difficulty(), 'servers':bithopper_global.pool.get_servers()})
         request.write(response)
         request.finish()
         return server.NOT_DONE_YET
