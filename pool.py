@@ -70,8 +70,8 @@ class Pool():
                 'x8s':{'shares': default_shares, 'name': 'btc.x8s.de',
                     'mine_address': 'pit.x8s.de:8337', 'user': x8s_user,
                     'pass': x8s_pass, 'lag': False, 
-                    'api_address':'', 
-                    'role':'disable'},   
+                    'api_address':'http://btc.x8s.de/api/global.json', 
+                    'role':'mine'},   
                 'rfc':{'shares': default_shares, 'name': 'rfcpool.com',
                     'mine_address': 'pool.rfcpool.com:8332', 'user': rfc_user,
                     'pass': 'x', 'lag': False,
@@ -143,6 +143,10 @@ class Pool():
     def rfc_sharesResponse(self, response):
         round_shares = json.loads(response)['poolstats']['round_shares']
         self.UpdateShares('rfc',round_shares)
+
+    def x8s_sharesResponse(self, response):
+        round_shares = json.loads(response)['poolstats']['round_shares']
+        self.UpdateShares('x8s',round_shares
 
     def triple_sharesResponse(self, response):
         output = re.search('<td>\d+</td>', response)
@@ -224,7 +228,8 @@ class Pool():
             'ozco':self.ozco_sharesResponse,
             'triple':self.triple_sharesResponse,
             'rfc':self.rfc_sharesResponse,
-            'nofeemining':self.nofeemining_sharesResponse}
+            'nofeemining':self.nofeemining_sharesResponse,
+            'x8s':self.x8s_sharesResponse}
         func_map[args](response)
         self.bitHopper.server_update()
 

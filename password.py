@@ -43,14 +43,13 @@ nofeemining_user = 'dah4k0r@gmail.com_test'
 nofeemining_pass = 'x'
 nofeemining_user_apikey = '4140cbc6405f4425cf91ca74e1450b66'
 
-#These passswords are not currently used.
-#So if you have them replace them with your own. Otherwise don't worry
-
-
 #btc.x8s.de
 #http://btc.x8s.de/account/signup
 x8s_user = 'testhop'
 x8s_pass = 'x'
+
+#These passswords are not currently used.
+#So if you have them replace them with your own. Otherwise don't worry
 
 #bitp.it
 #https://pool.bitp.it/
