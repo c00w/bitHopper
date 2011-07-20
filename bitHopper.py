@@ -45,14 +45,19 @@ class BitHopper():
             if data != []:
                 self.db.update_rejects(server,1)
                 self.pool.get_servers()[server]['rejects'] += 1
-        except:
+        except Exception, e:
             self.log_dbg('reject_callback_error')
+            self.log_dbg(str(e))
             return
 
     def data_callback(self,server,data):
-        if data != []:
-            self.db.update_shares(server, 1)
-            self.pool.get_servers()[server]['user_shares'] +=1
+        try:
+            if data != []:
+                self.db.update_shares(server, 1)
+                self.pool.get_servers()[server]['user_shares'] +=1
+        except Exception, e:
+            self.log_dbg('data_callback_error')
+            self.log_dbg(str(e))
 
     def lp_callback(self, ):
         reactor.callLater(0.1,self.new_server.callback,None)
