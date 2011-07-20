@@ -341,7 +341,7 @@ class bitSite(resource.Resource):
         #bithopper_global.log_msg(str(name))
         if name == 'LP':
             return lpSite()
-        elif name == 'flat':
+        elif name == 'flat' or name == 'stats':
             return flatSite()
         elif name == 'dynamic':
             return dynamicSite()
