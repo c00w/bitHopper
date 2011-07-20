@@ -1,0 +1,145 @@
+<html>
+	<head>
+		<style type="text/css">
+			* {
+				font-family:monospace;
+			}
+			html,body {
+				overflow: hidden;
+				background: #272F87;
+				height:100%;
+				color:white;
+				font-family:Arial,Helvetica,sans-serif;
+				font-size:12px;
+			}
+			
+			body {
+				margin:0;
+				padding:10;
+			}
+			
+			td {
+				padding:3px;
+				padding-left:13px;
+				padding-right:13px;
+				margin:0;
+			}
+			
+			td.head {
+				border-bottom:2px solid white;
+			}
+		</style>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
+		<script type="text/javascript">
+		
+			function fixLength(t, l) {
+				while(t.length < l) {
+					t = "&nbsp;" + t;
+				}
+				return t;
+			}
+		
+			function update() {
+				$.getJSON('/current', function(data) {
+					$("#current").html("<span style='color:yellow;'>" + data["current"] + "</span> @" + parseInt(data["mhash"]) + "MHash");
+					var h = "<table border=0 padding=0 cellpadding=0 cellspacing=0><tr><td class=head><b>Server</b></td><td class=head align=right><b>GHash</b></td><td class=head align=right><b>Round / GH Bonus</b></td><td class=head align=right><b>Shares</b></td><td class=head align=right><b>Seconds</b></td><td class=head align=right><b>Slice</b></td></tr>";
+					var tw = 0;
+					var maxlrej = 0;
+					for(v in data["servers"]) {
+						if(!data["servers"][v]["lag"]) {
+							tw += data["servers"][v]["weight"];
+							if(maxlrej > (""+data["servers"][v]["rejects"]).length)
+								maxlrej = (""+data["servers"][v]["rejects"]).length;
+						}
+					}
+					for(v in data["servers"]) {
+						h += "<tr>";
+						var srv = data["servers"][v]
+						
+						var na  = v;
+						if(na == data["current"]) {
+							na = "<span style='color:yellow;'>" + v + "</span>";
+						}
+						if(srv["lag"]) {
+							na = "<span style='color:red;'>" + v + "</span>";
+						}
+						
+						h += "<td><b>" + na + "</b></td>";
+						gh = srv['ghash'] + "GH";
+						if(srv["name"] == "multiclone" || srv["name"] == "eligius") {
+							gh = "&nbsp;";
+						}
+						
+						h += "<td align=right>" + gh  + "</td>";
+						
+						
+						var sh = ""; //fixLength(""+parseInt(srv["shares"]),12);
+						if(srv["name"] == "multiclone" || srv["name"] == "eligius") {
+							sh = "&nbsp;";
+						} else {
+							var perc = fixLength(""+srv["shares"], 14);
+							var ghashbonus = srv["ghashweight"].toFixed(2);
+							sh = sh + perc + " /" + fixLength(ghashbonus, 5) + "GHb";
+						}
+						
+						var util = parseFloat(parseFloat((parseFloat(srv["shares"]) / data["difficulty"]) )/srv["ghashweight"]);
+						if(util <= 0.43) {
+							sh += " = <span style='color:lightgreen'>" + util.toFixed(3) + "</span>";
+						} else {
+							sh += " = <span style='color:red'>" + util.toFixed(3) + "</span>";
+						}
+						h += "<td align=right>" + sh + "</td>";
+
+						var pp = 0;
+						if(parseInt(srv["rejects"]) > 0) {
+							pp = parseFloat(parseFloat(srv["rejects"])) / parseFloat(srv["user_shares"]) * 100;
+						}
+						h += "<td align=right>" + fixLength(""+parseInt(srv["user_shares"]),10) 
+							+ " / " + fixLength(""+parseInt(srv["rejects"]),maxlrej+3) 
+							
+							+ " (" + fixLength("" + pp.toFixed(2), 5) + "%)";
+							+ "</td>";
+						lag = srv["lag"]
+						secs = parseInt(srv["slice"]);
+						if(secs <= 0) {
+							secs = "&nbsp;";
+						} else {
+							var minu = 0;
+							while( secs >= 60 ) {
+								minu = minu + 1;
+								secs = secs-60;
+							}
+							if(secs < 10) {
+								secs = "0" + secs;
+							}
+							secs = minu + ":" + secs;
+						}
+						h += "<td align=right>" + secs + "</td>";
+						var x = parseInt(srv["weight"]/tw*100) + "%";
+						if(srv["lag"] || x == "0%" || "NaN%") {
+							x = "&nbsp;";
+						}
+						
+						
+						h += "<td align=right>" + x + "</td>";
+						h += "</tr>";
+					}
+					h += "</table>";
+					$("#table").html(h);
+				});
+			}
+		
+			$(document).ready(function() {
+				setInterval("update()", 5000);
+				update();
+			});
+		</script>
+	</head>
+	<body>
+	
+		<h1 id="current"></h1>
+		
+		<div id="table"></div>
+	
+	</body>
+</html>
