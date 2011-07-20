@@ -52,9 +52,9 @@
 					}
 					for(v in data["servers"]) {
 						h += "<tr>";
-						var srv = data["servers"][v]["name"]
+						var srv = data["servers"][v]
 						
-						var na  = v;
+						var na  = srv['name'];
 						if(na == data["current"]) {
 							na = "<span style='color:yellow;'>" + v + "</span>";
 						}
