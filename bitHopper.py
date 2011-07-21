@@ -64,7 +64,7 @@ class BitHopper():
             self.log_dbg(str(e))
 
     def update_payout(self,server,payout):
-        self.db.update_payout(server,float(payout))
+        self.db.set_payout(server,float(payout))
         self.pool.servers[server]['payout'] = float(payout)
 
     def lp_callback(self, ):
