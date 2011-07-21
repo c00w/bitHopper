@@ -57,10 +57,10 @@
 						
 						var na  = srv['name'];
 						if(v == data["current"]) {
-							na = "<span style='color:yellow;'>" + v + "</span>";
+							na = "<span style='color:yellow;'>" + na + "</span>";
 						}
 						if(srv["lag"]) {
-							na = "<span style='color:red;'>" + v + "</span>";
+							na = "<span style='color:red;'>" + na + "</span>";
 						}
 						
 						h += "<td><b>" + na + "</b></td>";
@@ -71,7 +71,10 @@
 						
 						h += "<td align=right>" + shares  + "</td>";
 						
-						h += "<td align=right>" + srv["role"] + "</td>";
+						h += "<td align=right><form method=\"POST\">"
+
+                        h += "<input name=\"role-" + v + "\" type = \"text\""
+                        h += " value = \"" + srv["role"] + "\" size=10 / >"+ "</td>";
 
 						var pp = 0;
 						if(parseInt(srv["rejects"]) > 0) {
@@ -84,12 +87,16 @@
 							+ "</td>";
 						lag = srv["lag"];
 
-                        payout = srv["payout"]
+                        var payout = srv["payout"]
 						
-						h += "<td align=right>" + payout + "</td>";
+						h += "<td align=right><form method=\"POST\">"
+
+                        h += "<input name=\"role-" + v + "\" type = \"text\""
+                        h += " value = \"" + payout + "\" size=10 / >"+ "</td>";
+
 
                         var expect = srv["shares"] * 50 / data["difficulty"];
-                        var payout = parseFloat(payout)/expect * 100;
+                        payout = parseFloat(payout)/expect * 100;
                         var pay_str = fixLength("" + payout.toFixed(2),5) + "%";
 
                         h += "<td align=right>" + pay_str + "</td>"; 
