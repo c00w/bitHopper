@@ -16,7 +16,7 @@ class Speed():
         self.shares += 1
 
     def update_rate(self):
-        self.rate = int((float(self.shares) * (2**32)) / (60 * 10 * 1000000))
+        self.rate = int((float(self.shares) * (2**32)) / (60 * 1000000))
         self.shares = 0
 
     def get_rate(self):
