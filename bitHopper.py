@@ -1,4 +1,4 @@
-#!/bin/env python
+#!/usr/bin/python
 #License#
 #bitHopper by Colin Rice is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
@@ -363,6 +363,7 @@ def main():
     parser.add_option('--debug', action= 'store_true', default = False, help='Use twisted output')
     parser.add_option('--list', action= 'store_true', default = False, help='List servers')
     parser.add_option('--disable', type=str, default = None, action='callback', callback=parse_server_disable, help='Servers to disable. Get name from --list. Servera,Serverb,Serverc')
+    parser.add_option('--port', type = int, default=8337, help='Port to listen on')
     args, rest = parser.parse_args()
     options = args
     bithopper_global.options = args
@@ -383,7 +384,7 @@ def main():
 
     if options.debug: log.startLogging(sys.stdout)
     site = server.Site(bitSite())
-    reactor.listenTCP(8337, site)
+    reactor.listenTCP(options.port, site)
     reactor.callLater(0, bithopper_global.pool.update_api_servers, bithopper_global)
     delag_call = LoopingCall(bithopper_global.delag_server)
     delag_call.start(119)
