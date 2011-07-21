@@ -301,10 +301,6 @@ class flatSite(resource.Resource):
 class dataSite(resource.Resource):
     isLeaf = True
     def render_GET(self, request):
-        servers = bithopper_global.pool.get_servers()
-        for name in servers:
-            servers[name]['user_shares'] = bithopper_global.db.get_shares(name)
-
         response = json.dumps({"current":bithopper_global.pool.get_current(), 'mhash':bithopper_global.speed.get_rate(), 'difficulty':bithopper_global.difficulty.get_difficulty(), 'servers':bithopper_global.pool.get_servers()})
         request.write(response)
         request.finish()
@@ -375,9 +371,6 @@ def main():
         for k in bithopper_global.pool.get_servers():
             print k
         return
-    
-    for k in bithopper_global.pool.get_servers():
-        bithopper_global.pool.get_servers()[k]['user_shares'] = 0
 
     if options.disable != None:
         for k in options.disable:
