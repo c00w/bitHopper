@@ -96,7 +96,7 @@
 
 
                         var expect = (parseFloat(srv["shares"])*50)/data["difficulty"];
-                        expect  = (parseFloat(payout)/expect) * 100;
+                        expect  = parseFloat((parseFloat(payout)/expect) * 100).toFixed(1);
                         var pay_str = expect +  "%";
 
                         h += "<td align=right>" + pay_str + "</td>"; 
