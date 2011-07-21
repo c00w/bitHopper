@@ -95,7 +95,7 @@
                         h += " value = \"" + payout + "\" size=10 / >"+ "</form></td>";
 
 
-                        var expect = (parseFloat(srv["shares"])*50)/data["difficulty"];
+                        var expect = (parseFloat(srv["user_shares"])*50)/data["difficulty"];
                         expect  = parseFloat((parseFloat(payout)/expect) * 100).toFixed(1);
                         var pay_str = expect +  "%";
 
