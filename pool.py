@@ -237,6 +237,8 @@ class Pool():
         self.bitHopper.server_update()
 
     def update_api_server(self,server):
+        if self.servers[server]['role'] not in ['mine','info']:
+            return
         info = self.servers[server]
         d = work.get(self.bitHopper.json_agent,info['api_address'])
         d.addCallback(self.selectsharesResponse, (server))

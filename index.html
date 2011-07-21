@@ -74,7 +74,7 @@
 						h += "<td align=right><form method=\"POST\">"
 
                         h += "<input name=\"role-" + v + "\" type = \"text\""
-                        h += " value = \"" + srv["role"] + "\" size=10 / >"+ "</td>";
+                        h += " value = \"" + srv["role"] + "\" size=10 / >"+ "</form></td>";
 
 						var pp = 0;
 						if(parseInt(srv["rejects"]) > 0) {
@@ -91,8 +91,8 @@
 						
 						h += "<td align=right><form method=\"POST\">"
 
-                        h += "<input name=\"role-" + v + "\" type = \"text\""
-                        h += " value = \"" + payout + "\" size=10 / >"+ "</td>";
+                        h += "<input name=\"payout-" + v + "\" type = \"text\""
+                        h += " value = \"" + payout + "\" size=10 / >"+ "</form></td>";
 
 
                         var expect = srv["shares"] * 50 / data["difficulty"];

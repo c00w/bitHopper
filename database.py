@@ -81,7 +81,7 @@ class Database():
         
     def update_payout(self,server,payout):
         difficulty = self.bitHopper.difficulty.get_difficulty()
-        sql = 'UPDATE '+ server +'Set stored_payout= stored_payout + '+ str(payout) +' WHERE diff='+ str(difficulty)
+        sql = 'UPDATE '+ server +' Set stored_payout= stored_payout + '+ str(payout) +' WHERE diff='+ str(difficulty)
         self.curs.execute(sql)
         self.database.commit()
 

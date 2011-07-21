@@ -63,6 +63,10 @@ class BitHopper():
             self.log_dbg('data_callback_error')
             self.log_dbg(str(e))
 
+    def update_payout(self,server,payout):
+        self.db.update_payout(server,float(payout))
+        self.pool.servers[server]['payout'] = float(payout)
+
     def lp_callback(self, ):
         reactor.callLater(0.1,self.new_server.callback,None)
         self.new_server = Deferred()
@@ -322,6 +326,28 @@ class dynamicSite(resource.Resource):
         request.write(linestring)
         request.finish()
         return server.NOT_DONE_YET
+
+    def render_POST(self, request):
+        for v in request.args:
+            if "role" in v:
+                try:
+                    server = v.split('-')[1]
+                    bithopper_global.pool.get_entry(server)['role'] = request.args[v][0]
+                    bithopper_global.server_update()
+                    if request.args[v] in ['mine','info']:
+                        bithopper_global.update_api_server(server)
+
+                except Exception,e:
+                    bithopper_global.log_msg('Incorrect http post request role')
+                    bithopper_global.log_msg(e)
+            if "payout" in v:
+                try:
+                    server = v.split('-')[1]
+                    bithopper_global.update_payout(server, float(request.args[v][0]))
+                except Exception,e:
+                    bithopper_global.log_dbg('Incorrect http post request payout')
+                    bithopper_global.log_dbg(e)
+        return self.render_GET(request)
 
 class lpSite(resource.Resource):
     isLeaf = True
