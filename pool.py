@@ -48,7 +48,7 @@ class Pool():
                     'pass': eclipsemc_pass, 'lag': False, 
                     'api_address':'https://eclipsemc.com/api.php?key='+ eclipsemc_apikey
                      +'&action=poolstats', 'role':'disable'},
-                'miningmainframe':{'shares': default_shares, 'name': 'mining.mainframe.nl',
+                'mmf':{'shares': default_shares, 'name': 'mining.mainframe.nl',
                    'mine_address': 'mining.mainframe.nl:8343', 'user': miningmainframe_user,
                    'pass': miningmainframe_pass, 'lag': False, 
                     'api_address':'http://mining.mainframe.nl/api',
@@ -185,9 +185,9 @@ class Pool():
         round_shares = int(info['round_shares'])
         self.UpdateShares('eclipsemc',round_shares)
 
-    def btcguild_sharesResponse(self, response):
+    def btcg_sharesResponse(self, response):
         info = json.loads(response)
-        round_shares = int(info['round_shares'])
+        round_shares = 10**10 #int(info['round_shares'])
         self.UpdateShares('btcg',round_shares)
 
     def bclc_sharesResponse(self, response):
@@ -229,21 +229,11 @@ class Pool():
 
     def selectsharesResponse(self, response, args):
         self.bitHopper.log_dbg('Calling sharesResponse for '+ args)
-        func_map= {'bitclockers':self.bitclockers_sharesResponse,
-            'mineco':self.mineco_sharesResponse,
-            'mtred':self.mtred_sharesResponse,
-            'bclc':self.bclc_sharesResponse,
-           #'btcg':self.btcguild_sharesResponse,
-            'eclipsemc':self.eclipsemc_sharesResponse,
-            'miningmainframe':self.mmf_sharesResponse,
-            'bitp':self.bitp_sharesResponse,
-            'ozco':self.ozco_sharesResponse,
-            'triple':self.triple_sharesResponse,
-            'rfc':self.rfc_sharesResponse,
-            'nofeemining':self.nofeemining_sharesResponse,
-            'x8s':self.x8s_sharesResponse,
-            'bcpool':self.bcpool_sharesResponse,}
-        func_map[args](response)
+        func = getattr(self, args + '_sharesResponse', None)
+        if func == None:
+            errsharesResponse("No sharesResponse function for " + args, args)
+        else:
+            func(response)
         self.bitHopper.server_update()
 
     def update_api_server(self,server):
