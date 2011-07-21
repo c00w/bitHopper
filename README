@@ -10,8 +10,8 @@ In order to run bithopper you need twisted phython installed:
 
 http://twistedmatrix.com/trac
 
-Copy password.py.default to a new file called python.py then modify the new
-file to include your bitcoin addresses instead of mine.
+Copy password.py.default to a new file called password.py then modify the new
+file to include your bitcoin addresses, and pool passwords, instead of mine.
 
 Run python bitHopper.py
 
