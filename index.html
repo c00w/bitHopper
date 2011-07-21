@@ -95,9 +95,9 @@
                         h += " value = \"" + payout + "\" size=10 / >"+ "</form></td>";
 
 
-                        var expect = srv["shares"] * 50 / data["difficulty"];
-                        payout = parseFloat(payout)/expect * 100;
-                        var pay_str = fixLength("" + payout.toFixed(2),5) + "%";
+                        var expect = (parseFloat(srv["shares"])*50)/data["difficulty"];
+                        expect  = (parseFloat(payout)/expect) * 100;
+                        var pay_str = expect +  "%";
 
                         h += "<td align=right>" + pay_str + "</td>"; 
 
