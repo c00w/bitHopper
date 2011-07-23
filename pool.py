@@ -122,7 +122,10 @@ class Pool():
 
         elif server['api_method'] == 're':
             output = re.search(server['api_key'],response)
-            output = output.group(0)
+            if 'api_group' in server:
+                output = output.group(int(server['apu_group']))
+            else:
+                output = output.group(0)
             if 'api_index' in server:
                 s,e = server['api_index'].split(',')
                 s = int(s)
