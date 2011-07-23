@@ -21,7 +21,7 @@ class Pool():
         self.servers = {}
 
         parser = ConfigParser.SafeConfigParser()
-        read = parser.read('pool.cfg')
+        read = parser.read(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'pool.cfg'))
         if len(read) == 0:
             bitHopper.log_msg("pool.cfg not found. You may need to move it from pool.cfg.default")
             os._exit(1)
