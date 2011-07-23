@@ -84,6 +84,18 @@ api_key:poolstats,round_shares
 user: c00w_test
 pass: x
 
+[btcmonkey]
+name: bitcoinmonkey.com
+mine_address: bitcoinmonkey.com:8332
+api_address: http://bitcoinmonkey.com
+api_method:re
+api_key:Shares\s+this\s+round:\s+<strong>\s+(\d+)
+#CHANGE THIS
+#http://bitcoinmonkey.com/
+role: mine
+user: dah4k0r.testhop
+pass: x
+
 ######################################
 # Backup Pools for when hopping is 
 # not worth doing
@@ -112,6 +124,20 @@ pass = 'fire'
 # No need to change their user/pass
 # Unless you want to hop them.
 ######################################
+
+[bitparking]
+name: bitparking.com
+namecoin: Yep
+mine_address: bitparking.com:9098 
+api_address: http://bitparking.com/pool
+api_method:re
+api_key:block</td><td>([ 0-9]+)</td>
+api_strip:' '
+role:disable
+#CHANGE THIS
+#http://bitparking.com/
+user: Nxxx
+pass: x
 
 [x8s]
 name: btc.x8s.de
