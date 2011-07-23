@@ -7,6 +7,7 @@ import work
 from password import *
 import re
 import ConfigParser
+import os
 
 import htmllib 
 def unescape(s):
@@ -20,11 +21,17 @@ class Pool():
         self.servers = {}
 
         parser = ConfigParser.SafeConfigParser()
-        parser.read('pool.cfg')
+        read = parser.read('pool.cfg')
+        if len(read) == 0:
+            bitHopper.log_msg("pool.cfg not found. You may need to move it from pool.cfg.default")
+            os._exit(1)
         pools = parser.sections()
         for pool in pools:
             self.servers[pool] = dict(parser.items(pool))
-        self.current_server = 'mtred'
+        if self.servers == {}:
+            bitHopper.log_msg("No Pools found in pool.cfg")
+        
+        self.current_server = pool
         
     def setup(self,bitHopper):
         self.bitHopper = bitHopper
