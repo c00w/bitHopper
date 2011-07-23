@@ -96,6 +96,18 @@ role: mine
 user: dah4k0r.testhop
 pass: x
 
+[poolmunity]
+name: poolmunity.com
+mine_address: poolmunity.com:8332
+api_address:https://poolmunity.com/api.php?server
+role:mine
+api_method:json
+api_key:totalShares
+#CHANGE THIS
+#http://poolmunity.com/index.php?PHPSESSID=3iglliv6bvs1r8fvve993l5sd2&action=register
+user: c00w.testhop
+pass: testhop
+
 ######################################
 # Backup Pools for when hopping is 
 # not worth doing
