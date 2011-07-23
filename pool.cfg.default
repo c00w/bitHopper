@@ -51,24 +51,12 @@ name: triplemining.com
 mine_address: eu1.triplemining.com:8344 
 api_address:https://www.triplemining.com/stats 
 api_method:re
-api_key:<td>\d+</td>
-api_index:4,-5
+api_key:-->\d+</td>
+api_index:3,-5
 role:mine
 #CHANGE THIS
 #https://www.triplemining.com/register
 user: c00w_test
-pass: x 
-
-[x8s]
-name: btc.x8s.de
-mine_address: pit.x8s.de:8337  
-api_address:http://btc.x8s.de/api/global.json 
-role:mine   
-api_method:json
-api_key:round_shares
-#CHANGE THIS
-##http://btc.x8s.de/account/signup
-user: testhop
 pass: x 
 
 [rfc]
@@ -111,6 +99,18 @@ pass = 'fire'
 # No need to change their user/pass
 # Unless you want to hop them.
 ######################################
+
+[x8s]
+name: btc.x8s.de
+mine_address: pit.x8s.de:8337  
+api_address:http://btc.x8s.de/api/global.json 
+role:disable   
+api_method:json
+api_key:round_shares
+#CHANGE THIS
+##http://btc.x8s.de/account/signup
+user: testhop
+pass: x 
 
 [bclc]
 name:bitcoins.lc      
