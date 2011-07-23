@@ -113,8 +113,8 @@ def jsonrpc_getwork(agent, server, data, j_id, request, new_server, set_lp, bitH
     try:
         work = yield jsonrpc_call(agent, server,data,set_lp)
     except Exception, e:
-            print 'caught, first response/writing'
-            print e
+            bitHopper.log_dbg( 'caught, first response/writing')
+            bitHopper.log_dbg(str(e))
             work = None
 
     i = 1
@@ -127,8 +127,8 @@ def jsonrpc_getwork(agent, server, data, j_id, request, new_server, set_lp, bitH
                 time.sleep(0.1)
             work = yield jsonrpc_call(agent, server,data,set_lp)
         except Exception, e:
-            print 'caught, inner jsonrpc_call loop'
-            print e
+            bitHopper.log_dbg( 'caught, inner jsonrpc_call loop')
+            bitHopper.log_dbg(str(e))
             work = None
             continue
 
@@ -139,5 +139,5 @@ def jsonrpc_getwork(agent, server, data, j_id, request, new_server, set_lp, bitH
         request.write(response)
         request.finish()
     except Exception, e:
-        print 'caught, Final response/writing'
-        print e
+        bithopper.log_dbg('caught, Final response/writing')
+        bitHopper.log_dbg(str(e))
