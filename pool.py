@@ -4,7 +4,6 @@
 
 import json
 import work
-from password import *
 import re
 import ConfigParser
 import os
