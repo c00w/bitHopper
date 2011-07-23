@@ -20,6 +20,20 @@ api_key:shares
 user:c00w.1
 pass:1234
 
+[polmine]
+name: polmine.pl
+mine_address: polmine.pl:8347 
+api_address:https://polmine.pl/?action=statistics 
+role:mine  
+api_method:re
+api_key: stkich:</th><td>[ 0-9]*</td>
+api_index:16,-5
+api_strip:' '
+#CHANGE THIS
+#https://polmine.pl
+user: c00w1456testhop
+pass: x
+
 [mtred]
 name:mtred  
 mine_address:mtred.com:8337 
