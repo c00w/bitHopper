@@ -26,8 +26,7 @@ mine_address: polmine.pl:8347
 api_address:https://polmine.pl/?action=statistics 
 role:mine  
 api_method:re
-api_key: stkich:</th><td>[ 0-9]*</td>
-api_index:16,-5
+api_key: stkich:</th><td>([ 0-9]+)</td>
 api_strip:' '
 #CHANGE THIS
 #https://polmine.pl
@@ -65,8 +64,7 @@ name: triplemining.com
 mine_address: eu1.triplemining.com:8344 
 api_address:https://www.triplemining.com/stats 
 api_method:re
-api_key:-->[ 0-9]+</td>
-api_index:3,-5
+api_key:-->([ 0-9]+)</td>
 api_strip:' '
 role:mine
 #CHANGE THIS
@@ -200,8 +198,7 @@ user: 4bjibc3R1RGF9
 pass: u5cpmndZq4Jvp
 api_address:https://pool.bitp.it/leaderboard 
 api_method:re
-api_key:Total</b></td>\n        <td>\d+
-api_index:13,
+api_key:Total</b></td>\n        <td>([\d+])
 role:disable
 user_api_address:https://pool.bitp.it/api/user?token=%(bitp_user_apikey)s
 bitp_user_apikey:80c5dbea750563eb24e5310f94a56b38bad14dc35efb41e9ca421c92f31563ed
