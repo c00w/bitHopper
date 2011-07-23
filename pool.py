@@ -16,7 +16,6 @@ class Pool():
         pools = parser.sections()
         for pool in pools:
             self.servers[pool] = dict(parser.items(pool))
-
         self.current_server = 'mtred'
         
     def setup(self,bitHopper):
@@ -30,6 +29,8 @@ class Pool():
             self.servers[server]['payout'] = self.bitHopper.db.get_payout(server)
             if 'api_address' not in self.servers[server]:
                 self.servers[server]['api_address'] = server
+            if 'name' not in self.servers[server]:
+                self.server[server]['name'] = server
             
     def get_entry(self, server):
         if server in self.servers:
@@ -76,13 +77,6 @@ class Pool():
             self.servers[server]['role'] = 'api_disable'
             return
 
-    def triple_sharesResponse(self, response):
-        output = re.search('<td>\d+</td>', response)
-        match = output.group(0)
-        match = match[4:-5]
-        round_shares = int(match)
-        self.UpdateShares('triple',round_shares)
-
     def errsharesResponse(self, error, args):
         self.bitHopper.log_msg('Error in pool api for ' + str(args))
         self.bitHopper.log_dbg(str(error))
@@ -93,7 +87,7 @@ class Pool():
 
     def selectsharesResponse(self, response, args):
         self.bitHopper.log_dbg('Calling sharesResponse for '+ args)
-        server = self.server[args]
+        server = self.servers[args]
         if server['role'] not in ['mine','info']:
             return
 
@@ -102,14 +96,14 @@ class Pool():
             for value in server['api_key'].split(','):
                 info = info[value]
             round_shares = int(info)
-            self.UpdateShares(server,round_shares)
+            self.UpdateShares(args,round_shares)
 
         elif server['api_method'] == 'json_ec':
             info = json.loads(response[:response.find('}')+1])
             for value in server['api_key'].split(','):
                 info = info[value]
             round_shares = int(info)
-            self.UpdateShares(server,round_shares)
+            self.UpdateShares(args,round_shares)
 
         elif server['api_method'] == 're':
             output = re.search(server['api_key'],response)
@@ -120,7 +114,8 @@ class Pool():
                 output = output[s:]
             else:
                 output = output[s:int(e)]
-            self.UpdateShares(server,round_shares)
+            round_shares = int(output)
+            self.UpdateShares(args,round_shares)
         else:
             self.bitHopper.log_msg('Unrecognized api method: ' + str(server))
 
