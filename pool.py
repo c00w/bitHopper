@@ -7,6 +7,14 @@ import work
 from password import *
 import re
 import ConfigParser
+
+import htmllib 
+def unescape(s):
+    p = htmllib.HTMLParser(None)
+    p.save_bgn()
+    p.feed(s)
+    return p.save_end()
+
 class Pool():
     def __init__(self,bitHopper):
         self.servers = {}
@@ -107,13 +115,17 @@ class Pool():
 
         elif server['api_method'] == 're':
             output = re.search(server['api_key'],response)
-            s,e = server['api_index'].split(',')
             output = output.group(0)
-            s = int(s)
-            if e == '0' or e =='':
-                output = output[s:]
-            else:
-                output = output[s:int(e)]
+            if 'api_index' in server:
+                s,e = server['api_index'].split(',')
+                s = int(s)
+                if e == '0' or e =='':
+                    output = output[s:]
+                else:
+                    output = output[s:int(e)]
+            if 'api_strip' in server:
+                strip_str = server['api_strip'][1:-1]
+                output = output.replace(strip_str,'')
             round_shares = int(output)
             self.UpdateShares(args,round_shares)
         else:

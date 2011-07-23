@@ -51,8 +51,9 @@ name: triplemining.com
 mine_address: eu1.triplemining.com:8344 
 api_address:https://www.triplemining.com/stats 
 api_method:re
-api_key:-->\d+</td>
+api_key:-->[ 0-9]+</td>
 api_index:3,-5
+api_strip:' '
 role:mine
 #CHANGE THIS
 #https://www.triplemining.com/register
