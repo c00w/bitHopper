@@ -6,6 +6,10 @@ import sqlite3
 import os
 import os.path
 
+DB_DIR = os.path.dirname(os.path.abspath(__file__))
+VERSION_FN = os.path.join(DB_DIR, 'db-version')
+DB_FN = os.path.join(DB_DIR, 'stats.db')
+
 class Database():
     def __init__(self,bitHopper):
         self.curs = None
@@ -18,23 +22,23 @@ class Database():
 
     def check_database(self):
         self.bitHopper.log_msg('Checking Database')
-        if os.path.exists('stats.db'):
+        if os.path.exists(DB_FN):
             try:
-                versionfd = open('db-version', 'rb')
+                versionfd = open(VERSION_FN, 'rb')
                 version = versionfd.read()
                 self.bitHopper.log_msg("DB Verson: " + version)
                 if version != "0.1":
                     self.bitHopper.log_msg('Old Database')
-                    os.remove('stats.db')
+                    os.remove(DB_FN)
                 versionfd.close()
             except:
-                os.remove('stats.db')
+                os.remove(DB_FN)
 
-        version = open('db-version', 'wb')
+        version = open(VERSION_FN, 'wb')
         version.write("0.1")
         version.close()
         
-        self.database = sqlite3.connect('stats.db')
+        self.database = sqlite3.connect(DB_FN)
         self.curs = self.database.cursor()
         
         for server_name in self.pool.get_servers():
