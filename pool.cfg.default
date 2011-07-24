@@ -59,19 +59,6 @@ user: dah4k0r@gmail.com_test
 pass: x
 nofeemining_user_apikey:4140cbc6405f4425cf91ca74e1450b66
 
-[triple]
-name: triplemining.com
-mine_address: eu1.triplemining.com:8344 
-api_address:https://www.triplemining.com/stats 
-api_method:re
-api_key:-->([ 0-9]+)</td>
-api_strip:' '
-role:mine
-#CHANGE THIS
-#https://www.triplemining.com/register
-user: c00w_test
-pass: x 
-
 [rfc]
 name: rfcpool.com
 mine_address: pool.rfcpool.com:8332 
@@ -160,6 +147,19 @@ pass: u5cpmndZq4Jvp
 # No need to change their user/pass
 # Unless you want to hop them.
 ######################################
+
+[triple]
+name: triplemining.com
+mine_address: eu1.triplemining.com:8344 
+api_address:https://www.triplemining.com/stats 
+api_method:re
+api_key:-->([ 0-9]+)</td>
+api_strip:' '
+role:disable
+#CHANGE THIS
+#https://www.triplemining.com/register
+user: c00w_test
+pass: x 
 
 [bitparking]
 name: bitparking.com

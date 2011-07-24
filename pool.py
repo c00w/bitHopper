@@ -8,6 +8,8 @@ import re
 import ConfigParser
 import os
 
+from twisted.web.http_headers import Headers
+
 class Pool():
     def __init__(self,bitHopper):
         self.servers = {}
@@ -59,15 +61,15 @@ class Pool():
         prev_shares = self.servers[server]['shares']
         if shares == prev_shares:
             time = .10*self.servers[server]['refresh_time']
-            if time <= 10:
-                time = 10.
+            if time <= 30:
+                time = 30.
             self.servers[server]['refresh_time'] += .10*self.servers[server]['refresh_time']
             self.bitHopper.reactor.callLater(time,self.update_api_server,server)
         else:
             self.servers[server]['refresh_time'] -= .10*self.servers[server]['refresh_time']
             time = self.servers[server]['refresh_time']
-            if time <= 10:
-                self.servers[server]['refresh_time'] = 10
+            if time <= 30:
+                self.servers[server]['refresh_time'] = 30
             self.bitHopper.reactor.callLater(time,self.update_api_server,server)
 
         try:
@@ -139,7 +141,7 @@ class Pool():
         if self.servers[server]['role'] not in ['mine','info']:
             return
         info = self.servers[server]
-        d = work.get(self.bitHopper.json_agent,info['api_address'])
+        d = work.get(self.bitHopper.json_agent,info['api_address'],Headers({'User-Agent':'Mozilla/5.0 (X11; Linux i686) AppleWebKit/535.1 (KHTML, like Gecko) Ubuntu/11.04 Chromium/14.0.825.0 Chrome/14.0.825.0 Safari/535.1'}),None)
         d.addCallback(self.selectsharesResponse, (server))
         d.addErrback(self.errsharesResponse, (server))
         d.addErrback(self.bitHopper.log_msg)
