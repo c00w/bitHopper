@@ -141,7 +141,7 @@ class Pool():
         if self.servers[server]['role'] not in ['mine','info']:
             return
         info = self.servers[server]
-        d = work.get(self.bitHopper.json_agent,info['api_address'],Headers({'User-Agent':'Mozilla/5.0 (X11; Linux i686) AppleWebKit/535.1 (KHTML, like Gecko) Ubuntu/11.04 Chromium/14.0.825.0 Chrome/14.0.825.0 Safari/535.1'}),None)
+        d = work.get(self.bitHopper.json_agent,info['api_address'],Headers({'User-Agent':['Mozilla/5.0 (X11; Linux i686) AppleWebKit/535.1 (KHTML, like Gecko) Ubuntu/11.04 Chromium/14.0.825.0 Chrome/14.0.825.0 Safari/535.1']}),None)
         d.addCallback(self.selectsharesResponse, (server))
         d.addErrback(self.errsharesResponse, (server))
         d.addErrback(self.bitHopper.log_msg)
