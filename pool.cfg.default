@@ -108,6 +108,19 @@ api_key:totalShares
 user: c00w.testhop
 pass: testhop
 
+[btcworld]
+name: BTC World
+mine_address: btcworld.de:8332
+api_address:http://btcworld.de/statistics
+role:info
+api_method:re
+api_key:Verifizierte\s+Anteile\s+der\s+aktuellen\s+Runde:</th><td>([,0-9]+)
+api_strip:','
+#CHANGE THIS
+#http://btcworld.de/signup
+user: testhop
+pass: x
+
 ######################################
 # Backup Pools for when hopping is 
 # not worth doing
@@ -129,6 +142,17 @@ role:backup
 #https://arsbitcoin.com/register.php
 user:c00w.default
 pass:fire
+
+[bitp]
+name: bitp.it
+mine_address: pool.bitp.it:8334 
+role:backup
+user_api_address:https://pool.bitp.it/api/user?token=%(bitp_user_apikey)s
+bitp_user_apikey:80c5dbea750563eb24e5310f94a56b38bad14dc35efb41e9ca421c92f31563ed
+#CHANGE THIS
+#bitp.it
+user: 4bjibc3R1RGF9
+pass: u5cpmndZq4Jvp
 
 ######################################
 # These Pools are not hopped for a
@@ -228,19 +252,6 @@ api_method:json
 api_key:shares_this_round
 api_address:http://mining.mainframe.nl/api
 role:disable
-
-[bitp]
-name: bitp.it
-mine_address: pool.bitp.it:8334 
-user: 4bjibc3R1RGF9
-pass: u5cpmndZq4Jvp
-api_address:https://pool.bitp.it/leaderboard 
-api_method:re
-api_key:Total</b></td>\n        <td>([\d+])
-role:disable
-user_api_address:https://pool.bitp.it/api/user?token=%(bitp_user_apikey)s
-bitp_user_apikey:80c5dbea750563eb24e5310f94a56b38bad14dc35efb41e9ca421c92f31563ed
-
 
 [bcpool]
 name: bitcoinpool.com
