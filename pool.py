@@ -8,13 +8,6 @@ import re
 import ConfigParser
 import os
 
-import htmllib 
-def unescape(s):
-    p = htmllib.HTMLParser(None)
-    p.save_bgn()
-    p.feed(s)
-    return p.save_end()
-
 class Pool():
     def __init__(self,bitHopper):
         self.servers = {}

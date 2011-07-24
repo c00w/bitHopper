@@ -127,8 +127,8 @@ mine_address:arsbitcoin.com:8344
 role:backup
 #CHANGE THIS
 #https://arsbitcoin.com/register.php
-user = c00w.default
-pass = fire
+user:c00w.default
+pass:fire
 
 ######################################
 # These Pools are not hopped for a
