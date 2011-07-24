@@ -139,5 +139,5 @@ def jsonrpc_getwork(agent, server, data, j_id, request, new_server, set_lp, bitH
         request.write(response)
         request.finish()
     except Exception, e:
-        bithopper.log_dbg('caught, Final response/writing')
+        bitHopper.log_dbg('caught, Final response/writing')
         bitHopper.log_dbg(str(e))
