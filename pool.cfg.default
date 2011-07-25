@@ -74,9 +74,9 @@ pass: x
 [btcmonkey]
 name: bitcoinmonkey.com
 mine_address: bitcoinmonkey.com:8332
-api_address: http://bitcoinmonkey.com
-api_method:re
-api_key:Shares\s+this\s+round:\s+<strong>\s+(\d+)
+api_address: https://bitcoinmonkey.com/json/api.php
+api_method: json
+api_key: shares_this_round
 #CHANGE THIS
 #http://bitcoinmonkey.com/
 role: mine
