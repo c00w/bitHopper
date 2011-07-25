@@ -205,9 +205,9 @@ user_api_address:https://www.btcguild.com/api.php?api_key=%(btcguild_user_apikey
 role:disable
 api_method:json
 api_key:round_shares
-user = c00w_test
-pass = 1234
-btcguild_user_apikey = 81a9081f4d5f32db7dbbed407cb5f686
+user: c00w_test
+pass: 1234
+btcguild_user_apikey: 81a9081f4d5f32db7dbbed407cb5f686
 
 [mineco]
 name: mineco.in
