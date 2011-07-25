@@ -151,9 +151,9 @@ pass: u5cpmndZq4Jvp
 [triple]
 name: triplemining.com
 mine_address: eu1.triplemining.com:8344 
-api_address:https://www.triplemining.com/stats 
+api_address:http://api.triplemining.com/json/stats
 api_method:json
-api_key:1
+api_key:solved
 role:disable
 #CHANGE THIS
 #https://www.triplemining.com/register
