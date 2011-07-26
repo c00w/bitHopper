@@ -4,6 +4,7 @@
 
 import diff
 import json
+import work
 
 class Statistics():
     def __init__(self,bitHopper):
