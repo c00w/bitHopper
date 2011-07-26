@@ -12,7 +12,7 @@ import os
 class Pool():
     def __init__(self,bitHopper):
         self.servers = {}
-
+        self.api_pull = ['mine','info','mine_slush','mine_nmc']
         parser = ConfigParser.SafeConfigParser()
         try:
             read = parser.read(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'pool.cfg'))
@@ -99,7 +99,7 @@ class Pool():
     def selectsharesResponse(self, response, args):
         self.bitHopper.log_dbg('Calling sharesResponse for '+ args)
         server = self.servers[args]
-        if server['role'] not in ['mine','info']:
+        if server['role'] not in self.api_pull:
             return
 
         if server['api_method'] == 'json':
@@ -140,7 +140,7 @@ class Pool():
         self.bitHopper.server_update()
 
     def update_api_server(self,server):
-        if self.servers[server]['role'] not in ['mine','info']:
+        if self.servers[server]['role'] not in self.api_pull:
             return
         info = self.servers[server]
         d = work.get(self.bitHopper.json_agent,info['api_address'])
@@ -152,7 +152,7 @@ class Pool():
         self.bitHopper = bitHopper
         for server in self.servers:
             info = self.servers[server]
-            update = ['info','mine']
+            update = self.api_pull
             if info['role'] in update:
                 d = work.get(self.bitHopper.json_agent,info['api_address'])
                 d.addCallback(self.selectsharesResponse, (server))
