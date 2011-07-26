@@ -42,6 +42,7 @@ class Pool():
                 self.servers[server]['api_address'] = server
             if 'name' not in self.servers[server]:
                 self.server[server]['name'] = server
+            self.servers[server]['err_api_count']
             
     def get_entry(self, server):
         if server in self.servers:
@@ -83,6 +84,7 @@ class Pool():
         if shares != prev_shares:
             self.bitHopper.log_msg(str(server) +": "+ k)
         self.servers[server]['shares'] = shares
+        self.servers[server]['err_api_count'] = 0
         if self.servers[server]['refresh_time'] > 60*30:
             self.bitHopper.log_msg('Disabled due to unchanging api: ' + server)
             self.servers[server]['role'] = 'api_disable'
@@ -92,7 +94,9 @@ class Pool():
         self.bitHopper.log_msg('Error in pool api for ' + str(args))
         self.bitHopper.log_dbg(str(error))
         pool = args
-        self.servers[pool]['shares'] = 10**10
+        self.servers[pool]['err_api_count'] += 1
+        if self.server[pool]['err_api_count'] > 1:
+            self.servers[pool]['shares'] = 10**10
         time = self.servers[pool]['refresh_time']
         self.bitHopper.reactor.callLater(time, self.update_api_server, pool)
 
