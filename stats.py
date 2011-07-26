@@ -105,7 +105,7 @@ class Statistics():
                     return
                 info = servers[server]
                 d = work.get(self.bitHopper.json_agent,info['user_api_address'])
-                d.addCallback(selfselectsharesResponse, (server))
+                d.addCallback(self.selectsharesResponse, (server))
                 d.addErrback(self.errsharesResponse, (server))
                 d.addErrback(self.bitHopper.log_msg)
 
