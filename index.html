@@ -125,7 +125,9 @@
 
                         h += "<td align=right>" + pay_str + "</td>"; 
 
-						h += "<td nowrap style='padding-top:0px;padding-bottom:0px;margin-top:0px;margin-bottom:0px;'><span id='chart" + iii + "' style='margin:0px;padding:0px;width:100%;height:100%;'></span></td>";
+						if(srv["role"] == "mine") {
+							h += "<td nowrap style='padding-top:0px;padding-bottom:0px;margin-top:0px;margin-bottom:0px;'><span id='chart" + iii + "' style='margin:0px;padding:0px;width:100%;height:100%;'></span></td>";
+						}
 						h += "</tr>";
 					}
 					
@@ -133,7 +135,10 @@
 					$("#table").html(h);
 					for(var iii=0;iii<srvs.length;iii++) {
 						v = srvs[iii];
-						$("#chart" + iii).sparkline(srvhist[v], { type:'line', 'lineColor':'white', 'fillColor':false,'composite':true, 'spotColor':false, 'lineWidth':2 ,'spotRadius':0, 'width':'100%'} );		
+						var srv = data["servers"][v]
+						if(srv["role"] == "mine") {
+							$("#chart" + iii).sparkline(srvhist[v], { type:'line', 'lineColor':'white', 'fillColor':false,'composite':true, 'spotColor':false, 'lineWidth':2 ,'spotRadius':0, 'width':'100%'} );		
+						}
 					}
 					
 				});
