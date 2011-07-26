@@ -30,6 +30,7 @@
 		</style>
         <title>bitHopper info</title>
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
+		<script type="text/javascript" src="http://omnipotent.net/jquery.sparkline/1.6/jquery.sparkline.min.js"></script>
 		<script type="text/javascript">
 		
 			function fixLength(t, l) {
@@ -38,19 +39,39 @@
 				}
 				return t;
 			}
+			
+			var srvhist = {};
 		
 			function update() {
 				$.getJSON('/data', function(data) {
 					$("#current").html("<span style='color:yellow;'>" + data["current"] + "</span> @" + parseInt(data["mhash"]) + "MHash");
-					var h = "<table border=0 padding=0 cellpadding=0 cellspacing=0><tr><td class=head><b>Server</b></td><td class=head align=right><b>Shares</b></td><td class=head align=right><b>Role</b></td><td class=head align=right><b>User Shares / Rejects</b></td><td class=head align=right><b>Payout</b></td><td class=head align=right><b>Efficiency</b></td></tr>";
+					var h = "<table width=100% border=0 padding=0 cellpadding=0 cellspacing=0><tr><td class=head><b>Server</b></td><td class=head align=right><b>Shares</b></td><td class=head align=right><b>Role</b></td><td class=head align=right><b>User&nbsp;Shares&nbsp;/&nbsp;Rejects</b></td><td class=head align=right><b>Payout</b></td><td class=head align=right><b>Efficiency</b></td><td class=head width=100%><b>Round&nbsp;Shares</b></td></tr>";
 					var maxlrej = 0;
 					for(v in data["servers"]) {
 						if(!data["servers"][v]["lag"]) {
 							if(maxlrej > (""+data["servers"][v]["rejects"]).length)
 								maxlrej = (""+data["servers"][v]["rejects"]).length;
 						}
+						var d = data["servers"][v]["shares"];
+						if(srvhist[v] == undefined) {
+							srvhist[v] = [ d ];
+						} else {
+							srvhist[v].push(d);
+						}						
 					}
+					
+					var srvs = [];
 					for(v in data["servers"]) {
+						srvs.push(v);
+					}
+					srvs.sort(function(a, b) {
+						if(data["servers"][a]["role"] != data["servers"][b]["role"])
+							return data["servers"][a]["role"] > data["servers"][b]["role"]
+						
+						return data["servers"][a]["name"] > data["servers"][b]["name"]
+					});
+					for(var iii=0;iii<srvs.length;iii++) {
+						v = srvs[iii];					
 						h += "<tr>";
 						var srv = data["servers"][v]
 						
@@ -97,16 +118,31 @@
                         var expect = (parseFloat(srv["user_shares"])*50)/data["difficulty"];
                         expect  = parseFloat((parseFloat(payout)/expect) * 100).toFixed(1);
                         var pay_str = expect +  "%";
+			if (isNaN(expect)) {
+				pay_str = "";
+			}
+				
 
                         h += "<td align=right>" + pay_str + "</td>"; 
 
+						h += "<td nowrap style='padding-top:0px;padding-bottom:0px;margin-top:0px;margin-bottom:0px;'><span id='chart" + iii + "' style='margin:0px;padding:0px;width:100%;height:100%;'></span></td>";
 						h += "</tr>";
 					}
+					
 					h += "</table>";
 					$("#table").html(h);
+					for(var iii=0;iii<srvs.length;iii++) {
+						v = srvs[iii];
+						$("#chart" + iii).sparkline(srvhist[v], { type:'line', 'lineColor':'white', 'fillColor':false,'composite':true, 'spotColor':false, 'lineWidth':2 ,'spotRadius':0, 'width':'100%'} );		
+					}
+					
 				});
 			}
-		
+			
+			function escapePoolName(pn) {
+				return pn.replace(/ /, '');
+			}
+			
 			$(document).ready(function() {
 				setInterval("update()", 5000);
 				update();
