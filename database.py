@@ -7,8 +7,9 @@ import os
 import os.path
 try:
     DB_DIR = os.path.dirname(os.path.abspath(__file__))
-else:
+except:
     DB_DIR = os.curdir()
+
 VERSION_FN = os.path.join(DB_DIR, 'db-version')
 DB_FN = os.path.join(DB_DIR, 'stats.db')
 
