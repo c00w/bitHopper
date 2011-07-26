@@ -38,13 +38,13 @@ class Statistics():
 
         self.update_db_shares('btcg',actual)
 
-        expected = shares/diff.difficulty * 50
+        expected = shares/self.bitHopper.difficulty.get_difficulty() * 50
 
         percent = actual/(expected+1) * 100
         
         self.efficiencies['btcg'] = percent
 
-    def parse_bitclockers(self, response):
+    def parse_bitclockers(self, response,bitHopper):
         info = json.loads(response)
         actual = 0.0
         balances  = ['balance', 'estimatedearnings', 'payout']
@@ -54,13 +54,13 @@ class Statistics():
         shares = 0.0
         shares += info['totalshares']
 
-        expected = shares/diff.difficulty * 50
+        expected = shares/self.bitHopper.difficulty.get_difficulty() * 50
 
         percent = actual/(expected+1) * 100
 
         self.efficiencies['bitclockers'] = percent
 
-    def parse_bitp(response, bitHopper):
+    def parse_bitp(self,response, bitHopper):
         info = json.loads(response)
         actual = 0.0
         balances  = ['estimated_reward', 'unconfirmed_balance', 'confirmed_balance']
@@ -70,7 +70,7 @@ class Statistics():
         shares = 0.0
         shares += info['shares']
 
-        expected = shares/diff.difficulty * 50
+        expected = shares/self.bitHopper.difficulty.get_difficulty() * 50
 
         percent = 0
         if expected != 0.0:
@@ -78,7 +78,7 @@ class Statistics():
 
         self.bitHopper.log_msg('bitp.it efficiency: ' + str(percent) + "%")
 
-    def parse_mtred(response, bitHopper):
+    def parse_mtred(self,response, bitHopper):
         info = json.loads(response)
         actual += info['balance']
 
@@ -90,7 +90,7 @@ class Statistics():
             'bitp':self.parse_bitp,
             #'mtred':self.parse_mtred
             }
-        func_map[args[0]](response,bitHopper)
+        func_map[args](response,self.bitHopper)
 
     def errsharesResponse(self, error, args): 
         
