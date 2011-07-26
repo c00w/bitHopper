@@ -116,7 +116,7 @@ class BitHopper():
             if info['role'] == 'mine':
                     shares = info['shares']
             elif info['role'] == 'mine_slush':
-                shares = info['shares'] * .25
+                shares = info['shares'] * 4
             elif info['role'] == 'mine_nmc':
                 shares = info['shares']*difficulty / nmc_difficulty
             else:
@@ -146,7 +146,7 @@ class BitHopper():
                 if info['role'] == 'mine':
                     shares = info['shares']
                 elif info['role'] == 'mine_slush':
-                    shares = info['shares'] * .25
+                    shares = info['shares'] * 4
                 elif info['role'] == 'mine_nmc':
                     shares = info['shares']*difficulty / nmc_difficulty
                 else:
@@ -192,7 +192,7 @@ class BitHopper():
         if current_role == 'mine_nmc':
             difficulty = self.difficulty.get_nmc_difficulty()
         if current_role == 'mine_slush':
-            difficulty = self.difficulty.get_difficulty() * .25
+            difficulty = self.difficulty.get_difficulty() * 4
         if self.pool.get_entry(self.pool.get_current())['shares'] > difficulty * .40:
             self.select_best_server()
             return
