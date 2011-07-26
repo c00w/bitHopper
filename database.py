@@ -5,8 +5,10 @@
 import sqlite3
 import os
 import os.path
-
-DB_DIR = os.path.dirname(os.path.abspath(__file__))
+try:
+    DB_DIR = os.path.dirname(os.path.abspath(__file__))
+else:
+    DB_DIR = os.curdir()
 VERSION_FN = os.path.join(DB_DIR, 'db-version')
 DB_FN = os.path.join(DB_DIR, 'stats.db')
 

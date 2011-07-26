@@ -319,7 +319,10 @@ class dataSite(resource.Resource):
 class dynamicSite(resource.Resource):
     isleaF = True
     def render_GET(self,request):
-        index = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'index.html')
+        try:
+            index = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'index.html')
+        except:
+            index = 'index.html'
         file = open(index, 'r')
         linestring = file.read()
         file.close
