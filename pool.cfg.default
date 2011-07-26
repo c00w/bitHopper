@@ -89,7 +89,7 @@ mine_address: eu1.triplemining.com:8344
 api_address:http://api.triplemining.com/json/stats
 api_method:json
 api_key:solved
-role:disable
+role:mine
 #CHANGE THIS
 #https://www.triplemining.com/register
 user: c00w_test
@@ -139,7 +139,7 @@ pass: u5cpmndZq4Jvp
 name: nofeemining.com
 mine_address: nofeemining.com:8332 
 api_address: https://www.nofeemining.com/api.php?key%(nofeemining_user_apikey)s
-role:mine
+role:disable
 api_method:json
 api_key:poolRoundShares
 #CHANGE THIS
