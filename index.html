@@ -39,11 +39,11 @@
 			}
 			
 			function getColor(payload, srv) {
-				if(payload['current'] == srv['name']) {
+				if(payload['servers'][payload['current']]['name'] == srv['name']) {
 					return 'yellow';
 				}
 					
-				if(srv['lag']) {
+				if(srv['lag'] == true) {
 					return 'red';
 				}
 					
@@ -157,7 +157,7 @@
 						}
 						
 						if(column['width'] != undefined) {
-							cssAttr += "width:" + column['width'];
+							cssAttr += "width:" + column['width'] + ";";
 						}
 						
 						if(column['color'] != undefined) {
