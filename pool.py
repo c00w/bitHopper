@@ -41,7 +41,7 @@ class Pool():
             if 'api_address' not in self.servers[server]:
                 self.servers[server]['api_address'] = server
             if 'name' not in self.servers[server]:
-                self.server[server]['name'] = server
+                self.servers[server]['name'] = server
             self.servers[server]['err_api_count'] = 0
             
     def get_entry(self, server):
@@ -95,7 +95,7 @@ class Pool():
         self.bitHopper.log_dbg(str(error))
         pool = args
         self.servers[pool]['err_api_count'] += 1
-        if self.server[pool]['err_api_count'] > 1:
+        if self.servers[pool]['err_api_count'] > 1:
             self.servers[pool]['shares'] = 10**10
         time = self.servers[pool]['refresh_time']
         self.bitHopper.reactor.callLater(time, self.update_api_server, pool)
