@@ -65,6 +65,7 @@
 					+ fixLength((shares / payload['difficulty'] * 100).toFixed(2), 6)
 					+ "%";
 			}
+			
 			function setRole(srvName, role) {
 			
 				var frm = "<form><input type=hidden name='role-" + srvName + "' value='" + role + "'></form>";
@@ -120,9 +121,28 @@
 					+ "<br>"
 					+ fixLength("" + pp.toFixed(2), 5);
 			}
-			
+
+			function setPayout(srvName) {
+				var payout = prompt("set payout for: " + srvName, 0);
+				if(payout != null && payout != undefined && payout != "") {
+					var frm = "<form><input type=hidden name='payout-" + srvName + "' value='" + payout + "'></form>";
+					$.post("/stats", $(frm).serialize());
+					
+					update();
+				}
+			}
+
 			function getPayout(payload, srv) {
-				return srv["payout"];
+				var srvName = "";
+				for(var v in payload["servers"]) {
+					if(payload["servers"][v]['name'] == srv['name']) {
+						srvName = v;
+					}
+				}
+				
+				payout = "<a href='#' onFocus='this.blur();' onClick=\"setPayout('" + srvName + "');\" style='text-decoration:underline;color:white;'>" + srv["payout"] + "</a>";
+				
+				return payout;
 			}
 			
 			function getEfficiency(payload, srv) {
