@@ -3,4 +3,4 @@
 db-version
 stats.db
 stats.db-journal
-password.py
+pool.cfg
