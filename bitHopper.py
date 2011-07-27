@@ -240,7 +240,8 @@ def bitHopper_Post(request):
         bithopper_global.log_msg('RPC request ' + str(data) + " submitted to " + str(pool_server['name']))
     else:
         if data == []:
-            rep = ""
+            """ If request contains no data, tell the user which remote procedure was called instead """
+            rep = rpc_request['method']
         else:
             rep = str(data[0][155:163])
         bithopper_global.log_msg('RPC request [' + rep + "] submitted to " + str(pool_server['name']))
