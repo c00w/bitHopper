@@ -95,6 +95,18 @@ role:mine
 user: c00w_test
 pass: x 
 
+[bitclockers]
+name: bitclockers.com
+mine_address: pool.bitclockers.com:8332 
+user: flargle
+pass: x
+api_address:https://bitclockers.com/api 
+api_method:json
+api_key:roundshares
+role:mine
+user_api_address:https://bitclockers.com/api/%(bitclockers_user_apikey)s
+bitclockers_user_apikey:965469e512aa0de5a37b83ccfd5e849e
+
 ######################################
 # Backup Pools for when hopping is 
 # not worth doing
@@ -218,18 +230,6 @@ api_address:https://mineco.in/stats.json
 role:disable
 api_method:json
 api_key:shares_this_round
-       
-[bitclockers]
-name: bitclockers.com
-mine_address: pool.bitclockers.com:8332 
-user: flargle
-pass: x
-api_address:https://bitclockers.com/api 
-api_method:json
-api_key:roundshares
-role:disable
-user_api_address:https://bitclockers.com/api/%(bitclockers_user_apikey)s
-bitclockers_user_apikey:965469e512aa0de5a37b83ccfd5e849e
 
 [eclipsemc]
 name: eclipsemc.com
