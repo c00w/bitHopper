@@ -41,19 +41,19 @@ class Database():
             shares = self.shares[server]
             sql = 'UPDATE '+ str(server) +' SET shares= shares + '+ str(shares) +' WHERE diff='+ str(difficulty)
             self.curs.execute(sql)
-            shares = 0
+            self.shares[server] = 0
 
         for server in self.rejects:
             rejects = self.rejects[server]
             sql = 'UPDATE '+ str(server) +' SET rejects= rejects + '+ str(rejects) +' WHERE diff='+ str(difficulty)
             self.curs.execute(sql)
-            rejects = 0
+            self.rejects[server] = 0
 
         for server in self.payout:
             payout = self.payout[server]
             sql = 'UPDATE '+ str(server) +' SET payout= '+ str(payout) +' WHERE diff='+ str(difficulty)
             self.curs.execute(sql)
-            payout = 0
+            self.payout[server] = 0
 
         self.database.commit()
         
