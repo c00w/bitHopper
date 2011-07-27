@@ -18,10 +18,11 @@
 			}
 			
 			td {
-				padding:3px;
+				padding:2px;
 				padding-left:6px;
 				padding-right:6px;
 				margin:0;
+				border-bottom:2px solid darkblue;
 			}
 			
 			td.head {
@@ -42,16 +43,23 @@
 					return 'yellow';
 				}
 					
+				if(srv['lag']) {
+					return 'red';
+				}
+					
 				return undefined;
 			}
 			
 			function getShares(payload, srv) {
 				shares = srv['shares'];
 				if(srv["role"] != "mine" && srv["role"] != "info") {
-					shares = "N/A";
+					return "N/A";
 				}
 				
-				return shares;
+				return shares
+					+ "<br>"
+					+ fixLength((shares / payload['difficulty'] * 100).toFixed(2), 6)
+					+ "%";
 			}
 			
 			function getRole(payload, srv) {
@@ -66,8 +74,8 @@
 				return srv["user_shares"]
 					+ "&nbsp;/&nbsp;"
 					+ srv["rejects"]
-					+ "&nbsp;(" + fixLength("" + pp.toFixed(2), 5)
-					+ "%)";
+					+ "<br>"
+					+ fixLength("" + pp.toFixed(2), 5);
 			}
 			
 			function getPayout(payload, srv) {
@@ -80,7 +88,7 @@
 				expect  = parseFloat((parseFloat(payout)/expect) * 100).toFixed(1);
 				var pay_str = expect +  "%";
 				if (isNaN(expect)) {
-					pay_str = "";
+					pay_str = "&nbsp;";
 				}
 				return pay_str;
 			}
@@ -167,6 +175,7 @@
 						} else if(column['type'] == 'linechart') {
 							content = "<span id='chart" + chartBuildUps.length + "' style='width:100%;'></span>";
 							chartBuildUps.push( { 'data':data } );
+							cssAttr += "padding:0px;";
 						}
 						
 						html += "<td " + tdAttr + " style='" + cssAttr + "'>" + content + "</td>";
