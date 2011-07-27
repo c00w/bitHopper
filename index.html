@@ -17,6 +17,10 @@
 				padding:10;
 			}
 			
+			a {
+				text-decoration:none;
+			}
+			
 			td {
 				padding:2px;
 				padding-left:6px;
@@ -62,8 +66,48 @@
 					+ "%";
 			}
 			
+			function setRole(srvName, role) {
+			
+				var frm = "<form><input type=hidden name='role-" + srvName + "' value='" + role + "'></form>";
+				$.post("/stats", $(frm).serialize());
+				
+				update();
+			}
+			
+			function selectRole(srvName, role) {
+				var nrole = prompt(srvName + " new role: ", role);
+				if(nrole != null && nrole != undefined && nrole != "") {
+					setRole(srvName, nrole);
+				}
+			}
+			
 			function getRole(payload, srv) {
-				return srv["role"];
+				var roles = "";
+				
+				var srvName = "";
+				for(var v in payload["servers"]) {
+					if(payload["servers"][v]['name'] == srv['name']) {
+						srvName = v;
+					}
+				}
+				
+				if(srv["role"] != "backup") {
+					roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'disable');\" onFocus='this.blur();' style='border:1px solid black;";
+					if(srv["role"] == "disable") roles += "background-color:black;";
+					roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
+
+					roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'info');\" onFocus='this.blur();' style='border:1px solid yellow;";
+					if(srv["role"] == "info") roles += "background-color:yellow;";
+					roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
+
+					roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'mine');\" onFocus='this.blur();' style='border:1px solid green;";
+					if(srv["role"][0] == "m") roles += "background-color:green;";
+					roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
+				}
+			
+				var role = "<a href='#' onClick=\"selectRole('" + srvName + "', '" + srv["role"] + "')\" onFocus='this.blur();' style='text-decoration:underline;color:white;'>" + srv["role"] + "</a>";
+			
+				return roles + role;
 			}
 			
 			function getUserShareRejects(payload, srv) {
@@ -77,9 +121,28 @@
 					+ "<br>"
 					+ fixLength("" + pp.toFixed(2), 5);
 			}
-			
+
+			function setPayout(srvName) {
+				var payout = prompt("set payout for: " + srvName, 0);
+				if(payout != null && payout != undefined && payout != "") {
+					var frm = "<form><input type=hidden name='payout-" + srvName + "' value='" + payout + "'></form>";
+					$.post("/stats", $(frm).serialize());
+					
+					update();
+				}
+			}
+
 			function getPayout(payload, srv) {
-				return srv["payout"];
+				var srvName = "";
+				for(var v in payload["servers"]) {
+					if(payload["servers"][v]['name'] == srv['name']) {
+						srvName = v;
+					}
+				}
+				
+				payout = "<a href='#' onFocus='this.blur();' onClick=\"setPayout('" + srvName + "');\" style='text-decoration:underline;color:white;'>" + srv["payout"] + "</a>";
+				
+				return payout;
 			}
 			
 			function getEfficiency(payload, srv) {
@@ -205,7 +268,7 @@
 					$("#current").html("<span style='color:yellow;'>" + data["current"] + "</span> @" + parseInt(data["mhash"]) + "MHash");
 
 					updateRoundShares(data);
-
+					
 					buildTable("#table", data['servers'], data,
 						{
 							'Server': { 'data':getName, 'color':getColor },
@@ -235,6 +298,12 @@
 	</head>
 	<body>
 		<h1 id="current"></h1>
+		<span style="padding:5px;">
+			<span style="background-color:black;width:20px;height:20px;">&nbsp;&nbsp;</span> disabled
+			<span style="background-color:yellow;width:20px;height:20px;">&nbsp;&nbsp;</span> info
+			<span style="background-color:green;width:20px;height:20px;">&nbsp;&nbsp;</span> mine
+		</span>
+		<br /><br />
 		<div id="table"></div>
 	</body>
 </html>
