@@ -176,6 +176,7 @@
 							content = "<span id='chart" + chartBuildUps.length + "' style='width:100%;'></span>";
 							chartBuildUps.push( { 'data':data } );
 							cssAttr += "padding:0px;";
+							tdAttr += " width='100%'";
 						}
 						
 						html += "<td " + tdAttr + " style='" + cssAttr + "'>" + content + "</td>";
@@ -233,10 +234,7 @@
 		</script>
 	</head>
 	<body>
-	
 		<h1 id="current"></h1>
-		
 		<div id="table"></div>
-	
 	</body>
 </html>
