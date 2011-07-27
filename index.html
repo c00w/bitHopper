@@ -19,8 +19,8 @@
 			
 			td {
 				padding:3px;
-				padding-left:13px;
-				padding-right:13px;
+				padding-left:6px;
+				padding-right:6px;
 				margin:0;
 			}
 			
@@ -33,119 +33,188 @@
 		<script type="text/javascript" src="http://omnipotent.net/jquery.sparkline/1.6/jquery.sparkline.min.js"></script>
 		<script type="text/javascript">
 		
+			function getName(payload, srv) {
+				return srv['name'];
+			}
+			
+			function getColor(payload, srv) {
+				if(payload['current'] == srv['name']) {
+					return 'yellow';
+				}
+					
+				return undefined;
+			}
+			
+			function getShares(payload, srv) {
+				shares = srv['shares'];
+				if(srv["role"] != "mine" && srv["role"] != "info") {
+					shares = "N/A";
+				}
+				
+				return shares;
+			}
+			
+			function getRole(payload, srv) {
+				return srv["role"];
+			}
+			
+			function getUserShareRejects(payload, srv) {
+				var pp = 0;
+				if(srv["rejects"] > 0) {
+					pp = parseFloat(parseFloat(srv["rejects"])) / parseFloat(srv["user_shares"]) * 100;
+				}
+				return srv["user_shares"]
+					+ "&nbsp;/&nbsp;"
+					+ srv["rejects"]
+					+ "&nbsp;(" + fixLength("" + pp.toFixed(2), 5)
+					+ "%)";
+			}
+			
+			function getPayout(payload, srv) {
+				return srv["payout"];
+			}
+			
+			function getEfficiency(payload, srv) {
+				var payout = srv["payout"]
+				var expect = (parseFloat(srv["user_shares"])*50)/payload["difficulty"];
+				expect  = parseFloat((parseFloat(payout)/expect) * 100).toFixed(1);
+				var pay_str = expect +  "%";
+				if (isNaN(expect)) {
+					pay_str = "";
+				}
+				return pay_str;
+			}
+			
+			function getRoundShares(payload, srv) {
+				if(srv["role"] != "mine" && srv["role"] != "info")
+					return [];
+					
+				return srvhist[srv['name']];
+			}
+			
+			var srvhist = {};
+			function updateRoundShares(data) {
+				for(v in data["servers"]) {
+					var d = data["servers"][v]["shares"];
+					if(srvhist[data["servers"][v]['name']] == undefined) {
+						srvhist[data["servers"][v]['name']] = [ d ];
+					} else {
+						srvhist[data["servers"][v]['name']].push(d);
+					}
+				}
+			}
+			
+			function buildTable(id, items, payload, columns, fnSort) {
+				var html = "";
+				html += "<table width=100% border=0 padding=0 cellpadding=0 cellspacing=0>";
+				html += "	<tr>";
+				
+				for(col in columns) {
+					var column = columns[col];
+					var tdAttr = "";
+
+					if(column['width'] != undefined) {
+						cssAttr += "width:" + column['width'];
+					}
+					
+					if(column['align'] != undefined)
+						tdAttr += " align='" + column['align'] + "'";
+					
+					html += "	<td class='head' " + tdAttr + "><b>" + col.replace(/\s/g, "&nbsp;") + "</b></td>";
+				}
+				
+				html += "	</tr>";
+				
+				var rows = [];
+				for(row in items) {
+					rows.push(row);
+				}
+				if(fnSort != undefined) {
+					row = rows.sort(fnSort);
+				}
+				var chartBuildUps = [];
+
+				for(var i=0;i<rows.length;i++) {
+					var r = rows[i];
+					var row = items[r];
+					html += "<tr>";
+					
+					for(col in columns) {
+						var column = columns[col];
+						var tdAttr = "";
+						var cssAttr = "";
+						
+						if(column['align'] != undefined) {
+							tdAttr += " align='" + column['align'] + "'";
+						}
+						
+						if(column['width'] != undefined) {
+							cssAttr += "width:" + column['width'];
+						}
+						
+						if(column['color'] != undefined) {
+							var color = column['color'](payload, row);
+							if(color != undefined) {
+								cssAttr += "color:" + color + ";";
+							}
+						}
+						
+						var content = "";
+						var data = column['data'](payload, row);
+						
+						if(column['type'] == undefined) {
+							content = data;
+						} else if(column['type'] == 'linechart') {
+							content = "<span id='chart" + chartBuildUps.length + "' style='width:100%;'></span>";
+							chartBuildUps.push( { 'data':data } );
+						}
+						
+						html += "<td " + tdAttr + " style='" + cssAttr + "'>" + content + "</td>";
+					}
+					
+					html += "</tr>";
+				}
+				
+				html += "</table>";
+				$(id).html(html);
+				
+				for(var i=0; i < chartBuildUps.length; i++) {
+					$("#chart" + i).sparkline(chartBuildUps[i]['data'], { type:'line', 'lineColor':'white', 'fillColor':false,'composite':true, 'spotColor':false, 'lineWidth':2 ,'spotRadius':0, 'width':'100%'} );							
+				}
+			}
+		
 			function fixLength(t, l) {
 				while(t.length < l) {
 					t = "&nbsp;" + t;
 				}
 				return t;
 			}
-			
-			var srvhist = {};
 		
 			function update() {
 				$.getJSON('/data', function(data) {
 					$("#current").html("<span style='color:yellow;'>" + data["current"] + "</span> @" + parseInt(data["mhash"]) + "MHash");
-					var h = "<table width=100% border=0 padding=0 cellpadding=0 cellspacing=0><tr><td class=head><b>Server</b></td><td class=head align=right><b>Shares</b></td><td class=head align=right><b>Role</b></td><td class=head align=right><b>User&nbsp;Shares&nbsp;/&nbsp;Rejects</b></td><td class=head align=right><b>Payout</b></td><td class=head align=right><b>Efficiency</b></td><td class=head width=100%><b>Round&nbsp;Shares</b></td></tr>";
-					var maxlrej = 0;
-					for(v in data["servers"]) {
-						if(!data["servers"][v]["lag"]) {
-							if(maxlrej > (""+data["servers"][v]["rejects"]).length)
-								maxlrej = (""+data["servers"][v]["rejects"]).length;
-						}
-						var d = data["servers"][v]["shares"];
-						if(srvhist[v] == undefined) {
-							srvhist[v] = [ d ];
-						} else {
-							srvhist[v].push(d);
-						}						
-					}
-					
-					var srvs = [];
-					for(v in data["servers"]) {
-						srvs.push(v);
-					}
-					srvs.sort(function(a, b) {
-						if(data["servers"][a]["role"] != data["servers"][b]["role"])
-							return data["servers"][a]["role"] > data["servers"][b]["role"]
-						
-						return data["servers"][a]["name"] > data["servers"][b]["name"]
-					});
-					for(var iii=0;iii<srvs.length;iii++) {
-						v = srvs[iii];					
-						h += "<tr>";
-						var srv = data["servers"][v]
-						
-						var na  = srv['name'];
-						if(v == data["current"]) {
-							na = "<span style='color:yellow;'>" + na + "</span>";
-						}
-						if(srv["lag"]) {
-							na = "<span style='color:red;'>" + na + "</span>";
-						}
-						
-						h += "<td><b>" + na + "</b></td>";
-						shares = srv['shares'];
-						if(srv["role"] != "mine" && srv["role"] != "info") {
-							shares = "N/A";
-						}
-						
-						h += "<td align=right>" + shares  + "</td>";
-						
-						h += "<td align=right><form method=\"POST\">"
 
-                        h += "<input name=\"role-" + v + "\" type = \"text\""
-                        h += " value = \"" + srv["role"] + "\" size=10 / >"+ "</form></td>";
+					updateRoundShares(data);
 
-						var pp = 0;
-						if(parseInt(srv["rejects"]) > 0) {
-							pp = parseFloat(parseFloat(srv["rejects"])) / parseFloat(srv["user_shares"]) * 100;
-						}
-						h += "<td align=right>" + fixLength(""+parseInt(srv["user_shares"]),10) 
-							+ " / " + fixLength(""+parseInt(srv["rejects"]),maxlrej+3) 
+					buildTable("#table", data['servers'], data,
+						{
+							'Server': { 'data':getName, 'color':getColor },
+							'Shares': { 'data':getShares, 'align':'right' },
+							'Role': { 'data':getRole },
+							'User Shares / Rejects': { 'data':getUserShareRejects, 'align':'right' },
+							'Payout': { 'data':getPayout, 'align':'right' },
+							'Efficiency': { 'data':getEfficiency, 'align':'right' },
+							'Round Shares': { 'data':getRoundShares, 'type':'linechart', 'width':'100%' }
+						},
+						function(a, b) {
+							if(data["servers"][a]["role"].trim() != data["servers"][b]["role"].trim()) {
+								return data["servers"][a]["role"] > data["servers"][b]["role"];
+							}
 							
-							+ " (" + fixLength("" + pp.toFixed(2), 5) + "%)";
-							+ "</td>";
-						lag = srv["lag"];
-
-                        var payout = srv["payout"]
-						
-						h += "<td align=right><form method=\"POST\">"
-
-                        h += "<input name=\"payout-" + v + "\" type = \"text\""
-                        h += " value = \"" + payout + "\" size=10 / >"+ "</form></td>";
-
-
-                        var expect = (parseFloat(srv["user_shares"])*50)/data["difficulty"];
-                        expect  = parseFloat((parseFloat(payout)/expect) * 100).toFixed(1);
-                        var pay_str = expect +  "%";
-			if (isNaN(expect)) {
-				pay_str = "";
-			}
-				
-
-                        h += "<td align=right>" + pay_str + "</td>"; 
-
-						if(srv["role"] == "mine") {
-							h += "<td nowrap style='padding-top:0px;padding-bottom:0px;margin-top:0px;margin-bottom:0px;'><span id='chart" + iii + "' style='margin:0px;padding:0px;width:100%;height:100%;'></span></td>";
+							return data["servers"][a]["name"] > data["servers"][b]["name"]
 						}
-						h += "</tr>";
-					}
-					
-					h += "</table>";
-					$("#table").html(h);
-					for(var iii=0;iii<srvs.length;iii++) {
-						v = srvs[iii];
-						var srv = data["servers"][v]
-						if(srv["role"] == "mine") {
-							$("#chart" + iii).sparkline(srvhist[v], { type:'line', 'lineColor':'white', 'fillColor':false,'composite':true, 'spotColor':false, 'lineWidth':2 ,'spotRadius':0, 'width':'100%'} );		
-						}
-					}
-					
+					);
 				});
-			}
-			
-			function escapePoolName(pn) {
-				return pn.replace(/ /, '');
 			}
 			
 			$(document).ready(function() {
