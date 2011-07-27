@@ -73,6 +73,13 @@
 				update();
 			}
 			
+			function selectRole(srvName, role) {
+				var nrole = prompt(srvName + " new role: ", role);
+				if(nrole != null && nrole != undefined && nrole != "") {
+					setRole(srvName, nrole);
+				}
+			}
+			
 			function getRole(payload, srv) {
 				var roles = "";
 				
@@ -97,7 +104,9 @@
 					roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
 				}
 			
-				return roles + srv["role"];
+				var role = "<a href='#' onClick=\"selectRole('" + srvName + "', '" + srv["role"] + "')\" onFocus='this.blur();' style='text-decoration:underline;color:white;'>" + srv["role"] + "</a>";
+			
+				return roles + role;
 			}
 			
 			function getUserShareRejects(payload, srv) {
