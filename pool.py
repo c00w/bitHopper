@@ -41,7 +41,7 @@ class Pool():
             if 'api_address' not in self.servers[server]:
                 self.servers[server]['api_address'] = server
             if 'name' not in self.servers[server]:
-                self.server[server]['name'] = server
+                self.servers[server]['name'] = server
             self.servers[server]['err_api_count'] = 0
             
     def get_entry(self, server):
