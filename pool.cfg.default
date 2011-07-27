@@ -26,7 +26,7 @@ mine_address: polmine.pl:8347
 api_address:https://polmine.pl/?action=statistics 
 role:mine  
 api_method:re
-api_key: stkich:</th><td>([ 0-9]+)</td>
+api_key: <b>Ilość poprawnych wszystkich: &nbsp; </b> <br/>([ 0-9]+)<br/> <br/></td>
 api_strip:' '
 #CHANGE THIS
 #https://polmine.pl
