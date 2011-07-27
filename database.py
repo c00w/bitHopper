@@ -5,6 +5,9 @@
 import sqlite3
 import os
 import os.path
+
+from twisted.internet.task import LoopingCall
+
 try:
     DB_DIR = os.path.dirname(os.path.abspath(__file__))
 except:
@@ -19,10 +22,41 @@ class Database():
         self.bitHopper = bitHopper
         self.pool = bitHopper.pool
         self.check_database()
+        
+        self.shares = {}
+        self.rejects = {}
+        self.payout = {}
+
+        call = LoopingCall(self.write_database)
+        call.start(60)
 
     def close(self):
         self.curs.close()
 
+    def write_database(self):
+        self.bitHopper.log_msg('writing to database')
+
+        difficulty = self.bitHopper.difficulty.get_difficulty()
+        for server in self.shares:
+            shares = self.shares[server]
+            sql = 'UPDATE '+ str(server) +' SET shares= shares + '+ str(shares) +' WHERE diff='+ str(difficulty)
+            self.curs.execute(sql)
+            shares = 0
+
+        for server in self.rejects:
+            rejects = self.rejects[server]
+            sql = 'UPDATE '+ str(server) +' SET rejects= rejects + '+ str(rejects) +' WHERE diff='+ str(difficulty)
+            self.curs.execute(sql)
+            rejects = 0
+
+        for server in self.payout:
+            payout = self.payout[server]
+            sql = 'UPDATE '+ str(server) +' SET payout= '+ str(payout) +' WHERE diff='+ str(difficulty)
+            self.curs.execute(sql)
+            payout = 0
+
+        self.database.commit()
+        
     def check_database(self):
         self.bitHopper.log_msg('Checking Database')
         if os.path.exists(DB_FN):
@@ -59,10 +93,9 @@ class Database():
         self.bitHopper.log_msg('Database Setup')
 
     def update_shares(self,server,shares):
-        difficulty = self.bitHopper.difficulty.get_difficulty()
-        sql = 'UPDATE '+ server +' SET shares= shares + '+ str(shares) +' WHERE diff='+ str(difficulty)
-        self.curs.execute(sql)
-        self.database.commit()
+        if server not in self.shares:
+            self.shares[server] = 0
+        self.shares[server] += shares
 
     def get_shares(self,server):
         sql = 'select shares from ' + str(server)
@@ -73,10 +106,9 @@ class Database():
         return shares
 
     def update_rejects(self,server,shares):
-        difficulty = self.bitHopper.difficulty.get_difficulty()
-        sql = 'UPDATE '+ str(server) +' SET rejects= rejects + '+ str(shares) +' WHERE diff='+ str(difficulty)
-        self.curs.execute(sql)
-        self.database.commit()
+        if server not in self.rejects:
+            self.rejects[server] = 0
+        self.rejects[server] += shares
 
     def get_rejects(self,server):
         sql = 'select rejects from ' + str(server)
@@ -87,10 +119,9 @@ class Database():
         return shares
         
     def set_payout(self,server,payout):
-        difficulty = self.bitHopper.difficulty.get_difficulty()
-        sql = 'UPDATE '+ server +' Set stored_payout='+ str(payout) +' WHERE diff='+ str(difficulty)
-        self.curs.execute(sql)
-        self.database.commit()
+        if server not in self.payout:
+            self.payout[server] = 0
+        self.payout[server] = payout
 
     def get_payout(self,server):
         sql = 'select stored_payout from ' + server
