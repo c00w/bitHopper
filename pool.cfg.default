@@ -20,6 +20,19 @@ api_key: shares
 user: c00w.testhop
 pass: testhop
 
+[unitedminers]
+name: unitedminers.com
+mine_address: pool.unitedminers.com:8332 
+api_address:http://www.unitedminers.com/?action=statistics
+api_method:re
+api_key:align="right">Shares for current round:</th><td>([,0-9]+)</td></tr></table></div><div
+api_strip:','
+role:mine
+#CHANGE THIS
+#unitedminers.com
+user: dah4k0r@gmail.com_testhop
+pass: testhop
+
 [ozco]
 name:ozco.in
 mine_address:ozco.in:8332
