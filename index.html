@@ -17,6 +17,10 @@
 				padding:10;
 			}
 			
+			a {
+				text-decoration:none;
+			}
+			
 			td {
 				padding:2px;
 				padding-left:6px;
@@ -52,7 +56,7 @@
 			
 			function getShares(payload, srv) {
 				shares = srv['shares'];
-				if(srv["role"] != "mine" && srv["role"] != "mine_nmc" && srv["role"] != "info" && srv["role"] != "mine_slush") {
+				if(srv["role"] != "mine" && srv["role"] != "info") {
 					return "N/A";
 				}
 				
@@ -61,9 +65,39 @@
 					+ fixLength((shares / payload['difficulty'] * 100).toFixed(2), 6)
 					+ "%";
 			}
+			function setRole(srvName, role) {
+			
+				var frm = "<form><input type=hidden name='role-" + srvName + "' value='" + role + "'></form>";
+				$.post("/stats", $(frm).serialize());
+				
+				update();
+			}
 			
 			function getRole(payload, srv) {
-				return srv["role"];
+				var roles = "";
+				
+				var srvName = "";
+				for(var v in payload["servers"]) {
+					if(payload["servers"][v]['name'] == srv['name']) {
+						srvName = v;
+					}
+				}
+				
+				if(srv["role"] != "backup") {
+					roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'disable');\" onFocus='this.blur();' style='border:1px solid black;";
+					if(srv["role"] == "disable") roles += "background-color:black;";
+					roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
+
+					roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'info');\" onFocus='this.blur();' style='border:1px solid yellow;";
+					if(srv["role"] == "info") roles += "background-color:yellow;";
+					roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
+
+					roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'mine');\" onFocus='this.blur();' style='border:1px solid green;";
+					if(srv["role"][0] == "m") roles += "background-color:green;";
+					roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
+				}
+			
+				return roles + srv["role"];
 			}
 			
 			function getUserShareRejects(payload, srv) {
@@ -205,7 +239,7 @@
 					$("#current").html("<span style='color:yellow;'>" + data["current"] + "</span> @" + parseInt(data["mhash"]) + "MHash");
 
 					updateRoundShares(data);
-
+					
 					buildTable("#table", data['servers'], data,
 						{
 							'Server': { 'data':getName, 'color':getColor },
@@ -235,6 +269,12 @@
 	</head>
 	<body>
 		<h1 id="current"></h1>
+		<span style="padding:5px;">
+			<span style="background-color:black;width:20px;height:20px;">&nbsp;&nbsp;</span> disabled
+			<span style="background-color:yellow;width:20px;height:20px;">&nbsp;&nbsp;</span> info
+			<span style="background-color:green;width:20px;height:20px;">&nbsp;&nbsp;</span> mine
+		</span>
+		<br /><br />
 		<div id="table"></div>
 	</body>
 </html>
