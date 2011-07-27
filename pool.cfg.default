@@ -8,6 +8,18 @@
 #   These Pools Are Hopped by Default
 #######################################
 
+[slush]
+name: bitcoin.cz
+mine_address: api2.bitcoin.cz:8332
+role: mine_slush
+api_address: http://mining.bitcoin.cz/stats/json/
+api_method: json
+api_key: shares
+#CHANGE THIS
+#http://mining.bitcoin.cz/accounts/register/
+user: c00w.testhop
+pass: testhop
+
 [ozco]
 name:ozco.in
 mine_address:ozco.in:8332
