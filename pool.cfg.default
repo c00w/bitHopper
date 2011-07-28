@@ -25,7 +25,7 @@ name: unitedminers.com
 mine_address: pool.unitedminers.com:8332 
 api_address:http://www.unitedminers.com/?action=api
 api_method:json
-api_key:align=validcurrentshares
+api_key:validcurrentshares
 api_strip:','
 role:mine
 #CHANGE THIS
