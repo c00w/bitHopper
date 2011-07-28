@@ -40,7 +40,7 @@ class BitHopper():
         self.lp = lp.LongPoll(self)
         self.speed = speed.Speed(self)
         self.stats = stats.Statistics(self)
-        
+
         self.pool.setup(self)
 
     def reject_callback(self,server,data):
@@ -88,7 +88,7 @@ class BitHopper():
             log.msg(msg)
             return
         print time.strftime("[%H:%M:%S] ") +str(msg)
-
+		sys.stdout.flush()
     def log_dbg(self, msg):
         if self.get_options() == None:
             log.err(msg)
@@ -107,7 +107,7 @@ class BitHopper():
         difficulty = self.difficulty.get_difficulty()
         nmc_difficulty = self.difficulty.get_nmc_difficulty()
         min_shares = difficulty*.40
-        
+
         for server in self.pool.get_servers():
             info = self.pool.get_entry(server)
             info['shares'] = int(info['shares'])
@@ -120,7 +120,7 @@ class BitHopper():
             elif info['role'] == 'mine_nmc':
                 shares = info['shares']*difficulty / nmc_difficulty
             else:
-                shares = 100* info['shares'] 
+                shares = 100* info['shares']
             if shares< min_shares and info['lag'] == False:
                 min_shares = shares
                 server_name = server
@@ -150,7 +150,7 @@ class BitHopper():
                 elif info['role'] == 'mine_nmc':
                     shares = info['shares']*difficulty / nmc_difficulty
                 else:
-                    shares = info['shares'] 
+                    shares = info['shares']
                 if shares< min_shares and info['lag'] == False:
                     min_shares = shares
                     server_name = server
@@ -168,9 +168,9 @@ class BitHopper():
         if self.pool.get_current() != server_name:
             self.pool.set_current(server_name)
             self.log_msg("Server change to " + str(self.pool.get_current()) + ", telling client with LP")
-            self.lp_callback()      
+            self.lp_callback()
             self.lp.clear_lp()
-            
+
         return
 
     def get_new_server(self, server):
@@ -231,7 +231,7 @@ def bitHopper_Post(request):
     #Check for data to be validated
     current = bithopper_global.pool.get_current()
     pool_server=bithopper_global.pool.get_entry(current)
-    
+
     data = rpc_request['params']
     j_id = rpc_request['id']
     if data != []:
@@ -254,7 +254,7 @@ def bitHopperLP(value, *methodArgs):
         bithopper_global.log_msg('LP triggered serving miner')
         request = methodArgs[0]
         #Duplicated from above because its a little less of a hack
-        #But apparently people expect well formed json-rpc back but won't actually make the call 
+        #But apparently people expect well formed json-rpc back but won't actually make the call
         try:
             json_request = request.content.read()
         except Exception,e:
@@ -267,7 +267,7 @@ def bitHopperLP(value, *methodArgs):
             rpc_request = {'params':[],'id':1}
         #Check for data to be validated
         pool_server=bithopper_global.pool.get_entry(bithopper_global.pool.get_current())
-        
+
         data = rpc_request['params']
         j_id = rpc_request['id']
 
@@ -406,7 +406,7 @@ class bitSite(resource.Resource):
 
 def parse_server_disable(option, opt, value, parser):
     setattr(parser.values, option.dest, value.split(','))
-    
+
 
 def main():
     parser = optparse.OptionParser(description='bitHopper')
