@@ -39,21 +39,32 @@ class Database():
         difficulty = self.bitHopper.difficulty.get_difficulty()
         for server in self.shares:
             for user in self.shares[server]:
+                
                 shares = self.shares[server][user]
                 sql = 'UPDATE '+ str(server) +' SET shares= shares + '+ str(shares) +' WHERE diff='+ str(difficulty) + ' and user= \'' + str(user) + "\'"
                 self.curs.execute(sql)
+                if self.curs.execute('select * from ' + server + '  WHERE diff='+ str(difficulty) + ' and user= \'' + str(user) + "\'").fetchall() == 0:
+                    sql = 'INSERT INTO ' + server + ' ( ' + str(difficulty) + ',' + str(shares) + ',0,0,\'' + user + '\''
+                    self.curs.execute(sql)
                 self.shares[server][user] = 0
 
         for server in self.rejects:
             rejects = self.rejects[server]
             sql = 'UPDATE '+ str(server) +' SET rejects= rejects + '+ str(rejects) +' WHERE diff='+ str(difficulty) + ' and user = \'\''
             self.curs.execute(sql)
+            if self.curs.execute('select * from ' + server + '  WHERE diff='+ str(difficulty) + ' and user= \'' + str(user) + "\'").fetchall() == 0:
+                sql = 'INSERT INTO ' + server + ' ( ' + str(difficulty) + ',0,' + str(rejects) + ',0,\'\''
+                self.curs.execute(sql)
+
             self.rejects[server] = 0
 
         for server in self.payout:
             payout = self.payout[server]
             sql = 'UPDATE '+ str(server) +' SET stored_payout= '+ str(payout) +' WHERE diff='+ str(difficulty)+' and user = \'\''
             self.curs.execute(sql)
+            if self.curs.execute('select * from ' + server + '  WHERE diff='+ str(difficulty) + ' and user= \'' + str(user) + "\'").fetchall() == 0:
+                sql = 'INSERT INTO ' + server + ' ( ' + str(difficulty) + ',0,0,' + str(payout) + ',\'\''
+                self.curs.execute(sql)
             self.payout[server] = 0
 
         self.database.commit()
