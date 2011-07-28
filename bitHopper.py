@@ -83,22 +83,29 @@ class BitHopper():
     def get_options(self, ):
         return self.options
 
-    def log_msg(self, msg):
-        if self.get_options() == None:
+    def log_msg(self, msg, **kwargs):
+        if kwargs and kwargs.get('cat'):
+            print time.strftime("[%H:%M:%S] ") + '[' + kwargs.get('cat') + '] ' + str(msg)
+        elif self.get_options() == None:
             print time.strftime("[%H:%M:%S] ") +str(msg)
-            return
-        if self.get_options().debug == True:
+            sys.stdout.flush()
+        elif self.get_options().debug == True:
             log.msg(msg)
-            return
-        print time.strftime("[%H:%M:%S] ") +str(msg)
+            sys.stdout.flush()
+        else: 
+            print time.strftime("[%H:%M:%S] ") +str(msg)
+            sys.stdout.flush()
 
-    def log_dbg(self, msg):
-        if self.get_options() == None:
+    def log_dbg(self, msg, **kwargs):
+        if self.get_options().debug == True and kwargs and kwargs.get('cat'):
+            log.err('['+kwargs.get('cat')+"] "+msg)
+            sys.stderr.flush()
+        elif self.get_options() == None:
             log.err(msg)
-            return
-        if self.get_options().debug == True:
+            sys.stderr.flush()
+        elif self.get_options().debug == True:
             log.err(msg)
-            return
+            sys.stderr.flush()
         return
 
     def get_server(self, ):
