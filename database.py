@@ -40,7 +40,7 @@ class Database():
         for server in self.shares:
             for user in self.shares[server]:
                 shares = self.shares[server][user]
-                sql = 'UPDATE '+ str(server) +' SET shares= shares + '+ str(shares) +' WHERE diff='+ str(difficulty) + ' and user=' + str(user)
+                sql = 'UPDATE '+ str(server) +' SET shares= shares + '+ str(shares) +' WHERE diff='+ str(difficulty) + ' and user= \'' + str(user) + "\'"
                 self.curs.execute(sql)
                 self.shares[server][user] = 0
 
@@ -85,10 +85,11 @@ class Database():
             for item in result:
                 sql = "ALTER TABLE " + item[0] + " ADD COLUMN user TEXT"
                 self.curs.execute(sql)
+        self.database.commit()
         
         for server_name in self.pool.get_servers():
             difficulty = self.bitHopper.difficulty.get_difficulty()
-            sql = "CREATE TABLE IF NOT EXISTS "+server_name +" (diff REAL, shares INTEGER, rejects INTEGER, stored_payout REAL,  user TEXT)"
+            sql = "CREATE TABLE IF NOT EXISTS "+server_name +" (diff REAL, shares INTEGER, rejects INTEGER, stored_payout REAL, user TEXT)"
             self.curs.execute(sql)
 
         self.database.commit()
