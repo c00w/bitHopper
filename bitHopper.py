@@ -10,6 +10,7 @@ import stats
 import pool
 import speed
 import database
+import scheduler
 
 import sys
 import exceptions
@@ -25,6 +26,7 @@ from twisted.internet import reactor, defer
 from twisted.internet.defer import Deferred
 from twisted.internet.task import LoopingCall
 from twisted.python import log, failure
+from scheduler import Scheduler
 
 class BitHopper():
     def __init__(self):
@@ -40,6 +42,7 @@ class BitHopper():
         self.lp = lp.LongPoll(self)
         self.speed = speed.Speed(self)
         self.stats = stats.Statistics(self)
+        self.scheduler = scheduler.Scheduler(self)
         
         self.pool.setup(self)
 
@@ -407,14 +410,18 @@ class bitSite(resource.Resource):
 def parse_server_disable(option, opt, value, parser):
     setattr(parser.values, option.dest, value.split(','))
     
+def select_scheduler(option, opt, value, parser):
+    fudge = "fun"
 
 def main():
     parser = optparse.OptionParser(description='bitHopper')
     parser.add_option('--noLP', action = 'store_true' ,default=False, help='turns off client side longpolling')
     parser.add_option('--debug', action= 'store_true', default = False, help='Use twisted output')
+    parser.add_option('--listschedulers', action='store_true', default = False, help='List alternate schedulers available')
     parser.add_option('--list', action= 'store_true', default = False, help='List servers')
     parser.add_option('--disable', type=str, default = None, action='callback', callback=parse_server_disable, help='Servers to disable. Get name from --list. Servera,Serverb,Serverc')
     parser.add_option('--port', type = int, default=8337, help='Port to listen on')
+    parser.add_option('--scheduler', type=str, default=None, help='Select an alternate scheduler')
     args, rest = parser.parse_args()
     options = args
     bithopper_global.options = args
@@ -423,6 +430,26 @@ def main():
         for k in bithopper_global.pool.get_servers():
             print k
         return
+
+    if options.listschedulers:
+        schedulers = None
+        for s in Scheduler.__subclasses__():
+            if schedulers != None: schedulers = schedulers + ", " + s.__name__
+            else: schedulers = s.__name__
+        print "Available Schedulers: " + schedulers
+        return
+    
+    if options.scheduler:
+        print "Selecting scheduler: " + options.scheduler
+        foundScheduler = False
+        for s in Scheduler.__subclasses__():
+            if s.__name__ == options.scheduler:
+                bithopper_global.scheduler = s(bithopper_global)
+                foundScheduler = True
+                break
+        if foundScheduler == False:
+            print "Error couldn't find: " + options.scheduler + ". Using default scheduler."
+        
 
     if options.disable != None:
         for k in options.disable:
