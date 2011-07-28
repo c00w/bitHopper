@@ -110,6 +110,9 @@ class Pool():
             info = json.loads(response)
             for value in server['api_key'].split(','):
                 info = info[value]
+            if 'api_strip' in server:
+                strip_char = server['api_strip'][1:-1]
+                info = info.replace(strip_char,'')
             round_shares = int(info)
             self.UpdateShares(args,round_shares)
 
