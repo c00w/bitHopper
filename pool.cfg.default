@@ -25,7 +25,7 @@ name: unitedminers.com
 mine_address: pool.unitedminers.com:8332 
 api_address:http://www.unitedminers.com/?action=statistics
 api_method:re
-api_key:align="right">Shares for current round:</th><td>([,0-9]+)</td></tr></table></div><div
+api_key:align="right">Valid shares for current round:</th><td>([,0-9]+)</td></tr>
 api_strip:','
 role:mine
 #CHANGE THIS
