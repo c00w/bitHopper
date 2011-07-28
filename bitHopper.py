@@ -43,6 +43,7 @@ class BitHopper():
         self.speed = speed.Speed(self)
         self.stats = stats.Statistics(self)
         self.scheduler = scheduler.Scheduler(self)
+        self.difficultyThreshold = 0.43
         
         self.pool.setup(self)
 
@@ -116,7 +117,7 @@ class BitHopper():
         server_name = None
         difficulty = self.difficulty.get_difficulty()
         nmc_difficulty = self.difficulty.get_nmc_difficulty()
-        min_shares = difficulty*.40
+        min_shares = difficulty * self.difficultyThreshold
         
         for server in self.pool.get_servers():
             info = self.pool.get_entry(server)
@@ -203,7 +204,7 @@ class BitHopper():
             difficulty = self.difficulty.get_nmc_difficulty()
         if current_role == 'mine_slush':
             difficulty = self.difficulty.get_difficulty() * 4
-        if self.pool.get_entry(self.pool.get_current())['shares'] > difficulty * .40:
+        if self.pool.get_entry(self.pool.get_current())['shares'] > (difficulty * self.difficultyThreshold):
             self.select_best_server()
             return
 
@@ -429,6 +430,7 @@ def main():
     parser.add_option('--disable', type=str, default = None, action='callback', callback=parse_server_disable, help='Servers to disable. Get name from --list. Servera,Serverb,Serverc')
     parser.add_option('--port', type = int, default=8337, help='Port to listen on')
     parser.add_option('--scheduler', type=str, default=None, help='Select an alternate scheduler')
+    parser.add_option('--threshold', type=float, default=0.43, help='Override difficulty threshold (default 0.43)')
     args, rest = parser.parse_args()
     options = args
     bithopper_global.options = args
@@ -456,7 +458,10 @@ def main():
                 break
         if foundScheduler == False:
             print "Error couldn't find: " + options.scheduler + ". Using default scheduler."
-        
+    
+    if options.threshold:
+        bithopper_global.log_msg("Override difficulty threshold to: " + str(options.threshold))
+        bithopper_global.difficultyThreshold = options.threshold
 
     if options.disable != None:
         for k in options.disable:
