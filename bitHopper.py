@@ -357,9 +357,8 @@ class dynamicSite(resource.Resource):
                 try:
                     server = v.split('-')[1]
                     bithopper_global.pool.get_entry(server)['role'] = request.args[v][0]
-                    bithopper_global.server_update()
-                    if request.args[v] in ['mine','info']:
-                        bithopper_global.update_api_server(server)
+                    if request.args[v][0] in ['mine','info']:
+                        bithopper_global.pool.update_api_server(server)
 
                 except Exception,e:
                     bithopper_global.log_msg('Incorrect http post request role')
