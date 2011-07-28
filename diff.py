@@ -9,7 +9,7 @@ from twisted.internet.task import LoopingCall
 class Difficulty():
     def __init__(self,bitHopper):
         self.bitHopper = bitHopper
-        self.difficulty = 1563027.99611622
+        self.difficulty = 1690906.2047244
         self.nmc_difficulty = 94037.96
         call = LoopingCall(self.update_difficulty)
         call.start(60*60*6)
