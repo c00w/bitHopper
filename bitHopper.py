@@ -449,7 +449,7 @@ def main():
         return
     
     if options.scheduler:
-        print "Selecting scheduler: " + options.scheduler
+        bithopper_global.log_msg("Selecting scheduler: " + options.scheduler)
         foundScheduler = False
         for s in Scheduler.__subclasses__():
             if s.__name__ == options.scheduler:
@@ -457,7 +457,7 @@ def main():
                 foundScheduler = True
                 break
         if foundScheduler == False:
-            print "Error couldn't find: " + options.scheduler + ". Using default scheduler."
+            bithopper_global.log_msg("Error couldn't find: " + options.scheduler + ". Using default scheduler.")
     
     if options.threshold:
         bithopper_global.log_msg("Override difficulty threshold to: " + str(options.threshold))
@@ -467,10 +467,10 @@ def main():
         for k in options.disable:
             if k in bithopper_global.pool.get_servers():
                 if bithopper_global.pool.get_servers()[k]['role'] == 'backup':
-                    print "You just disabled the backup pool. I hope you know what you are doing"
+                    bithopper_global.log_msg("You just disabled the backup pool. I hope you know what you are doing")
                 bithopper_global.pool.get_servers()[k]['role'] = 'disable'
             else:
-                print k + " Not a valid server"
+                bithopper_global.log_msg(k + " Not a valid server")
 
     if options.debug: log.startLogging(sys.stdout)
     site = server.Site(bitSite())
