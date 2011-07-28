@@ -43,7 +43,6 @@ class BitHopper():
         self.speed = speed.Speed(self)
         self.stats = stats.Statistics(self)
         self.scheduler = scheduler.Scheduler(self)
-        self.difficultyThreshold = 0.43
         
         self.pool.setup(self)
 
@@ -113,67 +112,12 @@ class BitHopper():
         return self.pool.get_current()
 
     def select_best_server(self, ):
-        """selects the best server for pool hopping. If there is not good server it returns eligious"""
         server_name = None
-        difficulty = self.difficulty.get_difficulty()
-        nmc_difficulty = self.difficulty.get_nmc_difficulty()
-        min_shares = difficulty * self.difficultyThreshold
+        server_name = self.scheduler.select_best_server()
+        if server_name == None:
+            self.log_msg('FATAL Error, scheduler did not return any pool! Falling back to Eligius')
+            server_name = 'eligius'
         
-        for server in self.pool.get_servers():
-            info = self.pool.get_entry(server)
-            info['shares'] = int(info['shares'])
-            if info['role'] not in ['mine','mine_nmc','mine_slush']:
-                continue
-            if info['role'] == 'mine':
-                    shares = info['shares']
-            elif info['role'] == 'mine_slush':
-                shares = info['shares'] * 4
-            elif info['role'] == 'mine_nmc':
-                shares = info['shares']*difficulty / nmc_difficulty
-            else:
-                shares = 100* info['shares'] 
-            if shares< min_shares and info['lag'] == False:
-                min_shares = shares
-                server_name = server
-
-        if server_name == None:
-            reject_rate = 1
-            for server in self.pool.get_servers():
-                info = self.pool.get_entry(server)
-                if info['role'] != 'backup':
-                    continue
-                if info['lag'] == False:
-                    rr_server = float(info['rejects'])/(info['user_shares']+1)
-                    if  rr_server < reject_rate:
-                        server_name = server
-                        reject_rate = rr_server
-
-        if server_name == None:
-            min_shares = 10**10
-            for server in self.pool.get_servers():
-                info = self.pool.get_entry(server)
-                if info['role'] not in ['mine','mine_nmc','mine_slush']:
-                    continue
-                if info['role'] == 'mine':
-                    shares = info['shares']
-                elif info['role'] == 'mine_slush':
-                    shares = info['shares'] * 4
-                elif info['role'] == 'mine_nmc':
-                    shares = info['shares']*difficulty / nmc_difficulty
-                else:
-                    shares = info['shares'] 
-                if shares< min_shares and info['lag'] == False:
-                    min_shares = shares
-                    server_name = server
-
-        if server_name == None:
-            for server in self.pool.get_servers():
-                info = self.pool.get_entry(server)
-                if info['role'] != 'backup':
-                    continue
-                server_name = server
-                break
-
         global new_server
 
         if self.pool.get_current() != server_name:
@@ -192,31 +136,7 @@ class BitHopper():
         return self.pool.get_entry(self.pool.get_current())
 
     def server_update(self, ):
-        valid_roles = ['mine', 'mine_slush','mine_nmc']
-        if self.pool.get_entry(self.pool.get_current())['role'] not in valid_roles:
-            self.select_best_server()
-            return
-
-        current_role = self.pool.get_entry(self.pool.get_current())['role']
-        if current_role == 'mine':
-            difficulty = self.difficulty.get_difficulty()
-        if current_role == 'mine_nmc':
-            difficulty = self.difficulty.get_nmc_difficulty()
-        if current_role == 'mine_slush':
-            difficulty = self.difficulty.get_difficulty() * 4
-        if self.pool.get_entry(self.pool.get_current())['shares'] > (difficulty * self.difficultyThreshold):
-            self.select_best_server()
-            return
-
-        min_shares = 10**10
-
-        for server in self.pool.get_servers():
-            if self.pool.get_entry(server)['shares'] < min_shares:
-                min_shares = self.pool.get_entry(server)['shares']
-
-        if min_shares < self.pool.get_entry(self.pool.get_current())['shares']*.90:
-            self.select_best_server()
-            return
+        self.scheduler.server_update()
 
     @defer.inlineCallbacks
     def delag_server(self ):
@@ -456,12 +376,12 @@ def main():
                 bithopper_global.scheduler = s(bithopper_global)
                 foundScheduler = True
                 break
-        if foundScheduler == False:
+        if foundScheduler == False:            
             bithopper_global.log_msg("Error couldn't find: " + options.scheduler + ". Using default scheduler.")
-    
-    if options.threshold:
-        bithopper_global.log_msg("Override difficulty threshold to: " + str(options.threshold))
-        bithopper_global.difficultyThreshold = options.threshold
+            bithopper_global.scheduler = scheduler.DefaultScheduler(bithopper_global)
+    else:
+        bithopper_global.log_msg("Using default scheduler.")
+        bithopper_global.scheduler = scheduler.DefaultScheduler(bithopper_global)
 
     if options.disable != None:
         for k in options.disable:
