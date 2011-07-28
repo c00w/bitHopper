@@ -44,6 +44,7 @@ class DefaultScheduler(Scheduler):
       nmc_difficulty = self.bh.difficulty.get_nmc_difficulty()
       min_shares = difficulty * self.difficultyThreshold
         
+      self.bh.log_dbg('min-shares: ' + str(min_shares), cat='scheduler-default')  
       for server in self.bh.pool.get_servers():
          info = self.bh.pool.get_entry(server)
          info['shares'] = int(info['shares'])
@@ -59,6 +60,7 @@ class DefaultScheduler(Scheduler):
             shares = 100* info['shares']
          if shares< min_shares and info['lag'] == False:
             min_shares = shares
+            self.bh.log_dbg('Selecting pool ' + str(server) + ' with shares ' + str(info['shares']), cat='scheduler-default')
             server_name = server
          
       if server_name == None: return self.select_backup_server()
@@ -76,9 +78,12 @@ class DefaultScheduler(Scheduler):
             rr_server = float(info['rejects'])/(info['user_shares']+1)
             if  rr_server < reject_rate:
                server_name = server
+               self.bh.log_dbg('select_backup_server: ' + str(server), cat='scheduler-default')
                reject_rate = rr_server
 
+   
       if server_name == None:
+         self.bh.log_dbg('Try another backup' + str(server), cat='scheduler-default')
          min_shares = 10**10
          for server in self.bh.pool.get_servers():
             info = self.bh.pool.get_entry(server)
@@ -92,11 +97,13 @@ class DefaultScheduler(Scheduler):
                shares = info['shares']*difficulty / nmc_difficulty
             else:
                shares = info['shares']
-            if shares< min_shares and info['lag'] == False:
+            if shares < min_shares and info['lag'] == False:
                min_shares = shares
+               self.bh.log_dbg('Selecting pool ' + str(server) + ' with shares ' + str(shares), cat='scheduler-default')
                server_name = server
-
+      
       if server_name == None:
+         self.bh.log_dbg('Try another backup pt2' + str(server), cat='scheduler-default')
          for server in self.bh.pool.get_servers():
             info = self.bh.pool.get_entry(server)
             if info['role'] != 'backup':
