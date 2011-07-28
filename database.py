@@ -39,7 +39,7 @@ class Database():
         difficulty = self.bitHopper.difficulty.get_difficulty()
         for server in self.shares:
             for user in self.shares[server]:
-                shares = self.shares[server]
+                shares = self.shares[server][user]
                 sql = 'UPDATE '+ str(server) +' SET shares= shares + '+ str(shares) +' WHERE diff='+ str(difficulty) + ' and user=' + str(user)
                 self.curs.execute(sql)
                 self.shares[server][user] = 0
