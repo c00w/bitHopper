@@ -235,7 +235,7 @@ def bitHopper_Post(request):
     data = rpc_request['params']
     j_id = rpc_request['id']
     if data != []:
-        bithopper_global.data_callback(current,data, request.getUser, request.getPassword)
+        bithopper_global.data_callback(current,data, request.getUser(), request.getPassword())
     if bithopper_global.options.debug:
         bithopper_global.log_msg('RPC request ' + str(data) + " submitted to " + str(pool_server['name']))
     else:
