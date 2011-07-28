@@ -88,7 +88,7 @@ class BitHopper():
             log.msg(msg)
             return
         print time.strftime("[%H:%M:%S] ") +str(msg)
-		sys.stdout.flush()
+        sys.stdout.flush()
     def log_dbg(self, msg):
         if self.get_options() == None:
             log.err(msg)
