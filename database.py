@@ -38,10 +38,11 @@ class Database():
 
         difficulty = self.bitHopper.difficulty.get_difficulty()
         for server in self.shares:
-            shares = self.shares[server]
-            sql = 'UPDATE '+ str(server) +' SET shares= shares + '+ str(shares) +' WHERE diff='+ str(difficulty)
-            self.curs.execute(sql)
-            self.shares[server] = 0
+            for user in self.shares[server]:
+                shares = self.shares[server]
+                sql = 'UPDATE '+ str(server) +' SET shares= shares + '+ str(shares) +' WHERE diff='+ str(difficulty) + ' and user=' + str(user)
+                self.curs.execute(sql)
+                self.shares[server][user] = 0
 
         for server in self.rejects:
             rejects = self.rejects[server]
@@ -64,38 +65,42 @@ class Database():
                 versionfd = open(VERSION_FN, 'rb')
                 version = versionfd.read()
                 self.bitHopper.log_msg("DB Verson: " + version)
-                if version != "0.1":
+                if version == "0.1":
                     self.bitHopper.log_msg('Old Database')
-                    os.remove(DB_FN)
                 versionfd.close()
             except:
                 os.remove(DB_FN)
 
         version = open(VERSION_FN, 'wb')
-        version.write("0.1")
+        version.write("0.2")
         version.close()
         
         self.database = sqlite3.connect(DB_FN)
         self.curs = self.database.cursor()
+
+        if version == "0.1":
+            sql = "SELECT name FROM sqlite_master WHERE type='table'"
+            self.curs.execute(sql)
+            result = self.curs.fetchall()
+            for item in result:
+                sql = "ALTER TABLE " + item[0] + " ADD COLUMN user TEXT"
+                self.curs.execute(sql)
         
         for server_name in self.pool.get_servers():
             difficulty = self.bitHopper.difficulty.get_difficulty()
-            sql = "CREATE TABLE IF NOT EXISTS "+server_name +" (diff REAL, shares INTEGER, rejects INTEGER, stored_payout REAL)"
+            sql = "CREATE TABLE IF NOT EXISTS "+server_name +" (diff REAL, shares INTEGER, rejects INTEGER, stored_payout REAL,  user TEXT)"
             self.curs.execute(sql)
+
+        self.database.commit()
         
-        for server in self.pool.get_servers():
-            sql = 'select * from ' + server +' where diff = ' + str(difficulty)
-            rows = self.curs.execute(sql)
-            rows = rows.fetchall()
-            if len(rows) == 0:
-                sql = 'INSERT INTO ' + server + '(diff, shares, rejects, stored_payout) values( '+str(difficulty) +', '+str(0) +', '+str(0) + ', '+str(0)+ ')'
-                self.curs.execute(sql)
         self.bitHopper.log_msg('Database Setup')
 
-    def update_shares(self,server,shares):
+    def update_shares(self,server, shares, user, password):
         if server not in self.shares:
-            self.shares[server] = 0
-        self.shares[server] += shares
+            self.shares[server] = {}
+        if user not in self.shares[server]:
+            self.shares[server][user] = 0
+        self.shares[server][user] += shares
 
     def get_shares(self,server):
         sql = 'select shares from ' + str(server)

@@ -53,11 +53,11 @@ class BitHopper():
             self.log_dbg(str(e))
             return
 
-    def data_callback(self,server,data):
+    def data_callback(self,server,data, user, password):
         try:
             if data != []:
                 self.speed.add_shares(1)
-                self.db.update_shares(server, 1)
+                self.db.update_shares(server, 1, user, password)
                 self.pool.get_servers()[server]['user_shares'] +=1
         except Exception, e:
             self.log_dbg('data_callback_error')
@@ -120,7 +120,7 @@ class BitHopper():
             elif info['role'] == 'mine_nmc':
                 shares = info['shares']*difficulty / nmc_difficulty
             else:
-                shares = info['shares'] 
+                shares = 100* info['shares'] 
             if shares< min_shares and info['lag'] == False:
                 min_shares = shares
                 server_name = server
@@ -235,7 +235,7 @@ def bitHopper_Post(request):
     data = rpc_request['params']
     j_id = rpc_request['id']
     if data != []:
-        bithopper_global.data_callback(current,data)
+        bithopper_global.data_callback(current,data, request.getUser, request.getPassword)
     if bithopper_global.options.debug:
         bithopper_global.log_msg('RPC request ' + str(data) + " submitted to " + str(pool_server['name']))
     else:
