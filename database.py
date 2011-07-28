@@ -52,7 +52,7 @@ class Database():
 
         for server in self.payout:
             payout = self.payout[server]
-            sql = 'UPDATE '+ str(server) +' SET payout= '+ str(payout) +' WHERE diff='+ str(difficulty)+' and user = \'\''
+            sql = 'UPDATE '+ str(server) +' SET stored_payout= '+ str(payout) +' WHERE diff='+ str(difficulty)+' and user = \'\''
             self.curs.execute(sql)
             self.payout[server] = 0
 
