@@ -24,6 +24,9 @@ class Pool():
         pools = parser.sections()
         for pool in pools:
             self.servers[pool] = dict(parser.items(pool))
+            self.servers[pool]['default_role'] = self.servers[pool]['role']
+            if self.servers[pool]['default_role'] in ['info','disable']:
+                self.servers[pool]['default_role'] = 'mine'
         if self.servers == {}:
             bitHopper.log_msg("No Pools found in pool.cfg")
         
