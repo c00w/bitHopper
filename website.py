@@ -121,11 +121,11 @@ class lpSite(resource.Resource):
 
     isLeaf = True
     def render_GET(self, request):
-        self.bitHopper.new_server.addCallback(bitHopperLP, (request))
+        self.bitHopper.new_server.addCallback(self.bitHopper.bitHopperLP, (request))
         return server.NOT_DONE_YET
 
     def render_POST(self, request):
-        self.bitHopper.new_server.addCallback(bitHopperLP, (request))
+        self.bitHopper.new_server.addCallback(self.bitHopper.bitHopperLP, (request))
         return server.NOT_DONE_YET
 
 class bitSite(resource.Resource):
