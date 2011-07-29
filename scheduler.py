@@ -14,7 +14,7 @@ class Scheduler(object):
 
    @classmethod
    def initData(self,):
-      print "<Scheduler> initData"
+      self.bh.log_msg("<Scheduler> initData")
       return
 
    @classmethod
