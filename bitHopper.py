@@ -333,7 +333,7 @@ class dataSite(resource.Resource):
             'mhash':bithopper_global.speed.get_rate(), 
             'difficulty':bithopper_global.difficulty.get_difficulty(), 
             'servers':bithopper_global.pool.get_servers(),
-            'user':bithopper_gloval.db.get_user_shares()})
+            'user':bithopper_global.db.get_user_shares()})
         request.write(response)
         request.finish()
         return server.NOT_DONE_YET
