@@ -12,7 +12,7 @@ import os
 class Pool():
     def __init__(self,bitHopper):
         self.servers = {}
-        self.api_pull = ['mine','info','mine_slush','mine_nmc']
+        self.api_pull = ['mine','info','mine_slush','mine_nmc','mine_friendly']
         parser = ConfigParser.SafeConfigParser()
         try:
             read = parser.read(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'pool.cfg'))

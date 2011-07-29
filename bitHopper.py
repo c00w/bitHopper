@@ -112,9 +112,9 @@ class BitHopper():
         for server in self.pool.get_servers():
             info = self.pool.get_entry(server)
             info['shares'] = int(info['shares'])
-            if info['role'] not in ['mine','mine_nmc','mine_slush']:
+            if info['role'] not in ['mine','mine_nmc','mine_slush', 'mine_friendly']:
                 continue
-            if info['role'] == 'mine':
+            if info['role'] == 'mine' or info['role'] == 'mine_friendly':
                     shares = info['shares']
             elif info['role'] == 'mine_slush':
                 shares = info['shares'] * 4
@@ -125,6 +125,17 @@ class BitHopper():
             if shares< min_shares and info['lag'] == False:
                 min_shares = shares
                 server_name = server
+        
+        # Search for a friendly pool with a long block
+        if server_name == None:
+            worst_rate=2
+            for server in self.pool.get_servers():
+                info = self.pool.get_entry(server)
+                if info['role'] != 'mine_friendly':
+                    continue
+                if info['lag'] == False and info['shares']/difficulty > worst_rate:
+                    server_name = server
+                    worst_rate = info['shares']/difficulty
 
         if server_name == None:
             reject_rate = 1
@@ -142,9 +153,9 @@ class BitHopper():
             min_shares = 10**10
             for server in self.pool.get_servers():
                 info = self.pool.get_entry(server)
-                if info['role'] not in ['mine','mine_nmc','mine_slush']:
+                if info['role'] not in ['mine','mine_friendly','mine_nmc','mine_slush']:
                     continue
-                if info['role'] == 'mine':
+                if info['role'] == 'mine' or info['role'] == 'mine_friendly':
                     shares = info['shares']
                 elif info['role'] == 'mine_slush':
                     shares = info['shares'] * 4
@@ -182,13 +193,13 @@ class BitHopper():
         return self.pool.get_entry(self.pool.get_current())
 
     def server_update(self, ):
-        valid_roles = ['mine', 'mine_slush','mine_nmc']
+        valid_roles = ['mine', 'mine_slush','mine_nmc', 'mine_friendly']
         if self.pool.get_entry(self.pool.get_current())['role'] not in valid_roles:
             self.select_best_server()
             return
 
         current_role = self.pool.get_entry(self.pool.get_current())['role']
-        if current_role == 'mine':
+        if current_role == 'mine' or current_role == 'mine_friendly':
             difficulty = self.difficulty.get_difficulty()
         if current_role == 'mine_nmc':
             difficulty = self.difficulty.get_nmc_difficulty()
@@ -293,7 +304,7 @@ def flat_info(request):
     servers = bithopper_global.pool.get_servers()
     for server in servers:
         info = servers[server]
-        if info['role'] not in ['backup','mine', 'api_disable']:
+        if info['role'] not in ['backup','mine','mine_friendly','api_disable']:
             continue
         shares = str(bithopper_global.db.get_shares(server))
         rejects = bithopper_global.pool.get_servers()[server]['rejects']

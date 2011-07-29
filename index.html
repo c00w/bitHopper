@@ -56,7 +56,11 @@
 			
 			function getShares(payload, srv) {
 				shares = srv['shares'];
-				if(srv["role"] != "mine" && srv["role"] != "mine_nmc" && srv["role"] != "info" && srv["role"] != "mine_slush") {
+				if(srv["role"] != "mine" 
+					&& srv["role"] != "mine_friendly" 
+					&& srv["role"] != "mine_nmc" 
+					&& srv["role"] != "info" 
+					&& srv["role"] != "mine_slush") {
 					return "N/A";
 				}
 				
@@ -157,7 +161,9 @@
 			}
 			
 			function getRoundShares(payload, srv) {
-				if(srv["role"] != "mine" && srv["role"] != "info")
+				if(srv["role"] != "mine" 
+					&& srv["role"] != "mine_friendly" 
+					&& srv["role"] != "info")
 					return [];
 					
 				return srvhist[srv['name']];
