@@ -26,6 +26,7 @@ class Database():
         self.shares = {}
         self.rejects = {}
         self.payout = {}
+        self.user = {}
 
         call = LoopingCall(self.write_database)
         call.start(60)
@@ -68,6 +69,8 @@ class Database():
             self.payout[server] = 0
 
         self.database.commit()
+
+        self.update_user_shares_db()
         
     def check_database(self):
         self.bitHopper.log_msg('Checking Database')
@@ -123,7 +126,7 @@ class Database():
         return shares
 
     def get_expected_payout(self,server):
-        sql = 'select shares, difficulty from ' + str(server)
+        sql = 'select shares, diff from ' + str(server)
         self.curs.execute(sql)
         result = self.curs.fetchall()
         expected = 0
@@ -132,6 +135,22 @@ class Database():
             difficulty = item[1]
             expected += shares/difficulty * 50
         return expected
+
+    def update_user_shares_db(self):
+        servers = self.bitHopper.pool.get_servers()
+        user = {}
+        for server in servers:
+            sql = 'select shares, user from ' + server
+            self.curs.execute(sql)
+            result = self.curs.fetchall()
+            for item in result:
+                if item[1] not in user:
+                    user[item[1]] = 0
+                user[item[1]] += item[0]
+        self.user = user
+
+    def get_user_shares(self):
+        return self.user
 
     def update_rejects(self,server,shares):
         if server not in self.rejects:

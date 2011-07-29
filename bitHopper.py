@@ -328,7 +328,12 @@ class flatSite(resource.Resource):
 class dataSite(resource.Resource):
     isLeaf = True
     def render_GET(self, request):
-        response = json.dumps({"current":bithopper_global.pool.get_current(), 'mhash':bithopper_global.speed.get_rate(), 'difficulty':bithopper_global.difficulty.get_difficulty(), 'servers':bithopper_global.pool.get_servers()})
+        response = json.dumps({
+            "current":bithopper_global.pool.get_current(), 
+            'mhash':bithopper_global.speed.get_rate(), 
+            'difficulty':bithopper_global.difficulty.get_difficulty(), 
+            'servers':bithopper_global.pool.get_servers(),
+            'user':bithopper_gloval.db.get_user_shares()})
         request.write(response)
         request.finish()
         return server.NOT_DONE_YET
