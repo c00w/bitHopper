@@ -43,6 +43,7 @@ class BitHopper():
         self.speed = speed.Speed(self)
         self.stats = stats.Statistics(self)
         self.scheduler = scheduler.Scheduler(self)
+        self.statsite = None
         
         self.pool.setup(self)
 
@@ -268,41 +269,6 @@ class dataSite(resource.Resource):
     #    bithopper_global.new_server.addCallback(bitHopperLP, (request))
     #    return server.NOT_DONE_YET
 
-class dynamicSite(resource.Resource):
-    isleaF = True
-    def render_GET(self,request):
-        try:
-            index = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'index.html')
-        except:
-            index = 'index.html'
-        file = open(index, 'r')
-        linestring = file.read()
-        file.close
-        request.write(linestring)
-        request.finish()
-        return server.NOT_DONE_YET
-
-    def render_POST(self, request):
-        for v in request.args:
-            if "role" in v:
-                try:
-                    server = v.split('-')[1]
-                    bithopper_global.pool.get_entry(server)['role'] = request.args[v][0]
-                    if request.args[v][0] in ['mine','info']:
-                        bithopper_global.pool.update_api_server(server)
-
-                except Exception,e:
-                    bithopper_global.log_msg('Incorrect http post request role')
-                    bithopper_global.log_msg(e)
-            if "payout" in v:
-                try:
-                    server = v.split('-')[1]
-                    bithopper_global.update_payout(server, float(request.args[v][0]))
-                except Exception,e:
-                    bithopper_global.log_dbg('Incorrect http post request payout')
-                    bithopper_global.log_dbg(e)
-        return self.render_GET(request)
-
 class lpSite(resource.Resource):
     isLeaf = True
     def render_GET(self, request):
@@ -330,7 +296,7 @@ class bitSite(resource.Resource):
         elif name == 'flat':
             return flatSite()
         elif name == 'stats':
-            return dynamicSite()
+            return bithopper_global.statsite(bithopper_global)
         elif name == 'data':
             return dataSite()
         return self
@@ -354,7 +320,7 @@ def main():
     args, rest = parser.parse_args()
     options = args
     bithopper_global.options = args
-
+    
     if options.list:
         for k in bithopper_global.pool.get_servers():
             print k

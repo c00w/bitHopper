@@ -3,6 +3,10 @@
 #bitHopper by Colin Rice is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
+import os.path
+
+from twisted.web import server, resource
+
 class Scheduler(object):
    def __init__(self,bitHopper):
       self.bh = bitHopper
@@ -30,6 +34,7 @@ class DefaultScheduler(Scheduler):
    def __init__(self,bitHopper):
       self.bh = bitHopper
       self.difficultyThreshold = 0.43
+      self.bh.statsite = self.DynamicSite
       self.initData()
       
    def initData(self,):
@@ -143,6 +148,45 @@ class DefaultScheduler(Scheduler):
       if min_shares < current_pool['shares']*.90:
          self.select_best_server()
          return      
+
+   class DynamicSite(resource.Resource):
+      def __init__(self,bitHopper):
+         self.bh = bitHopper
+         
+      isleaF = True
+      def render_GET(self,request):
+         try:
+            index = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'index.html')
+         except:
+            index = 'index.html'
+         file = open(index, 'r')
+         linestring = file.read()
+         file.close
+         request.write(linestring)
+         request.finish()
+         return server.NOT_DONE_YET
+
+      def render_POST(self, request):
+         for v in request.args:
+            if "role" in v:
+               try:
+                  server = v.split('-')[1]
+                  self.bh.pool.get_entry(server)['role'] = request.args[v][0]
+                  if request.args[v][0] in ['mine','info']:
+                     self.bh.pool.update_api_server(server)
+
+               except Exception,e:
+                  self.bh.log_msg('Incorrect http post request role')
+                  self.bh.log_msg(e)
+            if "payout" in v:
+               try:
+                  server = v.split('-')[1]
+                  self.bh.update_payout(server, float(request.args[v][0]))
+               except Exception,e:
+                  self.bh.log_dbg('Incorrect http post request payout')
+                  self.bh.log_dbg(e)
+         return self.render_GET(request)
+
 
 class RoundTimeScheduler(Scheduler):
    def select_best_server(self,):
