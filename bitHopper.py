@@ -10,6 +10,7 @@ import stats
 import pool
 import speed
 import database
+import scheduler
 
 import sys
 import exceptions
@@ -25,6 +26,7 @@ from twisted.internet import reactor, defer
 from twisted.internet.defer import Deferred
 from twisted.internet.task import LoopingCall
 from twisted.python import log, failure
+from scheduler import Scheduler
 
 class BitHopper():
     def __init__(self):
@@ -40,7 +42,8 @@ class BitHopper():
         self.lp = lp.LongPoll(self)
         self.speed = speed.Speed(self)
         self.stats = stats.Statistics(self)
-
+        self.scheduler = scheduler.Scheduler(self)
+        self.statsite = None
         self.pool.setup(self)
 
     def reject_callback(self,server,data):
@@ -81,91 +84,41 @@ class BitHopper():
     def get_options(self, ):
         return self.options
 
-    def log_msg(self, msg):
-        if self.get_options() == None:
+    def log_msg(self, msg, **kwargs):
+        if kwargs and kwargs.get('cat'):
+            print time.strftime("[%H:%M:%S] ") + '[' + kwargs.get('cat') + '] ' + str(msg)
+        elif self.get_options() == None:
             print time.strftime("[%H:%M:%S] ") +str(msg)
-            return
-        if self.get_options().debug == True:
+            sys.stdout.flush()
+        elif self.get_options().debug == True:
             log.msg(msg)
-            return
-        print time.strftime("[%H:%M:%S] ") +str(msg)
-        sys.stdout.flush()
-    def log_dbg(self, msg):
-        if self.get_options() == None:
+            sys.stdout.flush()
+        else: 
+            print time.strftime("[%H:%M:%S] ") +str(msg)
+            sys.stdout.flush()
+
+    def log_dbg(self, msg, **kwargs):
+        if self.get_options().debug == True and kwargs and kwargs.get('cat'):
+            log.err('['+kwargs.get('cat')+"] "+msg)
+            sys.stderr.flush()
+        elif self.get_options() == None:
             log.err(msg)
-            return
-        if self.get_options().debug == True:
+            sys.stderr.flush()
+        elif self.get_options().debug == True:
             log.err(msg)
-            return
+            sys.stderr.flush()
         return
 
     def get_server(self, ):
         return self.pool.get_current()
 
     def select_best_server(self, ):
-        """selects the best server for pool hopping. If there is not good server it returns eligious"""
         server_name = None
-        difficulty = self.difficulty.get_difficulty()
-        nmc_difficulty = self.difficulty.get_nmc_difficulty()
-        min_shares = difficulty*.40
-
-        for server in self.pool.get_servers():
-            info = self.pool.get_entry(server)
-            info['shares'] = int(info['shares'])
-            if info['role'] not in ['mine','mine_nmc','mine_slush']:
-                continue
-            if info['role'] == 'mine':
-                    shares = info['shares']
-            elif info['role'] == 'mine_slush':
-                shares = info['shares'] * 4
-            elif info['role'] == 'mine_nmc':
-                shares = info['shares']*difficulty / nmc_difficulty
-            else:
-                shares = 100* info['shares']
-            if shares< min_shares and info['lag'] == False:
-                min_shares = shares
-                server_name = server
-
+        server_name = self.scheduler.select_best_server()
         if server_name == None:
-            reject_rate = 1
-            for server in self.pool.get_servers():
-                info = self.pool.get_entry(server)
-                if info['role'] != 'backup':
-                    continue
-                if info['lag'] == False:
-                    rr_server = float(info['rejects'])/(info['user_shares']+1)
-                    if  rr_server < reject_rate:
-                        server_name = server
-                        reject_rate = rr_server
-
-        if server_name == None:
-            min_shares = 10**10
-            for server in self.pool.get_servers():
-                info = self.pool.get_entry(server)
-                if info['role'] not in ['mine','mine_nmc','mine_slush']:
-                    continue
-                if info['role'] == 'mine':
-                    shares = info['shares']
-                elif info['role'] == 'mine_slush':
-                    shares = info['shares'] * 4
-                elif info['role'] == 'mine_nmc':
-                    shares = info['shares']*difficulty / nmc_difficulty
-                else:
-                    shares = info['shares']
-                if shares< min_shares and info['lag'] == False:
-                    min_shares = shares
-                    server_name = server
-
-        if server_name == None:
-            for server in self.pool.get_servers():
-                info = self.pool.get_entry(server)
-                if info['role'] != 'backup':
-                    continue
-                server_name = server
-                break
-
-        global new_server
-
+            self.log_msg('FATAL Error, scheduler did not return any pool! Falling back to Eligius')
+            server_name = 'eligius'
+            
         if self.pool.get_current() != server_name:
             self.pool.set_current(server_name)
             self.log_msg("Server change to " + str(self.pool.get_current()) + ", telling client with LP")
@@ -182,31 +135,7 @@ class BitHopper():
         return self.pool.get_entry(self.pool.get_current())
 
     def server_update(self, ):
-        valid_roles = ['mine', 'mine_slush','mine_nmc']
-        if self.pool.get_entry(self.pool.get_current())['role'] not in valid_roles:
-            self.select_best_server()
-            return
-
-        current_role = self.pool.get_entry(self.pool.get_current())['role']
-        if current_role == 'mine':
-            difficulty = self.difficulty.get_difficulty()
-        if current_role == 'mine_nmc':
-            difficulty = self.difficulty.get_nmc_difficulty()
-        if current_role == 'mine_slush':
-            difficulty = self.difficulty.get_difficulty() * 4
-        if self.pool.get_entry(self.pool.get_current())['shares'] > difficulty * .40:
-            self.select_best_server()
-            return
-
-        min_shares = 10**10
-
-        for server in self.pool.get_servers():
-            if self.pool.get_entry(server)['shares'] < min_shares:
-                min_shares = self.pool.get_entry(server)['shares']
-
-        if min_shares < self.pool.get_entry(self.pool.get_current())['shares']*.90:
-            self.select_best_server()
-            return
+        self.scheduler.server_update()
 
     @defer.inlineCallbacks
     def delag_server(self ):
@@ -343,41 +272,6 @@ class dataSite(resource.Resource):
     #    bithopper_global.new_server.addCallback(bitHopperLP, (request))
     #    return server.NOT_DONE_YET
 
-class dynamicSite(resource.Resource):
-    isleaF = True
-    def render_GET(self,request):
-        try:
-            index = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'index.html')
-        except:
-            index = 'index.html'
-        file = open(index, 'r')
-        linestring = file.read()
-        file.close
-        request.write(linestring)
-        request.finish()
-        return server.NOT_DONE_YET
-
-    def render_POST(self, request):
-        for v in request.args:
-            if "role" in v:
-                try:
-                    server = v.split('-')[1]
-                    bithopper_global.pool.get_entry(server)['role'] = request.args[v][0]
-                    if request.args[v][0] in ['mine','info']:
-                        bithopper_global.pool.update_api_server(server)
-
-                except Exception,e:
-                    bithopper_global.log_msg('Incorrect http post request role')
-                    bithopper_global.log_msg(e)
-            if "payout" in v:
-                try:
-                    server = v.split('-')[1]
-                    bithopper_global.update_payout(server, float(request.args[v][0]))
-                except Exception,e:
-                    bithopper_global.log_dbg('Incorrect http post request payout')
-                    bithopper_global.log_dbg(e)
-        return self.render_GET(request)
-
 class lpSite(resource.Resource):
     isLeaf = True
     def render_GET(self, request):
@@ -405,39 +299,67 @@ class bitSite(resource.Resource):
         elif name == 'flat':
             return flatSite()
         elif name == 'stats':
-            return dynamicSite()
+            return bithopper_global.statsite(bithopper_global)
         elif name == 'data':
             return dataSite()
         return self
 
 def parse_server_disable(option, opt, value, parser):
     setattr(parser.values, option.dest, value.split(','))
+def select_scheduler(option, opt, value, parser):
+    fudge = "fun"
 
 
 def main():
     parser = optparse.OptionParser(description='bitHopper')
     parser.add_option('--noLP', action = 'store_true' ,default=False, help='turns off client side longpolling')
     parser.add_option('--debug', action= 'store_true', default = False, help='Use twisted output')
+    parser.add_option('--listschedulers', action='store_true', default = False, help='List alternate schedulers available')
     parser.add_option('--list', action= 'store_true', default = False, help='List servers')
     parser.add_option('--disable', type=str, default = None, action='callback', callback=parse_server_disable, help='Servers to disable. Get name from --list. Servera,Serverb,Serverc')
     parser.add_option('--port', type = int, default=8337, help='Port to listen on')
+    parser.add_option('--scheduler', type=str, default=None, help='Select an alternate scheduler')
+    parser.add_option('--threshold', type=float, default=0.43, help='Override difficulty threshold (default 0.43)')
     args, rest = parser.parse_args()
     options = args
     bithopper_global.options = args
-
+    
     if options.list:
         for k in bithopper_global.pool.get_servers():
             print k
         return
 
+    if options.listschedulers:
+        schedulers = None
+        for s in Scheduler.__subclasses__():
+            if schedulers != None: schedulers = schedulers + ", " + s.__name__
+            else: schedulers = s.__name__
+        print "Available Schedulers: " + schedulers
+        return
+    
+    if options.scheduler:
+        bithopper_global.log_msg("Selecting scheduler: " + options.scheduler)
+        foundScheduler = False
+        for s in Scheduler.__subclasses__():
+            if s.__name__ == options.scheduler:
+                bithopper_global.scheduler = s(bithopper_global)
+                foundScheduler = True
+                break
+        if foundScheduler == False:            
+            bithopper_global.log_msg("Error couldn't find: " + options.scheduler + ". Using default scheduler.")
+            bithopper_global.scheduler = scheduler.DefaultScheduler(bithopper_global)
+    else:
+        bithopper_global.log_msg("Using default scheduler.")
+        bithopper_global.scheduler = scheduler.DefaultScheduler(bithopper_global)
+
     if options.disable != None:
         for k in options.disable:
             if k in bithopper_global.pool.get_servers():
                 if bithopper_global.pool.get_servers()[k]['role'] == 'backup':
-                    print "You just disabled the backup pool. I hope you know what you are doing"
+                    bithopper_global.log_msg("You just disabled the backup pool. I hope you know what you are doing")
                 bithopper_global.pool.get_servers()[k]['role'] = 'disable'
             else:
-                print k + " Not a valid server"
+                bithopper_global.log_msg(k + " Not a valid server")
 
     if options.debug: log.startLogging(sys.stdout)
     site = server.Site(bitSite())
