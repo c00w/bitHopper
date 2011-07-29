@@ -11,6 +11,7 @@ import pool
 import speed
 import database
 import scheduler
+import website
 
 import sys
 import exceptions
@@ -147,168 +148,77 @@ class BitHopper():
                 if data != None:
                     server['lag'] = False
 
-bithopper_global = BitHopper()
-
-def bitHopper_Post(request):
-    if not bithopper_global.options.noLP:
-        request.setHeader('X-Long-Polling', '/LP')
-    rpc_request = json.loads(request.content.read())
-    #check if they are sending a valid message
-    if rpc_request['method'] != "getwork":
-        return json.dumps({'result':None, 'error':'Not supported', 'id':rpc_request['id']})
+    def bitHopper_Post(self,request):
+        if not self.options.noLP:
+            request.setHeader('X-Long-Polling', '/LP')
+        rpc_request = json.loads(request.content.read())
+        #check if they are sending a valid message
+        if rpc_request['method'] != "getwork":
+            return json.dumps({'result':None, 'error':'Not supported', 'id':rpc_request['id']})
 
 
-    #Check for data to be validated
-    current = bithopper_global.pool.get_current()
-    pool_server=bithopper_global.pool.get_entry(current)
-
-    data = rpc_request['params']
-    j_id = rpc_request['id']
-    if data != []:
-        bithopper_global.data_callback(current,data, request.getUser(), request.getPassword())
-    if bithopper_global.options.debug:
-        bithopper_global.log_msg('RPC request ' + str(data) + " submitted to " + str(pool_server['name']))
-    else:
-        if data == []:
-            """ If request contains no data, tell the user which remote procedure was called instead """
-            rep = rpc_request['method']
-        else:
-            rep = str(data[0][155:163])
-        bithopper_global.log_msg('RPC request [' + rep + "] submitted to " + str(pool_server['name']))
-    work.jsonrpc_getwork(bithopper_global.json_agent, pool_server, data, j_id, request, bithopper_global.get_new_server, bithopper_global.lp.set_lp, bithopper_global)
-
-    return server.NOT_DONE_YET
-
-def bitHopperLP(value, *methodArgs):
-    try:
-        bithopper_global.log_msg('LP triggered serving miner')
-        request = methodArgs[0]
-        #Duplicated from above because its a little less of a hack
-        #But apparently people expect well formed json-rpc back but won't actually make the call
-        try:
-            json_request = request.content.read()
-        except Exception,e:
-            bithopper_global.log_dbg( 'reading request content failed')
-            json_request = None
-        try:
-            rpc_request = json.loads(json_request)
-        except Exception, e:
-            bithopper_global.log_dbg('Loading the request failed')
-            rpc_request = {'params':[],'id':1}
         #Check for data to be validated
-        pool_server=bithopper_global.pool.get_entry(bithopper_global.pool.get_current())
+        current = self.pool.get_current()
+        pool_server=selfl.pool.get_entry(current)
 
         data = rpc_request['params']
         j_id = rpc_request['id']
+        if data != []:
+            self.data_callback(current,data, request.getUser(), request.getPassword())
+        if self.options.debug:
+            self.log_msg('RPC request ' + str(data) + " submitted to " + str(pool_server['name']))
+        else:
+            if data == []:
+                """ If request contains no data, tell the user which remote procedure was called instead """
+                rep = rpc_request['method']
+            else:
+                rep = str(data[0][155:163])
+            self.log_msg('RPC request [' + rep + "] submitted to " + str(pool_server['name']))
+        work.jsonrpc_getwork(self.json_agent, pool_server, data, j_id, request, self.get_new_server, self.lp.set_lp, self)
 
-        work.jsonrpc_getwork(bithopper_global.json_agent, pool_server, data, j_id, request, bithopper_global.get_new_server, bithopper_global.lp.set_lp, bithopper_global)
+        return server.NOT_DONE_YET
 
-    except Exception, e:
-        bithopper_global.log_msg('Error Caught in bitHopperLP')
-        bithopper_global.log_dbg(str(e))
+    def bitHopperLP(self,value, *methodArgs):
         try:
-            request.finish()
+            self.log_msg('LP triggered serving miner')
+            request = methodArgs[0]
+            #Duplicated from above because its a little less of a hack
+            #But apparently people expect well formed json-rpc back but won't actually make the call
+            try:
+                json_request = request.content.read()
+            except Exception,e:
+                self.log_dbg( 'reading request content failed')
+                json_request = None
+            try:
+                rpc_request = json.loads(json_request)
+            except Exception, e:
+                self.log_dbg('Loading the request failed')
+                rpc_request = {'params':[],'id':1}
+            #Check for data to be validated
+            pool_server=self.pool.get_entry(self.pool.get_current())
+
+            data = rpc_request['params']
+            j_id = rpc_request['id']
+
+            work.jsonrpc_getwork(self.json_agent, pool_server, data, j_id, request, self.get_new_server, self.lp.set_lp, self)
+
         except Exception, e:
-            bithopper_global.log_dbg( "Client already disconnected Urgh.")
+            self.log_msg('Error Caught in bitHopperLP')
+            self.log_dbg(str(e))
+            try:
+                request.finish()
+            except Exception, e:
+                self.log_dbg( "Client already disconnected Urgh.")
 
-    return None
-
-def flat_info(request):
-    response = '<html><head><title>bitHopper Info</title></head><body>'
-    current_name = bithopper_global.pool.get_entry(bithopper_global.pool.get_current())['name']
-    response += '<p>Current Pool: ' + current_name+' @ ' + str(bithopper_global.speed.get_rate()) + 'MH/s</p>'
-    response += '<table border="1"><tr><td>Name</td><td>Role</td><td>Shares'
-    response += '</td><td>Rejects</td><td>Payouts</td><td>Efficiency</td></tr>'
-    servers = bithopper_global.pool.get_servers()
-    for server in servers:
-        info = servers[server]
-        if info['role'] not in ['backup','mine', 'api_disable']:
-            continue
-        shares = str(bithopper_global.db.get_shares(server))
-        rejects = bithopper_global.pool.get_servers()[server]['rejects']
-        rejects_str = "{:.3}%".format(float(rejects/(float(shares)+1)*100)) + "(" + str(rejects)+")"
-        response += '<tr><td>' + info['name'] + '</td><td>' + info['role'] + \
-                      '</td><td>' + shares + \
-                      '</td><td>' + rejects_str +\
-                      '</td><td>' + str(bithopper_global.db.get_payout(server)) + \
-                      '</td><td>' + str(bithopper_global.stats.get_efficiency(server)) \
-                      + '</td></tr>'
-
-    response += '</table></body></html>'
-    request.write(response)
-    request.finish()
-    return
-
-class flatSite(resource.Resource):
-    isLeaf = True
-    def render_GET(self, request):
-        flat_info(request)
-        return server.NOT_DONE_YET
-
-    #def render_POST(self, request):
-    #    global new_server
-    #    bithopper_global.new_server.addCallback(bitHopperLP, (request))
-    #    return server.NOT_DONE_YET
-
-
-    def getChild(self,name,request):
-        return self
-
-class dataSite(resource.Resource):
-    isLeaf = True
-    def render_GET(self, request):
-        response = json.dumps({
-            "current":bithopper_global.pool.get_current(), 
-            'mhash':bithopper_global.speed.get_rate(), 
-            'difficulty':bithopper_global.difficulty.get_difficulty(), 
-            'servers':bithopper_global.pool.get_servers(),
-            'user':bithopper_global.db.get_user_shares()})
-        request.write(response)
-        request.finish()
-        return server.NOT_DONE_YET
-
-    #def render_POST(self, request):
-    #    global new_server
-    #    bithopper_global.new_server.addCallback(bitHopperLP, (request))
-    #    return server.NOT_DONE_YET
-
-class lpSite(resource.Resource):
-    isLeaf = True
-    def render_GET(self, request):
-        bithopper_global.new_server.addCallback(bitHopperLP, (request))
-        return server.NOT_DONE_YET
-
-    def render_POST(self, request):
-        bithopper_global.new_server.addCallback(bitHopperLP, (request))
-        return server.NOT_DONE_YET
-
-class bitSite(resource.Resource):
-
-    def render_GET(self, request):
-        bithopper_global.new_server.addCallback(bitHopperLP, (request))
-        return server.NOT_DONE_YET
-
-    def render_POST(self, request):
-        return bitHopper_Post(request)
-
-
-    def getChild(self,name,request):
-        #bithopper_global.log_msg(str(name))
-        if name == 'LP':
-            return lpSite()
-        elif name == 'flat':
-            return flatSite()
-        elif name == 'stats':
-            return bithopper_global.statsite(bithopper_global)
-        elif name == 'data':
-            return dataSite()
-        return self
+        return None
 
 def parse_server_disable(option, opt, value, parser):
     setattr(parser.values, option.dest, value.split(','))
-def select_scheduler(option, opt, value, parser):
-    fudge = "fun"
 
+def select_scheduler(option, opt, value, parser):
+    pass
+
+bithopper_global = BitHopper()
 
 def main():
     parser = optparse.OptionParser(description='bitHopper')
@@ -362,7 +272,7 @@ def main():
                 bithopper_global.log_msg(k + " Not a valid server")
 
     if options.debug: log.startLogging(sys.stdout)
-    site = server.Site(bitSite())
+    site = server.Site(website.bitSite(bithopper_global))
     reactor.listenTCP(options.port, site)
     reactor.callLater(0, bithopper_global.pool.update_api_servers, bithopper_global)
     delag_call = LoopingCall(bithopper_global.delag_server)
