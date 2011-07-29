@@ -38,6 +38,7 @@ class Pool():
             self.servers[server]['rejects'] = self.bitHopper.db.get_rejects(server)
             self.servers[server]['user_shares'] = self.bitHopper.db.get_shares(server)
             self.servers[server]['payout'] = self.bitHopper.db.get_payout(server)
+            self.servers[server]['expected_payout'] = self.bitHopper.db.get_expected_payout(server)
             if 'api_address' not in self.servers[server]:
                 self.servers[server]['api_address'] = server
             if 'name' not in self.servers[server]:

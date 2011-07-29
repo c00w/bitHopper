@@ -59,6 +59,7 @@ class BitHopper():
                 self.speed.add_shares(1)
                 self.db.update_shares(server, 1, user, password)
                 self.pool.get_servers()[server]['user_shares'] +=1
+                self.pool.get_servers()[server]['expected_payout'] += 1.0/self.difficulty.get_difficulty() * 50.0
         except Exception, e:
             self.log_dbg('data_callback_error')
             self.log_dbg(str(e))

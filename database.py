@@ -122,6 +122,17 @@ class Database():
             shares += int(info[0])
         return shares
 
+    def get_expected_payout(self,server):
+        sql = 'select shares, difficulty from ' + str(server)
+        self.curs.execute(sql)
+        result = self.curs.fetchall()
+        expected = 0
+        for item in result:
+            shares = item[0]
+            difficulty = item[1]
+            expected += shares/difficulty * 50
+        return expected
+
     def update_rejects(self,server,shares):
         if server not in self.rejects:
             self.rejects[server] = 0
