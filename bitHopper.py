@@ -120,6 +120,7 @@ class BitHopper():
             self.log_msg('FATAL Error, scheduler did not return any pool! Falling back to Eligius')
             server_name = 'eligius'
             
+        print server_name
         if self.pool.get_current() != server_name:
             self.pool.set_current(server_name)
             self.log_msg("Server change to " + str(self.pool.get_current()) + ", telling client with LP")
@@ -136,7 +137,8 @@ class BitHopper():
         return self.pool.get_entry(self.pool.get_current())
 
     def server_update(self, ):
-        self.scheduler.server_update()
+        if self.scheduler.server_update():
+            self.select_best_server()
 
     @defer.inlineCallbacks
     def delag_server(self ):
@@ -261,6 +263,8 @@ def main():
     else:
         bithopper_global.log_msg("Using default scheduler.")
         bithopper_global.scheduler = scheduler.DefaultScheduler(bithopper_global)
+
+    bithopper_global.select_best_server()
 
     if options.disable != None:
         for k in options.disable:

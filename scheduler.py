@@ -11,9 +11,9 @@ class Scheduler(object):
    def __init__(self,bitHopper):
       self.bh = bitHopper
       self.initData()
-
+   @classmethod
    def initData(self,):
-      self.bh.log_msg("<Scheduler> initData")
+      #self.bh.log_msg("<Scheduler> initData")
       return
 
    @classmethod
@@ -50,7 +50,6 @@ class DefaultScheduler(Scheduler):
       self.bh.log_dbg('min-shares: ' + str(min_shares), cat='scheduler-default')  
       for server in self.bh.pool.get_servers():
          info = self.bh.pool.get_entry(server)
-         info['shares'] = int(info['shares'])
          if info['role'] not in ['mine','mine_nmc','mine_slush']:
             continue
          if info['role'] == 'mine':
@@ -122,8 +121,7 @@ class DefaultScheduler(Scheduler):
       valid_roles = ['mine', 'mine_slush','mine_nmc']
       current_pool = self.bh.pool.get_entry(self.bh.pool.get_current())
       if current_pool['role'] not in valid_roles:
-         self.select_best_server()
-         return
+         return True
 
       current_role = current_pool['role']
       if current_role == 'mine':
@@ -133,8 +131,7 @@ class DefaultScheduler(Scheduler):
       if current_role == 'mine_slush':
          difficulty = self.bh.difficulty.get_difficulty() * 4
       if current_pool['shares'] > (difficulty * self.difficultyThreshold):
-         self.select_best_server()
-         return
+         return True
 
       min_shares = 10**10
 
@@ -144,8 +141,9 @@ class DefaultScheduler(Scheduler):
             min_shares = pool['shares']
 
       if min_shares < current_pool['shares']*.90:
-         self.select_best_server()
-         return      
+        return True       
+
+      return False
 
 class RoundTimeScheduler(Scheduler):
    def select_best_server(self,):
