@@ -33,3 +33,8 @@ follow the above instructions
 #Donations
 
 1HEmzeuVEKxBQkEenysV1yM8oAddQ4o2TX
+
+# echiu64 mods
+2 new options:
+ --scheduler sets the scheduler (currently ignored)
+ --threshold sets the hopping threshold (default at 0.43 * difficulty)
