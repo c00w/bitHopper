@@ -10,6 +10,7 @@ import stats
 import pool
 import speed
 import database
+import getwork_store
 
 import sys
 import exceptions
@@ -40,6 +41,7 @@ class BitHopper():
         self.lp = lp.LongPoll(self)
         self.speed = speed.Speed(self)
         self.stats = stats.Statistics(self)
+        self.getwork_store = getwork_store.Getwork_store()
 
         self.pool.setup(self)
 
@@ -256,6 +258,16 @@ def bitHopper_Post(request):
             rep = rpc_request['method']
         else:
             rep = str(data[0][155:163])
+            work_server = bithopper_global.getwork_store.get_server(data[0][72:136])
+            if work_server != None:
+                work_server = bithopper_global.pool.find_by_name(work_server)
+                if work_server != None and work_server != pool_server:
+                    # submit work to the old server
+                    bithopper_global.log_msg('RPC request [' + rep + "] submitted to " + str(work_server['name']))
+                    work.jsonrpc_getwork(bithopper_global.json_agent, work_server, data, j_id, request, bithopper_global.get_new_server, bithopper_global.lp.set_lp, bithopper_global)
+                    # now, set it up so we get data from the current server
+                    data = []
+                    rep = rpc_request['method']
         bithopper_global.log_msg('RPC request [' + rep + "] submitted to " + str(pool_server['name']))
     work.jsonrpc_getwork(bithopper_global.json_agent, pool_server, data, j_id, request, bithopper_global.get_new_server, bithopper_global.lp.set_lp, bithopper_global)
 
@@ -458,6 +470,8 @@ def main():
     delag_call.start(119)
     stats_call = LoopingCall(bithopper_global.stats.update_api_stats)
     stats_call.start(117*4)
+    workprune_call = LoopingCall(bithopper_global.getwork_store.prune)
+    workprune_call.start(60)
     reactor.run()
     bithopper_global.db.close()
 
