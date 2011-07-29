@@ -120,18 +120,6 @@ role:mine
 user: c00w_test
 pass: x 
 
-[bitclockers]
-name: bitclockers.com
-mine_address: pool.bitclockers.com:8332 
-user: flargle
-pass: x
-api_address:https://bitclockers.com/api 
-api_method:json
-api_key:roundshares
-role:mine
-user_api_address:https://bitclockers.com/api/%(bitclockers_user_apikey)s
-bitclockers_user_apikey:965469e512aa0de5a37b83ccfd5e849e
-
 ######################################
 # Backup Pools for when hopping is 
 # not worth doing
@@ -171,6 +159,18 @@ pass: u5cpmndZq4Jvp
 # No need to change their user/pass
 # Unless you want to hop them.
 ######################################
+
+[bitclockers]
+name: bitclockers.com
+mine_address: pool.bitclockers.com:8332 
+user: flargle
+pass: x
+api_address:https://bitclockers.com/api 
+api_method:json
+api_key:roundshares
+role:info
+user_api_address:https://bitclockers.com/api/%(bitclockers_user_apikey)s
+bitclockers_user_apikey:965469e512aa0de5a37b83ccfd5e849e
 
 [nofeemining]
 name: nofeemining.com
