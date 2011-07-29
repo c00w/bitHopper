@@ -159,7 +159,7 @@ class BitHopper():
 
         #Check for data to be validated
         current = self.pool.get_current()
-        pool_server=selfl.pool.get_entry(current)
+        pool_server=self.pool.get_entry(current)
 
         data = rpc_request['params']
         j_id = rpc_request['id']
