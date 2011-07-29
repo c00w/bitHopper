@@ -19,6 +19,7 @@ import optparse
 import time
 import lp
 import os.path
+import os
 
 from twisted.web import server, resource
 from client import Agent
@@ -117,10 +118,9 @@ class BitHopper():
         server_name = None
         server_name = self.scheduler.select_best_server()
         if server_name == None:
-            self.log_msg('FATAL Error, scheduler did not return any pool! Falling back to Eligius')
-            server_name = 'eligius'
+            self.log_msg('FATAL Error, scheduler did not return any pool!')
+            os._exit(-1)
             
-        print server_name
         if self.pool.get_current() != server_name:
             self.pool.set_current(server_name)
             self.log_msg("Server change to " + str(self.pool.get_current()) + ", telling client with LP")
