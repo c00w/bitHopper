@@ -44,7 +44,6 @@ class BitHopper():
         self.stats = stats.Statistics(self)
         self.scheduler = scheduler.Scheduler(self)
         self.statsite = None
-        
         self.pool.setup(self)
 
     def reject_callback(self,server,data):
@@ -63,6 +62,7 @@ class BitHopper():
                 self.speed.add_shares(1)
                 self.db.update_shares(server, 1, user, password)
                 self.pool.get_servers()[server]['user_shares'] +=1
+                self.pool.get_servers()[server]['expected_payout'] += 1.0/self.difficulty.get_difficulty() * 50.0
         except Exception, e:
             self.log_dbg('data_callback_error')
             self.log_dbg(str(e))
@@ -118,15 +118,13 @@ class BitHopper():
         if server_name == None:
             self.log_msg('FATAL Error, scheduler did not return any pool! Falling back to Eligius')
             server_name = 'eligius'
-        
-        global new_server
-
+            
         if self.pool.get_current() != server_name:
             self.pool.set_current(server_name)
             self.log_msg("Server change to " + str(self.pool.get_current()) + ", telling client with LP")
-            self.lp_callback()      
+            self.lp_callback()
             self.lp.clear_lp()
-            
+
         return
 
     def get_new_server(self, server):
@@ -163,7 +161,7 @@ def bitHopper_Post(request):
     #Check for data to be validated
     current = bithopper_global.pool.get_current()
     pool_server=bithopper_global.pool.get_entry(current)
-    
+
     data = rpc_request['params']
     j_id = rpc_request['id']
     if data != []:
@@ -186,7 +184,7 @@ def bitHopperLP(value, *methodArgs):
         bithopper_global.log_msg('LP triggered serving miner')
         request = methodArgs[0]
         #Duplicated from above because its a little less of a hack
-        #But apparently people expect well formed json-rpc back but won't actually make the call 
+        #But apparently people expect well formed json-rpc back but won't actually make the call
         try:
             json_request = request.content.read()
         except Exception,e:
@@ -199,7 +197,7 @@ def bitHopperLP(value, *methodArgs):
             rpc_request = {'params':[],'id':1}
         #Check for data to be validated
         pool_server=bithopper_global.pool.get_entry(bithopper_global.pool.get_current())
-        
+
         data = rpc_request['params']
         j_id = rpc_request['id']
 
@@ -259,7 +257,12 @@ class flatSite(resource.Resource):
 class dataSite(resource.Resource):
     isLeaf = True
     def render_GET(self, request):
-        response = json.dumps({"current":bithopper_global.pool.get_current(), 'mhash':bithopper_global.speed.get_rate(), 'difficulty':bithopper_global.difficulty.get_difficulty(), 'servers':bithopper_global.pool.get_servers()})
+        response = json.dumps({
+            "current":bithopper_global.pool.get_current(), 
+            'mhash':bithopper_global.speed.get_rate(), 
+            'difficulty':bithopper_global.difficulty.get_difficulty(), 
+            'servers':bithopper_global.pool.get_servers(),
+            'user':bithopper_global.db.get_user_shares()})
         request.write(response)
         request.finish()
         return server.NOT_DONE_YET
@@ -303,9 +306,9 @@ class bitSite(resource.Resource):
 
 def parse_server_disable(option, opt, value, parser):
     setattr(parser.values, option.dest, value.split(','))
-    
 def select_scheduler(option, opt, value, parser):
     fudge = "fun"
+
 
 def main():
     parser = optparse.OptionParser(description='bitHopper')

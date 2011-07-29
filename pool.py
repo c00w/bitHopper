@@ -24,6 +24,9 @@ class Pool():
         pools = parser.sections()
         for pool in pools:
             self.servers[pool] = dict(parser.items(pool))
+            self.servers[pool]['default_role'] = self.servers[pool]['role']
+            if self.servers[pool]['default_role'] in ['info','disable']:
+                self.servers[pool]['default_role'] = 'mine'
         if self.servers == {}:
             bitHopper.log_msg("No Pools found in pool.cfg")
         
@@ -38,6 +41,7 @@ class Pool():
             self.servers[server]['rejects'] = self.bitHopper.db.get_rejects(server)
             self.servers[server]['user_shares'] = self.bitHopper.db.get_shares(server)
             self.servers[server]['payout'] = self.bitHopper.db.get_payout(server)
+            self.servers[server]['expected_payout'] = self.bitHopper.db.get_expected_payout(server)
             if 'api_address' not in self.servers[server]:
                 self.servers[server]['api_address'] = server
             if 'name' not in self.servers[server]:
@@ -85,7 +89,7 @@ class Pool():
             self.bitHopper.log_msg(str(server) +": "+ k)
         self.servers[server]['shares'] = shares
         self.servers[server]['err_api_count'] = 0
-        if self.servers[server]['refresh_time'] > 60*30 and self.server[server]['role'] != 'info':
+        if self.servers[server]['refresh_time'] > 60*30 and self.servers[server]['role'] != 'info':
             self.bitHopper.log_msg('Disabled due to unchanging api: ' + server)
             self.servers[server]['role'] = 'api_disable'
             return
