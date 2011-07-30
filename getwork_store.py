@@ -8,7 +8,6 @@ class Getwork_store:
     
     def add(self, server, merkle_root):
         self.data[merkle_root] = {'name':server["name"], 'timestamp':time.time()}
-        self.bitHopper.log_msg('Added work to store')
         return
     
     def get_server(self, merkle_root):
