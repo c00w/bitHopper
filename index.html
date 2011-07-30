@@ -58,7 +58,7 @@
 			
 			function getShares(payload, srv) {
 				shares = srv['shares'];
-				if(srv["role"].substring(0, 4) != "mine") {
+				if(srv["role"].substring(0, 4) != "mine"&&srv["role"].substring(0, 4) != 'info') {
 					return "N/A";
 				}
 				
