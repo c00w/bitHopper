@@ -164,12 +164,16 @@ class BitHopper():
 
         #Check for data to be validated
         current = self.pool.get_current()
-        pool_server=self.pool.get_entry(current)
 
         data = rpc_request['params']
         j_id = rpc_request['id']
         if data != []:
+            new_server = self.getwork_store.get_server(data[0][72:136]))
+            if new_server != None:
+                current = new_server
             self.data_callback(current,data, request.getUser(), request.getPassword())
+        pool_server=self.pool.get_entry(current)
+
         if self.options.debug:
             self.log_msg('RPC request ' + str(data) + " submitted to " + str(pool_server['name']))
         else:
