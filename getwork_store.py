@@ -14,7 +14,7 @@ class Getwork_store:
         call.start(60)
 
     def add(self, server, merkle_root):
-        self.data[merkle_root] = [server["name"], time.time()]
+        self.data[merkle_root] = [server['pool_index'], time.time()]
     
     def get_server(self, merkle_root):
         if self.data.has_key(merkle_root):
