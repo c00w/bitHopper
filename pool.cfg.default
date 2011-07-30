@@ -27,7 +27,7 @@ api_address:http://www.unitedminers.com/?action=api
 api_method:json
 api_key:validcurrentshares
 api_strip:','
-role:mine
+role:mine_friendly
 #CHANGE THIS
 #unitedminers.com
 user: dah4k0r@gmail.com_testhop
@@ -62,7 +62,7 @@ pass: x
 name:mtred  
 mine_address:mtred.com:8337 
 api_address:https://mtred.com/api/user/key/%(mtred_user_apikey)s 
-role:mine
+role:mine_friendly
 api_method:json
 api_key:server,roundshares
 #CHANGE THIS
