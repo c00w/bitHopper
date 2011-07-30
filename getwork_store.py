@@ -8,7 +8,7 @@ from twisted.internet.task import LoopingCall
 
 class Getwork_store:
     
-    def __init__(self, bithopper):
+    def __init__(self):
         self.data = {}
         call = LoopingCall(self.prune)
         call.start(60)

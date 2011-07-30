@@ -25,6 +25,10 @@ class Scheduler(object):
       return
 
    @classmethod
+   def select_friendly_server(self):
+      return
+
+   @classmethod
    def select_backup_server(self,):
       return
 
@@ -65,8 +69,24 @@ class DefaultScheduler(Scheduler):
             self.bh.log_dbg('Selecting pool ' + str(server) + ' with shares ' + str(info['shares']), cat='scheduler-default')
             server_name = server
          
+      if server_name == None:
+         server_name = self.select_friendly_server()
+
       if server_name == None: return self.select_backup_server()
       else: return server_name   
+   
+   def select_friendly_server(self):
+      server_name = None
+      for server in self.bh.pool.get_servers():
+         info = self.bh.pool.get_entry(server)
+         most_shares = self.bh.difficulty.get_difficulty() * 2
+         if info['role'] != 'mine_friendly':
+            continue
+         if info['shares'] > most_shares and info['lag'] == False:
+            server_name = server
+            self.bh.log_dbg('select_friendly_server: ' + str(server), cat='scheduler-default')
+      
+      return server_name
    
    def select_backup_server(self,):
       self.bh.log_dbg('select_backup_server', cat='scheduler-default')
