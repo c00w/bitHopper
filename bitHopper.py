@@ -41,7 +41,7 @@ class BitHopper():
         self.lp = lp.LongPoll(self)
         self.speed = speed.Speed(self)
         self.stats = stats.Statistics(self)
-        self.getwork_store = getwork_store.Getwork_store()
+        self.getwork_store = getwork_store.Getwork_store(self)
 
         self.pool.setup(self)
 
@@ -248,8 +248,12 @@ def bitHopper_Post(request):
 
     data = rpc_request['params']
     j_id = rpc_request['id']
+    work_server = None
+
     if data != []:
         bithopper_global.data_callback(current,data, request.getUser(), request.getPassword())
+        work_server = bithopper_global.getwork_store.get_server(data[0][72:136])
+    
     if bithopper_global.options.debug:
         bithopper_global.log_msg('RPC request ' + str(data) + " submitted to " + str(pool_server['name']))
     else:
@@ -258,17 +262,16 @@ def bitHopper_Post(request):
             rep = rpc_request['method']
         else:
             rep = str(data[0][155:163])
-            work_server = bithopper_global.getwork_store.get_server(data[0][72:136])
-            if work_server != None:
-                work_server = bithopper_global.pool.find_by_name(work_server)
-                if work_server != None and work_server != pool_server:
-                    # submit work to the old server
-                    bithopper_global.log_msg('RPC request [' + rep + "] submitted to " + str(work_server['name']))
-                    work.jsonrpc_getwork(bithopper_global.json_agent, work_server, data, j_id, request, bithopper_global.get_new_server, bithopper_global.lp.set_lp, bithopper_global)
-                    # now, set it up so we get data from the current server
-                    data = []
-                    rep = rpc_request['method']
-        bithopper_global.log_msg('RPC request [' + rep + "] submitted to " + str(pool_server['name']))
+    
+    if work_server != None:
+        work_server = bithopper_global.pool.find_by_name(work_server)
+        if work_server != None and work_server != pool_server:
+            # submit work to the old server
+            bithopper_global.log_msg('RPC request [' + rep + "] submitted to " + str(work_server['name']))
+            work.jsonrpc_getwork(bithopper_global.json_agent, work_server, data, j_id, request, bithopper_global.get_new_server, bithopper_global.lp.set_lp, bithopper_global)
+            return server.NOT_DONE_YET
+    
+    bithopper_global.log_msg('RPC request [' + rep + "] submitted to " + str(pool_server['name']))
     work.jsonrpc_getwork(bithopper_global.json_agent, pool_server, data, j_id, request, bithopper_global.get_new_server, bithopper_global.lp.set_lp, bithopper_global)
 
     return server.NOT_DONE_YET
