@@ -109,9 +109,9 @@ def jsonrpc_call(agent, server, data , set_lp):
         defer.returnValue(None)
 
 @defer.inlineCallbacks
-def jsonrpc_getwork(agent, server, data, j_id, request, new_server, set_lp, bitHopper):
+def jsonrpc_getwork(agent, server, data, j_id, request, bitHopper):
     try:
-        work = yield jsonrpc_call(agent, server,data,set_lp)
+        work = yield jsonrpc_call(agent, server,data,bitHopper.lp.set_lp)
     except Exception, e:
             bitHopper.log_dbg( 'caught, first response/writing')
             bitHopper.log_dbg(str(e))
@@ -121,11 +121,11 @@ def jsonrpc_getwork(agent, server, data, j_id, request, new_server, set_lp, bitH
     while work == None:
         i += 1
         if data == []:
-            server = new_server(server)
+            server = bitHopper.get_new_server(server)
         try:
             if i > 4:
                 time.sleep(0.1)
-            work = yield jsonrpc_call(agent, server,data,set_lp)
+            work = yield jsonrpc_call(agent, server,data,bitHopper.lp.set_lp)
         except Exception, e:
             bitHopper.log_dbg( 'caught, inner jsonrpc_call loop')
             bitHopper.log_dbg(str(e))
@@ -134,7 +134,7 @@ def jsonrpc_getwork(agent, server, data, j_id, request, new_server, set_lp, bitH
 
     try:
         if str(work) == 'False':
-            bitHopper.reject_callback(bitHopper.pool.get_current(), data)
+            bitHopper.reject_callback(server['pool_index'], data)
         elif str(work) != 'True':
             merkle_root = work["data"][72:136]
             bitHopper.getwork_store.add(server,merkle_root)
@@ -144,3 +144,7 @@ def jsonrpc_getwork(agent, server, data, j_id, request, new_server, set_lp, bitH
     except Exception, e:
         bitHopper.log_dbg('caught, Final response/writing')
         bitHopper.log_dbg(str(e))
+        try:
+            request.finish()
+        except Exception, e:
+            pass
