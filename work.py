@@ -58,7 +58,7 @@ def jsonrpc_lpcall(agent,server, url, update):
     request = json.dumps({'method':'getwork', 'params':[], 'id':i}, ensure_ascii = True)
     i = i +1
     
-    header = {'Authorization':["Basic " +base64.b64encode(server['user']+ ":" + server['pass'])], 'User-Agent': ['bitHopper'],'Content-Type': ['application/json'] }
+    header = {'Authorization':["Basic " +base64.b64encode(server['user']+ ":" + server['pass'])], 'User-Agent': ['poclbm/20110709'],'Content-Type': ['application/json'] }
     d = agent.request('GET', "http://" + url, Headers(header), None)
     d.addErrback(print_error)
     body = yield d
@@ -66,7 +66,7 @@ def jsonrpc_lpcall(agent,server, url, update):
 
 @defer.inlineCallbacks
 def get(agent,url):
-    d = agent.request('GET', url, Headers({'User-Agent':['Mozilla/5.0 (X11; Linux i686) AppleWebKit/535.1 (KHTML, like Gecko) Ubuntu/11.04 Chromium/14.0.825.0 Chrome/14.0.825.0 Safari/535.1']}),None)
+    d = agent.request('GET', url, Headers({'User-Agent':['Mozilla/5.0 (Windows NT 5.1) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/13.0.782.107 Safari/535.1']}),None)
     response = yield d
     finish = Deferred()
     response.deliverBody(WorkProtocol(finish))
@@ -80,7 +80,7 @@ def jsonrpc_call(agent, server, data , set_lp):
         request = json.dumps({'method':'getwork', 'params':data, 'id':i}, ensure_ascii = True)
         i = i +1
         
-        header = {'Authorization':["Basic " +base64.b64encode(server['user']+ ":" + server['pass'])], 'User-Agent': ['bitHopper'],'Content-Type': ['application/json'] }
+        header = {'Authorization':["Basic " +base64.b64encode(server['user']+ ":" + server['pass'])], 'User-Agent': ['poclbm/20110709'],'Content-Type': ['application/json'] }
         d = agent.request('POST', "http://" + server['mine_address'], Headers(header), StringProducer(request))
         response = yield d
         header = response.headers

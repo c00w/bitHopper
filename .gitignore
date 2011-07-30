@@ -4,3 +4,4 @@ db-version
 stats.db
 stats.db-journal
 pool.cfg
+*.komodoproject

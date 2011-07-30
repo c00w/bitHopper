@@ -47,12 +47,7 @@ class Pool():
             if 'name' not in self.servers[server]:
                 self.servers[server]['name'] = server
             self.servers[server]['err_api_count'] = 0
-    
-    def find_by_name(self, name):
-        for server in self.servers:
-            if self.servers[server]["name"] == name:
-                return self.servers[server]
-        return None
+            self.servers[server]['pool_index'] = server
             
     def get_entry(self, server):
         if server in self.servers:
@@ -86,7 +81,7 @@ class Pool():
             self.bitHopper.reactor.callLater(time,self.update_api_server,server)
 
         try:
-            k =  str('{0:,d}'.format(int(shares)))
+            k =  str('{0:d}'.format(int(shares)))
         except Exception, e:
             self.bitHopper.log_dbg("Error formatting")
             self.bitHopper.log_dbg(e)
