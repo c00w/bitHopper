@@ -15,7 +15,12 @@ class Pool():
         self.api_pull = ['mine','info','mine_slush','mine_nmc','mine_friendly']
         parser = ConfigParser.SafeConfigParser()
         try:
-            read = parser.read(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'pool.cfg'))
+            # determine if application is a script file or frozen exe
+            if hasattr(sys, 'frozen'):
+                application_path = os.path.dirname(sys.executable)
+            elif __file__:
+                application_path = os.path.dirname(__file__)
+                read = parser.read(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'pool.cfg'))
         except:
             read = parser.read('pool.cfg')
         if len(read) == 0:

@@ -9,7 +9,12 @@ import os.path
 from twisted.internet.task import LoopingCall
 
 try:
-    DB_DIR = os.path.dirname(os.path.abspath(__file__))
+    # determine if application is a script file or frozen exe
+    if hasattr(sys, 'frozen'):
+        DB_DIR = os.path.dirname(sys.executable)
+    elif __file__:
+        DB_DIR = os.path.dirname(__file__)
+        DB_DIR = os.path.dirname(os.path.abspath(__file__))
 except:
     DB_DIR = os.curdir()
 

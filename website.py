@@ -39,7 +39,12 @@ class dynamicSite(resource.Resource):
   isleaF = True
   def render_GET(self,request):
      try:
-        index = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'index.html')
+        # determine if application is a script file or frozen exe
+        if hasattr(sys, 'frozen'):
+            application_path = os.path.dirname(sys.executable)
+        elif __file__:
+            application_path = os.path.dirname(__file__)        
+            index = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'index.html')
      except:
         index = 'index.html'
      file = open(index, 'r')
