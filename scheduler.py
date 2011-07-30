@@ -84,6 +84,7 @@ class DefaultScheduler(Scheduler):
             continue
          if info['shares'] > most_shares and info['lag'] == False:
             server_name = server
+            most_shares = info['shares']
             self.bh.log_dbg('select_friendly_server: ' + str(server), cat='scheduler-default')
       
       return server_name
