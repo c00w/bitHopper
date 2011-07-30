@@ -166,8 +166,8 @@ class BitHopper():
         j_id = rpc_request['id']
         if data != []:
             new_server = self.getwork_store.get_server(data[0][72:136])
-            if new_server != None:
-                current = new_server
+            #if new_server != None:
+            #    current = new_server
             self.data_callback(current,data, request.getUser(), request.getPassword())
         pool_server=self.pool.get_entry(current)
 
