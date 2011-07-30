@@ -287,8 +287,6 @@ def main():
     delag_call.start(119)
     stats_call = LoopingCall(bithopper_global.stats.update_api_stats)
     stats_call.start(117*4)
-    workprune_call = LoopingCall(bithopper_global.getwork_store.prune)
-    workprune_call.start(60)
     reactor.run()
     bithopper_global.db.close()
 
