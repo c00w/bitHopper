@@ -10,12 +10,9 @@ import stats
 import pool
 import speed
 import database
-<<<<<<< HEAD
 import scheduler
 import website
-=======
 import getwork_store
->>>>>>> gnaget/master
 
 import sys
 import exceptions
@@ -168,7 +165,7 @@ class BitHopper():
         data = rpc_request['params']
         j_id = rpc_request['id']
         if data != []:
-            new_server = self.getwork_store.get_server(data[0][72:136]))
+            new_server = self.getwork_store.get_server(data[0][72:136])
             if new_server != None:
                 current = new_server
             self.data_callback(current,data, request.getUser(), request.getPassword())
