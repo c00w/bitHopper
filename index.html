@@ -25,13 +25,15 @@
 				padding:2px;
 				padding-left:6px;
 				padding-right:6px;
-				margin:0;
+				margin:0px;
 				border-bottom:2px solid darkblue;
+				height:40px;
 			}
 			
 			td.head {
 				border-bottom:2px solid white;
 			}
+			
 		</style>
         <title>bitHopper info</title>
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
@@ -56,11 +58,7 @@
 			
 			function getShares(payload, srv) {
 				shares = srv['shares'];
-				if(srv["role"] != "mine" 
-					&& srv["role"] != "mine_friendly" 
-					&& srv["role"] != "mine_nmc" 
-					&& srv["role"] != "info" 
-					&& srv["role"] != "mine_slush") {
+				if(srv["role"].substring(0, 4) != "mine") {
 					return "N/A";
 				}
 				
@@ -88,7 +86,7 @@
 			function getRole(payload, srv) {
 				var roles = "";
 				
-				var srvName = "";
+				var defaultRole = "mine";
 				for(var v in payload["servers"]) {
 					if(payload["servers"][v]['name'] == srv['name']) {
 						srvName = v;
@@ -104,7 +102,7 @@
 					if(srv["role"] == "info") roles += "background-color:yellow;";
 					roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
 
-					roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'mine');\" onFocus='this.blur();' style='border:1px solid green;";
+					roles += "<a href='#' onClick=\"setRole('" + srvName + "', '" + srv['default_role'] + "');\" onFocus='this.blur();' style='border:1px solid green;";
 					if(srv["role"][0] == "m") roles += "background-color:green;";
 					roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
 				}
@@ -123,7 +121,7 @@
 					+ "&nbsp;/&nbsp;"
 					+ srv["rejects"]
 					+ "<br>"
-					+ fixLength("" + pp.toFixed(2), 5);
+					+ fixLength("" + pp.toFixed(2), 5) + "%";
 			}
 
 			function setPayout(srvName) {
@@ -144,9 +142,9 @@
 					}
 				}
 				
-				payout = "<a href='#' onFocus='this.blur();' onClick=\"setPayout('" + srvName + "');\" style='text-decoration:underline;color:white;'>" + srv["payout"] + "</a>";
+				payout = "<a href='#' onFocus='this.blur();' onClick=\"setPayout('" + srvName + "');\" style='text-decoration:underline;color:white;'>" + srv["payout"].toFixed(8) + "</a>";
 				
-				return payout;
+				return payout + "<br />Exp:&nbsp;" + srv['expected_payout'].toFixed(8);
 			}
 			
 			function getEfficiency(payload, srv) {
@@ -161,11 +159,9 @@
 			}
 			
 			function getRoundShares(payload, srv) {
-				if(srv["role"] != "mine" 
-					&& srv["role"] != "mine_friendly" 
-					&& srv["role"] != "info")
+				if(srv["role"].substring(0, 4) != "mine")
 					return [];
-					
+
 				return srvhist[srv['name']];
 			}
 			
@@ -241,10 +237,11 @@
 						
 						if(column['type'] == undefined) {
 							content = data;
-						} else if(column['type'] == 'linechart') {
+						} 
+						else if(column['type'] == 'linechart') {
 							content = "<span id='chart" + chartBuildUps.length + "' style='width:100%;'></span>";
 							chartBuildUps.push( { 'data':data } );
-							cssAttr += "padding:0px;";
+							cssAttr += "padding-top:0px;padding-bottom:0px;";
 							tdAttr += " width='100%'";
 						}
 						
@@ -258,7 +255,7 @@
 				$(id).html(html);
 				
 				for(var i=0; i < chartBuildUps.length; i++) {
-					$("#chart" + i).sparkline(chartBuildUps[i]['data'], { type:'line', 'lineColor':'white', 'fillColor':false,'composite':true, 'spotColor':false, 'lineWidth':2 ,'spotRadius':0, 'width':'100%'} );							
+					$("#chart" + i).sparkline(chartBuildUps[i]['data'], { type:'line', 'lineColor':'white', 'fillColor':false,'composite':true, 'spotColor':false, 'lineWidth':2 ,'spotRadius':0, 'width':'100%', 'height':'100%'} );							
 				}
 			}
 		
@@ -280,7 +277,7 @@
 							'Server': { 'data':getName, 'color':getColor },
 							'Shares': { 'data':getShares, 'align':'right' },
 							'Role': { 'data':getRole },
-							'User Shares / Rejects': { 'data':getUserShareRejects, 'align':'right' },
+							'User&nbsp;Shares<br>Rejects': { 'data':getUserShareRejects, 'align':'right' },
 							'Payout': { 'data':getPayout, 'align':'right' },
 							'Efficiency': { 'data':getEfficiency, 'align':'right' },
 							'Round Shares': { 'data':getRoundShares, 'type':'linechart', 'width':'100%' }
@@ -303,6 +300,7 @@
 		</script>
 	</head>
 	<body>
+	
 		<h1 id="current"></h1>
 		<span style="padding:5px;">
 			<span style="background-color:black;width:20px;height:20px;">&nbsp;&nbsp;</span> disabled
