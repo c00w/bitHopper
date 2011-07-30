@@ -10,8 +10,12 @@ import stats
 import pool
 import speed
 import database
+<<<<<<< HEAD
 import scheduler
 import website
+=======
+import getwork_store
+>>>>>>> gnaget/master
 
 import sys
 import exceptions
@@ -45,7 +49,7 @@ class BitHopper():
         self.speed = speed.Speed(self)
         self.stats = stats.Statistics(self)
         self.scheduler = scheduler.Scheduler(self)
-        self.statsite = None
+        self.getwork_store = getwork_store.Getwork_store()
         self.pool.setup(self)
 
     def reject_callback(self,server,data):
@@ -157,7 +161,6 @@ class BitHopper():
         #check if they are sending a valid message
         if rpc_request['method'] != "getwork":
             return json.dumps({'result':None, 'error':'Not supported', 'id':rpc_request['id']})
-
 
         #Check for data to be validated
         current = self.pool.get_current()
@@ -283,6 +286,8 @@ def main():
     delag_call.start(119)
     stats_call = LoopingCall(bithopper_global.stats.update_api_stats)
     stats_call.start(117*4)
+    workprune_call = LoopingCall(bithopper_global.getwork_store.prune)
+    workprune_call.start(60)
     reactor.run()
     bithopper_global.db.close()
 

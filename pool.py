@@ -12,7 +12,7 @@ import os
 class Pool():
     def __init__(self,bitHopper):
         self.servers = {}
-        self.api_pull = ['mine','info','mine_slush','mine_nmc']
+        self.api_pull = ['mine','info','mine_slush','mine_nmc','mine_friendly']
         parser = ConfigParser.SafeConfigParser()
         try:
             read = parser.read(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'pool.cfg'))
@@ -47,6 +47,12 @@ class Pool():
             if 'name' not in self.servers[server]:
                 self.servers[server]['name'] = server
             self.servers[server]['err_api_count'] = 0
+    
+    def find_by_name(self, name):
+        for server in self.servers:
+            if self.servers[server]["name"] == name:
+                return self.servers[server]
+        return None
             
     def get_entry(self, server):
         if server in self.servers:
