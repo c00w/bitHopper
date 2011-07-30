@@ -77,9 +77,9 @@ class DefaultScheduler(Scheduler):
    
    def select_friendly_server(self):
       server_name = None
+      most_shares = self.bh.difficulty.get_difficulty() * 2
       for server in self.bh.pool.get_servers():
          info = self.bh.pool.get_entry(server)
-         most_shares = self.bh.difficulty.get_difficulty() * 2
          if info['role'] != 'mine_friendly':
             continue
          if info['shares'] > most_shares and info['lag'] == False:
