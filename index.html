@@ -41,22 +41,9 @@
 		<script type="text/javascript">
 
 			function getName(payload, srv) {
-				return srv['name'];
+				return "<a href='" + srv['url']  + "' target='_blank' style='text-decoration:underline;color:" + getColor(payload,srv) + ";'>" + srv['name'] + "</href>";
 			}
 
-			function getUrl(payload, url) {
-				return url['url'];
-			}
-			function getUname(payload, srv) {
-				var srvName = "";
-				for(var v in payload["servers"]) {
-					if(payload["servers"][v]['name'] == srv['name']) {
-						srvName = v;
-					}
-				}
-				uname = "<a href='" + getUrl + "'&nbsp target='_blank'>" + getName + "</a>";
-				return uname;
-			}
 			function getColor(payload, srv) {
 				if(payload['servers'][payload['current']]['name'] == srv['name']) {
 					return 'yellow';
@@ -66,7 +53,7 @@
 					return 'red';
 				}
 					
-				return undefined;
+				return 'white';
 			}
 			
 			function getShares(payload, srv) {
@@ -299,7 +286,7 @@
 					
 					buildTable("#table", data['servers'], data,
 						{
-							'Server': { 'data':getUname, 'color':getColor },
+							'Server': { 'data':getName, 'color':getColor },
 							'Shares': { 'data':getShares, 'align':'right' },
 							'Role': { 'data':getRole },
 							'User&nbsp;Shares<br>Rejects': { 'data':getUserShareRejects, 'align':'right' },
