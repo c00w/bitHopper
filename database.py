@@ -5,6 +5,7 @@
 import sqlite3
 import os
 import os.path
+import sys
 
 from twisted.internet.task import LoopingCall
 

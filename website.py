@@ -4,6 +4,8 @@
 
 
 import json
+import os
+import sys
 from twisted.web import server, resource
 
 def flat_info(request, bithopper_global):
