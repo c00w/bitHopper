@@ -40,6 +40,22 @@ class Database():
     def close(self):
         self.curs.close()
 
+    def sql_insert(self,server, shares=0, rejects=0, payout=0, user=''):
+        difficulty = self.bitHopper.difficulty.get_difficulty()
+        sql = 'INSERT INTO ' + server + ' VALUES ( ' + str(difficulty) + ',' + str(shares) + ','+str(rejects) + ',' + str(payout)+',\'' + user + '\')'
+        return sql
+
+    def sql_update_add(self, server, value, amount, user):
+        difficulty = self.bitHopper.difficulty.get_difficulty()
+        sql = 'UPDATE '+ str(server) +' SET '+value+'= '+value+' + '+ str(amount) +' WHERE diff='+ str(difficulty) + ' and user= \'' + str(user) + "\'"
+        return sql
+
+
+    def sql_update_set(self, server, value, amount, user):
+        difficulty = self.bitHopper.difficulty.get_difficulty()
+        sql = 'UPDATE '+ str(server) +' SET '+value+'= '+ str(amount) +' WHERE diff='+ str(difficulty) + ' and user= \'' + str(user) + "\'"
+        return sql
+
     def write_database(self):
         self.bitHopper.log_msg('writing to database')
 
@@ -48,29 +64,29 @@ class Database():
             for user in self.shares[server]:
                 
                 shares = self.shares[server][user]
-                sql = 'UPDATE '+ str(server) +' SET shares= shares + '+ str(shares) +' WHERE diff='+ str(difficulty) + ' and user= \'' + str(user) + "\'"
+                sql = self.sql_update_add(server,'shares',shares,user)
                 self.curs.execute(sql)
                 if len(self.curs.execute('select * from ' + server + '  WHERE diff='+ str(difficulty) + ' and user= \'' + str(user) + "\'").fetchall()) == 0:
-                    sql = 'INSERT INTO ' + server + ' VALUES ( ' + str(difficulty) + ',' + str(shares) + ',0,0,\'' + user + '\')'
+                    sql = self.sql_insert(server,shares=shares,user=user)
                     self.curs.execute(sql)
                 self.shares[server][user] = 0
 
         for server in self.rejects:
             rejects = self.rejects[server]
-            sql = 'UPDATE '+ str(server) +' SET rejects= rejects + '+ str(rejects) +' WHERE diff='+ str(difficulty) + ' and user = \'\''
+            sql = self.sql_update_add(server,'rejects',rejects,'')
             self.curs.execute(sql)
             if len(self.curs.execute('select * from ' + server + '  WHERE diff='+ str(difficulty) + ' and user= \'\'').fetchall()) == 0:
-                sql = 'INSERT INTO ' + server + ' VALUES ( ' + str(difficulty) + ',0,' + str(rejects) + ',0,\'\')'
+                sql = self.sql_insert(server,rejects=rejects)
                 self.curs.execute(sql)
 
             self.rejects[server] = 0
 
         for server in self.payout:
             payout = self.payout[server]
-            sql = 'UPDATE '+ str(server) +' SET stored_payout= '+ str(payout) +' WHERE diff='+ str(difficulty)+' and user = \'\''
+            sql = self.sql_update_set(server,'stored_payout', payout,'')
             self.curs.execute(sql)
             if len(self.curs.execute('select * from ' + server + '  WHERE diff='+ str(difficulty) + ' and user= \'\'').fetchall()) == 0:
-                sql = 'INSERT INTO ' + server + ' VALUES ( ' + str(difficulty) + ',0,0,' + str(payout) + ',\'\')'
+                sql = self.sql_insert(server,payout=payout)
                 self.curs.execute(sql)
             self.payout[server] = 0
 
