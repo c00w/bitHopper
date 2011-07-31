@@ -150,7 +150,7 @@ class DefaultScheduler(Scheduler):
       if current_role == 'mine_nmc':
          difficulty = self.bh.difficulty.get_nmc_difficulty()
       if current_role == 'mine_slush':
-         difficulty = self.bh.difficulty.get_difficulty() * 4
+         difficulty = self.bh.difficulty.get_difficulty() * .25
       if current_pool['shares'] > (difficulty * self.difficultyThreshold):
          return True
 

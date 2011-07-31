@@ -147,7 +147,7 @@ class BitHopper():
         for index in self.pool.get_servers():
             server = self.pool.get_entry(index)
             if server['lag'] == True:
-                data = yield work.jsonrpc_call(self.json_agent, server,[], None)
+                data = yield work.jsonrpc_call(self.json_agent, server,[], self)
                 if data != None:
                     server['lag'] = False
 
@@ -180,7 +180,7 @@ class BitHopper():
             else:
                 rep = str(data[0][155:163])
             self.log_msg('RPC request [' + rep + "] submitted to " + str(pool_server['name']))
-        work.jsonrpc_getwork(self.json_agent, pool_server, data, j_id, request, self.get_new_server, self.lp.set_lp, self)
+        work.jsonrpc_getwork(self.json_agent, pool_server, data, j_id, request, self)
 
         return server.NOT_DONE_YET
 
@@ -206,7 +206,7 @@ class BitHopper():
             data = rpc_request['params']
             j_id = rpc_request['id']
 
-            work.jsonrpc_getwork(self.json_agent, pool_server, data, j_id, request, self.get_new_server, self.lp.set_lp, self)
+            work.jsonrpc_getwork(self.json_agent, pool_server, data, j_id, request, self)
 
         except Exception, e:
             self.log_msg('Error Caught in bitHopperLP')

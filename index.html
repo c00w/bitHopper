@@ -123,6 +123,14 @@
 					+ "<br>"
 					+ fixLength("" + pp.toFixed(2), 5) + "%";
 			}
+			
+			function getUserShares(payload, user, key) {
+				return user;
+			}
+			
+			function getUserName(payload, user, key) {
+				return key;
+			}
 
 			function setPayout(srvName) {
 				var payout = prompt("set payout for: " + srvName, 0);
@@ -177,9 +185,13 @@
 				}
 			}
 			
-			function buildTable(id, items, payload, columns, fnSort) {
+			function buildTable(id, items, payload, columns, fnSort, tableCss) {
 				var html = "";
-				html += "<table width=100% border=0 padding=0 cellpadding=0 cellspacing=0>";
+				var tCss = "";
+				if(tableCss != undefined) {
+					tCss = "style='" + tableCss + "'";
+				}
+				html += "<table border=0 padding=0 cellpadding=0 cellspacing=0 " + tCss + ">";
 				html += "	<tr>";
 				
 				for(col in columns) {
@@ -233,7 +245,7 @@
 						}
 						
 						var content = "";
-						var data = column['data'](payload, row);
+						var data = column['data'](payload, row, r);
 						
 						if(column['type'] == undefined) {
 							content = data;
@@ -288,8 +300,18 @@
 							}
 							
 							return data["servers"][a]["name"] > data["servers"][b]["name"]
+						}, "width:100%"
+					);
+					
+					users = data["user"];
+					
+					buildTable("#users", users, users,
+						{
+							"User": { 'data':getUserName } ,
+							"Shares": { 'data':getUserShares, 'align':'right' }  
 						}
 					);
+					
 				});
 			}
 			
@@ -309,5 +331,6 @@
 		</span>
 		<br /><br />
 		<div id="table"></div>
+		<div id="users"></div>
 	</body>
 </html>
