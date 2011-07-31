@@ -15,22 +15,22 @@ role: mine_slush
 api_address: http://mining.bitcoin.cz/stats/json/
 api_method: json
 api_key: shares
+url: http://mining.bitcoin.cz/accounts/profile/
 #CHANGE THIS
-#http://mining.bitcoin.cz/accounts/register/
 user: c00w.testhop
 pass: testhop
 
 [ozco]
-name:ozco.in
-mine_address:ozco.in:8332
-api_address:https://ozco.in/api.php
-role:mine
-api_method:json
-api_key:shares
+name: ozco.in
+mine_address: ozco.in:8332
+api_address: https://ozco.in/api.php
+role: mine
+api_method: json
+api_key: shares
+url: https://ozco.in/blocks.php
 #CHANGE THIS
-#https://ozco.in/register.php
-user:c00w.1
-pass:1234
+user: c00w.1
+pass: 1234
 
 [polmine]
 name: polmine.pl
@@ -40,8 +40,8 @@ role:mine
 api_method:re
 api_key: <b>Ilość poprawnych wszystkich: &nbsp; </b> <br/>([ 0-9]+)<br/> <br/></td>
 api_strip:' '
+url: https://polmine.pl/?action=dashboardstat
 #CHANGE THIS
-#https://polmine.pl
 user: c00w1456testhop
 pass: x
 
@@ -52,11 +52,12 @@ api_address:https://mtred.com/api/user/key/%(mtred_user_apikey)s
 role:mine
 api_method:json
 api_key:server,roundshares
+url: https://mtred.com/user/profile.html
 #CHANGE THIS
-#https://mtred.com/user/registration.html
+mtred_user_apikey:d91c52cfe1609f161f28a1268a2915b8
 user:scarium
 pass:x 
-mtred_user_apikey:d91c52cfe1609f161f28a1268a2915b8
+
 
 [rfc]
 name: rfcpool.com
@@ -65,8 +66,8 @@ api_address:https://www.rfcpool.com/api/pool/stats
 role:mine  
 api_method:json
 api_key:poolstats,round_shares
+url: https://www.rfcpool.com/account
 #CHANGE THIS
-#https://rfcpool.com/signup
 user: c00w_test
 pass: x
 
@@ -74,11 +75,11 @@ pass: x
 name: bitcoinmonkey.com
 mine_address: bitcoinmonkey.com:8332
 api_address: https://bitcoinmonkey.com/json/api.php
+role: mine
 api_method: json
 api_key: shares_this_round
+url: https://bitcoinmonkey.com/stats.php
 #CHANGE THIS
-#http://bitcoinmonkey.com/
-role: mine
 user: dah4k0r.testhop
 pass: x
 
@@ -90,8 +91,8 @@ role:info
 api_method:re
 api_key:Verifizierte\s+Anteile\s+der\s+aktuellen\s+Runde:</th><td>([,0-9]+)
 api_strip:','
+url: http://btcworld.de/dashboard
 #CHANGE THIS
-#http://btcworld.de/signup
 user: testhop
 pass: x
 
@@ -102,8 +103,8 @@ api_address:http://api.triplemining.com/json/stats
 api_method:json
 api_key:solved
 role:mine
+url: https://www.triplemining.com/stats
 #CHANGE THIS
-#https://www.triplemining.com/register
 user: c00w_test
 pass: x 
 
@@ -114,18 +115,18 @@ pass: x
 [eligius]
 name:eligius 
 mine_address:su.mining.eligius.st:8337 
-pass:x 
 role:backup
+url: http://eligius.st/~artefact2/5/%(user)s
+pass:x 
 #CHANGE THIS
-#http://eligius.st/wiki/index.php/Getting_Started
 user:1AofHmwVef5QkamCW6KqiD4cRqEcq5U7hZ
 
 [arsbitcoin] 
 name:arsbitcoin
 mine_address:arsbitcoin.com:8344 
 role:backup
+url: https://arsbitcoin.com/stats.php
 #CHANGE THIS
-#https://arsbitcoin.com/register.php
 user:c00w.default
 pass:fire
 
@@ -135,8 +136,8 @@ mine_address: pool.bitp.it:8334
 role:backup
 user_api_address:https://pool.bitp.it/api/user?token=%(bitp_user_apikey)s
 bitp_user_apikey:80c5dbea750563eb24e5310f94a56b38bad14dc35efb41e9ca421c92f31563ed
+url: https://pool.bitp.it/console
 #CHANGE THIS
-#bitp.it
 user: 4bjibc3R1RGF9
 pass: u5cpmndZq4Jvp
 
