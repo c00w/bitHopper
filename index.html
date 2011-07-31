@@ -58,7 +58,7 @@
 			
 			function getShares(payload, srv) {
 				shares = srv['shares'];
-				if(srv["role"].substring(0, 4) != "mine"&&srv["role"].substring(0, 4) != 'info') {
+				if(srv["role"] == "disabled") {
 					return "N/A";
 				}
 				
@@ -167,7 +167,7 @@
 			}
 			
 			function getRoundShares(payload, srv) {
-				if(srv["role"].substring(0, 4) != "mine" && srv["role"] != "info")
+				if(srv["role"] == "disable")
 					return [];
 
 				return srvhist[srv['name']];
@@ -296,7 +296,7 @@
 						},
 						function(a, b) {
 							if(data["servers"][a]["role"].trim() != data["servers"][b]["role"].trim()) {
-								return data["servers"][a]["role"] > data["servers"][b]["role"];
+								return data["servers"][a]["role"] < data["servers"][b]["role"];
 							}
 							
 							return data["servers"][a]["name"] > data["servers"][b]["name"]
