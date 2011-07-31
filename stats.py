@@ -93,7 +93,6 @@ class Statistics():
         func_map[args](response,self.bitHopper)
 
     def errsharesResponse(self, error, args): 
-        
         self.bitHopper.log_msg('Error in user api for ' + str(args))
         self.bitHopper.log_dbg(str(error))
 
@@ -101,13 +100,13 @@ class Statistics():
         servers = self.bitHopper.pool.get_servers()
         for server in servers:
             if 'user_api_address' in servers[server]:
-                if servers[server]['role'] != 'mine':
-                    return
-                info = servers[server]
-                d = work.get(self.bitHopper.json_agent,info['user_api_address'])
-                d.addCallback(self.selectsharesResponse, (server))
-                d.addErrback(self.errsharesResponse, (server))
-                d.addErrback(self.bitHopper.log_msg)
+		role = servers[server]['role']
+                if role[0:4] == 'mine' or role == 'info' or role == 'api_disable':
+                	info = servers[server]
+			d = work.get(self.bitHopper.json_agent,info['user_api_address'])
+ 			d.addCallback(self.selectsharesResponse, (server))
+                	d.addErrback(self.errsharesResponse, (server))
+                	d.addErrback(self.bitHopper.log_msg)
 
     def get_efficiency(self,server):
         if server in self.efficiencies:

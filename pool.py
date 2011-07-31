@@ -12,7 +12,7 @@ import os
 class Pool():
     def __init__(self,bitHopper):
         self.servers = {}
-        self.api_pull = ['mine','info','mine_slush','mine_nmc','mine_friendly']
+        self.api_pull = ['mine','info','mine_slush','mine_nmc','mine_friendly','api_disable']
         parser = ConfigParser.SafeConfigParser()
         try:
             read = parser.read(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'pool.cfg'))
@@ -65,7 +65,6 @@ class Pool():
         self.current_server = server
 
     def UpdateShares(self, server, shares):
-
         prev_shares = self.servers[server]['shares']
         if shares == prev_shares:
             time = .10*self.servers[server]['refresh_time']
@@ -88,6 +87,8 @@ class Pool():
             k =  str(shares)
         if shares != prev_shares:
             self.bitHopper.log_msg(str(server) +": "+ k)
+            if self.servers[server]['role'] == 'api_disable':
+		self.servers[server]['role'] = 'mine'
         self.servers[server]['shares'] = shares
         self.servers[server]['err_api_count'] = 0
         if self.servers[server]['refresh_time'] > 60*30 and self.servers[server]['role'] != 'info':
