@@ -13,9 +13,8 @@ try:
     # determine if application is a script file or frozen exe
     if hasattr(sys, 'frozen'):
         DB_DIR = os.path.dirname(sys.executable)
-    elif __file__:
-        DB_DIR = os.path.dirname(__file__)
-    DB_DIR = os.path.dirname(os.path.abspath(__file__))
+    else:
+        DB_DIR = os.path.dirname(os.path.abspath(__file__))
 except:
     DB_DIR = os.curdir()
 
@@ -40,8 +39,11 @@ class Database():
     def close(self):
         self.curs.close()
 
-    def sql_insert(self,server, shares=0, rejects=0, payout=0, user=''):
-        difficulty = self.bitHopper.difficulty.get_difficulty()
+    def sql_insert(self,server, shares=0, rejects=0, payout=0, user='',diff=None):
+        if diff == None:
+            difficulty = self.bitHopper.difficulty.get_difficulty()
+        else:
+            difficulty = diff
         sql = 'INSERT INTO ' + server + ' VALUES ( ' + str(difficulty) + ',' + str(shares) + ','+str(rejects) + ',' + str(payout)+',\'' + user + '\')'
         return sql
 
@@ -51,8 +53,7 @@ class Database():
         return sql
 
 
-    def sql_update_set(self, server, value, amount, user):
-        difficulty = self.bitHopper.difficulty.get_difficulty()
+    def sql_update_set(self, server, value, amount, user, difficulty):
         sql = 'UPDATE '+ str(server) +' SET '+value+'= '+ str(amount) +' WHERE diff='+ str(difficulty) + ' and user= \'' + str(user) + "\'"
         return sql
 
@@ -83,10 +84,10 @@ class Database():
 
         for server in self.payout:
             payout = self.payout[server]
-            sql = self.sql_update_set(server,'stored_payout', payout,'')
+            sql = self.sql_update_set(server,'stored_payout', payout,'',1)
             self.curs.execute(sql)
             if len(self.curs.execute('select * from ' + server + '  WHERE diff='+ str(difficulty) + ' and user= \'\'').fetchall()) == 0:
-                sql = self.sql_insert(server,payout=payout)
+                sql = self.sql_insert(server,payout=payout,diff=1)
                 self.curs.execute(sql)
             self.payout[server] = 0
 
