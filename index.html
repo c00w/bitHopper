@@ -39,9 +39,8 @@
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
 		<script type="text/javascript" src="http://omnipotent.net/jquery.sparkline/1.6/jquery.sparkline.min.js"></script>
 		<script type="text/javascript">
-		
 			function getName(payload, srv) {
-				return srv['name'];
+				return "<a href='" + srv['url']  + "' target='_blank' style='text-decoration:underline;color:" + getColor(payload,srv) + ";'>" + srv['name'] + "</href>";
 			}
 			
 			function getColor(payload, srv) {
