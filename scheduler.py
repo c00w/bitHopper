@@ -54,9 +54,9 @@ class DefaultScheduler(Scheduler):
       self.bh.log_dbg('min-shares: ' + str(min_shares), cat='scheduler-default')  
       for server in self.bh.pool.get_servers():
          info = self.bh.pool.get_entry(server)
-         if info['role'] not in ['mine','mine_nmc','mine_slush']:
+         if info['role'] not in ['mine','mine_nmc','mine_slush','mine_friendly']:
             continue
-         if info['role'] == 'mine':
+         if info['role'] in ['mine', 'mine_friendly']:
             shares = info['shares']
          elif info['role'] == 'mine_slush':
             shares = info['shares'] * 4
@@ -145,7 +145,7 @@ class DefaultScheduler(Scheduler):
          return True
 
       current_role = current_pool['role']
-      if current_role == 'mine':
+      if current_role == 'mine' or current_role == 'mine_friendly':
          difficulty = self.bh.difficulty.get_difficulty()
       if current_role == 'mine_nmc':
          difficulty = self.bh.difficulty.get_nmc_difficulty()

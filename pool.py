@@ -88,7 +88,7 @@ class Pool():
         if shares != prev_shares:
             self.bitHopper.log_msg(str(server) +": "+ k)
             if self.servers[server]['role'] == 'api_disable':
-		self.servers[server]['role'] = 'mine'
+		self.servers[server]['role'] = self.servers[server]['default_role']
         self.servers[server]['shares'] = shares
         self.servers[server]['err_api_count'] = 0
         if self.servers[server]['refresh_time'] > 60*30 and self.servers[server]['role'] != 'info':
