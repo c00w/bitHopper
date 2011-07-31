@@ -20,19 +20,6 @@ api_key: shares
 user: c00w.testhop
 pass: testhop
 
-[unitedminers]
-name: unitedminers.com
-mine_address: pool.unitedminers.com:8332 
-api_address:http://www.unitedminers.com/?action=api
-api_method:json
-api_key:validcurrentshares
-api_strip:','
-role:mine
-#CHANGE THIS
-#unitedminers.com
-user: dah4k0r@gmail.com_testhop
-pass: testhop
-
 [ozco]
 name:ozco.in
 mine_address:ozco.in:8332
@@ -287,4 +274,16 @@ api_method:json
 api_key:round_shares
 role:disable
 
-
+[unitedminers]
+#PPLN
+name: unitedminers.com
+mine_address: pool.unitedminers.com:8332 
+api_address:http://www.unitedminers.com/?action=api
+api_method:json
+api_key:validcurrentshares
+api_strip:','
+role:disable
+#CHANGE THIS
+#unitedminers.com
+user: dah4k0r@gmail.com_testhop
+pass: testhop
