@@ -44,7 +44,7 @@ class dynamicSite(resource.Resource):
             application_path = os.path.dirname(sys.executable)
         elif __file__:
             application_path = os.path.dirname(__file__)        
-            index = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'index.html')
+        index = parser.read(os.path.join(application_path, 'index.html'))
      except:
         index = 'index.html'
      file = open(index, 'r')

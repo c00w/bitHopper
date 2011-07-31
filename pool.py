@@ -7,6 +7,7 @@ import work
 import re
 import ConfigParser
 import os
+import sys
 
 
 class Pool():
@@ -20,7 +21,7 @@ class Pool():
                 application_path = os.path.dirname(sys.executable)
             elif __file__:
                 application_path = os.path.dirname(__file__)
-                read = parser.read(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'pool.cfg'))
+            read = parser.read(os.path.join(application_path, 'pool.cfg'))
         except:
             read = parser.read('pool.cfg')
         if len(read) == 0:
