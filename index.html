@@ -39,10 +39,24 @@
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
 		<script type="text/javascript" src="http://omnipotent.net/jquery.sparkline/1.6/jquery.sparkline.min.js"></script>
 		<script type="text/javascript">
+
 			function getName(payload, srv) {
-				return "<a href='" + srv['url']  + "' target='_blank' style='text-decoration:underline;color:" + getColor(payload,srv) + ";'>" + srv['name'] + "</href>";
+				return srv['name'];
 			}
-			
+
+			function getUrl(payload, url) {
+				return url['url'];
+			}
+			function getUname(payload, srv) {
+				var srvName = "";
+				for(var v in payload["servers"]) {
+					if(payload["servers"][v]['name'] == srv['name']) {
+						srvName = v;
+					}
+				}
+				uname = "<a href='" + getUrl + "'&nbsp target='_blank'>" + getName + "</a>";
+				return uname;
+			}
 			function getColor(payload, srv) {
 				if(payload['servers'][payload['current']]['name'] == srv['name']) {
 					return 'yellow';
@@ -285,7 +299,7 @@
 					
 					buildTable("#table", data['servers'], data,
 						{
-							'Server': { 'data':getName, 'color':getColor },
+							'Server': { 'data':getUname, 'color':getColor },
 							'Shares': { 'data':getShares, 'align':'right' },
 							'Role': { 'data':getRole },
 							'User&nbsp;Shares<br>Rejects': { 'data':getUserShareRejects, 'align':'right' },
