@@ -13,7 +13,7 @@ import sys
 class Pool():
     def __init__(self,bitHopper):
         self.servers = {}
-        self.api_pull = ['mine','info','mine_slush','mine_nmc','mine_friendly']
+        self.api_pull = ['mine','info','mine_slush','mine_nmc','mine_friendly', 'backup']
         parser = ConfigParser.SafeConfigParser()
         try:
             # determine if application is a script file or frozen exe
