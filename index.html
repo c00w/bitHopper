@@ -5,7 +5,7 @@
 				font-family:monospace;
 			}
 			html,body {
-				background: #272F87;
+				background: #736F6E;
 				height:100%;
 				color:white;
 				font-family:Arial,Helvetica,sans-serif;
@@ -26,12 +26,12 @@
 				padding-left:6px;
 				padding-right:6px;
 				margin:0px;
-				border-bottom:2px solid darkblue;
+				border-bottom:2px solid #595454;
 				height:40px;
 			}
 			
 			td.head {
-				border-bottom:2px solid white;
+				border-bottom:2px solid #595454;
 			}
 			
 		</style>
@@ -46,13 +46,29 @@
 
 			function getColor(payload, srv) {
 				if(payload['servers'][payload['current']]['name'] == srv['name']) {
-					return 'yellow';
+					return '#00FF00';
 				}
 					
 				if(srv['lag'] == true) {
 					return 'red';
 				}
 					
+				if(srv["role"] == "api_disable") {
+					return 'red';
+				}
+					
+				if(srv["role"] == "info") {
+					return '#FFFF00';
+				}
+					
+				if(srv["role"] == "disable") {
+					return 'red';
+				}
+					
+				if(srv["role"] == "backup") {
+					return '#50EBEC';
+				} 
+
 				return 'white';
 			}
 			
@@ -93,21 +109,35 @@
 					}
 				}
 				
-				if(srv["role"] != "backup") {
-					roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'disable');\" onFocus='this.blur();' style='border:1px solid black;";
-					if(srv["role"] == "disable") roles += "background-color:black;";
+				if(srv['default_role'] != "backup") {
+					roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'disable');\" onFocus='this.blur();' style='border:1px solid red;";
+					if(srv["role"] == "disable" || srv["role"] == "api_disable") roles += "background-color:red;";
 					roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
 
-					roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'info');\" onFocus='this.blur();' style='border:1px solid yellow;";
-					if(srv["role"] == "info") roles += "background-color:yellow;";
+					roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'info');\" onFocus='this.blur();' style='border:1px solid #FFFF00;";
+					if(srv["role"] == "info") roles += "background-color:#FFFF00;";
 					roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
 
-					roles += "<a href='#' onClick=\"setRole('" + srvName + "', '" + srv['default_role'] + "');\" onFocus='this.blur();' style='border:1px solid green;";
-					if(srv["role"][0] == "m") roles += "background-color:green;";
+					roles += "<a href='#' onClick=\"setRole('" + srvName + "', '" + srv['default_role'] + "');\" onFocus='this.blur();' style='border:1px solid #59E817;";
+					if(srv["role"][0] == "m") roles += "background-color:#59E817;";
 					roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
 				}
 			
-				var role = "<a href='#' onClick=\"selectRole('" + srvName + "', '" + srv["role"] + "')\" onFocus='this.blur();' style='text-decoration:underline;color:white;'>" + srv["role"] + "</a>";
+				if(srv['default_role'] == "backup") {
+					roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'disable');\" onFocus='this.blur();' style='border:1px solid red;";
+					if(srv["role"] == "disable" || srv["role"] == "api_disable") roles += "background-color:red;";
+					roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
+
+					roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'info');\" onFocus='this.blur();' style='border:1px solid #736F6E;";
+					if(srv["role"] == "info") roles += "background-color:#736F6E;";
+					roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
+
+					roles += "<a href='#' onClick=\"setRole('" + srvName + "', '" + srv['default_role'] + "');\" onFocus='this.blur();' style='border:1px solid #50EBEC;";
+					if(srv["role"] == "backup") roles += "background-color:#50EBEC;";
+					roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
+				}
+			
+				var role = "<a href='#' onClick=\"selectRole('" + srvName + "', '" + srv["role"] + "')\" onFocus='this.blur();' style='text-decoration:underline;color:black;'>" + srv["role"] + "</a>";
 			
 				return roles + role;
 			}
@@ -267,7 +297,7 @@
 				$(id).html(html);
 				
 				for(var i=0; i < chartBuildUps.length; i++) {
-					$("#chart" + i).sparkline(chartBuildUps[i]['data'], { type:'line', 'lineColor':'white', 'fillColor':false,'composite':true, 'spotColor':false, 'lineWidth':2 ,'spotRadius':0, 'width':'100%', 'height':'100%'} );							
+					$("#chart" + i).sparkline(chartBuildUps[i]['data'], { type:'line', 'lineColor':'white', 'fillColor':'#595454','composite':true, 'spotColor':false, 'lineWidth':2 ,'spotRadius':0, 'width':'100%', 'height':'100%'} );							
 				}
 			}
 		
@@ -280,18 +310,18 @@
 		
 			function update() {
 				$.getJSON('/data', function(data) {
-					$("#current").html("<span style='color:yellow;'>" + data["current"] + "</span> @" + parseInt(data["mhash"]) + "MHash");
+					$("#current").html("<span style='color:#00FF00;'>" + data["current"] + "</span> @" + parseInt(data["mhash"]) + "MHash");
 
 					updateRoundShares(data);
 					
 					buildTable("#table", data['servers'], data,
 						{
 							'Server': { 'data':getName, 'color':getColor },
-							'Shares': { 'data':getShares, 'align':'right' },
-							'Role': { 'data':getRole },
-							'User&nbsp;Shares<br>Rejects': { 'data':getUserShareRejects, 'align':'right' },
-							'Payout': { 'data':getPayout, 'align':'right' },
-							'Efficiency': { 'data':getEfficiency, 'align':'right' },
+							'Shares': { 'data':getShares, 'color':getColor, 'align':'right' },
+							'Role': { 'data':getRole, 'color':getColor },
+							'User&nbsp;Shares<br>Rejects': { 'data':getUserShareRejects, 'color':getColor, 'align':'center' },
+							'Payout': { 'data':getPayout, 'color':getColor, 'align':'center' },
+							'Efficiency': { 'data':getEfficiency, 'color':getColor, 'align':'center' },
 							'Round Shares': { 'data':getRoundShares, 'type':'linechart', 'width':'100%' }
 						},
 						function(a, b) {
@@ -325,9 +355,10 @@
 	
 		<h1 id="current"></h1>
 		<span style="padding:5px;">
-			<span style="background-color:black;width:20px;height:20px;">&nbsp;&nbsp;</span> disabled
-			<span style="background-color:yellow;width:20px;height:20px;">&nbsp;&nbsp;</span> info
-			<span style="background-color:green;width:20px;height:20px;">&nbsp;&nbsp;</span> mine
+			<span style="background-color:red;width:20px;height:20px;">&nbsp;&nbsp;</span> disabled
+			<span style="background-color:#FFFF00;width:20px;height:20px;">&nbsp;&nbsp;</span> info
+			<span style="background-color:#59E817;width:20px;height:20px;">&nbsp;&nbsp;</span> mine
+			<span style="background-color:#50EBEC;width:20px;height:20px;">&nbsp;&nbsp;</span> backup
 		</span>
 		<br /><br />
 		<div id="table"></div>
