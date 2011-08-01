@@ -58,7 +58,7 @@
 			
 			function getShares(payload, srv) {
 				shares = srv['shares'];
-				if(srv["role"] == "disable") {
+				if(srv["role"][0:4] != "mine" && srv["role"] != 'info' ) {
 					return "N/A";
 				}
 				
