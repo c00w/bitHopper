@@ -10,17 +10,19 @@ In order to run bithopper you need twisted phython and pyopenssl installed:
 http://twistedmatrix.com/trac
 https://launchpad.net/pyopenssl/+download
 
-Copy user.cfg.default to a new file called user.cfg then modify the new
-file to include your bitcoin addresses, and pool passwords, instead of mine.
-After updates please check if new pools have been added (it currently fails anyways if you don't) and edit your user.cfg accordingly.
+Copy "user.cfg.default" to a new file called "user.cfg" then modify the new
+file to include your pool worker usernames and passwords, instead of mine.
+Run "python bitHopper.py". After script updates info, please check if new pools
+have been added correctly if not edit your "user.cfg" accordingly.
 
-If you don't want to use a pool give it an invalid password (WARNING: some pools ignore passwords from miners!),
-or go to localhost:8337/stats and switch its role to disable, or just delete it.
+If you don't want to use a pool give it an invalid password (WARNING: some pools
+ignore passwords from miners!), or go to http://localhost:8337/stats and switch its
+role to disable, or just delete it from "pools.cfg".
 
-Run "python bitHopper.py"
+BitHopper listens on loopback interface so you should direct your miner to
+localhost:8337 with any username and password (not blank).
 
-It listens on localhost:8337.  So you should direct your miner to
-localhost:8337.
+BitHopper status page: http://localhost:8337/stats
 
 # Windows installation
 
