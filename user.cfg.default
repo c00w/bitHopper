@@ -90,6 +90,13 @@ user: x
 pass: x
 role: info
 
+[BTCPool24]
+#CHANGE THIS
+#http://www.bitminersunion.org/
+user: Sukrim.hopper
+pass: 1234
+role: mine
+
 ######################################
 # Backup pools for when there is
 # no pool where you would earn more
