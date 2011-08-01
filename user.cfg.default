@@ -7,7 +7,7 @@
 #######################################
 # Valid roles are:
 # mine, info, disable, backup
-# mine_friendly, mine_slush, mine_namecoins(?)
+# mine_friendly, mine_slush, mine_nmc
 # TODO:
 # (add explanation!)
 #######################################
@@ -19,23 +19,24 @@
 [slush]
 #CHANGE THIS
 #http://mining.bitcoin.cz/accounts/register/
+#uses broken scoring algorithm - use mine_slush
 user: c00w.testhop
 pass: testhop
-role: info
+role: mine_slush
 
 [ozco]
 #CHANGE THIS
 #https://ozco.in/register.php
 user:c00w.1
 pass:1234
-role: info
+role: mine
 
 [polmine]
 #CHANGE THIS
 #https://polmine.pl
 user: c00w1456testhop
 pass: x
-role: info
+role: mine
 
 [mtred]
 #CHANGE THIS
@@ -43,21 +44,21 @@ role: info
 user:scarium
 pass:x 
 mtred_user_apikey:d91c52cfe1609f161f28a1268a2915b8+
-role: info
+role: mine
 
 [rfc]
 #CHANGE THIS
 #https://rfcpool.com/signup
 user: c00w_test
 pass: x
-role: info
+role: mine
 
 [btcmonkey]
 #CHANGE THIS
 #http://bitcoinmonkey.com/
 user: dah4k0r.testhop
 pass: x
-role: info
+role: mine
 
 [btcworld]
 #CHANGE THIS
@@ -71,7 +72,15 @@ role: info
 #https://www.triplemining.com/register
 user: c00w_test
 pass: x
-role: info
+role: mine
+
+[bitclockers]
+#CHANGE THIS (if you want)
+#http://bitclockers.com/
+user: flargle
+pass: x
+bitclockers_user_apikey: 965469e512aa0de5a37b83ccfd5e849e
+role: mine
 
 ######################################
 # Backup pools for when there is
@@ -113,14 +122,6 @@ role: backup
 # them as backup.
 ######################################
 
-[bitclockers]
-#CHANGE THIS (if you want)
-#http://bitclockers.com/
-user: flargle
-pass: x
-bitclockers_user_apikey: 965469e512aa0de5a37b83ccfd5e849e
-role: disable
-
 [nofeemining]
 #CHANGE THIS (if you want)
 #https://www.nofeemining.com/ 
@@ -139,6 +140,7 @@ role: disable
 [bitparking]
 #CHANGE THIS (if you want)
 #http://bitparking.com/
+#Namecoin pool, use mine_nmc!
 user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
 pass: x
 #passwords can be anything on bitparking

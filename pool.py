@@ -13,7 +13,7 @@ import sys
 class Pool():
     def __init__(self,bitHopper):
         self.servers = {}
-        self.api_pull = ['mine','info','mine_slush','mine_nmc','mine_friendly','api_disable']
+        self.api_pull = ['mine','info','mine_slush','mine_nmc','mine_friendly']
         parser = ConfigParser.SafeConfigParser()
         try:
             # determine if application is a script file or frozen exe
@@ -63,6 +63,8 @@ class Pool():
                 self.servers[server]['api_address'] = server
             if 'name' not in self.servers[server]:
                 self.servers[server]['name'] = server
+            if 'role' not in self.servers[server]:
+                self.servers[server]['role'] = 'disable'
             self.servers[server]['err_api_count'] = 0
             self.servers[server]['pool_index'] = server
             
@@ -85,16 +87,14 @@ class Pool():
         prev_shares = self.servers[server]['shares']
         if shares == prev_shares:
             time = .10*self.servers[server]['refresh_time']
-            if time <= 30:
-                time = 30.
             self.servers[server]['refresh_time'] += .10*self.servers[server]['refresh_time']
-            self.bitHopper.reactor.callLater(time,self.update_api_server,server)
         else:
             self.servers[server]['refresh_time'] -= .10*self.servers[server]['refresh_time']
             time = self.servers[server]['refresh_time']
-            if time <= 30:
-                self.servers[server]['refresh_time'] = 30
-            self.bitHopper.reactor.callLater(time,self.update_api_server,server)
+
+        if time <= 30:
+            time = 30
+        self.bitHopper.reactor.callLater(time,self.update_api_server,server)
 
         try:
             k =  str('{0:d}'.format(int(shares)))
@@ -104,8 +104,6 @@ class Pool():
             k =  str(shares)
         if shares != prev_shares:
             self.bitHopper.log_msg(str(server) +": "+ k)
-            if self.servers[server]['role'] == 'api_disable':
-                self.servers[server]['role'] = self.servers[server]['default_role']
         self.servers[server]['shares'] = shares
         self.servers[server]['err_api_count'] = 0
         if self.servers[server]['refresh_time'] > 60*30 and self.servers[server]['role'] != 'info':
