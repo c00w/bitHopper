@@ -53,6 +53,8 @@ class DefaultScheduler(Scheduler):
         
       self.bh.log_dbg('min-shares: ' + str(min_shares), cat='scheduler-default')  
       for server in self.bh.pool.get_servers():
+         if info['api_lag'] or info['lag']:
+            continue
          info = self.bh.pool.get_entry(server)
          if info['role'] not in ['mine','mine_nmc','mine_slush','mine_friendly']:
             continue
@@ -64,7 +66,7 @@ class DefaultScheduler(Scheduler):
             shares = info['shares']*difficulty / nmc_difficulty
          else:
             shares = 100* info['shares']
-         if shares< min_shares and info['lag'] == False:
+         if shares< min_shares:
             min_shares = shares
             self.bh.log_dbg('Selecting pool ' + str(server) + ' with shares ' + str(info['shares']), cat='scheduler-default')
             server_name = server
@@ -93,10 +95,12 @@ class DefaultScheduler(Scheduler):
       server_name = None
       max_share_count = 1
       for server in self.bh.pool.get_servers():
+         if info['api_lag'] or info['lag']:
+            continue
          info = self.bh.pool.get_entry(server)
          if info['role'] != 'backup_latehop':
             continue
-         if info['shares'] > max_share_count and info['lag'] == False:
+         if info['shares'] > max_share_count:
             server_name = server
             max_share_count = info['shares']
             self.bh.log_dbg('select_latehop_server: ' + str(server), cat='scheduler-default')
@@ -115,32 +119,35 @@ class DefaultScheduler(Scheduler):
             info = self.bh.pool.get_entry(server)
             if info['role'] not in ['backup', 'backup_latehop']:
                continue
-            if info['lag'] == False:
-               rr_server = float(info['rejects'])/(info['user_shares']+1)
-               if  rr_server < reject_rate:
-                  server_name = server
-                  self.bh.log_dbg('select_backup_server: ' + str(server), cat='scheduler-default')
-                  reject_rate = rr_server
+            if info['api_lag'] or info['lag']:
+               continue
+            rr_server = float(info['rejects'])/(info['user_shares']+1)
+            if rr_server < reject_rate:
+               server_name = server
+               self.bh.log_dbg('select_backup_server: ' + str(server), cat='scheduler-default')
+               reject_rate = rr_server
 
       if server_name == None:
          self.bh.log_dbg('Try another backup' + str(server), cat='scheduler-default')
          min_shares = 10**10
          for server in self.bh.pool.get_servers():
             info = self.bh.pool.get_entry(server)
+            if info['api_lag'] or info['lag']:
+                continue
             if info['role'] not in ['mine','mine_nmc','mine_slush']:
-               continue
+                continue
             if info['role'] == 'mine':
-               shares = info['shares']
+                shares = info['shares']
             elif info['role'] == 'mine_slush':
-               shares = info['shares'] * 4
+                shares = info['shares'] * 4
             elif info['role'] == 'mine_nmc':
-               shares = info['shares']*difficulty / nmc_difficulty
+                shares = info['shares']*difficulty / nmc_difficulty
             else:
-               shares = info['shares']
+                shares = info['shares']
             if shares < min_shares and info['lag'] == False:
-               min_shares = shares
-               self.bh.log_dbg('Selecting pool ' + str(server) + ' with shares ' + str(shares), cat='scheduler-default')
-               server_name = server
+                min_shares = shares
+                self.bh.log_dbg('Selecting pool ' + str(server) + ' with shares ' + str(shares), cat='scheduler-default')
+                server_name = server
       
       if server_name == None:
          self.bh.log_dbg('Try another backup pt2' + str(server), cat='scheduler-default')
@@ -159,6 +166,9 @@ class DefaultScheduler(Scheduler):
       valid_roles = ['mine', 'mine_slush','mine_nmc']
       current_pool = self.bh.pool.get_entry(self.bh.pool.get_current())
       if current_pool['role'] not in valid_roles:
+         return True
+    
+      if current_pool['api_lag'] or current_pool['lag']:
          return True
 
       current_role = current_pool['role']

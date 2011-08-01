@@ -52,6 +52,7 @@ class Pool():
         for server in self.servers:
             self.servers[server]['shares'] = int(bitHopper.difficulty.get_difficulty())
             self.servers[server]['lag'] = False
+            self.servers[server]['api_lag'] = False
             self.servers[server]['refresh_time'] = 60
             self.servers[server]['rejects'] = self.bitHopper.db.get_rejects(server)
             self.servers[server]['user_shares'] = self.bitHopper.db.get_shares(server)
@@ -85,6 +86,7 @@ class Pool():
         self.current_server = server
 
     def UpdateShares(self, server, shares):
+        self.servers[server]['api_lag'] = False
         prev_shares = self.servers[server]['shares']
         if shares == prev_shares:
             time = .10*self.servers[server]['refresh_time']
@@ -118,7 +120,7 @@ class Pool():
         pool = args
         self.servers[pool]['err_api_count'] += 1
         if self.servers[pool]['err_api_count'] > 1:
-            self.servers[pool]['shares'] = int(self.bitHopper.difficulty.get_difficulty())
+            self.servers[pool]['api_lag'] = True
         time = self.servers[pool]['refresh_time']
         self.bitHopper.reactor.callLater(time, self.update_api_server, pool)
 
