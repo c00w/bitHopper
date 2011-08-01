@@ -21,81 +21,81 @@
 #CHANGE THIS
 #http://mining.bitcoin.cz/accounts/register/
 #uses broken scoring algorithm - use mine_slush
+role: mine_slush
 user: c00w.testhop
 pass: testhop
-role: mine_slush
 
 [ozco]
 #CHANGE THIS
 #https://ozco.in/register.php
+role: mine
 user:c00w.1
 pass:1234
-role: mine
 
 [polmine]
 #CHANGE THIS
 #https://polmine.pl
+role: mine
 user: c00w1456testhop
 pass: x
-role: mine
 
 [mtred]
 #CHANGE THIS
 #https://mtred.com/user/registration.html
+role: mine
+mtred_user_apikey:d91c52cfe1609f161f28a1268a2915b8+
 user:scarium
 pass:x 
-mtred_user_apikey:d91c52cfe1609f161f28a1268a2915b8+
-role: mine
 
 [rfc]
 #CHANGE THIS
 #https://rfcpool.com/signup
+role: mine
 user: c00w_test
 pass: x
-role: mine
 
 [btcmonkey]
 #CHANGE THIS
 #http://bitcoinmonkey.com/
+role: mine
 user: dah4k0r.testhop
 pass: x
-role: mine
 
 [btcworld]
 #CHANGE THIS
 #http://btcworld.de/signup
+role: info
 user: testhop
 pass: x
-role: info
 
 [triple]
 #CHANGE THIS
 #https://www.triplemining.com/register
+role: mine
 user: c00w_test
 pass: x
-role: mine
 
 [bitclockers]
 #CHANGE THIS
 #http://bitclockers.com/
+role: mine
+bitclockers_user_apikey: 965469e512aa0de5a37b83ccfd5e849e
 user: flargle
 pass: x
-bitclockers_user_apikey: 965469e512aa0de5a37b83ccfd5e849e
-role: mine
 
 [bmunion]
 #CHANGE THIS
 #http://www.bitminersunion.org/
+role: info
 user: x
 pass: x
-role: info
 
 [BTCPool24]
 #CHANGE THIS
 #http://www.bitminersunion.org/
+role: mine
 user: Sukrim.hopper
 pass: 1234
-role: mine
 
 ######################################
 # Backup pools for when there is
@@ -108,18 +108,17 @@ role: mine
 [eligius]
 #CHANGE THIS
 #http://eligius.st/wiki/index.php/Getting_Started
+role: backup
 user: 1AofHmwVef5QkamCW6KqiD4cRqEcq5U7hZ
 pass: x
 #passwords can be anything on Eligius
-role: backup
-
 
 [arsbitcoin]
 #CHANGE THIS
 #https://arsbitcoin.com/register.php
+role: backup
 user: c00w.default
 pass: fire
-role: backup
 
 [bitp]
 #CHANGE THIS
@@ -128,6 +127,13 @@ user: 4bjibc3R1RGF9
 pass: u5cpmndZq4Jvp
 bitp_user_apikey: 80c5dbea750563eb24e5310f94a56b38bad14dc35efb41e9ca421c92f31563ed
 role: backup
+
+[ninjac]
+#https://www.ninjacoin.com/index.php
+#PPS
+role: backup
+user: paraipanakos.works
+pass: minero
 
 ######################################
 # These Pools are not hopped for a
