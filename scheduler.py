@@ -89,22 +89,39 @@ class DefaultScheduler(Scheduler):
       
       return server_name
    
+   def select_latehop_server(self):
+      server_name = None
+      max_share_count = 1
+      for server in self.bh.pool.get_servers():
+         info = self.bh.pool.get_entry(server)
+         if info['role'] != 'backup_latehop':
+            continue
+         if info['shares'] > max_share_count and info['lag'] == False:
+            server_name = server
+            max_share_count = info['shares']
+            self.bh.log_dbg('select_latehop_server: ' + str(server), cat='scheduler-default')
+
+      return server_name   
+
    def select_backup_server(self,):
       self.bh.log_dbg('select_backup_server', cat='scheduler-default')
       server_name = None
       reject_rate = 1
-      for server in self.bh.pool.get_servers():
-         info = self.bh.pool.get_entry(server)
-         if info['role'] != 'backup':
-            continue
-         if info['lag'] == False:
-            rr_server = float(info['rejects'])/(info['user_shares']+1)
-            if  rr_server < reject_rate:
-               server_name = server
-               self.bh.log_dbg('select_backup_server: ' + str(server), cat='scheduler-default')
-               reject_rate = rr_server
 
-   
+      server_name = self.select_latehop_server()
+
+      if server_name == None:
+         for server in self.bh.pool.get_servers():
+            info = self.bh.pool.get_entry(server)
+            if info['role'] != 'backup':
+               continue
+            if info['lag'] == False:
+               rr_server = float(info['rejects'])/(info['user_shares']+1)
+               if  rr_server < reject_rate:
+                  server_name = server
+                  self.bh.log_dbg('select_backup_server: ' + str(server), cat='scheduler-default')
+                  reject_rate = rr_server
+
       if server_name == None:
          self.bh.log_dbg('Try another backup' + str(server), cat='scheduler-default')
          min_shares = 10**10
@@ -133,7 +150,7 @@ class DefaultScheduler(Scheduler):
                continue
             server_name = server
             break
-         
+
       return server_name
 
 
