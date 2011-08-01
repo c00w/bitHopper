@@ -16,77 +16,77 @@
 #   These Pools are hoppable
 #######################################
 
-[slush]
+[Slush]
 #CHANGE THIS
 #http://mining.bitcoin.cz/accounts/register/
 #uses broken scoring algorithm - use mine_slush
-user: c00w.testhop
-pass: testhop
+user: username
+pass: password
 role: mine_slush
 
-[ozco]
+[OzCoin]
 #CHANGE THIS
 #https://ozco.in/register.php
-user:c00w.1
-pass:1234
+user: username
+pass: password
 role: mine
 
-[polmine]
+[PolMine]
 #CHANGE THIS
 #https://polmine.pl
-user: c00w1456testhop
-pass: x
+user: username
+pass: password
 role: mine
 
-[mtred]
+[MtRed]
 #CHANGE THIS
 #https://mtred.com/user/registration.html
-user:scarium
-pass:x 
-mtred_user_apikey:d91c52cfe1609f161f28a1268a2915b8+
+user: username
+pass: password
+mtred_user_apikey: apikey
 role: mine
 
-[rfc]
+[RFCPool]
 #CHANGE THIS
 #https://rfcpool.com/signup
-user: c00w_test
-pass: x
+user: username
+pass: password
 role: mine
 
-[btcmonkey]
+[BitcoinMonkey]
 #CHANGE THIS
 #http://bitcoinmonkey.com/
-user: dah4k0r.testhop
-pass: x
+user: username
+pass: password
 role: mine
 
-[btcworld]
+[BTCWorld]
 #CHANGE THIS
 #http://btcworld.de/signup
-user: testhop
-pass: x
+user: username
+pass: password
 role: info
 
-[triple]
+[TripleMining]
 #CHANGE THIS
 #https://www.triplemining.com/register
-user: c00w_test
-pass: x
+user: username
+pass: password
 role: mine
 
-[bitclockers]
+[BitClockers]
 #CHANGE THIS
 #http://bitclockers.com/
-user: flargle
-pass: x
-bitclockers_user_apikey: 965469e512aa0de5a37b83ccfd5e849e
+user: username
+pass: password
+bitclockers_user_apikey: apikey
 role: mine
 
-[bmunion]
+[BMUnion]
 #CHANGE THIS
 #http://www.bitminersunion.org/
-user: x
-pass: x
+user: username
+pass: password
 role: info
 
 ######################################
@@ -97,28 +97,28 @@ role: info
 # lowest variance though)
 ######################################
 
-[eligius]
+[Eligius]
 #CHANGE THIS
 #http://eligius.st/wiki/index.php/Getting_Started
-user: 1AofHmwVef5QkamCW6KqiD4cRqEcq5U7hZ
+user: payoutaddress
 pass: x
 #passwords can be anything on Eligius
 role: backup
 
 
-[arsbitcoin]
+[ArsBitcoin]
 #CHANGE THIS
 #https://arsbitcoin.com/register.php
-user: c00w.default
-pass: fire
+user: username
+pass: password
 role: backup
 
-[bitp]
+[BitPit]
 #CHANGE THIS
 #http://bitp.it
-user: 4bjibc3R1RGF9
-pass: u5cpmndZq4Jvp
-bitp_user_apikey: 80c5dbea750563eb24e5310f94a56b38bad14dc35efb41e9ca421c92f31563ed
+user: username
+pass: password
+bitp_user_apikey: apikey
 role: backup
 
 ######################################
@@ -129,27 +129,27 @@ role: backup
 # them as backup.
 ######################################
 
-[nofeemining]
+[NoFeeMining]
 #CHANGE THIS (if you want)
 #https://www.nofeemining.com/ 
-user: dah4k0r@gmail.com_test
-pass: x
-nofeemining_user_apikey: 4140cbc6405f4425cf91ca74e1450b66
+user: username
+pass: password
+nofeemining_user_apikey: apikey
 role: disable
 
-[poolmunity]
+[PoolMunity]
 #CHANGE THIS (if you want)
 #http://poolmunity.com/
-user: c00w.testhop
-pass: testhop
+user: username
+pass: password
 role: disable
 
-[bitparking]
+[BitParking]
 #CHANGE THIS (if you want)
 #http://bitparking.com/
 #Namecoin pool, use mine_nmc!
-user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
-pass: x
+user: username
+pass: password
 #passwords can be anything on bitparking
 role: disable
 
@@ -157,58 +157,58 @@ role: disable
 #CHANGE THIS (if you want)
 #http://btc.x8s.de/
 #pool is closed down
-user: testhop
-pass: x 
+user: username
+pass: password
 role: disable
 
-[bclc]
+[Bclc]
 #CHANGE THIS (if you want)
 #http://www.bitcoins.lc      
-user: FSkyvM
-pass: xndzEU  
+user: username
+pass: password
 role: disable
 
-[btcg]
+[BTCGuild]
 #CHANGE THIS (if you want)
 #https://www.btcguild.com/
-user: c00w_test
-pass: 1234
-btcguild_user_apikey: 81a9081f4d5f32db7dbbed407cb5f686
+user: username
+pass: password
+btcguild_user_apikey: apikey
 role: disable
 
-[mineco]
+[MineCoin]
 #CHANGE THIS (if you want)
 #https://mineco.in
-user: c00w.test
-pass: x
+user: username
+pass: password
 role: disable
 
-[eclipsemc]
+[EclipseMC]
 #CHANGE THIS (if you want)
 #https://eclipsemc.com
-user: c00w_worker
-pass: x
-eclipsemc_apikey: bd0eded7e35b1b5fc48f8d10214d98
+user: username
+pass: password
+eclipsemc_apikey: apikey
 role: disable
 
-[mmf]
+[MMC]
 #CHANGE THIS (if you want)
 #http://mining.mainframe.nl
-user: c00w.1
-pass: x
+user: username
+pass: password
 role: disable
 
-[bcpool]
+[BitcoinPool]
 #CHANGE THIS (if you want)
 #http://bitcoinpool.com
-user: c00w_test
-pass: x
+user: username
+pass: password
 role: disable
 
-[unitedminers]
+[UnitedMiners]
 #CHANGE THIS (if you want)
 #http://www.unitedminers.com
 #PPLNS
-user: dah4k0r@gmail.com_testhop
-pass: testhop
+user: username
+pass: password
 role: disable
