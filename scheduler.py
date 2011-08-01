@@ -53,9 +53,9 @@ class DefaultScheduler(Scheduler):
         
       self.bh.log_dbg('min-shares: ' + str(min_shares), cat='scheduler-default')  
       for server in self.bh.pool.get_servers():
+         info = self.bh.pool.get_entry(server)
          if info['api_lag'] or info['lag']:
             continue
-         info = self.bh.pool.get_entry(server)
          if info['role'] not in ['mine','mine_nmc','mine_slush','mine_friendly']:
             continue
          if info['role'] in ['mine', 'mine_friendly']:
@@ -95,9 +95,9 @@ class DefaultScheduler(Scheduler):
       server_name = None
       max_share_count = 1
       for server in self.bh.pool.get_servers():
+         info = self.bh.pool.get_entry(server)
          if info['api_lag'] or info['lag']:
             continue
-         info = self.bh.pool.get_entry(server)
          if info['role'] != 'backup_latehop':
             continue
          if info['shares'] > max_share_count:
