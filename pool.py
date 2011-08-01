@@ -50,7 +50,7 @@ class Pool():
     def setup(self,bitHopper):
         self.bitHopper = bitHopper
         for server in self.servers:
-            self.servers[server]['shares'] = bitHopper.difficulty.get_difficulty()
+            self.servers[server]['shares'] = int(bitHopper.difficulty.get_difficulty())
             self.servers[server]['lag'] = False
             self.servers[server]['refresh_time'] = 60
             self.servers[server]['rejects'] = self.bitHopper.db.get_rejects(server)
@@ -117,7 +117,7 @@ class Pool():
         self.bitHopper.log_dbg(str(error))
         pool = args
         self.servers[pool]['err_api_count'] += 1
-        if self.servers[pool]['err_api_count'] >= 1:
+        if self.servers[pool]['err_api_count'] > 1:
             self.servers[pool]['shares'] = int(self.bitHopper.difficulty.get_difficulty())
         time = self.servers[pool]['refresh_time']
         self.bitHopper.reactor.callLater(time, self.update_api_server, pool)
