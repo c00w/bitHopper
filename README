@@ -17,7 +17,7 @@ After updates please check if new pools have been added (it currently fails anyw
 If you don't want to use a pool give it an invalid password (WARNING: some pools ignore passwords from miners!),
 or go to localhost:8337/stats and switch its role to disable, or just delete it.
 
-Run python bitHopper.py
+Run "python bitHopper.py"
 
 It listens on localhost:8337.  So you should direct your miner to
 localhost:8337.
