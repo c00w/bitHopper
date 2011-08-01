@@ -135,9 +135,9 @@ name: bitp.it
 mine_address: pool.bitp.it:8334 
 role:backup
 user_api_address:https://pool.bitp.it/api/user?token=%(bitp_user_apikey)s
-bitp_user_apikey:80c5dbea750563eb24e5310f94a56b38bad14dc35efb41e9ca421c92f31563ed
 url: https://pool.bitp.it/console
 #CHANGE THIS
+bitp_user_apikey:80c5dbea750563eb24e5310f94a56b38bad14dc35efb41e9ca421c92f31563ed
 user: 4bjibc3R1RGF9
 pass: u5cpmndZq4Jvp
 
@@ -154,6 +154,7 @@ mine_address: pool.bitclockers.com:8332
 user: flargle
 pass: x
 api_address:https://bitclockers.com/api 
+url:https://bitclockers.com
 api_method:json
 api_key:roundshares
 role:info
@@ -167,8 +168,8 @@ api_address: https://www.nofeemining.com/api.php?key%(nofeemining_user_apikey)s
 role:disable
 api_method:json
 api_key:poolRoundShares
+url: https://www.nofeemining.com
 #CHANGE THIS
-#https://www.nofeemining.com/ 
 user: dah4k0r@gmail.com_test
 pass: x
 nofeemining_user_apikey:4140cbc6405f4425cf91ca74e1450b66
@@ -180,8 +181,8 @@ api_address:https://poolmunity.com/api.php?server
 role:disable
 api_method:json
 api_key:totalShares
+url: http://poolmunity.com
 #CHANGE THIS
-#http://poolmunity.com/index.php?PHPSESSID=3iglliv6bvs1r8fvve993l5sd2&action=register
 user: c00w.testhop
 pass: testhop
 
@@ -194,8 +195,8 @@ api_method:re
 api_key:block</td><td>([ 0-9]+)</td>
 api_strip:' '
 role:disable
+url: http://bitparking.com/
 #CHANGE THIS
-#http://bitparking.com/
 user: Nxxx
 pass: x
 
@@ -206,8 +207,8 @@ api_address:http://btc.x8s.de/api/global.json
 role:disable   
 api_method:json
 api_key:round_shares
+url: http://btc.x8s.de
 #CHANGE THIS
-##http://btc.x8s.de/account/signup
 user: testhop
 pass: x 
 
@@ -218,6 +219,8 @@ api_address:https://www.bitcoins.lc/stats.json
 role:disable
 api_method:json
 api_key:round_shares
+url: https://www.bitcoins.lc
+#CHANGE THIS
 user:FSkyvM
 pass:xndzEU  
                  
@@ -230,6 +233,8 @@ user_api_address:https://www.btcguild.com/api.php?api_key=%(btcguild_user_apikey
 role:disable
 api_method:json
 api_key:round_shares
+url: https://www.btcguild.com
+#CHANGE THIS
 user: c00w_test
 pass: 1234
 btcguild_user_apikey: 81a9081f4d5f32db7dbbed407cb5f686
@@ -241,39 +246,47 @@ user: c00w.test
 pass: x
 api_address:https://mineco.in/stats.json 
 role:disable
+url: https://mineco.in
+#CHANGE THIS
 api_method:json
 api_key:shares_this_round
 
 [eclipsemc]
 name: eclipsemc.com
 mine_address: pacrim.eclipsemc.com:8337 
-user: c00w_worker
-pass: x
-eclipsemc_apikey:bd0eded7e35b1b5fc48f8d10214d98
 api_address:https://eclipsemc.com/api.php?key=%(eclipsemc_apikey)s&action=poolstats 
 api_method:json_ec
 api_key:round_shares
 role:disable
+url: https://eclipsemc.com
+#CHANGE THIS
+eclipsemc_apikey:bd0eded7e35b1b5fc48f8d10214d98
+user: c00w_worker
+pass: x
 
 [mmf]
 name: mining.mainframe.nl
 mine_address: mining.mainframe.nl:8343 
-user: c00w.1
-pass: x
 api_method:json
 api_key:shares_this_round
 api_address:http://mining.mainframe.nl/api
 role:disable
+url: http://mining.mainframe.nl
+#CHANGE THIS
+user: c00w.1
+pass: x
 
 [bcpool]
 name: bitcoinpool.com
 mine_address: bitcoinpool.com:8334 
-user: c00w_test
-pass: x
 api_address:http://bitcoinpool.com/pooljson.php
 api_method:json
 api_key:round_shares
 role:disable
+url: http://bitcoinpool.com
+#CHANGE THIS
+user: c00w_test
+pass: x
 
 [unitedminers]
 #PPLN
@@ -284,7 +297,7 @@ api_method:json
 api_key:validcurrentshares
 api_strip:','
 role:disable
+url: http://www.unitedminers.com
 #CHANGE THIS
-#unitedminers.com
 user: dah4k0r@gmail.com_testhop
 pass: testhop
