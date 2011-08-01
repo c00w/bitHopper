@@ -1,0 +1,205 @@
+#######################################
+#    User Configuration File
+# Change the default values and make
+# sure to change the name to user.cfg
+#######################################
+
+#######################################
+# Valid roles are:
+# mine, info, disable, backup
+# mine_friendly, mine_slush, mine_namecoins(?)
+# TODO:
+# (add explanation!)
+#######################################
+
+#######################################
+#   These Pools are hoppable
+#######################################
+
+[slush]
+#CHANGE THIS
+#http://mining.bitcoin.cz/accounts/register/
+user: c00w.testhop
+pass: testhop
+role: info
+
+[ozco]
+#CHANGE THIS
+#https://ozco.in/register.php
+user:c00w.1
+pass:1234
+role: info
+
+[polmine]
+#CHANGE THIS
+#https://polmine.pl
+user: c00w1456testhop
+pass: x
+role: info
+
+[mtred]
+#CHANGE THIS
+#https://mtred.com/user/registration.html
+user:scarium
+pass:x 
+mtred_user_apikey:d91c52cfe1609f161f28a1268a2915b8+
+role: info
+
+[rfc]
+#CHANGE THIS
+#https://rfcpool.com/signup
+user: c00w_test
+pass: x
+role: info
+
+[btcmonkey]
+#CHANGE THIS
+#http://bitcoinmonkey.com/
+user: dah4k0r.testhop
+pass: x
+role: info
+
+[btcworld]
+#CHANGE THIS
+#http://btcworld.de/signup
+user: testhop
+pass: x
+role: info
+
+[triple]
+#CHANGE THIS
+#https://www.triplemining.com/register
+user: c00w_test
+pass: x
+role: info
+
+######################################
+# Backup pools for when there is
+# no pool where you would earn more
+# than expected (can be any pool with
+# hopping proof algorithms, PPS has
+# lowest variance though)
+######################################
+
+[eligius]
+#CHANGE THIS
+#http://eligius.st/wiki/index.php/Getting_Started
+user: 1AofHmwVef5QkamCW6KqiD4cRqEcq5U7hZ
+pass: x
+#passwords can be anything on Eligius
+role: backup
+
+
+[arsbitcoin]
+#CHANGE THIS
+#https://arsbitcoin.com/register.php
+user: c00w.default
+pass: fire
+role: backup
+
+[bitp]
+#CHANGE THIS
+#http://bitp.it
+user: 4bjibc3R1RGF9
+pass: u5cpmndZq4Jvp
+bitp_user_apikey: 80c5dbea750563eb24e5310f94a56b38bad14dc35efb41e9ca421c92f31563ed
+role: backup
+
+######################################
+# These Pools are not hopped for a
+# Reason. Ask on the forums
+# No need to change their user/pass
+# unless you want to hop them or use
+# them as backup.
+######################################
+
+[bitclockers]
+#CHANGE THIS (if you want)
+#http://bitclockers.com/
+user: flargle
+pass: x
+bitclockers_user_apikey: 965469e512aa0de5a37b83ccfd5e849e
+role: disable
+
+[nofeemining]
+#CHANGE THIS (if you want)
+#https://www.nofeemining.com/ 
+user: dah4k0r@gmail.com_test
+pass: x
+nofeemining_user_apikey: 4140cbc6405f4425cf91ca74e1450b66
+role: disable
+
+[poolmunity]
+#CHANGE THIS (if you want)
+#http://poolmunity.com/
+user: c00w.testhop
+pass: testhop
+role: disable
+
+[bitparking]
+#CHANGE THIS (if you want)
+#http://bitparking.com/
+user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
+pass: x
+#passwords can be anything on bitparking
+role: disable
+
+[x8s]
+#CHANGE THIS (if you want)
+#http://btc.x8s.de/
+#pool is closed down
+user: testhop
+pass: x 
+role: disable
+
+[bclc]
+#CHANGE THIS (if you want)
+#http://www.bitcoins.lc      
+user: FSkyvM
+pass: xndzEU  
+role: disable
+
+[btcg]
+#CHANGE THIS (if you want)
+#https://www.btcguild.com/
+user: c00w_test
+pass: 1234
+btcguild_user_apikey: 81a9081f4d5f32db7dbbed407cb5f686
+role: disable
+
+[mineco]
+#CHANGE THIS (if you want)
+#https://mineco.in
+user: c00w.test
+pass: x
+role: disable
+
+[eclipsemc]
+#CHANGE THIS (if you want)
+#https://eclipsemc.com
+user: c00w_worker
+pass: x
+eclipsemc_apikey: bd0eded7e35b1b5fc48f8d10214d98
+role: disable
+
+[mmf]
+#CHANGE THIS (if you want)
+#http://mining.mainframe.nl
+user: c00w.1
+pass: x
+role: disable
+
+[bcpool]
+#CHANGE THIS (if you want)
+#http://bitcoinpool.com
+user: c00w_test
+pass: x
+role: disable
+
+[unitedminers]
+#CHANGE THIS (if you want)
+#http://www.unitedminers.com
+#PPLNS
+user: dah4k0r@gmail.com_testhop
+pass: testhop
+role: disable

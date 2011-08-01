@@ -21,11 +21,23 @@ class Pool():
                 application_path = os.path.dirname(sys.executable)
             elif __file__:
                 application_path = os.path.dirname(__file__)
+            read = parser.read(os.path.join(application_path, 'user.cfg'))
+        except:
+            read = parser.read('user.cfg')
+        if len(read) == 0:
+            bitHopper.log_msg("user.cfg not found. You may need to move it from user.cfg.default")
+            os._exit(1)
+        try:
+            # determine if application is a script file or frozen exe
+            if hasattr(sys, 'frozen'):
+                application_path = os.path.dirname(sys.executable)
+            elif __file__:
+                application_path = os.path.dirname(__file__)
             read = parser.read(os.path.join(application_path, 'pool.cfg'))
         except:
             read = parser.read('pool.cfg')
         if len(read) == 0:
-            bitHopper.log_msg("pool.cfg not found. You may need to move it from pool.cfg.default")
+            bitHopper.log_msg("pool.cfg not found.")
             os._exit(1)
         pools = parser.sections()
         for pool in pools:
@@ -34,7 +46,9 @@ class Pool():
             if self.servers[pool]['default_role'] in ['info','disable']:
                 self.servers[pool]['default_role'] = 'mine'
         if self.servers == {}:
-            bitHopper.log_msg("No Pools found in pool.cfg")
+            bitHopper.log_msg("No pools found in pool.cfg or user.cfg")
+        
+        print self.servers
         
         self.current_server = pool
         
@@ -94,7 +108,7 @@ class Pool():
         if shares != prev_shares:
             self.bitHopper.log_msg(str(server) +": "+ k)
             if self.servers[server]['role'] == 'api_disable':
-		self.servers[server]['role'] = self.servers[server]['default_role']
+                self.servers[server]['role'] = self.servers[server]['default_role']
         self.servers[server]['shares'] = shares
         self.servers[server]['err_api_count'] = 0
         if self.servers[server]['refresh_time'] > 60*30 and self.servers[server]['role'] != 'info':
