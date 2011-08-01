@@ -113,7 +113,7 @@ class DefaultScheduler(Scheduler):
       if server_name == None:
          for server in self.bh.pool.get_servers():
             info = self.bh.pool.get_entry(server)
-            if info['role'] != 'backup':
+            if info['role'] not in ['backup', 'backup_latehop']:
                continue
             if info['lag'] == False:
                rr_server = float(info['rejects'])/(info['user_shares']+1)

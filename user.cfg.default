@@ -6,8 +6,9 @@
 
 #######################################
 # Valid roles are:
-# mine, info, disable, backup
-# mine_friendly, mine_slush, mine_nmc
+# mine, mine_friendly, mine_slush, mine_nmc
+# backup, backup_latehop
+# info, disable
 # TODO:
 # (add explanation!)
 #######################################
