@@ -28,6 +28,9 @@ class Pool():
         if len(read) == 0:
             bitHopper.log_msg("user.cfg not found. You may need to move it from user.cfg.default")
             os._exit(1)
+            
+        userpools = parser.sections()
+
         try:
             # determine if application is a script file or frozen exe
             if hasattr(sys, 'frozen'):
@@ -40,8 +43,9 @@ class Pool():
         if len(read) == 0:
             bitHopper.log_msg("pool.cfg not found.")
             os._exit(1)
+            
         pools = parser.sections()
-        for pool in pools:
+        for pool in userpools:
             self.servers[pool] = dict(parser.items(pool))
 
         if self.servers == {}:
