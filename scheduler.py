@@ -36,7 +36,7 @@ class Scheduler(object):
 class DefaultScheduler(Scheduler):
    def __init__(self,bitHopper):
       self.bh = bitHopper
-      self.difficultyThreshold = 0.43
+      self.difficultyThreshold = 0.435
       self.initData()
       
    def initData(self,):
