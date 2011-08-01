@@ -13,10 +13,17 @@ class LongPoll():
         self.lp_set = False
         self.bitHopper = bithop
         self.pool = self.bitHopper.pool
+        self.blocks = {}
+
+    def start_lp(self):
+        for server in self.pool:
+            info = self.pool.servers(server)
+            if info['lp_address'] != None:
+                self.pull_lp(info['lp_address'],server)
 
     @defer.inlineCallbacks
-    def update_lp(self,response):
-        self.bitHopper.log_msg("LP triggered from server " + self.bitHopper.get_server())
+    def update_lp(self,response, server):
+        self.bitHopper.log_msg("LP triggered from server " + server)
 
         if response == None:
             defer.returnValue(None)
@@ -50,17 +57,28 @@ class LongPoll():
             
         defer.returnValue(None)
 
+    def receive(self, body, server):
+        response = json.loads(body)
+        work = response['params'][0]
+
+        self.pull_lp(self.pool[server]['lp_address'],server)
+        
     def clear_lp(self,):
         self.lp_set = False
 
-    def set_lp(self,url, check = False):
-        if check:
-            return not self.lp_set
+    def check_lp(self,server):
+        return 'lp_address' in self.pool.get_server(server)
 
-        if self.lp_set:
+    def set_lp(self,url,server):
+
+        info = self.bitHopper.pool.get_server(server)
+        if info['lp_address'] == url:
             return
+        info['lp_address'] = url
+        self.pull_lp(url,server)
 
-        server = self.pool.get_entry(self.pool.get_current())
+    def pull_lp(self,url,server):
+        server = self.pool.servers[server]
         if url[0] == '/':
             lp_address = str(server['mine_address']) + str(url)
         else:
@@ -68,7 +86,7 @@ class LongPoll():
         self.bitHopper.log_msg("LP Call " + lp_address)
         self.lp_set = True
         try:
-            work.jsonrpc_lpcall(self.bitHopper.get_lp_agent(),server, lp_address, self.update_lp)
+            work.jsonrpc_lpcall(self.bitHopper.get_lp_agent(),server, lp_address, self)
         except Exception,e :
-            self.bitHopper.log_dbg('set_lp error')
+            self.bitHopper.log_dbg('pull_lp error')
             self.bitHopper.log_dbg(e)

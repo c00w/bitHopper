@@ -65,6 +65,8 @@ class Pool():
                 self.servers[server]['name'] = server
             if 'role' not in self.servers[server]:
                 self.servers[server]['role'] = 'disable'
+            if 'lp_address' not in self.servers[server]:
+                self.servers[server]['lp_address'] = None
             self.servers[server]['err_api_count'] = 0
             self.servers[server]['pool_index'] = server
             self.servers[server]['default_role'] = self.servers[server]['role']
