@@ -117,8 +117,8 @@ class Pool():
         self.bitHopper.log_dbg(str(error))
         pool = args
         self.servers[pool]['err_api_count'] += 1
-        if self.servers[pool]['err_api_count'] > 1:
-            self.servers[pool]['shares'] = int(bitHopper.difficulty.get_difficulty())
+        if self.servers[pool]['err_api_count'] >= 1:
+            self.servers[pool]['shares'] = int(self.bitHopper.difficulty.get_difficulty())
         time = self.servers[pool]['refresh_time']
         self.bitHopper.reactor.callLater(time, self.update_api_server, pool)
 
