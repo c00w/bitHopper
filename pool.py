@@ -118,7 +118,7 @@ class Pool():
         pool = args
         self.servers[pool]['err_api_count'] += 1
         if self.servers[pool]['err_api_count'] > 1:
-            self.servers[pool]['shares'] = 10**10
+            self.servers[pool]['shares'] = int(bitHopper.difficulty.get_difficulty())
         time = self.servers[pool]['refresh_time']
         self.bitHopper.reactor.callLater(time, self.update_api_server, pool)
 
@@ -136,6 +136,8 @@ class Pool():
                 strip_char = server['api_strip'][1:-1]
                 info = info.replace(strip_char,'')
             round_shares = int(info)
+            if round_shares == None:
+                round_shares = int(bitHopper.difficulty.get_difficulty())
             self.UpdateShares(args,round_shares)
 
         elif server['api_method'] == 'json_ec':
@@ -143,6 +145,8 @@ class Pool():
             for value in server['api_key'].split(','):
                 info = info[value]
             round_shares = int(info)
+            if round_shares == None:
+                round_shares = int(bitHopper.difficulty.get_difficulty())
             self.UpdateShares(args,round_shares)
 
         elif server['api_method'] == 're':
@@ -162,6 +166,8 @@ class Pool():
                 strip_str = server['api_strip'][1:-1]
                 output = output.replace(strip_str,'')
             round_shares = int(output)
+            if round_shares == None:
+                round_shares = int(bitHopper.difficulty.get_difficulty())
             self.UpdateShares(args,round_shares)
         else:
             self.bitHopper.log_msg('Unrecognized api method: ' + str(server))
