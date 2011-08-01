@@ -47,9 +47,6 @@ class Pool():
                 self.servers[pool]['default_role'] = 'mine'
         if self.servers == {}:
             bitHopper.log_msg("No pools found in pool.cfg or user.cfg")
-        
-        print self.servers
-        
         self.current_server = pool
         
     def setup(self,bitHopper):
