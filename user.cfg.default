@@ -137,29 +137,29 @@ pass: password
 nofeemining_user_apikey: apikey
 role: disable
 
-[PoolMunity]
+#[PoolMunity]
 #CHANGE THIS (if you want)
 #http://poolmunity.com/
-user: username
-pass: password
-role: disable
+#user: username
+#pass: password
+#role: disable
 
-[BitParking]
+#[BitParking]
 #CHANGE THIS (if you want)
 #http://bitparking.com/
 #Namecoin pool, use mine_nmc!
-user: username
-pass: password
+#user: username
+#pass: password
 #passwords can be anything on bitparking
-role: disable
+#role: disable
 
-[x8s]
+#[x8s]
 #CHANGE THIS (if you want)
 #http://btc.x8s.de/
 #pool is closed down
-user: username
-pass: password
-role: disable
+#user: username
+#pass: password
+#role: disable
 
 [Bclc]
 #CHANGE THIS (if you want)
@@ -168,35 +168,35 @@ user: username
 pass: password
 role: disable
 
-[BTCGuild]
+#[BTCGuild]
 #CHANGE THIS (if you want)
 #https://www.btcguild.com/
-user: username
-pass: password
-btcguild_user_apikey: apikey
-role: disable
+#user: username
+#pass: password
+#btcguild_user_apikey: apikey
+#role: disable
 
-[MineCoin]
+#[MineCoin]
 #CHANGE THIS (if you want)
 #https://mineco.in
-user: username
-pass: password
-role: disable
+#user: username
+#pass: password
+#role: disable
 
-[EclipseMC]
+#[EclipseMC]
 #CHANGE THIS (if you want)
 #https://eclipsemc.com
-user: username
-pass: password
-eclipsemc_apikey: apikey
-role: disable
+#user: username
+#pass: password
+#eclipsemc_apikey: apikey
+#role: disable
 
-[MMC]
+#[MMC]
 #CHANGE THIS (if you want)
 #http://mining.mainframe.nl
-user: username
-pass: password
-role: disable
+#user: username
+#pass: password
+#role: disable
 
 [BitcoinPool]
 #CHANGE THIS (if you want)
@@ -205,10 +205,10 @@ user: username
 pass: password
 role: disable
 
-[UnitedMiners]
+#[UnitedMiners]
 #CHANGE THIS (if you want)
 #http://www.unitedminers.com
 #PPLNS
-user: username
-pass: password
-role: disable
+#user: username
+#pass: password
+#role: disable
