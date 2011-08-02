@@ -34,18 +34,18 @@ class Pool():
                 application_path = os.path.dirname(sys.executable)
             elif __file__:
                 application_path = os.path.dirname(__file__)
-            read = parser.read(os.path.join(application_path, 'pool.cfg'))
+            read = parser.read(os.path.join(application_path, 'pools.cfg'))
         except:
-            read = parser.read('pool.cfg')
+            read = parser.read('pools.cfg')
         if len(read) == 0:
-            bitHopper.log_msg("pool.cfg not found.")
+            bitHopper.log_msg("pools.cfg not found.")
             os._exit(1)
         pools = parser.sections()
         for pool in pools:
             self.servers[pool] = dict(parser.items(pool))
 
         if self.servers == {}:
-            bitHopper.log_msg("No pools found in pool.cfg or user.cfg")
+            bitHopper.log_msg("No pools found in pools.cfg or user.cfg")
         self.current_server = pool
         
     def setup(self,bitHopper):
