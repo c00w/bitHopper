@@ -1,4 +1,5 @@
 *.pyc
+*.py~
 *.swp
 db-version
 stats.db
