@@ -41,17 +41,17 @@ class DefaultScheduler(Scheduler):
       
    def initData(self,):
       if self.bh.options.threshold:
-         self.bh.log_msg("Override difficulty threshold to: " + str(self.bh.options.threshold), cat='scheduler-default')
+         #self.bh.log_msg("Override difficulty threshold to: " + str(self.bh.options.threshold), cat='scheduler-default')
          self.difficultyThreshold = self.bh.options.threshold
 
    def select_best_server(self,):
-      self.bh.log_dbg('select_best_server', cat='scheduler-default')
+      #self.bh.log_dbg('select_best_server', cat='scheduler-default')
       server_name = None
       difficulty = self.bh.difficulty.get_difficulty()
       nmc_difficulty = self.bh.difficulty.get_nmc_difficulty()
       min_shares = difficulty * self.difficultyThreshold
         
-      self.bh.log_dbg('min-shares: ' + str(min_shares), cat='scheduler-default')  
+      #self.bh.log_dbg('min-shares: ' + str(min_shares), cat='scheduler-default')  
       for server in self.bh.pool.get_servers():
          info = self.bh.pool.get_entry(server)
          if info['api_lag'] or info['lag']:
@@ -68,7 +68,7 @@ class DefaultScheduler(Scheduler):
             shares = 100* info['shares']
          if shares< min_shares:
             min_shares = shares
-            self.bh.log_dbg('Selecting pool ' + str(server) + ' with shares ' + str(info['shares']), cat='scheduler-default')
+            #self.bh.log_dbg('Selecting pool ' + str(server) + ' with shares ' + str(info['shares']), cat='scheduler-default')
             server_name = server
          
       if server_name == None:
@@ -108,7 +108,7 @@ class DefaultScheduler(Scheduler):
       return server_name   
 
    def select_backup_server(self,):
-      self.bh.log_dbg('select_backup_server', cat='scheduler-default')
+      #self.bh.log_dbg('select_backup_server', cat='scheduler-default')
       server_name = None
       reject_rate = 1
 
@@ -128,7 +128,7 @@ class DefaultScheduler(Scheduler):
                reject_rate = rr_server
 
       if server_name == None:
-         self.bh.log_dbg('Try another backup' + str(server), cat='scheduler-default')
+         #self.bh.log_dbg('Try another backup' + str(server), cat='scheduler-default')
          min_shares = 10**10
          for server in self.bh.pool.get_servers():
             info = self.bh.pool.get_entry(server)
@@ -146,11 +146,11 @@ class DefaultScheduler(Scheduler):
                 shares = info['shares']
             if shares < min_shares and info['lag'] == False:
                 min_shares = shares
-                self.bh.log_dbg('Selecting pool ' + str(server) + ' with shares ' + str(shares), cat='scheduler-default')
+                #self.bh.log_dbg('Selecting pool ' + str(server) + ' with shares ' + str(shares), cat='scheduler-default')
                 server_name = server
       
       if server_name == None:
-         self.bh.log_dbg('Try another backup pt2' + str(server), cat='scheduler-default')
+         #self.bh.log_dbg('Try another backup pt2' + str(server), cat='scheduler-default')
          for server in self.bh.pool.get_servers():
             info = self.bh.pool.get_entry(server)
             if info['role'] != 'backup':
@@ -162,7 +162,7 @@ class DefaultScheduler(Scheduler):
 
 
    def server_update(self,):
-      self.bh.log_dbg('server_update', cat='scheduler-default')
+      #self.bh.log_dbg('server_update', cat='scheduler-default')
       valid_roles = ['mine', 'mine_slush','mine_nmc']
       current_pool = self.bh.pool.get_entry(self.bh.pool.get_current())
       if current_pool['role'] not in valid_roles:

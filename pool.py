@@ -128,7 +128,7 @@ class Pool():
         self.bitHopper.reactor.callLater(time, self.update_api_server, pool)
 
     def selectsharesResponse(self, response, args):
-        self.bitHopper.log_dbg('Calling sharesResponse for '+ args)
+        #self.bitHopper.log_dbg('Calling sharesResponse for '+ args)
         server = self.servers[args]
         if server['role'] not in self.api_pull:
             return

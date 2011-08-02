@@ -8,7 +8,7 @@ import os
 import base64
 import exceptions
 import time
-
+import traceback
 
 from zope.interface import implements
 
@@ -85,9 +85,10 @@ def jsonrpc_call(agent, server, data , bitHopper):
         d = agent.request('POST', "http://" + server['mine_address'], Headers(header), StringProducer(request))
         response = yield d
         header = response.headers
+
         #Check for long polling header
         lp = bitHopper.lp
-        if not lp.check_lp(server):
+        if not lp.check_lp(server['pool_index']):
             for k,v in header.getAllRawHeaders():
                 if k.lower() == 'x-long-polling':
                     lp.set_lp(v[0],server['pool_index'])
@@ -99,6 +100,7 @@ def jsonrpc_call(agent, server, data , bitHopper):
     except Exception, e:
         bitHopper.log_dbg('Caught, jsonrpc_call insides')
         bitHopper.log_dbg(e)
+        traceback.print_exc
         defer.returnValue(None)
 
     try:

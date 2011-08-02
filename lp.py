@@ -5,6 +5,7 @@
 import work
 import json
 import exceptions
+import time
 
 from twisted.internet import reactor, defer
 
@@ -21,61 +22,36 @@ class LongPoll():
             if info['lp_address'] != None:
                 self.pull_lp(info['lp_address'],server)
 
-    @defer.inlineCallbacks
-    def update_lp(self,response, server):
-        self.bitHopper.log_msg("LP triggered from server " + server)
-
-        if response == None:
-            defer.returnValue(None)
-
-        try:
-            finish = Deferred()
-            response.deliverBody(work.WorkProtocol(finish))
-            body = yield finish
-        except Exception, e:
-            self.bitHopper.log_msg('Reading LP Response failed')
-            self.lp_set = True
-            defer.returnValue(None)
-
-        try:
-            message = json.loads(body)
-            value =  message['result']
-            #defer.returnValue(value)
-        except exceptions.ValueError, e:
-            self.bitHopper.log_msg("Error in json decoding, Probably not a real LP response")
-            self.lp_set = True
-            self.bitHopper.log_dbg(body)
-            defer.returnValue(None)
-
-        self.pool.update_api_servers()
-        current = self.bitHopper.get_server()
-        self.bitHopper.select_best_server()
-        if current == self.bitHopper.get_server():
-            self.bitHopper.log_dbg("LP triggering clients manually")
-            self.bitHopper.lp_callback()
-            self.lp_set = False 
-            
-        defer.returnValue(None)
-
     def receive(self, body, server):
+        self.bitHopper.log_msg('recieved lp from: ' + server)
         response = json.loads(body)
         work = response['params'][0]
+        data = work['data']
+        block = data[8:72]
 
+        if block not in self.blocks:
+            self.blocks[block] = {}
+            self.bitHopper.lp_callback(work)
+
+        self.blocks[block][server] = time.time()
         self.pull_lp(self.pool[server]['lp_address'],server)
         
     def clear_lp(self,):
         self.lp_set = False
 
     def check_lp(self,server):
-        return 'lp_address' in self.pool.get_server(server)
+        return 'lp_address' in self.pool.get_entry(server)
 
     def set_lp(self,url,server):
-
-        info = self.bitHopper.pool.get_server(server)
-        if info['lp_address'] == url:
-            return
-        info['lp_address'] = url
-        self.pull_lp(url,server)
+        try:
+            info = self.bitHopper.pool.get_entry(server)
+            if info['lp_address'] == url:
+                return
+            info['lp_address'] = url
+            self.pull_lp(url,server)
+        except Exception,e:
+            self.bitHopper.log_dbg('set_lp error')
+            self.bitHopper.log_dbg(str(e))
 
     def pull_lp(self,url,server):
         server = self.pool.servers[server]
