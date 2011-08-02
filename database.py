@@ -156,7 +156,7 @@ class Database():
         for item in result:
             shares = item[0]
             difficulty = item[1]
-            expected += shares/difficulty * 50
+            expected += float(shares)/difficulty * 50
         return expected
 
     def update_user_shares_db(self):
