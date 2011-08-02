@@ -4,6 +4,7 @@
 #Based on a work at github.com.
 
 import os.path
+import time
 
 from twisted.web import server, resource
 
@@ -208,7 +209,120 @@ class RoundTimeDynamicPenaltyScheduler(Scheduler):
 
 
 class SliceScheduler(Scheduler):
+   def __init__(self,bitHopper):
+      self.bh = bitHopper
+      self.difficultyThreshold = 0.435
+      self.initData()
+      self.sliceinfo = {}
+      self.lastcalled = time.time()
+   def initData(self,):
+        if self.bh.options.threshold:
+         #self.bh.log_msg("Override difficulty threshold to: " + str(self.bh.options.threshold), cat='scheduler-default')
+         self.difficultyThreshold = self.bh.options.threshold
+        for server in self.bh.pool.get_servers():
+            self.sliceinfo[server] = -1
+
    def select_best_server(self,):
-      return
+      #self.bh.log_dbg('select_best_server', cat='scheduler-default')
+      server_name = None
+      difficulty = self.bh.difficulty.get_difficulty()
+      nmc_difficulty = self.bh.difficulty.get_nmc_difficulty()
+      min_shares = difficulty * self.difficultyThreshold
+
+      valid_servers = []
+      for server in self.bh.pool.get_servers():
+         info = self.bh.pool.get_entry(server)
+         if info['api_lag'] or info['lag']:
+            continue
+         if info['role'] not in ['mine','mine_nmc','mine_slush']:
+            continue
+         if info['role'] in ['mine']:
+            shares = info['shares']
+         elif info['role'] == 'mine_slush':
+            shares = info['shares'] * 4
+         elif info['role'] == 'mine_nmc':
+            shares = info['shares']*difficulty / nmc_difficulty
+         else:
+            shares = 100* info['shares']
+         if shares< min_shares:
+            valid_servers.append(server)
+         
+      for server in valid_servers:
+        if server not in self.sliceinfo:
+            self.sliceinfo[server] = 0
+
+      for server in self.sliceinfo:
+        if server not in valid_servers:
+            self.sliceinfo[server] = -1
+
+      if valid_servers == []: return self.select_backup_server()
+      
+      min_slice = self.sliceinfo[valid_servers[0]]
+      server = valid_servers[0]
+      for server in valid_servers:
+        if self.sliceinfo[server] < min_slice:
+            min_slice = self.sliceinfo[server]
+            server = valid_servers[0]
+
+      return server
+
    def select_backup_server(self,):
-      return
+      #self.bh.log_dbg('select_backup_server', cat='scheduler-default')
+      server_name = None
+      reject_rate = 1
+
+      server_name = self.select_latehop_server()
+
+      if server_name == None:
+         for server in self.bh.pool.get_servers():
+            info = self.bh.pool.get_entry(server)
+            if info['role'] not in ['backup', 'backup_latehop']:
+               continue
+            if info['api_lag'] or info['lag']:
+               continue
+            rr_server = float(info['rejects'])/(info['user_shares']+1)
+            if rr_server < reject_rate:
+               server_name = server
+               self.bh.log_dbg('select_backup_server: ' + str(server), cat='scheduler-default')
+               reject_rate = rr_server
+
+      if server_name == None:
+         #self.bh.log_dbg('Try another backup' + str(server), cat='scheduler-default')
+         min_shares = 10**10
+         for server in self.bh.pool.get_servers():
+            info = self.bh.pool.get_entry(server)
+            if info['api_lag'] or info['lag']:
+                continue
+            if info['role'] not in ['mine','mine_nmc','mine_slush']:
+                continue
+            if info['role'] == 'mine':
+                shares = info['shares']
+            elif info['role'] == 'mine_slush':
+                shares = info['shares'] * 4
+            elif info['role'] == 'mine_nmc':
+                shares = info['shares']*difficulty / nmc_difficulty
+            else:
+                shares = info['shares']
+            if shares < min_shares and info['lag'] == False:
+                min_shares = shares
+                #self.bh.log_dbg('Selecting pool ' + str(server) + ' with shares ' + str(shares), cat='scheduler-default')
+                server_name = server
+      
+      if server_name == None:
+         #self.bh.log_dbg('Try another backup pt2' + str(server), cat='scheduler-default')
+         for server in self.bh.pool.get_servers():
+            info = self.bh.pool.get_entry(server)
+            if info['role'] != 'backup':
+               continue
+            server_name = server
+            break
+
+      return server_name
+
+
+   def server_update(self,):
+        diff_time = time.time()-self.lastcalled
+        self.lastcalled = time.time()
+        self.sliceinfo[self.bh.pool.get_current()] += diff_time
+
+      return True
