@@ -8,7 +8,7 @@ import os
 import base64
 import exceptions
 import time
-
+import traceback
 
 from zope.interface import implements
 
@@ -52,7 +52,7 @@ def print_error(x):
     print x
 
 @defer.inlineCallbacks
-def jsonrpc_lpcall(agent,server, url, update):
+def jsonrpc_lpcall(agent,server, url, lp):
     
     global i
     request = json.dumps({'method':'getwork', 'params':[], 'id':i}, ensure_ascii = True)
@@ -62,7 +62,8 @@ def jsonrpc_lpcall(agent,server, url, update):
     d = agent.request('GET', "http://" + url, Headers(header), None)
     d.addErrback(print_error)
     body = yield d
-    d = update(body)
+    lp.receive(body,server)
+    defer.returnValue(None)
 
 @defer.inlineCallbacks
 def get(agent,url):
@@ -84,12 +85,13 @@ def jsonrpc_call(agent, server, data , bitHopper):
         d = agent.request('POST', "http://" + server['mine_address'], Headers(header), StringProducer(request))
         response = yield d
         header = response.headers
+
         #Check for long polling header
-        set_lp = bitHopper.lp.set_lp
-        if set_lp != None and set_lp(None, True):
+        lp = bitHopper.lp
+        if not lp.check_lp(server['pool_index']):
             for k,v in header.getAllRawHeaders():
                 if k.lower() == 'x-long-polling':
-                    set_lp(v[0])
+                    lp.set_lp(v[0],server['pool_index'])
                     break
 
         finish = Deferred()
@@ -98,6 +100,7 @@ def jsonrpc_call(agent, server, data , bitHopper):
     except Exception, e:
         bitHopper.log_dbg('Caught, jsonrpc_call insides')
         bitHopper.log_dbg(e)
+        traceback.print_exc
         defer.returnValue(None)
 
     try:

@@ -69,6 +69,8 @@ class Pool():
                 self.servers[server]['name'] = server
             if 'role' not in self.servers[server]:
                 self.servers[server]['role'] = 'disable'
+            if 'lp_address' not in self.servers[server]:
+                self.servers[server]['lp_address'] = None
             self.servers[server]['err_api_count'] = 0
             self.servers[server]['pool_index'] = server
             self.servers[server]['default_role'] = self.servers[server]['role']
@@ -130,7 +132,7 @@ class Pool():
         self.bitHopper.reactor.callLater(time, self.update_api_server, pool)
 
     def selectsharesResponse(self, response, args):
-        self.bitHopper.log_dbg('Calling sharesResponse for '+ args)
+        #self.bitHopper.log_dbg('Calling sharesResponse for '+ args)
         server = self.servers[args]
         if server['role'] not in self.api_pull:
             return
