@@ -62,7 +62,10 @@ def jsonrpc_lpcall(agent,server, url, lp):
     d = agent.request('GET', "http://" + url, Headers(header), None)
     d.addErrback(print_error)
     body = yield d
-    lp.receive(body,server)
+    finish = Deferred()
+    body.deliverBody(WorkProtocol(finish))
+    text = yield finish
+    lp.receive(text,server)
     defer.returnValue(None)
 
 @defer.inlineCallbacks
