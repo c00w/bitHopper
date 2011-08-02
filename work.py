@@ -88,7 +88,8 @@ def jsonrpc_call(agent, server, data , bitHopper):
 
         #Check for long polling header
         lp = bitHopper.lp
-        if not lp.check_lp(server['pool_index']):
+        if lp.check_lp(server['pool_index']):
+            #bitHopper.log_msg('Inside LP check')
             for k,v in header.getAllRawHeaders():
                 if k.lower() == 'x-long-polling':
                     lp.set_lp(v[0],server['pool_index'])

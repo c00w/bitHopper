@@ -23,7 +23,7 @@ class LongPoll():
                 self.pull_lp(info['lp_address'],server)
 
     def receive(self, body, server):
-        self.bitHopper.log_msg('recieved lp from: ' + server)
+        #self.bitHopper.log_msg('recieved lp from: ' + server['pool_index'])
         response = json.loads(body)
         work = response['params'][0]
         data = work['data']
@@ -40,9 +40,10 @@ class LongPoll():
         self.lp_set = False
 
     def check_lp(self,server):
-        return 'lp_address' in self.pool.get_entry(server)
+        return self.pool.get_entry(server)['lp_address']  == None
 
     def set_lp(self,url,server):
+        #self.bitHopper.log_msg('set_lp ' + url + ' ' + server)
         try:
             info = self.bitHopper.pool.get_entry(server)
             if info['lp_address'] == url:
@@ -54,6 +55,7 @@ class LongPoll():
             self.bitHopper.log_dbg(str(e))
 
     def pull_lp(self,url,server):
+        #self.bitHopper.log_msg('pull_lp ' + url + ' ' + server)
         server = self.pool.servers[server]
         if url[0] == '/':
             lp_address = str(server['mine_address']) + str(url)
