@@ -26,7 +26,7 @@ class LongPoll():
         #self.bitHopper.log_msg('recieved lp from: ' + server['pool_index'])
         print body
         response = json.loads(body)
-        work = response['result'][0]
+        work = response['result']
         data = work['data']
         block = data[8:72]
 
