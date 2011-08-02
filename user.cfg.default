@@ -125,6 +125,23 @@ role: info
 user: Sukrim.hopper
 pass: 1234
 
+[btcserv]
+# Small pool, pls report experience on forum
+#http://btcserv.net/
+#CHANGE THIS
+role: info
+user: x
+pass: y
+
+[bloodys]
+# Another pool for the collection
+# Small pool good for hopping
+#http://pool.bloodys.com
+#CHANGE THIS
+role: info
+user: x
+pass: y
+
 ######################################
 # Backup pools for when there is
 # no pool where you would earn more
