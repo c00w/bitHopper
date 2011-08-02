@@ -233,7 +233,7 @@ def main():
     parser.add_option('--disable', type=str, default = None, action='callback', callback=parse_server_disable, help='Servers to disable. Get name from --list. Servera,Serverb,Serverc')
     parser.add_option('--port', type = int, default=8337, help='Port to listen on')
     parser.add_option('--scheduler', type=str, default=None, help='Select an alternate scheduler')
-    parser.add_option('--threshold', type=float, default=0.43, help='Override difficulty threshold (default 0.43)')
+    parser.add_option('--threshold', type=float, default=None, help='Override difficulty threshold (default 0.43)')
     args, rest = parser.parse_args()
     options = args
     bithopper_global.options = args

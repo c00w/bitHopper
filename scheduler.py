@@ -212,8 +212,8 @@ class SliceScheduler(Scheduler):
    def __init__(self,bitHopper):
       self.bh = bitHopper
       self.difficultyThreshold = 0.435
-      self.initData()
       self.sliceinfo = {}
+      self.initData()
       self.lastcalled = time.time()
    def initData(self,):
         if self.bh.options.threshold:
@@ -271,8 +271,6 @@ class SliceScheduler(Scheduler):
       server_name = None
       reject_rate = 1
 
-      server_name = self.select_latehop_server()
-
       if server_name == None:
          for server in self.bh.pool.get_servers():
             info = self.bh.pool.get_entry(server)
@@ -324,5 +322,6 @@ class SliceScheduler(Scheduler):
         diff_time = time.time()-self.lastcalled
         self.lastcalled = time.time()
         self.sliceinfo[self.bh.pool.get_current()] += diff_time
-
-      return True
+        if self.sliceinfo[self.bh.pool.get_current()] > 10:
+            return True
+        return False
