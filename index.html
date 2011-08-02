@@ -53,7 +53,7 @@
 					return '#FF3232';
 				}
 					
-				if(srv["role"] == "api_disable") {
+				if(srv["role"] == "disable" || srv["role"] == "api_disable" || srv["role"] == "api_lag") {
 					return '#FF3232';
 				}
 					
@@ -61,11 +61,7 @@
 					return '#FFFF00';
 				}
 					
-				if(srv["role"] == "disable") {
-					return '#FF3232';
-				}
-					
-				if(srv["role"] == "backup") {
+				if(srv["role"] == "backup" || srv["role"] == "backup_latehop") {
 					return '#50EBEC';
 				} 
 
@@ -109,20 +105,6 @@
 					}
 				}
 				
-				if(srv['default_role'] != "backup") {
-					roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'disable');\" onFocus='this.blur();' style='border:1px solid #FF3232;";
-					if(srv["role"] == "disable" || srv["role"] == "api_disable") roles += "background-color:#FF3232;";
-					roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
-
-					roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'info');\" onFocus='this.blur();' style='border:1px solid #FFFF00;";
-					if(srv["role"] == "info") roles += "background-color:#FFFF00;";
-					roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
-
-					roles += "<a href='#' onClick=\"setRole('" + srvName + "', '" + srv['default_role'] + "');\" onFocus='this.blur();' style='border:1px solid #59E817;";
-					if(srv["role"][0] == "m") roles += "background-color:#59E817;";
-					roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
-				}
-			
 				if(srv['default_role'] == "backup") {
 					roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'disable');\" onFocus='this.blur();' style='border:1px solid #FF3232;";
 					if(srv["role"] == "disable" || srv["role"] == "api_disable") roles += "background-color:#FF3232;";
@@ -134,6 +116,19 @@
 
 					roles += "<a href='#' onClick=\"setRole('" + srvName + "', '" + srv['default_role'] + "');\" onFocus='this.blur();' style='border:1px solid #50EBEC;";
 					if(srv["role"] == "backup") roles += "background-color:#50EBEC;";
+					roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
+				}
+				else {
+					roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'disable');\" onFocus='this.blur();' style='border:1px solid #FF3232;";
+					if(srv["role"] == "disable" || srv["role"] == "api_disable") roles += "background-color:#FF3232;";
+					roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
+
+					roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'info');\" onFocus='this.blur();' style='border:1px solid #FFFF00;";
+					if(srv["role"] == "info") roles += "background-color:#FFFF00;";
+					roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
+
+					roles += "<a href='#' onClick=\"setRole('" + srvName + "', '" + srv['default_role'] + "');\" onFocus='this.blur();' style='border:1px solid #59E817;";
+					if(srv["role"][0] == "m") roles += "background-color:#59E817;";
 					roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
 				}
 			
@@ -307,10 +302,18 @@
 				}
 				return t;
 			}
+
+			function hashColor(data) {
+				if(parseInt(data["mhash"]) > "0") {
+					return '#00FF00';
+				}
+
+				return '#FF3232';
+			}
 		
 			function update() {
 				$.getJSON('/data', function(data) {
-					$("#current").html("<span style='color:#00FF00;'>" + data["current"] + "</span> @" + parseInt(data["mhash"]) + "MHash");
+					$("#current").html("<span style='color:" + hashColor(data) + ";'>" + data["current"] + " @" + parseInt(data["mhash"]) + "MHash</span>");
 
 					updateRoundShares(data);
 					
@@ -318,10 +321,10 @@
 						{
 							'Server': { 'data':getName, 'color':getColor },
 							'Shares': { 'data':getShares, 'color':getColor, 'align':'right' },
-							'Role': { 'data':getRole, 'color':getColor },
+							'Role': { 'data':getRole },
 							'User&nbsp;Shares<br>Rejects': { 'data':getUserShareRejects, 'color':getColor, 'align':'center' },
 							'Payout': { 'data':getPayout, 'color':getColor, 'align':'center' },
-							'Efficiency': { 'data':getEfficiency, 'color':getColor, 'align':'center' },
+							'Efficiency': { 'data':getEfficiency, 'align':'center' },
 							'Round Shares': { 'data':getRoundShares, 'type':'linechart', 'width':'100%' }
 						},
 						function(a, b) {
