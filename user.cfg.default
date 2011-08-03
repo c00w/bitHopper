@@ -115,14 +115,6 @@ role: info
 user: x
 pass: x
 
-[btcpool24]
-# Small pool good for hopping
-#http://www.btcpool24.com
-#CHANGE THIS
-role: info
-user: Sukrim.hopper
-pass: 1234
-
 [btcserv]
 # Small pool, pls report experience on forum
 #http://btcserv.net/
@@ -216,6 +208,14 @@ role: disable
 user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
 pass: x
 #passwords can be anything on bitparking
+
+[btcpool24]
+# Changed payout system and delays stats, allot (page 116)
+#http://www.btcpool24.com
+#CHANGE THIS
+role: disable
+user: Sukrim.hopper
+pass: 1234
 
 [poolmunity]
 # Obscure payout system and anti-hopping measures (page 55)
