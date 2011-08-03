@@ -20,8 +20,6 @@
 # pool's entry in this cfg file too)
 # mine_nmc = setup pool for NMC mining
 # 
-# TODO:
-# (add explanation!)
 #########################################################
 
 #######################################
@@ -44,10 +42,10 @@ user: c00w.testhop
 pass: testhop
 
 [ozco]
-# Nice small-medium sized pool
+# Freezing stats for unknown reason (page 114)
 #https://ozco.in/register.php
 #CHANGE THIS
-role: mine
+role: info
 user:c00w.1
 pass:1234
 
@@ -135,12 +133,29 @@ pass: y
 
 [bloodys]
 # Another pool for the collection
-# Small pool good for hopping
 #http://pool.bloodys.com
 #CHANGE THIS
 role: info
 user: x
 pass: y
+
+[bcpool]
+# Disables anti-hopper measures for 1% donation (page 111)
+# Anti-hopping method based on "window of participation" (page 36)
+#http://bitcoinpool.com
+#CHANGE THIS (if you want)
+role: info
+user: c00w_test
+pass: x
+
+[nofeemining]
+# Server lags, they're upgrading the service (page 62)
+#https://www.nofeemining.com/ 
+#CHANGE THIS (if you want)
+role: info
+nofeemining_user_apikey: 4140cbc6405f4425cf91ca74e1450b66
+user: dah4k0r@gmail.com_test
+pass: x
 
 ######################################
 # Backup pools for when there is
@@ -202,15 +217,6 @@ user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
 pass: x
 #passwords can be anything on bitparking
 
-[nofeemining]
-# Server laggs too much, they're upgrading the service (page 62)
-#https://www.nofeemining.com/ 
-#CHANGE THIS (if you want)
-role: disable
-nofeemining_user_apikey: 4140cbc6405f4425cf91ca74e1450b66
-user: dah4k0r@gmail.com_test
-pass: x
-
 [poolmunity]
 # Obscure payout system and anti-hopping measures (page 55)
 #CHANGE THIS (if you want)
@@ -267,14 +273,6 @@ pass: x
 #CHANGE THIS (if you want)
 role: disable
 user: c00w.1
-pass: x
-
-[bcpool]
-# Anti-hopping method based on "window of participation" (page 36)
-#http://bitcoinpool.com
-#CHANGE THIS (if you want)
-role: disable
-user: c00w_test
 pass: x
 
 [unitedminers]

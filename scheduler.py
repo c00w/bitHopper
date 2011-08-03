@@ -267,7 +267,7 @@ class SliceScheduler(Scheduler):
       for server in valid_servers:
         if self.sliceinfo[server] < min_slice:
             min_slice = self.sliceinfo[server]
-            server = valid_servers[0]
+            server = valid_servers
 
       return server
 
@@ -327,11 +327,17 @@ class SliceScheduler(Scheduler):
         #self.bitHopper.log_msg(str(self.sliceinfo))
         diff_time = time.time()-self.lastcalled
         self.lastcalled = time.time()
-        if self.sliceinfo[self.bh.pool.get_current()] == -1:
+        current = self.sliceinfo[self.bh.pool.get_current()]
+        if current == -1:
             return True
+
         self.sliceinfo[self.bh.pool.get_current()] += diff_time
-        if self.sliceinfo[self.bh.pool.get_current()] > 10:
-            return True
+
+        for server in self.sliceinfo:
+            if self.sliceinfo[server] == -1:
+                continue
+            if current - self.sliceinfo[server] > 10:
+                return True
         return False
 
 class AltSliceScheduler(Scheduler):
