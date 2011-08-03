@@ -261,16 +261,15 @@ class SliceScheduler(Scheduler):
             self.sliceinfo[server] = -1
 
       if valid_servers == []: return self.select_backup_server()
-            
+      
       min_slice = self.sliceinfo[valid_servers[0]]
       server = valid_servers[0]
-      bserver = valid_servers[0]
       for server in valid_servers:
         if self.sliceinfo[server] < min_slice:
             min_slice = self.sliceinfo[server]
-            bserver = server
+            server = valid_servers[0]
 
-      return bserver
+      return server
 
    def select_backup_server(self,):
       #self.bh.log_dbg('select_backup_server', cat='scheduler-default')
@@ -325,12 +324,12 @@ class SliceScheduler(Scheduler):
 
 
    def server_update(self,):
-        #self.bitHopper.log_dbg(str(self.sliceinfo), cat='server_update')
+        #self.bitHopper.log_msg(str(self.sliceinfo))
         diff_time = time.time()-self.lastcalled
         self.lastcalled = time.time()
         if self.sliceinfo[self.bh.pool.get_current()] == -1:
-            return True        
+            return True
         self.sliceinfo[self.bh.pool.get_current()] += diff_time
-        if self.sliceinfo[self.bh.pool.get_current()] > self.bh.options.slicesize:
+        if self.sliceinfo[self.bh.pool.get_current()] > 10:
             return True
         return False
