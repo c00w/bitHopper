@@ -211,6 +211,7 @@ class RoundTimeDynamicPenaltyScheduler(Scheduler):
 class SliceScheduler(Scheduler):
    def __init__(self,bitHopper):
       self.bh = bitHopper
+      self.bitHopper = self.bh
       self.difficultyThreshold = 0.435
       self.sliceinfo = {}
       self.initData()
