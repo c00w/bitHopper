@@ -41,15 +41,19 @@ class dynamicSite(resource.Resource):
       
     isleaF = True
     def render_GET(self,request):
+        index_name = 'index.html'
         try:
+          # determine scheduler index.html
+          if self.bh.scheduler.index_html != None:
+               index_name = self.bh.scheduler.index_html
           # determine if application is a script file or frozen exe
           if hasattr(sys, 'frozen'):
                 application_path = os.path.dirname(sys.executable)
           elif __file__:
                 application_path = os.path.dirname(__file__)          
-          index = parser.read(os.path.join(application_path, 'index.html'))
+          index = parser.read(os.path.join(application_path, index_name))
         except:
-          index = 'index.html'
+          index = index_name
         file = open(index, 'r')
         linestring = file.read()
         file.close
@@ -107,12 +111,21 @@ class dataSite(resource.Resource):
 
      isLeaf = True
      def render_GET(self, request):
-          response = json.dumps({
-                "current":self.bitHopper.pool.get_current(), 
-                'mhash':self.bitHopper.speed.get_rate(), 
-                'difficulty':self.bitHopper.difficulty.get_difficulty(), 
-                'servers':self.bitHopper.pool.get_servers(),
-                'user':self.bitHopper.db.get_user_shares()})
+          if self.bitHopper.scheduler.__class__.__name__ == 'SliceScheduler':
+               response = json.dumps({
+                     "current":self.bitHopper.pool.get_current(), 
+                     'mhash':self.bitHopper.speed.get_rate(), 
+                     'difficulty':self.bitHopper.difficulty.get_difficulty(),
+                     'sliceinfo':self.bitHopper.scheduler.sliceinfo,
+                     'servers':self.bitHopper.pool.get_servers(),
+                     'user':self.bitHopper.db.get_user_shares()})
+          else:               
+               response = json.dumps({
+                     "current":self.bitHopper.pool.get_current(), 
+                     'mhash':self.bitHopper.speed.get_rate(), 
+                     'difficulty':self.bitHopper.difficulty.get_difficulty(), 
+                     'servers':self.bitHopper.pool.get_servers(),
+                     'user':self.bitHopper.db.get_user_shares()})
           request.write(response)
           request.finish()
           return server.NOT_DONE_YET
