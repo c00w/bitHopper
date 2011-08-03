@@ -23,7 +23,7 @@ class LongPoll():
                 self.pull_lp(info['lp_address'],server)
 
     def receive(self, body, server):
-        self.bitHopper.log_msg('recieved lp from: ' + server)
+        self.bitHopper.log_msg('received lp from: ' + server)
         response = json.loads(body)
         work = response['result']
         data = work['data']
