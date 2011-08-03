@@ -216,6 +216,8 @@ class SliceScheduler(Scheduler):
       self.sliceinfo = {}
       self.initData()
       self.lastcalled = time.time()
+      self.index_html = 'index-slice.html'
+      
    def initData(self,):
         if self.bh.options.threshold:
          #self.bh.log_msg("Override difficulty threshold to: " + str(self.bh.options.threshold), cat='scheduler-default')

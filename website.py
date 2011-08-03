@@ -41,15 +41,19 @@ class dynamicSite(resource.Resource):
       
     isleaF = True
     def render_GET(self,request):
+        index_name = 'index.html'
         try:
+          # determine scheduler index.html
+          if self.bh.scheduler.index_html != None:
+               index_name = self.bh.scheduler.index_html
           # determine if application is a script file or frozen exe
           if hasattr(sys, 'frozen'):
                 application_path = os.path.dirname(sys.executable)
           elif __file__:
                 application_path = os.path.dirname(__file__)          
-          index = parser.read(os.path.join(application_path, 'index.html'))
+          index = parser.read(os.path.join(application_path, index_name))
         except:
-          index = 'index.html'
+          index = index_name
         file = open(index, 'r')
         linestring = file.read()
         file.close
