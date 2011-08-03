@@ -321,6 +321,7 @@ class SliceScheduler(Scheduler):
 
 
    def server_update(self,):
+        self.bitHopper.log_msg(str(self.sliceinfo))
         diff_time = time.time()-self.lastcalled
         self.lastcalled = time.time()
         self.sliceinfo[self.bh.pool.get_current()] += diff_time
