@@ -148,6 +148,15 @@ role: info
 user: c00w_test
 pass: x
 
+[nofeemining]
+# Server lags, they're upgrading the service (page 62)
+#https://www.nofeemining.com/ 
+#CHANGE THIS (if you want)
+role: info
+nofeemining_user_apikey: 4140cbc6405f4425cf91ca74e1450b66
+user: dah4k0r@gmail.com_test
+pass: x
+
 ######################################
 # Backup pools for when there is
 # no pool where you would earn more
