@@ -250,6 +250,8 @@ class SliceScheduler(Scheduler):
       for server in valid_servers:
         if server not in self.sliceinfo:
             self.sliceinfo[server] = 0
+        if self.sliceinfo[server] == -1:
+            self.sliceinfo[server] = 0
 
       for server in self.sliceinfo:
         if server not in valid_servers:
