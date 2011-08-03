@@ -200,7 +200,6 @@ class BitHopper():
                 rpc_request = {'params':[],'id':1}
 
             j_id = rpc_request['id']
-            value = [value]
 
             response = json.dumps({"result":value,'error':None,'id':j_id})
             request.write(response)
