@@ -264,10 +264,10 @@ class SliceScheduler(Scheduler):
       
       min_slice = self.sliceinfo[valid_servers[0]]
       server = valid_servers[0]
-      for server in valid_servers:
-        if self.sliceinfo[server] < min_slice:
-            min_slice = self.sliceinfo[server]
-            server = valid_servers
+      for pool in valid_servers:
+        if self.sliceinfo[pool] < min_slice:
+            min_slice = self.sliceinfo[pool]
+            server = pool
 
       return server
 
