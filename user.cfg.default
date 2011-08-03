@@ -217,15 +217,6 @@ user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
 pass: x
 #passwords can be anything on bitparking
 
-[nofeemining]
-# Server laggs too much, they're upgrading the service (page 62)
-#https://www.nofeemining.com/ 
-#CHANGE THIS (if you want)
-role: disable
-nofeemining_user_apikey: 4140cbc6405f4425cf91ca74e1450b66
-user: dah4k0r@gmail.com_test
-pass: x
-
 [poolmunity]
 # Obscure payout system and anti-hopping measures (page 55)
 #CHANGE THIS (if you want)
