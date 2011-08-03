@@ -34,7 +34,7 @@ class LongPoll():
             self.bitHopper.lp_callback(work)
 
         self.blocks[block][server] = time.time()
-        self.pull_lp(self.pool[server]['lp_address'],server)
+        self.pull_lp(self.pool.servers[server]['lp_address'],server)
         
     def clear_lp(self,):
         self.lp_set = False
