@@ -436,7 +436,7 @@ class AltSliceScheduler(Scheduler):
                   shares = 100* info['shares']
                if shares < min_shares:
                   info['slice'] = (1 / float(shares+1) * difficulty) * weight
-                  self.bh.log_msg(server + " sliced to " + info['slice'], cat='slice')
+                  self.bh.log_msg(server + " sliced to " + str(info['slice']), cat='slice')
    
       # Pick server with largest slice first
       max_slice = -1
