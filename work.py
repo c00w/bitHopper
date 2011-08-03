@@ -57,8 +57,8 @@ def jsonrpc_lpcall(agent,server, url, lp):
     global i
     request = json.dumps({'method':'getwork', 'params':[], 'id':i}, ensure_ascii = True)
     i = i +1
-    
-    header = {'Authorization':["Basic " +base64.b64encode(server['user']+ ":" + server['pass'])], 'User-Agent': ['poclbm/20110709'],'Content-Type': ['application/json'] }
+    pool = lp.pool.servers[server]
+    header = {'Authorization':["Basic " +base64.b64encode(pool['user']+ ":" + pool['pass'])], 'User-Agent': ['poclbm/20110709'],'Content-Type': ['application/json'] }
     d = agent.request('GET', "http://" + url, Headers(header), None)
     d.addErrback(print_error)
     body = yield d
