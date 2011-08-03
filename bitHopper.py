@@ -233,6 +233,7 @@ def main():
     parser.add_option('--port', type = int, default=8337, help='Port to listen on')
     parser.add_option('--scheduler', type=str, default=None, help='Select an alternate scheduler')
     parser.add_option('--threshold', type=float, default=None, help='Override difficulty threshold (default 0.43)')
+    parser.add_option('--altslicesize', type=int, default=600, help='Override Default AltSlice Size of 600')
     args, rest = parser.parse_args()
     options = args
     bithopper_global.options = args
