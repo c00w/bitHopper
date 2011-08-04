@@ -446,10 +446,14 @@ class AltSliceScheduler(Scheduler):
                continue
             shares = server_shares[server]            
             if shares < min_shares:
-               slice = self.bh.options.altslicesize * (1 - (float(shares)/totalweight))
-               if self.bh.options.altslicejitter != 0:
-                  jitter = random.randint(0-self.bh.options.altslicejitter, self.bh.options.altslicejitter)
-                  slice += jitter
+               if shares == totalweight:
+                  # only 1 server to slice (zzz)
+                  slice = self.bh.options.altslicesize
+               else:
+                  slice = self.bh.options.altslicesize * (1 - (float(shares)/totalweight))
+                  if self.bh.options.altslicejitter != 0:
+                     jitter = random.randint(0-self.bh.options.altslicejitter, self.bh.options.altslicejitter)
+                     slice += jitter
                if slice < self.bh.options.altminslicesize: info['slice'] = self.bh.options.altminslicesize
                else: info['slice'] = slice               
                self.bh.log_msg(server + " sliced to " + str(info['slice']) + '/' + str(self.bh.options.altslicesize) + '/' + str(shares) + '/' + str(1-(float(shares)/totalweight)) , cat=self.name)
