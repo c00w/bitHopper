@@ -429,8 +429,7 @@ class AltSliceScheduler(Scheduler):
                shares = shares * float(info['penalty'])
             if shares < min_shares and shares > 0:                        
                totalweight += 1/(float(shares)/totalshares)
-         
-         self.bh.log_dbg('totalweight' + totalweight + ' totalshares: ' + totalshares, cat=self.name)
+                  
          # allocate slices         
          for server in self.bh.pool.get_servers():
             info = self.bh.pool.get_entry(server)
@@ -453,7 +452,7 @@ class AltSliceScheduler(Scheduler):
                      slice += jitter
                if slice < self.bh.options.altminslicesize: info['slice'] = self.bh.options.altminslicesize
                else: info['slice'] = slice               
-               self.bh.log_msg(server + " sliced to " + str(info['slice']) + '/' + str(self.bh.options.altslicesize) + '/' + str(shares) + '/' + str(weight) + '/' + str(totalweight) , cat=self.name)
+               self.bh.log_msg(server + " sliced to " + "{0:.2f}".format(info['slice']) + '/' + "{0:d}".format(int(self.bh.options.altslicesize)) + '/' + str(shares) + '/' + "{0:.3f}".format(weight) + '/' + "{0:.3f}".format(totalweight) , cat=self.name)
    
       # Pick server with largest slice first
       max_slice = -1
