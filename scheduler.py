@@ -498,7 +498,7 @@ class AltSliceScheduler(Scheduler):
       min_shares = difficulty * self.difficultyThreshold
       if info['role'] == 'mine_slush': shares = shares * 4
       if 'penalty' in info: shares = shares * float(info['penalty'])
-      if shares < min_shares:
+      if shares > min_shares:
          info['slice'] = -1 # force switch
          return True
       
