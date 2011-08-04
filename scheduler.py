@@ -250,7 +250,6 @@ class DefaultScheduler(Scheduler):
             shares = 100* info['shares']
          if shares< min_shares:
             valid_servers.append(server)
-            self.bh.log_msg( 'VALID: ' + server )
          
       for server in valid_servers:
         if server not in self.sliceinfo:
@@ -273,9 +272,25 @@ class DefaultScheduler(Scheduler):
 
       return server
 
+   def select_latehop_server(self):
+      server_name = None
+      max_share_count = 1
+      for server in self.bh.pool.get_servers():
+         info = self.bh.pool.get_entry(server)
+         if info['api_lag'] or info['lag']:
+            continue
+         if info['role'] != 'backup_latehop':
+            continue
+         if info['shares'] > max_share_count:
+            server_name = server
+            max_share_count = info['shares']
+            #self.bh.log_dbg('select_latehop_server: ' + str(server), cat='scheduler-default')
+
+      return server_name   
+
    def select_backup_server(self,):
       #self.bh.log_dbg('select_backup_server', cat='scheduler-default')
-      server_name = None
+      server_name = self.select_latehop_server()
       reject_rate = 1
 
       if server_name == None:
