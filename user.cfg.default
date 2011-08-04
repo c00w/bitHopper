@@ -12,7 +12,7 @@
 # mine_slush = mines pool until diff.*0.10
 # backup = hopps on this when no Prop. pool is available
 # backup_latehop = prefers this for backup if pool has
-#   high share count, recommended for all PPS backups
+#   high share count (full descr. on page 121, bH thread)
 # mine_friendly = usually mines the pool when they hit
 #   and increased diff block (bad luck) + normal mining
 # info = shows share count for this pool on stat page
@@ -148,6 +148,20 @@ role: info
 nofeemining_user_apikey: 4140cbc6405f4425cf91ca74e1450b66
 user: dah4k0r@gmail.com_test
 pass: x
+
+[digbtc]
+#http://www.digbtc.net/register.php
+#CHANGE THIS (if you want)
+role: info
+user: your_username
+pass: your_password
+
+[bithasher]
+#http://bithasher.com/index.php/register/
+#CHANGE THIS (if you want)
+role: info
+user: your_username
+pass: your_password
 
 ######################################
 # Backup pools for when there is
