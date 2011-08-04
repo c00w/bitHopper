@@ -111,32 +111,32 @@ class dataSite(resource.Resource):
 
      isLeaf = True
      def render_GET(self, request):
+
+          #User Info
           user = {}
           raw_user = self.bitHopper.db.get_user_shares()
           for item in raw_user:
             if raw_user[item] != 0:
                 user[item] = raw_user[item]
-          if self.bitHopper.scheduler.__class__.__name__ == 'SliceScheduler':
-               response = json.dumps({
-                     "current":self.bitHopper.pool.get_current(), 
-                     'mhash':self.bitHopper.speed.get_rate(), 
-                     'difficulty':self.bitHopper.difficulty.get_difficulty(),
-                     'sliceinfo':self.bitHopper.scheduler.sliceinfo,
-                     'servers':self.bitHopper.pool.get_servers(),
-                     'user':user})
-          else:               
-               response = json.dumps({
-                     "current":self.bitHopper.pool.get_current(), 
-                     'mhash':self.bitHopper.speed.get_rate(), 
-                     'difficulty':self.bitHopper.difficulty.get_difficulty(), 
-                     'servers':self.bitHopper.pool.get_servers(),
-                     'user':user})
+
+          #Slice Info
+          if hasattr(self.bitHopper.scheduler, 'sliceinfo'):
+            sliceinfo = self.bitHopper.scheduler.sliceinfo
+          else:
+            sliceinfo = None
+
+          response = json.dumps({
+             "current":self.bitHopper.pool.get_current(), 
+             'mhash':self.bitHopper.speed.get_rate(), 
+             'difficulty':self.bitHopper.difficulty.get_difficulty(),
+             'sliceinfo':sliceinfo,
+             'servers':self.bitHopper.pool.get_servers(),
+             'user':user})
           request.write(response)
           request.finish()
           return server.NOT_DONE_YET
 
      #def render_POST(self, request):
-     #     global new_server
      #     bithopper_global.new_server.addCallback(bitHopperLP, (request))
      #     return server.NOT_DONE_YET
 
@@ -175,7 +175,7 @@ class bitSite(resource.Resource):
                 return lpSite(self.bitHopper)
           elif name == 'flat':
                 return flatSite(self.bitHopper)
-          elif name == 'stats':
+          elif name == 'stats' or name == 'index.html':
                 return dynamicSite(self.bitHopper)
           elif name == 'data':
                 return dataSite(self.bitHopper)

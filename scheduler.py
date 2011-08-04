@@ -34,11 +34,12 @@ class Scheduler(object):
       return
 
 
-class DefaultScheduler(Scheduler):
+class OldDefaultScheduler(Scheduler):
    def __init__(self,bitHopper):
       self.bh = bitHopper
       self.difficultyThreshold = 0.435
       self.initData()
+      self.index_html = 'index-macboy.html'
       
    def initData(self,):
       if self.bh.options.threshold:
@@ -208,7 +209,7 @@ class RoundTimeDynamicPenaltyScheduler(Scheduler):
       return
 
 
-class SliceScheduler(Scheduler):
+class DefaultScheduler(Scheduler):
    def __init__(self,bitHopper):
       self.bh = bitHopper
       self.bitHopper = self.bh
