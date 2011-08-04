@@ -447,10 +447,10 @@ class AltSliceScheduler(Scheduler):
                continue
             shares = server_shares[server]            
             if shares < min_shares:
-               slice = self.bh.options.altslicesize * (float(shares)/totalweight)
+               slice = self.bh.options.altslicesize * (1 - (float(shares)/totalweight))
                if slice < self.bh.options.altminslicesize: info['slice'] = self.bh.options.altminslicesize
                else: info['slice'] = slice               
-               self.bh.log_msg(server + " sliced to " + str(info['slice']) + '/' + str(self.bh.options.altslicesize) + '/' + str(shares) + '/' + str(float(shares)/totalweight) , cat=self.name)
+               self.bh.log_msg(server + " sliced to " + str(info['slice']) + '/' + str(self.bh.options.altslicesize) + '/' + str(shares) + '/' + str(1-(float(shares)/totalweight)) , cat=self.name)
                #self.bh.log_msg(server + " sliced to " + str(info['slice']) + '/'+str(1 / float(shares+1) * difficulty)+'/'+str(weight) , cat='slice')
    
       # Pick server with largest slice first
@@ -528,7 +528,7 @@ class AltSliceScheduler(Scheduler):
       current_server = self.bh.pool.get_current()
       info = self.bh.pool.get_entry(current_server)
       info['slice'] = info['slice'] - diff_time
-      self.bh.log_dbg(current_server + ' slice ' + str(info['slice']), cat='server_update' )
+      #self.bh.log_dbg(current_server + ' slice ' + str(info['slice']), cat='server_update' )
       if self.initDone == False:
          self.bh.select_best_server()
          return True
