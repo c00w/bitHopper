@@ -75,6 +75,8 @@ class BitHopper():
         self.pool.servers[server]['payout'] = float(payout)
 
     def lp_callback(self, work):
+        if work == None:
+            return
         reactor.callLater(0.1,self.new_server.callback,work)
         self.new_server = Deferred()
 
