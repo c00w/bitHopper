@@ -71,6 +71,9 @@ class DefaultScheduler(Scheduler):
             shares = info['shares']*difficulty / nmc_difficulty
          else:
             shares = 100* info['shares']
+         # apply penalty
+         if 'penalty' in info:
+            shares = shares * float(info['penalty'])
          if shares< min_shares:
             min_shares = shares
             #self.bh.log_dbg('Selecting pool ' + str(server) + ' with shares ' + str(info['shares']), cat='scheduler-default')
@@ -149,6 +152,9 @@ class DefaultScheduler(Scheduler):
                 shares = info['shares']*difficulty / nmc_difficulty
             else:
                 shares = info['shares']
+            # apply penalty
+            if 'penalty' in info:
+               shares = shares * float(info['penalty'])
             if shares < min_shares and info['lag'] == False:
                 min_shares = shares
                 #self.bh.log_dbg('Selecting pool ' + str(server) + ' with shares ' + str(shares), cat='scheduler-default')
@@ -183,6 +189,8 @@ class DefaultScheduler(Scheduler):
          difficulty = self.bh.difficulty.get_nmc_difficulty()
       if current_role == 'mine_slush':
          difficulty = self.bh.difficulty.get_difficulty() * .25
+      if 'penalty' in current_pool:
+         difficulty = self.bh.difficulty.get_difficulty() / float(current_pool['penalty'])
       if current_pool['shares'] > (difficulty * self.difficultyThreshold):
          return True
 
@@ -251,6 +259,9 @@ class SliceScheduler(Scheduler):
             shares = info['shares']*difficulty / nmc_difficulty
          else:
             shares = 100* info['shares']
+         # apply penalty
+         if 'penalty' in info:
+            shares = shares * float(info['penalty'])
          if shares< min_shares:
             valid_servers.append(server)
             self.bh.log_msg( 'VALID: ' + server )
@@ -311,6 +322,9 @@ class SliceScheduler(Scheduler):
                 shares = info['shares']*difficulty / nmc_difficulty
             else:
                 shares = info['shares']
+            # apply penalty
+            if 'penalty' in info:
+               shares = shares * float(info['penalty'])
             if shares < min_shares and info['lag'] == False:
                 min_shares = shares
                 #self.bh.log_dbg('Selecting pool ' + str(server) + ' with shares ' + str(shares), cat='scheduler-default')
@@ -427,7 +441,9 @@ class AltSliceScheduler(Scheduler):
                shares = info['shares']*difficulty / nmc_difficulty
             else:
                shares = 100* info['shares']
-               
+            # apply penalty
+            if 'penalty' in info:
+               shares = shares * float(info['penalty'])
             if shares < min_shares:               
                totalweight = totalweight + shares
                info['slicedShares'] = info['shares']

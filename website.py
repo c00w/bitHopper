@@ -81,6 +81,16 @@ class dynamicSite(resource.Resource):
                 except Exception,e:
                     self.bh.log_dbg('Incorrect http post request payout')
                     self.bh.log_dbg(e)
+            if "penalty" in v:
+               try:
+                    server = v.split('-')[1]
+                    info = self.bh.pool.get_entry(server)
+                    info['penalty'] = float(request.args[v][0])                    
+                    self.bh.select_best_server()
+               except Exception,e:
+                    self.bh.log_dbg('Incorrect http post request payout')
+                    self.bh.log_dbg(e)
+
         return self.render_GET(request)
 
 class flatSite(resource.Resource):
