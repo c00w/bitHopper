@@ -401,7 +401,7 @@ class AltSliceScheduler(Scheduler):
             # apply penalty
             if 'penalty' in info:
                shares = shares * float(info['penalty'])
-            if shares < min_shares:               
+            if shares < min_shares and shares > 0:               
                totalshares = totalshares + shares               
                info['slicedShares'] = info['shares']
                server_shares[server] = shares
@@ -427,9 +427,10 @@ class AltSliceScheduler(Scheduler):
             # apply penalty
             if 'penalty' in info:
                shares = shares * float(info['penalty'])
-            if shares < min_shares:                        
-               totalweight += 1/(shares/totalshares)
-               
+            if shares < min_shares and shares > 0:                        
+               totalweight += 1/(float(shares)/totalshares)
+         
+         self.bh.log_dbg('totalweight' + totalweight + ' totalshares: ' + totalshares, cat=self.name)
          # allocate slices         
          for server in self.bh.pool.get_servers():
             info = self.bh.pool.get_entry(server)
@@ -438,14 +439,14 @@ class AltSliceScheduler(Scheduler):
             if info['shares'] <=0: continue
             if server not in server_shares:
                continue
-            shares = server_shares[server]            
-            if shares < min_shares:
+            shares = server_shares[server] + 1
+            if shares < min_shares and shares > 0:
                weight = 0
                if shares == totalshares:
                   # only 1 server to slice (zzz)
                   slice = self.bh.options.altslicesize
                else:
-                  weight = 1/(shares/totalshares)
+                  weight = 1/(float(shares)/totalshares)
                   slice = weight * self.bh.options.altslicesize / totalweight
                   if self.bh.options.altslicejitter != 0:
                      jitter = random.randint(0-self.bh.options.altslicejitter, self.bh.options.altslicejitter)
