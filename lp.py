@@ -25,19 +25,22 @@ class LongPoll():
     def receive(self, body, server):
         if body == None:
             #timeout? Something bizarre?
-            self.pull_lp(self.pool.servers[server]['lp_address'],server)
-        self.bitHopper.log_msg('received lp from: ' + server +" " + str(body))
-        response = json.loads(body)
-        work = response['result']
-        data = work['data']
-        block = data[8:72]
+            self.bitHopper.reactor.callLater(0,self.pull_lp, (self,self.pool.servers[server]['lp_address'],server))
+        self.bitHopper.log_msg('received lp from: ' + server)
+        try:
+            response = json.loads(body)
+            work = response['result']
+            data = work['data']
+            block = data[8:72]
 
-        if block not in self.blocks:
-            self.blocks[block] = {}
-            self.bitHopper.lp_callback(work)
+            if block not in self.blocks:
+                self.blocks[block] = {}
+                self.bitHopper.lp_callback(work)
 
-        self.blocks[block][server] = time.time()
-        self.bitHopper.reactor.callLater(0,self.pull_lp, (self.pool.servers[server]['lp_address'],server))
+            self.blocks[block][server] = time.time()
+        except:
+            self.bitHopper.log_dbg('Error in LP' + str(server) + str(body))
+        self.bitHopper.reactor.callLater(0,self.pull_lp, (self,self.pool.servers[server]['lp_address'],server))
         
     def clear_lp(self,):
         self.lp_set = False
