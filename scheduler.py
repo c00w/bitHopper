@@ -334,7 +334,6 @@ class AltSliceScheduler(Scheduler):
       self.bh.log_msg(' - Slice Size: ' + str(self.bh.options.altslicesize), cat=self.name)
       self.initData()
       self.lastcalled = time.time()
-      self.lastswitch = -1
       self.index_html = 'index-altslice.html'
       
       self.initDone = False
