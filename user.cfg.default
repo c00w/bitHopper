@@ -9,7 +9,8 @@
 # Valid pool roles are:
 #
 # mine = mines on this pool as usual (diff.*0.43)
-# mine_slush = mines pool until diff.*0.10
+# mine_slush = mines pool until diff.*0.10 (DEPRECATED)
+#  -> Use "penalty: 4" instead
 # backup = hopps on this when no Prop. pool is available
 # backup_latehop = prefers this for backup if pool has
 #   high share count (full descr. on page 121, bH thread)
@@ -20,6 +21,12 @@
 # pool's entry in this cfg file too)
 # mine_nmc = setup pool for NMC mining
 # 
+# Other variables:
+#
+#  penalty - floating point number, # of shares will be
+#            multiplied by this number when calculating
+#            shares against difficulty
+#
 #########################################################
 
 #######################################
@@ -37,9 +44,10 @@
 #             for occasional miners.
 #http://mining.bitcoin.cz/accounts/register/
 #CHANGE THIS
-role: mine_slush
+role: mine
 user: c00w.testhop
 pass: testhop
+penalty: 4
 
 [ozco]
 # Freezing stats for unknown reason (page 114)

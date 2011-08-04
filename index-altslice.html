@@ -141,7 +141,7 @@
 					update();
 				}
 			}
-
+			
 			function setPenalty(srvName) {
 				var penalty = prompt("Set penalty for: " + srvName, 0);
 				if(penalty != null && penalty != undefined && penalty != "") {
@@ -183,13 +183,13 @@
 			}
 			
 			function getSlice(payload, srv) {
-				var name = srv['pool_index'];
-				if (payload['sliceinfo'][name] >= 0)
-					return parseFloat(payload['sliceinfo'][name]).toFixed(0)
-				else
-					return "n/a"
+				if (srv['slice'] > 0) {
+					return parseFloat(srv['slice']).toFixed(1);
+				} else {
+					return '&nbsp;';
+				}
 			}
-			
+
 			function getPenalty(payload, srv) {
 				var penalty = 1.00
 				if (srv['penalty'] && srv['penalty'] > 0) {

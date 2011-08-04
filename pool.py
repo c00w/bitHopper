@@ -93,8 +93,9 @@ class Pool():
         self.current_server = server
 
     def UpdateShares(self, server, shares):
-        self.servers[server]['api_lag'] = False
+        self.servers[server]['api_lag'] = False        
         prev_shares = self.servers[server]['shares']
+        self.servers[server]['init'] = True
         if shares == prev_shares:
             time = .10*self.servers[server]['refresh_time']
             self.servers[server]['refresh_time'] += .10*self.servers[server]['refresh_time']
@@ -126,6 +127,7 @@ class Pool():
         self.bitHopper.log_dbg(str(error))
         pool = args
         self.servers[pool]['err_api_count'] += 1
+        self.servers[pool]['init'] = True
         if self.servers[pool]['err_api_count'] > 1:
             self.servers[pool]['api_lag'] = True
         time = self.servers[pool]['refresh_time']
@@ -187,6 +189,7 @@ class Pool():
         if self.servers[server]['role'] not in self.api_pull:
             return
         info = self.servers[server]
+        self.bitHopper.scheduler.update_api_server(server)
         d = work.get(self.bitHopper.json_agent,info['api_address'])
         d.addCallback(self.selectsharesResponse, (server))
         d.addErrback(self.errsharesResponse, (server))

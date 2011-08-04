@@ -166,6 +166,15 @@
 					update();
 				}
 			}
+			
+			function setPenalty(srvName) {
+				var penalty = prompt("Set penalty for: " + srvName, 0);
+				if(penalty != null && penalty != undefined && penalty != "") {
+					var frm = "<form><input type=hidden name='penalty-" + srvName + "' value='" + penalty + "'></form>";
+					$.post("/stats", $(frm).serialize());					
+					update();
+				}
+			}
 
 			function getPayout(payload, srv) {
 				var srvName = "";
@@ -189,6 +198,17 @@
 					pay_str = "&nbsp;";
 				}
 				return pay_str;
+			}
+			
+			function getPenalty(payload, srv) {
+				var penalty = 1.00
+				if (srv['penalty'] && srv['penalty'] > 0) {
+					 penalty = parseFloat(srv['penalty']);
+				}
+				var penalty_html = "<a href='#' onFocus='this.blur();' onClick=\"setPenalty('"
+				penalty_html = penalty_html + srvName + "');\" style='text-decoration:underline;color:white;'>"
+				penalty_html = penalty_html + penalty.toFixed(2) + "</a>";			
+				return penalty_html;
 			}
 			
 			function getRoundShares(payload, srv) {
@@ -325,6 +345,7 @@
 							'User&nbsp;Shares<br>Rejects': { 'data':getUserShareRejects, 'color':getColor, 'align':'center' },
 							'Payout': { 'data':getPayout, 'color':getColor, 'align':'center' },
 							'Efficiency': { 'data':getEfficiency, 'align':'center' },
+							'Penalty': { 'data':getPenalty, 'align':'right' },
 							'Round Shares': { 'data':getRoundShares, 'type':'linechart', 'width':'100%' }
 						},
 						function(a, b) {
