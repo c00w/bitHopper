@@ -237,6 +237,7 @@ def main():
     parser.add_option('--threshold', type=float, default=None, help='Override difficulty threshold (default 0.43)')
     parser.add_option('--altslicesize', type=int, default=900, help='Override Default AltSliceScheduler Slice Size of 900')
     parser.add_option('--altminslicesize', type=int, default=60, help='Override Default Minimum Pool Slice Size of 60 (AltSliceScheduler only)')
+    parser.add_option('--altslicejitter', type=int, default=0, help='Add some random variance to slice size (default disabled)(AltSliceScheduler only)')
     args, rest = parser.parse_args()
     options = args
     bithopper_global.options = args

@@ -5,6 +5,7 @@
 
 import os.path
 import time
+import random
 
 from twisted.web import server, resource
 
@@ -29,9 +30,12 @@ class Scheduler(object):
    def select_friendly_server(self):
       return
 
-   @classmethod
    def select_backup_server(self,):
       return
+
+   def update_api_server(self,server):
+      return
+   
 
 
 class DefaultScheduler(Scheduler):
@@ -443,6 +447,9 @@ class AltSliceScheduler(Scheduler):
             shares = server_shares[server]            
             if shares < min_shares:
                slice = self.bh.options.altslicesize * (1 - (float(shares)/totalweight))
+               if self.bh.options.altslicejitter != 0:
+                  jitter = random.randint(0-self.bh.options.altslicejitter, self.bh.options.altslicejitter)
+                  slice += jitter
                if slice < self.bh.options.altminslicesize: info['slice'] = self.bh.options.altminslicesize
                else: info['slice'] = slice               
                self.bh.log_msg(server + " sliced to " + str(info['slice']) + '/' + str(self.bh.options.altslicesize) + '/' + str(shares) + '/' + str(1-(float(shares)/totalweight)) , cat=self.name)
@@ -526,11 +533,16 @@ class AltSliceScheduler(Scheduler):
       if self.initDone == False:
          self.bh.select_best_server()
          return True
-      if info['slice'] <= 0:
-         return True
-      if info['slicedShares'] > info['shares']:
-         # shares are now less than shares at time of slicing (new block found?)
-         return True
-
+      if info['slice'] <= 0: return True
+      # shares are now less than shares at time of slicing (new block found?)
+      if info['slicedShares'] > info['shares']: return True
+      # double check role
+      if info['role'] not in ['mine','mine_nmc','mine_slush']: return True
       return False
+
+   def update_api_server(self,server):
+      info = self.bh.pool.get_entry(server)
+      if info['role'] in ['info', 'disable'] and info['slice'] > 0:
+         info['slice'] = -1
+      return
 
