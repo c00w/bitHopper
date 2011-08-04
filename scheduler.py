@@ -346,11 +346,15 @@ class AltSliceScheduler(Scheduler):
       self.bitHopper = self.bh
       self.difficultyThreshold = 0.435
       self.sliceinfo = {}
+      self.name = 'scheduler-altslice'
+      self.bh.log_msg('Initializing AltSliceScheduler...', cat=self.name)
+      self.bh.log_msg(' - Min Slice Size: ' + str(self.bh.options.altminslicesize), cat=self.name)
+      self.bh.log_msg(' - Slice Size: ' + str(self.bh.options.altslicesize), cat=self.name)
       self.initData()
       self.lastcalled = time.time()
       self.lastswitch = -1
       self.index_html = 'index-altslice.html'
-      self.name = 'schedulter-altslice'
+      
       self.initDone = False
       
    def initData(self,):
@@ -364,7 +368,7 @@ class AltSliceScheduler(Scheduler):
             info['init'] = False
 
    def select_best_server(self,):
-      #self.bh.log_dbg('select_best_server', cat=self.name)
+      self.bh.log_dbg('select_best_server', cat=self.name)
       server_name = None
       difficulty = self.bh.difficulty.get_difficulty()
       nmc_difficulty = self.bh.difficulty.get_nmc_difficulty()
@@ -373,16 +377,18 @@ class AltSliceScheduler(Scheduler):
       current_server = self.bh.pool.get_current()
       reslice = True
       fullinit = True
+      allSlicesDone = True
       
       for server in self.bh.pool.get_servers():
          info = self.bh.pool.get_entry(server)
-         if info['slice'] > 0 or info['slicedShares'] > info['shares']:
+         if info['slice'] > 0:
             reslice = False
+            allSlicesDone = False
          if info['init'] == False and info['role'] in ['mine','mine_nmc','mine_slush']:
             #self.bh.log_dbg(server + " not yet initialized", cat=self.name)
             fullinit = False
       
-      if self.bh.pool.get_current() == None:
+      if self.bh.pool.get_current() == None or allSlicesDone == True:
          reslice = True
       elif self.bh.pool.get_entry(current_server)['lag'] == True:
          reslice = True
@@ -391,10 +397,11 @@ class AltSliceScheduler(Scheduler):
          self.initDone = True
          reslice = True
          
-      #self.bh.log_dbg('Re-Slicing: ' + str(reslice), cat=self.name)
+      #self.bh.log_dbg('allSlicesDone: ' + str(allSlicesDone) + ' fullinit: ' + str(fullinit) + ' initDone: ' + str(self.initDone), cat='reslice')
       if (reslice == True):
-         self.bh.log_dbg('Re-Slicing...', cat=self.name)
+         self.bh.log_msg('Re-Slicing...', cat=self.name)
          totalweight = 0
+         server_shares = {}
          for server in self.bh.pool.get_servers():
             info = self.bh.pool.get_entry(server)
             if info['role'] not in ['mine','mine_nmc','mine_slush']:
@@ -410,33 +417,34 @@ class AltSliceScheduler(Scheduler):
             else:
                shares = 100* info['shares']
                
-            #self.bh.log_dbg(server + ' shares ' + str(shares))
-            if shares < min_shares:
-               #self.bh.log_dbg('          ' + server + ' weighted to ' + str(1 / float(shares) * difficulty), cat=self.name)
-               totalweight = totalweight + (1 / float(shares) * difficulty)
+            #self.bh.log_dbg(server + ' adjusted shares ' + str(shares))
+            if shares < min_shares:               
+               #totalweight = totalweight + (1 / float(shares) * difficulty)
+               totalweight = totalweight + shares
                info['slicedShares'] = shares
+               server_shares[server] = shares
             else:
                #self.bh.log_dbg(server + ' skipped ')
                continue
-            weight = self.bh.options.altslicesize / totalweight
-   
-            # allocate slices         
-            for server in self.bh.pool.get_servers():
-               info = self.bh.pool.get_entry(server)
-               if info['role'] not in ['mine','mine_nmc','mine_slush']:
-                  continue
-               if info['shares'] <=0: continue
-               if info['role'] in ['mine']:
-                  shares = info['shares']
-               elif info['role'] == 'mine_slush':
-                  shares = info['shares'] * 4
-               elif info['role'] == 'mine_nmc':
-                  shares = info['shares']*difficulty / nmc_difficulty
-               else:
-                  shares = 100* info['shares']
-               if shares < min_shares:
-                  info['slice'] = (1 / float(shares+1) * difficulty) * weight
-                  self.bh.log_msg(server + " sliced to " + str(info['slice']), cat='slice')
+            #weight = self.bh.options.altslicesize / totalweight
+            #self.bh.log_dbg('          ' + server + ' weighted to ' + str(weight), cat=self.name)
+            
+         self.bh.log_dbg('          total weight: ' + str(totalweight), cat=self.name)
+         # allocate slices         
+         for server in self.bh.pool.get_servers():
+            info = self.bh.pool.get_entry(server)
+            if info['role'] not in ['mine','mine_nmc','mine_slush']:
+               continue
+            if info['shares'] <=0: continue
+            if server not in server_shares:
+               continue
+            shares = server_shares[server]            
+            if shares < min_shares:
+               slice = self.bh.options.altslicesize * (float(shares)/totalweight)
+               if slice < self.bh.options.altminslicesize: info['slice'] = self.bh.options.altminslicesize
+               else: info['slice'] = slice               
+               self.bh.log_msg(server + " sliced to " + str(info['slice']) + '/' + str(self.bh.options.altslicesize) + '/' + str(shares) + '/' + str(float(shares)/totalweight) , cat=self.name)
+               #self.bh.log_msg(server + " sliced to " + str(info['slice']) + '/'+str(1 / float(shares+1) * difficulty)+'/'+str(weight) , cat='slice')
    
       # Pick server with largest slice first
       max_slice = -1
@@ -448,7 +456,6 @@ class AltSliceScheduler(Scheduler):
                server_name = server
             if info['slice'] > max_slice:
                server_name = server
-               break
             
       #self.bh.log_dbg('server_name: ' + str(server_name), cat=self.name)
       if server_name == None: server_name = self.select_backup_server()
@@ -514,7 +521,7 @@ class AltSliceScheduler(Scheduler):
       current_server = self.bh.pool.get_current()
       info = self.bh.pool.get_entry(current_server)
       info['slice'] = info['slice'] - diff_time
-      #self.bh.log_dbg(current_server + ' slice ' + str(info['slice']), cat='server_update' )
+      self.bh.log_dbg(current_server + ' slice ' + str(info['slice']), cat='server_update' )
       if self.initDone == False:
          self.bh.select_best_server()
          return True
