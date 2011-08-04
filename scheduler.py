@@ -51,6 +51,9 @@ class Scheduler(object):
       server_name = self.select_latehop_server()
       reject_rate = 1      
 
+      difficulty = self.bh.difficulty.get_difficulty()
+      nmc_difficulty = self.bh.difficulty.get_nmc_difficulty()
+
       if server_name == None:
          for server in self.bh.pool.get_servers():
             info = self.bh.pool.get_entry(server)
