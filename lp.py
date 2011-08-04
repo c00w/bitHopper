@@ -23,6 +23,9 @@ class LongPoll():
                 self.pull_lp(info['lp_address'],server)
 
     def receive(self, body, server):
+        if body == None:
+            #timeout? Something bizarre?
+            self.pull_lp(self.pool.servers[server]['lp_address'],server)
         self.bitHopper.log_msg('received lp from: ' + server)
         response = json.loads(body)
         work = response['result']
@@ -34,7 +37,7 @@ class LongPoll():
             self.bitHopper.lp_callback(work)
 
         self.blocks[block][server] = time.time()
-        self.pull_lp(self.pool.servers[server]['lp_address'],server)
+        self.bitHopper.reactor.callLater(0,self.pull_lp, (self.pool.servers[server]['lp_address'],server))
         
     def clear_lp(self,):
         self.lp_set = False
