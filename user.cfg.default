@@ -11,8 +11,8 @@
 # mine = mines on this pool as usual (diff.*0.43)
 # mine_slush = mines pool until diff.*0.10
 # backup = hopps on this when no Prop. pool is available
-# backup_latehop = prefers this for backup if PPS pool
-#   has high share count, recommended for all backups
+# backup_latehop = prefers this for backup if pool has
+#   high share count, recommended for all PPS backups
 # mine_friendly = usually mines the pool when they hit
 #   and increased diff block (bad luck) + normal mining
 # info = shows share count for this pool on stat page
@@ -115,14 +115,6 @@ role: info
 user: x
 pass: x
 
-[btcpool24]
-# Small pool good for hopping
-#http://www.btcpool24.com
-#CHANGE THIS
-role: info
-user: Sukrim.hopper
-pass: 1234
-
 [btcserv]
 # Small pool, pls report experience on forum
 #http://btcserv.net/
@@ -216,6 +208,14 @@ role: disable
 user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
 pass: x
 #passwords can be anything on bitparking
+
+[btcpool24]
+# Changed payout system and delays stats, allot (page 116)
+#http://www.btcpool24.com
+#CHANGE THIS
+role: disable
+user: Sukrim.hopper
+pass: 1234
 
 [poolmunity]
 # Obscure payout system and anti-hopping measures (page 55)

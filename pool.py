@@ -117,7 +117,7 @@ class Pool():
             self.bitHopper.log_msg(str(server) +": "+ k)
         self.servers[server]['shares'] = shares
         self.servers[server]['err_api_count'] = 0
-        if self.servers[server]['refresh_time'] > 60*30 and self.servers[server]['role'] != 'info':
+        if self.servers[server]['refresh_time'] > 60*30 and self.servers[server]['role'] not in ['info','backup','backup_latehop']:
             self.bitHopper.log_msg('Disabled due to unchanging api: ' + server)
             self.servers[server]['role'] = 'api_disable'
             return
