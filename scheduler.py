@@ -58,9 +58,9 @@ class OldDefaultScheduler(Scheduler):
          info = self.bh.pool.get_entry(server)
          if info['api_lag'] or info['lag']:
             continue
-         if info['role'] not in ['mine','mine_nmc','mine_slush','mine_friendly']:
+         if info['role'] not in ['mine','mine_nmc','mine_slush','mine_charity']:
             continue
-         if info['role'] in ['mine', 'mine_friendly']:
+         if info['role'] in ['mine', 'mine_charity']:
             shares = info['shares']
          elif info['role'] == 'mine_slush':
             shares = info['shares'] * 4
@@ -84,7 +84,7 @@ class OldDefaultScheduler(Scheduler):
       most_shares = self.bh.difficulty.get_difficulty() * 2
       for server in self.bh.pool.get_servers():
          info = self.bh.pool.get_entry(server)
-         if info['role'] != 'mine_friendly':
+         if info['role'] != 'mine_charity':
             continue
          if info['shares'] > most_shares and info['lag'] == False:
             server_name = server
@@ -174,7 +174,7 @@ class OldDefaultScheduler(Scheduler):
          return True
 
       current_role = current_pool['role']
-      if current_role == 'mine' or current_role == 'mine_friendly':
+      if current_role == 'mine' or current_role == 'mine_charity':
          difficulty = self.bh.difficulty.get_difficulty()
       if current_role == 'mine_nmc':
          difficulty = self.bh.difficulty.get_nmc_difficulty()

@@ -13,7 +13,7 @@
 # backup = hopps on this when no Prop. pool is available
 # backup_latehop = prefers this for backup if pool has
 #   high share count, recommended for all PPS backups
-# mine_friendly = usually mines the pool when they hit
+# mine_charity = usually mines the pool when they hit
 #   and increased diff block (bad luck) + normal mining
 # info = shows share count for this pool on stat page
 # disable = disables pool completely (you can delete 
