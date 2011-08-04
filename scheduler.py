@@ -249,6 +249,7 @@ class SliceScheduler(Scheduler):
             shares = 100* info['shares']
          if shares< min_shares:
             valid_servers.append(server)
+            self.bh.log_msg( 'VALID: ' + server )
          
       for server in valid_servers:
         if server not in self.sliceinfo:
@@ -333,10 +334,16 @@ class SliceScheduler(Scheduler):
 
         self.sliceinfo[self.bh.pool.get_current()] += diff_time
 
-        for server in self.sliceinfo:
-            if self.sliceinfo[server] == -1:
-                continue
-            if current - self.sliceinfo[server] > 10:
+        valid = []
+        for k in self.sliceinfo:
+            if self.sliceinfo[k] != -1:
+                valid.append(k)
+
+        if len(valid) <=1:
+            return True
+
+        for server in valid:
+            if current - self.sliceinfo[server] > 30:
                 return True
         return False
 
