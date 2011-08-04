@@ -26,7 +26,7 @@ class LongPoll():
         if body == None:
             #timeout? Something bizarre?
             self.pull_lp(self.pool.servers[server]['lp_address'],server)
-        self.bitHopper.log_msg('received lp from: ' + server)
+        self.bitHopper.log_msg('received lp from: ' + server +" " + str(body))
         response = json.loads(body)
         work = response['result']
         data = work['data']
