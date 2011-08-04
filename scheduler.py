@@ -381,6 +381,7 @@ class AltSliceScheduler(Scheduler):
       #self.bh.log_dbg('allSlicesDone: ' + str(allSlicesDone) + ' fullinit: ' + str(fullinit) + ' initDone: ' + str(self.initDone), cat='reslice')
       if (reslice == True):
          self.bh.log_msg('Re-Slicing...', cat=self.name)
+         totalshares = 0
          totalweight = 0
          server_shares = {}
          for server in self.bh.pool.get_servers():
@@ -401,13 +402,34 @@ class AltSliceScheduler(Scheduler):
             if 'penalty' in info:
                shares = shares * float(info['penalty'])
             if shares < min_shares:               
-               totalweight = totalweight + shares
+               totalshares = totalshares + shares               
                info['slicedShares'] = info['shares']
                server_shares[server] = shares
             else:
                #self.bh.log_dbg(server + ' skipped ')
                continue
-
+            
+         # find total weight   
+         for server in self.bh.pool.get_servers():
+            info = self.bh.pool.get_entry(server)
+            if info['role'] not in ['mine','mine_nmc','mine_slush']:
+               continue
+            if info['api_lag'] or info['lag']:
+               continue
+            if info['role'] in ['mine']:
+               shares = info['shares']
+            elif info['role'] == 'mine_slush':
+               shares = info['shares'] * 4
+            elif info['role'] == 'mine_nmc':
+               shares = info['shares']*difficulty / nmc_difficulty
+            else:
+               shares = 100* info['shares']
+            # apply penalty
+            if 'penalty' in info:
+               shares = shares * float(info['penalty'])
+            if shares < min_shares:                        
+               totalweight += 1/(shares/totalshares)
+               
          # allocate slices         
          for server in self.bh.pool.get_servers():
             info = self.bh.pool.get_entry(server)
@@ -418,17 +440,19 @@ class AltSliceScheduler(Scheduler):
                continue
             shares = server_shares[server]            
             if shares < min_shares:
-               if shares == totalweight:
+               weight = 0
+               if shares == totalshares:
                   # only 1 server to slice (zzz)
                   slice = self.bh.options.altslicesize
                else:
-                  slice = self.bh.options.altslicesize * (1 - (float(shares)/totalweight))
+                  weight = 1/(shares/totalshares)
+                  slice = weight * self.bh.options.altslicesize / totalweight
                   if self.bh.options.altslicejitter != 0:
                      jitter = random.randint(0-self.bh.options.altslicejitter, self.bh.options.altslicejitter)
                      slice += jitter
                if slice < self.bh.options.altminslicesize: info['slice'] = self.bh.options.altminslicesize
                else: info['slice'] = slice               
-               self.bh.log_msg(server + " sliced to " + str(info['slice']) + '/' + str(self.bh.options.altslicesize) + '/' + str(shares) + '/' + str(1-(float(shares)/totalweight)) , cat=self.name)
+               self.bh.log_msg(server + " sliced to " + str(info['slice']) + '/' + str(self.bh.options.altslicesize) + '/' + str(shares) + '/' + str(weight) + '/' + str(totalweight) , cat=self.name)
    
       # Pick server with largest slice first
       max_slice = -1
