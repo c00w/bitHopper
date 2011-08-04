@@ -13,6 +13,7 @@ class Scheduler(object):
    def __init__(self,bitHopper):
       self.bh = bitHopper
       self.initData()
+
    @classmethod
    def initData(self,):
       #self.bh.log_msg("<Scheduler> initData")

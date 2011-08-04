@@ -44,7 +44,7 @@ class dynamicSite(resource.Resource):
         index_name = 'index.html'
         try:
           # determine scheduler index.html
-          if self.bh.scheduler.index_html != None:
+          if hasattr(self.bh.scheduler,'index_html'):
                index_name = self.bh.scheduler.index_html
           # determine if application is a script file or frozen exe
           if hasattr(sys, 'frozen'):
