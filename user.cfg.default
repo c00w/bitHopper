@@ -11,8 +11,8 @@
 # mine = mines on this pool as usual (diff.*0.43)
 # mine_slush = mines pool until diff.*0.10
 # backup = hopps on this when no Prop. pool is available
-# backup_latehop = prefers this for backup if PPS pool
-#   has high share count, recommended for all backups
+# backup_latehop = prefers this for backup if pool has
+#   high share count, recommended for all PPS backups
 # mine_friendly = usually mines the pool when they hit
 #   and increased diff block (bad luck) + normal mining
 # info = shows share count for this pool on stat page
