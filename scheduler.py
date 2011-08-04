@@ -482,10 +482,23 @@ class AltSliceScheduler(Scheduler):
          self.bh.select_best_server()
          return True
       if info['slice'] <= 0: return True
+      
       # shares are now less than shares at time of slicing (new block found?)
       if info['slicedShares'] > info['shares']: return True
+      
       # double check role
       if info['role'] not in ['mine','mine_nmc','mine_slush']: return True
+      
+      # check to see if threshold exceeded
+      difficulty = self.bh.difficulty.get_difficulty()
+      shares = info['shares']
+      min_shares = difficulty * self.difficultyThreshold
+      if info['role'] == 'mine_slush': shares = shares * 4
+      if 'penalty' in info: shares = shares * float(info['penalty'])
+      if shares < min_shares:
+         info['slice'] = -1 # force switch
+         return True
+      
       return False
 
    def update_api_server(self,server):
