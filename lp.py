@@ -24,7 +24,7 @@ class LongPoll():
     def receive(self, body, server):
         if body == None:
             #timeout? Something bizarre?
-            self.bitHopper.reactor.callLater(0,self.pull_lp, (self,self.pool.servers[server]['lp_address'],server))
+            self.bitHopper.reactor.callLater(0,self.pull_lp, (self.pool.servers[server]['lp_address'],server))
         self.bitHopper.log_msg('received lp from: ' + server)
         try:
             response = json.loads(body)
@@ -39,7 +39,7 @@ class LongPoll():
             self.blocks[block][server] = time.time()
         except:
             self.bitHopper.log_dbg('Error in LP' + str(server) + str(body))
-        self.bitHopper.reactor.callLater(0,self.pull_lp, (self,self.pool.servers[server]['lp_address'],server))
+        self.bitHopper.reactor.callLater(0,self.pull_lp, (self.pool.servers[server]['lp_address'],server))
         
     def clear_lp(self,):
         pass
@@ -54,12 +54,12 @@ class LongPoll():
             if info['lp_address'] == url:
                 return
             info['lp_address'] = url
-            self.pull_lp(url,server)
+            self.bitHopper.reactor.callLater(0,self.pull_lp, (url,server))
         except Exception,e:
             self.bitHopper.log_dbg('set_lp error')
             self.bitHopper.log_dbg(str(e))
 
-    def pull_lp(self,url,server):
+    def pull_lp(self,(url,server)):
         #self.bitHopper.log_msg('pull_lp ' + url + ' ' + server)
         pool = self.pool.servers[server]
         if url[0] == '/':
