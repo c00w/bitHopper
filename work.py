@@ -143,7 +143,7 @@ def jsonrpc_getwork(agent, server, data, j_id, request, bitHopper):
             bitHopper.reject_callback(server['pool_index'], data)
         elif str(work) != 'True':
             merkle_root = work["data"][72:136]
-            bitHopper.getwork_store.add(server,merkle_root)
+            bitHopper.getwork_store.add(server['pool_index'],merkle_root)
         response = json.dumps({"result":work,'error':None,'id':j_id})
         request.write(response)
         request.finish()
