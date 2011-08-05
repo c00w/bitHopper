@@ -56,7 +56,7 @@ class LongPoll():
             info['lp_address'] = url
             self.bitHopper.reactor.callLater(0,self.pull_lp, (url,server))
         except Exception,e:
-            self.bitHopper.log_dbg('set_lp error')
+            self.bitHopper.log_msg('set_lp error')
             self.bitHopper.log_dbg(str(e))
 
     def pull_lp(self,(url,server)):
