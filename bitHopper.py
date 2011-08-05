@@ -168,20 +168,22 @@ class BitHopper():
             new_server = self.getwork_store.get_server(data[0][72:136])
             if new_server != None:
                 current = new_server
-            self.data_callback(current,data, request.getUser(), request.getPassword())
         pool_server=self.pool.get_entry(current)
+
+        work.jsonrpc_getwork(self.json_agent, pool_server, data, j_id, request, self)
 
         if self.options.debug:
             self.log_msg('RPC request ' + str(data) + " submitted to " + str(pool_server['name']))
         else:
             if data == []:
-                """ If request contains no data, tell the user which remote procedure was called instead """
+                #If request contains no data, tell the user which remote procedure was called instead
                 rep = rpc_request['method']
             else:
                 rep = str(data[0][155:163])
             self.log_msg('RPC request [' + rep + "] submitted to " + str(pool_server['name']))
-        work.jsonrpc_getwork(self.json_agent, pool_server, data, j_id, request, self)
 
+        if data != []:
+            self.data_callback(current,data, request.getUser(), request.getPassword())        
         return server.NOT_DONE_YET
 
     def bitHopperLP(self,value, *methodArgs):
