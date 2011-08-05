@@ -84,14 +84,12 @@ class Database():
             self.rejects[server] = 0
 
         for server in self.payout:
-            print self.payout
             if self.payout[server] == None:
                 continue
             payout = self.payout[server]
             sql = self.sql_update_set(server,'stored_payout', payout,'',1)
             self.curs.execute(sql)
             if len(self.curs.execute('select * from ' + server + '  WHERE diff='+ str(1) + ' and user= \'\'').fetchall()) == 0:
-                print 'inserting'
                 sql = self.sql_insert(server,payout=payout,diff=1)
                 self.curs.execute(sql)
             self.payout[server] = None
@@ -199,7 +197,7 @@ class Database():
         self.payout[server] = payout
 
     def get_payout(self,server):
-        sql = 'select stored_payout from ' + server
+        sql = 'select stored_payout from ' + server + ' where diff=1'
         self.curs.execute(sql)
         payout = 0
         for info in self.curs.fetchall():
