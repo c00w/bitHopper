@@ -1,0 +1,310 @@
+#######################################
+#     Archivo de configuracion
+#  Cambia los nombres y contraseñas
+#  por defecto y asegurate tambien
+#    cambiar el nombre de este
+#      archivo a "user.cfg"
+#######################################
+
+#########################################################
+# Los "role" (roles) validos son:
+#
+# mine = mina como esta mandado, normal (dificultad*0.43)
+# mine_slush = en esta se queda hasta dificultad.*0.10
+# backup = viene a minar en esta si no tiene ninguna 
+#   mina Proporcional disponible
+# backup_latehop = prefiere minar en esta como backup si
+#    el numero de shares es muy alto (pag 121, hilo bH oficial)
+# mine_charity = hace mineria de caridad en un mina
+#   proporcional que tiene numero de shares muy alto + "mine"
+# info = solo muestra informacion sobre esta mina en stats
+# disable = desactiva completamente la mina (puedes borrar
+#   su entrada del todo si no quieres que aparezca en stats)
+# mine_nmc = indica que es una mina minecoin
+# 
+# Otras variables:
+#
+#  penalty - numero flotante, el numero de shares se
+#     multiplica con este numero al comparar con la
+#     dificultad (si incrementas este numero hace
+#     que dejes la mina antes de dificultad*0.43)
+#
+#########################################################
+
+#######################################
+#     Estas minas se pueden saltar
+#
+# Nota: Por favor busca informacion en
+#    el hilo de bitHopper o en otra
+#    fuente confiable sobre cualquier mina
+#    quequieras saltar.
+#######################################
+
+[slush]
+# Buena para saltar hasta 10% de dificultad, utiliza mine_slush
+#   Aviso ! Mina a tu riesgo, el algoritmo con puntuacion que
+#   utiliza esta mina no esta diseñado para mineros ocasionales.
+#http://mining.bitcoin.cz/accounts/register/
+#CAMBIA A CONTINUACION
+role: mine_slush
+user: c00w.testhop
+pass: testhop
+
+[ozco]
+# Congela stats sin razon (pagina 114, foro oficial)
+#https://ozco.in/register.php
+#CAMBIA A CONTINUACION
+role: info
+user:c00w.1
+pass:1234
+
+[polmine]
+# Mina polaca
+#https://polmine.pl
+#CAMBIA A CONTINUACION
+role: mine
+user: c00w1456testhop
+pass: x
+
+[mtred]
+# Buena para saltar, mina rapida para principiantes
+#https://mtred.com/user/registration.html
+#CAMBIA A CONTINUACION
+role: mine
+mtred_user_apikey:d91c52cfe1609f161f28a1268a2915b8+
+user:scarium
+pass:x 
+
+[rfc]
+# Mina pequeña y mona
+#https://rfcpool.com/signup
+#CAMBIA A CONTINUACION
+role: info
+user: c00w_test
+pass: x
+
+[btcmonkey]
+# Mina amigable
+#http://bitcoinmonkey.com/
+#CAMBIA A CONTINUACION
+role: mine
+user: dah4k0r.testhop
+pass: x
+
+[btcworld]
+# Buena para saltar, nina pequeña
+#http://btcworld.de/signup
+#CAMBIA A CONTINUACION
+role: info
+user: testhop
+pass: x
+
+[triple]
+# Mina amigable
+#https://www.triplemining.com/register
+#CAMBIA A CONTINUACION
+role: mine
+user: c00w_test
+pass: x
+
+[bitclockers]
+# Salta esta mina con precaucion, posibles medidas anti-hopper
+#http://bitclockers.com/
+#CAMBIA A CONTINUACION
+role: info
+bitclockers_user_apikey: 965469e512aa0de5a37b83ccfd5e849e
+user: flargle
+pass: x
+
+[bmunion]
+# Pequeña mina buena para saltar
+#http://www.bitminersunion.org/
+#CAMBIA A CONTINUACION
+role: info
+user: x
+pass: x
+
+[btcserv]
+# Mina pequeña, raportar informacion sobre ella en el foro
+#http://btcserv.net/
+#CAMBIA A CONTINUACION
+role: info
+user: x
+pass: y
+
+[bloodys]
+# Otra para la coleccion
+#http://pool.bloodys.com
+#CAMBIA A CONTINUACION
+role: info
+user: x
+pass: y
+
+[bcpool]
+# Desactiva las medidas anti-hopper si donas 1% (page 111)
+# Medidas anti-hopping basadas en "ventana de participacion" (pagina 36,)
+#http://bitcoinpool.com
+#CAMBIA A CONTINUACION
+role: info
+user: c00w_test
+pass: x
+
+[nofeemining]
+# Server lento, estan actualizando el servicio (page 62)
+#https://www.nofeemining.com/ 
+#CAMBIA A CONTINUACION
+role: info
+nofeemining_user_apikey: 4140cbc6405f4425cf91ca74e1450b66
+user: dah4k0r@gmail.com_test
+pass: x
+
+[digbtc]
+# Mina nueva
+#http://www.digbtc.net/register.php
+#CAMBIA A CONTINUACION
+role: info
+user: your_username
+pass: your_password
+
+[bithasher]
+# Mina nueva
+#http://bithasher.com/index.php/register/
+#CAMBIA A CONTINUACION
+role: info
+user: your_username
+pass: your_password
+
+######################################
+# Minas de respaldo (backup) para
+# cuando no tienes ninguna mina
+# proporcional disponible.
+# (puede ser cualquier mina con medidas
+# anti-hopping, las minas PPS tienen
+# la menor variancia desde luego.
+######################################
+
+[eligius]
+# 0% tasas, mina PPS
+#http://eligius.st/wiki/index.php/Getting_Started
+#CAMBIA A CONTINUACION
+role: backup
+user: 1AofHmwVef5QkamCW6KqiD4cRqEcq5U7hZ
+pass: x
+#las contraseñas no importan en Eligius
+
+[arsbitcoin]
+# 0% tasas, mina PPS
+#https://arsbitcoin.com/register.php
+#CAMBIA A CONTINUACION
+role: backup
+user: c00w.default
+pass: fire
+
+[bitp]
+# mina PPS
+#http://bitp.it
+#CAMBIA A CONTINUACION
+role: backup
+bitp_user_apikey: 80c5dbea750563eb24e5310f94a56b38bad14dc35efb41e9ca421c92f31563ed
+user: 4bjibc3R1RGF9
+pass: u5cpmndZq4Jvp
+
+[ninjac]
+# mina PPS
+#https://www.ninjacoin.com/index.php
+#CAMBIA A CONTINUACION
+role: backup
+user: paraipanakos.works
+pass: minero
+
+######################################
+# Estas minas no se saltan por una
+# razon. La pagina del hilo oficial
+# viene entre paréntesis.
+# No es necesario que cambies
+# usuario/contraseña solo si quieres
+# saltarlas a tu riesgo.
+######################################
+
+[bitparking]
+# Mina Namecoin, utiliza mine_nmc . Buena para saltar si quieres ganar unos namecoins
+#http://bitparking.com/
+#CAMBIA A CONTINUACION (si quieres)
+role: disable
+user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
+pass: x
+#las contraseñas no importan en BitParking
+
+[btcpool24]
+# Ha cambiado el sistema de pagos y ralentiza los stats (pagina 116, foro bH)
+#http://www.btcpool24.com
+#CAMBIA A CONTINUACION (si quieres)
+role: disable
+user: Sukrim.hopper
+pass: 1234
+
+[poolmunity]
+# Sistema de pagos desconocido y medidas anti-hopping (pagina 55)
+#http://poolmunity.com/
+#CAMBIA A CONTINUACION (si quieres)
+role: disable
+user: c00w.testhop
+pass: testhop
+
+[x8s]
+# Mina cerrada
+#http://btc.x8s.de/
+#CAMBIA A CONTINUACION (si quieres)
+role: disable
+user: testhop
+pass: x 
+
+[bclc]
+# Ralentiza stats y no tiene una actitud muy civica con los mineros (pagina 95)
+#http://www.bitcoins.lc
+#CAMBIA A CONTINUACION (si quieres)
+role: disable
+user: FSkyvM
+pass: xndzEU
+
+[btcg]
+# Ralentiza stats (pagina 87)
+#https://www.btcguild.com/
+#CAMBIA A CONTINUACION (si quieres)
+role: disable
+btcguild_user_apikey: 81a9081f4d5f32db7dbbed407cb5f686
+user: c00w_test
+pass: 1234
+
+[mineco]
+# Ha cambiado sistema de pagos a PPLNS (pagina 94)
+#https://mineco.in
+#CAMBIA A CONTINUACION (si quieres)
+role: disable
+user: c00w.test
+pass: x
+
+[eclipsemc]
+# Ha cambiado a sistema de pagos a uno por puntuacion (pagina 16)
+#https://eclipsemc.com
+#CAMBIA A CONTINUACION (si quieres)
+role: disable
+eclipsemc_apikey: bd0eded7e35b1b5fc48f8d10214d98
+user: c00w_worker
+pass: x
+
+[mmf]
+# Utilizan algun sistema de pagos "anti truco" (trad. literal) desconocido (pagina 26)
+#http://mining.mainframe.nl
+#CAMBIA A CONTINUACION (si quieres)
+role: disable
+user: c00w.1
+pass: x
+
+[unitedminers]
+# Ha cambiado a sistema PPLNS en medio de una ronda (pagina 94)
+#http://www.unitedminers.com
+#CAMBIA A CONTINUACION (si quieres)
+role: disable
+user: dah4k0r@gmail.com_testhop
+pass: testhop

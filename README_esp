@@ -1,0 +1,43 @@
+# Licencia
+bitHopper por Colin Rice bajo licencia Creative Commons
+"Attribution-NonCommercial-ShareAlike 3.0 Unported License".
+Basado en trabajo hecho en github.com.
+
+# Instructiones
+
+Para ejecutar bitHopper vas a necesitar la instalación de "twisted phython"
+y "pyopenssl" aparte de tener instalado el Python 2.7 :
+
+https://launchpad.net/pyopenssl/+download
+http://pypi.python.org/pypi/zope.interface (para Windows)
+http://twistedmatrix.com/trac
+
+Renombra el archivo "user.cfg.default_esp" a un archivo nuevo llamado "user.cfg".
+despues modifica este nuevo archivo para incluir los nombres y usuarios de
+trabajador (worker), para cada mina (pool) en parte, con tu editor de textos favorito.
+Lanza una linea de comandos (Inicio>Ejecutar> "cmd" para windows o consola en Linux),
+cambia de carpeta en la de bitHopper, ejecuta "python bitHopper.py", sin comillas.
+
+Si no quieres utilizar una mina (pool) le puedes poner un nombre de trabajador y
+contraseña no validos en "user.cfg" (ADVERTENCIA: algunas minas (pools) ignoran completamente
+los credenciales de trabajador), o puedes hacerlo en la direccion http://localhost:8337/stats
+y modificar "role" a "disable", o simplemente borra la entrada de mina del archivo "user.cfg".
+
+BitHopper escucha en la interfaz de loopback asi que deberias direccionar tu minero hacia
+localhost:8337 utilizando cualquier nombre y contraseña (no dejes sin).
+
+BitHopper pagina estatistica: http://localhost:8337/stats
+
+# Instalacion Windows
+
+Baja e instala:
+
+https://launchpad.net/pyopenssl
+http://pypi.python.org/pypi/zope.interface
+http://twistedmatrix.com/trac
+
+Despues sigue las instrucciones de mas arriba
+
+#Donativos
+
+1HEmzeuVEKxBQkEenysV1yM8oAddQ4o2TX
