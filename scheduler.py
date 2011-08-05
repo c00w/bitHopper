@@ -31,8 +31,80 @@ class Scheduler(object):
    def select_friendly_server(self):
       return
 
+   def select_latehop_server(self):
+      server_name = None
+      max_share_count = 1
+      for server in self.bh.pool.get_servers():
+         info = self.bh.pool.get_entry(server)
+         if info['api_lag'] or info['lag']:
+            continue
+         if info['role'] != 'backup_latehop':
+            continue
+         if info['shares'] > max_share_count:
+            server_name = server
+            max_share_count = info['shares']
+            #self.bh.log_dbg('select_latehop_server: ' + str(server), cat='scheduler-default')
+
+      return server_name   
+
    def select_backup_server(self,):
-      return
+      #self.bh.log_dbg('select_backup_server', cat='scheduler-default')
+      server_name = self.select_latehop_server()
+      reject_rate = 1      
+
+      difficulty = self.bh.difficulty.get_difficulty()
+      nmc_difficulty = self.bh.difficulty.get_nmc_difficulty()
+
+      if server_name == None:
+         for server in self.bh.pool.get_servers():
+            info = self.bh.pool.get_entry(server)
+            if info['role'] not in ['backup', 'backup_latehop']:
+               continue
+            if info['api_lag'] or info['lag']:
+               continue
+            shares = info['user_shares']+1
+            if 'penalty' in info:
+               shares = shares * float(info['penalty'])
+            rr_server = float(info['rejects'])/shares
+            if rr_server < reject_rate:
+               server_name = server
+               self.bh.log_dbg('select_backup_server: ' + str(server), cat='select_backup_server')
+               reject_rate = rr_server
+
+      if server_name == None:
+         #self.bh.log_dbg('Try another backup' + str(server), cat='scheduler-default')
+         min_shares = 10**10
+         for server in self.bh.pool.get_servers():
+            info = self.bh.pool.get_entry(server)
+            if info['api_lag'] or info['lag']:
+                continue
+            if info['role'] not in ['mine','mine_nmc','mine_slush']:
+                continue
+            if info['role'] == 'mine':
+                shares = info['shares']
+            elif info['role'] == 'mine_slush':
+                shares = info['shares'] * 4
+            elif info['role'] == 'mine_nmc':
+                shares = info['shares']*difficulty / nmc_difficulty
+            else:
+                shares = info['shares']
+            if 'penalty' in info:
+               shares = shares * float(info['penalty'])
+            if shares < min_shares and info['lag'] == False:
+                min_shares = shares
+                #self.bh.log_dbg('Selecting pool ' + str(server) + ' with shares ' + str(shares), cat='select_backup_server')
+                server_name = server
+      
+      if server_name == None:
+         #self.bh.log_dbg('Try another backup pt2' + str(server), cat='scheduler-default')
+         for server in self.bh.pool.get_servers():
+            info = self.bh.pool.get_entry(server)
+            if info['role'] != 'backup':
+               continue
+            server_name = server
+            break
+
+      return server_name
 
    def update_api_server(self,server):
       return
@@ -116,63 +188,6 @@ class OldDefaultScheduler(Scheduler):
             self.bh.log_dbg('select_latehop_server: ' + str(server), cat='scheduler-default')
 
       return server_name   
-
-   def select_backup_server(self,):
-      #self.bh.log_dbg('select_backup_server', cat='scheduler-default')
-      server_name = None
-      reject_rate = 1
-
-      server_name = self.select_latehop_server()
-
-      if server_name == None:
-         for server in self.bh.pool.get_servers():
-            info = self.bh.pool.get_entry(server)
-            if info['role'] not in ['backup', 'backup_latehop']:
-               continue
-            if info['api_lag'] or info['lag']:
-               continue
-            rr_server = float(info['rejects'])/(info['user_shares']+1)
-            if rr_server < reject_rate:
-               server_name = server
-               self.bh.log_dbg('select_backup_server: ' + str(server), cat='scheduler-default')
-               reject_rate = rr_server
-
-      if server_name == None:
-         #self.bh.log_dbg('Try another backup' + str(server), cat='scheduler-default')
-         min_shares = 10**10
-         for server in self.bh.pool.get_servers():
-            info = self.bh.pool.get_entry(server)
-            if info['api_lag'] or info['lag']:
-                continue
-            if info['role'] not in ['mine','mine_nmc','mine_slush']:
-                continue
-            if info['role'] == 'mine':
-                shares = info['shares']
-            elif info['role'] == 'mine_slush':
-                shares = info['shares'] * 4
-            elif info['role'] == 'mine_nmc':
-                shares = info['shares']*difficulty / nmc_difficulty
-            else:
-                shares = info['shares']
-            # apply penalty
-            if 'penalty' in info:
-               shares = shares * float(info['penalty'])
-            if shares < min_shares and info['lag'] == False:
-                min_shares = shares
-                #self.bh.log_dbg('Selecting pool ' + str(server) + ' with shares ' + str(shares), cat='scheduler-default')
-                server_name = server
-      
-      if server_name == None:
-         #self.bh.log_dbg('Try another backup pt2' + str(server), cat='scheduler-default')
-         for server in self.bh.pool.get_servers():
-            info = self.bh.pool.get_entry(server)
-            if info['role'] != 'backup':
-               continue
-            server_name = server
-            break
-
-      return server_name
-
 
    def server_update(self,):
       #self.bh.log_dbg('server_update', cat='scheduler-default')
@@ -288,77 +303,6 @@ class DefaultScheduler(Scheduler):
 
       return server
 
-   def select_latehop_server(self):
-      server_name = None
-      max_share_count = 1
-      for server in self.bh.pool.get_servers():
-         info = self.bh.pool.get_entry(server)
-         if info['api_lag'] or info['lag']:
-            continue
-         if info['role'] != 'backup_latehop':
-            continue
-         if info['shares'] > max_share_count:
-            server_name = server
-            max_share_count = info['shares']
-            #self.bh.log_dbg('select_latehop_server: ' + str(server), cat='scheduler-default')
-
-      return server_name   
-
-   def select_backup_server(self,):
-      #self.bh.log_dbg('select_backup_server', cat='scheduler-default')
-      server_name = self.select_latehop_server()
-      reject_rate = 1
-
-      if server_name == None:
-         for server in self.bh.pool.get_servers():
-            info = self.bh.pool.get_entry(server)
-            if info['role'] not in ['backup', 'backup_latehop']:
-               continue
-            if info['api_lag'] or info['lag']:
-               continue
-            rr_server = float(info['rejects'])/(info['user_shares']+1)
-            if rr_server < reject_rate:
-               server_name = server
-               self.bh.log_dbg('select_backup_server: ' + str(server), cat='scheduler-default')
-               reject_rate = rr_server
-
-      if server_name == None:
-         #self.bh.log_dbg('Try another backup' + str(server), cat='scheduler-default')
-         min_shares = 10**10
-         for server in self.bh.pool.get_servers():
-            info = self.bh.pool.get_entry(server)
-            if info['api_lag'] or info['lag']:
-                continue
-            if info['role'] not in ['mine','mine_nmc','mine_slush']:
-                continue
-            if info['role'] == 'mine':
-                shares = info['shares']
-            elif info['role'] == 'mine_slush':
-                shares = info['shares'] * 4
-            elif info['role'] == 'mine_nmc':
-                shares = info['shares']*difficulty / nmc_difficulty
-            else:
-                shares = info['shares']
-            # apply penalty
-            if 'penalty' in info:
-               shares = shares * float(info['penalty'])
-            if shares < min_shares and info['lag'] == False:
-                min_shares = shares
-                #self.bh.log_dbg('Selecting pool ' + str(server) + ' with shares ' + str(shares), cat='scheduler-default')
-                server_name = server
-      
-      if server_name == None:
-         #self.bh.log_dbg('Try another backup pt2' + str(server), cat='scheduler-default')
-         for server in self.bh.pool.get_servers():
-            info = self.bh.pool.get_entry(server)
-            if info['role'] != 'backup':
-               continue
-            server_name = server
-            break
-
-      return server_name
-
-
    def server_update(self,):
         #self.bitHopper.log_msg(str(self.sliceinfo))
         diff_time = time.time()-self.lastcalled
@@ -397,7 +341,6 @@ class AltSliceScheduler(Scheduler):
       self.bh.log_msg(' - Slice Size: ' + str(self.bh.options.altslicesize), cat=self.name)
       self.initData()
       self.lastcalled = time.time()
-      self.lastswitch = -1
       self.index_html = 'index-altslice.html'
       
       self.initDone = False
@@ -445,6 +388,7 @@ class AltSliceScheduler(Scheduler):
       #self.bh.log_dbg('allSlicesDone: ' + str(allSlicesDone) + ' fullinit: ' + str(fullinit) + ' initDone: ' + str(self.initDone), cat='reslice')
       if (reslice == True):
          self.bh.log_msg('Re-Slicing...', cat=self.name)
+         totalshares = 0
          totalweight = 0
          server_shares = {}
          for server in self.bh.pool.get_servers():
@@ -464,14 +408,35 @@ class AltSliceScheduler(Scheduler):
             # apply penalty
             if 'penalty' in info:
                shares = shares * float(info['penalty'])
-            if shares < min_shares:               
-               totalweight = totalweight + shares
+            if shares < min_shares and shares > 0:               
+               totalshares = totalshares + shares               
                info['slicedShares'] = info['shares']
                server_shares[server] = shares
             else:
                #self.bh.log_dbg(server + ' skipped ')
                continue
-
+            
+         # find total weight   
+         for server in self.bh.pool.get_servers():
+            info = self.bh.pool.get_entry(server)
+            if info['role'] not in ['mine','mine_nmc','mine_slush']:
+               continue
+            if info['api_lag'] or info['lag']:
+               continue
+            if info['role'] in ['mine']:
+               shares = info['shares']
+            elif info['role'] == 'mine_slush':
+               shares = info['shares'] * 4
+            elif info['role'] == 'mine_nmc':
+               shares = info['shares']*difficulty / nmc_difficulty
+            else:
+               shares = 100* info['shares']
+            # apply penalty
+            if 'penalty' in info:
+               shares = shares * float(info['penalty'])
+            if shares < min_shares and shares > 0:                        
+               totalweight += 1/(float(shares)/totalshares)
+                  
          # allocate slices         
          for server in self.bh.pool.get_servers():
             info = self.bh.pool.get_entry(server)
@@ -480,19 +445,21 @@ class AltSliceScheduler(Scheduler):
             if info['shares'] <=0: continue
             if server not in server_shares:
                continue
-            shares = server_shares[server]            
-            if shares < min_shares:
-               if shares == totalweight:
+            shares = server_shares[server] + 1
+            if shares < min_shares and shares > 0:
+               weight = 0
+               if shares == totalshares:
                   # only 1 server to slice (zzz)
                   slice = self.bh.options.altslicesize
                else:
-                  slice = self.bh.options.altslicesize * (1 - (float(shares)/totalweight))
+                  weight = 1/(float(shares)/totalshares)
+                  slice = weight * self.bh.options.altslicesize / totalweight
                   if self.bh.options.altslicejitter != 0:
                      jitter = random.randint(0-self.bh.options.altslicejitter, self.bh.options.altslicejitter)
                      slice += jitter
                if slice < self.bh.options.altminslicesize: info['slice'] = self.bh.options.altminslicesize
                else: info['slice'] = slice               
-               self.bh.log_msg(server + " sliced to " + str(info['slice']) + '/' + str(self.bh.options.altslicesize) + '/' + str(shares) + '/' + str(1-(float(shares)/totalweight)) , cat=self.name)
+               self.bh.log_msg(server + " sliced to " + "{0:.2f}".format(info['slice']) + '/' + "{0:d}".format(int(self.bh.options.altslicesize)) + '/' + str(shares) + '/' + "{0:.3f}".format(weight) + '/' + "{0:.3f}".format(totalweight) , cat=self.name)
    
       # Pick server with largest slice first
       max_slice = -1
@@ -510,58 +477,6 @@ class AltSliceScheduler(Scheduler):
       return server_name
          
 
-   def select_backup_server(self,):
-      #self.bh.log_dbg('select_backup_server', cat='scheduler-default')
-      server_name = None
-      reject_rate = 1
-
-      if server_name == None:
-         for server in self.bh.pool.get_servers():
-            info = self.bh.pool.get_entry(server)
-            if info['role'] not in ['backup', 'backup_latehop']:
-               continue
-            if info['api_lag'] or info['lag']:
-               continue
-            rr_server = float(info['rejects'])/(info['user_shares']+1)
-            if rr_server < reject_rate:
-               server_name = server
-               self.bh.log_dbg('select_backup_server: ' + str(server), cat='scheduler-default')
-               reject_rate = rr_server
-
-      if server_name == None:
-         #self.bh.log_dbg('Try another backup' + str(server), cat='scheduler-default')
-         min_shares = 10**10
-         for server in self.bh.pool.get_servers():
-            info = self.bh.pool.get_entry(server)
-            if info['api_lag'] or info['lag']:
-                continue
-            if info['role'] not in ['mine','mine_nmc','mine_slush']:
-                continue
-            if info['role'] == 'mine':
-                shares = info['shares']
-            elif info['role'] == 'mine_slush':
-                shares = info['shares'] * 4
-            elif info['role'] == 'mine_nmc':
-                shares = info['shares']*difficulty / nmc_difficulty
-            else:
-                shares = info['shares']
-            if shares < min_shares and info['lag'] == False:
-                min_shares = shares
-                #self.bh.log_dbg('Selecting pool ' + str(server) + ' with shares ' + str(shares), cat='scheduler-default')
-                server_name = server
-      
-      if server_name == None:
-         #self.bh.log_dbg('Try another backup pt2' + str(server), cat='scheduler-default')
-         for server in self.bh.pool.get_servers():
-            info = self.bh.pool.get_entry(server)
-            if info['role'] != 'backup':
-               continue
-            server_name = server
-            break
-
-      return server_name
-
-
    def server_update(self,):
       #self.bh.log_dbg('server_update', cat='server_update')
       diff_time = time.time()-self.lastcalled
@@ -574,10 +489,23 @@ class AltSliceScheduler(Scheduler):
          self.bh.select_best_server()
          return True
       if info['slice'] <= 0: return True
+      
       # shares are now less than shares at time of slicing (new block found?)
       if info['slicedShares'] > info['shares']: return True
+      
       # double check role
       if info['role'] not in ['mine','mine_nmc','mine_slush']: return True
+      
+      # check to see if threshold exceeded
+      difficulty = self.bh.difficulty.get_difficulty()
+      shares = info['shares']
+      min_shares = difficulty * self.difficultyThreshold
+      if info['role'] == 'mine_slush': shares = shares * 4
+      if 'penalty' in info: shares = shares * float(info['penalty'])
+      if shares > min_shares:
+         info['slice'] = -1 # force switch
+         return True
+      
       return False
 
    def update_api_server(self,server):
