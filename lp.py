@@ -10,9 +10,8 @@ import time
 from twisted.internet import reactor, defer
 
 class LongPoll():
-    def __init__(self,bithop):
-        self.lp_set = False
-        self.bitHopper = bithop
+    def __init__(self,bitHopper):
+        self.bitHopper = bitHopper
         self.pool = self.bitHopper.pool
         self.blocks = {}
 
@@ -43,7 +42,7 @@ class LongPoll():
         self.bitHopper.reactor.callLater(0,self.pull_lp, (self,self.pool.servers[server]['lp_address'],server))
         
     def clear_lp(self,):
-        self.lp_set = False
+        pass
 
     def check_lp(self,server):
         return self.pool.get_entry(server)['lp_address']  == None
