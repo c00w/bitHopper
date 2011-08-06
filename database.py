@@ -193,7 +193,7 @@ class Database():
 
     def set_payout(self,server,payout):
         if server not in self.payout:
-            self.payout[server] = 0
+            self.payout[server] = None
         self.payout[server] = payout
 
     def get_payout(self,server):
