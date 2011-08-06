@@ -173,7 +173,7 @@ class BitHopper():
             self.data_callback(current,data, request.getUser(), request.getPassword())        
         return server.NOT_DONE_YET
 
-    def bitHopperLP(self,value, *methodArgs):
+    def bitHopperLP(self, value, *methodArgs):
         try:
             self.log_msg('LP triggered serving miner')
             request = methodArgs[0]
@@ -204,7 +204,7 @@ class BitHopper():
             except Exception, e:
                 self.log_dbg( "Client already disconnected Urgh.")
 
-        return None
+        return value
 
 def parse_server_disable(option, opt, value, parser):
     setattr(parser.values, option.dest, value.split(','))
