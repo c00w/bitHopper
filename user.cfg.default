@@ -206,10 +206,10 @@ pass: u5cpmndZq4Jvp
 
 [deepbit]
 # Mixed pool, PPS+Prop.
-#https://arsbitcoin.com/register.php
+#https://deepbit.net/register.php
 #CHANGE THIS
 role: backup
-user: worker_name@mailinator.com
+user: worker_name@mailinator.com_0
 pass: x
 
 [ninjac]
