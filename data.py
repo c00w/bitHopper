@@ -50,6 +50,6 @@ class Data():
                 self.user_share_add(user, password, 1, server)
 
         except Exception, e:
-            self.log_dbg('data_callback_error')
-            self.log_dbg(str(e))
+            self.bitHopper.log_dbg('data_callback_error')
+            self.bitHopper.log_dbg(str(e))
     
