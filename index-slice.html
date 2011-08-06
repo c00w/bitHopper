@@ -124,6 +124,14 @@
 					+ fixLength("" + pp.toFixed(2), 5) + "%";
 			}
 			
+            function getUserTime(payload, user, key){
+                return user['last']
+            }
+
+            function getUserRejects(payload, user, key){
+                return user['rejects']
+            }
+
 			function getUserShares(payload, user, key) {
 				return user["shares"];
 			}
@@ -338,7 +346,9 @@
 					buildTable("#users", users, users,
 						{
 							"User": { 'data':getUserName } ,
-							"Shares": { 'data':getUserShares, 'align':'right' }  
+                            "Last Seen": {'data':getUserTime, 'align':'right' },
+							"Shares": { 'data':getUserShares, 'align':'right' },
+                            "Rejects": {'data':getUserRejects, 'align':'right'}  
 						}
 					);
 					
