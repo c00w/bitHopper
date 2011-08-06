@@ -15,7 +15,6 @@ class Data():
         shares = self.db.get_user_shares()
         for user in shares:
             self.users[user] = {'shares':shares[user],'rejects':0, 'last':0}
-        print self.users
 
     def get_users(self):
         users = {}
