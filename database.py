@@ -63,7 +63,7 @@ class Database():
         difficulty = self.bitHopper.difficulty.get_difficulty()
         for server in self.shares:
             for user in self.shares[server]:
-                if self.shares[server][user] == None:
+                if self.shares[server][user] == 0:
                     continue
                 shares = self.shares[server][user]
                 sql = self.sql_update_add(server,'shares',shares,user)
@@ -71,7 +71,7 @@ class Database():
                 if len(self.curs.execute('select * from ' + server + '  WHERE diff='+ str(difficulty) + ' and user= \'' + str(user) + "\'").fetchall()) == 0:
                     sql = self.sql_insert(server,shares=shares,user=user)
                     self.curs.execute(sql)
-                self.shares[server][user] = None
+                self.shares[server][user] = 0
 
         for server in self.rejects:
             rejects = self.rejects[server]
