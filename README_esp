@@ -5,9 +5,10 @@ Basado en trabajo hecho en github.com.
 
 # Instructiones
 
-Para ejecutar bitHopper vas a necesitar la instalación de "twisted phython"
-y "pyopenssl" aparte de tener instalado el Python 2.7 :
+Para ejecutar bithopper necesitas instalar "twisted phython"
+y "pyopenssl" junto con Python 2.7 (recomendado):
 
+http://python.org/download/
 https://launchpad.net/pyopenssl/+download
 http://pypi.python.org/pypi/zope.interface (para Windows)
 http://twistedmatrix.com/trac
