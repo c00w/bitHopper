@@ -201,7 +201,7 @@ user: c00w.default
 pass: fire
 
 [bitp]
-# mina PPS
+# Mina PPS
 #http://bitp.it
 #CAMBIA A CONTINUACION
 role: backup
@@ -210,7 +210,7 @@ user: 4bjibc3R1RGF9
 pass: u5cpmndZq4Jvp
 
 [deepbit]
-# Mixed pool, PPS+Prop.
+# Mixta, PPS+Prop.
 #https://arsbitcoin.com/register.php
 #CHANGE THIS
 role: backup
