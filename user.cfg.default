@@ -48,7 +48,6 @@ penalty: 4
 user: c00w.testhop
 pass: testhop
 
-
 [ozco]
 # Freezing stats for unknown reason (page 114)
 #https://ozco.in/register.php

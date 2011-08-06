@@ -201,7 +201,7 @@ user: c00w.default
 pass: fire
 
 [bitp]
-# mina PPS
+# Mina PPS
 #http://bitp.it
 #CAMBIA A CONTINUACION
 role: backup
