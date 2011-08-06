@@ -5,10 +5,12 @@ github.com.
 
 # Instructions
 
-In order to run bithopper you need twisted phython and pyopenssl installed:
+In order to run bithopper you need twisted phython and pyopenssl installed
+on top of with Python 2.7 (recommended):
 
-http://twistedmatrix.com/trac
 https://launchpad.net/pyopenssl/+download
+http://pypi.python.org/pypi/zope.interface (for Windows)
+http://twistedmatrix.com/trac
 
 Copy "user.cfg.default" to a new file called "user.cfg" then modify the new
 file to include your pool worker usernames and passwords, instead of mine.
@@ -30,9 +32,9 @@ Download and install:
 
 https://launchpad.net/pyopenssl
 http://pypi.python.org/pypi/zope.interface
-http://twistedmatrix.com/trac Then
+http://twistedmatrix.com/trac
 
-follow the above instructions
+Then follow the above instructions
 
 #Donations
 
