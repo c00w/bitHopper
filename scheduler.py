@@ -345,7 +345,7 @@ class DefaultScheduler(Scheduler):
            shares = 100* info['shares']
         if 'penalty' in info:
             shares = shares * float(info['penalty'])
-        if shares > mine_shares:
+        if shares > min_shares:
             return True
 
         return False
