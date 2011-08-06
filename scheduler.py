@@ -7,6 +7,7 @@ import os.path
 import time
 import random
 
+from twisted.internet.task import LoopingCall
 from twisted.web import server, resource
 
 class Scheduler(object):
@@ -60,7 +61,7 @@ class Scheduler(object):
             info = self.bh.pool.get_entry(server)
             if info['role'] not in ['backup', 'backup_latehop']:
                continue
-            if info['api_lag'] or info['lag']:
+            if info['lag']:
                continue
             shares = info['user_shares']+1
             if 'penalty' in info:
@@ -246,7 +247,8 @@ class DefaultScheduler(Scheduler):
       self.initData()
       self.lastcalled = time.time()
       self.index_html = 'index-slice.html'
-      
+      call = LoopingCall(self.bh.server_update)
+      call.start(10)
    def initData(self,):
         if self.bh.options.threshold:
          #self.bh.log_msg("Override difficulty threshold to: " + str(self.bh.options.threshold), cat='scheduler-default')
@@ -327,6 +329,25 @@ class DefaultScheduler(Scheduler):
         for server in valid:
             if current - self.sliceinfo[server] > 30:
                 return True
+
+        difficulty = self.bh.difficulty.get_difficulty()
+        nmc_difficulty = self.bh.difficulty.get_nmc_difficulty()
+        min_shares = difficulty * self.difficultyThreshold
+
+        info = self.bh.pools.servers[self.bh.pool.get_current()]
+        if info['role'] in ['mine']:
+           shares = info['shares']
+        elif info['role'] == 'mine_slush':
+           shares = info['shares'] * 4
+        elif info['role'] == 'mine_nmc':
+           shares = info['shares']*difficulty / nmc_difficulty
+        else:
+           shares = 100* info['shares']
+        if 'penalty' in info:
+            shares = shares * float(info['penalty'])
+        if shares > mine_shares:
+            return True
+
         return False
 
 class AltSliceScheduler(Scheduler):
