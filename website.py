@@ -122,13 +122,6 @@ class dataSite(resource.Resource):
      isLeaf = True
      def render_GET(self, request):
 
-          #User Info
-          user = {}
-          raw_user = self.bitHopper.db.get_user_shares()
-          for item in raw_user:
-            if raw_user[item] != 0:
-                user[item] = raw_user[item]
-
           #Slice Info
           if hasattr(self.bitHopper.scheduler, 'sliceinfo'):
             sliceinfo = self.bitHopper.scheduler.sliceinfo
@@ -141,7 +134,7 @@ class dataSite(resource.Resource):
              'difficulty':self.bitHopper.difficulty.get_difficulty(),
              'sliceinfo':sliceinfo,
              'servers':self.bitHopper.pool.get_servers(),
-             'user':user})
+             'user':self.bitHopper.data.get_users()})
           request.write(response)
           request.finish()
           return server.NOT_DONE_YET

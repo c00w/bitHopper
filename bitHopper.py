@@ -13,6 +13,7 @@ import database
 import scheduler
 import website
 import getwork_store
+import data
 
 import sys
 import exceptions
@@ -47,28 +48,14 @@ class BitHopper():
         self.stats = stats.Statistics(self)
         self.scheduler = scheduler.Scheduler(self)
         self.getwork_store = getwork_store.Getwork_store()
+        self.data = data.Data(self)
         self.pool.setup(self)
 
     def reject_callback(self,server,data):
-        try:
-            if data != []:
-                self.db.update_rejects(server,1)
-                self.pool.get_servers()[server]['rejects'] += 1
-        except Exception, e:
-            self.log_dbg('reject_callback_error')
-            self.log_dbg(str(e))
-            return
+        self.data.reject_callback(server,data)
 
     def data_callback(self,server,data, user, password):
-        try:
-            if data != []:
-                self.speed.add_shares(1)
-                self.db.update_shares(server, 1, user, password)
-                self.pool.get_servers()[server]['user_shares'] +=1
-                self.pool.get_servers()[server]['expected_payout'] += 1.0/self.difficulty.get_difficulty() * 50.0
-        except Exception, e:
-            self.log_dbg('data_callback_error')
-            self.log_dbg(str(e))
+        self.data.data_callback(server, data, user, password)
 
     def update_payout(self,server,payout):
         self.db.set_payout(server,float(payout))
