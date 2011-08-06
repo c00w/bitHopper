@@ -334,7 +334,7 @@ class DefaultScheduler(Scheduler):
         nmc_difficulty = self.bh.difficulty.get_nmc_difficulty()
         min_shares = difficulty * self.difficultyThreshold
 
-        info = self.bh.pools.servers[self.bh.pool.get_current()]
+        info = self.bh.pool.servers[self.bh.pool.get_current()]
         if info['role'] in ['mine']:
            shares = info['shares']
         elif info['role'] == 'mine_slush':
