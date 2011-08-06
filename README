@@ -5,9 +5,9 @@ github.com.
 
 # Instructions
 
-In order to run bithopper you need twisted phython and pyopenssl installed
-on top of with Python 2.7 (recommended):
+In order to run bithopper you need twisted phython and pyopenssl installed with Python 2.7 (recommended):
 
+http://python.org/download/
 https://launchpad.net/pyopenssl/+download
 http://pypi.python.org/pypi/zope.interface (for Windows)
 http://twistedmatrix.com/trac
