@@ -279,7 +279,7 @@ class DefaultScheduler(Scheduler):
          elif info['role'] == 'mine_deepbit':
             if self.bh.lp.get_owner() == server:
                 shares = 0
-            else
+            else:
                 shares = min_shares
          else:
             shares = min_shares

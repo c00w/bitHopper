@@ -13,7 +13,7 @@ class Statistics():
         self.bitHopper = bitHopper
         self.pool = bitHopper.pool
         self.efficiencies = {}
-        stats_call = LoopingCall(bithopper_global.stats.update_api_stats)
+        stats_call = LoopingCall(self.update_api_stats)
         stats_call.start(117*4)
 
     def update_db_shares(self,server,shares):
