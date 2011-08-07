@@ -148,6 +148,13 @@ nofeemining_user_apikey: 4140cbc6405f4425cf91ca74e1450b66
 user: dah4k0r@gmail.com_test
 pass: x
 
+[deepbit]
+#https://deepbit.net/
+#CHANGE THIS
+role: mine_deepbit
+user: CHANGEME
+pass: CHANGEME
+
 #######################################
 #   These Pools are added recently
 #      hop them at your risk
@@ -178,12 +185,21 @@ role: info
 user: your_username
 pass: your_password
 
+<<<<<<< HEAD
 [kiwipool]
 #Russian pool
 #CHANGE THIS (if you want)
 role: info
 user: your_username
 pass: your_password
+=======
+[deepbit]
+#https://deepbit.net/
+#CHANGE THIS
+role: mine_deepbit
+user: CHANGEME
+pass: CHANGEME
+>>>>>>> upstream/master
 
 ######################################
 # Backup pools for when there is
@@ -240,7 +256,7 @@ pass: minero
 # Namecoin pool, use mine_nmc . Good for hopping if you want some namecoins
 #http://bitparking.com/
 #CHANGE THIS (if you want)
-role: disable
+role: info
 user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
 pass: x
 #passwords can be anything on bitparking
@@ -249,7 +265,7 @@ pass: x
 # Changed payout system and delays stats, allot (page 116)
 #http://www.btcpool24.com
 #CHANGE THIS
-role: disable
+role: info
 user: Sukrim.hopper
 pass: 1234
 
@@ -257,7 +273,7 @@ pass: 1234
 # Obscure payout system and anti-hopping measures (page 55)
 #CHANGE THIS (if you want)
 #http://poolmunity.com/
-role: disable
+role: info
 user: c00w.testhop
 pass: testhop
 
@@ -265,7 +281,7 @@ pass: testhop
 # Pool is closed down
 #http://btc.x8s.de/
 #CHANGE THIS (if you want)
-role: disable
+role: info
 user: testhop
 pass: x 
 
@@ -290,7 +306,7 @@ pass: 1234
 # Changed to PPLNS (page 94)
 #https://mineco.in
 #CHANGE THIS (if you want)
-role: disable
+role: info
 user: c00w.test
 pass: x
 
@@ -298,7 +314,7 @@ pass: x
 # Changed to a score system (page 16)
 #https://eclipsemc.com
 #CHANGE THIS (if you want)
-role: disable
+role: info
 eclipsemc_apikey: bd0eded7e35b1b5fc48f8d10214d98
 user: c00w_worker
 pass: x
@@ -307,7 +323,7 @@ pass: x
 # They use some "cheat proof scoring" algorithm (page 26)
 #http://mining.mainframe.nl
 #CHANGE THIS (if you want)
-role: disable
+role: info
 user: c00w.1
 pass: x
 
@@ -315,6 +331,6 @@ pass: x
 # Changed to PPLNS in the middle of a round (page 94)
 #http://www.unitedminers.com
 #CHANGE THIS (if you want)
-role: disable
+role: info
 user: dah4k0r@gmail.com_testhop
 pass: testhop

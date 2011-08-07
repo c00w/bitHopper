@@ -60,7 +60,6 @@ def jsonrpc_lpcall(agent,server, url, lp):
     pool = lp.pool.servers[server]
     header = {'Authorization':["Basic " +base64.b64encode(pool['user']+ ":" + pool['pass'])], 'User-Agent': ['poclbm/20110709'],'Content-Type': ['application/json'] }
     d = agent.request('GET', "http://" + url, Headers(header), None)
-    d.addErrback(print_error)
     body = yield d
     if body == None:
         lp.receive(None,server)

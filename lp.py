@@ -14,31 +14,72 @@ class LongPoll():
         self.bitHopper = bitHopper
         self.pool = self.bitHopper.pool
         self.blocks = {}
+        self.lastBlock = None
+        self.errors = {}
+
+    def set_owner(self,server):
+        if self.lastBlock != None:
+            self.blocks[self.lastBlock]["_owner"] = server
+            self.bitHopper.log_msg('Setting Block Owner :' + self.lastBlock)
+
+    def get_owner(self,server):
+        if self.lastBlock != None:
+            return self.blocks[self.lastBlock]["_owner"]
+        return ""
 
     def start_lp(self):
-        for server in self.pool:
-            info = self.pool.servers(server)
+        for server in self.pool.servers:
+            info = self.pool.servers[server]
+            if info['role'] not in ['mine','mine_charity','mine_deepbit','info', 'backup','backup_latehop']:
+                continue
             if info['lp_address'] != None:
                 self.pull_lp(info['lp_address'],server)
+            else:
+                reactor.callLater(0, self.pull_server, server)
+                
+                
+    def pull_server(self,server):
+        #self.bitHopper.log_msg('Pulling from ' + server)
+        server = self.pool.servers[server]
+        work.jsonrpc_call(self.bitHopper.json_agent, server, [], self.bitHopper)
 
     def receive(self, body, server):
+        info = self.bitHopper.pool.servers[server]
+        if info['role'] in ['mine_nmc','disable']:
+            return
         if body == None:
+            if server not in self.error:
+                self.errors[server] = 0
+            self.errors[server] += 1
             #timeout? Something bizarre?
-            self.bitHopper.reactor.callLater(0,self.pull_lp, (self.pool.servers[server]['lp_address'],server))
+            if self.errors[server] < 3:
+                self.bitHopper.reactor.callLater(0,self.pull_lp, (self.pool.servers[server]['lp_address'],server))
+            return
         self.bitHopper.log_msg('received lp from: ' + server)
         try:
             response = json.loads(body)
             work = response['result']
             data = work['data']
             block = data[8:72]
+            block = int(block, 16)
 
             if block not in self.blocks:
+                self.bitHopper.log_msg('New Block: ' + block)
+                self.bitHopper.log_msg('Block Owner" ' + server)
                 self.blocks[block] = {}
                 self.bitHopper.lp_callback(work)
+                self.blocks[block]["_owner"] = server
 
             self.blocks[block][server] = time.time()
         except:
             self.bitHopper.log_dbg('Error in LP' + str(server) + str(body))
+            if server not in self.error:
+                self.errors[server] = 0
+            self.errors[server] += 1
+            #timeout? Something bizarre?
+            if self.errors[server] < 3:
+                self.bitHopper.reactor.callLater(0,self.pull_lp, (self.pool.servers[server]['lp_address'],server))
+            return
         self.bitHopper.reactor.callLater(0,self.pull_lp, (self.pool.servers[server]['lp_address'],server))
         
     def clear_lp(self,):
@@ -67,9 +108,9 @@ class LongPoll():
         else:
             lp_address = str(url)
         self.bitHopper.log_msg("LP Call " + lp_address)
-        self.lp_set = True
         try:
-            work.jsonrpc_lpcall(self.bitHopper.get_lp_agent(),server, lp_address, self)
+            d = work.jsonrpc_lpcall(self.bitHopper.get_lp_agent(),server, lp_address, self)
+            d.addErrback(self.bitHopper.log_dbg)
         except Exception,e :
             self.bitHopper.log_dbg('pull_lp error')
             self.bitHopper.log_dbg(e)

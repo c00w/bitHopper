@@ -150,6 +150,13 @@ nofeemining_user_apikey: 4140cbc6405f4425cf91ca74e1450b66
 user: dah4k0r@gmail.com_test
 pass: x
 
+[deepbit]
+#https://deepbit.net/
+#CHANGE THIS
+role: mine_deepbit
+user: CHANGEME
+pass: CHANGEME
+
 #######################################
 #  Estas minas son muy nuevas para
 # saber si toman medidas anti-hoping

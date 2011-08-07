@@ -6,11 +6,15 @@ import diff
 import json
 import work
 
+from twisted.internet.task import LoopingCall
+
 class Statistics():
     def __init__(self,bitHopper):
         self.bitHopper = bitHopper
         self.pool = bitHopper.pool
         self.efficiencies = {}
+        stats_call = LoopingCall(self.update_api_stats)
+        stats_call.start(117*4)
 
     def update_db_shares(self,server,shares):
         db_shares = self.bitHopper.data_get_shares(server)
@@ -97,6 +101,7 @@ class Statistics():
         self.bitHopper.log_dbg(str(error))
 
     def update_api_stats(self, ):
+        return
         servers = self.bitHopper.pool.get_servers()
         for server in servers:
             if 'user_api_address' in servers[server]:
