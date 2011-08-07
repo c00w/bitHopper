@@ -130,19 +130,11 @@ role: info
 user: x
 pass: y
 
-[bloodys]
-# Another pool for the collection
-#http://pool.bloodys.com
-#CHANGE THIS
-role: info
-user: x
-pass: y
-
 [bcpool]
 # Disables anti-hopper measures for 1% donation (page 111)
 # Anti-hopping method based on "window of participation" (page 36)
 #http://bitcoinpool.com
-#CHANGE THIS (if you want)
+#CHANGE THIS
 role: info
 user: c00w_test
 pass: x
@@ -150,11 +142,34 @@ pass: x
 [nofeemining]
 # Server lags, they're upgrading the service (page 62)
 #https://www.nofeemining.com/ 
-#CHANGE THIS (if you want)
+#CHANGE THIS
 role: info
 nofeemining_user_apikey: 4140cbc6405f4425cf91ca74e1450b66
 user: dah4k0r@gmail.com_test
 pass: x
+
+[deepbit]
+#https://deepbit.net/
+#CHANGE THIS
+role: mine_deepbit
+user: CHANGEME
+pass: CHANGEME
+
+#######################################
+#   These Pools are added recently
+#      hop them at your risk
+# Advice: Please search the bitHopper
+# forum thread for detailed information
+# on every pool you want to hop
+#######################################
+
+[bloodys]
+# Another pool for the collection
+#http://pool.bloodys.com
+#CHANGE THIS (if you want)
+role: info
+user: x
+pass: y
 
 [digbtc]
 #http://www.digbtc.net/register.php
@@ -170,12 +185,12 @@ role: info
 user: your_username
 pass: your_password
 
-[deepbit]
-#https://deepbit.net/
-#CHANGE THIS
-role: mine_deepbit
-user: CHANGEME
-pass: CHANGEME
+[kiwipool]
+#Russian pool
+#CHANGE THIS (if you want)
+role: info
+user: your_username
+pass: your_password
 
 ######################################
 # Backup pools for when there is
