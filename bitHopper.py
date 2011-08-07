@@ -276,8 +276,6 @@ def main():
     reactor.callLater(0, bithopper_global.pool.update_api_servers, bithopper_global)
     delag_call = LoopingCall(bithopper_global.delag_server)
     delag_call.start(119)
-    stats_call = LoopingCall(bithopper_global.stats.update_api_stats)
-    stats_call.start(117*4)
     reactor.run()
     bithopper_global.db.close()
 
