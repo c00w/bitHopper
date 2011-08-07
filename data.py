@@ -4,6 +4,7 @@
 #Based on a work at github.com.
 
 import time
+from twisted.internet.task import LoopingCall
 
 class Data():
     def __init__(self,bitHopper):
@@ -15,9 +16,18 @@ class Data():
         self.difficulty = self.bitHopper.difficulty
         self.db.update_user_shares_db()
         shares = self.db.get_user_shares()
+        prune = LoopingCall(self.prune)
+        prune.start(10)
         for user in shares:
-            self.users[user] = {'shares':shares[user],'rejects':0, 'last':0}
+            self.users[user] = {'shares':shares[user],'rejects':0, 'last':0, 'shares_time': [], 'hash_rate': 0}
 
+    def prune(self):
+        for user in self.users:
+            for share_time in self.users[user]['shares_time']:
+                if time.time() - share_time > 60 * 5:
+                    self.users[user]['shares_time'].remove(share_time)
+            self.users[user]['hash_rate'] = (len(self.users[user]['shares_time']) * 2**32) / (60 * 5 * 1000000)
+    
     def get_users(self):
         users = {}
         for item in self.users:
@@ -30,12 +40,15 @@ class Data():
             self.users[user] = {'shares':0,'rejects':0, 'last':0}
         self.users[user]['last'] = time.time()
         self.users[user]['shares'] += shares
+        self.users[user]['shares_time'].append(time.time())
+        self.users[user]['hash_rate'] = (len(self.users[user]['shares_time']) * 2**32) / (60 * 5 * 1000000)
 
     def reject_callback(self,server,data):
         try:
             if data != []:
                 self.db.update_rejects(server,1)
                 self.pool.get_servers()[server]['rejects'] += 1
+                #self.bitHopper.log_msg('[' + data[72:136] + '] => ' + self.bitHopper.pool.servers[server]['name'] + " REJECTED!")
         except Exception, e:
             self.bitHopper.log_dbg('reject_callback_error')
             self.bitHopper.log_dbg(str(e))

@@ -8,8 +8,9 @@ from twisted.internet.task import LoopingCall
 
 class Getwork_store:
     
-    def __init__(self):
+    def __init__(self, bitHopper):
         self.data = {}
+        self.bitHopper = bitHopper
         call = LoopingCall(self.prune)
         call.start(60)
 
@@ -18,7 +19,9 @@ class Getwork_store:
     
     def get_server(self, merkle_root):
         if self.data.has_key(merkle_root):
+            self.bitHopper.log_msg('[' + merkle_root + '] found => ' + self.bitHopper.pool.servers[self.data[merkle_root][0]]['name'])
             return self.data[merkle_root][0]
+        self.bitHopper.log_msg('[' + merkle_root + '] NOT FOUND!')
         return None
     
     def prune(self):
