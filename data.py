@@ -37,7 +37,7 @@ class Data():
 
     def user_share_add(self,user,password,shares,server):
         if user not in self.users:
-            self.users[user] = {'shares':0,'rejects':0, 'last':0}
+            self.users[user] = {'shares':0,'rejects':0, 'last':0, 'shares_time': [], 'hash_rate': 0}
         self.users[user]['last'] = time.time()
         self.users[user]['shares'] += shares
         self.users[user]['shares_time'].append(time.time())
