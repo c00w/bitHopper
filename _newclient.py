@@ -1328,7 +1328,11 @@ class HTTP11ClientProtocol(Protocol):
             self._responseDeferred.chainDeferred(self._finishedRequest)
 
         reason = ConnectionDone("synthetic!")
-        connHeaders = self._parser.connHeaders.getRawHeaders('connection')
+        if self._parser != None:
+            connHeaders = self._parser.connHeaders.getRawHeaders('connection')
+        else:
+            connheaders = None
+
         if (connHeaders is not None) and ('close' in connHeaders):
             self._giveUp(Failure(reason))
         else:
