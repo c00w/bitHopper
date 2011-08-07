@@ -19,7 +19,7 @@ class Getwork_store:
     
     def get_server(self, merkle_root):
         if self.data.has_key(merkle_root):
-            self.bitHopper.log_msg('[' + merkle_root + '] found => ' + self.bitHopper.pool.servers[self.data[merkle_root][0]]['name'])
+            #self.bitHopper.log_msg('[' + merkle_root + '] found => ' + self.bitHopper.pool.servers[self.data[merkle_root][0]]['name'])
             return self.data[merkle_root][0]
         self.bitHopper.log_msg('[' + merkle_root + '] NOT FOUND!')
         return None
