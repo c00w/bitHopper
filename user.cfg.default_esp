@@ -161,7 +161,7 @@ pass: x
 [digbtc]
 # Mina nueva
 #http://www.digbtc.net/register.php
-#CAMBIA A CONTINUACION
+#CAMBIA A CONTINUACION (si quieres)
 role: info
 user: your_username
 pass: your_password
@@ -169,7 +169,14 @@ pass: your_password
 [bithasher]
 # Mina nueva
 #http://bithasher.com/index.php/register/
-#CAMBIA A CONTINUACION
+#CAMBIA A CONTINUACION (si quieres)
+role: info
+user: your_username
+pass: your_password
+
+[kiwipool]
+#Mina rusa
+#CAMBIA A CONTINUACION (si quieres)
 role: info
 user: your_username
 pass: your_password
