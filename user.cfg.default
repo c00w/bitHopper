@@ -185,21 +185,12 @@ role: info
 user: your_username
 pass: your_password
 
-<<<<<<< HEAD
 [kiwipool]
 #Russian pool
 #CHANGE THIS (if you want)
 role: info
 user: your_username
 pass: your_password
-=======
-[deepbit]
-#https://deepbit.net/
-#CHANGE THIS
-role: mine_deepbit
-user: CHANGEME
-pass: CHANGEME
->>>>>>> upstream/master
 
 ######################################
 # Backup pools for when there is
