@@ -8,8 +8,10 @@ import re
 import ConfigParser
 import os
 import sys
-
-from collections import OrderedDict
+try:
+    from collections import OrderedDict
+except:
+    OrderedDict = dict
 
 class Pool():
     def __init__(self,bitHopper):
