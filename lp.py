@@ -14,6 +14,12 @@ class LongPoll():
         self.bitHopper = bitHopper
         self.pool = self.bitHopper.pool
         self.blocks = {}
+        self.lastBlock = None
+
+    def set_owner(self,server):
+        if self.lastBlock != None:
+            self.blocks[self.lastBlock]["_owner"] = server
+            self.bitHopper.log_msg('Setting Block Owner :' + self.lastBlock
 
     def start_lp(self):
         for server in self.pool:
@@ -25,16 +31,21 @@ class LongPoll():
         if body == None:
             #timeout? Something bizarre?
             self.bitHopper.reactor.callLater(0,self.pull_lp, (self.pool.servers[server]['lp_address'],server))
+            return
         self.bitHopper.log_msg('received lp from: ' + server)
         try:
             response = json.loads(body)
             work = response['result']
             data = work['data']
             block = data[8:72]
+            block = int(block, 16)
 
             if block not in self.blocks:
+                self.bitHopper.log_msg('New Block: ' + block)
+                self.bitHopper.log_msg('Block Owner" ' + server)
                 self.blocks[block] = {}
                 self.bitHopper.lp_callback(work)
+                self.blocks[block]["_owner"] = server
 
             self.blocks[block][server] = time.time()
         except:
