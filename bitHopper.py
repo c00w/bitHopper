@@ -47,7 +47,7 @@ class BitHopper():
         self.speed = speed.Speed(self)
         self.stats = stats.Statistics(self)
         self.scheduler = scheduler.Scheduler(self)
-        self.getwork_store = getwork_store.Getwork_store()
+        self.getwork_store = getwork_store.Getwork_store(self)
         self.data = data.Data(self)
         self.pool.setup(self)
 

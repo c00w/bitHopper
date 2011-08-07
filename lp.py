@@ -48,7 +48,7 @@ class LongPoll():
         if info['role'] in ['mine_nmc','disable']:
             return
         if body == None:
-            if server not in self.error:
+            if server not in self.errors:
                 self.errors[server] = 0
             self.errors[server] += 1
             #timeout? Something bizarre?
@@ -73,7 +73,7 @@ class LongPoll():
             self.blocks[block][server] = time.time()
         except:
             self.bitHopper.log_dbg('Error in LP' + str(server) + str(body))
-            if server not in self.error:
+            if server not in self.errors:
                 self.errors[server] = 0
             self.errors[server] += 1
             #timeout? Something bizarre?
