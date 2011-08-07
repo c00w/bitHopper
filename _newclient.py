@@ -1331,7 +1331,7 @@ class HTTP11ClientProtocol(Protocol):
         if self._parser != None:
             connHeaders = self._parser.connHeaders.getRawHeaders('connection')
         else:
-            connheaders = None
+            connHeaders = None
 
         if (connHeaders is not None) and ('close' in connHeaders):
             self._giveUp(Failure(reason))
