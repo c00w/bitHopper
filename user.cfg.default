@@ -314,7 +314,7 @@ pass: x
 # They use some "cheat proof scoring" algorithm (page 26)
 #http://mining.mainframe.nl
 #CHANGE THIS (if you want)
-role: info
+role: disable
 user: c00w.1
 pass: x
 
