@@ -44,7 +44,7 @@
 #http://mining.bitcoin.cz/accounts/register/
 #CHANGE THIS
 role: mine_slush
-penalty: 4
+penalty: 1
 user: c00w.testhop
 pass: testhop
 
