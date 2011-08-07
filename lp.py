@@ -27,12 +27,19 @@ class LongPoll():
         return ""
 
     def start_lp(self):
-        for server in self.pool:
-            info = self.pool.servers(server)
+        for server in self.pool.servers:
+            info = self.pool.servers[server]
+            if info['role'] not in ['mine','mine_charity','mine_deepbit','info', 'backup','backup_latehop']:
+                continue
             if info['lp_address'] != None:
                 self.pull_lp(info['lp_address'],server)
             else:
-                work.jsonrpc_getwork(self.bitHopper.json_agent, server, [], 1, None, self.bitHopper)
+                reactor.callLater(0, self.pull_server, server)
+                
+                
+    def pull_server(self,server):
+        self.bitHopper.log_msg('Pulling from ' + server)
+        work.jsonrpc_call(self.bitHopper.json_agent, server, [], self.bitHopper)
 
     def receive(self, body, server):
         if body == None:
@@ -66,7 +73,7 @@ class LongPoll():
         return self.pool.get_entry(server)['lp_address']  == None
 
     def set_lp(self,url,server):
-        #self.bitHopper.log_msg('set_lp ' + url + ' ' + server)
+        self.bitHopper.log_msg('set_lp ' + url + ' ' + server)
         try:
             info = self.bitHopper.pool.get_entry(server)
             if info['lp_address'] == url:
@@ -78,7 +85,7 @@ class LongPoll():
             self.bitHopper.log_dbg(str(e))
 
     def pull_lp(self,(url,server)):
-        #self.bitHopper.log_msg('pull_lp ' + url + ' ' + server)
+        self.bitHopper.log_msg('pull_lp ' + url + ' ' + server)
         pool = self.pool.servers[server]
         if url[0] == '/':
             lp_address = str(pool['mine_address']) + str(url)
