@@ -276,8 +276,13 @@ class DefaultScheduler(Scheduler):
             shares = info['shares'] * 4
          elif info['role'] == 'mine_nmc':
             shares = info['shares']*difficulty / nmc_difficulty
+         elif info['role'] == 'mine_deepbit':
+            if self.bh.lp.get_owner() == server:
+                shares = 0
+            else
+                shares = min_shares
          else:
-            shares = 100* info['shares']
+            shares = min_shares
          # apply penalty
          if 'penalty' in info:
             shares = shares * float(info['penalty'])
@@ -329,6 +334,9 @@ class DefaultScheduler(Scheduler):
         for server in valid:
             if current - self.sliceinfo[server] > 30:
                 return True
+            if self.bh.pool.servers[server]['role'] == 'mine_deepbit':
+                if self.bh.lp.get_owner != server:
+                    return True
 
         difficulty = self.bh.difficulty.get_difficulty()
         nmc_difficulty = self.bh.difficulty.get_nmc_difficulty()

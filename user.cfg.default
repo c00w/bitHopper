@@ -170,6 +170,13 @@ role: info
 user: your_username
 pass: your_password
 
+[deepbit]
+#https://deepbit.net/
+#CHANGE THIS
+role: mine_deepbit
+user: CHANGEME
+pass: CHANGEME
+
 ######################################
 # Backup pools for when there is
 # no pool where you would earn more

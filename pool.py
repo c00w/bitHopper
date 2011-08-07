@@ -93,6 +93,7 @@ class Pool():
         self.current_server = server
 
     def UpdateShares(self, server, shares):
+        diff = self.bitHopper.difficulty.get_difficulty()
         self.servers[server]['api_lag'] = False        
         prev_shares = self.servers[server]['shares']
         self.servers[server]['init'] = True
@@ -115,6 +116,8 @@ class Pool():
             k =  str(shares)
         if shares != prev_shares:
             self.bitHopper.log_msg(str(server) +": "+ k)
+        if shares < prev_shares and shares < 0.10 * diff:
+            self.bitHopper.lp.set_owner(server)
         self.servers[server]['shares'] = shares
         self.servers[server]['err_api_count'] = 0
         if self.servers[server]['refresh_time'] > 60*30 and self.servers[server]['role'] not in ['info','backup','backup_latehop']:
