@@ -36,8 +36,8 @@
 #
 # Nota: Por favor busca informacion en
 #    el hilo de bitHopper o en otra
-#    fuente confiable sobre cualquier mina
-#    quequieras saltar.
+#    fuente confiable sobre cualquier
+#    mina quequieras saltar.
 #######################################
 
 [slush]
@@ -132,14 +132,6 @@ role: info
 user: x
 pass: y
 
-[bloodys]
-# Otra para la coleccion
-#http://pool.bloodys.com
-#CAMBIA A CONTINUACION
-role: info
-user: x
-pass: y
-
 [bcpool]
 # Desactiva las medidas anti-hopper si donas 1% (page 111)
 # Medidas anti-hopping basadas en "ventana de participacion" (pagina 36,)
@@ -150,13 +142,30 @@ user: c00w_test
 pass: x
 
 [nofeemining]
-# Server lento, estan actualizando el servicio (page 62)
+# Servidor lento, estan actualizando el servicio (page 62)
 #https://www.nofeemining.com/ 
 #CAMBIA A CONTINUACION
 role: info
 nofeemining_user_apikey: 4140cbc6405f4425cf91ca74e1450b66
 user: dah4k0r@gmail.com_test
 pass: x
+
+#######################################
+#  Estas minas son muy nuevas para
+# saber si toman medidas anti-hoping
+# Nota: Por favor busca informacion en
+#    el hilo de bitHopper o en otra
+#    fuente confiable sobre cualquier
+#    mina quequieras saltar.
+#######################################
+
+[bloodys]
+# Otra para la coleccion
+#http://pool.bloodys.com
+#CAMBIA A CONTINUACION (si quieres)
+role: info
+user: your_username
+pass: your_password
 
 [digbtc]
 # Mina nueva
