@@ -28,7 +28,7 @@ class Scheduler(object):
    def select_best_server(self,):
       return
 
-   def select_friendly_server(self):
+   def select_charity_server(self):
       server_name = None
       most_shares = self.bh.difficulty.get_difficulty() * 2
       for server in self.bh.pool.get_servers():
@@ -38,7 +38,7 @@ class Scheduler(object):
          if info['shares'] > most_shares and info['lag'] == False:
             server_name = server
             most_shares = info['shares']
-            self.bh.log_dbg('select_friendly_server: ' + str(server), cat='scheduler-default')
+            self.bh.log_dbg('select_charity_server: ' + str(server), cat='scheduler-default')
 
       return server_name
 
@@ -165,7 +165,7 @@ class OldDefaultScheduler(Scheduler):
             server_name = server
          
       if server_name == None:
-         server_name = self.select_friendly_server()
+         server_name = self.select_charity_server()
 
       if server_name == None: return self.select_backup_server()
       else: return server_name   
@@ -290,8 +290,8 @@ class DefaultScheduler(Scheduler):
         if server not in valid_servers:
             self.sliceinfo[server] = -1
 
-      friendly_server = self.select_friendly_server()
-      if valid_servers == [] and friendly_server != None: return friendly_server
+      charity_server = self.select_charity_server()
+      if valid_servers == [] and charity_server != None: return charity_server
 
       if valid_servers == []: return self.select_backup_server()
       
@@ -493,7 +493,7 @@ class AltSliceScheduler(Scheduler):
             if info['slice'] > max_slice:
                server_name = server
    
-      if server_name == None: server_name = self.select_friendly_server()
+      if server_name == None: server_name = self.select_charity_server()
                
       #self.bh.log_dbg('server_name: ' + str(server_name), cat=self.name)
       if server_name == None: server_name = self.select_backup_server()
