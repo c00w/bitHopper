@@ -227,6 +227,7 @@ def main():
     parser.add_option('--altslicesize', type=int, default=900, help='Override Default AltSliceScheduler Slice Size of 900')
     parser.add_option('--altminslicesize', type=int, default=60, help='Override Default Minimum Pool Slice Size of 60 (AltSliceScheduler only)')
     parser.add_option('--altslicejitter', type=int, default=0, help='Add some random variance to slice size (default disabled)(AltSliceScheduler only)')
+        parser.add_option('--seedLP', action= 'store_true', default = False, help='Seeds the LP module with known pools. Must use if you want to use LP based hopping for deepbit')
     args, rest = parser.parse_args()
     options = args
     bithopper_global.options = args
@@ -271,6 +272,10 @@ def main():
                 bithopper_global.log_msg(k + " Not a valid server")
 
     if options.debug: log.startLogging(sys.stdout)
+
+    if options.startLP:
+        bithopper_global.lp.start_lp()
+
     site = server.Site(website.bitSite(bithopper_global))
     reactor.listenTCP(options.port, site)
     reactor.callLater(0, bithopper_global.pool.update_api_servers, bithopper_global)

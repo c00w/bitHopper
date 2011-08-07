@@ -31,6 +31,8 @@ class LongPoll():
             info = self.pool.servers(server)
             if info['lp_address'] != None:
                 self.pull_lp(info['lp_address'],server)
+            else:
+                work.jsonrpc_getwork(self.bitHopper.json_agent, server, [], 1, None, self.bitHopper)
 
     def receive(self, body, server):
         if body == None:
