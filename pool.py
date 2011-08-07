@@ -9,6 +9,7 @@ import ConfigParser
 import os
 import sys
 
+from collections import OrderedDict
 
 class Pool():
     def __init__(self,bitHopper):
@@ -76,6 +77,7 @@ class Pool():
             self.servers[server]['default_role'] = self.servers[server]['role']
             if self.servers[server]['default_role'] in ['info','disable']:
                 self.servers[server]['default_role'] = 'mine'
+        self.servers = OrderedDict(sorted(self.servers.items(), key=lambda t: t[1]['role'] + t[0]))
             
     def get_entry(self, server):
         if server in self.servers:
