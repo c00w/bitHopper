@@ -56,6 +56,24 @@ Puedes lanzar bH con los siguientes parametros:
 	--noLP            = Desactiva LP para clientes
 	--debug	          = Visiona la salida de twisted
 
+# Schedulers (programadores) disponibles:
+
+   DefaultScheduler
+
+Programador de base basado en tiempo. Todo lo que hace este programador es pasar un tiempo igual en cada mina disponible. No muy efficiente pero depurado a maximo y estable.
+
+   AltSliceScheduler
+
+Intenta un cambiar de un modo mas agresivo cuendo se llega a los limites preestablecidos (threshold). Se puede utilizar con los parametros --altslicesize=xxx --altminslicesize=xxx (donde reemplazas x con un numero para tamaño y trozo minimo). Tambien puedes utilizar --altslicejitter=xx  para variar el tamaño de trozo de modo dinamico (aleatorio). De momento tiene problemas para recalcular los trozos bastante a menudo.
+
+   RoundTimeScheduler
+
+En desuso actualmente.
+
+   RoundTimeDynamicPenaltyScheduler
+
+En desuso actualmente.
+
 
 #Donativos
 
