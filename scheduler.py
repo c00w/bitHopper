@@ -331,11 +331,15 @@ class DefaultScheduler(Scheduler):
         if len(valid) <=1:
             return True
 
+        lp_owner = self.bh.lp.get_owner()
+        if self.bh.pool.servers[lp_owner]['role'] == 'mine_deepbit' and lp_owner not in valid:
+            return True
+
         for server in valid:
             if current - self.sliceinfo[server] > 30:
                 return True
             if self.bh.pool.servers[server]['role'] == 'mine_deepbit':
-                if self.bh.lp.get_owner != server:
+                if lp_owner != server:
                     return True
 
         difficulty = self.bh.difficulty.get_difficulty()

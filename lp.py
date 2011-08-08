@@ -66,7 +66,7 @@ class LongPoll():
             block = int(block, 16)
             if block not in self.blocks:
                 self.bitHopper.log_msg('New Block: ' + str(block))
-                self.bitHopper.log_msg('Block Owner" ' + server)
+                self.bitHopper.log_msg('Block Owner ' + server)
                 self.blocks[block] = {}
                 self.bitHopper.lp_callback(work)
                 self.blocks[block]["_owner"] = server
