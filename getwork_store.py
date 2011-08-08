@@ -21,7 +21,7 @@ class Getwork_store:
         if self.data.has_key(merkle_root):
             #self.bitHopper.log_msg('[' + merkle_root + '] found => ' + self.bitHopper.pool.servers[self.data[merkle_root][0]]['name'])
             return self.data[merkle_root][0]
-        self.bitHopper.log_msg('[' + merkle_root + '] NOT FOUND!')
+        #self.bitHopper.log_msg('[' + merkle_root + '] NOT FOUND!')
         return None
     
     def prune(self):
