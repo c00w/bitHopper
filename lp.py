@@ -70,6 +70,8 @@ class LongPoll():
                 self.blocks[block] = {}
                 self.bitHopper.lp_callback(work)
                 self.blocks[block]["_owner"] = server
+                
+            if self.bitHopper.pool.servers[server]['role'] = 'mine_deepbit':
                 self.lastBlock = block
 
             self.blocks[block][server] = time.time()
