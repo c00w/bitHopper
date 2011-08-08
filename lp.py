@@ -23,7 +23,7 @@ class LongPoll():
             self.blocks[self.lastBlock]["_owner"] = server
             self.bitHopper.log_msg('Setting Block Owner :' + str(self.lastBlock))
 
-    def get_owner(self,server):
+    def get_owner(self):
         if self.lastBlock != None:
             return self.blocks[self.lastBlock]["_owner"]
         return ""
