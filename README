@@ -53,6 +53,7 @@ You can launch bH with the following parameters:
 	--noLP            = Turns off client side longpolling
 	--debug           = Use twisted output
 
+
 # Available Schedulers:
 
    DefaultScheduler
@@ -70,6 +71,12 @@ Not currently in use.
    RoundTimeDynamicPenaltyScheduler
 
 Not currently in use.
+
+
+# More help
+
+You can go to https://github.com/c00w/bitHopper/wiki and start reading the bitHopper wiki or ask for help in the oficial forum
+at https://bitcointalk.org/index.php?topic=26866
 
 
 #Donations
