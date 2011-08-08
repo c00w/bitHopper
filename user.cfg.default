@@ -212,6 +212,14 @@ role: info
 user: your_username
 pass: your_password
 
+[btcmine]
+# New pool
+#CHANGE THIS (if you want)
+role: info
+user: your_username
+pass: your_password
+
+
 ######################################
 # Backup pools for when there is
 # no pool where you would earn more

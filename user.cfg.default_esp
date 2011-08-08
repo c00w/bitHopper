@@ -217,6 +217,13 @@ role: info
 user: your_username
 pass: your_password
 
+[btcmine]
+# Mina nueva
+#CAMBIA A CONTINUACION (si quieres)
+role: info
+user: your_username
+pass: your_password
+
 ######################################
 # Minas de respaldo (backup) para
 # cuando no tienes ninguna mina
