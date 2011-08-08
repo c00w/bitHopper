@@ -273,7 +273,7 @@ pass: minero
 # Mina Namecoin, utiliza mine_nmc . Buena para saltar si quieres ganar unos namecoins
 #http://bitparking.com/
 #CAMBIA A CONTINUACION (si quieres)
-role: disable
+role: info
 user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
 pass: x
 #las contraseñas no importan en BitParking
@@ -290,7 +290,7 @@ pass: 1234
 # Sistema de pagos desconocido y medidas anti-hopping (pagina 55)
 #http://poolmunity.com/
 #CAMBIA A CONTINUACION (si quieres)
-role: disable
+role: info
 user: c00w.testhop
 pass: testhop
 
@@ -314,7 +314,7 @@ pass: xndzEU
 # Ha cambiado sistema de pagos a PPLNS (pagina 94)
 #https://mineco.in
 #CAMBIA A CONTINUACION (si quieres)
-role: disable
+role: info
 user: c00w.test
 pass: x
 
@@ -322,7 +322,7 @@ pass: x
 # Ha cambiado a sistema de pagos a uno por puntuacion (pagina 16)
 #https://eclipsemc.com
 #CAMBIA A CONTINUACION (si quieres)
-role: disable
+role: info
 eclipsemc_apikey: bd0eded7e35b1b5fc48f8d10214d98
 user: c00w_worker
 pass: x
