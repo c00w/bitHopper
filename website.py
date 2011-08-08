@@ -51,9 +51,9 @@ class dynamicSite(resource.Resource):
                 application_path = os.path.dirname(sys.executable)
           elif __file__:
                 application_path = os.path.dirname(__file__)          
-          index = parser.read(os.path.join(application_path, index_name))
-        except:
           index = os.path.join(application_path, index_name)
+        except:
+          index = os.path.join(os.curdir(), index_name)
         file = open(index, 'r')
         linestring = file.read()
         file.close
