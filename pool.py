@@ -138,6 +138,8 @@ class Pool():
         if self.servers[pool]['err_api_count'] > 1:
             self.servers[pool]['api_lag'] = True
         time = self.servers[pool]['refresh_time']
+        if time < 30:
+            time = 30
         self.bitHopper.reactor.callLater(time, self.update_api_server, pool)
 
     def selectsharesResponse(self, response, args):
