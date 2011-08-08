@@ -11,6 +11,8 @@
 #
 # mine = mina como esta mandado, normal (dificultad*0.43)
 # mine_slush = en esta se queda hasta dificultad.*0.10
+# mine_deepbit = monitorea y prueba suerte minar en
+#   esta mina sin utilizar la api
 # backup = viene a minar en esta si no tiene ninguna 
 #   mina Proporcional disponible
 # backup_latehop = prefiere minar en esta como backup si
@@ -37,7 +39,7 @@
 # Nota: Por favor busca informacion en
 #    el hilo de bitHopper o en otra
 #    fuente confiable sobre cualquier
-#    mina quequieras saltar.
+#    mina que quieras saltar.
 #######################################
 
 [slush]
@@ -51,6 +53,7 @@ user: c00w.testhop
 pass: testhop
 
 [ozco]
+# Stats funcionan
 # Congela stats sin razon (pagina 114, foro oficial)
 #https://ozco.in/register.php
 #CAMBIA A CONTINUACION
@@ -152,10 +155,20 @@ pass: x
 
 [deepbit]
 #https://deepbit.net/
-#CHANGE THIS
+#CAMBIA A CONTINUACION
 role: mine_deepbit
 user: CHANGEME
 pass: CHANGEME
+
+[btcg]
+# Prueba suerte minar con el rol mine_deepbit
+# Ralentiza stats (pagina 87)
+#https://www.btcguild.com/
+#CAMBIA A CONTINUACION (si quieres)
+role: info
+btcguild_user_apikey: 81a9081f4d5f32db7dbbed407cb5f686
+user: c00w_test
+pass: 1234
 
 #######################################
 #  Estas minas son muy nuevas para
@@ -163,7 +176,7 @@ pass: CHANGEME
 # Nota: Por favor busca informacion en
 #    el hilo de bitHopper o en otra
 #    fuente confiable sobre cualquier
-#    mina quequieras saltar.
+#    mina que quieras saltar.
 #######################################
 
 [bloodys]
@@ -289,15 +302,6 @@ pass: x
 role: disable
 user: FSkyvM
 pass: xndzEU
-
-[btcg]
-# Ralentiza stats (pagina 87)
-#https://www.btcguild.com/
-#CAMBIA A CONTINUACION (si quieres)
-role: disable
-btcguild_user_apikey: 81a9081f4d5f32db7dbbed407cb5f686
-user: c00w_test
-pass: 1234
 
 [mineco]
 # Ha cambiado sistema de pagos a PPLNS (pagina 94)
