@@ -53,6 +53,24 @@ You can launch bH with the following parameters:
 	--noLP            = Turns off client side longpolling
 	--debug           = Use twisted output
 
+# Available Schedulers:
+
+   DefaultScheduler
+
+The time based default scheduler. All that matters is time and it tries to be completely fair across all pools. A little less effective but thoroughly debugged.
+
+   AltSliceScheduler
+
+Tries to be more aggressive at switching pools when thresholds are met rather than finishing a slice. Can be used with --altslicesize=xxx --altminslicesize=xxx (where you replace x with a number for slice size and min). Also slice size can be used with --altslicejitter=xx which adds some random variance to slice size. There can be issues with failing to re-slice often enough.
+
+   RoundTimeScheduler
+
+Not currently in use.
+
+   RoundTimeDynamicPenaltyScheduler
+
+Not currently in use.
+
 
 #Donations
 
