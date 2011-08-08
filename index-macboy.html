@@ -333,6 +333,7 @@
 		
 			function update() {
 				$.getJSON('/data', function(data) {
+					document.title = 'bitHopper @ ' + data["current"];
 					$("#current").html("<span style='color:" + hashColor(data) + ";'>" + data["current"] + " @" + parseInt(data["mhash"]) + "MHash</span>");
 
 					updateRoundShares(data);
