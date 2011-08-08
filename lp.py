@@ -62,17 +62,18 @@ class LongPoll():
             data = work['data']
             block = data[8:72]
             block = int(block, 16)
-
             if block not in self.blocks:
-                self.bitHopper.log_msg('New Block: ' + block)
+                self.bitHopper.log_msg('New Block: ' + str(block))
                 self.bitHopper.log_msg('Block Owner" ' + server)
                 self.blocks[block] = {}
                 self.bitHopper.lp_callback(work)
                 self.blocks[block]["_owner"] = server
+                self.lastBlock = block
 
             self.blocks[block][server] = time.time()
-        except:
-            self.bitHopper.log_dbg('Error in LP' + str(server) + str(body))
+        except Exception, e:
+            self.bitHopper.log_msg('Error in LP' + str(server) + str(body))
+            self.bitHopper.log_msg(e)
             if server not in self.errors:
                 self.errors[server] = 0
             self.errors[server] += 1

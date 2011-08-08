@@ -128,13 +128,19 @@ class dataSite(resource.Resource):
           else:
             sliceinfo = None
 
+          lp = self.bitHopper.lp.lastBlock
+          if lp == None:
+            lp = {}
+          else :
+            lp = self.bitHopper.lp.blocks[lp]
           response = json.dumps({
              "current":self.bitHopper.pool.get_current(), 
              'mhash':self.bitHopper.speed.get_rate(), 
              'difficulty':self.bitHopper.difficulty.get_difficulty(),
              'sliceinfo':sliceinfo,
              'servers':self.bitHopper.pool.get_servers(),
-             'user':self.bitHopper.data.get_users()})
+             'user':self.bitHopper.data.get_users(),
+             'lp':lp})
           request.write(response)
           request.finish()
           return server.NOT_DONE_YET

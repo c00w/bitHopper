@@ -269,7 +269,7 @@ pass: x
 # Changed payout system and delays stats, allot (page 116)
 #http://www.btcpool24.com
 #CHANGE THIS
-role: info
+role: disable
 user: Sukrim.hopper
 pass: 1234
 
@@ -285,7 +285,7 @@ pass: testhop
 # Pool is closed down
 #http://btc.x8s.de/
 #CHANGE THIS (if you want)
-role: info
+role: disable
 user: testhop
 pass: x 
 
@@ -318,7 +318,7 @@ pass: x
 # They use some "cheat proof scoring" algorithm (page 26)
 #http://mining.mainframe.nl
 #CHANGE THIS (if you want)
-role: info
+role: disable
 user: c00w.1
 pass: x
 
