@@ -63,9 +63,9 @@ class LongPoll():
             work = response['result']
             data = work['data']
             block = data[8:72]
-            block = int(block, 16)
+            #block = int(block, 16)
             if block not in self.blocks:
-                self.bitHopper.log_msg('New Block: ' + str(block)[::-1])
+                self.bitHopper.log_msg('New Block: ' + str(block))
                 self.bitHopper.log_msg('Block Owner ' + server)
                 self.blocks[block] = {}
                 self.bitHopper.lp_callback(work)

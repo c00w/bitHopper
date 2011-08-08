@@ -332,8 +332,8 @@ class DefaultScheduler(Scheduler):
             return True
 
         lp_owner = self.bh.lp.get_owner()
-        if lp_owner in self.bh.pool.server:
-            if self.bh.pool.servers[lp_owner]['role'] == 'mine_deepbit' 
+        if lp_owner in self.bh.pool.servers:
+            if self.bh.pool.servers[lp_owner]['role'] == 'mine_deepbit' :
                 if lp_owner not in valid:
                     return True
 
