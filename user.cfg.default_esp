@@ -54,7 +54,7 @@ pass: testhop
 
 [ozco]
 # Stats funcionan
-# Congela stats sin razon (pagina 114, foro oficial)
+# Congela stats sin razon (pagina 114, foro oficial bH)
 #https://ozco.in/register.php
 #CAMBIA A CONTINUACION
 role: info
@@ -136,7 +136,7 @@ user: x
 pass: y
 
 [bcpool]
-# Desactiva las medidas anti-hopper si donas 1% (page 111)
+# Desactiva las medidas anti-hopper si donas 1% (pagina 111)
 # Medidas anti-hopping basadas en "ventana de participacion" (pagina 36,)
 #http://bitcoinpool.com
 #CAMBIA A CONTINUACION
@@ -169,6 +169,13 @@ role: info
 btcguild_user_apikey: 81a9081f4d5f32db7dbbed407cb5f686
 user: c00w_test
 pass: 1234
+
+[itzod]
+# Sistema de pago obscuro, utiliza mine_slush si quieres saltarla (pagina 151)
+#CHANGE THIS (if you want)
+role: info
+user: your_username
+pass: your_password
 
 #######################################
 #  Estas minas son muy nuevas para
@@ -204,13 +211,6 @@ user: your_username
 pass: your_password
 
 [kiwipool]
-# Mina rusa
-#CAMBIA A CONTINUACION (si quieres)
-role: info
-user: your_username
-pass: your_password
-
-[itzod]
 # Mina rusa
 #CAMBIA A CONTINUACION (si quieres)
 role: info

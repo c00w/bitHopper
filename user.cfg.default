@@ -168,6 +168,13 @@ btcguild_user_apikey: 81a9081f4d5f32db7dbbed407cb5f686
 user: c00w_test
 pass: 1234
 
+[itzod]
+# Obscure payout system, hop using mine_slush if you want (page 151)
+#CHANGE THIS (if you want)
+role: info
+user: your_username
+pass: your_password
+
 #######################################
 #   These Pools are added recently
 #      hop them at your risk
@@ -199,13 +206,6 @@ user: your_username
 pass: your_password
 
 [kiwipool]
-#Russian pool
-#CHANGE THIS (if you want)
-role: info
-user: your_username
-pass: your_password
-
-[itzod]
 #Russian pool
 #CHANGE THIS (if you want)
 role: info
