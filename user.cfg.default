@@ -157,6 +157,16 @@ role: mine_deepbit
 user: CHANGEME
 pass: CHANGEME
 
+[btcg]
+# Try mining here with the mine_deepbit role
+# Delayed stats (page 87)
+#https://www.btcguild.com/
+#CHANGE THIS (if you want)
+role: info
+btcguild_user_apikey: 81a9081f4d5f32db7dbbed407cb5f686
+user: c00w_test
+pass: 1234
+
 #######################################
 #   These Pools are added recently
 #      hop them at your risk
@@ -285,15 +295,6 @@ pass: x
 role: disable
 user: FSkyvM
 pass: xndzEU
-
-[btcg]
-# Delayed stats (page 87)
-#https://www.btcguild.com/
-#CHANGE THIS (if you want)
-role: disable
-btcguild_user_apikey: 81a9081f4d5f32db7dbbed407cb5f686
-user: c00w_test
-pass: 1234
 
 [mineco]
 # Changed to PPLNS (page 94)

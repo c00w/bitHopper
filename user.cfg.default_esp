@@ -159,6 +159,16 @@ role: mine_deepbit
 user: CHANGEME
 pass: CHANGEME
 
+[btcg]
+# Prueba suerte minar con el rol mine_deepbit
+# Ralentiza stats (pagina 87)
+#https://www.btcguild.com/
+#CAMBIA A CONTINUACION (si quieres)
+role: info
+btcguild_user_apikey: 81a9081f4d5f32db7dbbed407cb5f686
+user: c00w_test
+pass: 1234
+
 #######################################
 #  Estas minas son muy nuevas para
 # saber si toman medidas anti-hoping
@@ -291,15 +301,6 @@ pass: x
 role: disable
 user: FSkyvM
 pass: xndzEU
-
-[btcg]
-# Ralentiza stats (pagina 87)
-#https://www.btcguild.com/
-#CAMBIA A CONTINUACION (si quieres)
-role: disable
-btcguild_user_apikey: 81a9081f4d5f32db7dbbed407cb5f686
-user: c00w_test
-pass: 1234
 
 [mineco]
 # Ha cambiado sistema de pagos a PPLNS (pagina 94)
