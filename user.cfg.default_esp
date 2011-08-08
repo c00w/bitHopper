@@ -11,6 +11,8 @@
 #
 # mine = mina como esta mandado, normal (dificultad*0.43)
 # mine_slush = en esta se queda hasta dificultad.*0.10
+# mine_deepbit = monitorea y prueba suerte minar en
+#   esta mina sin utilizar la api
 # backup = viene a minar en esta si no tiene ninguna 
 #   mina Proporcional disponible
 # backup_latehop = prefiere minar en esta como backup si
