@@ -332,8 +332,10 @@ class DefaultScheduler(Scheduler):
             return True
 
         lp_owner = self.bh.lp.get_owner()
-        if self.bh.pool.servers[lp_owner]['role'] == 'mine_deepbit' and lp_owner not in valid:
-            return True
+        if lp_owner in self.bh.pool.server:
+            if self.bh.pool.servers[lp_owner]['role'] == 'mine_deepbit' 
+                if lp_owner not in valid:
+                    return True
 
         for server in valid:
             if current - self.sliceinfo[server] > 30:
