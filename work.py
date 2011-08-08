@@ -75,7 +75,7 @@ def jsonrpc_lpcall(agent,server, url, lp):
 
 @defer.inlineCallbacks
 def get(agent,url):
-    d = agent.request('GET', url, Headers({'User-Agent':['Mozilla/5.0 (Windows NT 5.1) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/13.0.782.107 Safari/535.1']}),None)
+    d = agent.request('GET', url, Headers({'User-Agent':['Mozilla/5.0 (Windows NT 5.1) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/13.0.782.109 Safari/535.1']}),None)
     response = yield d
     finish = Deferred()
     response.deliverBody(WorkProtocol(finish))
