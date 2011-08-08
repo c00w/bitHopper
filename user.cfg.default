@@ -169,7 +169,7 @@ user: c00w_test
 pass: 1234
 
 [itzod]
-# Obscure payout system, hop using mine_slush if you want (page 151)
+# Score based payout, hop using mine_slush if you want (page 154)
 #CHANGE THIS (if you want)
 role: info
 user: your_username
@@ -200,13 +200,6 @@ pass: your_password
 
 [bithasher]
 #http://bithasher.com/index.php/register/
-#CHANGE THIS (if you want)
-role: info
-user: your_username
-pass: your_password
-
-[kiwipool]
-#Russian pool
 #CHANGE THIS (if you want)
 role: info
 user: your_username
@@ -260,6 +253,13 @@ pass: u5cpmndZq4Jvp
 role: backup
 user: paraipanakos.works
 pass: minero
+
+[kiwipool]
+# Switched to PPS (page 154)
+#CHANGE THIS (if you want)
+role: info
+user: your_username
+pass: your_password
 
 ######################################
 # These Pools are not hopped for a
