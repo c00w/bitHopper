@@ -404,6 +404,12 @@ class AltSliceScheduler(Scheduler):
          if info['init'] == False and info['role'] in ['mine','mine_nmc','mine_slush']:
             #self.bh.log_dbg(server + " not yet initialized", cat=self.name)
             fullinit = False
+         shares = info['shares']
+         if 'penalty' in info:
+            shares = shares * float(info['penalty'])
+         # favor slush over other pools if low enough
+         if info['role'] in ['mine_slush'] and shares * 4 < min_shares:
+            fullinit = True
       
       if self.bh.pool.get_current() == None or allSlicesDone == True:
          reslice = True
@@ -494,6 +500,13 @@ class AltSliceScheduler(Scheduler):
       max_slice = -1
       for server in self.bh.pool.get_servers():
          info = self.bh.pool.get_entry(server)
+         shares = info['shares']
+         if 'penalty' in info:
+            shares = shares * float(info['penalty'])
+         # favor slush over other pools if low enough
+         if info['role'] in ['mine_slush'] and shares * 4 < min_shares:
+            server_name = server
+            continue
          if info['role'] in ['mine','mine_nmc','mine_slush'] and info['slice'] > 0 and info['lag'] == False:
             if max_slice == -1:
                max_slice = info['slice']
