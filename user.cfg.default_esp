@@ -171,7 +171,7 @@ user: c00w_test
 pass: 1234
 
 [itzod]
-# Sistema de pago obscuro, utiliza mine_slush si quieres saltarla (pagina 151)
+# Sistema de pago por puntuacion, utiliza mine_slush si quieres saltarla (pagina 154)
 #CHANGE THIS (if you want)
 role: info
 user: your_username
@@ -205,13 +205,6 @@ pass: your_password
 [bithasher]
 # Mina nueva
 #http://bithasher.com/index.php/register/
-#CAMBIA A CONTINUACION (si quieres)
-role: info
-user: your_username
-pass: your_password
-
-[kiwipool]
-# Mina rusa
 #CAMBIA A CONTINUACION (si quieres)
 role: info
 user: your_username
@@ -266,6 +259,13 @@ pass: u5cpmndZq4Jvp
 role: backup
 user: paraipanakos.works
 pass: minero
+
+[kiwipool]
+# Cambio a sistema PPS (pagina 154)
+#CAMBIA A CONTINUACION (si quieres)
+role: info
+user: your_username
+pass: your_password
 
 ######################################
 # Estas minas no se saltan por una
