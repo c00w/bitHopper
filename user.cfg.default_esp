@@ -204,7 +204,14 @@ user: your_username
 pass: your_password
 
 [kiwipool]
-#Mina rusa
+# Mina rusa
+#CAMBIA A CONTINUACION (si quieres)
+role: info
+user: your_username
+pass: your_password
+
+[itzod]
+# Mina rusa
 #CAMBIA A CONTINUACION (si quieres)
 role: info
 user: your_username
