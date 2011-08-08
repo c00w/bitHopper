@@ -16,6 +16,7 @@ class LongPoll():
         self.blocks = {}
         self.lastBlock = None
         self.errors = {}
+        self.polled = {}
 
     def set_owner(self,server):
         if self.lastBlock != None:
@@ -44,6 +45,7 @@ class LongPoll():
         work.jsonrpc_call(self.bitHopper.json_agent, server, [], self.bitHopper)
 
     def receive(self, body, server):
+        self.polled[server] -= 1
         info = self.bitHopper.pool.servers[server]
         if info['role'] in ['mine_nmc','disable']:
             return
@@ -52,7 +54,7 @@ class LongPoll():
                 self.errors[server] = 0
             self.errors[server] += 1
             #timeout? Something bizarre?
-            if self.errors[server] < 3:
+            if self.errors[server] < 3 and self.polled[server] == 0:
                 self.bitHopper.reactor.callLater(0,self.pull_lp, (self.pool.servers[server]['lp_address'],server))
             return
         self.bitHopper.log_msg('received lp from: ' + server)
@@ -78,10 +80,11 @@ class LongPoll():
                 self.errors[server] = 0
             self.errors[server] += 1
             #timeout? Something bizarre?
-            if self.errors[server] < 3:
+            if self.errors[server] < 3 and self.polled[server] == 0:
                 self.bitHopper.reactor.callLater(0,self.pull_lp, (self.pool.servers[server]['lp_address'],server))
             return
-        self.bitHopper.reactor.callLater(0,self.pull_lp, (self.pool.servers[server]['lp_address'],server))
+        if self.polled[server] == 0:
+            self.bitHopper.reactor.callLater(0,self.pull_lp, (self.pool.servers[server]['lp_address'],server))
         
     def clear_lp(self,):
         pass
@@ -110,8 +113,12 @@ class LongPoll():
             lp_address = str(url)
         self.bitHopper.log_msg("LP Call " + lp_address)
         try:
-            d = work.jsonrpc_lpcall(self.bitHopper.get_lp_agent(),server, lp_address, self)
-            d.addErrback(self.bitHopper.log_dbg)
+            if server not in self.polled:
+                self.polled[server] = 0
+            self.polled[server] += 1
+            if self.polled[server] ==1:
+                d = work.jsonrpc_lpcall(self.bitHopper.get_lp_agent(),server, lp_address, self)
+                d.addErrback(self.bitHopper.log_dbg)
         except Exception,e :
             self.bitHopper.log_dbg('pull_lp error')
             self.bitHopper.log_dbg(e)
