@@ -119,6 +119,8 @@ class LongPoll():
             if self.polled[server] ==1:
                 d = work.jsonrpc_lpcall(self.bitHopper.get_lp_agent(),server, lp_address, self)
                 d.addErrback(self.bitHopper.log_dbg)
+            else:
+                self.polled[server] -= 1
         except Exception,e :
             self.bitHopper.log_dbg('pull_lp error')
             self.bitHopper.log_dbg(e)
