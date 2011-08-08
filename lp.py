@@ -14,7 +14,7 @@ def byteswap(value):
     for i in xrange(0,len(value)):
         if i%2 == 1:
             bytes.append(value[i-1:i+1])
-    return "".join(bytes)
+    return "".join(bytes[::-1])
 
 class LongPoll():
     def __init__(self,bitHopper):
