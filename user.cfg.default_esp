@@ -256,14 +256,14 @@ pass: u5cpmndZq4Jvp
 # mina PPS
 #https://www.ninjacoin.com/index.php
 #CAMBIA A CONTINUACION
-role: backup
+role: disable
 user: paraipanakos.works
 pass: minero
 
 [kiwipool]
 # Cambio a sistema PPS (pagina 154)
 #CAMBIA A CONTINUACION (si quieres)
-role: info
+role: disable
 user: your_username
 pass: your_password
 
