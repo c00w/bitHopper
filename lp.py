@@ -9,6 +9,13 @@ import time
 
 from twisted.internet import reactor, defer
 
+def byteswap(value):
+    bytes = []
+    for i in xrange(0,len(value)):
+        if i%2 == 1:
+            bytes.append(value[i-1:i+1])
+    return "".join(bytes)
+
 class LongPoll():
     def __init__(self,bitHopper):
         self.bitHopper = bitHopper
@@ -65,13 +72,16 @@ class LongPoll():
             block = data[8:72]
             #block = int(block, 16)
             if block not in self.blocks:
-                self.bitHopper.log_msg('New Block: ' + str(block))
-                self.bitHopper.log_msg('Block Owner ' + server)
-                self.blocks[block] = {}
-                self.bitHopper.lp_callback(work)
-                self.blocks[block]["_owner"] = server
+                if byteswap(block) in self.blocks:
+                    block = byteswap(block)
+                else:
+                    self.bitHopper.log_msg('New Block: ' + str(block))
+                    self.bitHopper.log_msg('Block Owner ' + server)
+                    self.blocks[block] = {}
+                    self.bitHopper.lp_callback(work)
+                    self.blocks[block]["_owner"] = server
                 
-            if self.bitHopper.pool.servers[server]['role'] = 'mine_deepbit':
+            if self.bitHopper.pool.servers[server]['role'] == 'mine_deepbit':
                 self.lastBlock = block
 
             self.blocks[block][server] = time.time()
