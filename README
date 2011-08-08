@@ -36,6 +36,24 @@ http://twistedmatrix.com/trac
 
 Then follow the above instructions
 
+# Switches
+
+You can launch bH with the following parameters:
+
+	--list            = List servers
+	--disable         = Servers to disable. Get name from --list. Servera,Serverb,Serverc
+	--port            = Port to listen on
+	--scheduler       = Select an alternate scheduler
+	--listschedulers  = List alternate schedulers available
+	--threshold       = Override difficulty threshold (default 0.43)
+	--altslicesize    = Override Default AltSliceScheduler Slice Size of 900
+	--altminslicesize = Override Default Minimum Pool Slice Size of 60 (AltSliceScheduler only)
+	--altslicejitter  = Add some random variance to slice size, disabled by default (AltSliceScheduler only)
+	--startLP         = Seeds the LP module with known pools.
+	--noLP            = Turns off client side longpolling
+	--debug           = Use twisted output
+
+
 #Donations
 
 1HEmzeuVEKxBQkEenysV1yM8oAddQ4o2TX

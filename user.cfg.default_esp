@@ -54,7 +54,7 @@ pass: testhop
 
 [ozco]
 # Stats funcionan
-# Congela stats sin razon (pagina 114, foro oficial)
+# Congela stats sin razon (pagina 114, foro oficial bH)
 #https://ozco.in/register.php
 #CAMBIA A CONTINUACION
 role: info
@@ -136,7 +136,7 @@ user: x
 pass: y
 
 [bcpool]
-# Desactiva las medidas anti-hopper si donas 1% (page 111)
+# Desactiva las medidas anti-hopper si donas 1% (pagina 111)
 # Medidas anti-hopping basadas en "ventana de participacion" (pagina 36,)
 #http://bitcoinpool.com
 #CAMBIA A CONTINUACION
@@ -169,6 +169,13 @@ role: info
 btcguild_user_apikey: 81a9081f4d5f32db7dbbed407cb5f686
 user: c00w_test
 pass: 1234
+
+[itzod]
+# Sistema de pago obscuro, utiliza mine_slush si quieres saltarla (pagina 151)
+#CHANGE THIS (if you want)
+role: info
+user: your_username
+pass: your_password
 
 #######################################
 #  Estas minas son muy nuevas para
@@ -210,8 +217,8 @@ role: info
 user: your_username
 pass: your_password
 
-[itzod]
-# Mina rusa
+[btcmine]
+# Mina nueva
 #CAMBIA A CONTINUACION (si quieres)
 role: info
 user: your_username
@@ -273,7 +280,7 @@ pass: minero
 # Mina Namecoin, utiliza mine_nmc . Buena para saltar si quieres ganar unos namecoins
 #http://bitparking.com/
 #CAMBIA A CONTINUACION (si quieres)
-role: disable
+role: info
 user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
 pass: x
 #las contraseñas no importan en BitParking
@@ -290,7 +297,7 @@ pass: 1234
 # Sistema de pagos desconocido y medidas anti-hopping (pagina 55)
 #http://poolmunity.com/
 #CAMBIA A CONTINUACION (si quieres)
-role: disable
+role: info
 user: c00w.testhop
 pass: testhop
 
@@ -314,7 +321,7 @@ pass: xndzEU
 # Ha cambiado sistema de pagos a PPLNS (pagina 94)
 #https://mineco.in
 #CAMBIA A CONTINUACION (si quieres)
-role: disable
+role: info
 user: c00w.test
 pass: x
 
@@ -322,7 +329,7 @@ pass: x
 # Ha cambiado a sistema de pagos a uno por puntuacion (pagina 16)
 #https://eclipsemc.com
 #CAMBIA A CONTINUACION (si quieres)
-role: disable
+role: info
 eclipsemc_apikey: bd0eded7e35b1b5fc48f8d10214d98
 user: c00w_worker
 pass: x

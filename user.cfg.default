@@ -168,6 +168,13 @@ btcguild_user_apikey: 81a9081f4d5f32db7dbbed407cb5f686
 user: c00w_test
 pass: 1234
 
+[itzod]
+# Obscure payout system, hop using mine_slush if you want (page 151)
+#CHANGE THIS (if you want)
+role: info
+user: your_username
+pass: your_password
+
 #######################################
 #   These Pools are added recently
 #      hop them at your risk
@@ -181,8 +188,8 @@ pass: 1234
 #http://pool.bloodys.com
 #CHANGE THIS (if you want)
 role: info
-user: x
-pass: y
+user: your_username
+pass: your_password
 
 [digbtc]
 #http://www.digbtc.net/register.php
@@ -205,8 +212,8 @@ role: info
 user: your_username
 pass: your_password
 
-[itzod]
-#Russian pool
+[btcmine]
+# New pool
 #CHANGE THIS (if you want)
 role: info
 user: your_username
@@ -333,6 +340,6 @@ pass: x
 # Changed to PPLNS in the middle of a round (page 94)
 #http://www.unitedminers.com
 #CHANGE THIS (if you want)
-role: info
+role: disable
 user: dah4k0r@gmail.com_testhop
 pass: testhop

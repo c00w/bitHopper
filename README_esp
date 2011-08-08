@@ -39,6 +39,24 @@ http://twistedmatrix.com/trac
 
 Despues sigue las instrucciones de mas arriba
 
+# Parametros
+
+Puedes lanzar bH con los siguientes parametros:
+
+	--list            = Muestra los servidores
+	--disable         = Desabilita servidores. Consigue los nombres con --list. Servera,Serverb,Serverc
+	--port            = Puerto del proxy
+	--scheduler       = Selecciona otro modo programado
+	--listschedulers  = Muestra los modos programados
+	--threshold       = Sobrescribe dificultad de base (default 0.43)
+	--altslicesize    = Sobrescribe trozo para el modo AltSliceScheduler, tamaño trozo base es 900
+	--altminslicesize = Sobrescribe tamaño minimo de trozo, base 60 (AltSliceScheduler solo)
+	--altslicejitter  = Añade variacion en el tamaño de trozo, deshabilitado por defecto (AltSliceScheduler solo)
+	--startLP         = Engancha LP en las minas conocidas
+	--noLP            = Desactiva LP para clientes
+	--debug	          = Visiona la salida de twisted
+
+
 #Donativos
 
 1HEmzeuVEKxBQkEenysV1yM8oAddQ4o2TX
