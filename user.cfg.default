@@ -10,6 +10,8 @@
 #
 # mine = mines on this pool as usual (diff.*0.43)
 # mine_slush = mines pool until diff.*0.10
+# mine_deepbit = monitor and makes educated guess mining
+#   without using the api
 # backup = hopps on this when no Prop. pool is available
 # backup_latehop = prefers this for backup if pool has
 #   high share count (full descr. on page 121, bH thread)
@@ -49,6 +51,7 @@ user: c00w.testhop
 pass: testhop
 
 [ozco]
+# Stats solved
 # Freezing stats for unknown reason (page 114)
 #https://ozco.in/register.php
 #CHANGE THIS
@@ -154,6 +157,16 @@ pass: x
 role: mine_deepbit
 user: CHANGEME
 pass: CHANGEME
+
+[btcg]
+# Try mining here with the mine_deepbit role
+# Delayed stats (page 87)
+#https://www.btcguild.com/
+#CHANGE THIS (if you want)
+role: info
+btcguild_user_apikey: 81a9081f4d5f32db7dbbed407cb5f686
+user: c00w_test
+pass: 1234
 
 #######################################
 #   These Pools are added recently
@@ -283,15 +296,6 @@ pass: x
 role: disable
 user: FSkyvM
 pass: xndzEU
-
-[btcg]
-# Delayed stats (page 87)
-#https://www.btcguild.com/
-#CHANGE THIS (if you want)
-role: disable
-btcguild_user_apikey: 81a9081f4d5f32db7dbbed407cb5f686
-user: c00w_test
-pass: 1234
 
 [mineco]
 # Changed to PPLNS (page 94)
