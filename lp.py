@@ -72,8 +72,8 @@ class LongPoll():
 
             self.blocks[block][server] = time.time()
         except Exception, e:
-            self.bitHopper.log_msg('Error in LP' + str(server) + str(body))
-            self.bitHopper.log_msg(e)
+            self.bitHopper.log_dbg('Error in LP' + str(server) + str(body))
+            self.bitHopper.log_dbg(e)
             if server not in self.errors:
                 self.errors[server] = 0
             self.errors[server] += 1
