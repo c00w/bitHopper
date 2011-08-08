@@ -21,7 +21,7 @@ class LongPoll():
     def set_owner(self,server):
         if self.lastBlock != None:
             self.blocks[self.lastBlock]["_owner"] = server
-            self.bitHopper.log_msg('Setting Block Owner :' + self.lastBlock)
+            self.bitHopper.log_msg('Setting Block Owner :' + str(self.lastBlock))
 
     def get_owner(self,server):
         if self.lastBlock != None:
