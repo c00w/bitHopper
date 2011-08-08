@@ -55,7 +55,7 @@ pass: testhop
 # Freezing stats for unknown reason (page 114)
 #https://ozco.in/register.php
 #CHANGE THIS
-role: info
+role: mine
 user:c00w.1
 pass:1234
 
