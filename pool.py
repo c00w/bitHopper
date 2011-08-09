@@ -8,6 +8,7 @@ import re
 import ConfigParser
 import os
 import sys
+import time
 try:
     from collections import OrderedDict
 except:
@@ -16,7 +17,7 @@ except:
 class Pool():
     def __init__(self,bitHopper):
         self.servers = {}
-        self.api_pull = ['mine','info','mine_slush','mine_nmc','mine_charity','backup','backup_latehop']
+        self.api_pull = ['mine','info','mine_slush','mine_nmc','mine_charity','mine_deepbit','backup','backup_latehop']
 
         parser = ConfigParser.SafeConfigParser()
         try:
@@ -59,6 +60,7 @@ class Pool():
         self.bitHopper = bitHopper
         for server in self.servers:
             self.servers[server]['shares'] = int(bitHopper.difficulty.get_difficulty())
+            self.servers[server]['last_pulled'] = time.time()
             self.servers[server]['lag'] = False
             self.servers[server]['api_lag'] = False
             self.servers[server]['refresh_time'] = 60
@@ -188,6 +190,32 @@ class Pool():
             round_shares = int(output)
             if round_shares == None:
                 round_shares = int(bitHopper.difficulty.get_difficulty())
+            self.UpdateShares(args,round_shares)
+
+        elif server['api_method'] == 're_rate':
+            output = re.search(server['api_key'],response)
+            if 'api_group' in server:
+                output = output.group(int(server['api_group']))
+            else:
+                output = output.group(1)
+            if 'api_index' in server:
+                s,e = server['api_index'].split(',')
+                s = int(s)
+                if e == '0' or e =='':
+                    output = output[s:]
+                else:
+                    output = output[s:int(e)]
+            if 'api_strip' in server:
+                strip_str = server['api_strip'][1:-1]
+                output = output.replace(strip_str,'')
+            rate = int(output)
+            rate = rate * 1000*1000*1000
+            rate = float(rate)/2**32
+            old = server['last_pulled']
+            server['last_pulled'] = time.time()
+            diff = server['last_pulled'] - old
+            shares = int(rate * diff)
+            round_shares = shares + server['shares']
             self.UpdateShares(args,round_shares)
         else:
             self.bitHopper.log_msg('Unrecognized api method: ' + str(server))

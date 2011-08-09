@@ -80,7 +80,8 @@ class LongPoll():
                     self.blocks[block] = {}
                     self.bitHopper.lp_callback(work)
                     self.blocks[block]["_owner"] = server
-                
+                    if self.bitHopper.pool.servers[server]['role'] == 'mine_deepbit':
+                        self.bitHopper.pool.server[server]['shares'] = 0
             if self.bitHopper.pool.servers[server]['role'] == 'mine_deepbit':
                 self.lastBlock = block
 

@@ -146,9 +146,9 @@ class OldDefaultScheduler(Scheduler):
          info = self.bh.pool.get_entry(server)
          if info['api_lag'] or info['lag']:
             continue
-         if info['role'] not in ['mine','mine_nmc','mine_slush','mine_charity']:
+         if info['role'] not in ['mine','mine_nmc','mine_slush','mine_charity', 'mine_deepbit']:
             continue
-         if info['role'] in ['mine', 'mine_charity']:
+         if info['role'] in ['mine', 'mine_charity', 'mine_deepbit']:
             shares = info['shares']
          elif info['role'] == 'mine_slush':
             shares = info['shares'] * 4
@@ -266,17 +266,12 @@ class DefaultScheduler(Scheduler):
             continue
          if info['role'] not in ['mine','mine_nmc','mine_slush', 'mine_deepbit']:
             continue
-         if info['role'] in ['mine']:
+         if info['role'] in ['mine', 'mine_deepbit']:
             shares = info['shares']
          elif info['role'] == 'mine_slush':
             shares = info['shares'] * 4
          elif info['role'] == 'mine_nmc':
             shares = info['shares']*difficulty / nmc_difficulty
-         elif info['role'] == 'mine_deepbit':
-            if self.bh.lp.get_owner() == server:
-                shares = 0
-            else :
-                shares = min_shares
          else:
             shares = min_shares
          # apply penalty
@@ -407,7 +402,7 @@ class AltSliceScheduler(Scheduler):
          if info['slice'] > 0:
             reslice = False
             allSlicesDone = False
-         if info['init'] == False and info['role'] in ['mine','mine_nmc','mine_slush']:
+         if info['init'] == False and info['role'] in ['mine','mine_nmc','mine_slush', 'mine_deepbit']:
             #self.bh.log_dbg(server + " not yet initialized", cat=self.name)
             fullinit = False
          shares = info['shares']
