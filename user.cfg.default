@@ -276,7 +276,7 @@ pass: your_password
 # Namecoin pool, use mine_nmc . Good for hopping if you want some namecoins
 #http://bitparking.com/
 #CHANGE THIS (if you want)
-role: disable
+role: info
 user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
 pass: x
 #passwords can be anything on bitparking
@@ -286,7 +286,7 @@ pass: x
 # Nice polish pool
 #https://polmine.pl
 #CHANGE THIS
-role: disable
+role: info
 user: c00w1456testhop
 pass: x
 
@@ -302,7 +302,7 @@ pass: 1234
 # Obscure payout system and anti-hopping measures (page 55)
 #CHANGE THIS (if you want)
 #http://poolmunity.com/
-role: disable
+role: info
 user: c00w.testhop
 pass: testhop
 
@@ -326,7 +326,7 @@ pass: xndzEU
 # Changed to PPLNS (page 94)
 #https://mineco.in
 #CHANGE THIS (if you want)
-role: disable
+role: info
 user: c00w.test
 pass: x
 
@@ -334,7 +334,7 @@ pass: x
 # Changed to a score system (page 16)
 #https://eclipsemc.com
 #CHANGE THIS (if you want)
-role: disable
+role: info
 eclipsemc_apikey: bd0eded7e35b1b5fc48f8d10214d98
 user: c00w_worker
 pass: x
