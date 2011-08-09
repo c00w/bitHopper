@@ -178,6 +178,13 @@ role: disable
 user: dah4k0r@gmail.com_testhop
 pass: testhop
 
+[btcmine]
+# Sistema de pago por puntuacion (pagina 164)
+#CAMBIA A CONTINUACION (si quieres)
+role: info
+user: your_username
+pass: your_password
+
 #######################################
 #  Estas minas son muy nuevas para
 # saber si toman medidas anti-hoping
@@ -206,13 +213,6 @@ pass: your_password
 [bithasher]
 # Mina nueva
 #http://bithasher.com/index.php/register/
-#CAMBIA A CONTINUACION (si quieres)
-role: info
-user: your_username
-pass: your_password
-
-[btcmine]
-# Mina nueva
 #CAMBIA A CONTINUACION (si quieres)
 role: info
 user: your_username

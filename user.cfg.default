@@ -176,6 +176,13 @@ role: info
 user: dah4k0r@gmail.com_testhop
 pass: testhop
 
+[btcmine]
+# Score based payout (page 164)
+#CHANGE THIS (if you want)
+role: info
+user: your_username
+pass: your_password
+
 #######################################
 #   These Pools are added recently
 #      hop them at your risk
@@ -201,13 +208,6 @@ pass: your_password
 
 [bithasher]
 #http://bithasher.com/index.php/register/
-#CHANGE THIS (if you want)
-role: info
-user: your_username
-pass: your_password
-
-[btcmine]
-# New pool
 #CHANGE THIS (if you want)
 role: info
 user: your_username
