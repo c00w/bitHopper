@@ -326,25 +326,16 @@ class DefaultScheduler(Scheduler):
         if len(valid) <=1:
             return True
 
-        lp_owner = self.bh.lp.get_owner()
-        if lp_owner in self.bh.pool.servers:
-            if self.bh.pool.servers[lp_owner]['role'] == 'mine_deepbit' :
-                if lp_owner not in valid:
-                    return True
-
         for server in valid:
             if current - self.sliceinfo[server] > 30:
                 return True
-            if self.bh.pool.servers[server]['role'] == 'mine_deepbit':
-                if lp_owner != server:
-                    return True
 
         difficulty = self.bh.difficulty.get_difficulty()
         nmc_difficulty = self.bh.difficulty.get_nmc_difficulty()
         min_shares = difficulty * self.difficultyThreshold
 
         info = self.bh.pool.servers[self.bh.pool.get_current()]
-        if info['role'] in ['mine']:
+        if info['role'] in ['mine', 'mine_deepbit']:
            shares = info['shares']
         elif info['role'] == 'mine_slush':
            shares = info['shares'] * 4
@@ -429,7 +420,7 @@ class AltSliceScheduler(Scheduler):
          server_shares = {}
          for server in self.bh.pool.get_servers():
             info = self.bh.pool.get_entry(server)
-            if info['role'] not in ['mine','mine_nmc','mine_slush']:
+            if info['role'] not in ['mine','mine_nmc','mine_slush', 'mine_deepbit']:
                continue
             if info['api_lag'] or info['lag']:
                continue
@@ -455,7 +446,7 @@ class AltSliceScheduler(Scheduler):
          # find total weight   
          for server in self.bh.pool.get_servers():
             info = self.bh.pool.get_entry(server)
-            if info['role'] not in ['mine','mine_nmc','mine_slush']:
+            if info['role'] not in ['mine','mine_nmc','mine_slush','mine_deepbit']:
                continue
             if info['api_lag'] or info['lag']:
                continue
@@ -476,7 +467,7 @@ class AltSliceScheduler(Scheduler):
          # allocate slices         
          for server in self.bh.pool.get_servers():
             info = self.bh.pool.get_entry(server)
-            if info['role'] not in ['mine','mine_nmc','mine_slush']:
+            if info['role'] not in ['mine','mine_nmc','mine_slush','mine_deepbit']:
                continue
             if info['shares'] <=0: continue
             if server not in server_shares:
@@ -508,7 +499,7 @@ class AltSliceScheduler(Scheduler):
          if info['role'] in ['mine_slush'] and shares * 4 < min_shares:
             server_name = server
             continue
-         if info['role'] in ['mine','mine_nmc','mine_slush'] and info['slice'] > 0 and info['lag'] == False:
+         if info['role'] in ['mine','mine_nmc','mine_slush', 'mine_deepbit'] and info['slice'] > 0 and info['lag'] == False:
             if max_slice == -1:
                max_slice = info['slice']
                server_name = server
@@ -539,7 +530,7 @@ class AltSliceScheduler(Scheduler):
       if info['slicedShares'] > info['shares']: return True
       
       # double check role
-      if info['role'] not in ['mine','mine_nmc','mine_slush']: return True
+      if info['role'] not in ['mine','mine_nmc','mine_slush','mine_deepbit']: return True
       
       # check to see if threshold exceeded
       difficulty = self.bh.difficulty.get_difficulty()
