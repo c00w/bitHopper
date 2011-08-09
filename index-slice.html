@@ -199,7 +199,7 @@
 				if (payload['sliceinfo'][name] >= 0)
 					return parseFloat(payload['sliceinfo'][name]).toFixed(0)
 				else
-					return "n/a"
+					return ""
 			}
 			
 			function getPenalty(payload, srv) {

@@ -199,7 +199,7 @@
 				if (payload['sliceinfo'][name] >= 0)
 					return parseFloat(payload['sliceinfo'][name]).toFixed(0)
 				else
-					return "n/a"
+					return ""
 			}
 			
 			function getPenalty(payload, srv) {
@@ -350,10 +350,10 @@
 					buildTable("#users", users, users,
 						{
 							"User": { 'data':getUserName } ,
-                           				"Last Seen": {'data':getUserTime, 'align':'right' },
+                            				"Last Seen": {'data':getUserTime, 'align':'right' },
 							"Shares": { 'data':getUserShares, 'align':'right' },
                             				"Rejects": {'data':getUserRejects, 'align':'right'},
-							"Hashrate": { 'data':getUserHashrate, 'align':'right' }  
+							"Hashrate": {'data':getUserHashrate, 'align':'right'}  
 						}
 					);
 					
