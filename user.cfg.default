@@ -167,6 +167,15 @@ role: info
 user: your_username
 pass: your_password
 
+[unitedminers]
+# Disables anti-hopper flagging if you donate to pool (page 161)
+# Changed to PPLNS in the middle of a round (page 94)
+#http://www.unitedminers.com
+#CHANGE THIS (if you want)
+role: info
+user: dah4k0r@gmail.com_testhop
+pass: testhop
+
 #######################################
 #   These Pools are added recently
 #      hop them at your risk
@@ -337,10 +346,3 @@ role: disable
 user: c00w.1
 pass: x
 
-[unitedminers]
-# Changed to PPLNS in the middle of a round (page 94)
-#http://www.unitedminers.com
-#CHANGE THIS (if you want)
-role: disable
-user: dah4k0r@gmail.com_testhop
-pass: testhop

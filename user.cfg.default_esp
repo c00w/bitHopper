@@ -169,6 +169,15 @@ role: info
 user: your_username
 pass: your_password
 
+[unitedminers]
+# Desactiva las medidas anti-hopper si donas de tu recompensa (pagina 161)
+# Ha cambiado a sistema PPLNS en medio de una ronda (pagina 94)
+#http://www.unitedminers.com
+#CAMBIA A CONTINUACION (si quieres)
+role: disable
+user: dah4k0r@gmail.com_testhop
+pass: testhop
+
 #######################################
 #  Estas minas son muy nuevas para
 # saber si toman medidas anti-hoping
@@ -343,10 +352,3 @@ role: disable
 user: c00w.1
 pass: x
 
-[unitedminers]
-# Ha cambiado a sistema PPLNS en medio de una ronda (pagina 94)
-#http://www.unitedminers.com
-#CAMBIA A CONTINUACION (si quieres)
-role: disable
-user: dah4k0r@gmail.com_testhop
-pass: testhop
