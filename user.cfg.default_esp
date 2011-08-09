@@ -169,6 +169,30 @@ role: info
 user: your_username
 pass: your_password
 
+[unitedminers]
+# Desactiva las medidas anti-hopper si donas de tu recompensa (pagina 161)
+# Ha cambiado a sistema PPLNS en medio de una ronda (pagina 94)
+#http://www.unitedminers.com
+#CAMBIA A CONTINUACION (si quieres)
+role: disable
+user: dah4k0r@gmail.com_testhop
+pass: testhop
+
+[btcmine]
+# Sistema de pago por puntuacion (pagina 164)
+#CAMBIA A CONTINUACION (si quieres)
+role: info
+user: your_username
+pass: your_password
+
+[digbtc]
+# Mina pequeña, recomendado que cambies el user-agent en el archivo "work.py" (page 154)
+#http://www.digbtc.net/register.php
+#CAMBIA A CONTINUACION (si quieres)
+role: info
+user: your_username
+pass: your_password
+
 #######################################
 #  Estas minas son muy nuevas para
 # saber si toman medidas anti-hoping
@@ -186,24 +210,9 @@ role: info
 user: your_username
 pass: your_password
 
-[digbtc]
-# Mina nueva
-#http://www.digbtc.net/register.php
-#CAMBIA A CONTINUACION (si quieres)
-role: info
-user: your_username
-pass: your_password
-
 [bithasher]
 # Mina nueva
 #http://bithasher.com/index.php/register/
-#CAMBIA A CONTINUACION (si quieres)
-role: info
-user: your_username
-pass: your_password
-
-[btcmine]
-# Mina nueva
 #CAMBIA A CONTINUACION (si quieres)
 role: info
 user: your_username
@@ -343,10 +352,3 @@ role: disable
 user: c00w.1
 pass: x
 
-[unitedminers]
-# Ha cambiado a sistema PPLNS en medio de una ronda (pagina 94)
-#http://www.unitedminers.com
-#CAMBIA A CONTINUACION (si quieres)
-role: disable
-user: dah4k0r@gmail.com_testhop
-pass: testhop

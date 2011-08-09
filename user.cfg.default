@@ -167,6 +167,30 @@ role: info
 user: your_username
 pass: your_password
 
+[unitedminers]
+# Disables anti-hopper flagging if you donate to pool (page 161)
+# Changed to PPLNS in the middle of a round (page 94)
+#http://www.unitedminers.com
+#CHANGE THIS (if you want)
+role: info
+user: dah4k0r@gmail.com_testhop
+pass: testhop
+
+[btcmine]
+# Score based payout (page 164)
+#CHANGE THIS (if you want)
+role: info
+user: your_username
+pass: your_password
+
+[digbtc]
+# Small pool, recommended you change user-agent in file "work.py" (page 154)
+#http://www.digbtc.net/register.php
+#CHANGE THIS (if you want)
+role: info
+user: your_username
+pass: your_password
+
 #######################################
 #   These Pools are added recently
 #      hop them at your risk
@@ -183,22 +207,8 @@ role: info
 user: your_username
 pass: your_password
 
-[digbtc]
-#http://www.digbtc.net/register.php
-#CHANGE THIS (if you want)
-role: info
-user: your_username
-pass: your_password
-
 [bithasher]
 #http://bithasher.com/index.php/register/
-#CHANGE THIS (if you want)
-role: info
-user: your_username
-pass: your_password
-
-[btcmine]
-# New pool
 #CHANGE THIS (if you want)
 role: info
 user: your_username
@@ -337,10 +347,3 @@ role: disable
 user: c00w.1
 pass: x
 
-[unitedminers]
-# Changed to PPLNS in the middle of a round (page 94)
-#http://www.unitedminers.com
-#CHANGE THIS (if you want)
-role: disable
-user: dah4k0r@gmail.com_testhop
-pass: testhop
