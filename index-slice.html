@@ -35,7 +35,7 @@
 			}
 			
 		</style>
-        <title>bitHopper info</title>
+		<title>bitHopper info</title>
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
 		<script type="text/javascript" src="http://omnipotent.net/jquery.sparkline/1.6/jquery.sparkline.min.js"></script>
 		<script type="text/javascript">
@@ -124,13 +124,13 @@
 					+ fixLength("" + pp.toFixed(2), 5) + "%";
 			}
 			
-            function getUserTime(payload, user, key){
-                return user['last']
-            }
+			function getUserTime(payload, user, key){
+				return user['last']
+			}
 
-            function getUserRejects(payload, user, key){
-                return user['rejects']
-            }
+			function getUserRejects(payload, user, key){
+				return user['rejects']
+			}
 
 			function getUserShares(payload, user, key) {
 				return user["shares"];
@@ -320,6 +320,7 @@
 		
 			function update() {
 				$.getJSON('/data', function(data) {
+					document.title = 'bitHopper @ ' + data["current"];
 					$("#current").html("<span style='color:yellow;'>" + data["current"] + "</span> @" + parseInt(data["mhash"]) + "MHash");
 
 					updateRoundShares(data);
@@ -350,9 +351,9 @@
 					buildTable("#users", users, users,
 						{
 							"User": { 'data':getUserName } ,
-                            				"Last Seen": {'data':getUserTime, 'align':'right' },
+							"Last Seen": {'data':getUserTime, 'align':'right' },
 							"Shares": { 'data':getUserShares, 'align':'right' },
-                            				"Rejects": {'data':getUserRejects, 'align':'right'},
+							"Rejects": {'data':getUserRejects, 'align':'right'},
 							"Hashrate": {'data':getUserHashrate, 'align':'right'}  
 						}
 					);
