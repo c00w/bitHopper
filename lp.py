@@ -28,7 +28,7 @@ class LongPoll():
     def set_owner(self,server):
         if self.lastBlock != None:
             self.blocks[self.lastBlock]["_owner"] = server
-            self.bitHopper.log_msg('Setting Block Owner :' + str(self.lastBlock))
+            self.bitHopper.log_msg('Setting Block Owner ' + server+ ':' + str(self.lastBlock))
 
     def get_owner(self):
         if self.lastBlock != None:
@@ -124,12 +124,12 @@ class LongPoll():
             lp_address = str(pool['mine_address']) + str(url)
         else:
             lp_address = str(url)
-        self.bitHopper.log_msg("LP Call " + lp_address)
         try:
             if server not in self.polled:
                 self.polled[server] = 0
             self.polled[server] += 1
             if self.polled[server] ==1:
+                self.bitHopper.log_msg("LP Call " + lp_address)
                 d = work.jsonrpc_lpcall(self.bitHopper.get_lp_agent(),server, lp_address, self)
                 d.addErrback(self.bitHopper.log_dbg)
             else:
