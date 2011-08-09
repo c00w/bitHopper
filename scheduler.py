@@ -264,7 +264,7 @@ class DefaultScheduler(Scheduler):
          info = self.bh.pool.get_entry(server)
          if info['api_lag'] or info['lag']:
             continue
-         if info['role'] not in ['mine','mine_nmc','mine_slush']:
+         if info['role'] not in ['mine','mine_nmc','mine_slush', 'mine_deepbit']:
             continue
          if info['role'] in ['mine']:
             shares = info['shares']
@@ -275,7 +275,7 @@ class DefaultScheduler(Scheduler):
          elif info['role'] == 'mine_deepbit':
             if self.bh.lp.get_owner() == server:
                 shares = 0
-            else:
+            else :
                 shares = min_shares
          else:
             shares = min_shares
