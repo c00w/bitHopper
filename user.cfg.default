@@ -191,14 +191,6 @@ role: info
 user: your_username
 pass: your_password
 
-[swepool]
-#http://swepool.net/profile
-#CHANGE THIS (if you want)
-user: 
-pass:  
-swepool_user_apikey: 
-role: mine
-
 #######################################
 #   These Pools are added recently
 #      hop them at your risk
@@ -219,6 +211,14 @@ pass: your_password
 #http://bithasher.com/index.php/register/
 #CHANGE THIS (if you want)
 role: info
+user: your_username
+pass: your_password
+
+[swepool]
+#http://swepool.net/profile
+#CHANGE THIS (if you want)
+role: info
+swepool_user_apikey: xxxxxx
 user: your_username
 pass: your_password
 
