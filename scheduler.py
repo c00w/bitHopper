@@ -424,7 +424,7 @@ class AltSliceScheduler(Scheduler):
                continue
             if info['api_lag'] or info['lag']:
                continue
-            if info['role'] in ['mine']:
+            if info['role'] in ['mine','mine_deepbit']:
                shares = info['shares']
             elif info['role'] == 'mine_slush':
                shares = info['shares'] * 4
@@ -450,7 +450,7 @@ class AltSliceScheduler(Scheduler):
                continue
             if info['api_lag'] or info['lag']:
                continue
-            if info['role'] in ['mine']:
+            if info['role'] in ['mine','mine_deepbit']:
                shares = info['shares']
             elif info['role'] == 'mine_slush':
                shares = info['shares'] * 4
