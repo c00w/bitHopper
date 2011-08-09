@@ -183,6 +183,14 @@ role: info
 user: your_username
 pass: your_password
 
+[digbtc]
+# Small pool, recommended you change user-agent in file "work.py" (page 154)
+#http://www.digbtc.net/register.php
+#CHANGE THIS (if you want)
+role: info
+user: your_username
+pass: your_password
+
 #######################################
 #   These Pools are added recently
 #      hop them at your risk
@@ -194,13 +202,6 @@ pass: your_password
 [bloodys]
 # Another pool for the collection
 #http://pool.bloodys.com
-#CHANGE THIS (if you want)
-role: info
-user: your_username
-pass: your_password
-
-[digbtc]
-#http://www.digbtc.net/register.php
 #CHANGE THIS (if you want)
 role: info
 user: your_username

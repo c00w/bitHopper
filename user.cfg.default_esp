@@ -185,6 +185,14 @@ role: info
 user: your_username
 pass: your_password
 
+[digbtc]
+# Mina pequeña, recomendado que cambies el user-agent en el archivo "work.py" (page 154)
+#http://www.digbtc.net/register.php
+#CAMBIA A CONTINUACION (si quieres)
+role: info
+user: your_username
+pass: your_password
+
 #######################################
 #  Estas minas son muy nuevas para
 # saber si toman medidas anti-hoping
@@ -197,14 +205,6 @@ pass: your_password
 [bloodys]
 # Otra para la coleccion
 #http://pool.bloodys.com
-#CAMBIA A CONTINUACION (si quieres)
-role: info
-user: your_username
-pass: your_password
-
-[digbtc]
-# Mina nueva
-#http://www.digbtc.net/register.php
 #CAMBIA A CONTINUACION (si quieres)
 role: info
 user: your_username
