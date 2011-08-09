@@ -124,12 +124,12 @@ class LongPoll():
             lp_address = str(pool['mine_address']) + str(url)
         else:
             lp_address = str(url)
-        self.bitHopper.log_msg("LP Call " + lp_address)
         try:
             if server not in self.polled:
                 self.polled[server] = 0
             self.polled[server] += 1
             if self.polled[server] ==1:
+                self.bitHopper.log_msg("LP Call " + lp_address)
                 d = work.jsonrpc_lpcall(self.bitHopper.get_lp_agent(),server, lp_address, self)
                 d.addErrback(self.bitHopper.log_dbg)
             else:
