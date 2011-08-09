@@ -55,17 +55,9 @@ pass: testhop
 # Freezing stats for unknown reason (page 114)
 #https://ozco.in/register.php
 #CHANGE THIS
-role: info
+role: mine
 user:c00w.1
 pass:1234
-
-[polmine]
-# Nice polish pool
-#https://polmine.pl
-#CHANGE THIS
-role: mine
-user: c00w1456testhop
-pass: x
 
 [mtred]
 # Good for hopping, fast pool for hopper-starters
@@ -278,6 +270,15 @@ role: info
 user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
 pass: x
 #passwords can be anything on bitparking
+
+[polmine]
+# Delays and fakes stats (page 157)
+# Nice polish pool
+#https://polmine.pl
+#CHANGE THIS
+role: info
+user: c00w1456testhop
+pass: x
 
 [btcpool24]
 # Changed payout system and delays stats, allot (page 116)

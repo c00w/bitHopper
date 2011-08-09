@@ -57,17 +57,9 @@ pass: testhop
 # Congela stats sin razon (pagina 114, foro oficial bH)
 #https://ozco.in/register.php
 #CAMBIA A CONTINUACION
-role: info
+role: mine
 user:c00w.1
 pass:1234
-
-[polmine]
-# Mina polaca
-#https://polmine.pl
-#CAMBIA A CONTINUACION
-role: mine
-user: c00w1456testhop
-pass: x
 
 [mtred]
 # Buena para saltar, mina rapida para principiantes
@@ -284,6 +276,15 @@ role: info
 user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
 pass: x
 #las contraseñas no importan en BitParking
+
+[polmine]
+# Ralentiza y truca los stats (pagina 157)
+# Mina polaca
+#https://polmine.pl
+#CAMBIA A CONTINUACION
+role: mine
+user: c00w1456testhop
+pass: x
 
 [btcpool24]
 # Ha cambiado el sistema de pagos y ralentiza los stats (pagina 116, foro bH)
