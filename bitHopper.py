@@ -32,10 +32,11 @@ from twisted.internet.defer import Deferred
 from twisted.internet.task import LoopingCall
 from twisted.python import log, failure
 from scheduler import Scheduler
+import twisted.web.client
 
 class BitHopper():
     def __init__(self):
-        self.json_agent = Agent(reactor)
+        self.json_agent = twisted.web.client.Agent(reactor)
         self.lp_agent = Agent(reactor, persistent=True)
         self.new_server = Deferred()
         self.stats_file = None
@@ -69,13 +70,13 @@ class BitHopper():
         reactor.callLater(0.1,self.new_server.callback,work)
         self.new_server = Deferred()
 
-    def get_json_agent(self, ):
+    def get_json_agent(self):
         return self.json_agent
 
-    def get_lp_agent(self, ):
+    def get_lp_agent(self):
         return self.lp_agent
 
-    def get_options(self, ):
+    def get_options(self):
         return self.options
 
     def log_msg(self, msg, **kwargs):
@@ -121,6 +122,7 @@ class BitHopper():
 
     def get_new_server(self, server):
         self.pool.get_entry(server)['lag'] = True
+        self.log_bdg('Lagging. :' + server)
         if server == self.pool.get_current():
             self.select_best_server()
         return self.pool.get_current()
@@ -136,8 +138,12 @@ class BitHopper():
             info = self.pool.servers[server]
             if info['lag'] == True:
                 data = yield work.jsonrpc_call(self.json_agent, server,[], self)
+                self.log_dbg('Got' + server + ":" + str(data))
                 if data != None:
-                    server['lag'] = False
+                    info['lag'] = False
+                    self.log_dbg('Delagging')
+                else:
+                    self.log_dbg('Not delagging')
 
     def bitHopper_Post(self,request):
         self.request_store.add(request)
@@ -171,8 +177,7 @@ class BitHopper():
             self.log_msg('RPC request [' + rep + "] submitted to " + current)
 
         if data != []:
-            if not self.request_store.closed(request):
-                self.data_callback(current,data, request.getUser(), request.getPassword())        
+            self.data_callback(current,data, request.getUser(), request.getPassword())        
         return server.NOT_DONE_YET
 
     def bitHopperLP(self, value, *methodArgs):
@@ -196,7 +201,7 @@ class BitHopper():
 
             response = json.dumps({"result":value,'error':None,'id':j_id})
             if self.request_store.closed(request):
-                return
+                return value
             request.write(response)
             request.finish()
 
@@ -287,7 +292,7 @@ def main():
     reactor.listenTCP(options.port, site,5, options.ip)
     reactor.callLater(0, bithopper_global.pool.update_api_servers, bithopper_global)
     delag_call = LoopingCall(bithopper_global.delag_server)
-    delag_call.start(119)
+    delag_call.start(10)
     reactor.run()
     bithopper_global.db.close()
 
