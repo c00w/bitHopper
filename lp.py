@@ -49,7 +49,6 @@ class LongPoll():
                 
     def pull_server(self,server):
         #self.bitHopper.log_msg('Pulling from ' + server)
-        server = self.pool.servers[server]
         work.jsonrpc_call(self.bitHopper.json_agent, server, [], self.bitHopper)
 
     def receive(self, body, server):
@@ -108,8 +107,6 @@ class LongPoll():
         #self.bitHopper.log_msg('set_lp ' + url + ' ' + server)
         try:
             info = self.bitHopper.pool.get_entry(server)
-            if info['lp_address'] == url:
-                return
             info['lp_address'] = url
             if server not in self.polled:
                 self.polled[server] = threading.Semaphore()

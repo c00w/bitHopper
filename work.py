@@ -90,28 +90,28 @@ def jsonrpc_call(agent, server, data , bitHopper):
         request = json.dumps({'method':'getwork', 'params':data, 'id':i}, ensure_ascii = True)
         i = i +1
         
-        header = {'Authorization':["Basic " +base64.b64encode(server['user']+ ":" + server['pass'])], 'User-Agent': ['poclbm/20110709'],'Content-Type': ['application/json'] }
-        d = agent.request('POST', "http://" + server['mine_address'], Headers(header), StringProducer(request))
-        d.addErrback(bitHopper.log_dbg)
+        info = bitHopper.pool.servers[server]
+        header = {'Authorization':["Basic " +base64.b64encode(info['user']+ ":" + info['pass'])], 'User-Agent': ['poclbm/20110709'],'Content-Type': ['application/json'] }
+        d = agent.request('POST', "http://" + info['mine_address'], Headers(header), StringProducer(request))
         response = yield d
         if response == None:
             raise Exception("Response is none")
         header = response.headers
         #Check for long polling header
         lp = bitHopper.lp
-        if lp.check_lp(server['pool_index']):
+        if lp.check_lp(server):
             #bitHopper.log_msg('Inside LP check')
             for k,v in header.getAllRawHeaders():
                 if k.lower() == 'x-long-polling':
-                    lp.set_lp(v[0],server['pool_index'])
+                    lp.set_lp(v[0],server)
                     break
 
         finish = Deferred()
-        finish.addErrback(bitHopper.log_dbg)
         response.deliverBody(WorkProtocol(finish))
         body = yield finish
     except Exception, e:
         bitHopper.log_dbg('Caught, jsonrpc_call insides')
+        bitHopper.log_dbg(server)
         bitHopper.log_dbg(e)
         #traceback.print_exc
         defer.returnValue(None)
@@ -122,8 +122,14 @@ def jsonrpc_call(agent, server, data , bitHopper):
         defer.returnValue(value)
     except Exception, e:
         bitHopper.log_dbg( "Error in json decoding, Server probably down")
+        bitHopper.log_dbg(server)
         bitHopper.log_dbg(body)
         defer.returnValue(None)
+
+def sleep(length, bitHopper):
+    d = Deferred()
+    bitHopper.reactor.callLater(length, d.callback, None)
+    return d
 
 @defer.inlineCallbacks
 def jsonrpc_getwork(agent, server, data, j_id, request, bitHopper):
@@ -132,26 +138,29 @@ def jsonrpc_getwork(agent, server, data, j_id, request, bitHopper):
     work = None
     while work == None:
         i += 1
-        if data == [] and i > 4:
+        if data == [] and i > 2:
             server = bitHopper.get_new_server(server)
+        elif i > 1:
+            bitHopper.get_new_server(server)
         try:
-            if i > 8:
-                time.sleep(0.1)
+            if i > 1:
+                yield sleep(1, bitHopper)
             if bitHopper.request_store.closed(request):
                 return
             work = yield jsonrpc_call(agent, server,data,bitHopper)
         except Exception, e:
             bitHopper.log_dbg( 'caught, inner jsonrpc_call loop')
+            bitHopper.log_dbg(server)
             bitHopper.log_dbg(str(e))
             work = None
             continue
 
     try:
         if str(work) == 'False':
-            bitHopper.reject_callback(server['pool_index'], data)
+            bitHopper.reject_callback(server, data)
         elif str(work) != 'True':
             merkle_root = work["data"][72:136]
-            bitHopper.getwork_store.add(server['pool_index'],merkle_root)
+            bitHopper.getwork_store.add(server,merkle_root)
         response = json.dumps({"result":work,'error':None,'id':j_id})
         if bitHopper.request_store.closed(request):
                 return
