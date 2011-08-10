@@ -35,7 +35,7 @@ from scheduler import Scheduler
 
 class BitHopper():
     def __init__(self):
-        self.json_agent = Agent(reactor, persistent=True)
+        self.json_agent = Agent(reactor)
         self.lp_agent = Agent(reactor, persistent=True)
         self.new_server = Deferred()
         self.stats_file = None
