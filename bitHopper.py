@@ -175,9 +175,8 @@ class BitHopper():
                 rep = str(data[0][155:163])
             self.log_msg('RPC request [' + rep + "] submitted to " + current)
 
-        if data != []
-            if not self.request_store.closed(request):
-                self.data_callback(current,data, request.getUser(), request.getPassword())        
+        if data != []:
+            self.data_callback(current,data, request.getUser(), request.getPassword())        
         return server.NOT_DONE_YET
 
     def bitHopperLP(self, value, *methodArgs):
