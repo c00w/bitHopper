@@ -120,11 +120,10 @@ class BitHopper():
         return
 
     def get_new_server(self, server):
-        if server != self.pool.get_entry(self.pool.get_current()):
-            return self.pool.get_entry(self.pool.get_current())
-        self.pool.get_entry(self.pool.get_current())['lag'] = True
-        self.select_best_server()
-        return self.pool.get_entry(self.pool.get_current())
+        self.pool.get_entry(server)['lag'] = True
+        if server == self.pool.get_current():
+            self.select_best_server()
+        return self.pool.get_current()
 
     def server_update(self, ):
         if self.scheduler.server_update():
@@ -133,9 +132,9 @@ class BitHopper():
     @defer.inlineCallbacks
     def delag_server(self ):
         self.log_dbg('Running Delager')
-        for index in self.pool.get_servers():
-            server = self.pool.get_entry(index)
-            if server['lag'] == True:
+        for server in self.pool.get_servers():
+            info = self.pool.servers[server]
+            if info['lag'] == True:
                 data = yield work.jsonrpc_call(self.json_agent, server,[], self)
                 if data != None:
                     server['lag'] = False
@@ -158,19 +157,18 @@ class BitHopper():
             new_server = self.getwork_store.get_server(data[0][72:136])
             if new_server != None:
                 current = new_server
-        pool_server=self.pool.get_entry(current)
 
-        work.jsonrpc_getwork(self.json_agent, pool_server, data, j_id, request, self)
+        work.jsonrpc_getwork(self.json_agent, current, data, j_id, request, self)
 
         if self.options.debug:
-            self.log_msg('RPC request ' + str(data) + " submitted to " + str(pool_server['name']))
+            self.log_msg('RPC request ' + str(data) + " submitted to " + current)
         else:
             if data == []:
                 #If request contains no data, tell the user which remote procedure was called instead
                 rep = rpc_request['method']
             else:
                 rep = str(data[0][155:163])
-            self.log_msg('RPC request [' + rep + "] submitted to " + str(pool_server['name']))
+            self.log_msg('RPC request [' + rep + "] submitted to " + current)
 
         if data != []:
             if not self.request_store.closed(request):
@@ -234,6 +232,7 @@ def main():
     parser.add_option('--altminslicesize', type=int, default=60, help='Override Default Minimum Pool Slice Size of 60 (AltSliceScheduler only)')
     parser.add_option('--altslicejitter', type=int, default=0, help='Add some random variance to slice size, disabled by default (AltSliceScheduler only)')
     parser.add_option('--startLP', action= 'store_true', default = True, help='Seeds the LP module with known pools. Must use it for LP based hopping with deepbit, True by default')
+    parser.add_option('--ip', type = str, default='', help='IP to listen on')
     args, rest = parser.parse_args()
     options = args
     bithopper_global.options = args
@@ -285,7 +284,7 @@ def main():
         startlp.start(60*30)
 
     site = server.Site(website.bitSite(bithopper_global))
-    reactor.listenTCP(options.port, site)
+    reactor.listenTCP(options.port, site,5, options.ip)
     reactor.callLater(0, bithopper_global.pool.update_api_servers, bithopper_global)
     delag_call = LoopingCall(bithopper_global.delag_server)
     delag_call.start(119)
