@@ -42,9 +42,9 @@ class LongPoll():
             if info['role'] not in ['mine','mine_charity','mine_deepbit','info', 'backup','backup_latehop']:
                 continue
             if info['lp_address'] != None:
-                self.pull_lp(info['lp_address'],server)
+                self.pull_lp((info['lp_address'],server))
             else:
-                reactor.callLater(0, (self.pull_server, server))
+                reactor.callLater(0, self.pull_server, server)
                 
                 
     def pull_server(self,server):
