@@ -208,7 +208,9 @@ class Pool():
             if 'api_strip' in server:
                 strip_str = server['api_strip'][1:-1]
                 output = output.replace(strip_str,'')
-            rate = int(output)
+            rate = float(output)
+            if rate > 1000000000:
+                rate = rate / 1000000000
             rate = rate * 1000*1000*1000
             rate = float(rate)/2**32
             old = server['last_pulled']
