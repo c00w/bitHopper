@@ -200,7 +200,7 @@ class BitHopper():
 
             response = json.dumps({"result":value,'error':None,'id':j_id})
             if self.request_store.closed(request):
-                return
+                return value
             request.write(response)
             request.finish()
 
