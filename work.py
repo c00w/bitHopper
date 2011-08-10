@@ -110,6 +110,7 @@ def jsonrpc_call(agent, server, data , bitHopper):
         body = yield finish
     except Exception, e:
         bitHopper.log_dbg('Caught, jsonrpc_call insides')
+        bitHopper.log_dbg(server)
         bitHopper.log_dbg(e)
         #traceback.print_exc
         defer.returnValue(None)
@@ -120,6 +121,7 @@ def jsonrpc_call(agent, server, data , bitHopper):
         defer.returnValue(value)
     except Exception, e:
         bitHopper.log_dbg( "Error in json decoding, Server probably down")
+        bitHopper.log_dbg(server)
         bitHopper.log_dbg(body)
         defer.returnValue(None)
 
@@ -147,6 +149,7 @@ def jsonrpc_getwork(agent, server, data, j_id, request, bitHopper):
             work = yield jsonrpc_call(agent, server,data,bitHopper)
         except Exception, e:
             bitHopper.log_dbg( 'caught, inner jsonrpc_call loop')
+            bitHopper.log_dbg(server)
             bitHopper.log_dbg(str(e))
             work = None
             continue
