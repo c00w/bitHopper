@@ -274,8 +274,9 @@ def main():
     if options.debug: log.startLogging(sys.stdout)
 
     if options.startLP:
-        print 'Starting LP'
-        reactor.callLater(0, bithopper_global.lp.start_lp)
+        bithopper_global.log_msg( 'Starting LP')
+        startlp = LoopingCall(bithopper_global.lp.start_lp)
+        startlp.start(60*30)
 
     site = server.Site(website.bitSite(bithopper_global))
     reactor.listenTCP(options.port, site)
