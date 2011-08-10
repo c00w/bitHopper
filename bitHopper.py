@@ -291,7 +291,7 @@ def main():
     reactor.listenTCP(options.port, site,5, options.ip)
     reactor.callLater(0, bithopper_global.pool.update_api_servers, bithopper_global)
     delag_call = LoopingCall(bithopper_global.delag_server)
-    delag_call.start(119)
+    delag_call.start(10)
     reactor.run()
     bithopper_global.db.close()
 
