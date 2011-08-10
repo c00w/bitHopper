@@ -216,6 +216,8 @@ class Pool():
                     mult = 1000**2
                 if prefix == 'KH':
                     mult = 1000
+                if prefix == 'None':
+                    mult = 1
             else:
                 mult = 1000**3
             rate = int(output)
