@@ -193,6 +193,35 @@ role: info
 user: your_username
 pass: your_password
 
+[polmine]
+# Puedes probar minar con el rol mine_deepbit
+# Ralentiza y truca los stats (pagina 157)
+# Mina polaca
+#https://polmine.pl
+#CAMBIA A CONTINUACION
+role: info
+user: c00w1456testhop
+pass: x
+
+[oldpolmine]
+# El metodo antiguo para conseguir los stats
+# Delays and fakes stats (page 157)
+# Nice polish pool
+#https://polmine.pl
+#CHANGE THIS
+role: disable
+user: c00w1456testhop
+pass: x
+
+[bclc]
+# Puedes probar minar con el rol mine_deepbit
+# Ralentiza stats y no tiene una actitud muy civica con los mineros (pagina 95)
+#http://www.bitcoins.lc
+#CAMBIA A CONTINUACION (si quieres)
+role: info
+user: FSkyvM
+pass: xndzEU
+
 #######################################
 #  Estas minas son muy nuevas para
 # saber si toman medidas anti-hoping
@@ -294,15 +323,6 @@ user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
 pass: x
 #las contraseñas no importan en BitParking
 
-[polmine]
-# Ralentiza y truca los stats (pagina 157)
-# Mina polaca
-#https://polmine.pl
-#CAMBIA A CONTINUACION
-role: info
-user: c00w1456testhop
-pass: x
-
 [btcpool24]
 # Ha cambiado el sistema de pagos y ralentiza los stats (pagina 116, foro bH)
 #http://www.btcpool24.com
@@ -326,14 +346,6 @@ pass: testhop
 role: disable
 user: testhop
 pass: x 
-
-[bclc]
-# Ralentiza stats y no tiene una actitud muy civica con los mineros (pagina 95)
-#http://www.bitcoins.lc
-#CAMBIA A CONTINUACION (si quieres)
-role: disable
-user: FSkyvM
-pass: xndzEU
 
 [mineco]
 # Ha cambiado sistema de pagos a PPLNS (pagina 94)
