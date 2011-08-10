@@ -262,8 +262,6 @@ class DefaultScheduler(Scheduler):
       valid_servers = []
       for server in self.bh.pool.get_servers():
          info = self.bh.pool.get_entry(server)
-         if info['api_lag'] or info['lag']:
-            continue
          if info['role'] not in ['mine','mine_nmc','mine_slush', 'mine_deepbit']:
             continue
          if info['role'] in ['mine', 'mine_deepbit']:
@@ -298,6 +296,9 @@ class DefaultScheduler(Scheduler):
       min_slice = self.sliceinfo[valid_servers[0]]
       server = valid_servers[0]
       for pool in valid_servers:
+        info = self.bh.pool.servers[pool]
+        if info['api_lag'] or info['lag']:
+            continue
         if self.sliceinfo[pool] < min_slice:
             min_slice = self.sliceinfo[pool]
             server = pool
