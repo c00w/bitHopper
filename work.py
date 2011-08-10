@@ -92,7 +92,6 @@ def jsonrpc_call(agent, server, data , bitHopper):
         
         header = {'Authorization':["Basic " +base64.b64encode(server['user']+ ":" + server['pass'])], 'User-Agent': ['poclbm/20110709'],'Content-Type': ['application/json'] }
         d = agent.request('POST', "http://" + server['mine_address'], Headers(header), StringProducer(request))
-        d.addErrback(bitHopper.log_dbg)
         response = yield d
         if response == None:
             raise Exception("Response is none")
@@ -107,7 +106,6 @@ def jsonrpc_call(agent, server, data , bitHopper):
                     break
 
         finish = Deferred()
-        finish.addErrback(bitHopper.log_dbg)
         response.deliverBody(WorkProtocol(finish))
         body = yield finish
     except Exception, e:
@@ -125,6 +123,11 @@ def jsonrpc_call(agent, server, data , bitHopper):
         bitHopper.log_dbg(body)
         defer.returnValue(None)
 
+def sleep(length, bitHopper):
+    d = Deferred()
+    bitHopper.reactor.callLater(length, d.callback, None)
+    return d
+
 @defer.inlineCallbacks
 def jsonrpc_getwork(agent, server, data, j_id, request, bitHopper):
 
@@ -135,8 +138,8 @@ def jsonrpc_getwork(agent, server, data, j_id, request, bitHopper):
         if data == [] and i > 2:
             server = bitHopper.get_new_server(server)
         try:
-            if i > 4:
-                time.sleep(0.1)
+            if i > 3:
+                yield sleep(0.5, bitHopper)
             if bitHopper.request_store.closed(request):
                 return
             work = yield jsonrpc_call(agent, server,data,bitHopper)

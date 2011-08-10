@@ -108,8 +108,6 @@ class LongPoll():
         #self.bitHopper.log_msg('set_lp ' + url + ' ' + server)
         try:
             info = self.bitHopper.pool.get_entry(server)
-            if info['lp_address'] == url:
-                return
             info['lp_address'] = url
             if server not in self.polled:
                 self.polled[server] = threading.Semaphore()
