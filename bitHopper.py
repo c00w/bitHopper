@@ -197,6 +197,8 @@ class BitHopper():
             j_id = rpc_request['id']
 
             response = json.dumps({"result":value,'error':None,'id':j_id})
+            if self.request_store.closed(request):
+                return
             request.write(response)
             request.finish()
 
