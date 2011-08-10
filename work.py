@@ -72,6 +72,7 @@ def jsonrpc_lpcall(agent,server, url, lp):
         defer.returnValue(None)
     except:
         lp.receive(None,server)
+        defer.returnValue(None)
 
 @defer.inlineCallbacks
 def get(agent,url):
