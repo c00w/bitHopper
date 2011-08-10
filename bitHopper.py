@@ -122,6 +122,7 @@ class BitHopper():
 
     def get_new_server(self, server):
         self.pool.get_entry(server)['lag'] = True
+        self.log_bdg('Lagging. :' + server)
         if server == self.pool.get_current():
             self.select_best_server()
         return self.pool.get_current()
