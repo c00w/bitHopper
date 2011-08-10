@@ -140,10 +140,10 @@ def jsonrpc_getwork(agent, server, data, j_id, request, bitHopper):
         i += 1
         if data == [] and i > 2:
             server = bitHopper.get_new_server(server)
-        elif i == 1:
+        elif i == 3:
             bitHopper.get_new_server(server)
         try:
-            if i > 1:
+            if i > 4:
                 yield sleep(1, bitHopper)
             if bitHopper.request_store.closed(request):
                 return
