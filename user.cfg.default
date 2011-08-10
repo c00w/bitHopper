@@ -201,16 +201,6 @@ role: info
 user: c00w1456testhop
 pass: x
 
-[oldpolmine]
-# Old re exp. polmine stats
-# Delays and fakes stats (page 157)
-# Nice polish pool
-#https://polmine.pl
-#CHANGE THIS
-role: disable
-user: c00w1456testhop
-pass: x
-
 [bclc]
 # You could try mining here with the mine_deepbit role
 # Delaying stats and not very civic attitude with occasional miners (page 95)
@@ -317,6 +307,16 @@ role: info
 user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
 pass: x
 #passwords can be anything on bitparking
+
+[oldpolmine]
+# Old re exp. polmine stats
+# Delays and fakes stats (page 157)
+# Nice polish pool
+#https://polmine.pl
+#CHANGE THIS
+role: disable
+user: c00w1456testhop
+pass: x
 
 [btcpool24]
 # Changed payout system and delays stats, allot (page 116)
