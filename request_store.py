@@ -14,14 +14,17 @@ class Request_store:
 
     def add(self, request):
         self.data[request] = time.time()
-        request.notifyFinish().addCallback(self.notifyFinished, request)
-    
+        d = request.notifyFinish()
+        d.addCallback(self.notifyFinished, request)
+        d.addErrback(self.notifyFinished, request)
     def closed(self, request):
         return request not in self.data
 
     def notifyFinished(self, value, request):
-        del self.data[request]
-    
+        try:
+            del self.data[request]
+        except Exception, e:
+            self.bitHopper.log_dbg('Error deleting request')
     def prune(self):
         for key, work in self.data.items():
             if work[1] < (time.time() - (60*5)):
