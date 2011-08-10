@@ -32,7 +32,7 @@ from twisted.internet.defer import Deferred
 from twisted.internet.task import LoopingCall
 from twisted.python import log, failure
 from scheduler import Scheduler
-import twisted
+import twisted.web.client
 
 class BitHopper():
     def __init__(self):
