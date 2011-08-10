@@ -203,16 +203,6 @@ role: info
 user: c00w1456testhop
 pass: x
 
-[oldpolmine]
-# El metodo antiguo para conseguir los stats
-# Delays and fakes stats (page 157)
-# Nice polish pool
-#https://polmine.pl
-#CHANGE THIS
-role: disable
-user: c00w1456testhop
-pass: x
-
 [bclc]
 # Puedes probar minar con el rol mine_deepbit
 # Ralentiza stats y no tiene una actitud muy civica con los mineros (pagina 95)
@@ -322,6 +312,16 @@ role: info
 user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
 pass: x
 #las contraseñas no importan en BitParking
+
+[oldpolmine]
+# El metodo antiguo para conseguir los stats
+# Delays and fakes stats (page 157)
+# Nice polish pool
+#https://polmine.pl
+#CHANGE THIS
+role: disable
+user: c00w1456testhop
+pass: x
 
 [btcpool24]
 # Ha cambiado el sistema de pagos y ralentiza los stats (pagina 116, foro bH)
