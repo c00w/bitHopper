@@ -139,7 +139,7 @@ class BitHopper():
                 data = yield work.jsonrpc_call(self.json_agent, server,[], self)
                 self.log_dbg('Got' + server + ":" + str(data))
                 if data != None:
-                    server['lag'] = False
+                    info['lag'] = False
                     self.log_dbg('Delagging')
                 else:
                     self.log_dbg('Not delagging')
