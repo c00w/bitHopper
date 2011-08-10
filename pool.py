@@ -208,10 +208,18 @@ class Pool():
             if 'api_strip' in server:
                 strip_str = server['api_strip'][1:-1]
                 output = output.replace(strip_str,'')
-            rate = float(output)
-            if rate > 1000000000:
-                rate = rate / 1000000000
-            rate = rate * 1000*1000*1000
+            if 're_rate_type' in server:
+                prefix = server['re_rate_type']
+                if prefix == 'GH':
+                    mult = 1000**3
+                if prefix == 'MH':
+                    mult = 1000**2
+                if prefix == 'KH':
+                    mult = 1000
+            else:
+                mult = 1000**3
+            rate = int(output)
+            rate = rate * mult
             rate = float(rate)/2**32
             old = server['last_pulled']
             server['last_pulled'] = time.time()
