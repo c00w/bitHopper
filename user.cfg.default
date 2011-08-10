@@ -207,9 +207,18 @@ pass: x
 # Nice polish pool
 #https://polmine.pl
 #CHANGE THIS
-role: info
+role: disable
 user: c00w1456testhop
 pass: x
+
+[bclc]
+# You could try mining here with the mine_deepbit role
+# Delaying stats and not very civic attitude with occasional miners (page 95)
+#http://www.bitcoins.lc
+#CHANGE THIS (if you want)
+role: info
+user: FSkyvM
+pass: xndzEU
 
 #######################################
 #   These Pools are added recently
@@ -332,14 +341,6 @@ pass: testhop
 role: disable
 user: testhop
 pass: x 
-
-[bclc]
-# Delaying stats and not very civic attitude with occasional miners (page 95)
-#http://www.bitcoins.lc
-#CHANGE THIS (if you want)
-role: disable
-user: FSkyvM
-pass: xndzEU
 
 [mineco]
 # Changed to PPLNS (page 94)

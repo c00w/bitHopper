@@ -213,6 +213,15 @@ role: disable
 user: c00w1456testhop
 pass: x
 
+[bclc]
+# Puedes probar minar con el rol mine_deepbit
+# Ralentiza stats y no tiene una actitud muy civica con los mineros (pagina 95)
+#http://www.bitcoins.lc
+#CAMBIA A CONTINUACION (si quieres)
+role: info
+user: FSkyvM
+pass: xndzEU
+
 #######################################
 #  Estas minas son muy nuevas para
 # saber si toman medidas anti-hoping
