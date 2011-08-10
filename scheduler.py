@@ -313,10 +313,10 @@ class DefaultScheduler(Scheduler):
         if current == -1:
             return True
 
-        if self.bh.pool.servers[self.bh.pool.get_current()]['role'] not in ['mine','mine_charity','mine_slush','mine_nmc']:
-            return True
-
         self.sliceinfo[self.bh.pool.get_current()] += diff_time
+
+        if self.bh.pool.servers[self.bh.pool.get_current()]['role'] not in ['mine','mine_charity','mine_slush','mine_nmc','mine_deepbit']:
+            return True
 
         valid = []
         for k in self.sliceinfo:
