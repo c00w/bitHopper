@@ -70,13 +70,13 @@ class BitHopper():
         reactor.callLater(0.1,self.new_server.callback,work)
         self.new_server = Deferred()
 
-    def get_json_agent(self, ):
+    def get_json_agent(self):
         return self.json_agent
 
-    def get_lp_agent(self, ):
+    def get_lp_agent(self):
         return self.lp_agent
 
-    def get_options(self, ):
+    def get_options(self):
         return self.options
 
     def log_msg(self, msg, **kwargs):
@@ -137,8 +137,12 @@ class BitHopper():
             info = self.pool.servers[server]
             if info['lag'] == True:
                 data = yield work.jsonrpc_call(self.json_agent, server,[], self)
+                self.log_dbg('Got' + server + ":" + str(data))
                 if data != None:
                     server['lag'] = False
+                    self.log_dbg('Delagging')
+                else:
+                    self.log_dbg('Not delagging')
 
     def bitHopper_Post(self,request):
         self.request_store.add(request)
@@ -171,7 +175,7 @@ class BitHopper():
                 rep = str(data[0][155:163])
             self.log_msg('RPC request [' + rep + "] submitted to " + current)
 
-        if data != []:
+        if data != []
             if not self.request_store.closed(request):
                 self.data_callback(current,data, request.getUser(), request.getPassword())        
         return server.NOT_DONE_YET
