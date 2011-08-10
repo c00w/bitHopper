@@ -140,7 +140,7 @@ def jsonrpc_getwork(agent, server, data, j_id, request, bitHopper):
         i += 1
         if data == [] and i > 2:
             server = bitHopper.get_new_server(server)
-        elif i == 3:
+        elif i >2:
             bitHopper.get_new_server(server)
         try:
             if i > 4:
