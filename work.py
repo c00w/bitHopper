@@ -132,10 +132,10 @@ def jsonrpc_getwork(agent, server, data, j_id, request, bitHopper):
     work = None
     while work == None:
         i += 1
-        if data == [] and i > 4:
+        if data == [] and i > 2:
             server = bitHopper.get_new_server(server)
         try:
-            if i > 8:
+            if i > 4:
                 time.sleep(0.1)
             if bitHopper.request_store.closed(request):
                 return
