@@ -132,8 +132,7 @@ class BitHopper():
     @defer.inlineCallbacks
     def delag_server(self ):
         self.log_dbg('Running Delager')
-        for index in self.pool.get_servers():
-            server = self.pool.get_entry(index)
+        for server in self.pool.get_servers():
             if server['lag'] == True:
                 data = yield work.jsonrpc_call(self.json_agent, server,[], self)
                 if data != None:
