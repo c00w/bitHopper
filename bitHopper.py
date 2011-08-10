@@ -32,10 +32,11 @@ from twisted.internet.defer import Deferred
 from twisted.internet.task import LoopingCall
 from twisted.python import log, failure
 from scheduler import Scheduler
+import twisted
 
 class BitHopper():
     def __init__(self):
-        self.json_agent = Agent(reactor, persistent=True)
+        self.json_agent = twisted.web.client.Agent(reactor)
         self.lp_agent = Agent(reactor, persistent=True)
         self.new_server = Deferred()
         self.stats_file = None
