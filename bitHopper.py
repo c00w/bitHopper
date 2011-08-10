@@ -13,6 +13,7 @@ import database
 import scheduler
 import website
 import getwork_store
+import request_store
 import data
 
 import sys
@@ -48,6 +49,7 @@ class BitHopper():
         self.stats = stats.Statistics(self)
         self.scheduler = scheduler.Scheduler(self)
         self.getwork_store = getwork_store.Getwork_store(self)
+        self.request_store = request_store.Request_store(self)
         self.data = data.Data(self)
         self.pool.setup(self)
 
@@ -139,6 +141,7 @@ class BitHopper():
                     server['lag'] = False
 
     def bitHopper_Post(self,request):
+        self.request_store.add(request)
         if not self.options.noLP:
             request.setHeader('X-Long-Polling', '/LP')
         rpc_request = json.loads(request.content.read())
@@ -170,7 +173,8 @@ class BitHopper():
             self.log_msg('RPC request [' + rep + "] submitted to " + str(pool_server['name']))
 
         if data != []:
-            self.data_callback(current,data, request.getUser(), request.getPassword())        
+            if not self.request_store.closed(request):
+                self.data_callback(current,data, request.getUser(), request.getPassword())        
         return server.NOT_DONE_YET
 
     def bitHopperLP(self, value, *methodArgs):

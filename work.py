@@ -137,6 +137,8 @@ def jsonrpc_getwork(agent, server, data, j_id, request, bitHopper):
         try:
             if i > 4:
                 time.sleep(0.1)
+            if bitHopper.request_store.closed(request):
+                return
             work = yield jsonrpc_call(agent, server,data,bitHopper)
         except Exception, e:
             bitHopper.log_dbg( 'caught, inner jsonrpc_call loop')
@@ -151,6 +153,8 @@ def jsonrpc_getwork(agent, server, data, j_id, request, bitHopper):
             merkle_root = work["data"][72:136]
             bitHopper.getwork_store.add(server['pool_index'],merkle_root)
         response = json.dumps({"result":work,'error':None,'id':j_id})
+        if bitHopper.request_store.closed(request):
+                return
         request.write(response)
         request.finish()
     except Exception, e:
