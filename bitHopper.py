@@ -120,10 +120,9 @@ class BitHopper():
         return
 
     def get_new_server(self, server):
-        if server != self.pool.get_entry(self.pool.get_current()):
-            return self.pool.get_entry(self.pool.get_current())
-        self.pool.get_entry(self.pool.get_current())['lag'] = True
-        self.select_best_server()
+        self.pool.get_entry(server)['lag'] = True
+        if server == self.pool.get_entry(self.pool.get_current()):
+            self.select_best_server()
         return self.pool.get_entry(self.pool.get_current())
 
     def server_update(self, ):
