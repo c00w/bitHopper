@@ -60,6 +60,8 @@ class Pool():
         self.bitHopper = bitHopper
         for server in self.servers:
             self.servers[server]['shares'] = int(bitHopper.difficulty.get_difficulty())
+            self.servers[server]['ghash'] = -1
+            self.servers[server]['duration'] = -1
             self.servers[server]['last_pulled'] = time.time()
             self.servers[server]['lag'] = False
             self.servers[server]['api_lag'] = False
@@ -157,9 +159,22 @@ class Pool():
             if 'api_strip' in server:
                 strip_char = server['api_strip'][1:-1]
                 info = info.replace(strip_char,'')
+                                          
             round_shares = int(info)
             if round_shares == None:
                 round_shares = int(bitHopper.difficulty.get_difficulty())
+            
+            ghash = self.get_ghash(server, response, True)
+            if ghash > 0:
+                server['ghash'] = ghash
+            if 'api_key_duration' in server:
+                dur = json.loads(response)
+                for value in server['api_key_duration'].split(','):
+                    dur = dur[value]
+                duration = self.get_duration(server, str(dur))
+                if duration > 0:
+                    server['duration'] = duration 
+                    
             self.UpdateShares(args,round_shares)
 
         elif server['api_method'] == 'json_ec':
@@ -191,7 +206,33 @@ class Pool():
             if round_shares == None:
                 round_shares = int(bitHopper.difficulty.get_difficulty())
             self.UpdateShares(args,round_shares)
-
+            
+        elif server['api_method'] == 're_rateduration':
+            # get hashrate and duration to estimate share
+            ghash = self.get_ghash(server, response)
+            if ghash < 0:
+                ghash = 1
+                                                            
+            duration = self.get_duration(server, response)
+            if duration < 0:
+                duration = 7*24*3600
+            
+            old = server['last_pulled']
+            server['last_pulled'] = time.time()
+            diff = server['last_pulled'] - old
+            
+            # new round started or initial estimation
+            rate = 0.25 * ghash
+            if duration < server['duration'] or server['duration'] < 0: 
+                round_shares = int(rate * duration)
+            else:
+                round_shares = server['shares'] + int(rate * diff)
+            
+            server['ghash'] = ghash
+            server['duration'] = duration
+            
+            self.UpdateShares(args,round_shares)
+            
         elif server['api_method'] == 're_rate':
             output = re.search(server['api_key'],response)
             if 'api_group' in server:
@@ -222,17 +263,76 @@ class Pool():
                 mult = 1000**3
             rate = int(output)
             rate = rate * mult
+            server['ghash'] = float(rate)/(1000**3) 
             rate = float(rate)/2**32
             old = server['last_pulled']
             server['last_pulled'] = time.time()
             diff = server['last_pulled'] - old
             shares = int(rate * diff)
-            round_shares = shares + server['shares']
+            round_shares = shares + server['shares']            
             self.UpdateShares(args,round_shares)
         else:
             self.bitHopper.log_msg('Unrecognized api method: ' + str(server))
 
         self.bitHopper.server_update()
+
+    def get_ghash(self, server, response, is_json = False):
+        if is_json == True:
+            info = json.loads(response)
+            if 'api_key_ghashrate' in server:
+                for value in server['api_key_ghashrate'].split(','):
+                    info = info[value]
+                return float(info)
+            if 'api_key_mhashrate' in server:
+                for value in server['api_key_mhashrate'].split(','):
+                    info = info[value]
+                return float(info) / 1000.0
+            if 'api_key_khashrate' in server:
+                for value in server['api_key_khashrate'].split(','):
+                    info = info[value]
+                return float(info) / 1000000.0
+            if 'api_key_hashrate' in server:
+                for value in server['api_key_hashrate'].split(','):
+                    info = info[value]
+                return float(info) / 1000000000.0
+            
+        if 'api_key_ghashrate' in server:
+            output = re.search(server['api_key_ghashrate'], response)
+            return float(output.group(1).replace(' ', ''))
+        if 'api_key_mhashrate' in server:
+            output = re.search(server['api_key_mhashrate'], response)
+            return float(output.group(1).replace(' ', '')) / 1000.0
+        if 'api_key_khashrate' in server:
+            output = re.search(server['api_key_khashrate'], response)
+            return float(output.group(1).replace(' ', '')) / 1000000.0
+        if 'api_key_hashrate' in server:
+            output = re.search(server['api_key_hashrate'], response)
+            return float(output.group(1).replace(' ', '')) / 1000000000.0
+            
+        return -1
+    
+    def get_duration(self, server, response):
+        duration = -1
+        if 'api_key_duration_day_hour_min' in server:
+            output = re.search(server['api_key_duration_day_hour_min'], response)
+            day = int(output.group(1).replace(' ', ''))
+            hour = int(output.group(2).replace(' ', ''))
+            minute = int(output.group(3).replace(' ', ''))
+            duration = day*24*3600 + hour * 3600 + minute * 60
+        elif 'api_key_duration_hour_min' in server:
+            output = re.search(server['api_key_duration_hour_min'], response)
+            hour = int(output.group(1).replace(' ', ''))
+            minute = int(output.group(2).replace(' ', ''))
+            duration = hour * 3600 + minute * 60
+        elif 'api_key_duration_min' in server:
+            output = re.search(server['api_key_duration_min'], response)
+            minute = int(output.group(1).replace(' ', ''))
+            duration = minute * 60
+        elif 'api_key_duration_sec' in server:
+            output = re.search(server['api_key_duration_sec'], response)
+            duration = int(output.group(1).replace(' ', ''))
+        
+        return duration
 
     def update_api_server(self,server):
         if self.servers[server]['role'] not in self.api_pull:
