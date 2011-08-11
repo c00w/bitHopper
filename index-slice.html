@@ -126,10 +126,9 @@
 			
 			function getUserTime(payload, user, key){
 				var newDate = new Date(user['last']*1000);
-				if (newDate != null) {
-					if (newDate != null) {
-						dateString = newDate.toUTCString();
-					}
+			    if (newDate != null) {
+				    dateString = newDate.toUTCString();
+			    }
 				return dateString;
 			}
 
