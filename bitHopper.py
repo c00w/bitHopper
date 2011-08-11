@@ -36,7 +36,10 @@ import twisted.web.client
 
 class BitHopper():
     def __init__(self):
-        self.json_agent = twisted.web.client.Agent(reactor)
+        try:
+            self.json_agent = twisted.web.client.Agent(reactor, connectTimeout=5)
+        except:
+            self.json_agent = twisted.web.client.Agent(reactor)
         self.lp_agent = Agent(reactor, persistent=True)
         self.new_server = Deferred()
         self.stats_file = None
@@ -122,7 +125,7 @@ class BitHopper():
 
     def get_new_server(self, server):
         self.pool.get_entry(server)['lag'] = True
-        self.log_bdg('Lagging. :' + server)
+        self.log_dbg('Lagging. :' + server)
         if server == self.pool.get_current():
             self.select_best_server()
         return self.pool.get_current()
