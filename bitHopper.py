@@ -36,7 +36,10 @@ import twisted.web.client
 
 class BitHopper():
     def __init__(self):
-        self.json_agent = twisted.web.client.Agent(reactor)
+        try:
+            self.json_agent = twisted.web.client.Agent(reactor, connectTimeout=5)
+        except:
+            self.json_agent = twisted.web.client.Agent(reactor)
         self.lp_agent = Agent(reactor, persistent=True)
         self.new_server = Deferred()
         self.stats_file = None
