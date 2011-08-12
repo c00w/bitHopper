@@ -145,7 +145,7 @@ def jsonrpc_getwork(agent, server, data, j_id, request, bitHopper):
         try:
             if i > 4:
                 yield sleep(1, bitHopper)
-            if bitHopper.request_store.closed(request):
+            if data == [] and bitHopper.request_store.closed(request):
                 return
             work = yield jsonrpc_call(agent, server,data,bitHopper)
         except Exception, e:
@@ -157,7 +157,7 @@ def jsonrpc_getwork(agent, server, data, j_id, request, bitHopper):
     try:
         if str(work) == 'False':
             bitHopper.reject_callback(server, data)
-        elif str(work) != 'True' and data == []:
+        elif str(work) != 'True':
             merkle_root = work["data"][72:136]
             bitHopper.getwork_store.add(server,merkle_root)
         response = json.dumps({"result":work,'error':None,'id':j_id})
