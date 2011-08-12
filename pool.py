@@ -118,6 +118,12 @@ class Pool():
 
         try:
             k =  str('{0:d}'.format(int(shares)))
+            ghash_duration = '  '
+            if self.servers[server]['ghash'] > 0:
+                ghash_duration += str('{0:.1f}gh/s '.format( self.servers[server]['ghash'] ))
+            if self.servers[server]['duration'] > 0:
+                ghash_duration += str('{0:d}min.'.format( (self.servers[server]['duration']/60) ))
+            k += ghash_duration
         except Exception, e:
             self.bitHopper.log_dbg("Error formatting")
             self.bitHopper.log_dbg(e)
