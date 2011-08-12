@@ -62,6 +62,7 @@ class LongPoll():
             return
         if self.blocks[block]['_owner'] != server:
             self.bitHopper.pool.servers[server]['shares'] += old_shares
+            self.bitHopper.select_best_server()
         else:
             self.bitHopper.reactor.callLater(30,self.api_check, server, block, old_shares, count +1)
 
