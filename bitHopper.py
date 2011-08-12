@@ -193,11 +193,13 @@ class BitHopper():
             except Exception,e:
                 self.log_dbg( 'reading request content failed')
                 json_request = None
+                return value
             try:
                 rpc_request = json.loads(json_request)
             except Exception, e:
                 self.log_dbg('Loading the request failed')
                 rpc_request = {'params':[],'id':1}
+                return value
 
             j_id = rpc_request['id']
 
@@ -206,6 +208,7 @@ class BitHopper():
                 return value
             request.write(response)
             request.finish()
+            return value
 
         except Exception, e:
             self.log_msg('Error Caught in bitHopperLP')
@@ -214,8 +217,8 @@ class BitHopper():
                 request.finish()
             except Exception, e:
                 self.log_dbg( "Client already disconnected Urgh.")
-
-        return value
+        finally:
+            return value
 
 def parse_server_disable(option, opt, value, parser):
     setattr(parser.values, option.dest, value.split(','))
