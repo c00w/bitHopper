@@ -153,7 +153,6 @@ def jsonrpc_getwork(agent, server, data, j_id, request, bitHopper):
             bitHopper.log_dbg(server)
             bitHopper.log_dbg(str(e))
             work = None
-            continue
 
     try:
         if str(work) == 'False':
