@@ -54,6 +54,7 @@ class LongPoll():
     def lp_api(self,server,block):
         old_shares = self.bitHopper.pool.servers[server]['shares']
         self.bitHopper.pool.servers[server]['shares'] = 0
+        self.bitHopper.select_best_server()
         self.bitHopper.reactor.callLater(30,self.api_check, server, block, old_shares, 0)
 
     def lp_api_check(self, server, block, old_shares, count):
