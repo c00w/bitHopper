@@ -167,6 +167,16 @@ class lpSite(resource.Resource):
           self.bitHopper.new_server.addCallback(self.bitHopper.bitHopperLP, (request))
           return server.NOT_DONE_YET
 
+class nullsite(resource.Resource):
+    def __init__(self):
+        resource.Resource.__init__(self)    
+    def render_GET(self,request):
+         request.finish()
+         return server.NOT_DONE_YET
+    def render_POST(self,request):
+         request.finish()
+         return server.NOT_DONE_YET
+
 class bitSite(resource.Resource):
 
      def __init__(self,bitHopper):
@@ -195,12 +205,12 @@ class bitSite(resource.Resource):
           if name == 'LP':
                 return lpSite(self.bitHopper)
           if name == 'flat':
-                if not self.auth(request): return resource.Resource()
+                if not self.auth(request): return nullsite()
                 return flatSite(self.bitHopper)
           elif name == 'stats' or name == 'index.html':
-                if not self.auth(request): return resource.Resource()
+                if not self.auth(request): return nullsite()
                 return dynamicSite(self.bitHopper)
           elif name == 'data':
-                if not self.auth(request): return resource.Resource()
+                if not self.auth(request): return nullsite()
                 return dataSite(self.bitHopper)
           return self
