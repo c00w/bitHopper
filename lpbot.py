@@ -40,8 +40,6 @@ class LpBot(SimpleIRCClient):
 		self.connection.execute_delayed(30, self._connect)
 
 	def on_pubmsg(self, c, e):
-		print "Message Recieved:"
-		print e.arguments()[0]
 		bl_match = self.newblock_re.match(e.arguments()[0])
 		if bl_match != None:
 			block = bl_match.group('block_number')
