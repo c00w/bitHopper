@@ -13,7 +13,7 @@ class LpBot(SimpleIRCClient):
 		self.chan_list=[]
 		self.notice_re = re.compile('[\d+/\d+ \d+:\d+] \*\*\* New block found by \{(?P<server>.+)\} Block Number: \((?P<block_number>\d+)\).*')
 		self.newblock_re = re.compile('\*\*\* New Block: (?P<block_number>\d+)')
-                self.first_block = 0
+		self.first_block = 0
 		self.last_block = 0
 		self.initialized = False;
 		thread.start_new_thread(self.run,())
