@@ -71,7 +71,7 @@ class LongPoll():
         self.polled[server].release()
         self.bitHopper.log_dbg('received lp from: ' + server)
         info = self.bitHopper.pool.servers[server]
-        if info['role'] in ['mine_nmc','disable','mine_nmc']:
+        if info['role'] in ['mine_nmc','disable','mine_ixc']:
             return
         if body == None:
             self.bitHopper.log_dbg('error in lp from: ' + server)
