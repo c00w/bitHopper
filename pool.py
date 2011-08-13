@@ -133,7 +133,7 @@ class Pool():
         if shares < prev_shares and shares < 0.10 * diff:
             self.bitHopper.lp.set_owner(server)
             if self.bitHopper.lpBot != None:
-		self.bitHopper.lpBot.announce(server)
+                self.bitHopper.lpBot.announce(server)
         self.servers[server]['shares'] = shares
         self.servers[server]['err_api_count'] = 0
         if self.servers[server]['refresh_time'] > 60*30 and self.servers[server]['role'] not in ['info','backup','backup_latehop']:

@@ -127,7 +127,6 @@ class OldDefaultScheduler(Scheduler):
       self.bh = bitHopper
       self.difficultyThreshold = 0.435
       self.initData()
-      self.index_html = 'index-macboy.html'
       
    def initData(self,):
       if self.bh.options.threshold:
@@ -242,7 +241,6 @@ class DefaultScheduler(Scheduler):
       self.sliceinfo = {}
       self.initData()
       self.lastcalled = time.time()
-      self.index_html = 'index-slice.html'
       call = LoopingCall(self.bh.server_update)
       call.start(10)
    def initData(self,):
@@ -363,7 +361,6 @@ class AltSliceScheduler(Scheduler):
       self.bh.log_msg(' - Slice Size: ' + str(self.bh.options.altslicesize), cat=self.name)
       self.initData()
       self.lastcalled = time.time()
-      self.index_html = 'index-altslice.html'
       
       self.initDone = False
       

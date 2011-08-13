@@ -126,9 +126,9 @@
 			
 			function getUserTime(payload, user, key){
 				var newDate = new Date(user['last']*1000);
-				if (newDate != null) {
-					dateString = newDate.toUTCString();
-				}
+			    if (newDate != null) {
+				    dateString = newDate.toUTCString();
+			    }
 				return dateString;
 			}
 
@@ -200,6 +200,8 @@
 			
 			function getSlice(payload, srv) {
 				var name = srv['pool_index'];
+                if (payload['sliceinfo'] == undefined)
+                    return ""
 				if (payload['sliceinfo'][name] >= 0)
 					return parseFloat(payload['sliceinfo'][name]).toFixed(0)
 				else
@@ -324,7 +326,7 @@
 		
 			function update() {
 				$.getJSON('/data', function(data) {
-					document.title = data["current"] + '@ bitHopper';
+					document.title = 'bitHopper @ ' + data["current"];
 					$("#current").html("<span style='color:yellow;'>" + data["current"] + "</span> @" + parseInt(data["mhash"]) + "MHash");
 
 					updateRoundShares(data);
@@ -358,7 +360,7 @@
 							"Last Seen": {'data':getUserTime, 'align':'right' },
 							"Shares": { 'data':getUserShares, 'align':'right' },
 							"Rejects": {'data':getUserRejects, 'align':'right'},
-							"Hashrate": { 'data':getUserHashrate, 'align':'right' }  
+							"Hashrate": {'data':getUserHashrate, 'align':'right'}  
 						}
 					);
 					
