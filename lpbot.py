@@ -54,7 +54,7 @@ class LpBot(SimpleIRCClient):
 		
 	def announce(self, server):
 		self.do_update_last_block()
-		self.connection.privmsg("#bithopper-lp", "*** New block found by {" + str(server) + "} Block Number: (" + self.last_block + ")")
+		self.connection.privmsg("#bithopper-lp", "*** New block found by {" + str(server) + "} Block Number: (" + str(self.last_block) + ")")
 
 	def join(self):
 		if '#bithopper-lp' not in self.chan_list:
