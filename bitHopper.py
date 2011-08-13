@@ -258,7 +258,7 @@ def main():
         return
 
     if options.auth:
-        auth = options.user.auth(',')
+        auth = options.auth.split(',')
         bithopper_global.auth = auth
         if len(auth) != 2:
             print 'User,Password. Not whatever you just entered'
