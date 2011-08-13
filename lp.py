@@ -93,7 +93,6 @@ class LongPoll():
                     self.bitHopper.log_msg('New Block: ' + str(block))
                     self.bitHopper.log_msg('Block Owner ' + server)
                     if self.bitHopper.lpbot != None:
-			print "calling announce()"
                         self.bitHopper.lpbot.announce(server)
                     self.blocks[block] = {}
                     self.bitHopper.lp_callback(work)
