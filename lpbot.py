@@ -53,8 +53,16 @@ class LpBot(SimpleIRCClient):
 			
 		
 	def announce(self, server):
-		self.do_update_last_block()
-		self.connection.privmsg("#bithopper-lp", "*** New block found by {" + str(server) + "} Block Number: (" + str(self.last_block) + ")")
+		try:
+			self.do_update_last_block()
+			print "Identified as : " 
+			print str(server)
+			self.connection.privmsg("#bithopper-lp", "*** New block found by {" + str(server) + "} Block Number: (" + str(self.last_block) + ")")
+		except Exception as e:
+			print "***************************************"
+			print "*****  ERROR IN ANNOUCE         *******"
+			print "***************************************"
+			print e.value
 
 	def join(self):
 		if '#bithopper-lp' not in self.chan_list:
@@ -65,7 +73,7 @@ class LpBot(SimpleIRCClient):
 	def update_last_block(self):
 		while(True):
 			self.do_update_last_block()
-			time.sleep(1)
+			time.sleep(5)
 
 	def do_update_last_block(self):
 		try:
