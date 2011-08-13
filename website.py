@@ -8,6 +8,7 @@ import json
 import os
 import sys
 from twisted.web import server, resource
+from twisted.web.http import UNAUTHORIZED
 
 def flat_info(request, bithopper_global):
      response = '<html><head><title>bitHopper Info</title></head><body>'
@@ -182,7 +183,13 @@ class bitSite(resource.Resource):
 
 
      def getChild(self,name,request):
-          #bithopper_global.log_msg(str(name))
+          if self.bitHopper.auth != None:  
+              user = request.getUser()
+              password = request.getPassword()
+              if user != self.bitHopper.auth[0] or password != self.bitHopper.auth[1]:
+                request.setResponseCode(UNAUTHORIZED)
+                request.setHeader('WWW-authenticate', 'basic realm="%s"' 
+% "Admin")
           if name == 'LP':
                 return lpSite(self.bitHopper)
           elif name == 'flat':
