@@ -304,7 +304,7 @@ def main():
     if options.startLP:
         bithopper_global.log_msg( 'Starting LP')
         startlp = LoopingCall(bithopper_global.lp.start_lp)
-        startlp.start(60*5)
+        startlp.start(60*60)
 
     if options.p2pLP and options.startLP:
         bithopper_global.log_msg('Starting p2p LP')
