@@ -12,13 +12,13 @@ class LpBot(SimpleIRCClient):
 		self.connection.add_global_handler('disconnect', self._on_disconnect, -10)
 		self.chan_list=[]
 		self.notice_re = re.compile('[\d+/\d+ \d+:\d+] \*\*\* New block found by \{(?P<server>.+)\} Block Number: \((?P<block_number>\d+)\).*')
-		self.newblock_re = re.compile('\*\*\* New Block: (?P<block_number>\d+)')
+		self.newblock_re = re.compile('\*\*\* New Block: (?P<block_number>\d+) - (?P<hash>.*)')
 		self.first_block = 0
 		self.last_block = 0
+		self.last_hash = []
 		self.initialized = False;
 		# TODO: Use twisted
 		thread.start_new_thread(self.run,())
-		thread.start_new_thread(self.update_last_block,())
 		thread.start_new_thread(self.ircobj.process_forever,())
 
 	def run(self):
@@ -44,10 +44,15 @@ class LpBot(SimpleIRCClient):
 		bl_match = self.newblock_re.match(e.arguments()[0])
 		if bl_match != None:
 			block = bl_match.group('block_number')
+			last_hash = bl_match.group('hash')
 			if self.first_block == 0:
 				self.first_block = block
 			if block > self.last_block:
 				self.last_block = block
+			if last_hash not in self.last_hash:
+				self.last_hash.append(last_hash)
+				if len(self.last_hash) > 5:
+					del self.last_hash[0]
 		
 		match = self.notice_re.match(e.arguments()[0])
 		if match != None:
@@ -55,30 +60,36 @@ class LpBot(SimpleIRCClient):
 			print "Block Number: " + match.group('block_number')
 			
 		
-	def announce(self, server):
+	def announce(self, server, last_hash):
 		try:
-			#self.do_update_last_block()
+			if last_hash not in self.last_hash:
+				if self.last_block == 0:
+					self.do_update_last_block()
+				self.last_block += 1
+				self.last_hash.append(last_hash)
+				if len(self.last_hash) > 5:
+					del self.last_hash[0]
+				elif len(self.last_hash) > 1:
+					self.initialized=True;
+				print "New Block: " + str(self.last_block)
+				self.connection.privmsg("#bithopper-lp", "*** New Block: " + str(self.last_block) + " (" + last_hash + ")")
+			else:
+				self.do_update_last_block()
 			print "Identified as : " 
 			print str(server)
 			if self.initialized:
 				self.connection.privmsg("#bithopper-lp", "*** New block found by {" + str(server) + "} Block Number: (" + str(self.last_block) + ")")
 		except Exception, e:
-			print "***************************************"
-			print "*****  ERROR IN ANNOUCE         *******"
-			print "***************************************"
-			print e.value
+			print "********************************"
+			print "*****  ERROR IN ANNOUCE  *******"
+			print "********************************"
+			print e.message
 
 	def join(self):
 		if '#bithopper-lp' not in self.chan_list:
 	                self.connection.join('#bithopper-lp')
 			self.chan_list.append('#bithopper-lp')
 		self.ircobj.process_forever()
-
-	def update_last_block(self):
-		while(True):
-			self.do_update_last_block()
-			# TODO: Use twisted
-			time.sleep(5)
 
 	def do_update_last_block(self):
 		try:
@@ -98,4 +109,4 @@ class LpBot(SimpleIRCClient):
                                         
 				self.last_block = block_num
 		except Exception, e:
-                	print e.value
+                	print e.message
