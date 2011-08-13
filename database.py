@@ -104,7 +104,7 @@ class Database():
             try:
                 versionfd = open(VERSION_FN, 'rb')
                 version = versionfd.read()
-                self.bitHopper.log_msg("DB Verson: " + version)
+                self.bitHopper.log_dbg("DB Verson: " + version)
                 if version == "0.1":
                     self.bitHopper.log_msg('Old Database')
                 versionfd.close()
@@ -134,7 +134,7 @@ class Database():
 
         self.database.commit()
 
-        self.bitHopper.log_msg('Database Setup')
+        self.bitHopper.log_dbg('Database Setup')
 
     def update_shares(self,server, shares, user, password):
         if server not in self.shares:
