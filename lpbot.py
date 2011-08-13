@@ -12,6 +12,7 @@ class LpBot(SimpleIRCClient):
 		self.connection.add_global_handler('disconnect', self._on_disconnect, -10)
 		self.chan_list=[]
 		self.notice_re = re.compile('[\d+/\d+ \d+:\d+] \*\*\* New block found by \{(?P<server>.+)\} Block Number: \((?P<block_number>\d+)\).*')
+		self.newblock_re = re.compile('\*\*\* New Block: (?P<block_number>\d+)')
 		self.last_block = 0
 		thread.start_new_thread(self.run,())
 		thread.start_new_thread(self.update_last_block,())
@@ -39,6 +40,12 @@ class LpBot(SimpleIRCClient):
 	def on_pubmsg(self, c, e):
 		print "Message Recieved:"
 		print e.arguments()[0]
+		bl_match = self.newblock_re.match(e.arguments()[0])
+		if bl_match != None:
+			block = bl_match.group('block_number')
+			if block > self.last_block:
+				self.last_block = block
+		
 		match = self.notice_re.match(e.arguments()[0])
 		if match != None:
 			print "Server: " + match.group('server')
@@ -72,4 +79,4 @@ class LpBot(SimpleIRCClient):
                                         self.last_block = block_num
                                	        print "New Block: " + str(self.last_block)
 		except Exception as e:
-                	print e.message()
+                	print e.value
