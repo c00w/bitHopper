@@ -17,7 +17,7 @@ except:
 class Pool():
     def __init__(self,bitHopper):
         self.servers = {}
-        self.api_pull = ['mine','info','mine_slush','mine_nmc','mine_charity','mine_deepbit','backup','backup_latehop']
+        self.api_pull = ['mine','info','mine_slush','mine_nmc','mine_ixc','mine_charity','mine_deepbit','backup','backup_latehop']
 
         parser = ConfigParser.SafeConfigParser()
         try:

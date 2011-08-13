@@ -11,6 +11,7 @@ class Difficulty():
         self.bitHopper = bitHopper
         self.difficulty = 1690906.2047244
         self.nmc_difficulty = 94037.96
+        self.ixc_difficulty = 16384
         call = LoopingCall(self.update_difficulty)
         call.start(60*60*6)
 
@@ -19,6 +20,9 @@ class Difficulty():
     
     def get_nmc_difficulty(self):
         return self.nmc_difficulty
+
+    def get_ixc_difficulty(self):
+        return self.ixc_difficulty
 
     def update_difficulty(self):
         self.bitHopper.log_msg('Updating Difficulty')
