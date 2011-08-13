@@ -181,21 +181,26 @@ class bitSite(resource.Resource):
      def render_POST(self, request):
           return self.bitHopper.bitHopper_Post(request)
 
-
-     def getChild(self,name,request):
-          if self.bitHopper.auth != None:  
-              user = request.getUser()
-              password = request.getPassword()
-              if user != self.bitHopper.auth[0] or password != self.bitHopper.auth[1]:
+     def auth(self,request):
+        if self.bitHopper.auth != None:  
+          user = request.getUser()
+          password = request.getPassword()
+          if user != self.bitHopper.auth[0] or password != self.bitHopper.auth[1]:
                 request.setResponseCode(UNAUTHORIZED)
                 request.setHeader('WWW-authenticate', 'basic realm="%s"' 
-% "Admin")
+    % "Admin")
+                return False
+          return True
+     def getChild(self,name,request):
           if name == 'LP':
                 return lpSite(self.bitHopper)
-          elif name == 'flat':
+          if name == 'flat':
+                if not self.auth(request): return resource.Resource()
                 return flatSite(self.bitHopper)
           elif name == 'stats' or name == 'index.html':
+                if not self.auth(request): return resource.Resource()
                 return dynamicSite(self.bitHopper)
           elif name == 'data':
+                if not self.auth(request): return resource.Resource()
                 return dataSite(self.bitHopper)
           return self
