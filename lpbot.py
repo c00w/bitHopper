@@ -13,7 +13,9 @@ class LpBot(SimpleIRCClient):
 		self.chan_list=[]
 		self.notice_re = re.compile('[\d+/\d+ \d+:\d+] \*\*\* New block found by \{(?P<server>.+)\} Block Number: \((?P<block_number>\d+)\).*')
 		self.newblock_re = re.compile('\*\*\* New Block: (?P<block_number>\d+)')
+		self.first_block = 0
 		self.last_block = 0
+		self.initialized = False;
 		thread.start_new_thread(self.run,())
 		thread.start_new_thread(self.update_last_block,())
 		thread.start_new_thread(self.ircobj.process_forever,())
@@ -38,8 +40,6 @@ class LpBot(SimpleIRCClient):
 		self.connection.execute_delayed(30, self._connect)
 
 	def on_pubmsg(self, c, e):
-		print "Message Recieved:"
-		print e.arguments()[0]
 		bl_match = self.newblock_re.match(e.arguments()[0])
 		if bl_match != None:
 			block = bl_match.group('block_number')
@@ -57,8 +57,9 @@ class LpBot(SimpleIRCClient):
 			self.do_update_last_block()
 			print "Identified as : " 
 			print str(server)
-			self.connection.privmsg("#bithopper-lp", "*** New block found by {" + str(server) + "} Block Number: (" + str(self.last_block) + ")")
-		except Exception as e:
+			if self.initialized:
+				self.connection.privmsg("#bithopper-lp", "*** New block found by {" + str(server) + "} Block Number: (" + str(self.last_block) + ")")
+		except Exception, e:
 			print "***************************************"
 			print "*****  ERROR IN ANNOUCE         *******"
 			print "***************************************"
@@ -81,10 +82,15 @@ class LpBot(SimpleIRCClient):
         	        if handle != None:
                 		block_num = handle.read()
                         	handle.close()
+				if not self.initialized:
+                                        if self.first_block == 0:
+                                            self.first_block = block_num
+                                        elif self.first_block != block_num:
+                                            self.initialized=True
 	                        if block_num > self.last_block:
         	                	if self.last_block > 0:
                 	                	self.connection.privmsg("#bithopper-lp", "*** New Block: " + str(block_num))
                                         self.last_block = block_num
                                	        print "New Block: " + str(self.last_block)
-		except Exception as e:
+		except Exception, e:
                 	print e.value
