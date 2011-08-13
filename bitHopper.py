@@ -33,6 +33,7 @@ from twisted.internet.task import LoopingCall
 from twisted.python import log, failure
 from scheduler import Scheduler
 import twisted.web.client
+from lpbot import LpBot
 
 class BitHopper():
     def __init__(self):
@@ -44,6 +45,7 @@ class BitHopper():
         self.new_server = Deferred()
         self.stats_file = None
         self.options = None
+	self.lpBot = None
         self.reactor = reactor
         self.difficulty = diff.Difficulty(self)
         self.pool = pool.Pool(self)
@@ -242,6 +244,7 @@ def main():
     parser.add_option('--altminslicesize', type=int, default=60, help='Override Default Minimum Pool Slice Size of 60 (AltSliceScheduler only)')
     parser.add_option('--altslicejitter', type=int, default=0, help='Add some random variance to slice size, disabled by default (AltSliceScheduler only)')
     parser.add_option('--startLP', action= 'store_true', default = True, help='Seeds the LP module with known pools. Must use it for LP based hopping with deepbit, True by default')
+    parser.add_option('--p2pLP', action='store_true', default=False, help='Starts up an IRC bot to validate LP based hopping.  Must be used with --startLP');
     parser.add_option('--ip', type = str, default='', help='IP to listen on')
     args, rest = parser.parse_args()
     options = args
@@ -291,7 +294,11 @@ def main():
     if options.startLP:
         bithopper_global.log_msg( 'Starting LP')
         startlp = LoopingCall(bithopper_global.lp.start_lp)
-        startlp.start(60*30)
+        startlp.start(60*5)
+
+    if options.p2pLP and options.startLP:
+        bithopper_global.log_msg('Starting p2p LP')
+        bithopper_global.lpBot = LpBot()
 
     site = server.Site(website.bitSite(bithopper_global))
     reactor.listenTCP(options.port, site,5, options.ip)
