@@ -36,7 +36,8 @@ import twisted.web.client
 from lpbot import LpBot
 
 class BitHopper():
-    def __init__(self):
+    def __init__(self, options):
+        self.options = options
         try:
             self.json_agent = twisted.web.client.Agent(reactor, connectTimeout=5)
         except:
@@ -44,8 +45,7 @@ class BitHopper():
         self.lp_agent = Agent(reactor, persistent=True)
         self.new_server = Deferred()
         self.stats_file = None
-        self.options = None
-	self.lpBot = None
+        self.lpBot = None
         self.reactor = reactor
         self.difficulty = diff.Difficulty(self)
         self.pool = pool.Pool(self)
@@ -229,7 +229,7 @@ def parse_server_disable(option, opt, value, parser):
 def select_scheduler(option, opt, value, parser):
     pass
 
-bithopper_global = BitHopper()
+bithopper_global = None
 
 def main():
     parser = optparse.OptionParser(description='bitHopper')
@@ -250,7 +250,8 @@ def main():
     parser.add_option('--auth', type = str, default=None, help='User,Password')
     args, rest = parser.parse_args()
     options = args
-    bithopper_global.options = args
+    global bithopper_global
+    bithopper_global = BitHopper(args)
 
     if options.list:
         for k in bithopper_global.pool.get_servers():
