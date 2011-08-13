@@ -200,7 +200,7 @@ class bitSite(resource.Resource):
                 request.setHeader('WWW-authenticate', 'basic realm="%s"' 
     % "Admin")
                 return False
-          return True
+        return True
      def getChild(self,name,request):
           if name == 'LP':
                 return lpSite(self.bitHopper)
