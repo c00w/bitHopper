@@ -29,6 +29,8 @@ class LongPoll():
     def set_owner(self,server):
         if self.lastBlock != None:
             self.blocks[self.lastBlock]["_owner"] = server
+            if '_defer' in self.blocks[self.lastBlock]:
+                self.blocks[self.lastBlock]['_defer'].callback(server)
             self.bitHopper.log_msg('Setting Block Owner ' + server+ ':' + str(self.lastBlock))
 
     def get_owner(self):
@@ -55,16 +57,15 @@ class LongPoll():
         old_shares = self.bitHopper.pool.servers[server]['shares']
         self.bitHopper.pool.servers[server]['shares'] = 0
         self.bitHopper.select_best_server()
-        self.bitHopper.reactor.callLater(30,self.api_check, server, block, old_shares)
+        if '_defer' not in self.blocks[block]:
+            self.blocks[block]['_defer'] = defer.Deffered()
+        self.blocks[block]['_defer'].addCallback(self.api_check,server,block,old_shares)
 
-    def lp_api_check(self, server, block, old_shares):
-        if self.lastblock != block:
-            return
+    def lp_api_check(self,new_server, server, block, old_shares):
         if self.blocks[block]['_owner'] != server:
             self.bitHopper.pool.servers[server]['shares'] += old_shares
             self.bitHopper.select_best_server()
-        else:
-            self.bitHopper.reactor.callLater(30,self.api_check, server, block, old_shares)
+        return new_server
 
     def receive(self, body, server):
         self.polled[server].release()
