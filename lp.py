@@ -51,6 +51,21 @@ class LongPoll():
         #self.bitHopper.log_msg('Pulling from ' + server)
         work.jsonrpc_call(self.bitHopper.json_agent, server, [], self.bitHopper)
 
+    def lp_api(self,server,block):
+        old_shares = self.bitHopper.pool.servers[server]['shares']
+        self.bitHopper.pool.servers[server]['shares'] = 0
+        self.bitHopper.select_best_server()
+        self.bitHopper.reactor.callLater(30,self.api_check, server, block, old_shares, 0)
+
+    def lp_api_check(self, server, block, old_shares, count):
+        if count > 10:
+            return
+        if self.blocks[block]['_owner'] != server:
+            self.bitHopper.pool.servers[server]['shares'] += old_shares
+            self.bitHopper.select_best_server()
+        else:
+            self.bitHopper.reactor.callLater(30,self.api_check, server, block, old_shares, count +1)
+
     def receive(self, body, server):
         self.polled[server].release()
         info = self.bitHopper.pool.servers[server]
@@ -77,15 +92,25 @@ class LongPoll():
                 else:
                     self.bitHopper.log_msg('New Block: ' + str(block))
                     self.bitHopper.log_msg('Block Owner ' + server)
+                    try:
+                        if self.bitHopper.lpbot != None:
+                            self.bitHopper.lpbot.announce(server)
+                    except Exception, e:
+                        self.bitHopper.log_dbg(e) 
                     self.blocks[block] = {}
                     self.bitHopper.lp_callback(work)
                     self.blocks[block]["_owner"] = server
                     if self.bitHopper.pool.servers[server]['role'] == 'mine_deepbit':
-                        self.bitHopper.pool.servers[server]['shares'] = 0
+                        self.lp_api(server, block)
+                        
             if self.bitHopper.pool.servers[server]['role'] == 'mine_deepbit':
                 self.lastBlock = block
 
-            self.blocks[block][server] = time.time()
+            #Add the lp_penalty if it exists.
+            offset = self.pool.servers[server].get('lp_penalty','0')
+            self.blocks[block][server] = time.time() + float(offset)
+            if self.blocks[block][server] < self.blocks[block][self.blocks[block]['_owner']]:
+                self.blocks[block]['_owner'] = server
         except Exception, e:
             self.bitHopper.log_dbg('Error in LP' + str(server) + str(body))
             self.bitHopper.log_dbg(e)

@@ -76,7 +76,7 @@ def jsonrpc_lpcall(agent,server, url, lp):
 
 @defer.inlineCallbacks
 def get(agent,url):
-    d = agent.request('GET', url, Headers({'User-Agent':['Mozilla/5.0 (Windows NT 5.1) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/13.0.782.109 Safari/535.1']}),None)
+    d = agent.request('GET', url, Headers({'User-Agent':['Mozilla/5.0 (Windows; U; MSIE 9.0; WIndows NT 9.0; en-US))']}),None)
     response = yield d
     finish = Deferred()
     response.deliverBody(WorkProtocol(finish))
@@ -145,7 +145,7 @@ def jsonrpc_getwork(agent, server, data, j_id, request, bitHopper):
         try:
             if i > 4:
                 yield sleep(1, bitHopper)
-            if bitHopper.request_store.closed(request):
+            if data == [] and bitHopper.request_store.closed(request):
                 return
             work = yield jsonrpc_call(agent, server,data,bitHopper)
         except Exception, e:
@@ -153,12 +153,11 @@ def jsonrpc_getwork(agent, server, data, j_id, request, bitHopper):
             bitHopper.log_dbg(server)
             bitHopper.log_dbg(str(e))
             work = None
-            continue
 
     try:
         if str(work) == 'False':
             bitHopper.reject_callback(server, data)
-        elif str(work) != 'True' and data == []:
+        elif str(work) != 'True':
             merkle_root = work["data"][72:136]
             bitHopper.getwork_store.add(server,merkle_root)
         response = json.dumps({"result":work,'error':None,'id':j_id})

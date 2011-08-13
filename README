@@ -75,7 +75,7 @@ Not currently in use.
 # Skins
 
 You can change the color scheme on the status page. Skins and .jpg preview are located in the StatSkin sub directory.
-Just copy the (4) index files to the main directory to change skin and hit refresh on your browser. No need to restart.
+Just copy the index file to the main directory to change skin and hit refresh on your browser. No need to restart.
 
 # More help
 

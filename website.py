@@ -8,6 +8,7 @@ import json
 import os
 import sys
 from twisted.web import server, resource
+from twisted.web.http import UNAUTHORIZED
 
 def flat_info(request, bithopper_global):
      response = '<html><head><title>bitHopper Info</title></head><body>'
@@ -166,6 +167,16 @@ class lpSite(resource.Resource):
           self.bitHopper.new_server.addCallback(self.bitHopper.bitHopperLP, (request))
           return server.NOT_DONE_YET
 
+class nullsite(resource.Resource):
+    def __init__(self):
+        resource.Resource.__init__(self)    
+    def render_GET(self,request):
+         request.finish()
+         return server.NOT_DONE_YET
+    def render_POST(self,request):
+         request.finish()
+         return server.NOT_DONE_YET
+
 class bitSite(resource.Resource):
 
      def __init__(self,bitHopper):
@@ -180,15 +191,26 @@ class bitSite(resource.Resource):
      def render_POST(self, request):
           return self.bitHopper.bitHopper_Post(request)
 
-
+     def auth(self,request):
+        if self.bitHopper.auth != None:  
+          user = request.getUser()
+          password = request.getPassword()
+          if user != self.bitHopper.auth[0] or password != self.bitHopper.auth[1]:
+                request.setResponseCode(UNAUTHORIZED)
+                request.setHeader('WWW-authenticate', 'basic realm="%s"' 
+    % "Admin")
+                return False
+          return True
      def getChild(self,name,request):
-          #bithopper_global.log_msg(str(name))
           if name == 'LP':
                 return lpSite(self.bitHopper)
-          elif name == 'flat':
+          if name == 'flat':
+                if not self.auth(request): return nullsite()
                 return flatSite(self.bitHopper)
           elif name == 'stats' or name == 'index.html':
+                if not self.auth(request): return nullsite()
                 return dynamicSite(self.bitHopper)
           elif name == 'data':
+                if not self.auth(request): return nullsite()
                 return dataSite(self.bitHopper)
           return self
