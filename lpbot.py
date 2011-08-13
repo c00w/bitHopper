@@ -16,6 +16,7 @@ class LpBot(SimpleIRCClient):
 		self.first_block = 0
 		self.last_block = 0
 		self.initialized = False;
+		# TODO: Use twisted
 		thread.start_new_thread(self.run,())
 		thread.start_new_thread(self.update_last_block,())
 		thread.start_new_thread(self.ircobj.process_forever,())
@@ -43,6 +44,8 @@ class LpBot(SimpleIRCClient):
 		bl_match = self.newblock_re.match(e.arguments()[0])
 		if bl_match != None:
 			block = bl_match.group('block_number')
+			if self.first_block == 0:
+				self.first_block = block
 			if block > self.last_block:
 				self.last_block = block
 		
@@ -54,7 +57,7 @@ class LpBot(SimpleIRCClient):
 		
 	def announce(self, server):
 		try:
-			self.do_update_last_block()
+			#self.do_update_last_block()
 			print "Identified as : " 
 			print str(server)
 			if self.initialized:
@@ -74,23 +77,25 @@ class LpBot(SimpleIRCClient):
 	def update_last_block(self):
 		while(True):
 			self.do_update_last_block()
+			# TODO: Use twisted
 			time.sleep(5)
 
 	def do_update_last_block(self):
 		try:
 	                handle = urllib2.urlopen('http://blockexplorer.com/q/getblockcount')
         	        if handle != None:
-                		block_num = handle.read()
+                		block_num = int(handle.read())
                         	handle.close()
-				if not self.initialized:
+				if self.initialized:
+					if block_num > self.last_block:
+						print "New Block: " + str(self.last_block)
+						self.connection.privmsg("#bithopper-lp", "*** New Block: " + str(block_num))
+				else:
                                         if self.first_block == 0:
                                             self.first_block = block_num
                                         elif self.first_block != block_num:
                                             self.initialized=True
-	                        if block_num > self.last_block:
-        	                	if self.last_block > 0:
-                	                	self.connection.privmsg("#bithopper-lp", "*** New Block: " + str(block_num))
-                                        self.last_block = block_num
-                               	        print "New Block: " + str(self.last_block)
+                                        
+				self.last_block = block_num
 		except Exception, e:
                 	print e.value
