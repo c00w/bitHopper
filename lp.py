@@ -103,7 +103,11 @@ class LongPoll():
             if self.bitHopper.pool.servers[server]['role'] == 'mine_deepbit':
                 self.lastBlock = block
 
-            self.blocks[block][server] = time.time()
+            #Add the lp_penalty if it exists.
+            offset = self.pool.servers[server].get('lp_penalty','0')
+            self.blocks[block][server] = time.time() + float(offset)
+            if self.blocks[block][server] < self.blocks[block][self.blocks[block]['_owner']]:
+                self.blocks[block]['_owner'] = server
         except Exception, e:
             self.bitHopper.log_dbg('Error in LP' + str(server) + str(body))
             self.bitHopper.log_dbg(e)
