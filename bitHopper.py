@@ -247,7 +247,7 @@ def main():
     parser.add_option('--startLP', action= 'store_true', default = True, help='Seeds the LP module with known pools. Must use it for LP based hopping with deepbit, True by default')
     parser.add_option('--p2pLP', action='store_true', default=False, help='Starts up an IRC bot to validate LP based hopping.  Must be used with --startLP');
     parser.add_option('--ip', type = str, default='', help='IP to listen on')
-    parser.add_option('--user', type = str, default=None, help='User,Password')
+    parser.add_option('--auth', type = str, default=None, help='User,Password')
     args, rest = parser.parse_args()
     options = args
     bithopper_global.options = args
@@ -257,8 +257,8 @@ def main():
             print k
         return
 
-    if options.user:
-        auth = options.user.split(',')
+    if options.auth:
+        auth = options.user.auth(',')
         bithopper_global.auth = auth
         if len(auth) != 2:
             print 'User,Password. Not whatever you just entered'
