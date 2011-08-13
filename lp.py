@@ -70,14 +70,14 @@ class LongPoll():
     def receive(self, body, server):
         self.polled[server].release()
         info = self.bitHopper.pool.servers[server]
-        if info['role'] in ['mine_nmc','disable']:
+        if info['role'] in ['mine_nmc','disable','mine_nmc']:
             return
         if body == None:
             if server not in self.errors:
                 self.errors[server] = 0
             self.errors[server] += 1
             #timeout? Something bizarre?
-            if self.errors[server] < 3 and self.polled[server] == 0:
+            if self.errors[server] < 3 or info['role'] == 'mine_deepbit':
                 self.bitHopper.reactor.callLater(0,self.pull_lp, (self.pool.servers[server]['lp_address'],server))
             return
         self.bitHopper.log_msg('received lp from: ' + server)
@@ -116,7 +116,7 @@ class LongPoll():
                 self.errors[server] = 0
             self.errors[server] += 1
             #timeout? Something bizarre?
-            if self.errors[server] > 3:
+            if self.errors[server] > 3 and info['role'] != 'mine_deepbit':
                 return
         self.bitHopper.reactor.callLater(0,self.pull_lp, (self.pool.servers[server]['lp_address'],server))
         
