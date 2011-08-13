@@ -51,6 +51,21 @@ class LongPoll():
         #self.bitHopper.log_msg('Pulling from ' + server)
         work.jsonrpc_call(self.bitHopper.json_agent, server, [], self.bitHopper)
 
+    def lp_api(self,server,block):
+        old_shares = self.bitHopper.pool.servers[server]['shares']
+        self.bitHopper.pool.servers[server]['shares'] = 0
+        self.bitHopper.select_best_server()
+        self.bitHopper.reactor.callLater(30,self.api_check, server, block, old_shares, 0)
+
+    def lp_api_check(self, server, block, old_shares, count):
+        if count > 10:
+            return
+        if self.blocks[block]['_owner'] != server:
+            self.bitHopper.pool.servers[server]['shares'] += old_shares
+            self.bitHopper.select_best_server()
+        else:
+            self.bitHopper.reactor.callLater(30,self.api_check, server, block, old_shares, count +1)
+
     def receive(self, body, server):
         self.polled[server].release()
         info = self.bitHopper.pool.servers[server]
@@ -81,7 +96,8 @@ class LongPoll():
                     self.bitHopper.lp_callback(work)
                     self.blocks[block]["_owner"] = server
                     if self.bitHopper.pool.servers[server]['role'] == 'mine_deepbit':
-                        self.bitHopper.pool.servers[server]['shares'] = 0
+                        self.lp_api(server, block)
+                        
             if self.bitHopper.pool.servers[server]['role'] == 'mine_deepbit':
                 self.lastBlock = block
 
