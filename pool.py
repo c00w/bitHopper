@@ -122,14 +122,21 @@ class Pool():
             if self.servers[server]['ghash'] > 0:
                 ghash_duration += str('{0:.1f}gh/s '.format( self.servers[server]['ghash'] ))
             if self.servers[server]['duration'] > 0:
-                ghash_duration += str('{0:d}min.'.format( (self.servers[server]['duration']/60) ))
-            k += ghash_duration
+                ghash_duration += '\t' + str('{0:d}min.'.format( (self.servers[server]['duration']/60) ))
+            k += '\t' + ghash_duration
         except Exception, e:
             self.bitHopper.log_dbg("Error formatting")
             self.bitHopper.log_dbg(e)
             k =  str(shares)
+
+        #Display output to user when shares change
         if shares != prev_shares:
-            self.bitHopper.log_msg(str(server) +": "+ k)
+            if len(server) == 12:
+                self.bitHopper.log_msg(str(server) +":"+ k)
+            else:
+                self.bitHopper.log_msg(str(server) +":\t"+ k)
+
+        #If the shares indicate we found a block tell LP
         if shares < prev_shares and shares < 0.10 * diff:
             self.bitHopper.lp.set_owner(server)
         self.servers[server]['shares'] = shares
