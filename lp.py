@@ -110,7 +110,7 @@ class LongPoll():
             if self.blocks[block][server] < self.blocks[block][self.blocks[block]['_owner']]:
                 self.blocks[block]['_owner'] = server
         except Exception, e:
-            self.bitHopper.log_dbg('Error in LP' + str(server) + str(body))
+            self.bitHopper.log_msg('Error in LP' + str(server))
             self.bitHopper.log_dbg(e)
             if server not in self.errors:
                 self.errors[server] = 0
@@ -148,8 +148,7 @@ class LongPoll():
         try:
             if self.polled[server].acquire(False):
                 self.bitHopper.log_msg("LP Call " + lp_address)
-                d = work.jsonrpc_lpcall(self.bitHopper.get_lp_agent(),server, lp_address, self)
-                d.addErrback(self.bitHopper.log_dbg)
+                work.jsonrpc_lpcall(self.bitHopper.get_lp_agent(),server, lp_address, self)
         except Exception,e :
             self.bitHopper.log_dbg('pull_lp error')
             self.bitHopper.log_dbg(e)
