@@ -69,10 +69,12 @@ class LongPoll():
 
     def receive(self, body, server):
         self.polled[server].release()
+        self.bitHopper.log_msg('received lp from: ' + server)
         info = self.bitHopper.pool.servers[server]
         if info['role'] in ['mine_nmc','disable','mine_nmc']:
             return
         if body == None:
+            self.bitHopper.log_msg('error in lp from: ' + server)
             if server not in self.errors:
                 self.errors[server] = 0
             self.errors[server] += 1
@@ -80,7 +82,6 @@ class LongPoll():
             if self.errors[server] < 3 or info['role'] == 'mine_deepbit':
                 self.bitHopper.reactor.callLater(0,self.pull_lp, (self.pool.servers[server]['lp_address'],server))
             return
-        self.bitHopper.log_msg('received lp from: ' + server)
         try:
             response = json.loads(body)
             work = response['result']

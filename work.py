@@ -70,7 +70,7 @@ def jsonrpc_lpcall(agent,server, url, lp):
         text = yield finish
         lp.receive(text,server)
         defer.returnValue(None)
-    except:
+    except Exception,e:
         lp.receive(None,server)
         defer.returnValue(None)
 
