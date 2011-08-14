@@ -76,8 +76,8 @@ class LpBot(SimpleIRCClient):
 			# Talley the votes
 			for vote in self.hashinfo[block]:
 				if vote == self.server:
-					vote+=1
-				total_votes+=1
+					vote = vote + 1
+				total_votes = total_votes + 1
 			
 			# If I haven't received the new work yet, I don't want to decide anything, just store it
 			if self.current_block != block:
@@ -91,7 +91,7 @@ class LpBot(SimpleIRCClient):
 					test_votes = 0
 					## Talley up the votes for that server
 					for test_vote in self.hashinfo[block]:
-						test_votes+=1
+						test_votes = total_votes + 1
 					if test_votes / total_votes > .5:
 						self.server = test_server
 						votes = test_votes
@@ -100,7 +100,7 @@ class LpBot(SimpleIRCClient):
 				votes = 0
 				for vote_server in self.hashinfo[block]:
 					if vote_server == self.server:
-						votes+=1
+						votes = votes + 1
 		
 		if (self.get_last_block() != last_block and self.current_block == block) or self.server != last_server:
 			 self.say("Best Guess: {" + self.server + "} with " + str(votes) + " of " + str(total_votes) + " votes - " + self.get_last_block())
