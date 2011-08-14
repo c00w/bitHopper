@@ -27,6 +27,9 @@
 #  penalty - floating point number, # of shares will be
 #            multiplied by this number when calculating
 #            shares against difficulty
+#            BACKUP SERVERS: Set it to the percent the server takes. 
+#            The penalty/100 is added to the reject rate when calculating 
+#            which server to use
 #
 #########################################################
 
