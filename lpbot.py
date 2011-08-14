@@ -107,7 +107,7 @@ class LpBot(SimpleIRCClient):
 
 		# Cleanup
 		# Delete any orbaned blocks out of blockinfo
-		for clean_block, clean_val in self.hashinfo:
+		for clean_block, clean_val in self.hashinfo.items():
 			if clean_block not in self.hashes:
 				del self.hashinfo[clean_block]
 
