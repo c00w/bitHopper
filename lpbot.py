@@ -73,16 +73,18 @@ class LpBot(SimpleIRCClient):
 		else:
 			# Add a vote
 			self.hashinfo[block].append(server)
-			# Talley the votes
-			for vote in self.hashinfo[block]:
-				if vote == self.server:
-					vote+=1
-				total_votes+=1
+			# Talley the votes based on who we have selected so far
+			for v in self.hashinfo[block]:
+				if v == self.server:
+					votes = votes + 1
+				total_votes = total_votes + 1
 			
 			# If I haven't received the new work yet, I don't want to decide anything, just store it
 			if self.current_block != block:
+				print "Unknown work - " + block
 				return
 
+			print "Total Votes: " + str(total_votes)
 			# Enough votes for a quarum?
 			if total_votes > 5:
 				# Enought compelling evidence to switch?
@@ -91,25 +93,25 @@ class LpBot(SimpleIRCClient):
 					test_votes = 0
 					## Talley up the votes for that server
 					for test_vote in self.hashinfo[block]:
-						test_votes+=1
+						test_votes = total_votes + 1
 					if test_votes / total_votes > .5:
 						self.server = test_server
 						votes = test_votes
 			else: # Not enough for quarum, select first
-				self.server = self.hashinfo[block]
+				self.server = self.hashinfo[block][0]
 				votes = 0
 				for vote_server in self.hashinfo[block]:
 					if vote_server == self.server:
-						votes+=1
+						votes = votes + 1
 		
 		if (self.get_last_block() != last_block and self.current_block == block) or self.server != last_server:
 			 self.say("Best Guess: {" + self.server + "} with " + str(votes) + " of " + str(total_votes) + " votes - " + self.get_last_block())
 
 		# Cleanup
 		# Delete any orbaned blocks out of blockinfo
-		for clean_block in keys(self.blockinfo):
+		for clean_block, clean_val in self.hashinfo.items():
 			if clean_block not in self.hashes:
-				del self.blockinfo[clean_block]
+				del self.hashinfo[clean_block]
 
 	def say(self, text):
 		self.connection.privmsg("#bithopper-lp", text)			
@@ -133,3 +135,24 @@ class LpBot(SimpleIRCClient):
 	                self.connection.join('#bithopper-lp')
 			self.chan_list.append('#bithopper-lp')
 		self.ircobj.process_forever()
+
+#class test_eventargs():
+#	def __init__(self, message):
+#		self.arguments = [message]
+
+#if __name__ == "__main__":
+#	bot = LpBot()
+#	while not bot.is_connected:
+#		thread.sleep(3)
+#	
+#	print 'Testing me first, everyone agrees'
+#	bot.announce('test', '1')
+#	bot.on_pubmsg('', test_eventargs('*** New Block {test} - 1'))
+#	bot.on_pubmsg('', test_eventargs('*** New Block (test) - 1'))
+#	bot.on_pubmsg('', test_eventargs('*** New Block (test) - 1'))
+#	bot.on_pubmsg('', test_eventargs('*** New Block (test) - 1'))
+#	bot.on_pubmsg('', test_eventargs('*** New Block (test) - 1'))
+#
+#	print 'Testing someone first, me later with wrong server'
+
+
