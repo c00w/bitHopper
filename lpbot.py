@@ -6,8 +6,9 @@ import thread
 import urllib2
 
 class LpBot(SimpleIRCClient):
-	def __init__(self):
+	def __init__(self, bitHopper):
 		SimpleIRCClient.__init__(self)
+		self.bitHopper = bitHopper
 		self.nick = 'lp' + str(random.randint(1,9999999999))
 		self.connection.add_global_handler('disconnect', self._on_disconnect, -10)
 		self.chan_list=[]
@@ -69,6 +70,7 @@ class LpBot(SimpleIRCClient):
 				total_votes = 1
 			else:
 				# Info added, I have nothing else to do
+				print "Unknown work - " + block
 				return
 		else:
 			# Add a vote
@@ -76,12 +78,12 @@ class LpBot(SimpleIRCClient):
 			# Talley the votes based on who we have selected so far
 			for v in self.hashinfo[block]:
 				if v == self.server:
-					votes = votes + 1
-				total_votes = total_votes + 1
+					votes += 1
+				total_votes += 1
 			
 			# If I haven't received the new work yet, I don't want to decide anything, just store it
 			if self.current_block != block:
-				print "Unknown work - " + block
+				print "Old  work - " + block
 				return
 
 			print "Total Votes: " + str(total_votes)
@@ -91,26 +93,36 @@ class LpBot(SimpleIRCClient):
 				# Loop through unique servers for the block
 				for test_server in set(self.hashinfo[block]):
 					test_votes = 0
+					test_total_votes = 0
 					## Talley up the votes for that server
 					for test_vote in self.hashinfo[block]:
-						test_votes = total_votes + 1
-					if test_votes / total_votes > .5:
+						test_total_votes += 1
+						if test_vote == test_server:
+							test_votes += 1
+					if test_votes / test_total_votes > .5 and self.server != test_server:
+						print "In the minority, updating to  " + test_server + ": " + str(test_votes) + "/" + str(test_total_votes)
 						self.server = test_server
 						votes = test_votes
+						total_votes = test_total_votes
 			else: # Not enough for quarum, select first
 				self.server = self.hashinfo[block][0]
 				votes = 0
+				total_votes = 0
 				for vote_server in self.hashinfo[block]:
 					if vote_server == self.server:
-						votes = votes + 1
+						votes += 1
+					total_votes += 1
 		
-		if (self.get_last_block() != last_block and self.current_block == block) or self.server != last_server:
-			 self.say("Best Guess: {" + self.server + "} with " + str(votes) + " of " + str(total_votes) + " votes - " + self.get_last_block())
+		if self.server != last_server:
+			self.say("Best Guess: {" + self.server + "} with " + str(votes) + " of " + str(total_votes) + " votes - " + self.current_block)
+			self.bitHopper.lp.lp_api(self.server, self.current_block)
 
 		# Cleanup
 		# Delete any orbaned blocks out of blockinfo
+		print "Clean Up..."
 		for clean_block, clean_val in self.hashinfo.items():
 			if clean_block not in self.hashes:
+				print "Deleting old work... " + clean_block
 				del self.hashinfo[clean_block]
 
 	def say(self, text):
@@ -128,7 +140,6 @@ class LpBot(SimpleIRCClient):
 			print "*****  ERROR IN ANNOUCE  *******"
 			print "********************************"
 			print e
-			traceback.print_exc(file=sys.stdout)
 
 	def join(self):
 		if '#bithopper-lp' not in self.chan_list:

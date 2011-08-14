@@ -63,7 +63,7 @@ class LongPoll():
             self.blocks[block]['_defer'] = defer.Deffered()
         self.blocks[block]['_defer'].addCallback(self.api_check,server,block,old_shares)
 
-    def lp_api_check(self,new_server, server, block, old_shares):
+    def api_check(self,new_server, server, block, old_shares):
         if self.blocks[block]['_owner'] != server:
             self.bitHopper.pool.servers[server]['shares'] += old_shares
             self.bitHopper.select_best_server()
