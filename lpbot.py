@@ -134,6 +134,7 @@ class LpBot(SimpleIRCClient):
 	def announce(self, server, last_hash):
 		try:
 			if self.current_block != last_hash:
+				self.server=''
 				self.current_block = last_hash
 				print "Announcing: *** New Block {" + str(server) + "} - " + last_hash
 				self.say("*** New Block {" + str(server) + "} - " + last_hash)
