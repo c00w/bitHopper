@@ -81,8 +81,10 @@ class LpBot(SimpleIRCClient):
 			
 			# If I haven't received the new work yet, I don't want to decide anything, just store it
 			if self.current_block != block:
+				print "Unknown work - " + block
 				return
 
+			print "Total Votes: " + str(total_votes)
 			# Enough votes for a quarum?
 			if total_votes > 5:
 				# Enought compelling evidence to switch?
@@ -133,3 +135,24 @@ class LpBot(SimpleIRCClient):
 	                self.connection.join('#bithopper-lp')
 			self.chan_list.append('#bithopper-lp')
 		self.ircobj.process_forever()
+
+#class test_eventargs():
+#	def __init__(self, message):
+#		self.arguments = [message]
+
+#if __name__ == "__main__":
+#	bot = LpBot()
+#	while not bot.is_connected:
+#		thread.sleep(3)
+#	
+#	print 'Testing me first, everyone agrees'
+#	bot.announce('test', '1')
+#	bot.on_pubmsg('', test_eventargs('*** New Block {test} - 1'))
+#	bot.on_pubmsg('', test_eventargs('*** New Block (test) - 1'))
+#	bot.on_pubmsg('', test_eventargs('*** New Block (test) - 1'))
+#	bot.on_pubmsg('', test_eventargs('*** New Block (test) - 1'))
+#	bot.on_pubmsg('', test_eventargs('*** New Block (test) - 1'))
+#
+#	print 'Testing someone first, me later with wrong server'
+
+
