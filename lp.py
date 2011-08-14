@@ -39,18 +39,20 @@ class LongPoll():
         return ""
 
     def start_lp(self):
+        # Loop Through each server and either call pull_lp with the address or
+        # Do a getwork.
         for server in self.pool.servers:
             info = self.pool.servers[server]
             if info['role'] not in ['mine','mine_charity','mine_deepbit','info', 'backup','backup_latehop']:
                 continue
             if info['lp_address'] != None:
-                self.pull_lp((info['lp_address'],server))
+                self.pull_lp(info['lp_address'],server)
             else:
                 reactor.callLater(0, self.pull_server, server)
                 
                 
     def pull_server(self,server):
-        #self.bitHopper.log_msg('Pulling from ' + server)
+        # A helper function so that we can have this in a different call.
         work.jsonrpc_call(self.bitHopper.json_agent, server, [], self.bitHopper)
 
     def lp_api(self,server,block):
@@ -80,9 +82,10 @@ class LongPoll():
             self.errors[server] += 1
             #timeout? Something bizarre?
             if self.errors[server] < 3 or info['role'] == 'mine_deepbit':
-                self.bitHopper.reactor.callLater(0,self.pull_lp, (self.pool.servers[server]['lp_address'],server))
+                self.bitHopper.reactor.callLater(0,self.pull_lp, self.pool.servers[server]['lp_address'],server, False)
             return
         try:
+            output = True
             response = json.loads(body)
             work = response['result']
             data = work['data']
@@ -111,6 +114,7 @@ class LongPoll():
             if self.blocks[block][server] < self.blocks[block][self.blocks[block]['_owner']]:
                 self.blocks[block]['_owner'] = server
         except Exception, e:
+            output = False
             self.bitHopper.log_dbg('Error in LP ' + str(server))
             self.bitHopper.log_dbg(e)
             if server not in self.errors:
@@ -119,7 +123,7 @@ class LongPoll():
             #timeout? Something bizarre?
             if self.errors[server] > 3 and info['role'] != 'mine_deepbit':
                 return
-        self.bitHopper.reactor.callLater(0,self.pull_lp, (self.pool.servers[server]['lp_address'],server))
+        self.bitHopper.reactor.callLater(0,self.pull_lp, self.pool.servers[server]['lp_address'],server,output)
         
     def clear_lp(self,):
         pass
@@ -134,12 +138,12 @@ class LongPoll():
             info['lp_address'] = url
             if server not in self.polled:
                 self.polled[server] = threading.Semaphore()
-            self.bitHopper.reactor.callLater(0,self.pull_lp, (url,server))
+            self.bitHopper.reactor.callLater(0,self.pull_lp, url,server)
         except Exception,e:
             self.bitHopper.log_msg('set_lp error')
             self.bitHopper.log_dbg(str(e))
 
-    def pull_lp(self,(url,server)):
+    def pull_lp(self,url,server, output = True):
         #self.bitHopper.log_msg('pull_lp ' + url + ' ' + server)
         pool = self.pool.servers[server]
         if url[0] == '/':
@@ -148,7 +152,10 @@ class LongPoll():
             lp_address = str(url)
         try:
             if self.polled[server].acquire(False):
-                self.bitHopper.log_dbg("LP Call " + lp_address)
+                if output:
+                    self.bitHopper.log_msg("LP Call " + lp_address)
+                else:
+                    self.bitHopper.log_dbg("LP Call " + lp_address)
                 work.jsonrpc_lpcall(self.bitHopper.get_lp_agent(),server, lp_address, self)
         except Exception,e :
             self.bitHopper.log_dbg('pull_lp error')
