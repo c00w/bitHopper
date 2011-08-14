@@ -74,9 +74,9 @@ class LpBot(SimpleIRCClient):
 			# Add a vote
 			self.hashinfo[block].append(server)
 			# Talley the votes
-			for vote in self.hashinfo[block]:
-				if vote == self.server:
-					vote = vote + 1
+			for v in self.hashinfo[block]:
+				if v == self.server:
+					votes = votes + 1
 				total_votes = total_votes + 1
 			
 			# If I haven't received the new work yet, I don't want to decide anything, just store it
@@ -107,7 +107,7 @@ class LpBot(SimpleIRCClient):
 
 		# Cleanup
 		# Delete any orbaned blocks out of blockinfo
-		for clean_block in keys(self.blockinfo):
+		for clean_block, clean_val in self.blockinfo:
 			if clean_block not in self.hashes:
 				del self.blockinfo[clean_block]
 
