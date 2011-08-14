@@ -102,7 +102,7 @@ class LpBot(SimpleIRCClient):
 						if test_vote == test_server:
 							test_votes += 1
 					print str(test_votes) + " out of " + str(test_total_votes) + " votes."
-					if test_votes / test_total_votes > .5 and self.server != test_server:
+					if float(test_votes) / test_total_votes > .5 and self.server != test_server:
 						print "In the minority, updating to  " + test_server + ": " + str(test_votes) + "/" + str(test_total_votes)
 						self.server = test_server
 						votes = test_votes

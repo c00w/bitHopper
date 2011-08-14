@@ -61,15 +61,14 @@ class LongPoll():
         self.bitHopper.pool.servers[server]['shares'] = 0
         self.bitHopper.select_best_server()
         ######## This is throwing a bunch of errors
-        #if '_defer' not in self.blocks[block]:
-        #    self.blocks[block]['_defer'] = defer.Deferred()
-        #self.blocks[block]['_defer'].addCallback(self.api_check,server,block,old_shares)
+        if '_defer' not in self.blocks[block]:
+            self.blocks[block]['_defer'] = defer.Deferred()
+        self.blocks[block]['_defer'].addCallback(self.api_check,server,block,old_shares)
 
-    def api_check(self,new_server, server, block, old_shares):
+    def api_check(self, server, block, old_shares):
         if self.blocks[block]['_owner'] != server:
             self.bitHopper.pool.servers[server]['shares'] += old_shares
             self.bitHopper.select_best_server()
-        return new_server
 
     def receive(self, body, server):
         self.polled[server].release()
