@@ -60,8 +60,8 @@ class BitHopper():
         self.pool.setup(self)
         self.auth = None
 
-    def reject_callback(self,server,data):
-        self.data.reject_callback(server,data)
+    def reject_callback(self,server,data, user, password):
+        self.data.reject_callback(server,data, user, password)
 
     def data_callback(self,server,data, user, password):
         self.data.data_callback(server, data, user, password)

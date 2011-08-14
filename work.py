@@ -156,7 +156,7 @@ def jsonrpc_getwork(agent, server, data, j_id, request, bitHopper):
 
     try:
         if str(work) == 'False':
-            bitHopper.reject_callback(server, data)
+            bitHopper.reject_callback(server, data, request.getUser(), request.getPassword())
         elif str(work) != 'True':
             merkle_root = work["data"][72:136]
             bitHopper.getwork_store.add(server,merkle_root)
