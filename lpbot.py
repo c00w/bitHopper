@@ -11,12 +11,11 @@ class LpBot(SimpleIRCClient):
 		self.nick = 'lp' + str(random.randint(1,9999999999))
 		self.connection.add_global_handler('disconnect', self._on_disconnect, -10)
 		self.chan_list=[]
-		self.notice_re = re.compile('[\d+/\d+ \d+:\d+] \*\*\* New block found by \{(?P<server>.+)\} Block Number: \((?P<block_number>\d+)\).*')
-		self.newblock_re = re.compile('\*\*\* New Block: (?P<block_number>\d+) - (?P<hash>.*)')
-		self.first_block = 0
-		self.last_block = 0
-		self.last_hash = []
-		self.initialized = False;
+		self.newblock_re = re.compile('\*\*\* New Block \{(?P<server>.+)\} - (?P<hash>.*)')
+		self.hashes = ['']
+		self.hashinfo = {}
+		self.server=''
+		self.current_block=''
 		# TODO: Use twisted
 		thread.start_new_thread(self.run,())
 		thread.start_new_thread(self.ircobj.process_forever,())
@@ -43,70 +42,94 @@ class LpBot(SimpleIRCClient):
 	def on_pubmsg(self, c, e):
 		bl_match = self.newblock_re.match(e.arguments()[0])
 		if bl_match != None:
-			block = bl_match.group('block_number')
 			last_hash = bl_match.group('hash')
-			if self.first_block == 0:
-				self.first_block = block
-			if block > self.last_block:
-				self.last_block = block
-			if last_hash not in self.last_hash:
-				self.last_hash.append(last_hash)
-				if len(self.last_hash) > 5:
-					del self.last_hash[0]
-		
-		match = self.notice_re.match(e.arguments()[0])
-		if match != None:
-			print "Server: " + match.group('server')
-			print "Block Number: " + match.group('block_number')
+			server = bl_match.group('server')
+			self.decider(server, last_hash)
+
+	def get_last_block(self):
+		return self.hashes[-1]
+
+	def decider(self, server, block):
+		last_server = self.server
+		last_block = self.get_last_block()
+		votes = 0
+		total_votes = 0
+
+		if block not in self.hashes:
+			### New block I know nothing about
+			print "New Block: {" + str(server) + "} - " + block
+			self.hashes.append(block)
+			if len(self.hashes) > 50:
+				del self.hashes[0];
+			self.hashinfo[block] = [server]
+			# Am I working on this now?
+			if self.current_block == block:
+				self.server = server
+				votes = 1
+				total_votes = 1
+			else:
+				# Info added, I have nothing else to do
+				return
+		else:
+			# Add a vote
+			self.hashinfo[block].append(server)
+			# Talley the votes
+			for vote in self.hashinfo[block]:
+				if vote == self.server:
+					vote+=1
+				total_votes+=1
 			
+			# If I haven't received the new work yet, I don't want to decide anything, just store it
+			if self.current_block != block:
+				return
+
+			# Enough votes for a quarum?
+			if total_votes > 5:
+				# Enought compelling evidence to switch?
+				# Loop through unique servers for the block
+				for test_server in set(self.hashinfo[block]):
+					test_votes = 0
+					## Talley up the votes for that server
+					for test_vote in self.hashinfo[block]:
+						test_votes+=1
+					if test_votes / total_votes > .5:
+						self.server = test_server
+						votes = test_votes
+			else: # Not enough for quarum, select first
+				self.server = self.hashinfo[block]
+				votes = 0
+				for vote_server in self.hashinfo[block]:
+					if vote_server == self.server:
+						votes+=1
+		
+		if (self.get_last_block() != last_block and self.current_block == block) or self.server != last_server:
+			 self.say("Best Guess: {" + self.server + "} with " + str(votes) + " of " + str(total_votes) + " votes - " + self.get_last_block())
+
+		# Cleanup
+		# Delete any orbaned blocks out of blockinfo
+		for clean_block in keys(self.blockinfo):
+			if clean_block not in self.hashes:
+				del self.blockinfo[clean_block]
+
+	def say(self, text):
+		self.connection.privmsg("#bithopper-lp", text)			
 		
 	def announce(self, server, last_hash):
 		try:
-			if last_hash not in self.last_hash:
-				if self.last_block == 0:
-					self.do_update_last_block()
-				self.last_block += 1
-				self.last_hash.append(last_hash)
-				if len(self.last_hash) > 5:
-					del self.last_hash[0]
-				elif len(self.last_hash) > 1:
-					self.initialized=True;
-				print "New Block: " + str(self.last_block)
-				self.connection.privmsg("#bithopper-lp", "*** New Block: " + str(self.last_block) + " (" + last_hash + ")")
-			else:
-				self.do_update_last_block()
-			print "Identified as : " 
-			print str(server)
-			if self.initialized:
-				self.connection.privmsg("#bithopper-lp", "*** New block found by {" + str(server) + "} Block Number: (" + str(self.last_block) + ")")
+			if self.current_block != last_hash:
+				self.current_block = last_hash
+				print "Announcing: *** New Block {" + str(server) + "} - " + last_hash
+				self.say("*** New Block {" + str(server) + "} - " + last_hash)
+				self.decider(server, last_hash)
 		except Exception, e:
 			print "********************************"
 			print "*****  ERROR IN ANNOUCE  *******"
 			print "********************************"
-			print e.message
+			print e
+			traceback.print_exc(file=sys.stdout)
 
 	def join(self):
 		if '#bithopper-lp' not in self.chan_list:
 	                self.connection.join('#bithopper-lp')
 			self.chan_list.append('#bithopper-lp')
 		self.ircobj.process_forever()
-
-	def do_update_last_block(self):
-		try:
-	                handle = urllib2.urlopen('http://blockexplorer.com/q/getblockcount')
-        	        if handle != None:
-                		block_num = int(handle.read())
-                        	handle.close()
-				if self.initialized:
-					if block_num > self.last_block:
-						print "New Block: " + str(self.last_block)
-						self.connection.privmsg("#bithopper-lp", "*** New Block: " + str(block_num))
-				else:
-                                        if self.first_block == 0:
-                                            self.first_block = block_num
-                                        elif self.first_block != block_num:
-                                            self.initialized=True
-                                        
-				self.last_block = block_num
-		except Exception, e:
-                	print e.message
