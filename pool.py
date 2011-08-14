@@ -68,6 +68,8 @@ class Pool():
             self.servers[server]['refresh_time'] = 120
             if 'refresh_limit' not in self.servers[server]:
                 self.servers[server]['refresh_limit'] = 120
+            else:
+                self.servers[server]['refresh_limit'] = int(self.servers[server]['refresh_limit'])
             self.servers[server]['rejects'] = self.bitHopper.db.get_rejects(server)
             self.servers[server]['user_shares'] = self.bitHopper.db.get_shares(server)
             self.servers[server]['payout'] = self.bitHopper.db.get_payout(server)
