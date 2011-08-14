@@ -73,7 +73,7 @@ class LpBot(SimpleIRCClient):
 		else:
 			# Add a vote
 			self.hashinfo[block].append(server)
-			# Talley the votes
+			# Talley the votes based on who we have selected so far
 			for v in self.hashinfo[block]:
 				if v == self.server:
 					votes = votes + 1
@@ -96,7 +96,7 @@ class LpBot(SimpleIRCClient):
 						self.server = test_server
 						votes = test_votes
 			else: # Not enough for quarum, select first
-				self.server = self.hashinfo[block]
+				self.server = self.hashinfo[block][0]
 				votes = 0
 				for vote_server in self.hashinfo[block]:
 					if vote_server == self.server:
@@ -107,9 +107,9 @@ class LpBot(SimpleIRCClient):
 
 		# Cleanup
 		# Delete any orbaned blocks out of blockinfo
-		for clean_block, clean_val in self.blockinfo:
+		for clean_block, clean_val in self.hashinfo:
 			if clean_block not in self.hashes:
-				del self.blockinfo[clean_block]
+				del self.hashinfo[clean_block]
 
 	def say(self, text):
 		self.connection.privmsg("#bithopper-lp", text)			
