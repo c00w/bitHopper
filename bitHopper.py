@@ -138,6 +138,9 @@ class BitHopper():
 
     @defer.inlineCallbacks
     def delag_server(self ):
+        #Delags servers which have been marked as lag.
+        #If this function breaks bitHopper dies a long slow death.
+        
         self.log_dbg('Running Delager')
         for server in self.pool.get_servers():
             info = self.pool.servers[server]
