@@ -329,25 +329,64 @@ class Pool():
         return -1
     
     def get_duration(self, server, response):
-        duration = -1
+        duration = -1 # I think this is not needed anymore? Could somebody double check?
         if 'api_key_duration_day_hour_min' in server:
             output = re.search(server['api_key_duration_day_hour_min'], response)
-            day = int(output.group(1).replace(' ', ''))
-            hour = int(output.group(2).replace(' ', ''))
-            minute = int(output.group(3).replace(' ', ''))
-            duration = day*24*3600 + hour * 3600 + minute * 60
+            try:
+                day = int(output.group(1).replace(' ', ''))
+            except AttributeError:
+                day = 0
+            try:
+                hour = int(output.group(2).replace(' ', ''))
+            except AttributeError:
+                hour = 0
+            try:
+                minute = int(output.group(3).replace(' ', ''))
+            except AttributeError:
+               minute = 0
+            if day == 0:
+                if hour == 0:
+                    if minute == 0:
+                        duration = -1
+                    else:
+                        duration = minute * 60
+                else:
+                    duration = hour * 3600 + minute * 60
+            else:
+                duration = day*24*3600 + hour * 3600 + minute * 60
         elif 'api_key_duration_hour_min' in server:
             output = re.search(server['api_key_duration_hour_min'], response)
-            hour = int(output.group(1).replace(' ', ''))
-            minute = int(output.group(2).replace(' ', ''))
-            duration = hour * 3600 + minute * 60
+            try:
+                hour = int(output.group(1).replace(' ', ''))
+            except AttributeError:
+                hour = 0
+            try:
+                minute = int(output.group(2).replace(' ', ''))
+            except AttributeError:
+                minute = 0
+            if hour == 0:
+                if minute == 0:
+                    duration = -1
+                else:
+                    duration = minute * 60
+            else:
+                duration = hour * 3600 + minute * 60
         elif 'api_key_duration_min' in server:
             output = re.search(server['api_key_duration_min'], response)
-            minute = int(output.group(1).replace(' ', ''))
-            duration = minute * 60
+            try:
+                minute = int(output.group(1).replace(' ', ''))
+            except AttributeError:
+                minute = 0
+            if minute == 0:
+                duration = -1
+            else:
+                duration = minute * 60
         elif 'api_key_duration_sec' in server:
             output = re.search(server['api_key_duration_sec'], response)
-            duration = int(output.group(1).replace(' ', ''))
+            try:
+                duration = int(output.group(1).replace(' ', ''))
+            except AttributeError:
+                duration = -1
         
         return duration
 
