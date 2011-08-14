@@ -56,12 +56,14 @@ class LongPoll():
         work.jsonrpc_call(self.bitHopper.json_agent, server, [], self.bitHopper)
 
     def lp_api(self,server,block):
+	print "lp_api call for " + str(server) + " - " + block
         old_shares = self.bitHopper.pool.servers[server]['shares']
         self.bitHopper.pool.servers[server]['shares'] = 0
         self.bitHopper.select_best_server()
-        if '_defer' not in self.blocks[block]:
-            self.blocks[block]['_defer'] = defer.Deffered()
-        self.blocks[block]['_defer'].addCallback(self.api_check,server,block,old_shares)
+        ######## This is throwing a bunch of errors
+        #if '_defer' not in self.blocks[block]:
+        #    self.blocks[block]['_defer'] = defer.Deferred()
+        #self.blocks[block]['_defer'].addCallback(self.api_check,server,block,old_shares)
 
     def api_check(self,new_server, server, block, old_shares):
         if self.blocks[block]['_owner'] != server:
@@ -97,13 +99,14 @@ class LongPoll():
                 else:
                     self.bitHopper.log_msg('New Block: ' + str(block))
                     self.bitHopper.log_msg('Block Owner ' + server)
-                    if self.bitHopper.lpBot != None:
-                        self.bitHopper.lpBot.announce(str(server), str(block))
-                    self.blocks[block] = {}
+                    self.blocks[block]={}
                     self.bitHopper.lp_callback(work)
                     self.blocks[block]["_owner"] = server
-                    if self.bitHopper.pool.servers[server]['role'] == 'mine_deepbit':
-                        self.lp_api(server, block)
+                    if self.bitHopper.lpBot != None:
+                        self.bitHopper.lpBot.announce(str(server), str(block))
+                    else:
+                        if self.bitHopper.pool.servers[server]['role'] == 'mine_deepbit':
+                            self.lp_api(server, block)
                         
             if self.bitHopper.pool.servers[server]['role'] == 'mine_deepbit':
                 self.lastBlock = block

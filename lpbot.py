@@ -14,7 +14,7 @@ class LpBot(SimpleIRCClient):
 		self.chan_list=[]
 		self.newblock_re = re.compile('\*\*\* New Block \{(?P<server>.+)\} - (?P<hash>.*)')
 		self.hashes = ['']
-		self.hashinfo = {}
+		self.hashinfo = {'':''}
 		self.server=''
 		self.current_block=''
 		# TODO: Use twisted
@@ -65,6 +65,7 @@ class LpBot(SimpleIRCClient):
 			self.hashinfo[block] = [server]
 			# Am I working on this now?
 			if self.current_block == block:
+				print "Server selected: " + server
 				self.server = server
 				votes = 1
 				total_votes = 1
@@ -94,11 +95,13 @@ class LpBot(SimpleIRCClient):
 				for test_server in set(self.hashinfo[block]):
 					test_votes = 0
 					test_total_votes = 0
+					print "Tallying votes for " + test_server
 					## Talley up the votes for that server
 					for test_vote in self.hashinfo[block]:
 						test_total_votes += 1
 						if test_vote == test_server:
 							test_votes += 1
+					print str(test_votes) + " out of " + str(test_total_votes) + " votes."
 					if test_votes / test_total_votes > .5 and self.server != test_server:
 						print "In the minority, updating to  " + test_server + ": " + str(test_votes) + "/" + str(test_total_votes)
 						self.server = test_server
