@@ -97,9 +97,9 @@ class Scheduler(object):
             if info['lag']:
                continue
             shares = info['user_shares']+1
-            if 'penalty' in info:
-               shares = shares * float(info['penalty'])
             rr_server = float(info['rejects'])/shares
+            if 'penalty' in info:
+                rr_server += float(info['penalty'])/100
             if rr_server < reject_rate:
                server_name = server
                self.bh.log_dbg('select_backup_server: ' + str(server), cat='select_backup_server')
