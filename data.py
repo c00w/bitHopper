@@ -43,7 +43,7 @@ class Data():
         self.users[user]['shares_time'].append(time.time())
         self.users[user]['hash_rate'] = (len(self.users[user]['shares_time']) * 2**32) / (60 * 5 * 1000000)
 
-    def user_share_add(self,user,password,shares,server):
+    def user_share_add(self,user,password,rejects,server):
         if user not in self.users:
             self.users[user] = {'shares':0,'rejects':0, 'last':0, 'shares_time': [], 'hash_rate': 0}
         self.users[user]['rejects'] += reject
