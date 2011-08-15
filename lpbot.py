@@ -10,7 +10,6 @@ class LpBot(SimpleIRCClient):
 		SimpleIRCClient.__init__(self)
 		self.bitHopper = bitHopper
 		self.nick = 'lp' + str(random.randint(1,9999999999))
-		self.connection.add_global_handler('disconnect', self._on_disconnect, -10)
 		self.chan_list=[]
 		self.newblock_re = re.compile('\*\*\* New Block \{(?P<server>.+)\} - (?P<hash>.*)')
 		self.hashes = ['']
@@ -18,7 +17,7 @@ class LpBot(SimpleIRCClient):
 		self.server=''
 		self.current_block=''
 		# TODO: Use twisted
-		thread.start_new_thread(self.run,())
+		thread.start_new_thread(self.run, ())
 		thread.start_new_thread(self.ircobj.process_forever,())
 
 	def run(self):
@@ -26,19 +25,28 @@ class LpBot(SimpleIRCClient):
         	        if self.is_connected():
                 	        self.join()
                 	else:
-                       		print "Connecting..."
+				self.chan_list = []
                         	self._connect()
-                	time.sleep(1)
+				print "Connect returned"
+                	time.sleep(15)
 	
 	def _connect(self):
-		self.connect('chat.freenode.net', 6667, self.nick)
+		print "Connecting..."
+		try:
+			self.connect('chat.freenode.net', 6667, self.nick)
+		except Exception, e:
+			print e
 
 	def is_connected(self):
 		return self.connection.is_connected();
 
-	def _on_disconnect(self, c, e):
+	def on_disconnect(self, c, e):
+		print "Disconnected..."
 		self.chan_list=[]
-		self.connection.execute_delayed(30, self._connect)
+		self.connection.execute_delayed(10, self._connect)
+
+	def on_connect(self, c, e):
+		self.join()
 
 	def on_pubmsg(self, c, e):
 		bl_match = self.newblock_re.match(e.arguments()[0])
@@ -133,12 +141,15 @@ class LpBot(SimpleIRCClient):
 		
 	def announce(self, server, last_hash):
 		try:
-			if self.current_block != last_hash:
+			if self.is_connected():
 				self.server=''
 				self.current_block = last_hash
 				print "Announcing: *** New Block {" + str(server) + "} - " + last_hash
 				self.say("*** New Block {" + str(server) + "} - " + last_hash)
 				self.decider(server, last_hash)
+			else:
+				print "Not connected to IRC..."
+				self.bitHopper.lp.lp_api(self.server, self.current_block)
 		except Exception, e:
 			print "********************************"
 			print "*****  ERROR IN ANNOUCE  *******"
@@ -149,7 +160,6 @@ class LpBot(SimpleIRCClient):
 		if '#bithopper-lp' not in self.chan_list:
 	                self.connection.join('#bithopper-lp')
 			self.chan_list.append('#bithopper-lp')
-		self.ircobj.process_forever()
 
 #class test_eventargs():
 #	def __init__(self, message):
