@@ -71,14 +71,6 @@ mtred_user_apikey:d91c52cfe1609f161f28a1268a2915b8+
 user:scarium
 pass:x 
 
-[rfc]
-# Nice small pool
-#https://rfcpool.com/signup
-#CHANGE THIS
-role: info
-user: c00w_test
-pass: x
-
 [btcmonkey]
 # Hopper friendly pool
 #http://bitcoinmonkey.com/
@@ -310,6 +302,15 @@ role: info
 user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
 pass: x
 #passwords can be anything on bitparking
+
+[rfc]
+# Pool is closed down (page 178)
+# Nice small pool
+#https://rfcpool.com/signup
+#CHANGE THIS
+role: disable
+user: c00w_test
+pass: x
 
 [oldpolmine]
 # Old re exp. polmine stats
