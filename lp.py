@@ -64,9 +64,14 @@ class LongPoll():
             if '_defer' not in self.blocks[block]:
                 self.blocks[block]['_defer'] = defer.Deferred()
             self.blocks[block]['_defer'].addCallback(self.api_check,server,block,old_shares)
+	elif self.lastblock != None and self.blocks[self.lastBlock]["_owner"] != server and '_defer' in self.clocks[self.lastBlock]:
+            # Don't switch, just reset shares
+            self.blocks[self.lastBlock]['_reset']=True
+            self.blocks[self.lastBlock]['_defer'].callback(server)
 
     def api_check(self, server, block, old_shares):
-        if self.blocks[block]['_owner'] != server:
+        if self.blocks[block]['_owner'] != server or self.blocks[block]['_reset']==True:
+            self.bitHopper.pool.servers[server]['_reset']=False
             self.bitHopper.pool.servers[server]['shares'] += old_shares
             self.bitHopper.select_best_server()
 
