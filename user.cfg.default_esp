@@ -70,14 +70,6 @@ mtred_user_apikey:d91c52cfe1609f161f28a1268a2915b8+
 user:scarium
 pass:x 
 
-[rfc]
-# Mina pequeña y mona
-#https://rfcpool.com/signup
-#CAMBIA A CONTINUACION
-role: info
-user: c00w_test
-pass: x
-
 [btcmonkey]
 # Mina amigable
 #http://bitcoinmonkey.com/
@@ -296,6 +288,26 @@ user: your_username
 pass: your_password
 
 ######################################
+# Minas Namecoin. Se pueden saltar
+# con mine_nmc si quieres algo de nmc
+######################################
+
+[bitparking]
+#http://bitparking.com/
+#CAMBIA A CONTINUACION (si quieres)
+role: info
+user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
+pass: x
+#las contraseñas no importan en BitParking
+
+[nmcbit]
+#http://nmcbit.com/
+#CAMBIA A CONTINUACION (si quieres)
+role: info
+user: x
+pass: x
+
+######################################
 # Estas minas no se saltan por una
 # razon. La pagina del hilo oficial
 # viene entre paréntesis.
@@ -304,18 +316,18 @@ pass: your_password
 # saltarlas a tu riesgo.
 ######################################
 
-[bitparking]
-# Mina Namecoin, utiliza mine_nmc . Buena para saltar si quieres ganar unos namecoins
-#http://bitparking.com/
-#CAMBIA A CONTINUACION (si quieres)
-role: info
-user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
+[rfc]
+# Mina cerrada (pagina 178) 
+# Mina pequeña y mona
+#https://rfcpool.com/signup
+#CAMBIA A CONTINUACION
+role: disable
+user: c00w_test
 pass: x
-#las contraseñas no importan en BitParking
 
 [oldpolmine]
 # El metodo antiguo para conseguir los stats
-# Delays and fakes stats (page 157)
+# Delays and fakes stats (pagina 157)
 # Nice polish pool
 #https://polmine.pl
 #CHANGE THIS

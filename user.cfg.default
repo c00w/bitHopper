@@ -71,14 +71,6 @@ mtred_user_apikey:d91c52cfe1609f161f28a1268a2915b8+
 user:scarium
 pass:x 
 
-[rfc]
-# Nice small pool
-#https://rfcpool.com/signup
-#CHANGE THIS
-role: info
-user: c00w_test
-pass: x
-
 [btcmonkey]
 # Hopper friendly pool
 #http://bitcoinmonkey.com/
@@ -294,6 +286,26 @@ user: your_username
 pass: your_password
 
 ######################################
+# Namecoin pools. Good for hopping
+# with mine_nmc if you want some nmc
+######################################
+
+[bitparking]
+#http://bitparking.com/
+#CHANGE THIS (if you want)
+role: info
+user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
+pass: x
+#passwords can be anything on bitparking
+
+[nmcbit]
+#http://nmcbit.com/
+#CHANGE THIS (if you want)
+role: info
+user: x
+pass: x
+
+######################################
 # These Pools are not hopped for a
 # Reason. Page of the BitHopper thread
 # annotated in parentheses.
@@ -302,14 +314,14 @@ pass: your_password
 # at your own risk.
 ######################################
 
-[bitparking]
-# Namecoin pool, use mine_nmc . Good for hopping if you want some namecoins
-#http://bitparking.com/
-#CHANGE THIS (if you want)
-role: info
-user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
+[rfc]
+# Pool is closed down (page 178)
+# Nice small pool
+#https://rfcpool.com/signup
+#CHANGE THIS
+role: disable
+user: c00w_test
 pass: x
-#passwords can be anything on bitparking
 
 [oldpolmine]
 # Old re exp. polmine stats
