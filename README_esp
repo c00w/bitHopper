@@ -55,6 +55,9 @@ Puedes lanzar bH con los siguientes parametros:
 	--startLP         = Engancha LP en las minas conocidas
 	--noLP            = Desactiva LP para clientes
 	--debug	          = Visiona la salida de twisted
+	--p2pLP           = Inicia el bot IRC para poder validar mucho mejor los saltos LP. Se utiliza en conjunto con --startLP
+	--ip              = IP donde escuchar
+	--auth            = Uuario, Contraseña
 
 
 # Schedulers (programadores) disponibles:
@@ -78,6 +81,7 @@ En desuso actualmente.
    RoundTimeDynamicPenaltyScheduler
 
 En desuso actualmente.
+
 
 # Temas
 

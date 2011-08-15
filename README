@@ -52,6 +52,9 @@ You can launch bH with the following parameters:
 	--startLP         = Seeds the LP module with known pools.
 	--noLP            = Turns off client side longpolling
 	--debug           = Use twisted output
+	--p2pLP           = Starts up an IRC bot to validate LP based hopping. Must be used with --startLP
+	--ip              = IP to listen on
+	--auth            = User,Password
 
 
 # Available Schedulers:
