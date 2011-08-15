@@ -6,7 +6,7 @@
 #      archivo a "user.cfg"
 #######################################
 
-#########################################################
+###############################################################################
 # Los "role" (roles) validos son:
 #
 # mine = mina como esta mandado, normal (dificultad*0.43)
@@ -24,14 +24,19 @@
 #   su entrada del todo si no quieres que aparezca en stats)
 # mine_nmc = indica que es una mina minecoin
 # 
-# Otras variables:
+# Ajustes mina:
 #
-#  penalty - numero flotante, el numero de shares se
-#     multiplica con este numero al comparar con la
-#     dificultad (si incrementas este numero hace
-#     que dejes la mina antes de dificultad*0.43)
+#  role:       indica bH que tipo de mineria se desea en esta mina
+#              Elije un role valido desde la lista de arriba
+#  penalty:    numero flotante, el numero de shares se
+#              multiplica con este numero al comparar con la
+#              dificultad (si incrementas este numero hace
+#              que dejes la mina antes de dificultad*0.43)
+#  lp_penalty: normaliza las llamadas LP para esta mina (foro bH para mas info)
+#  user:       nombre del trabajador que se tiene que utilizar
+#  pass:       contraseña del trabajador (no se necesita para todas las minas)
 #
-#########################################################
+###############################################################################
 
 #######################################
 #     Estas minas se pueden saltar

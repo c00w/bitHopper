@@ -5,7 +5,7 @@
 #         to "user.cfg"
 #######################################
 
-#########################################################
+###############################################################################
 # Valid pool roles are:
 #
 # mine = mines on this pool as usual (diff.*0.43)
@@ -22,16 +22,21 @@
 # pool's entry in this cfg file too)
 # mine_nmc = setup pool for NMC mining
 # 
-# Other variables:
+# Pool set-up:
 #
-#  penalty - floating point number, # of shares will be
-#            multiplied by this number when calculating
-#            shares against difficulty
-#            BACKUP SERVERS: Set it to the percent the server takes. 
-#            The penalty/100 is added to the reject rate when calculating 
-#            which server to use
+#  role:       tell bH what kind of mining is wanted at
+#              this pool, pick a valid one from the list above
+#  penalty:    floating point number, # of shares will be
+#              multiplied by this number when calculating
+#              shares against difficulty
+#              BACKUP SERVERS: Set it to the percent the server takes. 
+#              The penalty/100 is added to the reject rate when calculating 
+#              which server to use
+#  lp_penalty: normalize LP calls from this pool (bH thread for more info)
+#  user:       worker username you setup for this pool
+#  pass:       password you have for the worker (not needed for all pools)
 #
-#########################################################
+###############################################################################
 
 #######################################
 #     These Pools are hoppable
