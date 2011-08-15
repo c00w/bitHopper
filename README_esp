@@ -57,7 +57,7 @@ Puedes lanzar bH con los siguientes parametros:
 	--debug	          = Visiona la salida de twisted
 	--p2pLP           = Inicia el bot IRC para poder validar mucho mejor los saltos LP. Se utiliza en conjunto con --startLP
 	--ip              = IP donde escuchar
-	--auth            = Uuario, Contraseña
+	--auth            = Pide usuario y contraseña para pagina stats (--auth usuario,contraseña)
 
 
 # Schedulers (programadores) disponibles:

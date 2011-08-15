@@ -54,7 +54,7 @@ You can launch bH with the following parameters:
 	--debug           = Use twisted output
 	--p2pLP           = Starts up an IRC bot to validate LP based hopping. Must be used with --startLP
 	--ip              = IP to listen on
-	--auth            = User,Password
+	--auth            = Ask for user and password on stats page (--auth user,pass)
 
 
 # Available Schedulers:
