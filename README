@@ -56,6 +56,10 @@ You can launch bH with the following parameters:
 
 # Available Schedulers:
 
+   OldDefaultScheduler
+
+A none slicing scheduler. May actually be the best scheduler there is.
+
    DefaultScheduler
 
 The time based default scheduler. All that matters is time and it tries to be completely fair across all pools. A little less effective but thoroughly debugged.
@@ -72,10 +76,12 @@ Not currently in use.
 
 Not currently in use.
 
+
 # Skins
 
 You can change the color scheme on the status page. Skins and .jpg preview are located in the StatSkin sub directory.
 Just copy the index file to the main directory to change skin and hit refresh on your browser. No need to restart.
+
 
 # More help
 
