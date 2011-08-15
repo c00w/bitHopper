@@ -46,7 +46,7 @@ class Data():
     def user_share_add(self,user,password,rejects,server):
         if user not in self.users:
             self.users[user] = {'shares':0,'rejects':0, 'last':0, 'shares_time': [], 'hash_rate': 0}
-        self.users[user]['rejects'] += reject
+        self.users[user]['rejects'] += rejects
 
     def reject_callback(self,server,data,user,password):
         try:
