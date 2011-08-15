@@ -57,6 +57,7 @@ class LongPoll():
 
     def lp_api(self,server,block):
 	if self.bitHopper.pool.servers[server]['role'] == 'mine_deepbit':
+            self.set_owner(server)
             old_shares = self.bitHopper.pool.servers[server]['shares']
             self.bitHopper.pool.servers[server]['shares'] = 0
             self.bitHopper.select_best_server()
