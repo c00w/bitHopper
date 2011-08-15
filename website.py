@@ -140,8 +140,7 @@ class dataSite(resource.Resource):
              'difficulty':self.bitHopper.difficulty.get_difficulty(),
              'sliceinfo':sliceinfo,
              'servers':self.bitHopper.pool.get_servers(),
-             'user':self.bitHopper.data.get_users(),
-             'lp':lp})
+             'user':self.bitHopper.data.get_users()})
           request.write(response)
           request.finish()
           return server.NOT_DONE_YET

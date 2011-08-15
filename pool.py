@@ -65,7 +65,10 @@ class Pool():
             self.servers[server]['last_pulled'] = time.time()
             self.servers[server]['lag'] = False
             self.servers[server]['api_lag'] = False
-            self.servers[server]['refresh_time'] = 120
+            if 'refresh_time' not in self.servers[server]:
+                self.servers[server]['refresh_time'] = 120
+            else:
+                self.servers[server]['refresh_time'] = int(self.servers[server]['refresh_time'])
             if 'refresh_limit' not in self.servers[server]:
                 self.servers[server]['refresh_limit'] = 120
             else:
