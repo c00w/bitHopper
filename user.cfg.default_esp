@@ -288,6 +288,26 @@ user: your_username
 pass: your_password
 
 ######################################
+# Minas Namecoin. Se pueden saltar
+# con mine_nmc si quieres algo de nmc
+######################################
+
+[bitparking]
+#http://bitparking.com/
+#CAMBIA A CONTINUACION (si quieres)
+role: info
+user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
+pass: x
+#las contraseñas no importan en BitParking
+
+[nmcbit]
+#http://nmcbit.com/
+#CAMBIA A CONTINUACION (si quieres)
+role: info
+user: x
+pass: x
+
+######################################
 # Estas minas no se saltan por una
 # razon. La pagina del hilo oficial
 # viene entre paréntesis.
@@ -295,15 +315,6 @@ pass: your_password
 # usuario/contraseña solo si quieres
 # saltarlas a tu riesgo.
 ######################################
-
-[bitparking]
-# Mina Namecoin, utiliza mine_nmc . Buena para saltar si quieres ganar unos namecoins
-#http://bitparking.com/
-#CAMBIA A CONTINUACION (si quieres)
-role: info
-user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
-pass: x
-#las contraseñas no importan en BitParking
 
 [rfc]
 # Mina cerrada (pagina 178) 
