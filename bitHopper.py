@@ -311,7 +311,7 @@ def main():
 
     if options.p2pLP and options.startLP:
         bithopper_global.log_msg('Starting p2p LP')
-        bithopper_global.lpBot = LpBot()
+        bithopper_global.lpBot = LpBot(bithopper_global)
 
     site = server.Site(website.bitSite(bithopper_global))
     reactor.listenTCP(options.port, site,5, options.ip)
