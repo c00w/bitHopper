@@ -127,15 +127,6 @@ role: info
 user: x
 pass: y
 
-[bcpool]
-# Disables anti-hopper measures for 1% donation (page 111)
-# Anti-hopping method based on "window of participation" (page 36)
-#http://bitcoinpool.com
-#CHANGE THIS
-role: info
-user: c00w_test
-pass: x
-
 [nofeemining]
 #https://nofeemining.appspot.com/ 
 #CHANGE THIS
@@ -328,6 +319,16 @@ pass: x
 # unless you really want to hop them
 # at your own risk.
 ######################################
+
+[bcpool]
+# Fakes stats so you keep hopping them (page 184)
+# Disables anti-hopper measures for 1% donation (page 111)
+# Anti-hopping method based on "window of participation" (page 36)
+#http://bitcoinpool.com
+#CHANGE THIS
+role: disable
+user: c00w_test
+pass: x
 
 [rfc]
 # Pool is closed down (page 178)

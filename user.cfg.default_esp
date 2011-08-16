@@ -126,15 +126,6 @@ role: info
 user: x
 pass: y
 
-[bcpool]
-# Desactiva las medidas anti-hopper si donas 1% (pagina 111)
-# Medidas anti-hopping basadas en "ventana de participacion" (pagina 36,)
-#http://bitcoinpool.com
-#CAMBIA A CONTINUACION
-role: info
-user: c00w_test
-pass: x
-
 [nofeemining]
 # Servidor lento, estan actualizando el servicio (page 62)
 #https://www.nofeemining.com/ 
@@ -331,6 +322,16 @@ pass: x
 # usuario/contraseña solo si quieres
 # saltarlas a tu riesgo.
 ######################################
+
+[bcpool]
+# Truca stats para que te quedes minando con ellos (pagina 184)
+# Desactiva las medidas anti-hopper si donas 1% (pagina 111)
+# Medidas anti-hopping basadas en "ventana de participacion" (pagina 36)
+#http://bitcoinpool.com
+#CAMBIA A CONTINUACION
+role: disable
+user: c00w_test
+pass: x
 
 [rfc]
 # Mina cerrada (pagina 178) 
