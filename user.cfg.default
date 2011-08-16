@@ -12,6 +12,8 @@
 # mine_slush = mines pool until diff.*0.10
 # mine_deepbit = monitor and makes educated guess mining
 #   without using the api
+# mine_ixc = ixcoins pool and diff.
+# mine_i0c = i0coins pool and diff.
 # backup = hopps on this when no Prop. pool is available
 # backup_latehop = prefers this for backup if pool has
 #   high share count (full descr. on page 121, bH thread)
@@ -126,6 +128,7 @@ user: x
 pass: y
 
 [bcpool]
+# Fakes json stats so you keep hopping them (page 184)
 # Disables anti-hopper measures for 1% donation (page 111)
 # Anti-hopping method based on "window of participation" (page 36)
 #http://bitcoinpool.com
@@ -177,6 +180,7 @@ pass: testhop
 
 [btcmine]
 # Score based payout (page 164)
+# https://btcmine.com/user/register/
 #CHANGE THIS (if you want)
 role: info
 user: your_username
@@ -237,6 +241,14 @@ pass: your_password
 #CHANGE THIS (if you want)
 role: info
 swepool_user_apikey: xxxxxx
+user: your_username
+pass: your_password
+
+[i0g]
+# i0coins pool, use mine_i0c
+#http://i0.btcguild.com/register.php
+#CHANGE THIS
+role: disable
 user: your_username
 pass: your_password
 

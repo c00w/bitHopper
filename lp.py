@@ -43,7 +43,7 @@ class LongPoll():
         # Do a getwork.
         for server in self.pool.servers:
             info = self.pool.servers[server]
-            if info['role'] not in ['mine','mine_charity','mine_deepbit','info', 'backup','backup_latehop','disable']:
+            if info['role'] not in ['mine','mine_charity','mine_deepbit','mine_i0c','info','backup','backup_latehop','disable']:
                 continue
             if info['lp_address'] != None:
                 self.pull_lp(info['lp_address'],server)
@@ -79,7 +79,7 @@ class LongPoll():
         self.polled[server].release()
         self.bitHopper.log_dbg('received lp from: ' + server)
         info = self.bitHopper.pool.servers[server]
-        if info['role'] in ['mine_nmc','disable','mine_ixc']:
+        if info['role'] in ['mine_nmc','disable','mine_ixc','mine_i0c']:
             return
         if body == None:
             self.bitHopper.log_dbg('error in lp from: ' + server)

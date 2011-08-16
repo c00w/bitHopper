@@ -20,7 +20,7 @@ class Scheduler(object):
          self.difficultyThreshold = self.bh.options.threshold
       else:
          self.difficultyThreshold = 0.435
-      self.valid_roles = ['mine','mine_nmc','mine_deepbit','mine_slush','mine_ixc']
+      self.valid_roles = ['mine','mine_nmc','mine_deepbit','mine_slush','mine_ixc','mine_i0c']
       return
 
    @classmethod
@@ -65,6 +65,7 @@ class Scheduler(object):
         difficulty = self.bh.difficulty.get_difficulty()
         nmc_difficulty = self.bh.difficulty.get_nmc_difficulty()
         ixc_difficulty = self.bh.difficulty.get_ixc_difficulty()
+        i0c_difficulty = self.bh.difficulty.get_i0c_difficulty()
         info = self.bh.pool.get_entry(server)
         if info['role'] in ['mine', 'mine_deepbit']:
             shares = info['shares']
@@ -74,6 +75,8 @@ class Scheduler(object):
             shares = info['shares']*difficulty / nmc_difficulty
         elif info['role'] == 'mine_ixc':
             shares = info['shares']*difficulty / ixc_difficulty
+        elif info['role'] == 'mine_i0c':
+            shares = info['shares']*difficulty / i0c_difficulty
         else:
             shares = difficulty
         # apply penalty
