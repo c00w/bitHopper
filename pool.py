@@ -67,6 +67,7 @@ class Pool():
             self.servers[server]['shares'] = int(bitHopper.difficulty.get_difficulty())
             self.servers[server]['ghash'] = -1
             self.servers[server]['duration'] = -1
+            self.servers[server]['duration_temporal'] = 0
             self.servers[server]['isDurationEstimated'] = False
             self.servers[server]['last_pulled'] = time.time()
             self.servers[server]['lag'] = False
@@ -247,6 +248,8 @@ class Pool():
             old = server['last_pulled']
             server['last_pulled'] = time.time()
             diff = server['last_pulled'] - old
+            
+            server['duration_temporal'] = server['duration_temporal'] + diff
             
             # new round started or initial estimation
             rate = 0.25 * ghash
