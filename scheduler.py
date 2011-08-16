@@ -469,7 +469,9 @@ class AltSliceScheduler(Scheduler):
       if info['slice'] <= 0: return True
       
       # shares are now less than shares at time of slicing (new block found?)
-      if info['slicedShares'] > info['shares']: return True
+      if info['slicedShares'] > info['shares']:
+         self.bh.log_dbg("slicedShares > shares")
+         return True
       
       # double check role
       if info['role'] not in self.valid_roles: return True
@@ -479,6 +481,7 @@ class AltSliceScheduler(Scheduler):
       min_shares = difficulty * self.difficultyThreshold
 
       if shares > min_shares:
+         self.bh.log_dbg("shares > min_shares")
          info['slice'] = -1 # force switch
          return True
       
