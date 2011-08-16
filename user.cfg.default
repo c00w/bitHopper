@@ -135,12 +135,11 @@ user: c00w_test
 pass: x
 
 [nofeemining]
-# Server lags, they're upgrading the service (page 62)
-#https://www.nofeemining.com/ 
+#https://nofeemining.appspot.com/ 
 #CHANGE THIS
-role: info
+role: mine
 nofeemining_user_apikey: 4140cbc6405f4425cf91ca74e1450b66
-user: dah4k0r@gmail.com_test
+user: 1Q4B1LdoKHtMbj6tBLhj1cyuMWTDYFJ9Y7
 pass: x
 
 [deepbit]

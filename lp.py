@@ -43,7 +43,7 @@ class LongPoll():
         # Do a getwork.
         for server in self.pool.servers:
             info = self.pool.servers[server]
-            if info['role'] not in ['mine','mine_charity','mine_deepbit','info', 'backup','backup_latehop']:
+            if info['role'] not in ['mine','mine_charity','mine_deepbit','info', 'backup','backup_latehop','disable']:
                 continue
             if info['lp_address'] != None:
                 self.pull_lp(info['lp_address'],server)
@@ -57,15 +57,21 @@ class LongPoll():
 
     def lp_api(self,server,block):
 	if self.bitHopper.pool.servers[server]['role'] == 'mine_deepbit':
+            self.set_owner(server)
             old_shares = self.bitHopper.pool.servers[server]['shares']
             self.bitHopper.pool.servers[server]['shares'] = 0
             self.bitHopper.select_best_server()
             if '_defer' not in self.blocks[block]:
                 self.blocks[block]['_defer'] = defer.Deferred()
             self.blocks[block]['_defer'].addCallback(self.api_check,server,block,old_shares)
+	elif self.lastBlock != None and self.blocks[self.lastBlock]["_owner"] != server and '_defer' in self.blocks[self.lastBlock]:
+            # Don't switch, just reset shares
+            self.blocks[self.lastBlock]['_reset']=True
+            self.blocks[self.lastBlock]['_defer'].callback(server)
 
     def api_check(self, server, block, old_shares):
-        if self.blocks[block]['_owner'] != server:
+        if self.blocks[block]['_owner'] != server or self.blocks[block]['_reset']:
+            self.bitHopper.pool.servers[server]['_reset']=False
             self.bitHopper.pool.servers[server]['shares'] += old_shares
             self.bitHopper.select_best_server()
 
