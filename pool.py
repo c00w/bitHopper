@@ -67,6 +67,7 @@ class Pool():
             self.servers[server]['shares'] = int(bitHopper.difficulty.get_difficulty())
             self.servers[server]['ghash'] = -1
             self.servers[server]['duration'] = -1
+            self.servers[server]['isDurationEstimated'] = False
             self.servers[server]['last_pulled'] = time.time()
             self.servers[server]['lag'] = False
             self.servers[server]['api_lag'] = False
@@ -234,6 +235,7 @@ class Pool():
             
         elif server['api_method'] == 're_rateduration':
             # get hashrate and duration to estimate share
+            server['isDurationEstimated'] = True
             ghash = self.get_ghash(server, response)
             if ghash < 0:
                 ghash = 1
