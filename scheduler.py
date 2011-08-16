@@ -225,11 +225,14 @@ class DefaultScheduler(Scheduler):
       call = LoopingCall(self.bh.server_update)
       call.start(10)
    def initData(self,):
-        Scheduler.initData(self)
-        if self.bh.options.threshold:
+      Scheduler.initData(self)
+      if self.bh.options.threshold:
          #self.bh.log_msg("Override difficulty threshold to: " + str(self.bh.options.threshold), cat='scheduler-default')
          self.difficultyThreshold = self.bh.options.threshold
-        for server in self.bh.pool.get_servers():
+      self.reset()
+
+   def reset(self,):
+      for server in self.bh.pool.get_servers():
             self.sliceinfo[server] = -1
 
    def select_best_server(self,):
@@ -328,12 +331,15 @@ class AltSliceScheduler(Scheduler):
       
    def initData(self,):
         Scheduler.initData(self)
-        for server in self.bh.pool.get_servers():
-            info = self.bh.pool.get_entry(server)
-            info['slice'] = -1
-            info['slicedShares'] = 0
-            info['init'] = False
+        self.reset()
 
+   def reset(self,):
+      for server in self.bh.pool.get_servers():
+         info = self.bh.pool.get_entry(server)
+         info['slice'] = -1
+         info['slicedShares'] = 0
+         info['init'] = False
+            
    def select_best_server(self,):
       self.bh.log_dbg('select_best_server', cat=self.name)
       server_name = None

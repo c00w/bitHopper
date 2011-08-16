@@ -169,6 +169,18 @@
 					update();
 				}
 			}
+			
+			function resetScheduler() {
+				var frm = "<form><input type=hidden name='resetscheduler' value='reset'></form>";
+				$.post("/stats", $(frm).serialize());
+				update();
+			}
+
+			function resetShares() {
+				var frm = "<form><input type=hidden name='resetshares' value='reset'></form>";
+				$.post("/stats", $(frm).serialize());
+				update();
+			}
 
 			function getPayout(payload, srv) {
 				var srvName = "";
@@ -203,10 +215,12 @@
 			
 			function getSlice(payload, srv) {
 				var name = srv['pool_index'];
-                if (payload['sliceinfo'] == undefined)
-                    return "-"
-				if (payload['sliceinfo'][name] >= 0)
+				if (payload['sliceinfo'] == undefined && srv['slice'] == undefined)
+					 return "-"
+				if (payload['sliceinfo'] != undefined && payload['sliceinfo'][name] >= 0)
 					return parseFloat(payload['sliceinfo'][name]).toFixed(0)
+				else if (srv['slice'] >= 0)
+					return parseFloat(srv['slice']).toFixed(0)
 				else
 					return "-"
 			}
@@ -386,7 +400,16 @@
 			<span style="background-color:#FF3232;width:20px;height:20px;color:white;font-family:Arial,Helvetica,sans-serif;font-size:20px;"><b>Please Donate to c00w:1HEmzeuVEKxBQkEenysV1yM8oAddQ4o2TX</b></span> 
 		</span>
 	</div>
-		<br /><br /><br /><br /><br />
+	<div id="admin">
+		<br /><br /><br/><br/><br/><br/>
+		<table>
+			<tr>
+				<td><b>Admin Tools:</b></td>
+				<td><input class="admin" type="button" name="resetsc" value="Reset Scheduler" onclick="resetScheduler(); return false;"/></td>
+				<td><input class="admin" type="button" name="resetsh" value="Reset Shares" onclick="resetShares(); return false;"/></td>
+			</tr>
+		</table>
+	</div>
 		<div id="table"></div>
 		<div id="users"></div>
 	</body>

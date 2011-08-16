@@ -91,7 +91,27 @@ class dynamicSite(resource.Resource):
                except Exception,e:
                     self.bh.log_dbg('Incorrect http post request payout')
                     self.bh.log_dbg(e)
-
+            if "resetscheduler" in v:
+               self.bh.log_msg('User forced scheduler reset')
+               try:
+                    if hasattr(self.bh.scheduler, 'reset'):
+                         self.bh.log_msg(' - Scheduler reset')
+                         self.bh.scheduler.reset()
+                         self.bh.select_best_server()
+               except Exception,e:
+                    self.bh.log_dbg('Incorrect http post resetscheduler')
+                    self.bh.log_dbg(e)
+            if "resetshares" in v:
+               self.bh.log_msg('User forced resetshares')
+               try:
+                    for server in self.bh.pool.get_servers():
+                         self.bh.log_msg(' - Share reset for ' + server)
+                         info = self.bh.pool.get_entry(server)
+                         info['shares'] = self.bh.difficulty.get_difficulty()
+               except Exception,e:
+                    self.bh.log_dbg('Incorrect http post resetshares')
+                    self.bh.log_dbg(e)
+          
         return self.render_GET(request)
 
 class flatSite(resource.Resource):
