@@ -110,6 +110,16 @@ class BitHopper():
             sys.stderr.flush()
         return
 
+    def log_trace(self, msg, **kwargs):
+        if self.get_options().trace == True and kwargs and kwargs.get('cat'):
+            log.err('['+kwargs.get('cat')+"] "+msg)
+            sys.stderr.flush()
+        elif self.get_options().trace == True:
+            log.err(msg)
+            sys.stderr.flush()
+        return
+
+
     def get_server(self, ):
         return self.pool.get_current()
 
@@ -238,6 +248,7 @@ def main():
     parser = optparse.OptionParser(description='bitHopper')
     parser.add_option('--noLP', action = 'store_true' ,default=False, help='turns off client side longpolling')
     parser.add_option('--debug', action= 'store_true', default = False, help='Use twisted output')
+    parser.add_option('--trace', action= 'store_true', default = False, help='Extra debugging output')
     parser.add_option('--listschedulers', action='store_true', default = False, help='List alternate schedulers available')
     parser.add_option('--list', action= 'store_true', default = False, help='List servers')
     parser.add_option('--disable', type=str, default = None, action='callback', callback=parse_server_disable, help='Servers to disable. Get name from --list. Servera,Serverb,Serverc')
@@ -256,6 +267,7 @@ def main():
     global bithopper_global
     bithopper_global = BitHopper(args)
 
+    if options.trace == True: options.debug = True
     if options.list:
         for k in bithopper_global.pool.get_servers():
             print k
