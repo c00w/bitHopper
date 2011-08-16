@@ -18,7 +18,10 @@ class Pool():
     def __init__(self,bitHopper):
         self.servers = {}
         self.api_pull = ['mine','info','mine_slush','mine_nmc','mine_ixc','mine_charity','mine_deepbit','backup','backup_latehop']
+        self.initialized = False
+        self.loadConfig()
 
+    def loadConfig(self,):
         parser = ConfigParser.SafeConfigParser()
         try:
             # determine if application is a script file or frozen exe
@@ -46,7 +49,8 @@ class Pool():
             read = parser.read('pools.cfg')
         if len(read) == 0:
             bitHopper.log_msg("pools.cfg not found.")
-            os._exit(1)
+            if self.initialized == False: 
+                os._exit(1)
             
         pools = parser.sections()
         for pool in userpools:
@@ -54,7 +58,8 @@ class Pool():
 
         if self.servers == {}:
             bitHopper.log_msg("No pools found in pools.cfg or user.cfg")
-        self.current_server = pool
+        if self.initialized == False: self.current_server = pool
+        self.initialized = True
         
     def setup(self,bitHopper):
         self.bitHopper = bitHopper

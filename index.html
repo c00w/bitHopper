@@ -182,6 +182,13 @@
 				update();
 			}
 
+			function reloadConfig() {
+				var frm = "<form><input type=hidden name='reloadconfig' value=''></form>";
+				$.post("/stats", $(frm).serialize());
+				update();
+			}
+
+
 			function getPayout(payload, srv) {
 				var srvName = "";
 				for(var v in payload["servers"]) {
@@ -407,6 +414,7 @@
 				<td><b>Admin Tools:</b></td>
 				<td><input class="admin" type="button" name="resetsc" value="Reset Scheduler" onclick="resetScheduler(); return false;"/></td>
 				<td><input class="admin" type="button" name="resetsh" value="Reset Shares" onclick="resetShares(); return false;"/></td>
+				<td><input class="admin" type="button" name="reloadconfig" value="Reload Config" onclick="reloadConfig(); return false;"/></td>
 			</tr>
 		</table>
 	</div>
