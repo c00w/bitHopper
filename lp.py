@@ -43,7 +43,7 @@ class LongPoll():
         # Do a getwork.
         for server in self.pool.servers:
             info = self.pool.servers[server]
-            if info['role'] not in ['mine','mine_charity','mine_deepbit','info', 'backup','backup_latehop']:
+            if info['role'] not in ['mine','mine_charity','mine_deepbit','info', 'backup','backup_latehop','disable']:
                 continue
             if info['lp_address'] != None:
                 self.pull_lp(info['lp_address'],server)
