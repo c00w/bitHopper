@@ -1,7 +1,7 @@
 # License
 bitHopper by Colin Rice is licensed under a Creative Commons
-Attribution-NonCommercial-ShareAlike 3.0 Unported License.  Based on a work at
-github.com.
+Attribution-NonCommercial-ShareAlike 3.0 Unported License.
+Based on a work at github.com
 
 # Instructions
 
@@ -52,7 +52,7 @@ You can launch bH with the following parameters:
 	--startLP         = Seeds the LP module with known pools.
 	--noLP            = Turns off client side longpolling
 	--debug           = Use twisted output
-	--p2pLP           = Starts up an IRC bot to validate LP based hopping. Must be used with --startLP
+	--p2pLP           = Starts up an IRC bot to validate LP based hopping
 	--ip              = IP to listen on
 	--auth            = Ask for user and password on stats page (--auth user,pass)
 
