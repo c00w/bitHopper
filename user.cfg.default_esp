@@ -179,6 +179,7 @@ pass: testhop
 
 [btcmine]
 # Sistema de pago por puntuacion (pagina 164)
+# https://btcmine.com/user/register/
 #CAMBIA A CONTINUACION (si quieres)
 role: info
 user: your_username

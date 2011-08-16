@@ -179,6 +179,7 @@ pass: testhop
 
 [btcmine]
 # Score based payout (page 164)
+# https://btcmine.com/user/register/
 #CHANGE THIS (if you want)
 role: info
 user: your_username
