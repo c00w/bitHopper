@@ -127,14 +127,6 @@ role: info
 user: x
 pass: y
 
-[nofeemining]
-#https://nofeemining.appspot.com/ 
-#CHANGE THIS
-role: mine
-nofeemining_user_apikey: 4140cbc6405f4425cf91ca74e1450b66
-user: 1Q4B1LdoKHtMbj6tBLhj1cyuMWTDYFJ9Y7
-pass: x
-
 [bcpool]
 # Fakes json stats so you keep hopping them (page 184)
 # Disables anti-hopper measures for 1% donation (page 111)
@@ -143,6 +135,14 @@ pass: x
 #CHANGE THIS
 role: info
 user: c00w_test
+pass: x
+
+[nofeemining]
+#https://nofeemining.appspot.com/ 
+#CHANGE THIS
+role: mine
+nofeemining_user_apikey: 4140cbc6405f4425cf91ca74e1450b66
+user: 1Q4B1LdoKHtMbj6tBLhj1cyuMWTDYFJ9Y7
 pass: x
 
 [deepbit]

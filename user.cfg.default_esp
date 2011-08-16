@@ -126,15 +126,6 @@ role: info
 user: x
 pass: y
 
-[nofeemining]
-# Servidor lento, estan actualizando el servicio (page 62)
-#https://www.nofeemining.com/ 
-#CAMBIA A CONTINUACION
-role: info
-nofeemining_user_apikey: 4140cbc6405f4425cf91ca74e1450b66
-user: dah4k0r@gmail.com_test
-pass: x
-
 [bcpool]
 # Truca los stats json para que te quedes minando con ellos (pagina 184)
 # Desactiva las medidas anti-hopper si donas 1% (pagina 111)
@@ -143,6 +134,15 @@ pass: x
 #CAMBIA A CONTINUACION
 role: info
 user: c00w_test
+pass: x
+
+[nofeemining]
+# Servidor lento, estan actualizando el servicio (page 62)
+#https://www.nofeemining.com/ 
+#CAMBIA A CONTINUACION
+role: info
+nofeemining_user_apikey: 4140cbc6405f4425cf91ca74e1450b66
+user: dah4k0r@gmail.com_test
 pass: x
 
 [deepbit]
