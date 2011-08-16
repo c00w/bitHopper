@@ -64,7 +64,7 @@ class LongPoll():
             if '_defer' not in self.blocks[block]:
                 self.blocks[block]['_defer'] = defer.Deferred()
             self.blocks[block]['_defer'].addCallback(self.api_check,server,block,old_shares)
-	elif self.lastblock != None and self.blocks[self.lastBlock]["_owner"] != server and '_defer' in self.blocks[self.lastBlock]:
+	elif self.lastBlock != None and self.blocks[self.lastBlock]["_owner"] != server and '_defer' in self.blocks[self.lastBlock]:
             # Don't switch, just reset shares
             self.blocks[self.lastBlock]['_reset']=True
             self.blocks[self.lastBlock]['_defer'].callback(server)
