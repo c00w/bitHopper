@@ -70,7 +70,7 @@ class BitHopper():
             return
         merkle_root = work['data'][72:136]
         self.getwork_store.add(server,merkle_root)
-        reactor.callLater(0.1,self.new_server.callback,work)
+        reactor.callLater(0,self.new_server.callback,work)
         self.new_server = Deferred()
 
     def get_json_agent(self):
@@ -153,6 +153,8 @@ class BitHopper():
 
     def bitHopperLP(self, value, *methodArgs):
         try:
+            if self.request_store.closed(request):
+                return value
             self.log_msg('LP triggered serving miner')
             request = methodArgs[0]
             #Duplicated from above because its a little less of a hack
