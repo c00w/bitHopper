@@ -68,6 +68,8 @@ class BitHopper():
     def lp_callback(self, work):
         if work == None:
             return
+        merkle_root = work['data'][72:136]
+        self.bitHopper.getwork_store.add(server,merkle_root)
         reactor.callLater(0.1,self.new_server.callback,work)
         self.new_server = Deferred()
 

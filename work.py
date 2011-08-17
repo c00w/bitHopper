@@ -162,7 +162,9 @@ class Work():
 
     @defer.inlineCallbacks
     def handle(self,request):
+        
         self.bitHopper.request_store.add(request)
+        request.setHeader('X-Long-Polling', '/LP')
         rpc_request = json.loads(request.content.read())
 
         #check if they are sending a valid message

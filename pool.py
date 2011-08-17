@@ -398,7 +398,7 @@ class Pool():
             return
         info = self.servers[server]
         self.bitHopper.scheduler.update_api_server(server)
-        d = work.get(self.bitHopper.json_agent,info['api_address'])
+        d = self.bitHopper.work.get(self.bitHopper.json_agent,info['api_address'])
         d.addCallback(self.selectsharesResponse, (server))
         d.addErrback(self.errsharesResponse, (server))
         d.addErrback(self.bitHopper.log_msg)
