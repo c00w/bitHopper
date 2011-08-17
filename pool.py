@@ -211,7 +211,7 @@ class Pool():
                 info = info[value]
             round_shares = int(info)
             if round_shares == None:
-                round_shares = int(self,bitHopper.difficulty.get_difficulty())
+                round_shares = int(self, self.bitHopper.difficulty.get_difficulty())
             self.UpdateShares(args,round_shares)
 
         elif server['api_method'] == 're':
