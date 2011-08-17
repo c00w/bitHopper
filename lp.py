@@ -3,11 +3,10 @@
 #Based on a work at github.com.
 
 import json
-import exceptions
 import time
 import threading
 
-from twisted.internet import reactor, defer
+from twisted.internet import defer
 from twisted.internet.task import LoopingCall
 
 def byteswap(value):
@@ -18,7 +17,7 @@ def byteswap(value):
     return "".join(bytes[::-1])
 
 class LongPoll():
-    def __init__(self,bitHopper):
+    def __init__(self, bitHopper):
         self.bitHopper = bitHopper
         self.pool = self.bitHopper.pool
         self.blocks = {}
@@ -28,7 +27,7 @@ class LongPoll():
         startlp = LoopingCall(self.start_lp)
         startlp.start(60*60)
 
-    def set_owner(self,server):
+    def set_owner(self, server):
         if self.lastBlock != None:
             self.blocks[self.lastBlock]["_owner"] = server
             if '_defer' in self.blocks[self.lastBlock]:
@@ -50,7 +49,7 @@ class LongPoll():
             if info['lp_address'] != None:
                 self.pull_lp(info['lp_address'],server)
             else:
-                reactor.callLater(0, self.pull_server, server)
+                self.bitHopper.reactor.callLater(0, self.pull_server, server)
                 
                 
     def pull_server(self,server):
@@ -148,7 +147,7 @@ class LongPoll():
             if server not in self.polled:
                 self.polled[server] = threading.Semaphore()
             self.bitHopper.reactor.callLater(0,self.pull_lp, url,server)
-        except Exception,e:
+        except Exception, e:
             self.bitHopper.log_msg('set_lp error')
             self.bitHopper.log_dbg(str(e))
 
@@ -168,6 +167,6 @@ class LongPoll():
                 else:
                     self.bitHopper.log_dbg("LP Call " + lp_address)
                 self.bitHopper.work.jsonrpc_lpcall(server, lp_address, self)
-        except Exception,e :
+        except Exception, e :
             self.bitHopper.log_dbg('pull_lp error')
             self.bitHopper.log_dbg(e)
