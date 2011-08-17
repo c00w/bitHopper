@@ -100,6 +100,16 @@ class BitHopper():
             sys.stderr.flush()
         return
 
+    def log_trace(self, msg, **kwargs):
+        if self.get_options().trace == True and kwargs and kwargs.get('cat'):
+            log.err('['+kwargs.get('cat')+"] "+msg)
+            sys.stderr.flush()
+        elif self.get_options().trace == True:
+            log.err(msg)
+            sys.stderr.flush()
+        return
+
+
     def get_server(self, ):
         return self.pool.get_current()
 
@@ -189,6 +199,7 @@ class BitHopper():
 def main():
     parser = optparse.OptionParser(description='bitHopper')
     parser.add_option('--debug', action= 'store_true', default = False, help='Use twisted output')
+    parser.add_option('--trace', action= 'store_true', default = False, help='Extra debugging output')
     parser.add_option('--listschedulers', action='store_true', default = False, help='List alternate schedulers available')
     parser.add_option('--port', type = int, default=8337, help='Port to listen on')
     parser.add_option('--scheduler', type=str, default=None, help='Select an alternate scheduler')
@@ -196,17 +207,22 @@ def main():
     parser.add_option('--altslicesize', type=int, default=900, help='Override Default AltSliceScheduler Slice Size of 900')
     parser.add_option('--altminslicesize', type=int, default=60, help='Override Default Minimum Pool Slice Size of 60 (AltSliceScheduler only)')
     parser.add_option('--altslicejitter', type=int, default=0, help='Add some random variance to slice size, disabled by default (AltSliceScheduler only)')
+    parser.add_option('--altsliceroundtimebias', action='store_true', default=False, help='Bias slicing slightly by round time duration with respect to round time target (default false)')
+    parser.add_option('--altsliceroundtimetarget', type=int, default=1000, help='Round time target based on GHash/s (default 1000 Ghash/s)')
+    parser.add_option('--altsliceroundtimemagic', type=int, default=10, help='Round time magic number, increase to bias towards round time over shares')
+    parser.add_option('--startLP', action= 'store_true', default = True, help='Seeds the LP module with known pools. Must use it for LP based hopping with deepbit, True by default')
     parser.add_option('--p2pLP', action='store_true', default=False, help='Starts up an IRC bot to validate LP based hopping.  Must be used with --startLP')
     parser.add_option('--ip', type = str, default='', help='IP to listen on')
     parser.add_option('--auth', type = str, default=None, help='User,Password')
     options, rest = parser.parse_args()
+
+    if options.trace == True: options.debug = True
 
     if options.listschedulers:
         schedulers = ""
         for s in scheduler.Scheduler.__subclasses__():
             schedulers += ", " + s.__name__
         print "Available Schedulers: " + schedulers[2:]
-        return
 
     bithopper_instance = BitHopper(options)
 

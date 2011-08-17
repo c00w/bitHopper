@@ -18,7 +18,10 @@ class Pool():
     def __init__(self,bitHopper):
         self.servers = {}
         self.api_pull = ['mine','info','mine_slush','mine_nmc','mine_ixc','mine_i0c','mine_charity','mine_deepbit','backup','backup_latehop']
+        self.initialized = False
+        self.loadConfig(bitHopper)
 
+    def loadConfig(self,bitHopper):
         parser = ConfigParser.SafeConfigParser()
         try:
             # determine if application is a script file or frozen exe
@@ -46,7 +49,8 @@ class Pool():
             read = parser.read('pools.cfg')
         if len(read) == 0:
             bitHopper.log_msg("pools.cfg not found.")
-            os._exit(1)
+            if self.initialized == False: 
+                os._exit(1)
             
         pools = parser.sections()
         for pool in userpools:
@@ -54,7 +58,8 @@ class Pool():
 
         if self.servers == {}:
             bitHopper.log_msg("No pools found in pools.cfg or user.cfg")
-        self.current_server = pool
+        if self.initialized == False: self.current_server = pool
+        self.initialized = True
         
     def setup(self,bitHopper):
         self.bitHopper = bitHopper
@@ -62,6 +67,8 @@ class Pool():
             self.servers[server]['shares'] = int(bitHopper.difficulty.get_difficulty())
             self.servers[server]['ghash'] = -1
             self.servers[server]['duration'] = -1
+            self.servers[server]['duration_temporal'] = 0
+            self.servers[server]['isDurationEstimated'] = False
             self.servers[server]['last_pulled'] = time.time()
             self.servers[server]['lag'] = False
             self.servers[server]['api_lag'] = False
@@ -232,6 +239,7 @@ class Pool():
             
         elif server['api_method'] == 're_rateduration':
             # get hashrate and duration to estimate share
+            server['isDurationEstimated'] = True
             ghash = self.get_ghash(server, response)
             if ghash < 0:
                 ghash = 1
@@ -243,6 +251,8 @@ class Pool():
             old = server['last_pulled']
             server['last_pulled'] = time.time()
             diff = server['last_pulled'] - old
+            
+            server['duration_temporal'] = server['duration_temporal'] + diff
             
             # new round started or initial estimation
             rate = 0.25 * ghash
