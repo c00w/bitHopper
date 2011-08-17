@@ -1,6 +1,7 @@
 #!/usr/bin/python
 #License#
-#bitHopper by Colin Rice is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
+#bitHopper by Colin Rice is licensed under a Creative Commons
+# Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
 import json
@@ -17,67 +18,59 @@ import request_store
 import data
 
 import sys
-import exceptions
 import optparse
 import time
 import lp
-import os.path
 import os
 
-from twisted.web import server, resource
-from client import Agent
-from _newclient import Request
+from twisted.web import server
 from twisted.internet import reactor, defer
 from twisted.internet.defer import Deferred
 from twisted.internet.task import LoopingCall
-from twisted.python import log, failure
+from twisted.python import log
 from scheduler import Scheduler
-import twisted.web.client
+from lpbot import LpBot
 
 class BitHopper():
-    def __init__(self):
-        try:
-            self.json_agent = twisted.web.client.Agent(reactor, connectTimeout=5)
-        except:
-            self.json_agent = twisted.web.client.Agent(reactor)
-        self.lp_agent = Agent(reactor, persistent=True)
+    def __init__(self, options):
+        """Initializes all of the submodules bitHopper uses"""
+        self.options = options
         self.new_server = Deferred()
-        self.stats_file = None
-        self.options = None
+        self.lpBot = None
         self.reactor = reactor
         self.difficulty = diff.Difficulty(self)
         self.pool = pool.Pool(self)
         self.db = database.Database(self)
-        self.lp = lp.LongPoll(self)
         self.speed = speed.Speed(self)
         self.stats = stats.Statistics(self)
         self.scheduler = scheduler.Scheduler(self)
         self.getwork_store = getwork_store.Getwork_store(self)
         self.request_store = request_store.Request_store(self)
         self.data = data.Data(self)
-        self.pool.setup(self)
+        self.pool.setup(self)        
+        self.lp = lp.LongPoll(self)
+        self.auth = None
+        self.work = work.Work(self)
+        delag_call = LoopingCall(self.delag_server)
+        delag_call.start(10)
 
-    def reject_callback(self,server,data):
-        self.data.reject_callback(server,data)
+    def reject_callback(self, server, data, user, password):
+        self.data.reject_callback(server, data, user, password)
 
-    def data_callback(self,server,data, user, password):
+    def data_callback(self, server, data, user, password):
         self.data.data_callback(server, data, user, password)
 
-    def update_payout(self,server,payout):
-        self.db.set_payout(server,float(payout))
+    def update_payout(self, server, payout):
+        self.db.set_payout(server, float(payout))
         self.pool.servers[server]['payout'] = float(payout)
 
     def lp_callback(self, work):
         if work == None:
             return
-        reactor.callLater(0.1,self.new_server.callback,work)
+        merkle_root = work['data'][72:136]
+        self.getwork_store.add(server, merkle_root)
+        self.reactor.callLater(0, self.new_server.callback, work)
         self.new_server = Deferred()
-
-    def get_json_agent(self):
-        return self.json_agent
-
-    def get_lp_agent(self):
-        return self.lp_agent
 
     def get_options(self):
         return self.options
@@ -126,8 +119,7 @@ class BitHopper():
     def get_new_server(self, server):
         self.pool.get_entry(server)['lag'] = True
         self.log_dbg('Lagging. :' + server)
-        if server == self.pool.get_current():
-            self.select_best_server()
+        self.server_update()
         return self.pool.get_current()
 
     def server_update(self, ):
@@ -136,11 +128,14 @@ class BitHopper():
 
     @defer.inlineCallbacks
     def delag_server(self ):
+        #Delags servers which have been marked as lag.
+        #If this function breaks bitHopper dies a long slow death.
+        
         self.log_dbg('Running Delager')
         for server in self.pool.get_servers():
             info = self.pool.servers[server]
             if info['lag'] == True:
-                data = yield work.jsonrpc_call(self.json_agent, server,[], self)
+                data = yield self.work.jsonrpc_call(server, [])
                 self.log_dbg('Got' + server + ":" + str(data))
                 if data != None:
                     info['lag'] = False
@@ -148,65 +143,38 @@ class BitHopper():
                 else:
                     self.log_dbg('Not delagging')
 
-    def bitHopper_Post(self,request):
-        self.request_store.add(request)
-        if not self.options.noLP:
-            request.setHeader('X-Long-Polling', '/LP')
-        rpc_request = json.loads(request.content.read())
-        #check if they are sending a valid message
-        if rpc_request['method'] != "getwork":
-            return json.dumps({'result':None, 'error':'Not supported', 'id':rpc_request['id']})
-
-        #Check for data to be validated
-        current = self.pool.get_current()
-
-        data = rpc_request['params']
-        j_id = rpc_request['id']
-        if data != []:
-            new_server = self.getwork_store.get_server(data[0][72:136])
-            if new_server != None:
-                current = new_server
-
-        work.jsonrpc_getwork(self.json_agent, current, data, j_id, request, self)
-
-        if self.options.debug:
-            self.log_msg('RPC request ' + str(data) + " submitted to " + current)
-        else:
-            if data == []:
-                #If request contains no data, tell the user which remote procedure was called instead
-                rep = rpc_request['method']
-            else:
-                rep = str(data[0][155:163])
-            self.log_msg('RPC request [' + rep + "] submitted to " + current)
-
-        if data != []:
-            self.data_callback(current,data, request.getUser(), request.getPassword())        
-        return server.NOT_DONE_YET
 
     def bitHopperLP(self, value, *methodArgs):
         try:
             self.log_msg('LP triggered serving miner')
             request = methodArgs[0]
+
+            if self.request_store.closed(request):
+                return value
+
             #Duplicated from above because its a little less of a hack
             #But apparently people expect well formed json-rpc back but won't actually make the call
             try:
                 json_request = request.content.read()
-            except Exception,e:
+            except Exception, e:
                 self.log_dbg( 'reading request content failed')
                 json_request = None
+                return value
             try:
                 rpc_request = json.loads(json_request)
             except Exception, e:
                 self.log_dbg('Loading the request failed')
-                rpc_request = {'params':[],'id':1}
+                rpc_request = {'params':[], 'id':1}
+                return value
 
             j_id = rpc_request['id']
 
-            response = json.dumps({"result":value,'error':None,'id':j_id})
+            response = json.dumps({"result":value, 'error':None, 'id':j_id})
             if self.request_store.closed(request):
                 return value
             request.write(response)
             request.finish()
+            return value
 
         except Exception, e:
             self.log_msg('Error Caught in bitHopperLP')
@@ -215,89 +183,68 @@ class BitHopper():
                 request.finish()
             except Exception, e:
                 self.log_dbg( "Client already disconnected Urgh.")
-
-        return value
-
-def parse_server_disable(option, opt, value, parser):
-    setattr(parser.values, option.dest, value.split(','))
-
-def select_scheduler(option, opt, value, parser):
-    pass
-
-bithopper_global = BitHopper()
+        finally:
+            return value
 
 def main():
     parser = optparse.OptionParser(description='bitHopper')
-    parser.add_option('--noLP', action = 'store_true' ,default=False, help='turns off client side longpolling')
     parser.add_option('--debug', action= 'store_true', default = False, help='Use twisted output')
     parser.add_option('--listschedulers', action='store_true', default = False, help='List alternate schedulers available')
-    parser.add_option('--list', action= 'store_true', default = False, help='List servers')
-    parser.add_option('--disable', type=str, default = None, action='callback', callback=parse_server_disable, help='Servers to disable. Get name from --list. Servera,Serverb,Serverc')
     parser.add_option('--port', type = int, default=8337, help='Port to listen on')
     parser.add_option('--scheduler', type=str, default=None, help='Select an alternate scheduler')
     parser.add_option('--threshold', type=float, default=None, help='Override difficulty threshold (default 0.43)')
     parser.add_option('--altslicesize', type=int, default=900, help='Override Default AltSliceScheduler Slice Size of 900')
     parser.add_option('--altminslicesize', type=int, default=60, help='Override Default Minimum Pool Slice Size of 60 (AltSliceScheduler only)')
     parser.add_option('--altslicejitter', type=int, default=0, help='Add some random variance to slice size, disabled by default (AltSliceScheduler only)')
-    parser.add_option('--startLP', action= 'store_true', default = True, help='Seeds the LP module with known pools. Must use it for LP based hopping with deepbit, True by default')
+    parser.add_option('--p2pLP', action='store_true', default=False, help='Starts up an IRC bot to validate LP based hopping.  Must be used with --startLP')
     parser.add_option('--ip', type = str, default='', help='IP to listen on')
-    args, rest = parser.parse_args()
-    options = args
-    bithopper_global.options = args
-
-    if options.list:
-        for k in bithopper_global.pool.get_servers():
-            print k
-        return
+    parser.add_option('--auth', type = str, default=None, help='User,Password')
+    options, rest = parser.parse_args()
 
     if options.listschedulers:
-        schedulers = None
-        for s in Scheduler.__subclasses__():
-            if schedulers != None: schedulers = schedulers + ", " + s.__name__
-            else: schedulers = s.__name__
-        print "Available Schedulers: " + schedulers
+        schedulers = ""
+        for s in scheduler.Scheduler.__subclasses__():
+            schedulers += ", " + s.__name__
+        print "Available Schedulers: " + schedulers[2:]
         return
+
+    bithopper_instance = BitHopper(options)
+
+    if options.auth:
+        auth = options.auth.split(',')
+        bithopper_instance.auth = auth
+        if len(auth) != 2:
+            print 'User,Password. Not whatever you just entered'
+            return
     
     if options.scheduler:
-        bithopper_global.log_msg("Selecting scheduler: " + options.scheduler)
+        bithopper_instance.log_msg("Selecting scheduler: " + options.scheduler)
         foundScheduler = False
         for s in Scheduler.__subclasses__():
             if s.__name__ == options.scheduler:
-                bithopper_global.scheduler = s(bithopper_global)
+                bithopper_instance.scheduler = s(bithopper_instance)
                 foundScheduler = True
                 break
-        if foundScheduler == False:            
-            bithopper_global.log_msg("Error couldn't find: " + options.scheduler + ". Using default scheduler.")
-            bithopper_global.scheduler = scheduler.DefaultScheduler(bithopper_global)
+        if not foundScheduler:            
+            bithopper_instance.log_msg("Error couldn't find: " + options.scheduler + ". Using default scheduler.")
+            bithopper_instance.scheduler = scheduler.DefaultScheduler(bithopper_instance)
     else:
-        bithopper_global.log_msg("Using default scheduler.")
-        bithopper_global.scheduler = scheduler.DefaultScheduler(bithopper_global)
+        bithopper_instance.log_msg("Using default scheduler.")
+        bithopper_instance.scheduler = scheduler.DefaultScheduler(bithopper_instance)
 
-    bithopper_global.select_best_server()
+    bithopper_instance.select_best_server()
 
-    if options.disable != None:
-        for k in options.disable:
-            if k in bithopper_global.pool.get_servers():
-                if bithopper_global.pool.get_servers()[k]['role'] == 'backup':
-                    bithopper_global.log_msg("You just disabled the backup pool. I hope you know what you are doing")
-                bithopper_global.pool.get_servers()[k]['role'] = 'disable'
-            else:
-                bithopper_global.log_msg(k + " Not a valid server")
+    if options.debug: 
+        log.startLogging(sys.stdout)
 
-    if options.debug: log.startLogging(sys.stdout)
+    if options.p2pLP:
+        bithopper_instance.log_msg('Starting p2p LP')
+        bithopper_instance.lpBot = LpBot(bithopper_instance)
 
-    if options.startLP:
-        bithopper_global.log_msg( 'Starting LP')
-        startlp = LoopingCall(bithopper_global.lp.start_lp)
-        startlp.start(60*30)
-
-    site = server.Site(website.bitSite(bithopper_global))
-    reactor.listenTCP(options.port, site,5, options.ip)
-    reactor.callLater(0, bithopper_global.pool.update_api_servers, bithopper_global)
-    delag_call = LoopingCall(bithopper_global.delag_server)
-    delag_call.start(10)
+    site = server.Site(website.bitSite(bithopper_instance))
+    reactor.listenTCP(options.port, site, 5, options.ip)
     reactor.run()
-    bithopper_global.db.close()
+    bithopper_instance.db.close()
 
 if __name__ == "__main__":
     main()

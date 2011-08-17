@@ -1,7 +1,7 @@
 # License
 bitHopper by Colin Rice is licensed under a Creative Commons
-Attribution-NonCommercial-ShareAlike 3.0 Unported License.  Based on a work at
-github.com.
+Attribution-NonCommercial-ShareAlike 3.0 Unported License.
+Based on a work at github.com
 
 # Instructions
 
@@ -52,9 +52,16 @@ You can launch bH with the following parameters:
 	--startLP         = Seeds the LP module with known pools.
 	--noLP            = Turns off client side longpolling
 	--debug           = Use twisted output
+	--p2pLP           = Starts up an IRC bot to validate LP based hopping
+	--ip              = IP to listen on
+	--auth            = Ask for user and password on stats page (--auth user,pass)
 
 
 # Available Schedulers:
+
+   OldDefaultScheduler
+
+A none slicing scheduler. May actually be the best scheduler there is.
 
    DefaultScheduler
 
@@ -71,6 +78,12 @@ Not currently in use.
    RoundTimeDynamicPenaltyScheduler
 
 Not currently in use.
+
+
+# Skins
+
+You can change the color scheme on the status page. Skins and .jpg preview are located in the StatSkin sub directory.
+Just copy the index file to the main directory to change skin and hit refresh on your browser. No need to restart.
 
 
 # More help

@@ -1,7 +1,7 @@
 # Licencia
 bitHopper por Colin Rice bajo licencia Creative Commons
 "Attribution-NonCommercial-ShareAlike 3.0 Unported License".
-Basado en trabajo hecho en github.com.
+Basado en trabajo hecho en github.com
 
 # Instructiones
 
@@ -55,9 +55,16 @@ Puedes lanzar bH con los siguientes parametros:
 	--startLP         = Engancha LP en las minas conocidas
 	--noLP            = Desactiva LP para clientes
 	--debug	          = Visiona la salida de twisted
+	--p2pLP           = Inicia el bot IRC para poder validar mucho mejor los saltos LP
+	--ip              = IP donde escuchar
+	--auth            = Pide usuario y contraseña para pagina stats (--auth usuario,contraseña)
 
 
 # Schedulers (programadores) disponibles:
+
+   OldDefaultScheduler
+
+El antiguo programador que no utiliza trozos para minar. Podria ser el mejor programador que existe.
 
    DefaultScheduler
 
@@ -74,6 +81,12 @@ En desuso actualmente.
    RoundTimeDynamicPenaltyScheduler
 
 En desuso actualmente.
+
+
+# Temas
+
+Puedes cambiar el tema de colores que utiliza la pagina de statisticas. Los temas y su previsualizacion estan en la carpeta "StatSkin".
+Para cambier de tema solo tienes que reemplazar el archivo "index.html" del directorio raiz con el de la carpeta de tema deseada y despues dando refrescar en el navegador, ne se necesita reiniciar el bH.
 
 
 # Mas ayuda

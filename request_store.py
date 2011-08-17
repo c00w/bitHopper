@@ -12,11 +12,14 @@ class Request_store:
         self.data = {}
         self.bitHopper = bitHopper
 
-    def add(self, request):
-        self.data[request] = time.time()
+    def add(self, request, save_time = 0):
+        self.data[request] = time.time() + save_time * 60
         d = request.notifyFinish()
         d.addCallback(self.notifyFinished, request)
         d.addErrback(self.notifyFinished, request)
+        call = LoopingCall(self.prune)
+        call.start(60)
+
     def closed(self, request):
         return request not in self.data
 
@@ -25,7 +28,9 @@ class Request_store:
             del self.data[request]
         except Exception, e:
             self.bitHopper.log_dbg('Error deleting request')
+            self.bitHopper.log_dbg(e)
+
     def prune(self):
         for key, work in self.data.items():
-            if work[1] < (time.time() - (60*5)):
+            if work < (time.time() - (60*5)):
                 del self.data[key]

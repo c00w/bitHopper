@@ -5,9 +5,9 @@
 				font-family:monospace;
 			}
 			html,body {
-				background: #736F6E;
+				background: #DEDAC2;
 				height:100%;
-				color:white;
+				color:#595645;
 				font-family:Arial,Helvetica,sans-serif;
 				font-size:12px;
 			}
@@ -26,12 +26,12 @@
 				padding-left:6px;
 				padding-right:6px;
 				margin:0px;
-				border-bottom:2px solid #595454;
+				border-bottom:2px solid #C3C0AC;
 				height:40px;
 			}
 			
 			td.head {
-				border-bottom:2px solid #595454;
+				border-bottom:2px solid #C3C0AC;
 			}
 			
 		</style>
@@ -41,31 +41,25 @@
 		<script type="text/javascript">
 
 			function getName(payload, srv) {
-				return "<a href='" + srv['url']  + "' target='_blank' style='text-decoration:underline;color:" + getColor(payload,srv) + ";'>" + srv['name'] + "</href>";
+				if(payload['servers'][payload['current']]['name'] == srv['name']) {
+                    return "<a href='" + srv['url']  + "' target='_blank' style='font-weight:bold;font-size:16px;text-decoration:underline;color:" + getColor(payload,srv) + ";'>" + srv['name'] + "</href>";
+                }
+                else return "<a href='" + srv['url']  + "' target='_blank' style='font-size:12px;text-decoration:underline;color:" + getColor(payload,srv) + ";'>" + srv['name'] + "</href>";
 			}
 
 			function getColor(payload, srv) {
 				if(payload['servers'][payload['current']]['name'] == srv['name']) {
-					return '#00FF00';
+					if(srv["role"].substring(0,4) == "mine") {
+                        return '#35A15F';
+                    }
+                    else if(srv["role"].substring(0,6) == "backup") {
+                        return '#33627F';
+                    }
 				}
-					
-				if(srv['lag'] == true) {
-					return '#FF3232';
+				else if(srv['lag'] == true || srv["role"] == "api_disable" || srv["role"] == "api_lag") {
+					return '#B2595B';
 				}
-					
-				if(srv["role"] == "disable" || srv["role"] == "api_disable" || srv["role"] == "api_lag") {
-					return '#FF3232';
-				}
-					
-				if(srv["role"] == "info") {
-					return '#FFFF00';
-				}
-					
-				if(srv["role"] == "backup" || srv["role"] == "backup_latehop") {
-					return '#50EBEC';
-				}
-
-				return 'white';
+				else return '#595645';
 			}
 			
 			function getShares(payload, srv) {
@@ -105,30 +99,30 @@
 					}
 				}
 				
-				if(srv['default_role'] == "backup") {
-					roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'disable');\" onFocus='this.blur();' style='border:1px solid #FF3232;";
-					if(srv["role"] == "disable" || srv["role"] == "api_disable") roles += "background-color:#FF3232;";
+				if(srv['default_role'].substring(0,6) == "backup") {
+					roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'disable');\" onFocus='this.blur();' style='border:1px solid #B2595B;";
+					if(srv["role"] == "disable" || srv["role"] == "api_disable" || srv["role"] == "api_lag") roles += "background-color:#B2595B;";
 					roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
 
-					roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'info');\" onFocus='this.blur();' style='border:1px solid #736F6E;";
-					if(srv["role"] == "info") roles += "background-color:#736F6E;";
+					roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'info');\" onFocus='this.blur();' style='border:1px solid #D98535;";
+					if(srv["role"] == "info") roles += "background-color:#D98535;";
 					roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
 
-					roles += "<a href='#' onClick=\"setRole('" + srvName + "', '" + srv['default_role'] + "');\" onFocus='this.blur();' style='border:1px solid #50EBEC;";
-					if(srv["role"] == "backup") roles += "background-color:#50EBEC;";
+					roles += "<a href='#' onClick=\"setRole('" + srvName + "', '" + srv['default_role'] + "');\" onFocus='this.blur();' style='border:1px solid #33627F;";
+					if(srv["role"].substring(0,6) == "backup") roles += "background-color:#33627F;";
 					roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
 				}
 				else {
-					roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'disable');\" onFocus='this.blur();' style='border:1px solid #FF3232;";
-					if(srv["role"] == "disable" || srv["role"] == "api_disable") roles += "background-color:#FF3232;";
+					roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'disable');\" onFocus='this.blur();' style='border:1px solid #B2595B;";
+					if(srv["role"] == "disable" || srv["role"] == "api_disable" || srv["role"] == "api_lag") roles += "background-color:#B2595B;";
 					roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
 
-					roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'info');\" onFocus='this.blur();' style='border:1px solid #FFFF00;";
-					if(srv["role"] == "info") roles += "background-color:#FFFF00;";
+					roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'info');\" onFocus='this.blur();' style='border:1px solid #D98535;";
+					if(srv["role"] == "info") roles += "background-color:#D98535;";
 					roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
 
-					roles += "<a href='#' onClick=\"setRole('" + srvName + "', '" + srv['default_role'] + "');\" onFocus='this.blur();' style='border:1px solid #59E817;";
-					if(srv["role"][0] == "m") roles += "background-color:#59E817;";
+					roles += "<a href='#' onClick=\"setRole('" + srvName + "', '" + srv['default_role'] + "');\" onFocus='this.blur();' style='border:1px solid #35A15F;";
+					if(srv["role"][0] == "m") roles += "background-color:#35A15F;";
 					roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
 				}
 			
@@ -149,12 +143,28 @@
 					+ fixLength("" + pp.toFixed(2), 5) + "%";
 			}
 			
+			function getUserTime(payload, user, key){
+				var newDate = new Date(user['last']*1000);
+			    if (newDate != null) {
+				    dateString = newDate.toLocaleString();
+			    }
+				return dateString;
+			}
+
+			function getUserRejects(payload, user, key){
+				return user['rejects']
+			}
+
 			function getUserShares(payload, user, key) {
-				return user;
+				return user["shares"];
 			}
 			
 			function getUserName(payload, user, key) {
 				return key;
+			}
+
+			function getUserHashrate(payload, user, key) {
+				return user["hash_rate"];
 			}
 
 			function setPayout(srvName) {
@@ -166,7 +176,7 @@
 					update();
 				}
 			}
-			
+
 			function setPenalty(srvName) {
 				var penalty = prompt("Set penalty for: " + srvName, 0);
 				if(penalty != null && penalty != undefined && penalty != "") {
@@ -195,9 +205,26 @@
 				expect  = parseFloat((parseFloat(payout)/expect) * 100).toFixed(1);
 				var pay_str = expect +  "%";
 				if (isNaN(expect)) {
-					pay_str = "&nbsp;";
+					pay_str = "-";
 				}
 				return pay_str;
+			}
+			
+			function getRoundShares(payload, srv) {
+				if(srv["role"] == "disable")
+					return [];
+
+				return srvhist[srv['name']];
+			}
+			
+			function getSlice(payload, srv) {
+				var name = srv['pool_index'];
+                if (payload['sliceinfo'] == undefined)
+                    return "-"
+				if (payload['sliceinfo'][name] >= 0)
+					return parseFloat(payload['sliceinfo'][name]).toFixed(0)
+				else
+					return "-"
 			}
 			
 			function getPenalty(payload, srv) {
@@ -206,16 +233,9 @@
 					 penalty = parseFloat(srv['penalty']);
 				}
 				var penalty_html = "<a href='#' onFocus='this.blur();' onClick=\"setPenalty('"
-				penalty_html = penalty_html + srvName + "');\" style='text-decoration:underline;color:white;'>"
+				penalty_html = penalty_html + srvName + "');\" style='text-decoration:underline;color:" + getColor(payload,srv) + ";'>"
 				penalty_html = penalty_html + penalty.toFixed(2) + "</a>";			
 				return penalty_html;
-			}
-			
-			function getRoundShares(payload, srv) {
-				if(srv["role"] == "disable")
-					return [];
-
-				return srvhist[srv['name']];
 			}
 			
 			var srvhist = {};
@@ -312,7 +332,7 @@
 				$(id).html(html);
 				
 				for(var i=0; i < chartBuildUps.length; i++) {
-					$("#chart" + i).sparkline(chartBuildUps[i]['data'], { type:'line', 'lineColor':'white', 'fillColor':'#595454','composite':true, 'spotColor':false, 'lineWidth':2 ,'spotRadius':0, 'width':'100%', 'height':'100%'} );							
+					$("#chart" + i).sparkline(chartBuildUps[i]['data'], { type:'line', 'lineColor':'#918C71', 'fillColor':'#CCC59E','composite':true, 'spotColor':false, 'lineWidth':2 ,'spotRadius':0, 'width':'100%', 'height':'100%'} );							
 				}
 			}
 		
@@ -325,16 +345,16 @@
 
 			function hashColor(data) {
 				if(parseInt(data["mhash"]) > "0") {
-					return '#00FF00';
+					return '#35A15F';
 				}
 
-				return '#FF3232';
+				return '#B2595B';
 			}
 		
 			function update() {
 				$.getJSON('/data', function(data) {
-					document.title = 'bitHopper @ ' + data["current"];
-					$("#current").html("<span style='color:" + hashColor(data) + ";'>" + data["current"] + " @" + parseInt(data["mhash"]) + "MHash</span>");
+					document.title = data["current"] + '@ bitHopper';
+					$("#current").html("<span style='font-weight:bold;color:#35A15F;'>" + data["current"] + "</span> <span style='color:" + hashColor(data) + ";'>@" + parseInt(data["mhash"]) + "MHash</span>");
 
 					updateRoundShares(data);
 					
@@ -345,8 +365,9 @@
 							'Role': { 'data':getRole },
 							'User&nbsp;Shares<br>Rejects': { 'data':getUserShareRejects, 'color':getColor, 'align':'center' },
 							'Payout': { 'data':getPayout, 'color':getColor, 'align':'center' },
-							'Efficiency': { 'data':getEfficiency, 'align':'center' },
-							'Penalty': { 'data':getPenalty, 'align':'right' },
+							'Efficiency': { 'data':getEfficiency, 'color':getColor, 'align':'center' },
+							'Penalty': { 'data':getPenalty, 'color':getColor, 'align':'center' },
+							'Slice': { 'data':getSlice, 'color':getColor, 'align':'center' },
 							'Round Shares': { 'data':getRoundShares, 'type':'linechart', 'width':'100%' }
 						},
 						function(a, b) {
@@ -363,7 +384,10 @@
 					buildTable("#users", users, users,
 						{
 							"User": { 'data':getUserName } ,
-							"Shares": { 'data':getUserShares, 'align':'right' }  
+							"Last Seen": { 'data':getUserTime, 'align':'left' },
+							"Shares": { 'data':getUserShares, 'align':'center' },
+							"Rejects": { 'data':getUserRejects, 'align':'center' },
+							"Hashrate": { 'data':getUserHashrate, 'align':'center' }  
 						}
 					);
 					
@@ -380,10 +404,10 @@
 	
 		<h1 id="current"></h1>
 		<span style="padding:5px;">
-			<span style="background-color:#FF3232;width:20px;height:20px;">&nbsp;&nbsp;</span> Lag/Disabled
-			<span style="background-color:#FFFF00;width:20px;height:20px;">&nbsp;&nbsp;</span> Info
-			<span style="background-color:#59E817;width:20px;height:20px;">&nbsp;&nbsp;</span> Mine
-			<span style="background-color:#50EBEC;width:20px;height:20px;">&nbsp;&nbsp;</span> Backup
+			<span style="background-color:#B2595B;width:20px;height:20px;">&nbsp;&nbsp;</span> Lag/Disabled
+			<span style="background-color:#D98535;width:20px;height:20px;">&nbsp;&nbsp;</span> Info
+			<span style="background-color:#35A15F;width:20px;height:20px;">&nbsp;&nbsp;</span> Mine
+			<span style="background-color:#33627F;width:20px;height:20px;">&nbsp;&nbsp;</span> Backup
 		</span>
 		<br /><br />
 		<div id="table"></div>

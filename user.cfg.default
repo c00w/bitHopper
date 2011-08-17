@@ -5,13 +5,15 @@
 #         to "user.cfg"
 #######################################
 
-#########################################################
+###############################################################################
 # Valid pool roles are:
 #
 # mine = mines on this pool as usual (diff.*0.43)
 # mine_slush = mines pool until diff.*0.10
 # mine_deepbit = monitor and makes educated guess mining
 #   without using the api
+# mine_ixc = ixcoins pool and diff.
+# mine_i0c = i0coins pool and diff.
 # backup = hopps on this when no Prop. pool is available
 # backup_latehop = prefers this for backup if pool has
 #   high share count (full descr. on page 121, bH thread)
@@ -22,13 +24,21 @@
 # pool's entry in this cfg file too)
 # mine_nmc = setup pool for NMC mining
 # 
-# Other variables:
+# Pool set-up:
 #
-#  penalty - floating point number, # of shares will be
-#            multiplied by this number when calculating
-#            shares against difficulty
+#  role:       tell bH what kind of mining is wanted at
+#              this pool, pick a valid one from the list above
+#  penalty:    floating point number, # of shares will be
+#              multiplied by this number when calculating
+#              shares against difficulty
+#              BACKUP SERVERS: Set it to the percent the server takes. 
+#              The penalty/100 is added to the reject rate when calculating 
+#              which server to use
+#  lp_penalty: normalize LP calls from this pool (bH thread for more info)
+#  user:       worker username you setup for this pool
+#  pass:       password you have for the worker (not needed for all pools)
 #
-#########################################################
+###############################################################################
 
 #######################################
 #     These Pools are hoppable
@@ -67,14 +77,6 @@ role: mine
 mtred_user_apikey:d91c52cfe1609f161f28a1268a2915b8+
 user:scarium
 pass:x 
-
-[rfc]
-# Nice small pool
-#https://rfcpool.com/signup
-#CHANGE THIS
-role: info
-user: c00w_test
-pass: x
 
 [btcmonkey]
 # Hopper friendly pool
@@ -126,6 +128,7 @@ user: x
 pass: y
 
 [bcpool]
+# Fakes json stats so you keep hopping them (page 184)
 # Disables anti-hopper measures for 1% donation (page 111)
 # Anti-hopping method based on "window of participation" (page 36)
 #http://bitcoinpool.com
@@ -135,12 +138,11 @@ user: c00w_test
 pass: x
 
 [nofeemining]
-# Server lags, they're upgrading the service (page 62)
-#https://www.nofeemining.com/ 
+#https://nofeemining.appspot.com/ 
 #CHANGE THIS
-role: info
+role: mine
 nofeemining_user_apikey: 4140cbc6405f4425cf91ca74e1450b66
-user: dah4k0r@gmail.com_test
+user: 1Q4B1LdoKHtMbj6tBLhj1cyuMWTDYFJ9Y7
 pass: x
 
 [deepbit]
@@ -178,6 +180,7 @@ pass: testhop
 
 [btcmine]
 # Score based payout (page 164)
+# https://btcmine.com/user/register/
 #CHANGE THIS (if you want)
 role: info
 user: your_username
@@ -241,6 +244,14 @@ swepool_user_apikey: xxxxxx
 user: your_username
 pass: your_password
 
+[i0g]
+# i0coins pool, use mine_i0c
+#http://i0.btcguild.com/register.php
+#CHANGE THIS
+role: disable
+user: your_username
+pass: your_password
+
 ######################################
 # Backup pools for when there is
 # no pool where you would earn more
@@ -291,6 +302,26 @@ user: your_username
 pass: your_password
 
 ######################################
+# Namecoin pools. Good for hopping
+# with mine_nmc if you want some nmc
+######################################
+
+[bitparking]
+#http://bitparking.com/
+#CHANGE THIS (if you want)
+role: info
+user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
+pass: x
+#passwords can be anything on bitparking
+
+[nmcbit]
+#http://nmcbit.com/
+#CHANGE THIS (if you want)
+role: info
+user: x
+pass: x
+
+######################################
 # These Pools are not hopped for a
 # Reason. Page of the BitHopper thread
 # annotated in parentheses.
@@ -299,14 +330,14 @@ pass: your_password
 # at your own risk.
 ######################################
 
-[bitparking]
-# Namecoin pool, use mine_nmc . Good for hopping if you want some namecoins
-#http://bitparking.com/
-#CHANGE THIS (if you want)
-role: info
-user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
+[rfc]
+# Pool is closed down (page 178)
+# Nice small pool
+#https://rfcpool.com/signup
+#CHANGE THIS
+role: disable
+user: c00w_test
 pass: x
-#passwords can be anything on bitparking
 
 [oldpolmine]
 # Old re exp. polmine stats

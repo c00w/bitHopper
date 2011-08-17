@@ -15,9 +15,12 @@ class Scheduler(object):
       self.bh = bitHopper
       self.initData()
 
-   @classmethod
    def initData(self,):
-      #self.bh.log_msg("<Scheduler> initData")
+      if self.bh.options.threshold:
+         self.difficultyThreshold = self.bh.options.threshold
+      else:
+         self.difficultyThreshold = 0.435
+      self.valid_roles = ['mine','mine_nmc','mine_deepbit','mine_slush','mine_ixc','mine_i0c']
       return
 
    @classmethod
@@ -58,6 +61,29 @@ class Scheduler(object):
 
       return server_name   
 
+   def server_to_btc_shares(self,server):
+        difficulty = self.bh.difficulty.get_difficulty()
+        nmc_difficulty = self.bh.difficulty.get_nmc_difficulty()
+        ixc_difficulty = self.bh.difficulty.get_ixc_difficulty()
+        i0c_difficulty = self.bh.difficulty.get_i0c_difficulty()
+        info = self.bh.pool.get_entry(server)
+        if info['role'] in ['mine', 'mine_deepbit']:
+            shares = info['shares']
+        elif info['role'] == 'mine_slush':
+            shares = info['shares'] * 4
+        elif info['role'] == 'mine_nmc':
+            shares = info['shares']*difficulty / nmc_difficulty
+        elif info['role'] == 'mine_ixc':
+            shares = info['shares']*difficulty / ixc_difficulty
+        elif info['role'] == 'mine_i0c':
+            shares = info['shares']*difficulty / i0c_difficulty
+        else:
+            shares = difficulty
+        # apply penalty
+        if 'penalty' in info:
+            shares = shares * float(info['penalty'])
+        return shares, info
+
    def select_backup_server(self,):
       #self.bh.log_dbg('select_backup_server', cat='scheduler-default')
       server_name = self.select_latehop_server()
@@ -74,9 +100,9 @@ class Scheduler(object):
             if info['lag']:
                continue
             shares = info['user_shares']+1
-            if 'penalty' in info:
-               shares = shares * float(info['penalty'])
             rr_server = float(info['rejects'])/shares
+            if 'penalty' in info:
+                rr_server += float(info['penalty'])/100
             if rr_server < reject_rate:
                server_name = server
                self.bh.log_dbg('select_backup_server: ' + str(server), cat='select_backup_server')
@@ -86,22 +112,10 @@ class Scheduler(object):
          #self.bh.log_dbg('Try another backup' + str(server), cat='scheduler-default')
          min_shares = 10**10
          for server in self.bh.pool.get_servers():
-            info = self.bh.pool.get_entry(server)
-            if info['api_lag'] or info['lag']:
+            shares,info = self.server_to_btc_shares(server)
+            if info['role'] not in self.valid_roles:
                 continue
-            if info['role'] not in ['mine','mine_nmc','mine_slush']:
-                continue
-            if info['role'] == 'mine':
-                shares = info['shares']
-            elif info['role'] == 'mine_slush':
-                shares = info['shares'] * 4
-            elif info['role'] == 'mine_nmc':
-                shares = info['shares']*difficulty / nmc_difficulty
-            else:
-                shares = info['shares']
-            if 'penalty' in info:
-               shares = shares * float(info['penalty'])
-            if shares < min_shares and info['lag'] == False:
+            if shares < min_shares and not info['lag']:
                 min_shares = shares
                 #self.bh.log_dbg('Selecting pool ' + str(server) + ' with shares ' + str(shares), cat='select_backup_server')
                 server_name = server
@@ -119,20 +133,8 @@ class Scheduler(object):
 
    def update_api_server(self,server):
       return
-   
-
 
 class OldDefaultScheduler(Scheduler):
-   def __init__(self,bitHopper):
-      self.bh = bitHopper
-      self.difficultyThreshold = 0.435
-      self.initData()
-      self.index_html = 'index-macboy.html'
-      
-   def initData(self,):
-      if self.bh.options.threshold:
-         #self.bh.log_msg("Override difficulty threshold to: " + str(self.bh.options.threshold), cat='scheduler-default')
-         self.difficultyThreshold = self.bh.options.threshold
 
    def select_best_server(self,):
       #self.bh.log_dbg('select_best_server', cat='scheduler-default')
@@ -143,22 +145,11 @@ class OldDefaultScheduler(Scheduler):
         
       #self.bh.log_dbg('min-shares: ' + str(min_shares), cat='scheduler-default')  
       for server in self.bh.pool.get_servers():
-         info = self.bh.pool.get_entry(server)
+         shares,info = self.server_to_btc_shares(server)
          if info['api_lag'] or info['lag']:
             continue
-         if info['role'] not in ['mine','mine_nmc','mine_slush','mine_charity', 'mine_deepbit']:
+         if info['role'] not in self.valid_roles:
             continue
-         if info['role'] in ['mine', 'mine_charity', 'mine_deepbit']:
-            shares = info['shares']
-         elif info['role'] == 'mine_slush':
-            shares = info['shares'] * 4
-         elif info['role'] == 'mine_nmc':
-            shares = info['shares']*difficulty / nmc_difficulty
-         else:
-            shares = 100* info['shares']
-         # apply penalty
-         if 'penalty' in info:
-            shares = shares * float(info['penalty'])
          if shares< min_shares:
             min_shares = shares
             #self.bh.log_dbg('Selecting pool ' + str(server) + ' with shares ' + str(info['shares']), cat='scheduler-default')
@@ -187,35 +178,27 @@ class OldDefaultScheduler(Scheduler):
       return server_name   
 
    def server_update(self,):
-      #self.bh.log_dbg('server_update', cat='scheduler-default')
-      valid_roles = ['mine', 'mine_slush','mine_nmc']
-      current_pool = self.bh.pool.get_entry(self.bh.pool.get_current())
-      if current_pool['role'] not in valid_roles:
+      current = self.bh.pool.get_current()
+      shares,info = self.server_to_btc_shares(current)
+      difficulty = self.bh.difficulty.get_difficulty()
+
+      if info['role'] not in self.valid_roles:
          return True
     
-      if current_pool['api_lag'] or current_pool['lag']:
+      if info['api_lag'] or info['lag']:
          return True
 
-      current_role = current_pool['role']
-      if current_role == 'mine' or current_role == 'mine_charity':
-         difficulty = self.bh.difficulty.get_difficulty()
-      if current_role == 'mine_nmc':
-         difficulty = self.bh.difficulty.get_nmc_difficulty()
-      if current_role == 'mine_slush':
-         difficulty = self.bh.difficulty.get_difficulty() * .25
-      if 'penalty' in current_pool:
-         difficulty = self.bh.difficulty.get_difficulty() / float(current_pool['penalty'])
-      if current_pool['shares'] > (difficulty * self.difficultyThreshold):
+      if shares > (difficulty * self.difficultyThreshold):
          return True
 
-      min_shares = 10**10
+      min_shares = info['shares']
 
-      for server in self.bh.pool.get_servers():
+      for server in self.bh.pool.servers:
          pool = self.bh.pool.get_entry(server)
          if pool['shares'] < min_shares:
             min_shares = pool['shares']
 
-      if min_shares < current_pool['shares']*.90:
+      if min_shares < info['shares']*.90:
         return True       
 
       return False
@@ -242,10 +225,10 @@ class DefaultScheduler(Scheduler):
       self.sliceinfo = {}
       self.initData()
       self.lastcalled = time.time()
-      self.index_html = 'index-slice.html'
       call = LoopingCall(self.bh.server_update)
       call.start(10)
    def initData(self,):
+        Scheduler.initData(self)
         if self.bh.options.threshold:
          #self.bh.log_msg("Override difficulty threshold to: " + str(self.bh.options.threshold), cat='scheduler-default')
          self.difficultyThreshold = self.bh.options.threshold
@@ -261,20 +244,10 @@ class DefaultScheduler(Scheduler):
 
       valid_servers = []
       for server in self.bh.pool.get_servers():
-         info = self.bh.pool.get_entry(server)
-         if info['role'] not in ['mine','mine_nmc','mine_slush', 'mine_deepbit']:
+         shares,info = self.server_to_btc_shares(server)
+         if info['role'] not in self.valid_roles:
             continue
-         if info['role'] in ['mine', 'mine_deepbit']:
-            shares = info['shares']
-         elif info['role'] == 'mine_slush':
-            shares = info['shares'] * 4
-         elif info['role'] == 'mine_nmc':
-            shares = info['shares']*difficulty / nmc_difficulty
-         else:
-            shares = min_shares
-         # apply penalty
-         if 'penalty' in info:
-            shares = shares * float(info['penalty'])
+
          if shares< min_shares:
             valid_servers.append(server)
          
@@ -316,7 +289,7 @@ class DefaultScheduler(Scheduler):
 
         self.sliceinfo[self.bh.pool.get_current()] += diff_time
 
-        if self.bh.pool.servers[self.bh.pool.get_current()]['role'] not in ['mine','mine_charity','mine_slush','mine_nmc','mine_deepbit']:
+        if self.bh.pool.servers[self.bh.pool.get_current()]['role'] not in self.valid_roles:
             return True
 
         valid = []
@@ -332,20 +305,10 @@ class DefaultScheduler(Scheduler):
                 return True
 
         difficulty = self.bh.difficulty.get_difficulty()
-        nmc_difficulty = self.bh.difficulty.get_nmc_difficulty()
         min_shares = difficulty * self.difficultyThreshold
 
-        info = self.bh.pool.servers[self.bh.pool.get_current()]
-        if info['role'] in ['mine', 'mine_deepbit']:
-           shares = info['shares']
-        elif info['role'] == 'mine_slush':
-           shares = info['shares'] * 4
-        elif info['role'] == 'mine_nmc':
-           shares = info['shares']*difficulty / nmc_difficulty
-        else:
-           shares = 100* info['shares']
-        if 'penalty' in info:
-            shares = shares * float(info['penalty'])
+        shares,info = self.server_to_btc_shares(self.bh.pool.get_current())
+        
         if shares > min_shares:
             return True
 
@@ -363,14 +326,11 @@ class AltSliceScheduler(Scheduler):
       self.bh.log_msg(' - Slice Size: ' + str(self.bh.options.altslicesize), cat=self.name)
       self.initData()
       self.lastcalled = time.time()
-      self.index_html = 'index-altslice.html'
       
       self.initDone = False
       
    def initData(self,):
-        if self.bh.options.threshold:
-         #self.bh.log_msg("Override difficulty threshold to: " + str(self.bh.options.threshold), cat='scheduler-default')
-         self.difficultyThreshold = self.bh.options.threshold
+        Scheduler.initData(self)
         for server in self.bh.pool.get_servers():
             info = self.bh.pool.get_entry(server)
             info['slice'] = -1
@@ -394,7 +354,7 @@ class AltSliceScheduler(Scheduler):
          if info['slice'] > 0:
             reslice = False
             allSlicesDone = False
-         if info['init'] == False and info['role'] in ['mine','mine_nmc','mine_slush', 'mine_deepbit']:
+         if info['init'] == False and info['role'] in self.valid_roles:
             #self.bh.log_dbg(server + " not yet initialized", cat=self.name)
             fullinit = False
          shares = info['shares']
@@ -420,24 +380,13 @@ class AltSliceScheduler(Scheduler):
          totalweight = 0
          server_shares = {}
          for server in self.bh.pool.get_servers():
-            info = self.bh.pool.get_entry(server)
-            if info['role'] not in ['mine','mine_nmc','mine_slush', 'mine_deepbit']:
+            shares,info = self.server_to_btc_shares(server)
+            if info['role'] not in self.valid_roles:
                continue
             if info['api_lag'] or info['lag']:
                continue
-            if info['role'] in ['mine','mine_deepbit']:
-               shares = info['shares']
-            elif info['role'] == 'mine_slush':
-               shares = info['shares'] * 4
-            elif info['role'] == 'mine_nmc':
-               shares = info['shares']*difficulty / nmc_difficulty
-            else:
-               shares = 100* info['shares']
-            # apply penalty
-            if 'penalty' in info:
-               shares = shares * float(info['penalty'])
             if shares < min_shares and shares > 0:               
-               totalshares = totalshares + shares               
+               totalshares = totalshares + shares           
                info['slicedShares'] = info['shares']
                server_shares[server] = shares
             else:
@@ -446,29 +395,18 @@ class AltSliceScheduler(Scheduler):
             
          # find total weight   
          for server in self.bh.pool.get_servers():
-            info = self.bh.pool.get_entry(server)
-            if info['role'] not in ['mine','mine_nmc','mine_slush','mine_deepbit']:
+            shares,info = self.server_to_btc_shares(server)
+            if info['role'] not in self.valid_roles:
                continue
             if info['api_lag'] or info['lag']:
                continue
-            if info['role'] in ['mine','mine_deepbit']:
-               shares = info['shares']
-            elif info['role'] == 'mine_slush':
-               shares = info['shares'] * 4
-            elif info['role'] == 'mine_nmc':
-               shares = info['shares']*difficulty / nmc_difficulty
-            else:
-               shares = 100* info['shares']
-            # apply penalty
-            if 'penalty' in info:
-               shares = shares * float(info['penalty'])
             if shares < min_shares and shares > 0:                        
                totalweight += 1/(float(shares)/totalshares)
                   
          # allocate slices         
          for server in self.bh.pool.get_servers():
             info = self.bh.pool.get_entry(server)
-            if info['role'] not in ['mine','mine_nmc','mine_slush','mine_deepbit']:
+            if info['role'] not in self.valid_roles:
                continue
             if info['shares'] <=0: continue
             if server not in server_shares:
@@ -500,7 +438,7 @@ class AltSliceScheduler(Scheduler):
          if info['role'] in ['mine_slush'] and shares * 4 < min_shares:
             server_name = server
             continue
-         if info['role'] in ['mine','mine_nmc','mine_slush', 'mine_deepbit'] and info['slice'] > 0 and info['lag'] == False:
+         if info['role'] in self.valid_roles and info['slice'] > 0 and not info['lag']:
             if max_slice == -1:
                max_slice = info['slice']
                server_name = server
@@ -518,8 +456,8 @@ class AltSliceScheduler(Scheduler):
       #self.bh.log_dbg('server_update', cat='server_update')
       diff_time = time.time()-self.lastcalled
       self.lastcalled = time.time()
-      current_server = self.bh.pool.get_current()
-      info = self.bh.pool.get_entry(current_server)
+      current = self.bh.pool.get_current()
+      shares,info = self.server_to_btc_shares(current)
       info['slice'] = info['slice'] - diff_time
       #self.bh.log_dbg(current_server + ' slice ' + str(info['slice']), cat='server_update' )
       if self.initDone == False:
@@ -531,14 +469,12 @@ class AltSliceScheduler(Scheduler):
       if info['slicedShares'] > info['shares']: return True
       
       # double check role
-      if info['role'] not in ['mine','mine_nmc','mine_slush','mine_deepbit']: return True
+      if info['role'] not in self.valid_roles: return True
       
       # check to see if threshold exceeded
       difficulty = self.bh.difficulty.get_difficulty()
-      shares = info['shares']
       min_shares = difficulty * self.difficultyThreshold
-      if info['role'] == 'mine_slush': shares = shares * 4
-      if 'penalty' in info: shares = shares * float(info['penalty'])
+
       if shares > min_shares:
          info['slice'] = -1 # force switch
          return True

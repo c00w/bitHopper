@@ -5,7 +5,7 @@
 				font-family:monospace;
 			}
 			html,body {
-				background: #272F87;
+				background: #736F6E;
 				height:100%;
 				color:white;
 				font-family:Arial,Helvetica,sans-serif;
@@ -26,12 +26,12 @@
 				padding-left:6px;
 				padding-right:6px;
 				margin:0px;
-				border-bottom:2px solid darkblue;
+				border-bottom:2px solid #595454;
 				height:40px;
 			}
 			
 			td.head {
-				border-bottom:2px solid white;
+				border-bottom:2px solid #595454;
 			}
 			
 		</style>
@@ -41,19 +41,25 @@
 		<script type="text/javascript">
 
 			function getName(payload, srv) {
-				return "<a href='" + srv['url']  + "' target='_blank' style='text-decoration:underline;color:" + getColor(payload,srv) + ";'>" + srv['name'] + "</href>";
+				if(payload['servers'][payload['current']]['name'] == srv['name']) {
+                    return "<a href='" + srv['url']  + "' target='_blank' style='font-weight:bold;font-size:16px;text-decoration:underline;color:" + getColor(payload,srv) + ";'>" + srv['name'] + "</href>";
+                }
+                else return "<a href='" + srv['url']  + "' target='_blank' style='font-size:12px;text-decoration:underline;color:" + getColor(payload,srv) + ";'>" + srv['name'] + "</href>";
 			}
 
 			function getColor(payload, srv) {
 				if(payload['servers'][payload['current']]['name'] == srv['name']) {
-					return 'yellow';
+					if(srv["role"].substring(0,4) == "mine") {
+                        return '#59E817';
+                    }
+                    else if(srv["role"].substring(0,6) == "backup") {
+                        return '#70C4FF';
+                    }
 				}
-					
-				if(srv['lag'] == true) {
-					return 'red';
+				else if(srv['lag'] == true || srv["role"] == "api_disable" || srv["role"] == "api_lag") {
+					return '#FF3232';
 				}
-					
-				return 'white';
+				else return '#E5E5E5';
 			}
 			
 			function getShares(payload, srv) {
@@ -93,21 +99,34 @@
 					}
 				}
 				
-				if(srv["role"] != "backup") {
-					roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'disable');\" onFocus='this.blur();' style='border:1px solid black;";
-					if(srv["role"] == "disable") roles += "background-color:black;";
+				if(srv['default_role'].substring(0,6) == "backup") {
+					roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'disable');\" onFocus='this.blur();' style='border:1px solid #FF3232;";
+					if(srv["role"] == "disable" || srv["role"] == "api_disable" || srv["role"] == "api_lag") roles += "background-color:#FF3232;";
 					roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
 
-					roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'info');\" onFocus='this.blur();' style='border:1px solid yellow;";
-					if(srv["role"] == "info") roles += "background-color:yellow;";
+					roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'info');\" onFocus='this.blur();' style='border:1px solid #FFFF00;";
+					if(srv["role"] == "info") roles += "background-color:#FFFF00;";
 					roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
 
-					roles += "<a href='#' onClick=\"setRole('" + srvName + "', '" + srv['default_role'] + "');\" onFocus='this.blur();' style='border:1px solid green;";
-					if(srv["role"][0] == "m") roles += "background-color:green;";
+					roles += "<a href='#' onClick=\"setRole('" + srvName + "', '" + srv['default_role'] + "');\" onFocus='this.blur();' style='border:1px solid #70C4FF;";
+					if(srv["role"].substring(0,6) == "backup") roles += "background-color:#50EBEC;";
+					roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
+				}
+				else {
+					roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'disable');\" onFocus='this.blur();' style='border:1px solid #FF3232;";
+					if(srv["role"] == "disable" || srv["role"] == "api_disable" || srv["role"] == "api_lag") roles += "background-color:#FF3232;";
+					roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
+
+					roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'info');\" onFocus='this.blur();' style='border:1px solid #FFFF00;";
+					if(srv["role"] == "info") roles += "background-color:#FFFF00;";
+					roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
+
+					roles += "<a href='#' onClick=\"setRole('" + srvName + "', '" + srv['default_role'] + "');\" onFocus='this.blur();' style='border:1px solid #59E817;";
+					if(srv["role"][0] == "m") roles += "background-color:#59E817;";
 					roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
 				}
 			
-				var role = "<a href='#' onClick=\"selectRole('" + srvName + "', '" + srv["role"] + "')\" onFocus='this.blur();' style='text-decoration:underline;color:white;'>" + srv["role"] + "</a>";
+				var role = "<a href='#' onClick=\"selectRole('" + srvName + "', '" + srv["role"] + "')\" onFocus='this.blur();' style='text-decoration:underline;color:" + getColor(payload,srv) + ";'>" + srv["role"] + "</a>";
 			
 				return roles + role;
 			}
@@ -124,17 +143,17 @@
 					+ fixLength("" + pp.toFixed(2), 5) + "%";
 			}
 			
-            function getUserTime(payload, user, key){
-               var newDate = new Date(user['last']*1000);
-               if (newDate != null) {
-                  dateString = newDate.toUTCString();
-               }
-               return dateString;
-            }
+			function getUserTime(payload, user, key){
+				var newDate = new Date(user['last']*1000);
+			    if (newDate != null) {
+				    dateString = newDate.toLocaleString();
+			    }
+				return dateString;
+			}
 
-            function getUserRejects(payload, user, key){
-                return user['rejects']
-            }
+			function getUserRejects(payload, user, key){
+				return user['rejects']
+			}
 
 			function getUserShares(payload, user, key) {
 				return user["shares"];
@@ -142,6 +161,10 @@
 			
 			function getUserName(payload, user, key) {
 				return key;
+			}
+
+			function getUserHashrate(payload, user, key) {
+				return user["hash_rate"];
 			}
 
 			function setPayout(srvName) {
@@ -153,7 +176,7 @@
 					update();
 				}
 			}
-			
+
 			function setPenalty(srvName) {
 				var penalty = prompt("Set penalty for: " + srvName, 0);
 				if(penalty != null && penalty != undefined && penalty != "") {
@@ -171,7 +194,7 @@
 					}
 				}
 				
-				payout = "<a href='#' onFocus='this.blur();' onClick=\"setPayout('" + srvName + "');\" style='text-decoration:underline;color:white;'>" + srv["payout"].toFixed(8) + "</a>";
+				payout = "<a href='#' onFocus='this.blur();' onClick=\"setPayout('" + srvName + "');\" style='text-decoration:underline;color:" + getColor(payload,srv) + ";'>" + srv["payout"].toFixed(8) + "</a>";
 				
 				return payout + "<br />Exp:&nbsp;" + srv['expected_payout'].toFixed(8);
 			}
@@ -182,7 +205,7 @@
 				expect  = parseFloat((parseFloat(payout)/expect) * 100).toFixed(1);
 				var pay_str = expect +  "%";
 				if (isNaN(expect)) {
-					pay_str = "&nbsp;";
+					pay_str = "-";
 				}
 				return pay_str;
 			}
@@ -195,20 +218,22 @@
 			}
 			
 			function getSlice(payload, srv) {
-				if (srv['slice'] > 0) {
-					return parseFloat(srv['slice']).toFixed(1);
-				} else {
-					return '&nbsp;';
-				}
+				var name = srv['pool_index'];
+                if (payload['sliceinfo'] == undefined)
+                    return "-"
+				if (payload['sliceinfo'][name] >= 0)
+					return parseFloat(payload['sliceinfo'][name]).toFixed(0)
+				else
+					return "-"
 			}
-
+			
 			function getPenalty(payload, srv) {
 				var penalty = 1.00
 				if (srv['penalty'] && srv['penalty'] > 0) {
 					 penalty = parseFloat(srv['penalty']);
 				}
 				var penalty_html = "<a href='#' onFocus='this.blur();' onClick=\"setPenalty('"
-				penalty_html = penalty_html + srvName + "');\" style='text-decoration:underline;color:white;'>"
+				penalty_html = penalty_html + srvName + "');\" style='text-decoration:underline;color:" + getColor(payload,srv) + ";'>"
 				penalty_html = penalty_html + penalty.toFixed(2) + "</a>";			
 				return penalty_html;
 			}
@@ -307,7 +332,7 @@
 				$(id).html(html);
 				
 				for(var i=0; i < chartBuildUps.length; i++) {
-					$("#chart" + i).sparkline(chartBuildUps[i]['data'], { type:'line', 'lineColor':'white', 'fillColor':false,'composite':true, 'spotColor':false, 'lineWidth':2 ,'spotRadius':0, 'width':'100%', 'height':'100%'} );							
+					$("#chart" + i).sparkline(chartBuildUps[i]['data'], { type:'line', 'lineColor':'#E5E5E5', 'fillColor':'#595454','composite':true, 'spotColor':false, 'lineWidth':2 ,'spotRadius':0, 'width':'100%', 'height':'100%'} );							
 				}
 			}
 		
@@ -317,24 +342,32 @@
 				}
 				return t;
 			}
+
+			function hashColor(data) {
+				if(parseInt(data["mhash"]) > "0") {
+					return '#59E817';
+				}
+
+				return '#FF3232';
+			}
 		
 			function update() {
 				$.getJSON('/data', function(data) {
-					document.title = 'bitHopper @ ' + data["current"];
-					$("#current").html("<span style='color:yellow;'>" + data["current"] + "</span> @" + parseInt(data["mhash"]) + "MHash");
+					document.title = data["current"] + '@ bitHopper';
+					$("#current").html("<span style='font-weight:bold;color:#59E817;'>" + data["current"] + "</span> <span style='color:" + hashColor(data) + ";'>@" + parseInt(data["mhash"]) + "MHash</span>");
 
 					updateRoundShares(data);
 					
 					buildTable("#table", data['servers'], data,
 						{
 							'Server': { 'data':getName, 'color':getColor },
-							'Shares': { 'data':getShares, 'align':'right' },
+							'Shares': { 'data':getShares, 'color':getColor, 'align':'right' },
 							'Role': { 'data':getRole },
-							'User&nbsp;Shares<br>Rejects': { 'data':getUserShareRejects, 'align':'right' },
-							'Payout': { 'data':getPayout, 'align':'right' },
-							'Efficiency': { 'data':getEfficiency, 'align':'right' },
-							'Penalty': { 'data':getPenalty, 'align':'right' },
-							'Slice': { 'data':getSlice, 'align':'right' },
+							'User&nbsp;Shares<br>Rejects': { 'data':getUserShareRejects, 'color':getColor, 'align':'center' },
+							'Payout': { 'data':getPayout, 'color':getColor, 'align':'center' },
+							'Efficiency': { 'data':getEfficiency, 'color':getColor, 'align':'center' },
+							'Penalty': { 'data':getPenalty, 'color':getColor, 'align':'center' },
+							'Slice': { 'data':getSlice, 'color':getColor, 'align':'center' },
 							'Round Shares': { 'data':getRoundShares, 'type':'linechart', 'width':'100%' }
 						},
 						function(a, b) {
@@ -351,9 +384,10 @@
 					buildTable("#users", users, users,
 						{
 							"User": { 'data':getUserName } ,
-							"Last Seen": {'data':getUserTime, 'align':'right' },
-							"Shares": { 'data':getUserShares, 'align':'right' },
-							"Rejects": {'data':getUserRejects, 'align':'right'}   
+							"Last Seen": { 'data':getUserTime, 'align':'left' },
+							"Shares": { 'data':getUserShares, 'align':'center' },
+							"Rejects": { 'data':getUserRejects, 'align':'center' },
+							"Hashrate": { 'data':getUserHashrate, 'align':'center' }  
 						}
 					);
 					
@@ -370,9 +404,10 @@
 	
 		<h1 id="current"></h1>
 		<span style="padding:5px;">
-			<span style="background-color:black;width:20px;height:20px;">&nbsp;&nbsp;</span> disabled
-			<span style="background-color:yellow;width:20px;height:20px;">&nbsp;&nbsp;</span> info
-			<span style="background-color:green;width:20px;height:20px;">&nbsp;&nbsp;</span> mine
+			<span style="background-color:#FF3232;width:20px;height:20px;">&nbsp;&nbsp;</span> Lag/Disabled
+			<span style="background-color:#FFFF00;width:20px;height:20px;">&nbsp;&nbsp;</span> Info
+			<span style="background-color:#59E817;width:20px;height:20px;">&nbsp;&nbsp;</span> Mine
+			<span style="background-color:#70C4FF;width:20px;height:20px;">&nbsp;&nbsp;</span> Backup
 		</span>
 		<br /><br />
 		<div id="table"></div>

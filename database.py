@@ -27,11 +27,9 @@ class Database():
         self.bitHopper = bitHopper
         self.pool = bitHopper.pool
         self.check_database()
-
         self.shares = {}
         self.rejects = {}
         self.payout = {}
-        self.user = {}
 
         call = LoopingCall(self.write_database)
         call.start(60)
@@ -74,14 +72,16 @@ class Database():
                 self.shares[server][user] = 0
 
         for server in self.rejects:
-            rejects = self.rejects[server]
-            sql = self.sql_update_add(server,'rejects',rejects,'')
-            self.curs.execute(sql)
-            if len(self.curs.execute('select * from ' + server + '  WHERE diff='+ str(difficulty) + ' and user= \'\'').fetchall()) == 0:
-                sql = self.sql_insert(server,rejects=rejects)
+            for user in self.rejects[server]:
+                if self.rejects[server][user] == 0:
+                    continue
+                rejects = self.rejects[server][user]
+                sql = self.sql_update_add(server,'rejects',rejects,user)
                 self.curs.execute(sql)
-
-            self.rejects[server] = 0
+                if len(self.curs.execute('select * from ' + server + '  WHERE diff='+ str(difficulty) + ' and user= \'' + str(user) + "\'").fetchall()) == 0:
+                    sql = self.sql_insert(server,rejects=rejects,user=user)
+                    self.curs.execute(sql)
+                self.rejects[server][user] = 0
 
         for server in self.payout:
             if self.payout[server] == None:
@@ -96,15 +96,13 @@ class Database():
 
         self.database.commit()
 
-        self.update_user_shares_db()
-
     def check_database(self):
         self.bitHopper.log_msg('Checking Database')
         if os.path.exists(DB_FN):
             try:
                 versionfd = open(VERSION_FN, 'rb')
                 version = versionfd.read()
-                self.bitHopper.log_msg("DB Verson: " + version)
+                self.bitHopper.log_dbg("DB Verson: " + version)
                 if version == "0.1":
                     self.bitHopper.log_msg('Old Database')
                 versionfd.close()
@@ -134,7 +132,23 @@ class Database():
 
         self.database.commit()
 
-        self.bitHopper.log_msg('Database Setup')
+        self.bitHopper.log_dbg('Database Setup')
+
+    def get_users(self):
+        #Get an dictionary of user information to seed data.py
+        #This is a direct database lookup and should only be called once
+        users = {}
+        servers = self.bitHopper.pool.get_servers()
+        for server in servers:
+            sql = 'select user, shares, rejects from ' + server
+            self.curs.execute(sql)
+            result = self.curs.fetchall()
+            for item in result:
+                if item[0] not in users:
+                    users[item[0]] = {'shares':0,'rejects':0}
+                users[item[0]]['shares'] += item[1]
+                users[item[0]]['rejects'] += item[2]
+        return users
 
     def update_shares(self,server, shares, user, password):
         if server not in self.shares:
@@ -162,26 +176,12 @@ class Database():
             expected += float(shares)/difficulty * 50
         return expected
 
-    def update_user_shares_db(self):
-        servers = self.bitHopper.pool.get_servers()
-        user = {}
-        for server in servers:
-            sql = 'select shares, user from ' + server
-            self.curs.execute(sql)
-            result = self.curs.fetchall()
-            for item in result:
-                if item[1] not in user:
-                    user[item[1]] = 0
-                user[item[1]] += item[0]
-        self.user = user
-
-    def get_user_shares(self):
-        return self.user
-
-    def update_rejects(self,server,shares):
+    def update_rejects(self,server,shares, user, password):
         if server not in self.rejects:
-            self.rejects[server] = 0
-        self.rejects[server] += shares
+            self.rejects[server] = {}
+        if user not in self.rejects[server]:
+            self.rejects[server][user] = 0
+        self.rejects[server][user] += shares
 
     def get_rejects(self,server):
         sql = 'select rejects from ' + str(server)

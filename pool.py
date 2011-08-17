@@ -17,7 +17,7 @@ except:
 class Pool():
     def __init__(self,bitHopper):
         self.servers = {}
-        self.api_pull = ['mine','info','mine_slush','mine_nmc','mine_charity','mine_deepbit','backup','backup_latehop']
+        self.api_pull = ['mine','info','mine_slush','mine_nmc','mine_ixc','mine_i0c','mine_charity','mine_deepbit','backup','backup_latehop']
 
         parser = ConfigParser.SafeConfigParser()
         try:
@@ -65,7 +65,14 @@ class Pool():
             self.servers[server]['last_pulled'] = time.time()
             self.servers[server]['lag'] = False
             self.servers[server]['api_lag'] = False
-            self.servers[server]['refresh_time'] = 60
+            if 'refresh_time' not in self.servers[server]:
+                self.servers[server]['refresh_time'] = 120
+            else:
+                self.servers[server]['refresh_time'] = int(self.servers[server]['refresh_time'])
+            if 'refresh_limit' not in self.servers[server]:
+                self.servers[server]['refresh_limit'] = 120
+            else:
+                self.servers[server]['refresh_limit'] = int(self.servers[server]['refresh_limit'])
             self.servers[server]['rejects'] = self.bitHopper.db.get_rejects(server)
             self.servers[server]['user_shares'] = self.bitHopper.db.get_shares(server)
             self.servers[server]['payout'] = self.bitHopper.db.get_payout(server)
@@ -84,6 +91,7 @@ class Pool():
             if self.servers[server]['default_role'] in ['info','disable']:
                 self.servers[server]['default_role'] = 'mine'
         self.servers = OrderedDict(sorted(self.servers.items(), key=lambda t: t[1]['role'] + t[0]))
+        self.bitHopper.reactor.callLater(0, self.update_api_servers, bitHopper)
             
     def get_entry(self, server):
         if server in self.servers:
@@ -112,8 +120,8 @@ class Pool():
             self.servers[server]['refresh_time'] -= .10*self.servers[server]['refresh_time']
             time = self.servers[server]['refresh_time']
 
-        if time <= 120:
-            time = 120
+        if time <= self.servers[server]['refresh_limit']:
+            time = self.servers[server]['refresh_limit']
         self.bitHopper.reactor.callLater(time,self.update_api_server,server)
 
         try:
@@ -122,14 +130,21 @@ class Pool():
             if self.servers[server]['ghash'] > 0:
                 ghash_duration += str('{0:.1f}gh/s '.format( self.servers[server]['ghash'] ))
             if self.servers[server]['duration'] > 0:
-                ghash_duration += str('{0:d}min.'.format( (self.servers[server]['duration']/60) ))
-            k += ghash_duration
+                ghash_duration += '\t' + str('{0:d}min.'.format( (self.servers[server]['duration']/60) ))
+            k += '\t' + ghash_duration
         except Exception, e:
             self.bitHopper.log_dbg("Error formatting")
             self.bitHopper.log_dbg(e)
             k =  str(shares)
+
+        #Display output to user when shares change
         if shares != prev_shares:
-            self.bitHopper.log_msg(str(server) +": "+ k)
+            if len(server) == 12:
+                self.bitHopper.log_msg(str(server) +":"+ k)
+            else:
+                self.bitHopper.log_msg(str(server) +":\t"+ k)
+
+        #If the shares indicate we found a block tell LP
         if shares < prev_shares and shares < 0.10 * diff:
             self.bitHopper.lp.set_owner(server)
         self.servers[server]['shares'] = shares
@@ -148,8 +163,8 @@ class Pool():
         if self.servers[pool]['err_api_count'] > 1:
             self.servers[pool]['api_lag'] = True
         time = self.servers[pool]['refresh_time']
-        if time < 120:
-            time = 120
+        if time < self.servers[pool]['refresh_limit']:
+            time = self.servers[pool]['refresh_limit']
         self.bitHopper.reactor.callLater(time, self.update_api_server, pool)
 
     def selectsharesResponse(self, response, args):
@@ -194,6 +209,8 @@ class Pool():
 
         elif server['api_method'] == 're':
             output = re.search(server['api_key'],response)
+            if output == None:
+                return
             if 'api_group' in server:
                 output = output.group(int(server['api_group']))
             else:
@@ -318,25 +335,64 @@ class Pool():
         return -1
     
     def get_duration(self, server, response):
-        duration = -1
+        duration = -1 # I think this is not needed anymore? Could somebody double check?
         if 'api_key_duration_day_hour_min' in server:
             output = re.search(server['api_key_duration_day_hour_min'], response)
-            day = int(output.group(1).replace(' ', ''))
-            hour = int(output.group(2).replace(' ', ''))
-            minute = int(output.group(3).replace(' ', ''))
-            duration = day*24*3600 + hour * 3600 + minute * 60
+            try:
+                day = int(output.group(1).replace(' ', ''))
+            except AttributeError:
+                day = 0
+            try:
+                hour = int(output.group(2).replace(' ', ''))
+            except AttributeError:
+                hour = 0
+            try:
+                minute = int(output.group(3).replace(' ', ''))
+            except AttributeError:
+               minute = 0
+            if day == 0:
+                if hour == 0:
+                    if minute == 0:
+                        duration = -1
+                    else:
+                        duration = minute * 60
+                else:
+                    duration = hour * 3600 + minute * 60
+            else:
+                duration = day*24*3600 + hour * 3600 + minute * 60
         elif 'api_key_duration_hour_min' in server:
             output = re.search(server['api_key_duration_hour_min'], response)
-            hour = int(output.group(1).replace(' ', ''))
-            minute = int(output.group(2).replace(' ', ''))
-            duration = hour * 3600 + minute * 60
+            try:
+                hour = int(output.group(1).replace(' ', ''))
+            except AttributeError:
+                hour = 0
+            try:
+                minute = int(output.group(2).replace(' ', ''))
+            except AttributeError:
+                minute = 0
+            if hour == 0:
+                if minute == 0:
+                    duration = -1
+                else:
+                    duration = minute * 60
+            else:
+                duration = hour * 3600 + minute * 60
         elif 'api_key_duration_min' in server:
             output = re.search(server['api_key_duration_min'], response)
-            minute = int(output.group(1).replace(' ', ''))
-            duration = minute * 60
+            try:
+                minute = int(output.group(1).replace(' ', ''))
+            except AttributeError:
+                minute = 0
+            if minute == 0:
+                duration = -1
+            else:
+                duration = minute * 60
         elif 'api_key_duration_sec' in server:
             output = re.search(server['api_key_duration_sec'], response)
-            duration = int(output.group(1).replace(' ', ''))
+            try:
+                duration = int(output.group(1).replace(' ', ''))
+            except AttributeError:
+                duration = -1
         
         return duration
 
@@ -345,7 +401,7 @@ class Pool():
             return
         info = self.servers[server]
         self.bitHopper.scheduler.update_api_server(server)
-        d = work.get(self.bitHopper.json_agent,info['api_address'])
+        d = self.bitHopper.work.get(info['api_address'])
         d.addCallback(self.selectsharesResponse, (server))
         d.addErrback(self.errsharesResponse, (server))
         d.addErrback(self.bitHopper.log_msg)
@@ -356,7 +412,7 @@ class Pool():
             info = self.servers[server]
             update = self.api_pull
             if info['role'] in update:
-                d = work.get(self.bitHopper.json_agent,info['api_address'])
+                d = bitHopper.work.get(info['api_address'])
                 d.addCallback(self.selectsharesResponse, (server))
                 d.addErrback(self.errsharesResponse, (server))
                 d.addErrback(self.bitHopper.log_msg)

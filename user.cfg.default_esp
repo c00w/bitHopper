@@ -6,13 +6,15 @@
 #      archivo a "user.cfg"
 #######################################
 
-#########################################################
+###############################################################################
 # Los "role" (roles) validos son:
 #
 # mine = mina como esta mandado, normal (dificultad*0.43)
 # mine_slush = en esta se queda hasta dificultad.*0.10
 # mine_deepbit = monitorea y prueba suerte minar en
 #   esta mina sin utilizar la api
+# mine_ixc = mina y dificultad ixcoins
+# mine_i0c = mina y dificultad i0coins
 # backup = viene a minar en esta si no tiene ninguna 
 #   mina Proporcional disponible
 # backup_latehop = prefiere minar en esta como backup si
@@ -24,14 +26,19 @@
 #   su entrada del todo si no quieres que aparezca en stats)
 # mine_nmc = indica que es una mina minecoin
 # 
-# Otras variables:
+# Ajustes mina:
 #
-#  penalty - numero flotante, el numero de shares se
-#     multiplica con este numero al comparar con la
-#     dificultad (si incrementas este numero hace
-#     que dejes la mina antes de dificultad*0.43)
+#  role:       indica bH que tipo de mineria se desea en esta mina
+#              Elije un role valido desde la lista de arriba
+#  penalty:    numero flotante, el numero de shares se
+#              multiplica con este numero al comparar con la
+#              dificultad (si incrementas este numero hace
+#              que dejes la mina antes de dificultad*0.43)
+#  lp_penalty: normaliza las llamadas LP para esta mina (foro bH para mas info)
+#  user:       nombre del trabajador que se tiene que utilizar
+#  pass:       contraseña del trabajador (no se necesita para todas las minas)
 #
-#########################################################
+###############################################################################
 
 #######################################
 #     Estas minas se pueden saltar
@@ -69,14 +76,6 @@ role: mine
 mtred_user_apikey:d91c52cfe1609f161f28a1268a2915b8+
 user:scarium
 pass:x 
-
-[rfc]
-# Mina pequeña y mona
-#https://rfcpool.com/signup
-#CAMBIA A CONTINUACION
-role: info
-user: c00w_test
-pass: x
 
 [btcmonkey]
 # Mina amigable
@@ -128,8 +127,9 @@ user: x
 pass: y
 
 [bcpool]
+# Truca los stats json para que te quedes minando con ellos (pagina 184)
 # Desactiva las medidas anti-hopper si donas 1% (pagina 111)
-# Medidas anti-hopping basadas en "ventana de participacion" (pagina 36,)
+# Medidas anti-hopping basadas en "ventana de participacion" (pagina 36)
 #http://bitcoinpool.com
 #CAMBIA A CONTINUACION
 role: info
@@ -180,6 +180,7 @@ pass: testhop
 
 [btcmine]
 # Sistema de pago por puntuacion (pagina 164)
+# https://btcmine.com/user/register/
 #CAMBIA A CONTINUACION (si quieres)
 role: info
 user: your_username
@@ -245,6 +246,14 @@ swepool_user_apikey: xxxxxx
 user: your_username
 pass: your_password
 
+[i0g]
+# Mina i0coins, usa el rol mine_i0c
+#http://i0.btcguild.com/register.php
+#CHANGE THIS
+role: disable
+user: your_username
+pass: your_password
+
 ######################################
 # Minas de respaldo (backup) para
 # cuando no tienes ninguna mina
@@ -296,6 +305,26 @@ user: your_username
 pass: your_password
 
 ######################################
+# Minas Namecoin. Se pueden saltar
+# con mine_nmc si quieres algo de nmc
+######################################
+
+[bitparking]
+#http://bitparking.com/
+#CAMBIA A CONTINUACION (si quieres)
+role: info
+user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
+pass: x
+#las contraseñas no importan en BitParking
+
+[nmcbit]
+#http://nmcbit.com/
+#CAMBIA A CONTINUACION (si quieres)
+role: info
+user: x
+pass: x
+
+######################################
 # Estas minas no se saltan por una
 # razon. La pagina del hilo oficial
 # viene entre paréntesis.
@@ -304,18 +333,18 @@ pass: your_password
 # saltarlas a tu riesgo.
 ######################################
 
-[bitparking]
-# Mina Namecoin, utiliza mine_nmc . Buena para saltar si quieres ganar unos namecoins
-#http://bitparking.com/
-#CAMBIA A CONTINUACION (si quieres)
-role: info
-user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
+[rfc]
+# Mina cerrada (pagina 178) 
+# Mina pequeña y mona
+#https://rfcpool.com/signup
+#CAMBIA A CONTINUACION
+role: disable
+user: c00w_test
 pass: x
-#las contraseñas no importan en BitParking
 
 [oldpolmine]
 # El metodo antiguo para conseguir los stats
-# Delays and fakes stats (page 157)
+# Delays and fakes stats (pagina 157)
 # Nice polish pool
 #https://polmine.pl
 #CHANGE THIS

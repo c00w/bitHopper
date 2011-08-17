@@ -33,8 +33,6 @@
 			td.head {
 				border-bottom:2px solid white;
 			}
-			#headercontainer { position: fixed; top: 0; left: 0; right: 0; height: 85px; margin: 0; padding: 0; background-color: #272F87; }
-
 			
 		</style>
 		<title>bitHopper info</title>
@@ -43,10 +41,7 @@
 		<script type="text/javascript">
 
 			function getName(payload, srv) {
-				if(payload['servers'][payload['current']]['name'] == srv['name']) {
-                    return "<a href='" + srv['url']  + "' target='_blank' style='font-weight:bold;font-size:16px;text-decoration:underline;color:" + getColor(payload,srv) + ";'>" + srv['name'] + "</href>";
-                }
-                else return "<a href='" + srv['url']  + "' target='_blank' style='font-size:12px;text-decoration:underline;color:" + getColor(payload,srv) + ";'>" + srv['name'] + "</href>";
+				return "<a href='" + srv['url']  + "' target='_blank' style='text-decoration:underline;color:" + getColor(payload,srv) + ";'>" + srv['name'] + "</href>";
 			}
 
 			function getColor(payload, srv) {
@@ -97,20 +92,22 @@
 						srvName = v;
 					}
 				}
+				
+				if(srv["role"] != "backup") {
+					roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'disable');\" onFocus='this.blur();' style='border:1px solid black;";
+					if(srv["role"] == "disable") roles += "background-color:black;";
+					roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
 
-			    roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'disable');\" onFocus='this.blur();' style='border:1px solid black;";
-				if(srv["role"] == "disable") roles += "background-color:black;";
-				roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
+					roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'info');\" onFocus='this.blur();' style='border:1px solid yellow;";
+					if(srv["role"] == "info") roles += "background-color:yellow;";
+					roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
 
-				roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'info');\" onFocus='this.blur();' style='border:1px solid yellow;";
-				if(srv["role"] == "info") roles += "background-color:yellow;";
-				roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
-
-				roles += "<a href='#' onClick=\"setRole('" + srvName + "', '" + srv['default_role'] + "');\" onFocus='this.blur();' style='border:1px solid green;";
-				if(srv["role"][0] == "m" || srv["role"].substring(0,6) == "backup") roles += "background-color:green;";
-				roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
+					roles += "<a href='#' onClick=\"setRole('" + srvName + "', '" + srv['default_role'] + "');\" onFocus='this.blur();' style='border:1px solid green;";
+					if(srv["role"][0] == "m") roles += "background-color:green;";
+					roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
+				}
 			
-				var role = "<a href='#' onClick=\"selectRole('" + srvName + "', '" + srv["role"] + "')\" onFocus='this.blur();' style='text-decoration:underline;color:" + getColor(payload,srv) + ";'>" + srv["role"] + "</a>";
+				var role = "<a href='#' onClick=\"selectRole('" + srvName + "', '" + srv["role"] + "')\" onFocus='this.blur();' style='text-decoration:underline;color:white;'>" + srv["role"] + "</a>";
 			
 				return roles + role;
 			}
@@ -130,7 +127,7 @@
 			function getUserTime(payload, user, key){
 				var newDate = new Date(user['last']*1000);
 			    if (newDate != null) {
-				    dateString = newDate.toLocaleString();
+				    dateString = newDate.toUTCString();
 			    }
 				return dateString;
 			}
@@ -178,7 +175,7 @@
 					}
 				}
 				
-				payout = "<a href='#' onFocus='this.blur();' onClick=\"setPayout('" + srvName + "');\" style='text-decoration:underline;color:" + getColor(payload,srv) + ";'>" + srv["payout"].toFixed(8) + "</a>";
+				payout = "<a href='#' onFocus='this.blur();' onClick=\"setPayout('" + srvName + "');\" style='text-decoration:underline;color:white;'>" + srv["payout"].toFixed(8) + "</a>";
 				
 				return payout + "<br />Exp:&nbsp;" + srv['expected_payout'].toFixed(8);
 			}
@@ -189,7 +186,7 @@
 				expect  = parseFloat((parseFloat(payout)/expect) * 100).toFixed(1);
 				var pay_str = expect +  "%";
 				if (isNaN(expect)) {
-					pay_str = "-";
+					pay_str = "&nbsp;";
 				}
 				return pay_str;
 			}
@@ -204,11 +201,11 @@
 			function getSlice(payload, srv) {
 				var name = srv['pool_index'];
                 if (payload['sliceinfo'] == undefined)
-                    return "-"
+                    return ""
 				if (payload['sliceinfo'][name] >= 0)
 					return parseFloat(payload['sliceinfo'][name]).toFixed(0)
 				else
-					return "-"
+					return ""
 			}
 			
 			function getPenalty(payload, srv) {
@@ -217,7 +214,7 @@
 					 penalty = parseFloat(srv['penalty']);
 				}
 				var penalty_html = "<a href='#' onFocus='this.blur();' onClick=\"setPenalty('"
-				penalty_html = penalty_html + srvName + "');\" style='text-decoration:underline;color:" + getColor(payload,srv) + ";'>"
+				penalty_html = penalty_html + srvName + "');\" style='text-decoration:underline;color:white;'>"
 				penalty_html = penalty_html + penalty.toFixed(2) + "</a>";			
 				return penalty_html;
 			}
@@ -329,21 +326,21 @@
 		
 			function update() {
 				$.getJSON('/data', function(data) {
-					document.title = data["current"] + '@ bitHopper';
-					$("#current").html("<span style='font-weight:bold;color:yellow;'>" + data["current"] + "</span> @" + parseInt(data["mhash"]) + "MHash");
+					document.title = 'bitHopper @ ' + data["current"];
+					$("#current").html("<span style='color:yellow;'>" + data["current"] + "</span> @" + parseInt(data["mhash"]) + "MHash");
 
 					updateRoundShares(data);
 					
 					buildTable("#table", data['servers'], data,
 						{
 							'Server': { 'data':getName, 'color':getColor },
-							'Shares': { 'data':getShares, 'color':getColor, 'align':'right' },
+							'Shares': { 'data':getShares, 'align':'right' },
 							'Role': { 'data':getRole },
-							'User&nbsp;Shares<br>Rejects': { 'data':getUserShareRejects, 'color':getColor, 'align':'center' },
-							'Payout': { 'data':getPayout, 'color':getColor, 'align':'center' },
-							'Efficiency': { 'data':getEfficiency, 'color':getColor, 'align':'center' },
-							'Penalty': { 'data':getPenalty, 'color':getColor, 'align':'center' },
-							'Slice': { 'data':getSlice, 'color':getColor, 'align':'center' },
+							'User&nbsp;Shares<br>Rejects': { 'data':getUserShareRejects, 'align':'right' },
+							'Payout': { 'data':getPayout, 'align':'right' },
+							'Efficiency': { 'data':getEfficiency, 'align':'right' },
+							'Penalty': { 'data':getPenalty, 'align':'right' },
+							'Slice': { 'data':getSlice, 'align':'right' },
 							'Round Shares': { 'data':getRoundShares, 'type':'linechart', 'width':'100%' }
 						},
 						function(a, b) {
@@ -360,10 +357,10 @@
 					buildTable("#users", users, users,
 						{
 							"User": { 'data':getUserName } ,
-							"Last Seen": { 'data':getUserTime, 'align':'left' },
-							"Shares": { 'data':getUserShares, 'align':'center' },
-							"Rejects": { 'data':getUserRejects, 'align':'center' },
-							"Hashrate": { 'data':getUserHashrate, 'align':'center' }  
+							"Last Seen": {'data':getUserTime, 'align':'right' },
+							"Shares": { 'data':getUserShares, 'align':'right' },
+							"Rejects": {'data':getUserRejects, 'align':'right'},
+							"Hashrate": {'data':getUserHashrate, 'align':'right'}  
 						}
 					);
 					
@@ -377,16 +374,14 @@
 		</script>
 	</head>
 	<body>
-	<div id="headercontainer">	
+	
 		<h1 id="current"></h1>
 		<span style="padding:5px;">
-			<span style="background-color:black;width:20px;height:20px;">&nbsp;&nbsp;</span> Disabled
-			<span style="background-color:yellow;width:20px;height:20px;">&nbsp;&nbsp;</span> Info
-			<span style="background-color:green;width:20px;height:20px;">&nbsp;&nbsp;</span> Mine
-			<span style="background-color:#FF3232;width:20px;height:20px;color:white;font-family:Arial,Helvetica,sans-serif;font-size:20px;"><b>Please Donate to c00w:1HEmzeuVEKxBQkEenysV1yM8oAddQ4o2TX</b></span> 
+			<span style="background-color:black;width:20px;height:20px;">&nbsp;&nbsp;</span> disabled
+			<span style="background-color:yellow;width:20px;height:20px;">&nbsp;&nbsp;</span> info
+			<span style="background-color:green;width:20px;height:20px;">&nbsp;&nbsp;</span> mine
 		</span>
-	</div>
-		<br /><br /><br /><br /><br />
+		<br /><br />
 		<div id="table"></div>
 		<div id="users"></div>
 	</body>
