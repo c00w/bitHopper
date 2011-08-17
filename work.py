@@ -64,7 +64,7 @@ class Work():
             request = json.dumps({'method':'getwork', 'params':[], 'id':self.i}, ensure_ascii = True)            
             pool = self.bitHopper.pool.servers[server]
             header = {'Authorization':["Basic " +base64.b64encode(pool['user']+ ":" + pool['pass'])], 'User-Agent': ['poclbm/20110709'],'Content-Type': ['application/json'] }
-            d = self.lp_agent.request('GET', "http://" + url, Headers(header), StringProducer(request))
+            d = self.lp_agent.request('GET', url, Headers(header), StringProducer(request))
             body = yield d
             if body == None:
                 lp.receive(None,server)
