@@ -6,13 +6,15 @@
 #      archivo a "user.cfg"
 #######################################
 
-#########################################################
+###############################################################################
 # Los "role" (roles) validos son:
 #
 # mine = mina como esta mandado, normal (dificultad*0.43)
 # mine_slush = en esta se queda hasta dificultad.*0.10
 # mine_deepbit = monitorea y prueba suerte minar en
 #   esta mina sin utilizar la api
+# mine_ixc = mina y dificultad ixcoins
+# mine_i0c = mina y dificultad i0coins
 # backup = viene a minar en esta si no tiene ninguna 
 #   mina Proporcional disponible
 # backup_latehop = prefiere minar en esta como backup si
@@ -24,14 +26,19 @@
 #   su entrada del todo si no quieres que aparezca en stats)
 # mine_nmc = indica que es una mina minecoin
 # 
-# Otras variables:
+# Ajustes mina:
 #
-#  penalty - numero flotante, el numero de shares se
-#     multiplica con este numero al comparar con la
-#     dificultad (si incrementas este numero hace
-#     que dejes la mina antes de dificultad*0.43)
+#  role:       indica bH que tipo de mineria se desea en esta mina
+#              Elije un role valido desde la lista de arriba
+#  penalty:    numero flotante, el numero de shares se
+#              multiplica con este numero al comparar con la
+#              dificultad (si incrementas este numero hace
+#              que dejes la mina antes de dificultad*0.43)
+#  lp_penalty: normaliza las llamadas LP para esta mina (foro bH para mas info)
+#  user:       nombre del trabajador que se tiene que utilizar
+#  pass:       contraseña del trabajador (no se necesita para todas las minas)
 #
-#########################################################
+###############################################################################
 
 #######################################
 #     Estas minas se pueden saltar
@@ -120,8 +127,9 @@ user: x
 pass: y
 
 [bcpool]
+# Truca los stats json para que te quedes minando con ellos (pagina 184)
 # Desactiva las medidas anti-hopper si donas 1% (pagina 111)
-# Medidas anti-hopping basadas en "ventana de participacion" (pagina 36,)
+# Medidas anti-hopping basadas en "ventana de participacion" (pagina 36)
 #http://bitcoinpool.com
 #CAMBIA A CONTINUACION
 role: info
@@ -172,6 +180,7 @@ pass: testhop
 
 [btcmine]
 # Sistema de pago por puntuacion (pagina 164)
+# https://btcmine.com/user/register/
 #CAMBIA A CONTINUACION (si quieres)
 role: info
 user: your_username
@@ -234,6 +243,14 @@ pass: your_password
 #CAMBIA A CONTINUACION (si quieres)
 role: info
 swepool_user_apikey: xxxxxx
+user: your_username
+pass: your_password
+
+[i0g]
+# Mina i0coins, usa el rol mine_i0c
+#http://i0.btcguild.com/register.php
+#CHANGE THIS
+role: disable
 user: your_username
 pass: your_password
 

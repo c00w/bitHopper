@@ -14,6 +14,7 @@ class Difficulty():
         self.difficulty = 1690906.2047244
         self.nmc_difficulty = 94037.96
         self.ixc_difficulty = 16384
+        self.i0c_difficulty = 1
         call = LoopingCall(self.update_difficulty)
         call.start(60*60*6)
 
@@ -25,6 +26,9 @@ class Difficulty():
 
     def get_ixc_difficulty(self):
         return self.ixc_difficulty
+    
+    def get_i0c_difficulty(self):
+        return self.i0c_difficulty
 
     def update_difficulty(self):
         "Tries to update difficulty from the internet"

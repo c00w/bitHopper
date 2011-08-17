@@ -1,7 +1,7 @@
 # Licencia
 bitHopper por Colin Rice bajo licencia Creative Commons
 "Attribution-NonCommercial-ShareAlike 3.0 Unported License".
-Basado en trabajo hecho en github.com.
+Basado en trabajo hecho en github.com
 
 # Instructiones
 
@@ -55,7 +55,7 @@ Puedes lanzar bH con los siguientes parametros:
 	--startLP         = Engancha LP en las minas conocidas
 	--noLP            = Desactiva LP para clientes
 	--debug	          = Visiona la salida de twisted
-	--p2pLP           = Inicia el bot IRC para poder validar mucho mejor los saltos LP. Se utiliza en conjunto con --startLP
+	--p2pLP           = Inicia el bot IRC para poder validar mucho mejor los saltos LP
 	--ip              = IP donde escuchar
 	--auth            = Pide usuario y contraseña para pagina stats (--auth usuario,contraseña)
 
