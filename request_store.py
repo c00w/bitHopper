@@ -12,8 +12,8 @@ class Request_store:
         self.data = {}
         self.bitHopper = bitHopper
 
-    def add(self, request):
-        self.data[request] = time.time()
+    def add(self, request, save_time = 0):
+        self.data[request] = time.time() + time * 60
         d = request.notifyFinish()
         d.addCallback(self.notifyFinished, request)
         d.addErrback(self.notifyFinished, request)
