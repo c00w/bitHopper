@@ -13,6 +13,7 @@
 # mine_slush = en esta se queda hasta dificultad.*0.10
 # mine_deepbit = monitorea y prueba suerte minar en
 #   esta mina sin utilizar la api
+# mine_nmc = indica que es una mina minecoin
 # mine_ixc = mina y dificultad ixcoins
 # mine_i0c = mina y dificultad i0coins
 # backup = viene a minar en esta si no tiene ninguna 
@@ -24,7 +25,6 @@
 # info = solo muestra informacion sobre esta mina en stats
 # disable = desactiva completamente la mina (puedes borrar
 #   su entrada del todo si no quieres que aparezca en stats)
-# mine_nmc = indica que es una mina minecoin
 # 
 # Ajustes mina:
 #

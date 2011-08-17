@@ -12,6 +12,7 @@
 # mine_slush = mines pool until diff.*0.10
 # mine_deepbit = monitor and makes educated guess mining
 #   without using the api
+# mine_nmc = setup pool for NMC mining
 # mine_ixc = ixcoins pool and diff.
 # mine_i0c = i0coins pool and diff.
 # backup = hopps on this when no Prop. pool is available
@@ -22,7 +23,6 @@
 # info = shows share count for this pool on stat page
 # disable = disables pool completely (you can delete 
 # pool's entry in this cfg file too)
-# mine_nmc = setup pool for NMC mining
 # 
 # Pool set-up:
 #
