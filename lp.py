@@ -2,13 +2,13 @@
 #bitHopper by Colin Rice is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-import work
 import json
 import exceptions
 import time
 import threading
 
 from twisted.internet import reactor, defer
+from twisted.internet.task import LoopingCall
 
 def byteswap(value):
     bytes = []
@@ -25,6 +25,8 @@ class LongPoll():
         self.lastBlock = None
         self.errors = {}
         self.polled = {}
+        startlp = LoopingCall(self.start_lp)
+        startlp.start(60*60)
 
     def set_owner(self,server):
         if self.lastBlock != None:
@@ -43,7 +45,7 @@ class LongPoll():
         # Do a getwork.
         for server in self.pool.servers:
             info = self.pool.servers[server]
-            if info['role'] not in ['mine','mine_charity','mine_deepbit','info', 'backup','backup_latehop','disable']:
+            if info['role'] not in ['mine','mine_charity','mine_deepbit','mine_i0c','info','backup','backup_latehop','disable']:
                 continue
             if info['lp_address'] != None:
                 self.pull_lp(info['lp_address'],server)
@@ -53,7 +55,7 @@ class LongPoll():
                 
     def pull_server(self,server):
         # A helper function so that we can have this in a different call.
-        work.jsonrpc_call(self.bitHopper.json_agent, server, [], self.bitHopper)
+        self.bitHopper.work.jsonrpc_call(server, [])
 
     def lp_api(self,server,block):
 	if self.bitHopper.pool.servers[server]['role'] == 'mine_deepbit':
@@ -79,7 +81,7 @@ class LongPoll():
         self.polled[server].release()
         self.bitHopper.log_dbg('received lp from: ' + server)
         info = self.bitHopper.pool.servers[server]
-        if info['role'] in ['mine_nmc','disable','mine_ixc']:
+        if info['role'] in ['mine_nmc','disable','mine_ixc','mine_i0c']:
             return
         if body == None:
             self.bitHopper.log_dbg('error in lp from: ' + server)
@@ -157,13 +159,15 @@ class LongPoll():
             lp_address = str(pool['mine_address']) + str(url)
         else:
             lp_address = str(url)
+        if lp_address[0:7] != 'http://':
+            lp_address = "http://" + lp_address
         try:
             if self.polled[server].acquire(False):
                 if output:
                     self.bitHopper.log_msg("LP Call " + lp_address)
                 else:
                     self.bitHopper.log_dbg("LP Call " + lp_address)
-                work.jsonrpc_lpcall(self.bitHopper.get_lp_agent(),server, lp_address, self)
+                self.bitHopper.work.jsonrpc_lpcall(server, lp_address, self)
         except Exception,e :
             self.bitHopper.log_dbg('pull_lp error')
             self.bitHopper.log_dbg(e)

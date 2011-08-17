@@ -17,7 +17,7 @@ except:
 class Pool():
     def __init__(self,bitHopper):
         self.servers = {}
-        self.api_pull = ['mine','info','mine_slush','mine_nmc','mine_ixc','mine_charity','mine_deepbit','backup','backup_latehop']
+        self.api_pull = ['mine','info','mine_slush','mine_nmc','mine_ixc','mine_i0c','mine_charity','mine_deepbit','backup','backup_latehop']
         self.initialized = False
         self.loadConfig()
 
@@ -98,6 +98,7 @@ class Pool():
             if self.servers[server]['default_role'] in ['info','disable']:
                 self.servers[server]['default_role'] = 'mine'
         self.servers = OrderedDict(sorted(self.servers.items(), key=lambda t: t[1]['role'] + t[0]))
+        self.bitHopper.reactor.callLater(0, self.update_api_servers, bitHopper)
             
     def get_entry(self, server):
         if server in self.servers:
@@ -215,6 +216,8 @@ class Pool():
 
         elif server['api_method'] == 're':
             output = re.search(server['api_key'],response)
+            if output == None:
+                return
             if 'api_group' in server:
                 output = output.group(int(server['api_group']))
             else:
@@ -408,7 +411,7 @@ class Pool():
             return
         info = self.servers[server]
         self.bitHopper.scheduler.update_api_server(server)
-        d = work.get(self.bitHopper.json_agent,info['api_address'])
+        d = self.bitHopper.work.get(info['api_address'])
         d.addCallback(self.selectsharesResponse, (server))
         d.addErrback(self.errsharesResponse, (server))
         d.addErrback(self.bitHopper.log_msg)
@@ -419,7 +422,7 @@ class Pool():
             info = self.servers[server]
             update = self.api_pull
             if info['role'] in update:
-                d = work.get(self.bitHopper.json_agent,info['api_address'])
+                d = bitHopper.work.get(info['api_address'])
                 d.addCallback(self.selectsharesResponse, (server))
                 d.addErrback(self.errsharesResponse, (server))
                 d.addErrback(self.bitHopper.log_msg)

@@ -50,12 +50,9 @@ class Data():
 
     def reject_callback(self,server,data,user,password):
         try:
-            if data == 'False':
-                self.db.update_rejects(server,1, user, password)
-                self.pool.get_servers()[server]['rejects'] += 1
-                self.user_reject_add(user, password, 1, server)
-
-                #self.bitHopper.log_msg('[' + data[72:136] + '] => ' + self.bitHopper.pool.servers[server]['name'] + " REJECTED!")
+            self.db.update_rejects(server,1, user, password)
+            self.pool.get_servers()[server]['rejects'] += 1
+            self.user_reject_add(user, password, 1, server)
         except Exception, e:
             self.bitHopper.log_dbg('reject_callback_error')
             self.bitHopper.log_dbg(str(e))

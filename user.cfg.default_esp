@@ -13,6 +13,8 @@
 # mine_slush = en esta se queda hasta dificultad.*0.10
 # mine_deepbit = monitorea y prueba suerte minar en
 #   esta mina sin utilizar la api
+# mine_ixc = mina y dificultad ixcoins
+# mine_i0c = mina y dificultad i0coins
 # backup = viene a minar en esta si no tiene ninguna 
 #   mina Proporcional disponible
 # backup_latehop = prefiere minar en esta como backup si
@@ -125,8 +127,9 @@ user: x
 pass: y
 
 [bcpool]
+# Truca los stats json para que te quedes minando con ellos (pagina 184)
 # Desactiva las medidas anti-hopper si donas 1% (pagina 111)
-# Medidas anti-hopping basadas en "ventana de participacion" (pagina 36,)
+# Medidas anti-hopping basadas en "ventana de participacion" (pagina 36)
 #http://bitcoinpool.com
 #CAMBIA A CONTINUACION
 role: info
@@ -177,6 +180,7 @@ pass: testhop
 
 [btcmine]
 # Sistema de pago por puntuacion (pagina 164)
+# https://btcmine.com/user/register/
 #CAMBIA A CONTINUACION (si quieres)
 role: info
 user: your_username
@@ -239,6 +243,14 @@ pass: your_password
 #CAMBIA A CONTINUACION (si quieres)
 role: info
 swepool_user_apikey: xxxxxx
+user: your_username
+pass: your_password
+
+[i0g]
+# Mina i0coins, usa el rol mine_i0c
+#http://i0.btcguild.com/register.php
+#CHANGE THIS
+role: disable
 user: your_username
 pass: your_password
 
