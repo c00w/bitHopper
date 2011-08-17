@@ -1,67 +1,66 @@
 #!/usr/bin/python
 #License#
-#bitHopper by Colin Rice is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
+#bitHopper by Colin Rice is licensed under a Creative Commons
+# Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-import os.path
 import time
 import random
 
 from twisted.internet.task import LoopingCall
-from twisted.web import server, resource
 
 class Scheduler(object):
-   def __init__(self,bitHopper):
-      self.bh = bitHopper
-      self.initData()
+    def __init__(self,bitHopper):
+        self.bh = bitHopper
+        self.initData()
 
-   def initData(self,):
-      if self.bh.options.threshold:
-         self.difficultyThreshold = self.bh.options.threshold
-      else:
-         self.difficultyThreshold = 0.435
-      self.valid_roles = ['mine','mine_nmc','mine_deepbit','mine_slush','mine_ixc','mine_i0c']
-      return
+    def initData(self,):
+        if self.bh.options.threshold:
+            self.difficultyThreshold = self.bh.options.threshold
+        else:
+            self.difficultyThreshold = 0.435
+        self.valid_roles = ['mine','mine_nmc','mine_deepbit','mine_slush','mine_ixc','mine_i0c']
+        return
 
-   @classmethod
-   def server_update(self,):
-      return
+    @classmethod
+    def server_update(self,):
+        return
 
-   @classmethod
-   def select_best_server(self,):
-      return
+    @classmethod
+    def select_best_server(self,):
+        return
 
-   def select_charity_server(self):
-      server_name = None
-      most_shares = self.bh.difficulty.get_difficulty() * 2
-      for server in self.bh.pool.get_servers():
-         info = self.bh.pool.get_entry(server)
-         if info['role'] != 'mine_charity':
-            continue
-         if info['shares'] > most_shares and info['lag'] == False:
-            server_name = server
-            most_shares = info['shares']
-            self.bh.log_dbg('select_charity_server: ' + str(server), cat='scheduler-default')
+    def select_charity_server(self):
+        server_name = None
+        most_shares = self.bh.difficulty.get_difficulty() * 2
+        for server in self.bh.pool.get_servers():
+            info = self.bh.pool.get_entry(server)
+            if info['role'] != 'mine_charity':
+                continue
+            if info['shares'] > most_shares and info['lag'] == False:
+                server_name = server
+                most_shares = info['shares']
+                self.bh.log_dbg('select_charity_server: ' + str(server), cat='scheduler-default')
 
-      return server_name
+        return server_name
 
-   def select_latehop_server(self):
-      server_name = None
-      max_share_count = 1
-      for server in self.bh.pool.get_servers():
-         info = self.bh.pool.get_entry(server)
-         if info['api_lag'] or info['lag']:
-            continue
-         if info['role'] != 'backup_latehop':
-            continue
-         if info['shares'] > max_share_count:
-            server_name = server
-            max_share_count = info['shares']
-            #self.bh.log_dbg('select_latehop_server: ' + str(server), cat='scheduler-default')
+    def select_latehop_server(self):
+        server_name = None
+        max_share_count = 1
+        for server in self.bh.pool.get_servers():
+            info = self.bh.pool.get_entry(server)
+            if info['api_lag'] or info['lag']:
+                continue
+            if info['role'] != 'backup_latehop':
+                continue
+            if info['shares'] > max_share_count:
+                server_name = server
+                max_share_count = info['shares']
+                #self.bh.log_dbg('select_latehop_server: ' + str(server), cat='scheduler-default')
 
-      return server_name   
+        return server_name   
 
-   def server_to_btc_shares(self,server):
+    def server_to_btc_shares(self,server):
         difficulty = self.bh.difficulty.get_difficulty()
         nmc_difficulty = self.bh.difficulty.get_nmc_difficulty()
         ixc_difficulty = self.bh.difficulty.get_ixc_difficulty()
@@ -84,84 +83,86 @@ class Scheduler(object):
             shares = shares * float(info['penalty'])
         return shares, info
 
-   def select_backup_server(self,):
-      #self.bh.log_dbg('select_backup_server', cat='scheduler-default')
-      server_name = self.select_latehop_server()
-      reject_rate = 1      
+    def select_backup_server(self,):
+        #self.bh.log_dbg('select_backup_server', cat='scheduler-default')
+        server_name = self.select_latehop_server()
+        reject_rate = 1      
 
-      difficulty = self.bh.difficulty.get_difficulty()
-      nmc_difficulty = self.bh.difficulty.get_nmc_difficulty()
+        difficulty = self.bh.difficulty.get_difficulty()
+        nmc_difficulty = self.bh.difficulty.get_nmc_difficulty()
 
-      if server_name == None:
-         for server in self.bh.pool.get_servers():
-            info = self.bh.pool.get_entry(server)
-            if info['role'] not in ['backup', 'backup_latehop']:
-               continue
-            if info['lag']:
-               continue
-            shares = info['user_shares']+1
-            rr_server = float(info['rejects'])/shares
-            if 'penalty' in info:
-                rr_server += float(info['penalty'])/100
-            if rr_server < reject_rate:
-               server_name = server
-               self.bh.log_dbg('select_backup_server: ' + str(server), cat='select_backup_server')
-               reject_rate = rr_server
+        if server_name == None:
+            for server in self.bh.pool.get_servers():
+                info = self.bh.pool.get_entry(server)
+                if info['role'] not in ['backup', 'backup_latehop']:
+                    continue
+                if info['lag']:
+                    continue
+                shares = info['user_shares']+1
+                rr_server = float(info['rejects'])/shares
+                if 'penalty' in info:
+                    rr_server += float(info['penalty'])/100
+                if rr_server < reject_rate:
+                    server_name = server
+                    self.bh.log_dbg('select_backup_server: ' + str(server), cat='select_backup_server')
+                    reject_rate = rr_server
 
-      if server_name == None:
-         #self.bh.log_dbg('Try another backup' + str(server), cat='scheduler-default')
-         min_shares = 10**10
-         for server in self.bh.pool.get_servers():
-            shares,info = self.server_to_btc_shares(server)
-            if info['role'] not in self.valid_roles:
-                continue
-            if shares < min_shares and not info['lag']:
-                min_shares = shares
-                #self.bh.log_dbg('Selecting pool ' + str(server) + ' with shares ' + str(shares), cat='select_backup_server')
+        if server_name == None:
+            #self.bh.log_dbg('Try another backup' + str(server), cat='scheduler-default')
+            min_shares = 10**10
+            for server in self.bh.pool.get_servers():
+                shares,info = self.server_to_btc_shares(server)
+                if info['role'] not in self.valid_roles:
+                    continue
+                if shares < min_shares and not info['lag']:
+                    min_shares = shares
+                    #self.bh.log_dbg('Selecting pool ' + str(server) + ' with shares ' + str(shares), cat='select_backup_server')
+                    server_name = server
+          
+        if server_name == None:
+            #self.bh.log_dbg('Try another backup pt2' + str(server), cat='scheduler-default')
+            for server in self.bh.pool.get_servers():
+                info = self.bh.pool.get_entry(server)
+                if info['role'] != 'backup':
+                    continue
                 server_name = server
-      
-      if server_name == None:
-         #self.bh.log_dbg('Try another backup pt2' + str(server), cat='scheduler-default')
-         for server in self.bh.pool.get_servers():
-            info = self.bh.pool.get_entry(server)
-            if info['role'] != 'backup':
-               continue
-            server_name = server
-            break
+                break
 
-      return server_name
+        return server_name
 
-   def update_api_server(self,server):
-      return
+    def update_api_server(self,server):
+        return
 
 class OldDefaultScheduler(Scheduler):
 
-   def select_best_server(self,):
-      #self.bh.log_dbg('select_best_server', cat='scheduler-default')
-      server_name = None
-      difficulty = self.bh.difficulty.get_difficulty()
-      nmc_difficulty = self.bh.difficulty.get_nmc_difficulty()
-      min_shares = difficulty * self.difficultyThreshold
-        
-      #self.bh.log_dbg('min-shares: ' + str(min_shares), cat='scheduler-default')  
-      for server in self.bh.pool.get_servers():
-         shares,info = self.server_to_btc_shares(server)
-         if info['api_lag'] or info['lag']:
-            continue
-         if info['role'] not in self.valid_roles:
-            continue
-         if shares< min_shares:
-            min_shares = shares
-            #self.bh.log_dbg('Selecting pool ' + str(server) + ' with shares ' + str(info['shares']), cat='scheduler-default')
-            server_name = server
-         
-      if server_name == None:
-         server_name = self.select_charity_server()
+    def select_best_server(self,):
+        #self.bh.log_dbg('select_best_server', cat='scheduler-default')
+        server_name = None
+        difficulty = self.bh.difficulty.get_difficulty()
+        nmc_difficulty = self.bh.difficulty.get_nmc_difficulty()
+        min_shares = difficulty * self.difficultyThreshold
 
-      if server_name == None: return self.select_backup_server()
-      else: return server_name   
+        #self.bh.log_dbg('min-shares: ' + str(min_shares), cat='scheduler-default')  
+        for server in self.bh.pool.get_servers():
+            shares,info = self.server_to_btc_shares(server)
+            if info['api_lag'] or info['lag']:
+                continue
+            if info['role'] not in self.valid_roles:
+                continue
+            if shares< min_shares:
+                min_shares = shares
+                #self.bh.log_dbg('Selecting pool ' + str(server) + ' with shares ' + str(info['shares']), cat='scheduler-default')
+                server_name = server
+         
+        if server_name == None:
+            server_name = self.select_charity_server()
+
+        if server_name == None:     
+            return self.select_backup_server()
+        else: 
+            return server_name   
    
-   def select_latehop_server(self):
+    def select_latehop_server(self):
       server_name = None
       max_share_count = 1
       for server in self.bh.pool.get_servers():
@@ -177,7 +178,7 @@ class OldDefaultScheduler(Scheduler):
 
       return server_name   
 
-   def server_update(self,):
+    def server_update(self,):
       current = self.bh.pool.get_current()
       shares,info = self.server_to_btc_shares(current)
       difficulty = self.bh.difficulty.get_difficulty()
