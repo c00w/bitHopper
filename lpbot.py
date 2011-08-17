@@ -33,7 +33,7 @@ class LpBot(SimpleIRCClient):
 	def _connect(self):
 		print "Connecting..."
 		try:
-			self.connect('chat.freenode.net', 6667, self.nick)
+			self.connect('irc.pedanticstoner.com', 6667, self.nick)
 		except Exception, e:
 			print e
 
