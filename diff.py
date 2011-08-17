@@ -11,10 +11,10 @@ class Difficulty():
     "Stores difficulties and automaticlaly updates them"
     def __init__(self, bitHopper):
         self.bitHopper = bitHopper
-        self.difficulty = 1690906.2047244
+        self.difficulty = 1805700.8361937
         self.nmc_difficulty = 94037.96
         self.ixc_difficulty = 16384
-        self.i0c_difficulty = 1
+        self.i0c_difficulty = 4096
         call = LoopingCall(self.update_difficulty)
         call.start(60*60*6)
 
