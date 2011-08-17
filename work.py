@@ -5,10 +5,11 @@
 
 import json
 import base64
-
+import traceback
 from zope.interface import implements
 
 from client import Agent
+from _newclient import Request
 from twisted.web.iweb import IBodyProducer
 from twisted.web.http_headers import Headers
 from twisted.internet import defer
@@ -63,7 +64,7 @@ class Work():
             request = json.dumps({'method':'getwork', 'params':[], 'id':self.i}, ensure_ascii = True)            
             pool = self.bitHopper.pool.servers[server]
             header = {'Authorization':["Basic " +base64.b64encode(pool['user']+ ":" + pool['pass'])], 'User-Agent': ['poclbm/20110709'],'Content-Type': ['application/json'] }
-            d = self.agent.request('GET', "http://" + url, Headers(header), request)
+            d = self.lp_agent.request('GET', "http://" + url, Headers(header), StringProducer(request))
             body = yield d
             if body == None:
                 lp.receive(None,server)
@@ -76,6 +77,8 @@ class Work():
         except Exception, e:
             self.bitHopper.log_dbg('Error in lpcall work.py')
             self.bitHopper.log_dbg(e)
+            #traceback.print_exc()
+            #print e.reasons[0]
             lp.receive(None,server)
             defer.returnValue(None)
     
