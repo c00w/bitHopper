@@ -19,9 +19,9 @@ class Pool():
         self.servers = {}
         self.api_pull = ['mine','info','mine_slush','mine_nmc','mine_ixc','mine_i0c','mine_charity','mine_deepbit','backup','backup_latehop']
         self.initialized = False
-        self.loadConfig()
+        self.loadConfig(bitHopper)
 
-    def loadConfig(self,):
+    def loadConfig(self,bitHopper):
         parser = ConfigParser.SafeConfigParser()
         try:
             # determine if application is a script file or frozen exe

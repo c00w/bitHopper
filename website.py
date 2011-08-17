@@ -114,7 +114,7 @@ class dynamicSite(resource.Resource):
             if "reloadconfig" in v:
                self.bh.log_msg('User forced configuration reload')
                try:
-                    self.pool.loadConfig()
+                    self.pool.loadConfig(self.bh)
                except Exception,e:
                     self.bh.log_dbg('Incorrect http post reloadconfig')
                     self.bh.log_dbg(e)
