@@ -1,5 +1,6 @@
 #License#
-#bitHopper by Colin Rice is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
+#bitHopper by Colin Rice is licensed under a Creative Commons
+# Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
 import time
@@ -19,7 +20,6 @@ class Getwork_store:
     
     def get_server(self, merkle_root):
         if self.data.has_key(merkle_root):
-            #self.bitHopper.log_msg('[' + merkle_root + '] found => ' + self.bitHopper.pool.servers[self.data[merkle_root][0]]['name'])
             return self.data[merkle_root][0]
         #self.bitHopper.log_msg('[' + merkle_root + '] NOT FOUND!')
         return None
