@@ -40,13 +40,14 @@
 #
 ###############################################################################
 
-#######################################
-#     These Pools are hoppable
+##########################################################
+#            These Pools are hoppable
 #
-# Advice: Please search the bitHopper
-# forum thread for detailed information
-# on every pool you want to hop
-#######################################
+# Advice: Please search the bitHopper forum thread
+# for detailed information on every pool you want to hop.
+# For info. regarding pools speed you can visit bH's wiki
+# https://github.com/c00w/bitHopper/wiki/Pool-status
+##########################################################
 
 [slush]
 # Good for mining until 10% of diff. - use mine_slush

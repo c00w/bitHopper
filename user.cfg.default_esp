@@ -40,14 +40,14 @@
 #
 ###############################################################################
 
-#######################################
-#     Estas minas se pueden saltar
+################################################################
+#                Estas minas se pueden saltar
 #
-# Nota: Por favor busca informacion en
-#    el hilo de bitHopper o en otra
-#    fuente confiable sobre cualquier
-#    mina que quieras saltar.
-#######################################
+# Nota: Por favor busca informacion en el hilo de bH o en otra
+# fuente confiable sobre cualquier mina que quieras saltar.
+# Para info. sobre velocidad de las minas puedes visitar la
+# wiki de bH https://github.com/c00w/bitHopper/wiki/Pool-status
+################################################################
 
 [slush]
 # Buena para saltar hasta 10% de dificultad, utiliza mine_slush
