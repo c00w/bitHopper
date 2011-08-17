@@ -227,7 +227,7 @@ class Pool():
                 output = output.replace(strip_str,'')
             round_shares = int(output)
             if round_shares == None:
-                round_shares = int(bitHopper.difficulty.get_difficulty())
+                round_shares = int(self.bitHopper.difficulty.get_difficulty())
             self.UpdateShares(args,round_shares)
             
         elif server['api_method'] == 're_rateduration':
