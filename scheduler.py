@@ -353,7 +353,7 @@ class AltSliceScheduler(Scheduler):
          self.bh.log_msg(" - Target duration: " + str(int(self.target_duration)) + "(s) or " + str(int(self.target_duration/60)) + " minutes", cat=self.name)
             
    def select_best_server(self,):
-      self.bh.log_dbg('select_best_server', cat=self.name)
+      self.bh.log_trace('select_best_server', cat=self.name)
       server_name = None
       difficulty = self.bh.difficulty.get_difficulty()
       nmc_difficulty = self.bh.difficulty.get_nmc_difficulty()
