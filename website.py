@@ -5,7 +5,6 @@
 
 import os
 import json
-import os
 import sys
 from twisted.web import server, resource
 from twisted.web.http import UNAUTHORIZED
@@ -54,7 +53,7 @@ class dynamicSite(resource.Resource):
                 application_path = os.path.dirname(__file__)          
           index = os.path.join(application_path, index_name)
         except:
-          index = os.path.join(os.curdir(), index_name)
+          index = os.path.join(os.curdir, index_name)
         file = open(index, 'r')
         linestring = file.read()
         file.close
