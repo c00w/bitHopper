@@ -32,5 +32,5 @@ class Request_store:
 
     def prune(self):
         for key, work in self.data.items():
-            if work[0] < (time.time() - (60*5)):
+            if work < (time.time() - (60*5)):
                 del self.data[key]
