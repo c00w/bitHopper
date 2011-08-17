@@ -91,6 +91,7 @@ class Pool():
             if self.servers[server]['default_role'] in ['info','disable']:
                 self.servers[server]['default_role'] = 'mine'
         self.servers = OrderedDict(sorted(self.servers.items(), key=lambda t: t[1]['role'] + t[0]))
+        self.bitHopper.reactor.callLater(0, self.update_api_servers, bitHopper)
             
     def get_entry(self, server):
         if server in self.servers:

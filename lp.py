@@ -8,6 +8,7 @@ import time
 import threading
 
 from twisted.internet import reactor, defer
+from twisted.internet.task import LoopingCall
 
 def byteswap(value):
     bytes = []
@@ -24,6 +25,8 @@ class LongPoll():
         self.lastBlock = None
         self.errors = {}
         self.polled = {}
+        startlp = LoopingCall(self.start_lp)
+        startlp.start(60*60)
 
     def set_owner(self,server):
         if self.lastBlock != None:
