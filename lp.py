@@ -2,7 +2,6 @@
 #bitHopper by Colin Rice is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-import work
 import json
 import exceptions
 import time
@@ -53,7 +52,7 @@ class LongPoll():
                 
     def pull_server(self,server):
         # A helper function so that we can have this in a different call.
-        work.jsonrpc_call(self.bitHopper.json_agent, server, [], self.bitHopper)
+        self.bitHopper.work.jsonrpc_call(server, [])
 
     def lp_api(self,server,block):
 	if self.bitHopper.pool.servers[server]['role'] == 'mine_deepbit':
@@ -157,7 +156,7 @@ class LongPoll():
                     self.bitHopper.log_msg("LP Call " + lp_address)
                 else:
                     self.bitHopper.log_dbg("LP Call " + lp_address)
-                work.jsonrpc_lpcall(self.bitHopper.get_lp_agent(),server, lp_address, self)
+                self.bitHopper.work.jsonrpc_lpcall(server, lp_address, self)
         except Exception,e :
             self.bitHopper.log_dbg('pull_lp error')
             self.bitHopper.log_dbg(e)

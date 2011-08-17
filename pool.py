@@ -409,7 +409,7 @@ class Pool():
             info = self.servers[server]
             update = self.api_pull
             if info['role'] in update:
-                d = work.get(self.bitHopper.json_agent,info['api_address'])
+                d = bitHopper.work.get(info['api_address'])
                 d.addCallback(self.selectsharesResponse, (server))
                 d.addErrback(self.errsharesResponse, (server))
                 d.addErrback(self.bitHopper.log_msg)

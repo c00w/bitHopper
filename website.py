@@ -188,7 +188,8 @@ class bitSite(resource.Resource):
           return server.NOT_DONE_YET
 
      def render_POST(self, request):
-          return self.bitHopper.bitHopper_Post(request)
+        self.bitHopper.work.handle(request)
+        return server.NOT_DONE_YET
 
      def auth(self,request):
         if self.bitHopper.auth != None:  
@@ -200,6 +201,7 @@ class bitSite(resource.Resource):
     % "Admin")
                 return False
         return True
+
      def getChild(self,name,request):
           if name == 'LP':
                 return lpSite(self.bitHopper)

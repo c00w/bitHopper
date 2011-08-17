@@ -1,5 +1,6 @@
 #License#
-#bitHopper by Colin Rice is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
+#bitHopper by Colin Rice is licensed under a Creative Commons
+# Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
 import urllib2
@@ -7,7 +8,8 @@ import re
 from twisted.internet.task import LoopingCall
 
 class Difficulty():
-    def __init__(self,bitHopper):
+    "Stores difficulties and automaticlaly updates them"
+    def __init__(self, bitHopper):
         self.bitHopper = bitHopper
         self.difficulty = 1690906.2047244
         self.nmc_difficulty = 94037.96
@@ -25,6 +27,7 @@ class Difficulty():
         return self.ixc_difficulty
 
     def update_difficulty(self):
+        "Tries to update difficulty from the internet"
         self.bitHopper.log_msg('Updating Difficulty')
         try:
             req = urllib2.Request('http://blockexplorer.com/q/getdifficulty')
@@ -39,8 +42,8 @@ class Difficulty():
         try:
             req = urllib2.Request('http://namebit.org/')
             response = urllib2.urlopen(req)
-            diff_string = response.read()
-            output = re.search('<td id="difficulty">([.0-9]+)</td>', diff_string)
+            diff_str = response.read()
+            output = re.search('<td id="difficulty">([.0-9]+)</td>', diff_str)
             output = output.group(1)
             self.nmc_difficulty = float(output)
             self.bitHopper.log_msg(str(self.nmc_difficulty))
