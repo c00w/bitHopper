@@ -215,15 +215,8 @@ def main():
     parser.add_option('--ip', type = str, default='', help='IP to listen on')
     parser.add_option('--auth', type = str, default=None, help='User,Password')
     options, rest = parser.parse_args()
-    options = args
-    global bithopper_global
-    bithopper_global = BitHopper(args)
 
     if options.trace == True: options.debug = True
-    if options.list:
-        for k in bithopper_global.pool.get_servers():
-            print k
-        return
 
     if options.listschedulers:
         schedulers = ""
