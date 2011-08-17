@@ -12,6 +12,7 @@
 # mine_slush = mines pool until diff.*0.10
 # mine_deepbit = monitor and makes educated guess mining
 #   without using the api
+# mine_nmc = setup pool for NMC mining
 # mine_ixc = ixcoins pool and diff.
 # mine_i0c = i0coins pool and diff.
 # backup = hopps on this when no Prop. pool is available
@@ -22,7 +23,6 @@
 # info = shows share count for this pool on stat page
 # disable = disables pool completely (you can delete 
 # pool's entry in this cfg file too)
-# mine_nmc = setup pool for NMC mining
 # 
 # Pool set-up:
 #
@@ -40,13 +40,14 @@
 #
 ###############################################################################
 
-#######################################
-#     These Pools are hoppable
+##########################################################
+#            These Pools are hoppable
 #
-# Advice: Please search the bitHopper
-# forum thread for detailed information
-# on every pool you want to hop
-#######################################
+# Advice: Please search the bitHopper forum thread
+# for detailed information on every pool you want to hop.
+# For info. regarding pools speed you can visit bH's wiki
+# https://github.com/c00w/bitHopper/wiki/Pool-status
+##########################################################
 
 [slush]
 # Good for mining until 10% of diff. - use mine_slush
