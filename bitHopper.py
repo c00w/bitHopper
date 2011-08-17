@@ -29,7 +29,6 @@ from twisted.internet.defer import Deferred
 from twisted.internet.task import LoopingCall
 from twisted.python import log
 from scheduler import Scheduler
-import twisted.web.client
 from lpbot import LpBot
 
 class BitHopper():
@@ -206,7 +205,7 @@ def main():
         schedulers = ""
         for s in scheduler.Scheduler.__subclasses__():
             schedulers += ", " + s.__name__
-        print "Available Schedulers: " + schedulers
+        print "Available Schedulers: " + schedulers[2:]
         return
 
     bithopper_instance = BitHopper(options)
@@ -217,8 +216,6 @@ def main():
         if len(auth) != 2:
             print 'User,Password. Not whatever you just entered'
             return
-
-
     
     if options.scheduler:
         bithopper_instance.log_msg("Selecting scheduler: " + options.scheduler)
@@ -245,7 +242,7 @@ def main():
         bithopper_instance.lpBot = LpBot(bithopper_instance)
 
     site = server.Site(website.bitSite(bithopper_instance))
-    reactor.listenTCP(options.port, site,5, options.ip)
+    reactor.listenTCP(options.port, site, 5, options.ip)
     reactor.run()
     bithopper_instance.db.close()
 
