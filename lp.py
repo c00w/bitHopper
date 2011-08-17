@@ -156,7 +156,7 @@ class LongPoll():
             lp_address = str(pool['mine_address']) + str(url)
         else:
             lp_address = str(url)
-        if lp_address[0:7] != 'http://'
+        if lp_address[0:7] != 'http://':
             lp_address = "http://" + lp_address
         try:
             if self.polled[server].acquire(False):
