@@ -153,10 +153,12 @@ class BitHopper():
 
     def bitHopperLP(self, value, *methodArgs):
         try:
-            if self.request_store.closed(request):
-                return value
             self.log_msg('LP triggered serving miner')
             request = methodArgs[0]
+
+            if self.request_store.closed(request):
+                return value
+
             #Duplicated from above because its a little less of a hack
             #But apparently people expect well formed json-rpc back but won't actually make the call
             try:
