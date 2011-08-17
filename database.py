@@ -16,7 +16,7 @@ try:
     else:
         DB_DIR = os.path.dirname(os.path.abspath(__file__))
 except:
-    DB_DIR = os.curdir()
+    DB_DIR = os.curdir
 
 VERSION_FN = os.path.join(DB_DIR, 'db-version')
 DB_FN = os.path.join(DB_DIR, 'stats.db')

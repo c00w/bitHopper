@@ -5,11 +5,10 @@
 
 import json
 import base64
-import traceback
+
 from zope.interface import implements
 
 from client import Agent
-from _newclient import Request
 from twisted.web.iweb import IBodyProducer
 from twisted.web.http_headers import Headers
 from twisted.internet import defer
@@ -58,34 +57,34 @@ class Work():
         self.lp_agent = Agent(bitHopper.reactor, persistent=True)
 
     @defer.inlineCallbacks
-    def jsonrpc_lpcall(self,server, url, lp):
+    def jsonrpc_lpcall(self, server, url, lp):
         try:
             self.i += 1
             request = json.dumps({'method':'getwork', 'params':[], 'id':self.i}, ensure_ascii = True)            
             pool = self.bitHopper.pool.servers[server]
-            header = {'Authorization':["Basic " +base64.b64encode(pool['user']+ ":" + pool['pass'])], 'User-Agent': ['poclbm/20110709'],'Content-Type': ['application/json'] }
+            header = {'Authorization':["Basic " +base64.b64encode(pool['user']+ ":" + pool['pass'])], 'User-Agent': ['poclbm/20110709'], 'Content-Type': ['application/json'] }
             d = self.lp_agent.request('GET', url, Headers(header), StringProducer(request))
             body = yield d
             if body == None:
-                lp.receive(None,server)
+                lp.receive(None, server)
                 defer.returnValue(None)
             finish = Deferred()
             body.deliverBody(WorkProtocol(finish))
             text = yield finish
-            lp.receive(text,server)
+            lp.receive(text, server)
             defer.returnValue(None)
         except Exception, e:
             self.bitHopper.log_dbg('Error in lpcall work.py')
             self.bitHopper.log_dbg(e)
             #traceback.print_exc()
             #print e.reasons[0]
-            lp.receive(None,server)
+            lp.receive(None, server)
             defer.returnValue(None)
     
     @defer.inlineCallbacks
-    def get(self,url):
+    def get(self, url):
         "A utility method for getting webpages"
-        d = self.agent.request('GET', url, Headers({'User-Agent':['Mozilla/5.0 (Windows; U; MSIE 9.0; WIndows NT 9.0; en-US))']}),None)
+        d = self.agent.request('GET', url, Headers({'User-Agent':['Mozilla/5.0 (Windows; U; MSIE 9.0; WIndows NT 9.0; en-US))']}), None)
         response = yield d
         finish = Deferred()
         response.deliverBody(WorkProtocol(finish))
@@ -96,7 +95,7 @@ class Work():
     def jsonrpc_call(self, server, data):
         try:
             request = json.dumps({'method':'getwork', 'params':data, 'id':self.i}, ensure_ascii = True)
-            self.i +=1
+            self.i += 1
             
             info = self.bitHopper.pool.servers[server]
             header = {'Authorization':["Basic " +base64.b64encode(info['user']+ ":" + info['pass'])], 'User-Agent': ['poclbm/20110709'],'Content-Type': ['application/json'] }
@@ -134,13 +133,13 @@ class Work():
             self.bitHopper.log_dbg(body)
             defer.returnValue(None)
 
-    def sleep(self,length):
+    def sleep(self, length):
         d = Deferred()
         self.bitHopper.reactor.callLater(length, d.callback, None)
         return d
 
     @defer.inlineCallbacks
-    def jsonrpc_getwork(self,server, data, request):
+    def jsonrpc_getwork(self, server, data, request):
 
         tries = 0
         work = None
@@ -159,12 +158,12 @@ class Work():
                 work = None
             if data == [] and tries > 2:
                 server = self.bitHopper.get_new_server(server)
-            elif tries >2:
+            elif tries > 2:
                 self.bitHopper.get_new_server(server)
         defer.returnValue(work)
 
     @defer.inlineCallbacks
-    def handle(self,request):
+    def handle(self, request):
         
         self.bitHopper.request_store.add(request)
         request.setHeader('X-Long-Polling', '/LP')
@@ -184,7 +183,7 @@ class Work():
 
         work = yield self.jsonrpc_getwork(server, data, request)
 
-        response = json.dumps({"result":work,'error':None,'id':j_id})        
+        response = json.dumps({"result":work, 'error':None, 'id':j_id})        
         request.write(response)
         
         #Check if the request has been closed
