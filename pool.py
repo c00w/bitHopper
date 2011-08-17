@@ -183,7 +183,7 @@ class Pool():
                                           
             round_shares = int(info)
             if round_shares == None:
-                round_shares = int(bitHopper.difficulty.get_difficulty())
+                round_shares = int(self.bitHopper.difficulty.get_difficulty())
             
             ghash = self.get_ghash(server, response, True)
             if ghash > 0:
@@ -204,7 +204,7 @@ class Pool():
                 info = info[value]
             round_shares = int(info)
             if round_shares == None:
-                round_shares = int(bitHopper.difficulty.get_difficulty())
+                round_shares = int(self,bitHopper.difficulty.get_difficulty())
             self.UpdateShares(args,round_shares)
 
         elif server['api_method'] == 're':
