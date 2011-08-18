@@ -70,7 +70,7 @@ class Scheduler(object):
         if info['role'] in ['mine', 'mine_deepbit']:
             shares = info['shares']
         elif info['role'] == 'mine_slush':
-            shares = info['shares'] * 4
+            shares = info['shares'] * self.difficultyThreshold /  0.10
         elif info['role'] == 'mine_nmc':
             shares = info['shares']*difficulty / nmc_difficulty
         elif info['role'] == 'mine_ixc':
