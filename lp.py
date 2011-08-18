@@ -112,12 +112,11 @@ class LongPoll():
             if block not in self.blocks:
                 if byteswap(block) in self.blocks:
                     block = byteswap(block)
-                else:
-                    self.bitHopper.log_msg('New Block: ' + str(block))
-                    self.bitHopper.log_msg('Block Owner ' + server)
-                    self.add_block(block, work)
-                    if self.bitHopper.lpBot != None:
-                        self.bitHopper.lpBot.announce(str(server), str(block))
+                self.bitHopper.log_msg('New Block: ' + str(block))
+                self.bitHopper.log_msg('Block Owner ' + server)
+                self.add_block(block, work)
+                if self.bitHopper.lpBot != None:
+                    self.bitHopper.lpBot.announce(str(server), str(block))
 
             #Add the lp_penalty if it exists.
             offset = self.pool.servers[server].get('lp_penalty','0')
