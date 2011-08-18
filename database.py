@@ -4,7 +4,6 @@
 
 import sqlite3
 import os
-import os.path
 import sys
 
 from twisted.internet.task import LoopingCall
@@ -126,7 +125,6 @@ class Database():
         self.database.commit()
 
         for server_name in self.pool.get_servers():
-            difficulty = self.bitHopper.difficulty.get_difficulty()
             sql = "CREATE TABLE IF NOT EXISTS "+server_name +" (diff REAL, shares INTEGER, rejects INTEGER, stored_payout REAL, user TEXT)"
             self.curs.execute(sql)
 

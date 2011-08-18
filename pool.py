@@ -3,7 +3,6 @@
 #Based on a work at github.com.
 
 import json
-import work
 import re
 import ConfigParser
 import os
@@ -36,8 +35,6 @@ class Pool():
             bitHopper.log_msg("user.cfg not found. You may need to move it from user.cfg.default")
             os._exit(1)
             
-        userpools = parser.sections()
-
         try:
             # determine if application is a script file or frozen exe
             if hasattr(sys, 'frozen'):
@@ -51,8 +48,9 @@ class Pool():
             bitHopper.log_msg("pools.cfg not found.")
             if self.initialized == False: 
                 os._exit(1)
-            
-        pools = parser.sections()
+
+        userpools = parser.sections()
+        
         for pool in userpools:
             self.servers[pool] = dict(parser.items(pool))
 
@@ -359,7 +357,7 @@ class Pool():
             try:
                 minute = int(output.group(3).replace(' ', ''))
             except AttributeError:
-               minute = 0
+                minute = 0
             if day == 0:
                 if hour == 0:
                     if minute == 0:

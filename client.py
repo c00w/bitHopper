@@ -108,6 +108,7 @@ class HTTPPageGetter(http.HTTPClient):
             return
         url = l[0]
         if self.followRedirect:
+            # TODO: None of those variables get used.. is this function even required?
             scheme, host, port, path = \
                 _parse(url, defaultPort=self.transport.getPeer().port)
 
@@ -388,6 +389,7 @@ class HTTPDownloader(HTTPClientFactory):
                 # server doesn't support partial requests, oh well
                 self.requestedPartial = 0
                 return
+            # TODO: end and realLength are not being used anywhere.. maybe use dump variable: _ or use parseContentRange()[0:2]
             start, end, realLength = http.parseContentRange(contentRange[0])
             if start != self.requestedPartial:
                 # server is acting wierdly
@@ -511,6 +513,7 @@ def _makeGetterFactory(url, factoryFactory, contextFactory=None,
 
     @return: The factory created by C{factoryFactory}
     """
+    # TODO: Another unused variable: path. See TODO for similar case above
     scheme, host, port, path = _parse(url)
     factory = factoryFactory(url, *args, **kwargs)
     if scheme == 'https':
@@ -561,6 +564,8 @@ def downloadPage(url, file, contextFactory=None, *args, **kwargs):
 
 from twisted.internet.protocol import ClientCreator
 from twisted.web.error import SchemeNotSupported
+# TODO: ResponseDone and Response from _newclient never seem to be used?
+# Since I can't be sure if they aren't deps I need somebody else to look at this
 from _newclient import ResponseDone, ResponseFailed, Request, \
     Response, HTTP11ClientProtocol
 from twisted.internet.error import ConnectionDone

@@ -214,7 +214,7 @@ def main():
     parser.add_option('--p2pLP', action='store_true', default=False, help='Starts up an IRC bot to validate LP based hopping.  Must be used with --startLP')
     parser.add_option('--ip', type = str, default='', help='IP to listen on')
     parser.add_option('--auth', type = str, default=None, help='User,Password')
-    options, rest = parser.parse_args()
+    options = parser.parse_args()[0]
 
     if options.trace == True: options.debug = True
 
