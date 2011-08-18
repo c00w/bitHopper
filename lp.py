@@ -28,7 +28,11 @@ class LongPoll():
         startlp.start(60*60)
 
     def set_owner(self, server, block = None):
-        if block == None and self.lastBlock != None:
+        if self.bitHopper.pool.servers[server]['role'] == 'mine_deepbit':
+            self.lastBlock = block
+        if block == None:
+            if self.lastBlock == None:
+                return
             old_owner = self.blocks[self.lastBlock]["_owner"]
             self.blocks[self.lastBlock]["_owner"] = server
             if '_defer' in self.blocks[self.lastBlock]:
@@ -78,12 +82,10 @@ class LongPoll():
             self.bitHopper.pool.servers[server]['shares'] += old_shares
             self.bitHopper.select_best_server()
 
-    def add_block(self,block,server, work):
+    def add_block(self,block, work):
         self.blocks[block]={}
         self.bitHopper.lp_callback(work)
         self.blocks[block]["_owner"] = None
-        if self.bitHopper.pool.servers[server]['role'] == 'mine_deepbit':
-            self.lastBlock = block
 
     def receive(self, body, server):
         self.polled[server].release()
@@ -114,7 +116,7 @@ class LongPoll():
                 else:
                     self.bitHopper.log_msg('New Block: ' + str(block))
                     self.bitHopper.log_msg('Block Owner ' + server)
-                    self.add_block(block,server, work)
+                    self.add_block(block, work)
                     if self.bitHopper.lpBot != None:
                         self.bitHopper.lpBot.announce(str(server), str(block))
 
