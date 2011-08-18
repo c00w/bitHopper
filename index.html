@@ -35,6 +35,13 @@
 			}
 			#headercontainer { position: fixed; top: 0; left: 0; right: 0; height: 85px; margin: 0; padding: 0; background-color: #272F87; }
 
+			#round_duration {
+				color: White;
+			}
+			
+			#round_duration_estimate {
+				color: DarkGrey;
+			}		
 			
 		</style>
 		<title>bitHopper info</title>
@@ -169,6 +176,25 @@
 					update();
 				}
 			}
+			
+			function resetScheduler() {
+				var frm = "<form><input type=hidden name='resetscheduler' value='reset'></form>";
+				$.post("/stats", $(frm).serialize());
+				update();
+			}
+
+			function resetShares() {
+				var frm = "<form><input type=hidden name='resetshares' value='reset'></form>";
+				$.post("/stats", $(frm).serialize());
+				update();
+			}
+
+			function reloadConfig() {
+				var frm = "<form><input type=hidden name='reloadconfig' value=''></form>";
+				$.post("/stats", $(frm).serialize());
+				update();
+			}
+
 
 			function getPayout(payload, srv) {
 				var srvName = "";
@@ -203,10 +229,12 @@
 			
 			function getSlice(payload, srv) {
 				var name = srv['pool_index'];
-                if (payload['sliceinfo'] == undefined)
-                    return "-"
-				if (payload['sliceinfo'][name] >= 0)
+				if (payload['sliceinfo'] == undefined && srv['slice'] == undefined)
+					 return "-"
+				if (payload['sliceinfo'] != undefined && payload['sliceinfo'][name] >= 0)
 					return parseFloat(payload['sliceinfo'][name]).toFixed(0)
+				else if (srv['slice'] >= 0)
+					return parseFloat(srv['slice']).toFixed(0)
 				else
 					return "-"
 			}
@@ -220,6 +248,39 @@
 				penalty_html = penalty_html + srvName + "');\" style='text-decoration:underline;color:" + getColor(payload,srv) + ";'>"
 				penalty_html = penalty_html + penalty.toFixed(2) + "</a>";			
 				return penalty_html;
+			}
+			
+			function getPoolSpeed(payload, srv) {
+				if (srv['ghash'] > 0) {
+					if (srv["isSpeedEstimated"] == true) {
+						ghashColor = "<span class='round_duration_estimate'>*"	
+					} else {
+						ghashColor = "<span class='round_duration'>"	
+					}					
+					return ghashColor + parseFloat(srv['ghash']).toFixed(1) + "</span>"
+				} else {
+					return '&nbsp;';
+				}
+			}
+
+			function getRoundDuration(payload, srv) {
+				var h = '&nbsp;';
+				if (srv['duration'] > 0) {
+					var totalSec = parseInt(srv["duration"]);
+					var days =    Math.floor(  totalSec / 86400 );
+					var hours =   Math.floor( (totalSec - (days*86400)) / 3600 );
+					var minutes = Math.floor( (totalSec - (days*86400) - (hours * 3600))/60);
+					var estimationColor = "<span class='round_duration'>"
+					if (srv["isDurationEstimated"] == true ) {
+						estimationColor = "<span class='round_duration_estimate'>*"
+					}
+					if (days>0) {
+						h = "<font=-2>" + estimationColor + days + "d:" + hours +"h:" + minutes + "m</span></font>";
+					} else {
+						h = estimationColor + hours +"h:" + minutes + "m</span>";
+					}
+				}
+				return h;
 			}
 			
 			var srvhist = {};
@@ -340,6 +401,8 @@
 							'Shares': { 'data':getShares, 'color':getColor, 'align':'right' },
 							'Role': { 'data':getRole },
 							'User&nbsp;Shares<br>Rejects': { 'data':getUserShareRejects, 'color':getColor, 'align':'center' },
+							'Speed': { 'data':getPoolSpeed },
+							'Duration': { 'data':getRoundDuration},
 							'Payout': { 'data':getPayout, 'color':getColor, 'align':'center' },
 							'Efficiency': { 'data':getEfficiency, 'color':getColor, 'align':'center' },
 							'Penalty': { 'data':getPenalty, 'color':getColor, 'align':'center' },
@@ -386,7 +449,17 @@
 			<span style="background-color:#FF3232;width:20px;height:20px;color:white;font-family:Arial,Helvetica,sans-serif;font-size:20px;"><b>Please Donate to c00w:1HEmzeuVEKxBQkEenysV1yM8oAddQ4o2TX</b></span> 
 		</span>
 	</div>
-		<br /><br /><br /><br /><br />
+	<div id="admin">
+		<br /><br /><br/><br/><br/><br/>
+		<table>
+			<tr>
+				<td><b>Admin Tools:</b></td>
+				<td><input class="admin" type="button" name="resetsc" value="Reset Scheduler" onclick="resetScheduler(); return false;"/></td>
+				<td><input class="admin" type="button" name="resetsh" value="Reset Shares" onclick="resetShares(); return false;"/></td>
+				<td><input class="admin" type="button" name="reloadconfig" value="Reload Config" onclick="reloadConfig(); return false;"/></td>
+			</tr>
+		</table>
+	</div>
 		<div id="table"></div>
 		<div id="users"></div>
 	</body>

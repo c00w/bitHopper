@@ -341,7 +341,7 @@ class Connection:
     def __init__(self, irclibobj):
         self.irclibobj = irclibobj
 
-    def _get_socket():
+    def _get_socket(self):
         raise IRCError, "Not overridden"
 
     ##############################

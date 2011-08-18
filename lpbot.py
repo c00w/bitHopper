@@ -126,7 +126,7 @@ class LpBot(SimpleIRCClient):
 		
 		if self.server != last_server:
 			self.say("Best Guess: {" + self.server + "} with " + str(votes) + " of " + str(total_votes) + " votes - " + self.current_block)
-			self.bitHopper.lp.lp_api(self.server, self.current_block)
+			self.bitHopper.lp.set_owner(self.server, self.current_block)
 
 		# Cleanup
 		# Delete any orbaned blocks out of blockinfo
@@ -149,12 +149,12 @@ class LpBot(SimpleIRCClient):
 				self.decider(server, last_hash)
 			else:
 				print "Not connected to IRC..."
-				self.bitHopper.lp.lp_api(self.server, self.current_block)
+				self.bitHopper.lp.set_owner(self.server, self.current_block)
 		except Exception, e:
 			print "********************************"
 			print "*****  ERROR IN ANNOUCE  *******"
 			print "********************************"
-			print e
+			print str(e)
 
 	def join(self):
 		if '#bithopper-lp' not in self.chan_list:
