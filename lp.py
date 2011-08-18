@@ -123,7 +123,7 @@ class LongPoll():
             offset = self.pool.servers[server].get('lp_penalty','0')
             self.blocks[block][server] = time.time() + float(offset)
             if self.blocks[block]['_owner'] == None or self.blocks[block][server] < self.blocks[block][self.blocks[block]['_owner']]:
-                self.blocks.set_owner(server,block)
+                self.set_owner(server,block)
 
         except Exception, e:
             output = False
