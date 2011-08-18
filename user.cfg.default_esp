@@ -35,7 +35,6 @@
 #              dificultad (si incrementas este numero hace
 #              que dejes la mina antes de dificultad*0.43)
 #  lp_penalty: normaliza las LP de esta mina con "x" segundos (mayor para LP muy rapidos)
-#  lp_penalty: normalize LP's this pool with "x" seconds (greater for fast LP response pools)
 #  user:       nombre del trabajador que se tiene que utilizar
 #  pass:       contraseña del trabajador (no se necesita para todas las minas)
 #
