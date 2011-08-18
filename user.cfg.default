@@ -34,7 +34,7 @@
 #              BACKUP SERVERS: Set it to the percent the server takes. 
 #              The penalty/100 is added to the reject rate when calculating 
 #              which server to use
-#  lp_penalty: normalize LP calls from this pool (bH thread for more info)
+#  lp_penalty: normalize LP's of this pool with "x" seconds (greater for fast LP response pools)
 #  user:       worker username you setup for this pool
 #  pass:       password you have for the worker (not needed for all pools)
 #
@@ -214,6 +214,14 @@ role: info
 user: FSkyvM
 pass: xndzEU
 
+[kiwipool]
+# Seems like they're Prop. pool (thanks Clipse - IRC Chan.)
+# Switched to PPS (page 154)
+#CHANGE THIS (if you want)
+role: disable
+user: your_username
+pass: your_password
+
 #######################################
 #   These Pools are added recently
 #      hop them at your risk
@@ -294,13 +302,6 @@ pass: u5cpmndZq4Jvp
 role: disable
 user: paraipanakos.works
 pass: minero
-
-[kiwipool]
-# Switched to PPS (page 154)
-#CHANGE THIS (if you want)
-role: disable
-user: your_username
-pass: your_password
 
 ######################################
 # Namecoin pools. Good for hopping

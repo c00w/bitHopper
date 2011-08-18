@@ -146,7 +146,7 @@ class OldDefaultScheduler(Scheduler):
                 continue
             if info['role'] not in self.valid_roles:
                 continue
-            if shares< min_shares:
+            if shares < min_shares:
                 min_shares = shares
                 #self.bh.log_dbg('Selecting pool ' + str(server) + ' with shares ' + str(info['shares']), cat='scheduler-default')
                 server_name = server
@@ -171,7 +171,7 @@ class OldDefaultScheduler(Scheduler):
             if info['shares'] > max_share_count:
                 server_name = server
                 max_share_count = info['shares']
-                self.bh.log_dbg('select_latehop_server: ' + str(server), cat='scheduler-default')
+        self.bh.log_dbg('select_latehop_server: ' + str(server), cat='scheduler-default')
 
         return server_name   
 
@@ -228,7 +228,6 @@ class DefaultScheduler(Scheduler):
     def initData(self,):
         Scheduler.initData(self)
         if self.bh.options.threshold:
-            #self.bh.log_msg("Override difficulty threshold to: " + str(self.bh.options.threshold), cat='scheduler-default')
             self.difficultyThreshold = self.bh.options.threshold
         self.reset()
 
@@ -465,8 +464,8 @@ class AltSliceScheduler(Scheduler):
         for server in self.bh.pool.get_servers():
             info = self.bh.pool.get_entry(server)
             if info['role'] not in self.valid_roles:
-                continue
-            if info['shares'] <=0: continue
+               continue
+            if info['shares'] <= 0: continue
             if server not in server_shares: continue
             shares = server_shares[server] + 1
             if shares < min_shares and shares > 0:
