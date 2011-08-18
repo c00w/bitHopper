@@ -94,28 +94,28 @@ class dynamicSite(resource.Resource):
                     self.bh.log_dbg('Incorrect http post request payout')
                     self.bh.log_dbg(e)
             if "resetscheduler" in v:
-               self.bh.log_msg('User forced scheduler reset')
-               try:
+                self.bh.log_msg('User forced scheduler reset')
+                try:
                     if hasattr(self.bh.scheduler, 'reset'):
-                         self.bh.scheduler.reset()
-                         self.bh.select_best_server()
-               except Exception,e:
+                        self.bh.scheduler.reset()
+                        self.bh.select_best_server()
+                except Exception,e:
                     self.bh.log_dbg('Incorrect http post resetscheduler')
                     self.bh.log_dbg(e)
             if "resetshares" in v:
-               self.bh.log_msg('User forced resetshares')
-               try:
+                self.bh.log_msg('User forced resetshares')
+                try:
                     for server in self.bh.pool.get_servers():
-                         info = self.bh.pool.get_entry(server)
-                         info['shares'] = self.bh.difficulty.get_difficulty()
-               except Exception,e:
+                        info = self.bh.pool.get_entry(server)
+                        info['shares'] = self.bh.difficulty.get_difficulty()
+                except Exception,e:
                     self.bh.log_dbg('Incorrect http post resetshares')
                     self.bh.log_dbg(e)
             if "reloadconfig" in v:
-               self.bh.log_msg('User forced configuration reload')
-               try:
+                self.bh.log_msg('User forced configuration reload')
+                try:
                     self.bh.pool.loadConfig(self.bh)
-               except Exception,e:
+                except Exception,e:
                     self.bh.log_dbg('Incorrect http post reloadconfig')
                     self.bh.log_dbg(e)
           

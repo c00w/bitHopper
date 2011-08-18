@@ -2,9 +2,7 @@
 #bitHopper by Colin Rice is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-import diff
 import json
-import work
 
 from twisted.internet.task import LoopingCall
 
@@ -84,6 +82,7 @@ class Statistics():
 
     def parse_mtred(self,response, bitHopper):
         info = json.loads(response)
+        actual = 0.0
         actual += info['balance']
 
     def selectsharesResponse(self, response, args):
@@ -105,13 +104,13 @@ class Statistics():
         servers = self.bitHopper.pool.get_servers()
         for server in servers:
             if 'user_api_address' in servers[server]:
-		role = servers[server]['role']
+                role = servers[server]['role']
                 if role[0:4] == 'mine' or role == 'info' or role == 'api_disable':
-                	info = servers[server]
-			d = work.get(self.bitHopper.json_agent,info['user_api_address'])
- 			d.addCallback(self.selectsharesResponse, (server))
-                	d.addErrback(self.errsharesResponse, (server))
-                	d.addErrback(self.bitHopper.log_msg)
+                    info = servers[server]
+                    d = self.bitHopper.work.get(self.bitHopper.json_agent,info['user_api_address'])
+                    d.addCallback(self.selectsharesResponse, (server))
+                    d.addErrback(self.errsharesResponse, (server))
+                    d.addErrback(self.bitHopper.log_msg)
 
     def get_efficiency(self,server):
         if server in self.efficiencies:
@@ -120,4 +119,4 @@ class Statistics():
 
     def stats_dump(self, server, stats_file):
         if stats_file != None:
-            stats_file.write(self.pool.get_entry(self.pool.get_current())['name'] + " " + str(self.pool.get_entry(self.pool.get_current())['user_shares']) + " " + str(diff.difficulty) + "\n")
+            stats_file.write(self.pool.get_entry(self.pool.get_current())['name'] + " " + str(self.pool.get_entry(self.pool.get_current())['user_shares']) + " " + str(self.bitHopper.difficulty.get_difficulty()) + "\n")
