@@ -32,6 +32,7 @@ class LongPoll():
             self.blocks[self.lastBlock]["_owner"] = server
             if '_defer' in self.blocks[self.lastBlock]:
                 self.blocks[self.lastBlock]['_defer'].callback(server)
+                self.blocks[self.lastBlock]['_defer'] = defer.Deferred()
             self.bitHopper.log_msg('Setting Block Owner ' + server+ ':' + str(self.lastBlock))
 
     def get_owner(self):
@@ -56,9 +57,9 @@ class LongPoll():
         # A helper function so that we can have this in a different call.
         self.bitHopper.work.jsonrpc_call(server, [])
 
-    def lp_api(self, server, block):
+    def lp_api(self, server, block):        
+        self.set_owner(server)
         if self.bitHopper.pool.servers[server]['role'] == 'mine_deepbit':
-            self.set_owner(server)
             old_shares = self.bitHopper.pool.servers[server]['shares']
             self.bitHopper.pool.servers[server]['shares'] = 0
             self.bitHopper.select_best_server()
@@ -66,17 +67,8 @@ class LongPoll():
                 self.blocks[block]['_defer'] = defer.Deferred()
             self.blocks[block]['_defer'].addCallback(self.api_check,server,block,old_shares)
 
-        elif self.lastBlock != None and self.blocks[self.lastBlock]["_owner"] != server and '_defer' in self.blocks[self.lastBlock]:
-            # Don't switch, just reset shares
-            self.blocks[self.lastBlock]['_reset'] = True
-            self.blocks[self.lastBlock]['_defer'].callback(server)
-            self.blocks[self.lastBlock]['_defer'] = defer.Deferred()
-            self.blocks[self.lastBlock]['_owner'] = server
-            
-
     def api_check(self, new_server, server, block, old_shares):
-        if self.blocks[block]['_owner'] != server or self.blocks[block]['_reset']:
-            self.bitHopper.pool.servers[server]['_reset']=False
+        if self.blocks[block]['_owner'] != server:
             self.bitHopper.pool.servers[server]['shares'] += old_shares
             self.bitHopper.select_best_server()
 
