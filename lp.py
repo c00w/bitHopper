@@ -28,8 +28,6 @@ class LongPoll():
         startlp.start(60*60)
 
     def set_owner(self, server, block = None):
-        if self.bitHopper.pool.servers[server]['role'] == 'mine_deepbit':
-            self.lastBlock = block
         if block == None:
             if self.lastBlock == None:
                 return
@@ -86,6 +84,7 @@ class LongPoll():
         self.blocks[block]={}
         self.bitHopper.lp_callback(work)
         self.blocks[block]["_owner"] = None
+        self.lastBlock = block
 
     def receive(self, body, server):
         self.polled[server].release()
