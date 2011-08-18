@@ -69,6 +69,8 @@ class LongPoll():
             # Don't switch, just reset shares
             self.blocks[self.lastBlock]['_reset']=True
             self.blocks[self.lastBlock]['_defer'].callback(server)
+            self.blocks[self.lastBlock]['_defer'] = defer.Deferred()
+            
 
     def api_check(self, server, block, old_shares):
         if self.blocks[block]['_owner'] != server or self.blocks[block]['_reset']:
