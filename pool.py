@@ -15,13 +15,13 @@ except:
     OrderedDict = dict
 
 class Pool():
-    def __init__(self,bitHopper):
+    def __init__(self, bitHopper):
         self.servers = {}
         self.api_pull = ['mine','info','mine_slush','mine_nmc','mine_ixc','mine_i0c','mine_charity','mine_deepbit','backup','backup_latehop']
         self.initialized = False
         self.loadConfig(bitHopper)
 
-    def loadConfig(self,bitHopper):
+    def loadConfig(self, bitHopper):
         parser = ConfigParser.SafeConfigParser()
         try:
             # determine if application is a script file or frozen exe
@@ -61,7 +61,7 @@ class Pool():
         if self.initialized == False: self.current_server = pool
         self.initialized = True
         
-    def setup(self,bitHopper):
+    def setup(self, bitHopper):
         self.bitHopper = bitHopper
         for server in self.servers:
             self.servers[server]['shares'] = int(bitHopper.difficulty.get_difficulty())
