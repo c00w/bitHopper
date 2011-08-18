@@ -232,7 +232,6 @@ class bitSite(resource.Resource):
         return True
 
     def getChild(self, name, request):
-        print name
         if name == '':
             site = self
         elif name == 'LP':
