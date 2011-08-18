@@ -213,6 +213,14 @@ role: info
 user: FSkyvM
 pass: xndzEU
 
+[kiwipool]
+# Se quedaron con el sist. Proporcional (gracias Clipse - Canal IRC)
+# Cambio a sistema PPS (pagina 154)
+#CAMBIA A CONTINUACION (si quieres)
+role: disable
+user: your_username
+pass: your_password
+
 #######################################
 #  Estas minas son muy nuevas para
 # saber si toman medidas anti-hoping
@@ -296,13 +304,6 @@ pass: u5cpmndZq4Jvp
 role: disable
 user: paraipanakos.works
 pass: minero
-
-[kiwipool]
-# Cambio a sistema PPS (pagina 154)
-#CAMBIA A CONTINUACION (si quieres)
-role: disable
-user: your_username
-pass: your_password
 
 ######################################
 # Minas Namecoin. Se pueden saltar

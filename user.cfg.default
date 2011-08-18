@@ -214,6 +214,14 @@ role: info
 user: FSkyvM
 pass: xndzEU
 
+[kiwipool]
+# Seems like they're Prop. pool (thanks Clipse - IRC Chan.)
+# Switched to PPS (page 154)
+#CHANGE THIS (if you want)
+role: disable
+user: your_username
+pass: your_password
+
 #######################################
 #   These Pools are added recently
 #      hop them at your risk
@@ -294,13 +302,6 @@ pass: u5cpmndZq4Jvp
 role: disable
 user: paraipanakos.works
 pass: minero
-
-[kiwipool]
-# Switched to PPS (page 154)
-#CHANGE THIS (if you want)
-role: disable
-user: your_username
-pass: your_password
 
 ######################################
 # Namecoin pools. Good for hopping
