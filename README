@@ -69,8 +69,7 @@ Specific parameters:
 	--altslicesize            = Override Default AltSliceScheduler Slice Size of 900
 	--altminslicesize         = Override Default Minimum Pool Slice Size of 60 (AltSliceScheduler only)
 	--altslicejitter          = Add some random variance to slice size, disabled by default (AltSliceScheduler only)
-	--altsliceroundtimebias   = Bias slicing slightly by round time duration with respect to
-                                    round time target (default false)
+	--altsliceroundtimebias   = Bias slicing slightly by round time duration with respect to round time target (default false)
 	--altsliceroundtimetarget = Round time target based on GHash/s (default 1000 Ghash/s)
 	--altsliceroundtimemagic  = Round time magic number, increase to bias towards round time over shares
 
