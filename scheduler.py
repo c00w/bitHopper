@@ -150,7 +150,7 @@ class OldDefaultScheduler(Scheduler):
                 continue
             if info['role'] not in self.valid_roles:
                 continue
-            if shares< min_shares:
+            if shares < min_shares:
                 min_shares = shares
                 #self.bh.log_dbg('Selecting pool ' + str(server) + ' with shares ' + str(info['shares']), cat='scheduler-default')
                 server_name = server
@@ -164,83 +164,82 @@ class OldDefaultScheduler(Scheduler):
             return server_name   
    
     def select_latehop_server(self):
-      server_name = None
-      max_share_count = 1
-      for server in self.bh.pool.get_servers():
-         info = self.bh.pool.get_entry(server)
-         if info['api_lag'] or info['lag']:
-            continue
-         if info['role'] != 'backup_latehop':
-            continue
-         if info['shares'] > max_share_count:
-            server_name = server
-            max_share_count = info['shares']
-            self.bh.log_dbg('select_latehop_server: ' + str(server), cat='scheduler-default')
+        server_name = None
+        max_share_count = 1
+        for server in self.bh.pool.get_servers():
+            info = self.bh.pool.get_entry(server)
+            if info['api_lag'] or info['lag']:
+                continue
+            if info['role'] != 'backup_latehop':
+                continue
+            if info['shares'] > max_share_count:
+                server_name = server
+                max_share_count = info['shares']
+        self.bh.log_dbg('select_latehop_server: ' + str(server), cat='scheduler-default')
 
-      return server_name   
+        return server_name   
 
     def server_update(self,):
-      current = self.bh.pool.get_current()
-      shares,info = self.server_to_btc_shares(current)
-      difficulty = self.bh.difficulty.get_difficulty()
+        current = self.bh.pool.get_current()
+        shares,info = self.server_to_btc_shares(current)
+        difficulty = self.bh.difficulty.get_difficulty()
 
-      if info['role'] not in self.valid_roles:
-         return True
+        if info['role'] not in self.valid_roles:
+            return True
     
-      if info['api_lag'] or info['lag']:
-         return True
+        if info['api_lag'] or info['lag']:
+            return True
 
-      if shares > (difficulty * self.difficultyThreshold):
-         return True
+        if shares > (difficulty * self.difficultyThreshold):
+            return True
 
-      min_shares = info['shares']
+        min_shares = info['shares']
 
-      for server in self.bh.pool.servers:
-         pool = self.bh.pool.get_entry(server)
-         if pool['shares'] < min_shares:
-            min_shares = pool['shares']
+        for server in self.bh.pool.servers:
+            pool = self.bh.pool.get_entry(server)
+            if pool['shares'] < min_shares:
+                min_shares = pool['shares']
 
-      if min_shares < info['shares']*.90:
-        return True       
+        if min_shares < info['shares']*.90:
+            return True       
 
-      return False
+        return False
 
 class RoundTimeScheduler(Scheduler):
-   def select_best_server(self,):
-      return
-   def select_backup_server(self,):
-      return
+    def select_best_server(self,):
+        return
+    def select_backup_server(self,):
+        return
 
 
 class RoundTimeDynamicPenaltyScheduler(Scheduler):
-   def select_best_server(self,):
-      return
-   def select_backup_server(self,):
-      return
+    def select_best_server(self,):
+        return
+    def select_backup_server(self,):
+        return
 
 
 class DefaultScheduler(Scheduler):
-   def __init__(self,bitHopper):
-      self.bh = bitHopper
-      self.bitHopper = self.bh
-      self.difficultyThreshold = 0.435
-      self.sliceinfo = {}
-      self.initData()
-      self.lastcalled = time.time()
-      call = LoopingCall(self.bh.server_update)
-      call.start(10)
-   def initData(self,):
-      Scheduler.initData(self)
-      if self.bh.options.threshold:
-         #self.bh.log_msg("Override difficulty threshold to: " + str(self.bh.options.threshold), cat='scheduler-default')
-         self.difficultyThreshold = self.bh.options.threshold
-      self.reset()
+    def __init__(self,bitHopper):
+        self.bh = bitHopper
+        self.bitHopper = self.bh
+        self.difficultyThreshold = 0.435
+        self.sliceinfo = {}
+        self.initData()
+        self.lastcalled = time.time()
+        call = LoopingCall(self.bh.server_update)
+        call.start(10)
+    def initData(self,):
+        Scheduler.initData(self)
+        if self.bh.options.threshold:
+            self.difficultyThreshold = self.bh.options.threshold
+        self.reset()
 
-   def reset(self,):
-      for server in self.bh.pool.get_servers():
+    def reset(self,):
+        for server in self.bh.pool.get_servers():
             self.sliceinfo[server] = -1
 
-   def select_best_server(self,):
+    def select_best_server(self,):
       #self.bh.log_dbg('select_best_server', cat='scheduler-default')
       server_name = None
       difficulty = self.bh.difficulty.get_difficulty()
@@ -284,7 +283,7 @@ class DefaultScheduler(Scheduler):
       return server
 
    
-   def server_update(self,):
+    def server_update(self,):
         #self.bitHopper.log_msg(str(self.sliceinfo))
         diff_time = time.time()-self.lastcalled
         self.lastcalled = time.time()
@@ -472,7 +471,7 @@ class AltSliceScheduler(Scheduler):
             info = self.bh.pool.get_entry(server)
             if info['role'] not in self.valid_roles:
                continue
-            if info['shares'] <=0: continue
+            if info['shares'] <= 0: continue
             if server not in server_shares: continue
             shares = server_shares[server] + 1
             if shares < min_shares and shares > 0:
