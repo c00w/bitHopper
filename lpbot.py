@@ -154,7 +154,7 @@ class LpBot(SimpleIRCClient):
 			print "********************************"
 			print "*****  ERROR IN ANNOUCE  *******"
 			print "********************************"
-			print e
+			print str(e)
 
 	def join(self):
 		if '#bithopper-lp' not in self.chan_list:

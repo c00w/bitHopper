@@ -57,19 +57,21 @@ class LongPoll():
         self.bitHopper.work.jsonrpc_call(server, [])
 
     def lp_api(self,server,block):
-	if self.bitHopper.pool.servers[server]['role'] == 'mine_deepbit':
-            self.set_owner(server)
-            old_shares = self.bitHopper.pool.servers[server]['shares']
-            self.bitHopper.pool.servers[server]['shares'] = 0
-            self.bitHopper.select_best_server()
-            if '_defer' not in self.blocks[block]:
-                self.blocks[block]['_defer'] = defer.Deferred()
-            self.blocks[block]['_defer'].addCallback(self.api_check,server,block,old_shares)
-	elif self.lastBlock != None and self.blocks[self.lastBlock]["_owner"] != server and '_defer' in self.blocks[self.lastBlock]:
-            # Don't switch, just reset shares
-            self.blocks[self.lastBlock]['_reset']=True
-            self.blocks[self.lastBlock]['_defer'].callback(server)
-            self.blocks[self.lastBlock]['_defer'] = defer.Deferred()
+	    if self.bitHopper.pool.servers[server]['role'] == 'mine_deepbit':
+                self.set_owner(server)
+                old_shares = self.bitHopper.pool.servers[server]['shares']
+                self.bitHopper.pool.servers[server]['shares'] = 0
+                self.bitHopper.select_best_server()
+                if '_defer' not in self.blocks[block]:
+                    self.blocks[block]['_defer'] = defer.Deferred()
+                self.blocks[block]['_defer'].addCallback(self.api_check,server,block,old_shares)
+
+	    elif self.lastBlock != None and self.blocks[self.lastBlock]["_owner"] != server and '_defer' in self.blocks[self.lastBlock]:
+                # Don't switch, just reset shares
+                self.blocks[self.lastBlock]['_reset'] = True
+                self.blocks[self.lastBlock]['_defer'].callback(server)
+                self.blocks[self.lastBlock]['_defer'] = defer.Deferred()
+                self.blocks[self.lastBlock]['_owner'] = server
             
 
     def api_check(self, server, block, old_shares):
