@@ -75,7 +75,7 @@ class LongPoll():
             self.bitHopper.pool.servers[server]['shares'] += old_shares
             self.bitHopper.select_best_server()
 
-    def add_block(self,block, work):
+    def add_block(self, block, work):
         self.blocks[block]={}
         self.bitHopper.lp_callback(work)
         self.blocks[block]["_owner"] = None
@@ -85,7 +85,7 @@ class LongPoll():
         self.polled[server].release()
         self.bitHopper.log_dbg('received lp from: ' + server)
         info = self.bitHopper.pool.servers[server]
-        if info['role'] in ['mine_nmc','disable','mine_ixc','mine_i0c']:
+        if info['role'] in ['mine_nmc', 'disable', 'mine_ixc', 'mine_i0c']:
             return
         if body == None:
             self.bitHopper.log_dbg('error in lp from: ' + server)

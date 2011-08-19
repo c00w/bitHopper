@@ -50,6 +50,7 @@ class Work():
         self.bitHopper = bitHopper
         self.i = 0
         self.agent = Agent(bitHopper.reactor, persistent=True)
+        self.agent.maxConnections = 4
         #twisted.web.client.Agent(bitHopper.reactor, connectTimeout=5)
     
         self.lp_agent = Agent(bitHopper.reactor, persistent=True)
