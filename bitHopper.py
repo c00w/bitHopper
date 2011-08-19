@@ -7,7 +7,6 @@
 import json
 import work
 import diff
-import stats
 import pool
 import speed
 import database
@@ -43,7 +42,6 @@ class BitHopper():
         self.db = database.Database(self)
         self.pool.setup(self) 
         self.speed = speed.Speed(self)
-        self.stats = stats.Statistics(self)
         self.scheduler = scheduler.Scheduler(self)
         self.getwork_store = getwork_store.Getwork_store(self)
         self.request_store = request_store.Request_store(self)
