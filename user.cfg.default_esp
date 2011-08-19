@@ -349,7 +349,7 @@ pass: x
 # Mina polaca
 #https://polmine.pl
 #CAMBIA A CONTINUACION
-role: info
+role: disable
 user: c00w1456testhop
 pass: x
 
