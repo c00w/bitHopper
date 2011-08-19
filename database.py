@@ -30,7 +30,7 @@ class Database():
         self.shares = {}
         self.rejects = {}
         self.payout = {}
-        self.lock = threading.Semaphore()
+        self.lock = threading.RLock()
 
         call = LoopingCall(self.write_database)
         call.start(60)
