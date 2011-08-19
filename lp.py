@@ -151,6 +151,8 @@ class LongPoll():
 
     def pull_lp(self,url,server, output = True):
         #self.bitHopper.log_msg('pull_lp ' + url + ' ' + server)
+        if url == None or server not in self.pool.servers:
+            return
         pool = self.pool.servers[server]
         if url[0] == '/':
             lp_address = str(pool['mine_address']) + str(url)
