@@ -20,19 +20,19 @@ class LpBot(SimpleIRCClient):
         thread.start_new_thread(self.ircobj.process_forever,())
 
     def run(self):
-        while(True):
-            if self.is_connected():
-                self.join()
-            else:
+            while(True):
+                    if self.is_connected():
+                            self.join()
+                    else:
                 self.chan_list = []
-                self._connect()
+                            self._connect()
                 print "Connect returned"
-            time.sleep(15)
+                    time.sleep(15)
     
     def _connect(self):
         print "Connecting..."
         try:
-            self.connect('irc.pedanticstoner.com', 6667, self.nick)
+            self.connect('irc.bithopper.org', 6667, self.nick)
         except Exception, e:
             print e
 
@@ -59,6 +59,7 @@ class LpBot(SimpleIRCClient):
 
     def decider(self, server, block):
         last_server = self.server
+        last_block = self.get_last_block()
         votes = 0
         total_votes = 0
 
@@ -129,7 +130,7 @@ class LpBot(SimpleIRCClient):
         # Cleanup
         # Delete any orbaned blocks out of blockinfo
         print "Clean Up..."
-        for clean_block, _ in self.hashinfo.items():
+        for clean_block, clean_val in self.hashinfo.items():
             if clean_block not in self.hashes:
                 print "Deleting old work... " + clean_block
                 del self.hashinfo[clean_block]
@@ -156,7 +157,7 @@ class LpBot(SimpleIRCClient):
 
     def join(self):
         if '#bithopper-lp' not in self.chan_list:
-            self.connection.join('#bithopper-lp')
+                    self.connection.join('#bithopper-lp')
             self.chan_list.append('#bithopper-lp')
 
 #class test_eventargs():
