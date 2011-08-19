@@ -198,7 +198,7 @@ class BitHopper():
 
 def main():
     parser = optparse.OptionParser(description='bitHopper')
-    parser.add_option('--debug', action= 'store_true', default = False, help='Use twisted output')
+    parser.add_option('--debug', action= 'store_true', default = False, help='Log twisted output')
     parser.add_option('--trace', action= 'store_true', default = False, help='Extra debugging output')
     parser.add_option('--listschedulers', action='store_true', default = False, help='List alternate schedulers available')
     parser.add_option('--port', type = int, default=8337, help='Port to listen on')
