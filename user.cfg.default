@@ -253,14 +253,6 @@ swepool_user_apikey: xxxxxx
 user: your_username
 pass: your_password
 
-[i0g]
-# i0coins pool, use mine_i0c
-#http://i0.btcguild.com/register.php
-#CHANGE THIS (if you want)
-role: disable
-user: your_username
-pass: your_password
-
 [bitfarms]
 #http://bitfarms.ca/
 #CHANGE THIS (if you want)
@@ -311,11 +303,12 @@ user: paraipanakos.works
 pass: minero
 
 ######################################
-# Namecoin pools. Good for hopping
-# with mine_nmc if you want some nmc
+# Namecoin and other type of pools.
+# For hopping use mine_xxx accordingly
 ######################################
 
 [bitparking]
+# Nmc pool (mine_nmc)
 #http://bitparking.com/
 #CHANGE THIS (if you want)
 role: info
@@ -324,11 +317,20 @@ pass: x
 #passwords can be anything on bitparking
 
 [nmcbit]
+# Nmc pool (mine_nmc)
 #http://nmcbit.com/
 #CHANGE THIS (if you want)
 role: info
 user: x
 pass: x
+
+[i0g]
+# i0coins pool, use mine_i0c
+#http://i0.btcguild.com/register.php
+#CHANGE THIS (if you want)
+role: disable
+user: your_username
+pass: your_password
 
 ######################################
 # These Pools are not hopped for a
