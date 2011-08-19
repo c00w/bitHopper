@@ -38,16 +38,16 @@ class BitHopper():
         self.new_server = Deferred()
         self.lpBot = None
         self.reactor = reactor
-        self.difficulty = diff.Difficulty(self)
-        self.pool = pool.Pool(self)
+        self.difficulty = diff.Difficulty(self)           
+        self.pool = pool.Pool(self)     
         self.db = database.Database(self)
+        self.pool.setup(self) 
         self.speed = speed.Speed(self)
         self.stats = stats.Statistics(self)
         self.scheduler = scheduler.Scheduler(self)
         self.getwork_store = getwork_store.Getwork_store(self)
         self.request_store = request_store.Request_store(self)
-        self.data = data.Data(self)
-        self.pool.setup(self)        
+        self.data = data.Data(self)       
         self.lp = lp.LongPoll(self)
         self.auth = None
         self.work = work.Work(self)

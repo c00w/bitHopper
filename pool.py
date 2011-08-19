@@ -56,7 +56,11 @@ class Pool():
 
         if self.servers == {}:
             bitHopper.log_msg("No pools found in pools.cfg or user.cfg")
-        if self.initialized == False: self.current_server = pool
+
+        if self.initialized == False: 
+            self.current_server = pool
+        else:
+            self.setup(bitHopper) 
         self.initialized = True
         
     def setup(self, bitHopper):
