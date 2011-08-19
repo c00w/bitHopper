@@ -5,108 +5,108 @@
 
 
 [bloodys]
-# Please report experience on forum or IRC
+info_1: Please report experience on forum or IRC
 
 
 [bithasher]
-# Please report experience on forum or IRC
+info_1: Please report experience on forum or IRC
 
 
 [swepool]
-# Please report experience on forum or IRC
+info_1: Please report experience on forum or IRC
 
 
 [bitfarms]
-# Please report experience on forum or IRC
+info_1: Please report experience on forum or IRC
 
 
 #######################################
 
 
 [bclc]
-# You could try mining here with the mine_deepbit role
-# Delaying stats and not very civic attitude with occasional miners (page 95)
+info_2: You could try mining here with the mine_deepbit role
+info_1: Delaying stats and not very civic attitude with occasional miners (page 95)
 
 
 [bcpool]
-# Fakes json stats so you keep hopping them (page 184)
-# Disables anti-hopper measures for 1% donation (page 111)
-# Anti-hopping method based on "window of participation" (page 36)
+info_3: Fakes json stats so you keep hopping them (page 184)
+info_2: Disables anti-hopper measures for 1% donation (page 111)
+info_1: Anti-hopping method based on "window of participation" (page 36)
 
 
 [bitclockers]
-# Handle with care, possible anti-hopper measures in place
+info_1: Handle with care, possible anti-hopper measures in place
 
 
 [bmunion]
-# Small pool good for hopping
+info_1: Small pool good for hopping
 
 
 [btcg]
-# Try mining here with the mine_deepbit role
-# Delayed stats (page 87)
+info_2: Try mining here with the mine_deepbit role
+info_1: Delayed stats (page 87)
 
 
 [btcmine]
-# Score based payout (page 164)
+info_1: Score based payout (page 164)
 
 
 [btcmonkey]
-# Hopper friendly pool
+info_1: Hopper friendly pool
 
 
 [btcserv]
-# Small pool, pls report experience on forum
+info_1: Small pool, pls report experience on forum
 
 
 [btcworld]
-# Good for hopping, small pool
+info_1: Good for hopping, small pool
 
 
 [deepbit]
-# Hopping them really feels like hopping an elefant
+info_1: Hopping them really feels like hopping an elefant
 
 
 [digbtc]
-# Small pool, recommended you change user-agent in file "work.py" (page 154)
+info_1: Small pool, recommended you change user-agent in file "work.py" (page 154)
 
 
 [itzod]
-# Score based payout, hop using mine_slush if you want (page 154)
+info_1: Score based payout, hop using mine_slush if you want (page 154)
 
 
 [kiwipool]
-# Seems like they're Prop. pool (IRC Chan.)
-# Switched to PPS (page 154)
+info_2: Seems like they're Prop. pool (IRC Chan.)
+info_1: Switched to PPS (page 154)
 
 
 [mtred]
-# Good for hopping, fast pool for hopper-starters
+info_1: Good for hopping, fast pool for hopper-starters
 
 
 [nofeemining]
-# Hopper friendly pool
+info_1: Hopper friendly pool
 
 
 [ozco]
-# Stats solved
-# Freezing stats for unknown reason (page 114)
+info_2: Stats solved
+info_1: Freezing stats for unknown reason (page 114)
 
 
 [slush]
-# Good for mining until 10% of diff. - use mine_slush
+info_1: Good for mining until 10% of diff. - use mine_slush
 #   Warning ! Mine at your own risk. The scoring
 #  system used by this pool is not designed to work
 #             for occasional miners.
 
 
 [triple]
-# Hopper friendly pool
+info_1: Hopper friendly pool
 
 
 [unitedminers]
-# Disables anti-hopper flagging if you donate to pool (page 161)
-# Changed to PPLNS in the middle of a round (page 94)
+info_2: Disables anti-hopper flagging if you donate to pool (page 161)
+info_1: Changed to PPLNS in the middle of a round (page 94)
 
 
 ######################################
@@ -119,19 +119,19 @@
 
 
 [eligius]
-# 0% fee PPS pool
+info_1: 0% fee PPS pool
 
 
 [arsbitcoin]
-# 0% fee PPS pool
+info_1: 0% fee PPS pool
 
 
 [bitp]
-# PPS pool
+info_1: PPS pool
 
 
 [ninjac]
-# PPS pool
+info_1: PPS pool
 
 
 ######################################
@@ -141,15 +141,15 @@
 
 
 [bitparking]
-# Nmc pool (mine_nmc)
+info_1: Nmc pool (mine_nmc)
 
 
 [nmcbit]
-# Nmc pool (mine_nmc)
+info_1: Nmc pool (mine_nmc)
 
 
 [i0g]
-# i0coins pool, use mine_i0c
+info_1: i0coins pool, use mine_i0c
 
 
 ######################################
@@ -161,37 +161,37 @@
 
 
 [rfc]
-# Pool is closed down (page 178)
-# Nice small pool
+info_2: Pool is closed down (page 178)
+info_1: Nice small pool
 
 
 [polmine]
-# Smaller payouts just for hoppers based on 30btc blocks (page 174 + IRC)
-# You could try mining here with the mine_deepbit role
-# Delays and fakes stats (page 157)
-# Nice polish pool
+info_4: Smaller payouts just for hoppers based on 30btc blocks (page 174 + IRC)
+info_3: You could try mining here with the mine_deepbit role
+info_2: Delays and fakes stats (page 157)
+info_1: Nice polish pool
 
 
 [btcpool24]
-# Changed payout system and delays stats, allot (page 116)
+info_1: Changed payout system and delays stats, allot (page 116)
 
 
 [poolmunity]
-# Obscure payout system and anti-hopping measures (page 55)
+info_1: Obscure payout system and anti-hopping measures (page 55)
 
 
 [x8s]
-# Pool is closed down
+info_1: Pool is closed down (page 48)
 
 
 [mineco]
-# Changed to PPLNS (page 94)
+info_1: Changed to PPLNS (page 94)
 
 
 [eclipsemc]
-# Changed to a score system (page 16)
+info_1: Changed to a score system (page 16)
 
 
 [mmf]
-# They use some "cheat proof scoring" algorithm (page 26)
+info_1: They use some "cheat proof scoring" algorithm (page 26)
 
