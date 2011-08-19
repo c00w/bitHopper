@@ -223,6 +223,7 @@ def main():
         for s in scheduler.Scheduler.__subclasses__():
             schedulers += ", " + s.__name__
         print "Available Schedulers: " + schedulers[2:]
+        return
 
     bithopper_instance = BitHopper(options)
 
