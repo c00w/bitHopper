@@ -49,11 +49,9 @@ class Work():
     def __init__(self, bitHopper):
         self.bitHopper = bitHopper
         self.i = 0
-        try:
-            self.agent = Agent(bitHopper.reactor, persistent=True)#twisted.web.client.Agent(bitHopper.reactor, connectTimeout=5)
-        except:
-            self.agent = twisted.web.client.Agent(bitHopper.reactor)
-        
+        self.agent = Agent(bitHopper.reactor, persistent=True)
+        #twisted.web.client.Agent(bitHopper.reactor, connectTimeout=5)
+    
         self.lp_agent = Agent(bitHopper.reactor, persistent=True)
 
     @defer.inlineCallbacks
