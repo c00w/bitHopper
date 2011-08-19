@@ -24,9 +24,9 @@ class LpBot(SimpleIRCClient):
                     if self.is_connected():
                             self.join()
                     else:
-                self.chan_list = []
+                            self.chan_list = []
                             self._connect()
-                print "Connect returned"
+                            print "Connect returned"
                     time.sleep(15)
     
     def _connect(self):
@@ -157,7 +157,7 @@ class LpBot(SimpleIRCClient):
 
     def join(self):
         if '#bithopper-lp' not in self.chan_list:
-                    self.connection.join('#bithopper-lp')
+            self.connection.join('#bithopper-lp')
             self.chan_list.append('#bithopper-lp')
 
 #class test_eventargs():
