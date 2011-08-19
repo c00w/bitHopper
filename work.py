@@ -9,6 +9,8 @@ import base64
 import evenlet
 httplib2 = eventlet.import_patched('httplib2')
 
+import webob
+
 from zope.interface import implements
 
 from client import Agent
@@ -133,11 +135,10 @@ class Work():
     @defer.inlineCallbacks
     def handle(self, env, start_request):
         
-        start_request( '200 OK', [("Content-type", "text/json"),
-                                  ('X-Long-Polling', '/LP')]
+        start_request( '200 OK', [("Content-type", "text/json"),])#('X-Long-Polling', '/LP')])
 
-        print dir(env['wsgi.input'])
-        rpc_request = json.loads(env['wsgi.input'].readall())
+        request = webob.Request(env)
+        rpc_request = json.loads(request.body)
 
         #check if they are sending a valid message
         if rpc_request['method'] != "getwork":
@@ -154,12 +155,6 @@ class Work():
         work = self.jsonrpc_getwork(server, data, request)
 
         response = json.dumps({"result":work, 'error':None, 'id':j_id})        
-        request.write(response)
-        
-        #Check if the request has been closed
-        if self.bitHopper.request_store.closed(request):
-            return
-        request.finish()
 
         #some reject callbacks and merkle root stores
         if str(work) == 'False':
@@ -177,4 +172,5 @@ class Work():
             self.bitHopper.log_msg('RPC request [' + str(data[0][155:163]) + "] submitted to " + server)
 
         if data != []:
-            self.bitHopper.data_callback(server, data, request.getUser(), request.getPassword())  
+            self.bitHopper.data_callback(server, data, request.remote_user, request.remote_password)
+        return response

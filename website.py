@@ -149,22 +149,14 @@ class dataSite(resource.Resource):
     #     bithopper_global.new_server.addCallback(bitHopperLP, (request))
     #     return server.NOT_DONE_YET
 
-class lpSite(resource.Resource):
+class lpSite():
 
     def __init__(self, bitHopper):
-        resource.Resource.__init__(self)
         self.bitHopper = bitHopper
 
-    isLeaf = True
-    def render_GET(self, request):
-        self.bitHopper.request_store.add(request)
-        self.bitHopper.new_server.addCallback(self.bitHopper.bitHopperLP, (request))
-        return server.NOT_DONE_YET
-
-    def render_POST(self, request):
-        self.bitHopper.request_store.add(request)
-        self.bitHopper.new_server.addCallback(self.bitHopper.bitHopperLP, (request))
-        return server.NOT_DONE_YET
+    def handle(self, env, start_response):
+        start_response('200 OK', [('Content-Type', 'text/json')])
+        return self.bitHopper.bitHopperLP()
 
 class nullsite():
     def __init__(self):
@@ -172,6 +164,7 @@ class nullsite():
     def handle(self, env, start_response):
         start_response('200 OK', [('Content-Type', 'text/plain')]
         return ['']
+
 class bitSite():
 
     def __init__(self, bitHopper):
@@ -179,7 +172,7 @@ class bitSite():
         self.bitHopper = bitHopper
 
     def handle_start(self, env, start_response):
-        if env['QUERY_STRING'] in ['','\']:
+        if env['QUERY_STRING'] in ['','/']:
             site = self
         elif env['QUERY_STRING'] == '/LP':
             site = lpSite(self.bitHopper)
