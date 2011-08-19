@@ -257,8 +257,15 @@ pass: your_password
 [i0g]
 # Mina i0coins, usa el rol mine_i0c
 #http://i0.btcguild.com/register.php
-#CHANGE THIS
+#CAMBIA A CONTINUACION (si quieres)
 role: disable
+user: your_username
+pass: your_password
+
+[bitfarms]
+#http://bitfarms.ca/
+#CAMBIA A CONTINUACION (si quieres)
+role: info
 user: your_username
 pass: your_password
 
