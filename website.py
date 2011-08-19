@@ -160,15 +160,14 @@ class lpSite():
 
 class nullsite():
     def __init__(self):
-         
+        pass
     def handle(self, env, start_response):
-        start_response('200 OK', [('Content-Type', 'text/plain')]
+        start_response('200 OK', [('Content-Type', 'text/plain')])
         return ['']
 
 class bitSite():
 
     def __init__(self, bitHopper):
-        resource.Resource.__init__(self)
         self.bitHopper = bitHopper
 
     def handle_start(self, env, start_response):
@@ -189,7 +188,7 @@ class bitSite():
                 site = self
         site.handle(env,start_response)
 
-    def handle(self, env, start_response)
+    def handle(self, env, start_response):
         return self.bitHopper.work.handle(env, start_response)
 
     def auth(self, env):

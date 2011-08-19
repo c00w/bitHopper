@@ -22,6 +22,9 @@ import time
 import lp
 import os
 
+import eventlet
+from eventlet import wsgi
+
 from twisted.web import server
 from twisted.internet import reactor, defer
 from twisted.internet.defer import Deferred
@@ -49,6 +52,7 @@ class BitHopper():
         self.lp = lp.LongPoll(self)
         self.auth = None
         self.work = work.Work(self)
+        self.website = website.bitSite(self)
         delag_call = LoopingCall(self.delag_server)
         delag_call.start(10)
 
@@ -259,7 +263,7 @@ def main():
         bithopper_instance.log_msg('Starting p2p LP')
         bithopper_instance.lpBot = LpBot(bithopper_instance)
 
-    wsgi.server(eventlet.list((options.ip,options.port)),bithopper_instace.website.handle)
+    wsgi.server(eventlet.listen((options.ip,options.port)),bithopper_instance.website.handle_start)
     reactor.run()
     bithopper_instance.db.close()
 
