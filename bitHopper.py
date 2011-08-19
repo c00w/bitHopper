@@ -212,8 +212,8 @@ def main():
     parser.add_option('--altsliceroundtimebias', action='store_true', default=False, help='Bias slicing slightly by round time duration with respect to round time target (default false)')
     parser.add_option('--altsliceroundtimetarget', type=int, default=1000, help='Round time target based on GHash/s (default 1000 Ghash/s)')
     parser.add_option('--altsliceroundtimemagic', type=int, default=10, help='Round time magic number, increase to bias towards round time over shares')
-    parser.add_option('--startLP', action= 'store_true', default = True, help='Seeds the LP module with known pools. Must use it for LP based hopping with deepbit, True by default')
-    parser.add_option('--p2pLP', action='store_true', default=False, help='Starts up an IRC bot to validate LP based hopping.  Must be used with --startLP')
+    parser.add_option('--p2pLP', action='store_true', default=False, help='Starts up an IRC bot to validate LP based hopping.')
+    parser.add_option('--OldConnectionSystem', action='store_true', default=False, help='Uses the old connection system. May help with lots of miners')
     parser.add_option('--ip', type = str, default='', help='IP to listen on')
     parser.add_option('--auth', type = str, default=None, help='User,Password')
     options = parser.parse_args()[0]
@@ -261,7 +261,7 @@ def main():
         bithopper_instance.lpBot = LpBot(bithopper_instance)
 
     site = server.Site(website.bitSite(bithopper_instance))
-    reactor.listenTCP(options.port, site, 5, options.ip)
+    reactor.listenTCP(options.port, site, 20, options.ip)
     reactor.run()
     bithopper_instance.db.close()
 
