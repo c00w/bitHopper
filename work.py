@@ -50,7 +50,7 @@ class Work():
         self.bitHopper = bitHopper
         self.i = 0
         try:
-            self.agent = twisted.web.client.Agent(bitHopper.reactor, connectTimeout=5)
+            self.agent = Agent(bitHopper.reactor, persistent=True)#twisted.web.client.Agent(bitHopper.reactor, connectTimeout=5)
         except:
             self.agent = twisted.web.client.Agent(bitHopper.reactor)
         
