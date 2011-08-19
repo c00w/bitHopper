@@ -5,6 +5,16 @@
 #         to "user.cfg"
 #######################################
 
+################################################################
+#
+# Advice: Please read POOLS_INFO or search the bitHopper forum
+# thread for detailed information on every pool you want to hop.
+#
+# For info. regarding pools speed you can visit bH's wiki
+# https://github.com/c00w/bitHopper/wiki/Pool-status
+#
+################################################################
+
 ###############################################################################
 # Valid pool roles are:
 #
@@ -40,20 +50,7 @@
 #
 ###############################################################################
 
-##########################################################
-#            These Pools are hoppable
-#
-# Advice: Please search the bitHopper forum thread
-# for detailed information on every pool you want to hop.
-# For info. regarding pools speed you can visit bH's wiki
-# https://github.com/c00w/bitHopper/wiki/Pool-status
-##########################################################
-
 [slush]
-# Good for mining until 10% of diff. - use mine_slush
-#   Warning ! Mine at your own risk. The scoring
-#  system used by this pool is not designed to work
-#             for occasional miners.
 #http://mining.bitcoin.cz/accounts/register/
 #CHANGE THIS
 role: mine_slush
@@ -62,8 +59,6 @@ user: c00w.testhop
 pass: testhop
 
 [ozco]
-# Stats solved
-# Freezing stats for unknown reason (page 114)
 #https://ozco.in/register.php
 #CHANGE THIS
 role: mine
@@ -71,7 +66,6 @@ user:c00w.1
 pass:1234
 
 [mtred]
-# Good for hopping, fast pool for hopper-starters
 #https://mtred.com/user/registration.html
 #CHANGE THIS
 role: mine
@@ -80,7 +74,6 @@ user:scarium
 pass:x 
 
 [btcmonkey]
-# Hopper friendly pool
 #http://bitcoinmonkey.com/
 #CHANGE THIS
 role: mine
@@ -88,7 +81,6 @@ user: dah4k0r.testhop
 pass: x
 
 [btcworld]
-# Good for hopping, small pool
 #http://btcworld.de/signup
 #CHANGE THIS
 role: info
@@ -96,7 +88,6 @@ user: testhop
 pass: x
 
 [triple]
-# Hopper friendly pool
 #https://www.triplemining.com/register
 #CHANGE THIS
 role: mine
@@ -104,7 +95,6 @@ user: c00w_test
 pass: x
 
 [bitclockers]
-# Handle with care, possible anti-hopper measures in place
 #http://bitclockers.com/
 #CHANGE THIS
 role: info
@@ -113,7 +103,6 @@ user: flargle
 pass: x
 
 [bmunion]
-# Small pool good for hopping
 #http://www.bitminersunion.org/
 #CHANGE THIS
 role: info
@@ -121,7 +110,6 @@ user: x
 pass: x
 
 [btcserv]
-# Small pool, pls report experience on forum
 #http://btcserv.net/
 #CHANGE THIS
 role: info
@@ -129,9 +117,6 @@ user: x
 pass: y
 
 [bcpool]
-# Fakes json stats so you keep hopping them (page 184)
-# Disables anti-hopper measures for 1% donation (page 111)
-# Anti-hopping method based on "window of participation" (page 36)
 #http://bitcoinpool.com
 #CHANGE THIS
 role: info
@@ -139,7 +124,7 @@ user: c00w_test
 pass: x
 
 [nofeemining]
-#https://nofeemining.appspot.com/ 
+#https://nofeemining.appspot.com/
 #CHANGE THIS
 role: mine
 nofeemining_user_apikey: 4140cbc6405f4425cf91ca74e1450b66
@@ -154,8 +139,6 @@ user: CHANGEME
 pass: CHANGEME
 
 [btcg]
-# Try mining here with the mine_deepbit role
-# Delayed stats (page 87)
 #https://www.btcguild.com/
 #CHANGE THIS (if you want)
 role: info
@@ -164,15 +147,13 @@ user: c00w_test
 pass: 1234
 
 [itzod]
-# Score based payout, hop using mine_slush if you want (page 154)
+# https://pool.itzod.ru
 #CHANGE THIS (if you want)
 role: info
 user: your_username
 pass: your_password
 
 [unitedminers]
-# Disables anti-hopper flagging if you donate to pool (page 161)
-# Changed to PPLNS in the middle of a round (page 94)
 #http://www.unitedminers.com
 #CHANGE THIS (if you want)
 role: info
@@ -180,7 +161,6 @@ user: dah4k0r@gmail.com_testhop
 pass: testhop
 
 [btcmine]
-# Score based payout (page 164)
 # https://btcmine.com/user/register/
 #CHANGE THIS (if you want)
 role: info
@@ -188,7 +168,6 @@ user: your_username
 pass: your_password
 
 [digbtc]
-# Small pool, recommended you change user-agent in file "work.py" (page 154)
 #http://www.digbtc.net/register.php
 #CHANGE THIS (if you want)
 role: info
@@ -196,8 +175,6 @@ user: your_username
 pass: your_password
 
 [bclc]
-# You could try mining here with the mine_deepbit role
-# Delaying stats and not very civic attitude with occasional miners (page 95)
 #http://www.bitcoins.lc
 #CHANGE THIS (if you want)
 role: info
@@ -205,23 +182,13 @@ user: FSkyvM
 pass: xndzEU
 
 [kiwipool]
-# Seems like they're Prop. pool (thanks Clipse - IRC Chan.)
-# Switched to PPS (page 154)
+#http://www.kiwipool.me/
 #CHANGE THIS (if you want)
 role: disable
 user: your_username
 pass: your_password
 
-#######################################
-#   These Pools are added recently
-#      hop them at your risk
-# Advice: Please search the bitHopper
-# forum thread for detailed information
-# on every pool you want to hop
-#######################################
-
 [bloodys]
-# Another pool for the collection
 #http://pool.bloodys.com
 #CHANGE THIS (if you want)
 role: info
@@ -259,7 +226,6 @@ pass: your_password
 ######################################
 
 [eligius]
-# 0% fee PPS pool
 #http://eligius.st/wiki/index.php/Getting_Started
 #CHANGE THIS
 role: backup
@@ -268,7 +234,6 @@ pass: x
 #passwords can be anything on Eligius
 
 [arsbitcoin]
-# 0% fee PPS pool
 #https://arsbitcoin.com/register.php
 #CHANGE THIS
 role: backup
@@ -276,7 +241,6 @@ user: c00w.default
 pass: fire
 
 [bitp]
-# PPS pool
 #http://bitp.it
 #CHANGE THIS
 role: backup
@@ -285,7 +249,6 @@ user: 4bjibc3R1RGF9
 pass: u5cpmndZq4Jvp
 
 [ninjac]
-# PPS pool
 #https://www.ninjacoin.com/index.php
 #CHANGE THIS
 role: disable
@@ -298,7 +261,6 @@ pass: minero
 ######################################
 
 [bitparking]
-# Nmc pool (mine_nmc)
 #http://bitparking.com/
 #CHANGE THIS (if you want)
 role: info
@@ -307,7 +269,6 @@ pass: x
 #passwords can be anything on bitparking
 
 [nmcbit]
-# Nmc pool (mine_nmc)
 #http://nmcbit.com/
 #CHANGE THIS (if you want)
 role: info
@@ -315,7 +276,6 @@ user: x
 pass: x
 
 [i0g]
-# i0coins pool, use mine_i0c
 #http://i0.btcguild.com/register.php
 #CHANGE THIS (if you want)
 role: disable
@@ -324,16 +284,12 @@ pass: your_password
 
 ######################################
 # These Pools are not hopped for a
-# Reason. Page of the BitHopper thread
-# annotated in parentheses.
-# No need to change their user/pass
-# unless you really want to hop them
-# at your own risk.
+# reason. No need to change their
+# user/pass unless you really want
+# to hop them at your own risk.
 ######################################
 
 [rfc]
-# Pool is closed down (page 178)
-# Nice small pool
 #https://rfcpool.com/signup
 #CHANGE THIS
 role: disable
@@ -341,10 +297,6 @@ user: c00w_test
 pass: x
 
 [polmine]
-# Smaller payouts just for hoppers based on 30btc blocks (page 174 + IRC)
-# You could try mining here with the mine_deepbit role
-# Delays and fakes stats (page 157)
-# Nice polish pool
 #https://polmine.pl
 #CHANGE THIS
 role: disable
@@ -353,8 +305,6 @@ pass: x
 
 [oldpolmine]
 # Old re exp. polmine stats
-# Delays and fakes stats (page 157)
-# Nice polish pool
 #https://polmine.pl
 #CHANGE THIS
 role: disable
@@ -362,7 +312,6 @@ user: c00w1456testhop
 pass: x
 
 [btcpool24]
-# Changed payout system and delays stats, allot (page 116)
 #http://www.btcpool24.com
 #CHANGE THIS
 role: disable
@@ -370,7 +319,6 @@ user: Sukrim.hopper
 pass: 1234
 
 [poolmunity]
-# Obscure payout system and anti-hopping measures (page 55)
 #CHANGE THIS (if you want)
 #http://poolmunity.com/
 role: info
@@ -378,7 +326,6 @@ user: c00w.testhop
 pass: testhop
 
 [x8s]
-# Pool is closed down
 #http://btc.x8s.de/
 #CHANGE THIS (if you want)
 role: disable
@@ -386,7 +333,6 @@ user: testhop
 pass: x 
 
 [mineco]
-# Changed to PPLNS (page 94)
 #https://mineco.in
 #CHANGE THIS (if you want)
 role: info
@@ -394,7 +340,6 @@ user: c00w.test
 pass: x
 
 [eclipsemc]
-# Changed to a score system (page 16)
 #https://eclipsemc.com
 #CHANGE THIS (if you want)
 role: info
@@ -403,7 +348,6 @@ user: c00w_worker
 pass: x
 
 [mmf]
-# They use some "cheat proof scoring" algorithm (page 26)
 #http://mining.mainframe.nl
 #CHANGE THIS (if you want)
 role: disable
