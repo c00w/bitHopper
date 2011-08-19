@@ -328,6 +328,7 @@ class AltSliceScheduler(Scheduler):
         self.target_duration = 0
         self.sbs_count = 0
         self.initDone = False
+        self.reset()
 
     def reset(self,):
         with self.lock:
