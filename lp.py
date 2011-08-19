@@ -31,8 +31,9 @@ class LongPoll():
         if block == None:
             if self.lastBlock == None:
                 return
-            old_owner = self.blocks[block]["_owner"]
-
+            block = self.lastBlock
+        
+        old_owner = self.blocks[block]["_owner"]
         self.blocks[block]["_owner"] = server
         if '_defer' in self.blocks[block]:
             self.blocks[block]['_defer'].callback(server)
