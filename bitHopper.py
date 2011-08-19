@@ -259,8 +259,7 @@ def main():
         bithopper_instance.log_msg('Starting p2p LP')
         bithopper_instance.lpBot = LpBot(bithopper_instance)
 
-    site = server.Site(website.bitSite(bithopper_instance))
-    reactor.listenTCP(options.port, site, 20, options.ip)
+    wsgi.server(eventlet.list((options.ip,options.port)),bithopper_instace.website.handle)
     reactor.run()
     bithopper_instance.db.close()
 

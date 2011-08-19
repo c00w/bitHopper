@@ -10,33 +10,6 @@ import sys
 from twisted.web import server, resource
 from twisted.web.http import UNAUTHORIZED
 
-def flat_info(request, bithopper_global):
-    response = '<html><head><title>bitHopper Info</title></head><body>'
-    current_name = bithopper_global.pool.servers[bithopper_global.pool.get_current()]['name']
-    response += '<p>Current Pool: ' + current_name+' @ ' 
-    response += str(bithopper_global.speed.get_rate()) + 'MH/s</p>'
-    response += '<table border="1"><tr><td>Name</td><td>Role</td><td>Shares'
-    response += '</td><td>Rejects</td><td>Payouts</td><td>Efficiency</td></tr>'
-    servers = bithopper_global.pool.get_servers()
-    for server in servers:
-        info = servers[server]
-        if info['role'] not in ['backup', 'mine', 'api_disable']:
-            continue
-        shares = str(bithopper_global.db.get_shares(server))
-        rejects = bithopper_global.pool.get_servers()[server]['rejects']
-        rejects_str = "{:.3}%".format(float(rejects/(float(shares)+1)*100)) + "(" + str(rejects)+")"
-        response += '<tr><td>' + info['name'] + '</td><td>' + info['role'] + \
-            '</td><td>' + shares + \
-            '</td><td>' + rejects_str +\
-            '</td><td>' + str(bithopper_global.db.get_payout(server)) + \
-            '</td><td>' + str(bithopper_global.stats.get_efficiency(server)) \
-            + '</td></tr>'
-
-    response += '</table></body></html>'
-    request.write(response)
-    request.finish()
-    return
-
 class dynamicSite(resource.Resource):
     def __init__(self, bitHopper):
         resource.Resource.__init__(self)
@@ -193,58 +166,44 @@ class lpSite(resource.Resource):
         self.bitHopper.new_server.addCallback(self.bitHopper.bitHopperLP, (request))
         return server.NOT_DONE_YET
 
-class nullsite(resource.Resource):
+class nullsite():
     def __init__(self):
-        resource.Resource.__init__(self) 
-   
-    def render_GET(self, request):
-        request.finish()
-        return server.NOT_DONE_YET
-
-    def render_POST(self, request):
-        request.finish()
-        return server.NOT_DONE_YET
-
-class bitSite(resource.Resource):
+         
+    def handle(self, env, start_response):
+        start_response('200 OK', [('Content-Type', 'text/plain')]
+        return ['']
+class bitSite():
 
     def __init__(self, bitHopper):
         resource.Resource.__init__(self)
         self.bitHopper = bitHopper
 
-    def render_GET(self, request):
-        self.bitHopper.request_store.add(request, 60)
-        self.bitHopper.new_server.addCallback(self.bitHopper.bitHopperLP, (request))
-        return server.NOT_DONE_YET
-
-    def render_POST(self, request):
-        self.bitHopper.work.handle(request)
-        return server.NOT_DONE_YET
-
-    def auth(self, request):
-        if self.bitHopper.auth != None:  
-            user = request.getUser()
-            password = request.getPassword()
-            if user != self.bitHopper.auth[0] or password != self.bitHopper.auth[1]:
-                request.setResponseCode(UNAUTHORIZED)
-                request.setHeader('WWW-authenticate', 'basic realm="%s"' 
-            % "Admin")
-                return False
-        return True
-
-    def getChild(self, name, request):
-        if name == '':
+    def handle_start(self, env, start_response):
+        if env['QUERY_STRING'] in ['','\']:
             site = self
-        elif name == 'LP':
+        elif env['QUERY_STRING'] == '/LP':
             site = lpSite(self.bitHopper)
-        elif not self.auth(request):
+        elif not self.auth(env):
             site = nullsite()
         else:
-            if name == 'flat':
+            if env['QUERY_STRING'] == 'flat':
                 site = flatSite(self.bitHopper)
-            elif name == 'stats' or name == 'index.html':
+            elif env['QUERY_STRING'] in ['stats', 'index.html']:
                 site = dynamicSite(self.bitHopper)
-            elif name == 'data':
+            elif env['QUERY_STRING'] == 'data':
                 site = dataSite(self.bitHopper)
             else:
                 site = self
-        return site
+        site.handle(env,start_response)
+
+    def handle(self, env, start_response)
+        return self.bitHopper.work.handle(env, start_response)
+
+    def auth(self, env):
+        return True
+        if self.bitHopper.auth != None:  
+            user = None
+            password = None
+            if user != self.bitHopper.auth[0] or password != self.bitHopper.auth[1]:
+                return False
+        return True
