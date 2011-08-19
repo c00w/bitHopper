@@ -118,6 +118,10 @@ class dynamicSite(resource.Resource):
                 except Exception,e:
                     self.bh.log_dbg('Incorrect http post reloadconfig')
                     self.bh.log_dbg(e)
+            if "enableDebug" in v:
+                self.bh.options.debug = True
+            if "disableDebug" in v:
+                self.bh.options.debug = True
           
         return self.render_GET(request)
 
