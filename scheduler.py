@@ -224,6 +224,8 @@ class DefaultScheduler(Scheduler):
         self.bitHopper = self.bh
         self.sliceinfo = {}
         self.lastcalled = time.time()
+        self.reset()
+
         call = LoopingCall(self.bh.server_update)
         call.start(10)
 

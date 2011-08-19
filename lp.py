@@ -19,12 +19,14 @@ def byteswap(value):
 class LongPoll():
     def __init__(self, bitHopper):
         self.bitHopper = bitHopper
+        self.bitHopper.log_msg('LP Module Load')
         self.pool = self.bitHopper.pool
         self.blocks = {}
         self.lastBlock = None
         self.errors = {}
         self.polled = {}
         self.lock = threading.RLock()
+
         startlp = LoopingCall(self.start_lp)
         startlp.start(60*60)
 

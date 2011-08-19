@@ -127,7 +127,8 @@ class BitHopper():
     def get_new_server(self, server):
         if server not in self.pool.servers:
             return self.pool.get_current()
-        self.pool.servers[server]['lag'] = True
+        with self.pool.lock:
+            self.pool.servers[server]['lag'] = True
         self.log_dbg('Lagging. :' + server)
         self.server_update()
         return self.pool.get_current()
