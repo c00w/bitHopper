@@ -194,16 +194,6 @@ role: info
 user: your_username
 pass: your_password
 
-[polmine]
-# Puedes probar minar con el rol mine_deepbit
-# Ralentiza y truca los stats (pagina 157)
-# Mina polaca
-#https://polmine.pl
-#CAMBIA A CONTINUACION
-role: info
-user: c00w1456testhop
-pass: x
-
 [bclc]
 # Puedes probar minar con el rol mine_deepbit
 # Ralentiza stats y no tiene una actitud muy civica con los mineros (pagina 95)
@@ -350,6 +340,17 @@ pass: your_password
 #CAMBIA A CONTINUACION
 role: disable
 user: c00w_test
+pass: x
+
+[polmine]
+# Pagos menores solo para hoppers basados en bloques de 30btc (pagina 174 + IRC)
+# Puedes probar minar con el rol mine_deepbit
+# Ralentiza y truca los stats (pagina 157)
+# Mina polaca
+#https://polmine.pl
+#CAMBIA A CONTINUACION
+role: info
+user: c00w1456testhop
 pass: x
 
 [oldpolmine]
