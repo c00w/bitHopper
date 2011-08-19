@@ -3,6 +3,7 @@
 #      hop them at your risk
 #######################################
 
+
 [bloodys]
 # Please report experience on forum or IRC
 
@@ -75,7 +76,7 @@
 
 
 [kiwipool]
-# Seems like they're Prop. pool (thanks Clipse - IRC Chan.)
+# Seems like they're Prop. pool (IRC Chan.)
 # Switched to PPS (page 154)
 
 
@@ -115,6 +116,7 @@
 # hopping proof algorithms, PPS has
 # lowest variance though)
 ######################################
+
 
 [eligius]
 # 0% fee PPS pool

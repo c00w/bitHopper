@@ -1,0 +1,199 @@
+#######################################
+#   Minas añadidas recientemente,
+#      saltalas a tu riesgo.
+#######################################
+
+
+[bloodys]
+# Por favor reporta tu experiencia en foro o canal IRC.
+
+
+[bithasher]
+# Por favor reporta tu experiencia en foro o canal IRC.
+
+
+[swepool]
+# Por favor reporta tu experiencia en foro o canal IRC.
+
+
+[bitfarms]
+# Por favor reporta tu experiencia en foro o canal IRC.
+
+
+#######################################
+
+
+[bclc]
+# Puedes probar minar con el rol mine_deepbit
+# Ralentiza stats y no tiene una actitud muy civica con los mineros (pagina 95)
+
+
+[bcpool]
+# Truca los stats json para que te quedes minando con ellos (pagina 184)
+# Desactiva las medidas anti-hopper si donas 1% (pagina 111)
+# Medidas anti-hopping basadas en "ventana de participacion" (pagina 36)
+
+
+[bitclockers]
+# Salta esta mina con precaucion, posibles medidas anti-hopper
+
+
+[bmunion]
+# Pequeña mina buena para saltar
+
+
+[btcg]
+# Prueba suerte minar con el rol mine_deepbit
+# Ralentiza stats (pagina 87)
+
+
+[btcmine]
+# Sistema de pago por puntuacion (pagina 164)
+
+
+[btcmonkey]
+# Mina amigable
+
+
+[btcserv]
+# Mina pequeña, raportar informacion sobre ella en el foro
+
+
+[btcworld]
+# Buena para saltar, nina pequeña
+
+
+[deepbit]
+# Saltando esta mina se parece un poco en saltar un elefante.
+
+
+[digbtc]
+# Mina pequeña, recomendado que cambies el user-agent en el archivo "work.py" (page 154)
+
+
+[itzod]
+# Sistema de pago por puntuacion, utiliza mine_slush si quieres saltarla (pagina 154)
+
+
+[kiwipool]
+# Se quedaron con el sist. Proporcional (Canal IRC)
+# Cambio a sistema PPS (pagina 154)
+
+
+[mtred]
+# Buena para saltar, mina rapida para principiantes
+
+
+[nofeemining]
+# Mina amigable
+
+
+[ozco]
+# Stats funcionan
+# Congela stats sin razon (pagina 114, foro oficial bH)
+
+
+[slush]
+# Buena para saltar hasta 10% de dificultad, utiliza mine_slush
+#   Aviso ! Mina a tu riesgo, el algoritmo con puntuacion que
+#   utiliza esta mina no esta diseñado para mineros ocasionales.
+
+
+[triple]
+# Mina amigable
+
+
+[unitedminers]
+# Desactiva las medidas anti-hopper si donas de tu recompensa (pagina 161)
+# Ha cambiado a sistema PPLNS en medio de una ronda (pagina 94)
+
+
+######################################
+# Minas de respaldo (backup) para
+# cuando no tienes ninguna mina
+# proporcional disponible.
+# (puede ser cualquier mina con medidas
+# anti-hopping, las minas PPS tienen
+# la menor variancia desde luego.
+######################################
+
+
+[eligius]
+# 0% tasas, mina PPS
+
+
+[arsbitcoin]
+# 0% tasas, mina PPS
+
+
+[bitp]
+# Mina PPS
+
+
+[ninjac]
+# Mina PPS
+
+
+######################################
+# Minas Namecoin u otro tipo. Salta
+# usando el modo adecuado (mine_xxx)
+######################################
+
+
+[bitparking]
+# Mina namecoins (mine_nmc)
+
+
+[nmcbit]
+# Mina namecoins (mine_nmc)
+
+
+[i0g]
+# Mina i0coins, usa el rol mine_i0c
+
+
+######################################
+# Estas minas no se saltan por una
+# razon. La pagina del hilo oficial
+# viene entre paréntesis.
+# No es necesario que cambies
+# usuario/contraseña solo si quieres
+# saltarlas a tu riesgo.
+######################################
+
+
+[rfc]
+# Mina cerrada (pagina 178) 
+# Mina pequeña y mona
+
+
+[polmine]
+# Pagos menores solo para hoppers basados en bloques de 30btc (pagina 174 + IRC)
+# Puedes probar minar con el rol mine_deepbit
+# Ralentiza y truca los stats (pagina 157)
+# Mina polaca
+
+
+[btcpool24]
+# Ha cambiado el sistema de pagos y ralentiza los stats (pagina 116, foro bH)
+
+
+[poolmunity]
+# Sistema de pagos desconocido y medidas anti-hopping (pagina 55)
+
+
+[x8s]
+# Mina cerrada
+
+
+[mineco]
+# Ha cambiado sistema de pagos a PPLNS (pagina 94)
+
+
+[eclipsemc]
+# Ha cambiado a sistema de pagos a uno por puntuacion (pagina 16)
+
+
+[mmf]
+# Utilizan algun sistema de pagos "anti truco" (trad. literal) desconocido (pagina 26)
+
