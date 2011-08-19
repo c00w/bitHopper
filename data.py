@@ -16,14 +16,14 @@ class Data():
         self.db = self.bitHopper.db
         self.speed = self.bitHopper.speed
         self.difficulty = self.bitHopper.difficulty
-        self.lock = threading.Semaphore()
+        self.lock = threading.RLock()
         with self.lock:
             users = self.db.get_users()
-            prune = LoopingCall(self.prune)
-            prune.start(10)
 
             for user in users:
                 self.users[user] = {'shares':users[user]['shares'],'rejects':users[user]['rejects'], 'last':0, 'shares_time': [], 'hash_rate': 0}
+        prune = LoopingCall(self.prune)
+        prune.start(10)
 
     def prune(self):
         with self.lock:
