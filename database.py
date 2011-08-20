@@ -153,7 +153,7 @@ class Database():
             return users
 
     def update_shares(self,server, shares, user, password):
-        with self.lock():
+        with self.lock:
             if server not in self.shares:
                 self.shares[server] = {}
             if user not in self.shares[server]:
