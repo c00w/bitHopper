@@ -390,7 +390,7 @@
 		
 			function update() {
 				$.getJSON('/data', function(data) {
-					document.title = data["current"] + '@ bitHopper';
+					document.title = data["current"] + ' @ '+ parseInt(data["mhash"]) + " MHash - bitHopper";
 					$("#current").html("<span style='font-weight:bold;color:yellow;'>" + data["current"] + "</span> @" + parseInt(data["mhash"]) + "MHash");
 
 					updateRoundShares(data);
