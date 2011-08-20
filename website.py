@@ -171,22 +171,22 @@ class bitSite():
         self.bitHopper = bitHopper
 
     def handle_start(self, env, start_response):
-        if env['QUERY_STRING'] in ['','/']:
+        if env['PATH_INFO'] in ['','/']:
             site = self
-        elif env['QUERY_STRING'] == '/LP':
+        elif env['PATH_INFO'] == '/LP':
             site = lpSite(self.bitHopper)
         elif not self.auth(env):
             site = nullsite()
         else:
-            if env['QUERY_STRING'] == 'flat':
+            if env['PATH_INFO'] == 'flat':
                 site = flatSite(self.bitHopper)
-            elif env['QUERY_STRING'] in ['stats', 'index.html']:
+            elif env['PATH_INFO'] in ['stats', 'index.html']:
                 site = dynamicSite(self.bitHopper)
-            elif env['QUERY_STRING'] == 'data':
+            elif env['PATH_INFO'] == 'data':
                 site = dataSite(self.bitHopper)
             else:
                 site = self
-        site.handle(env,start_response)
+        return site.handle(env,start_response)
 
     def handle(self, env, start_response):
         return self.bitHopper.work.handle(env, start_response)

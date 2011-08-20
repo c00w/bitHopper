@@ -5,6 +5,7 @@
 
 import json
 import base64
+import traceback
 
 import eventlet
 httplib2 = eventlet.import_patched('httplib2')
@@ -56,7 +57,7 @@ class Work():
         self.bitHopper = bitHopper
         self.i = 0
         self.httppool = eventlet.pools.Pool()
-        self.httppool.create = httplib2.Http()
+        self.httppool.create = httplib2.Http
 
     def jsonrpc_lpcall(self, server, url, lp):
         try:
@@ -87,7 +88,7 @@ class Work():
             self.i += 1
             
             info = self.bitHopper.pool.servers[server]
-            header = {'Authorization':["Basic " +base64.b64encode(info['user']+ ":" + info['pass'])], 'User-Agent': ['poclbm/20110709'],'Content-Type': ['application/json'] }
+            header = {'Authorization':"Basic " +base64.b64encode(info['user']+ ":" + info['pass']), 'User-Agent': 'poclbm/20110709','Content-Type': 'application/json' }
             url = "http://" + info['mine_address']
             with self.httppool.item() as http:
                 resp, content = http.request( url, 'POST', headers=header, body=request)
@@ -95,15 +96,14 @@ class Work():
             lp = self.bitHopper.lp
             if lp.check_lp(server):
                 #bitHopper.log_msg('Inside LP check')
-                for k,v in rep:
+                for k,v in resp.items():
                     if k.lower() == 'x-long-polling':
                         lp.set_lp(v[0],server)
                         break
         except Exception, e:
             self.bitHopper.log_dbg('Caught, jsonrpc_call insides')
-            self.bitHopper.log_dbg(server)
             self.bitHopper.log_dbg(e)
-            #traceback.print_exc
+            traceback.print_exc()
             return None
 
         try:
@@ -134,9 +134,8 @@ class Work():
                 server = self.bitHopper.get_new_server(server)
             elif tries > 2:
                 self.bitHopper.get_new_server(server)
-        defer.returnValue(work)
+        return work
 
-    @defer.inlineCallbacks
     def handle(self, env, start_request):
         
         start_request( '200 OK', [("Content-type", "text/json"),])#('X-Long-Polling', '/LP')])
@@ -162,7 +161,7 @@ class Work():
 
         #some reject callbacks and merkle root stores
         if str(work) == 'False':
-            self.bitHopper.reject_callback(server, data, request.getUser(), request.getPassword())
+            self.bitHopper.reject_callback(server, data, request.request.remote_user, request.remote_password)
         elif str(work) != 'True':
             merkle_root = work["data"][72:136]
             self.bitHopper.getwork_store.add(server,merkle_root)
@@ -177,4 +176,4 @@ class Work():
 
         if data != []:
             self.bitHopper.data_callback(server, data, request.remote_user, request.remote_password)
-        return response
+        return [response]
