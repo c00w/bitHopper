@@ -1,6 +1,6 @@
 #######################################
 #     Archivo de configuracion
-#  Cambia los nombres y contraseñas
+#  Cambia los nombres y contrasenas
 #  por defecto y asegurate tambien
 #    cambiar el nombre de este
 #      archivo a "user.cfg"
@@ -46,7 +46,7 @@
 #              que dejes la mina antes de dificultad*0.43)
 #  lp_penalty: normaliza las LP de esta mina con "x" segundos (mayor para LP muy rapidos)
 #  user:       nombre del trabajador que se tiene que utilizar
-#  pass:       contraseña del trabajador (no se necesita para todas las minas)
+#  pass:       contrasena del trabajador (no se necesita para todas las minas)
 #
 ###############################################################################
 
@@ -239,7 +239,7 @@ pass: your_password
 role: backup
 user: 1AofHmwVef5QkamCW6KqiD4cRqEcq5U7hZ
 pass: x
-#las contraseñas no importan en Eligius
+#las contrasenas no importan en Eligius
 
 [arsbitcoin]
 #https://arsbitcoin.com/register.php
@@ -274,7 +274,7 @@ pass: minero
 role: info
 user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
 pass: x
-#las contraseñas no importan en BitParking
+#las contrasenas no importan en BitParking
 
 [nmcbit]
 #http://nmcbit.com/
@@ -293,7 +293,7 @@ pass: your_password
 ######################################
 # Estas minas no se saltan por una
 # razon. No es necesario que cambies
-# usuario/contraseña solo si quieres
+# usuario/contrasena solo si quieres
 # saltarlas a tu riesgo.
 ######################################
 
