@@ -224,6 +224,8 @@ class DefaultScheduler(Scheduler):
         self.bitHopper = self.bh
         self.sliceinfo = {}
         self.lastcalled = time.time()
+        self.reset()
+
         call = LoopingCall(self.bh.server_update)
         call.start(10)
 
@@ -326,6 +328,7 @@ class AltSliceScheduler(Scheduler):
         self.target_duration = 0
         self.sbs_count = 0
         self.initDone = False
+        self.reset()
 
     def reset(self,):
         with self.lock:
