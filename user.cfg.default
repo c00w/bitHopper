@@ -255,6 +255,15 @@ role: disable
 user: paraipanakos.works
 pass: minero
 
+[abc]
+#PPS, intro. 0% fee, pays stales
+#ABCPool.com, reg temp disabled
+#CHANGE THIS
+role: backup
+abc_user_apikey: 
+user: CHANGEME
+pass: CHANGEME
+
 ######################################
 # Namecoin and other type of pools.
 # For hopping use mine_xxx accordingly
