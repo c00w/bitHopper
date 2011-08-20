@@ -1,5 +1,5 @@
 #######################################
-#   Minas añadidas recientemente,
+#   Minas anadidas recientemente,
 #      saltalas a tu riesgo.
 #######################################
 
@@ -39,7 +39,7 @@ info_1: Salta esta mina con precaucion, posibles medidas anti-hopper
 
 
 [bmunion]
-info_1: Pequeña mina buena para saltar
+info_1: Pequena mina buena para saltar
 
 
 [btcg]
@@ -56,11 +56,11 @@ info_1: Mina amigable
 
 
 [btcserv]
-info_1: Mina pequeña, raportar informacion sobre ella en el foro
+info_1: Mina pequena, raportar informacion sobre ella en el foro
 
 
 [btcworld]
-info_1: Buena para saltar, nina pequeña
+info_1: Buena para saltar, nina pequena
 
 
 [deepbit]
@@ -68,7 +68,7 @@ info_1: Saltando esta mina se parece un poco en saltar un elefante.
 
 
 [digbtc]
-info_1: Mina pequeña, recomendado que cambies el user-agent en el archivo "work.py" (page 154)
+info_1: Mina pequena, recomendado que cambies el user-agent en el archivo "work.py" (page 154)
 
 
 [itzod]
@@ -96,7 +96,7 @@ info_1: Congela stats sin razon (pagina 114, foro oficial bH)
 [slush]
 info_1: Buena para saltar hasta 10% de dificultad, utiliza mine_slush
 #   Aviso ! Mina a tu riesgo, el algoritmo con puntuacion que
-#   utiliza esta mina no esta diseñado para mineros ocasionales.
+#   utiliza esta mina no esta disenado para mineros ocasionales.
 
 
 [triple]
@@ -155,16 +155,16 @@ info_1: Mina i0coins, usa el rol mine_i0c
 ######################################
 # Estas minas no se saltan por una
 # razon. La pagina del hilo oficial
-# viene entre paréntesis.
+# viene entre parentesis.
 # No es necesario que cambies
-# usuario/contraseña solo si quieres
+# usuario/contrasena solo si quieres
 # saltarlas a tu riesgo.
 ######################################
 
 
 [rfc]
 info_2: Mina cerrada (pagina 178) 
-info_1: Mina pequeña y mona
+info_1: Mina pequena y mona
 
 
 [polmine]
