@@ -4,6 +4,8 @@
 
 import json
 
+#NOT CURRENTLY USED AND NOT THREADSAFE
+
 from twisted.internet.task import LoopingCall
 
 class Statistics():

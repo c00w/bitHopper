@@ -21,7 +21,7 @@
 				text-decoration:none;
 			}
 			
-			td {
+			td, th {
 				padding:2px;
 				padding-left:6px;
 				padding-right:6px;
@@ -30,7 +30,7 @@
 				height:40px;
 			}
 			
-			td.head {
+			th.head {
 				border-bottom:2px solid white;
 			}
 			#headercontainer { position: fixed; top: 0; left: 0; right: 0; height: 85px; margin: 0; padding: 0; background-color: #272F87; }
@@ -294,7 +294,12 @@
 				}
 				return h;
 			}
-			
+
+			//Returns the string representation of the role of the pool
+			function getRoleString(payload, srv) {
+				return (srv["role"]);
+			}
+
 			var srvhist = {};
 			function updateRoundShares(data) {
 				for(v in data["servers"]) {
@@ -308,6 +313,7 @@
 			}
 			
 			function buildTable(id, items, payload, columns, fnSort, tableCss) {
+				var showDisabledPools = document.getElementById('show_role_disabled').checked ;
 				var html = "";
 				var tCss = "";
 				if(tableCss != undefined) {
@@ -319,15 +325,20 @@
 				for(col in columns) {
 					var column = columns[col];
 					var tdAttr = "";
+					var cssAttr = "";
 
 					if(column['width'] != undefined) {
-						cssAttr += "width:" + column['width'];
+						cssAttr += "width:" + column['width'] + "; ";
 					}
 					
 					if(column['align'] != undefined)
 						tdAttr += " align='" + column['align'] + "'";
+
+					if(column['display'] != undefined ){
+						cssAttr += "display:" + column['display'] + "; ";
+					}
 					
-					html += "	<td class='head' " + tdAttr + "><b>" + col.replace(/\s/g, "&nbsp;") + "</b></td>";
+					html += "	<th class='head' " + tdAttr + " style='" + cssAttr + "'><b>" + col.replace(/\s/g, "&nbsp;") + "</b></th>";
 				}
 				
 				html += "	</tr>";
@@ -344,7 +355,13 @@
 				for(var i=0;i<rows.length;i++) {
 					var r = rows[i];
 					var row = items[r];
-					html += "<tr>";
+
+					row_role = columns['Role String']['data'](payload, row, r);
+					if( !showDisabledPools && row_role == "disable" ){
+					    continue;		//Skip disabled pools
+					}
+
+					html += "<tr id=\"row_" + i + "\">";
 					
 					for(col in columns) {
 						var column = columns[col];
@@ -378,6 +395,10 @@
 							cssAttr += "padding-top:0px;padding-bottom:0px;";
 							tdAttr += " width='100%'";
 						}
+
+						if(column['display'] != undefined ){
+							cssAttr += "display:" + column['display'] + "; ";
+						}
 						
 						html += "<td " + tdAttr + " style='" + cssAttr + "'>" + content + "</td>";
 					}
@@ -402,7 +423,7 @@
 		
 			function update() {
 				$.getJSON('/data', function(data) {
-					document.title = data["current"] + '@ bitHopper';
+					document.title = data["current"] + ' @ '+ parseInt(data["mhash"]) + " MHash - bitHopper";
 					$("#current").html("<span style='font-weight:bold;color:yellow;'>" + data["current"] + "</span> @" + parseInt(data["mhash"]) + "MHash");
 
 					updateRoundShares(data);
@@ -419,7 +440,8 @@
 							'Efficiency': { 'data':getEfficiency, 'color':getColor, 'align':'center' },
 							'Penalty': { 'data':getPenalty, 'color':getColor, 'align':'center' },
 							'Slice': { 'data':getSlice, 'color':getColor, 'align':'center' },
-							'Round Shares': { 'data':getRoundShares, 'type':'linechart', 'width':'100%' }
+							'Round Shares': { 'data':getRoundShares, 'type':'linechart', 'width':'100%' },
+							'Role String' : { 'data':getRoleString, 'display':'none' }
 						},
 						function(a, b) {
 							if(data["servers"][a]["role"].trim() != data["servers"][b]["role"].trim()) {
@@ -459,6 +481,7 @@
 			<span style="background-color:yellow;width:20px;height:20px;">&nbsp;&nbsp;</span> Info
 			<span style="background-color:green;width:20px;height:20px;">&nbsp;&nbsp;</span> Mine
 			<span style="background-color:#FF3232;width:20px;height:20px;color:white;font-family:Arial,Helvetica,sans-serif;font-size:20px;"><b>Please Donate to c00w:1HEmzeuVEKxBQkEenysV1yM8oAddQ4o2TX</b></span> 
+			<form><input type="checkbox" id="show_role_disabled" name="show_role" value="disabled" checked="true" />Show Disabled Pools</form>
 		</span>
 	</div>
 	<div id="admin">

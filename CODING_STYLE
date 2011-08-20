@@ -7,7 +7,8 @@ COMMENTS
 Comments are really nice. Docstrings are also nice. We don't have enough of either.
 
 ADDING A NEW FEATURE
-I prefer new features be added as new files and modules. If they can't reasonably be done like that or fit within a current module use that. If in doubt ask.
+I prefer new features be added as new files and modules. If they can't reasonably be
+done like that or fit within a current module use that. If in doubt ask.
 
 WHY DOES POOL.PY DO EVERYTHING?
 Because I haven't had time to split it and clean it up.
