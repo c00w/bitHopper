@@ -313,9 +313,10 @@
 				for(col in columns) {
 					var column = columns[col];
 					var tdAttr = "";
+					var cssAttr = "";
 
 					if(column['width'] != undefined) {
-						cssAttr += "width:" + column['width'];
+						cssAttr += "width:" + column['width'] + "; ";
 					}
 					
 					if(column['align'] != undefined)
@@ -325,7 +326,7 @@
 						cssAttr += "display:" + column['display'] + "; ";
 					}
 					
-					html += "	<td class='head' " + tdAttr + "><b>" + col.replace(/\s/g, "&nbsp;") + "</b></td>";
+					html += "	<td class='head' " + tdAttr + " style='" + cssAttr + "'><b>" + col.replace(/\s/g, "&nbsp;") + "</b></td>";
 				}
 				
 				html += "	</tr>";
@@ -345,7 +346,7 @@
 
 					row_role = columns['Role String']['data'](payload, row, r);
 					if( !showDisabledPools && row_role == "disable" ){
-					    continue;
+					    continue;		//Skip disabled pools
 					}
 
 					html += "<tr id=\"row_" + i + "\">";
