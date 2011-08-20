@@ -21,7 +21,7 @@
 				text-decoration:none;
 			}
 			
-			td {
+			td, th {
 				padding:2px;
 				padding-left:6px;
 				padding-right:6px;
@@ -30,7 +30,7 @@
 				height:40px;
 			}
 			
-			td.head {
+			th.head {
 				border-bottom:2px solid white;
 			}
 			#headercontainer { position: fixed; top: 0; left: 0; right: 0; height: 85px; margin: 0; padding: 0; background-color: #272F87; }
@@ -326,7 +326,7 @@
 						cssAttr += "display:" + column['display'] + "; ";
 					}
 					
-					html += "	<td class='head' " + tdAttr + " style='" + cssAttr + "'><b>" + col.replace(/\s/g, "&nbsp;") + "</b></td>";
+					html += "	<th class='head' " + tdAttr + " style='" + cssAttr + "'><b>" + col.replace(/\s/g, "&nbsp;") + "</b></th>";
 				}
 				
 				html += "	</tr>";
