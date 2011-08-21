@@ -38,7 +38,7 @@ class Work():
 
     def get(self, url):
         "A utility method for getting webpages"
-        header = {'User-Agent':['Mozilla/5.0 (Windows; U; MSIE 9.0; WIndows NT 9.0; en-US))']}
+        header = {'User-Agent':'Mozilla/5.0 (Windows; U; MSIE 9.0; WIndows NT 9.0; en-US))'}
         with self.httppool.item() as http:
                 resp, content = http.request( url, 'GET', headers=header)
         return content

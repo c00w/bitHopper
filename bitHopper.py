@@ -28,9 +28,6 @@ from lpbot import LpBot
 
 import sys
 
-from twisted.web import server
-from twisted.internet import reactor, defer
-from twisted.internet.defer import Deferred
 from twisted.python import log
 
 class BitHopper():
@@ -39,7 +36,6 @@ class BitHopper():
         self.options = options
         self.lp_callback = lp_callback.LP_Callback(self)
         self.lpBot = None
-        self.reactor = reactor
         self.difficulty = diff.Difficulty(self)           
         self.pool = pool.Pool(self)     
         self.db = database.Database(self)
@@ -131,7 +127,6 @@ class BitHopper():
         if self.scheduler.server_update():
             self.select_best_server()
 
-    @defer.inlineCallbacks
     def delag_server(self ):
         while True:
             #Delags servers which have been marked as lag.
@@ -141,7 +136,7 @@ class BitHopper():
                 for server in self.pool.get_servers():
                     info = self.pool.servers[server]
                     if info['lag'] == True:
-                        data = yield self.work.jsonrpc_call(server, [])
+                        data = self.work.jsonrpc_call(server, [])
                         self.log_dbg('Got' + server + ":" + str(data))
                         if data != None:
                             info['lag'] = False
@@ -213,8 +208,6 @@ def main():
         bithopper_instance.lpBot = LpBot(bithopper_instance)
 
     wsgi.server(eventlet.listen((options.ip,options.port)),bithopper_instance.website.handle_start)
-    reactor.run()
-    bithopper_instance.db.close()
 
 if __name__ == "__main__":
     main()

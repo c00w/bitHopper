@@ -7,12 +7,9 @@
 import os
 import json
 import sys
-from twisted.web import server, resource
-from twisted.web.http import UNAUTHORIZED
 
-class dynamicSite(resource.Resource):
+class dynamicSite():
     def __init__(self, bitHopper):
-        resource.Resource.__init__(self)
         self.bh = bitHopper
       
     isleaF = True
@@ -94,10 +91,9 @@ class dynamicSite(resource.Resource):
           
         return self.render_GET(request)
 
-class dataSite(resource.Resource):
+class dataSite():
 
     def __init__(self, bitHopper):
-        resource.Resource.__init__(self)
         self.bitHopper = bitHopper
 
     isLeaf = True

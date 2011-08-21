@@ -5,10 +5,10 @@
 import json
 import re
 import ConfigParser
-import os
 import sys
-import time
-from eventlet.green import threading
+
+import eventlet
+from eventlet.green import threading, os, time
 
 try:
     from collections import OrderedDict
@@ -106,7 +106,7 @@ class Pool():
                 if self.servers[server]['default_role'] in ['info','disable']:
                     self.servers[server]['default_role'] = 'mine'
             self.servers = OrderedDict(sorted(self.servers.items(), key=lambda t: t[1]['role'] + t[0]))
-        self.bitHopper.reactor.callLater(0, self.update_api_servers, bitHopper)
+        eventlet.spawn_n(self.update_api_servers, bitHopper)
             
     def get_entry(self, server):
         with self.lock:
@@ -142,7 +142,7 @@ class Pool():
 
             if time <= self.servers[server]['refresh_limit']:
                 time = self.servers[server]['refresh_limit']
-            self.bitHopper.reactor.callLater(time,self.update_api_server,server)
+            eventlet.spawn_after(time,self.update_api_server,server)
 
             try:
                 k =  str('{0:d}'.format(int(shares)))
@@ -185,11 +185,11 @@ class Pool():
         time = self.servers[pool]['refresh_time']
         if time < self.servers[pool]['refresh_limit']:
             time = self.servers[pool]['refresh_limit']
-        self.bitHopper.reactor.callLater(time, self.update_api_server, pool)
+        eventlet.spawn_after(time, self.update_api_server, pool)
 
-    def selectsharesResponse(self, response, args):
+    def selectsharesResponse(self, response, server_name):
         #self.bitHopper.log_dbg('Calling sharesResponse for '+ args)
-        server = self.servers[args]
+        server = self.servers[server_name]
         if server['role'] not in self.api_pull:
             return
 
@@ -424,10 +424,8 @@ class Pool():
             return
         info = self.servers[server]
         self.bitHopper.scheduler.update_api_server(server)
-        d = self.bitHopper.work.get(info['api_address'])
-        d.addCallback(self.selectsharesResponse, (server))
-        d.addErrback(self.errsharesResponse, (server))
-        d.addErrback(self.bitHopper.log_msg)
+        value = self.bitHopper.work.get(info['api_address'])
+        self.selectsharesResponse( value, server)
 
     def update_api_servers(self, bitHopper):
         self.bitHopper = bitHopper
@@ -436,7 +434,7 @@ class Pool():
             update = self.api_pull
             if info['role'] in update:
                 d = bitHopper.work.get(info['api_address'])
-                d.addCallback(self.selectsharesResponse, (server))
+                self.selectsharesResponse( d, server)
                 d.addErrback(self.errsharesResponse, (server))
                 d.addErrback(self.bitHopper.log_msg)
 
