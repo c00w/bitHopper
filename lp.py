@@ -103,7 +103,7 @@ class LongPoll():
                 self.errors[server] += 1
             #timeout? Something bizarre?
             if self.errors[server] < 3 or info['role'] == 'mine_deepbit':
-                self.bitHopper.reactor.callLater(0,self.pull_lp, self.pool.servers[server]['lp_address'],server, False)
+                eventlet.spawn_after(0,self.pull_lp, self.pool.servers[server]['lp_address'],server, False)
             return
         try:
             output = True
@@ -141,7 +141,7 @@ class LongPoll():
             #timeout? Something bizarre?
             if self.errors[server] > 3 and info['role'] != 'mine_deepbit':
                 return
-        self.bitHopper.reactor.callLater(0,self.pull_lp, self.pool.servers[server]['lp_address'],server,output)
+        eventlet.spawn_n(self.pull_lp, self.pool.servers[server]['lp_address'],server,output)
         
     def clear_lp(self,):
         pass
@@ -156,10 +156,10 @@ class LongPoll():
             info['lp_address'] = url
             if server not in self.polled:
                 self.polled[server] = threading.Semaphore()
-            self.bitHopper.reactor.callLater(0,self.pull_lp, url,server)
+            eventlet.spawn_n(self.pull_lp, url,server)
         except Exception, e:
             self.bitHopper.log_msg('set_lp error')
-            self.bitHopper.log_dbg(str(e))
+            self.bitHopper.log_msg(e)
 
     def pull_lp(self,url,server, output = True):
         #self.bitHopper.log_msg('pull_lp ' + url + ' ' + server)
