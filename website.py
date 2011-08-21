@@ -118,6 +118,17 @@ class dynamicSite(resource.Resource):
                 except Exception,e:
                     self.bh.log_dbg('Incorrect http post reloadconfig')
                     self.bh.log_dbg(e)
+            if "resetUserShares" in v:
+                self.bh.log_msg('User forced user shares, est payouts to be reset')
+                try:
+                    for server in self.bh.pool.get_servers():
+                        info = self.bh.pool.get_entry(server)
+                        info['user_shares'] = 0
+                        info['rejects'] = 0
+                        info['expected_payout'] = 0
+                except Exception,e:
+                    self.bh.log_dbg('Incorrect http post resetUserShares')
+                    self.bh.log_dbg(e)
           
         return self.render_GET(request)
 

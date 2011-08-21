@@ -195,6 +195,12 @@
 				update();
 			}
 
+			function resetUserShares() {
+				var frm = "<form><input type=hidden name='resetUserShares' value='reset'></form>";
+				$.post("/stats", $(frm).serialize());
+				update();
+			}
+
 
 			function getPayout(payload, srv) {
 				var srvName = "";
@@ -433,7 +439,7 @@
 							'Payout': { 'data':getPayout, 'color':getColor, 'align':'center' },
 							'Efficiency': { 'data':getEfficiency, 'color':getColor, 'align':'center' },
 							'Penalty': { 'data':getPenalty, 'color':getColor, 'align':'center' },
-							'Slice': { 'data':getSlice, 'color':getColor, 'align':'center', 'display':'' },
+							'Slice': { 'data':getSlice, 'color':getColor, 'align':'center', 'display':'none' },
 							'Round Shares': { 'data':getRoundShares, 'type':'linechart', 'width':'100%' },
 							'Role String' : { 'data':getRoleString, 'display':'none' }
 						},
@@ -487,7 +493,8 @@
 			<tr>
 				<td><b>Admin Tools:</b></td>
 				<td><input class="admin" type="button" name="resetsc" value="Reset Scheduler" onclick="resetScheduler(); return false;"/></td>
-				<td><input class="admin" type="button" name="resetsh" value="Reset Shares" onclick="resetShares(); return false;"/></td>
+				<td><input class="admin" type="button" name="resetsh" value="Reset Shares" onclick="resetShares(); return false;" title="Sets Pool Shares to Difficulty"/></td>
+				<td><input class="admin" type="button" name="resetUserShares" value="Reset User Shares & Est Payouts" onclick="resetUserShares(); return false;" title="Resets user shares/rejects, estimated payouts to 0"/></td>
 				<td><input class="admin" type="button" name="reloadconfig" value="Reload Config" onclick="reloadConfig(); return false;"/></td>
 			</tr>
 		</table>
