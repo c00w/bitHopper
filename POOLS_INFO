@@ -190,6 +190,21 @@ info_1: Nmc pool (mine_nmc)
 info_1: Nmc pool (mine_nmc)
 
 
+[masterpool]
+#https://masterpool.eu/signup
+info_1: Currently testing merged mining. Once implemented, you will be able to mine NMC and BTC simultaneously.
+
+
+[namebit]
+#http://www.namebit.org/
+info_1: Payouts are automatic and no need to signup
+
+
+[bitchomp]
+#http://www.bitchomp.info/ncp/register.php
+info_1: Nmc pool (mine_nmc)
+
+
 [i0g]
 #http://i0.btcguild.com/register.php
 info_1: i0coins pool, use mine_i0c

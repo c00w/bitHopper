@@ -191,6 +191,21 @@ info_1: Mina namecoins (mine_nmc)
 info_1: Mina namecoins (mine_nmc)
 
 
+[masterpool]
+#https://masterpool.eu/signup
+info_1: Actualmente estan probando la mineria unida. Una vez implementada se va poder minar NMC y BTC a la vez.
+
+
+[namebit]
+#http://www.namebit.org/
+info_1: Pagos automaticos sin necesidad de registrarse
+
+
+[bitchomp]
+#http://www.bitchomp.info/ncp/register.php
+info_1: Mina namecoins (mine_nmc)
+
+
 [i0g]
 #http://i0.btcguild.com/register.php
 info_1: Mina i0coins, usa el rol mine_i0c
