@@ -12,7 +12,7 @@ import speed
 import database
 import scheduler
 import website
-import getwork_store
+import getwork_storenew
 import request_store
 import data
 
@@ -20,6 +20,8 @@ import sys
 import optparse
 import time
 import lp
+import lp_callback
+
 import os
 
 import eventlet
@@ -37,7 +39,7 @@ class BitHopper():
     def __init__(self, options):
         """Initializes all of the submodules bitHopper uses"""
         self.options = options
-        self.new_server = Deferred()
+        self.lp_callback = lp_callback.LP_Callback()
         self.lpBot = None
         self.reactor = reactor
         self.difficulty = diff.Difficulty(self)           
@@ -65,14 +67,6 @@ class BitHopper():
     def update_payout(self, server, payout):
         self.db.set_payout(server, float(payout))
         self.pool.servers[server]['payout'] = float(payout)
-
-    def lp_callback(self, work):
-        if work == None:
-            return
-        merkle_root = work['data'][72:136]
-        self.getwork_store.add(server, merkle_root)
-        self.reactor.callLater(0, self.new_server.callback, work)
-        self.new_server = Deferred()
 
     def get_options(self):
         return self.options
@@ -157,49 +151,6 @@ class BitHopper():
                     self.log_dbg('Delagging')
                 else:
                     self.log_dbg('Not delagging')
-
-
-    def bitHopperLP(self, value, *methodArgs):
-        try:
-            self.log_msg('LP triggered serving miner')
-            request = methodArgs[0]
-
-            if self.request_store.closed(request):
-                return value
-
-            #Duplicated from above because its a little less of a hack
-            #But apparently people expect well formed json-rpc back but won't actually make the call
-            try:
-                json_request = request.content.read()
-            except Exception, e:
-                self.log_dbg( 'reading request content failed')
-                json_request = None
-                return value
-            try:
-                rpc_request = json.loads(json_request)
-            except Exception, e:
-                self.log_dbg('Loading the request failed')
-                rpc_request = {'params':[], 'id':1}
-                return value
-
-            j_id = rpc_request['id']
-
-            response = json.dumps({"result":value, 'error':None, 'id':j_id})
-            if self.request_store.closed(request):
-                return value
-            request.write(response)
-            request.finish()
-            return value
-
-        except Exception, e:
-            self.log_msg('Error Caught in bitHopperLP')
-            self.log_dbg(str(e))
-            try:
-                request.finish()
-            except Exception, e:
-                self.log_dbg( "Client already disconnected Urgh.")
-        finally:
-            return value
 
 def main():
     parser = optparse.OptionParser(description='bitHopper')

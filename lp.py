@@ -85,7 +85,7 @@ class LongPoll():
     def add_block(self, block, work):
         with self.lock:
             self.blocks[block]={}
-            self.bitHopper.lp_callback(work)
+            self.bitHopper.lp_callback.new_block(work)
             self.blocks[block]["_owner"] = None
             self.lastBlock = block
 

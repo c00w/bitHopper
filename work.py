@@ -138,7 +138,8 @@ class Work():
 
     def handle(self, env, start_request):
         
-        start_request( '200 OK', [("Content-type", "text/json"),])#('X-Long-Polling', '/LP')])
+        start_request('200 OK', [("Content-type", "text/json"), 
+                                 ('X-Long-Polling', '/LP')])
 
         request = webob.Request(env)
         rpc_request = json.loads(request.body)
@@ -176,4 +177,20 @@ class Work():
 
         if data != []:
             self.bitHopper.data_callback(server, data, request.remote_user, request.remote_password)
+        return [response]
+
+    def handle_LP(self, env, start_response):
+        start_response('200 OK', [('Content-Type', 'text/json')])
+        
+        request = webob.Request(env)
+        try:
+            rpc_request = json.loads(request.body)
+            j_id = rpc_request['id']
+        except Exception, e:
+            self.bitHopper.log_dbg('Error in json handle_LP')
+        
+        value = self.bitHopper.lp_callback.read()
+
+        response = json.dumps({"result":value, 'error':None, 'id':j_id})
+
         return [response]

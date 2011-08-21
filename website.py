@@ -94,26 +94,6 @@ class dynamicSite(resource.Resource):
           
         return self.render_GET(request)
 
-class flatSite(resource.Resource):
-
-    def __init__(self, bitHopper):
-        resource.Resource.__init__(self)
-        self.bitHopper = bitHopper
-
-    isLeaf = True
-    def render_GET(self, request):
-        flat_info(request, self.bitHopper)
-        return server.NOT_DONE_YET
-
-    #def render_POST(self, request):
-    #     global new_server
-    #     bithopper_global.new_server.addCallback(bitHopperLP, (request))
-    #     return server.NOT_DONE_YET
-
-
-    def getChild(self, name, request):
-        return self
-
 class dataSite(resource.Resource):
 
     def __init__(self, bitHopper):
@@ -155,8 +135,7 @@ class lpSite():
         self.bitHopper = bitHopper
 
     def handle(self, env, start_response):
-        start_response('200 OK', [('Content-Type', 'text/json')])
-        return self.bitHopper.bitHopperLP()
+        return self.bitHopper.work.handle_LP(env, start_response)
 
 class nullsite():
     def __init__(self):
@@ -178,9 +157,7 @@ class bitSite():
         elif not self.auth(env):
             site = nullsite()
         else:
-            if env['PATH_INFO'] == 'flat':
-                site = flatSite(self.bitHopper)
-            elif env['PATH_INFO'] in ['stats', 'index.html']:
+            if env['PATH_INFO'] in ['stats', 'index.html', 'index.htm']:
                 site = dynamicSite(self.bitHopper)
             elif env['PATH_INFO'] == 'data':
                 site = dataSite(self.bitHopper)
