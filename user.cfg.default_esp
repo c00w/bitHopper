@@ -286,14 +286,14 @@ pass: x
 [masterpool]
 #https://masterpool.eu/signup
 #CAMBIA A CONTINUACION (si quieres)
-role:mine_nmc
+role: info
 user: x
 pass: xxx
 
 [namebit]
 #http://www.namebit.org/
 #CAMBIA A CONTINUACION (si quieres)
-role:mine_nmc
+role: info
 #user is namecoin address
 user: nmcaddress
 #pasword must be "none"
@@ -302,7 +302,7 @@ pass: none
 [bitchomp]
 #http://www.bitchomp.info/ncp/register.php
 #CAMBIA A CONTINUACION (si quieres)
-role:mine_nmc
+role: info
 user: x
 pass: x
 
