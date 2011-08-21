@@ -3,11 +3,8 @@
 #Based on a work at github.com.
 
 import json
-import time
+from eventlet.green import time
 from eventlet.green import threading
-
-from twisted.internet import defer
-from twisted.internet.task import LoopingCall
 
 def byteswap(value):
     bytes = []
@@ -26,9 +23,7 @@ class LongPoll():
         self.errors = {}
         self.polled = {}
         self.lock = threading.RLock()
-
-        startlp = LoopingCall(self.start_lp)
-        startlp.start(60*60)
+        eventlet.spawn_n(self.start_lp)
 
     def set_owner(self, server, block = None):
         with self.lock:
@@ -60,16 +55,19 @@ class LongPoll():
             return ""
 
     def start_lp(self):
-        # Loop Through each server and either call pull_lp with the address or
-        # Do a getwork.
-        for server in self.pool.get_servers():
-            info = self.pool.servers[server]
-            if info['role'] not in ['mine','mine_charity','mine_deepbit','mine_i0c','info','backup','backup_latehop','disable']:
-                continue
-            if info['lp_address'] != None:
-                self.pull_lp(info['lp_address'],server)
-            else:
-                self.bitHopper.reactor.callLater(0, self.pull_server, server)
+        while True:
+            # Loop Through each server and either call pull_lp with the address or
+            # Do a getwork.
+            with self.pool.lock:
+                for server in self.pool.get_servers():
+                    info = self.pool.servers[server]
+                    if info['role'] not in ['mine','mine_charity','mine_deepbit','mine_i0c','info','backup','backup_latehop','disable']:
+                        continue
+                    if info['lp_address'] != None:
+                        self.pull_lp(info['lp_address'],server)
+                    else:
+                        eventlet.spawn_n(self.pull_server, server)
+            eventlet.sleep(60*60)
                 
                 
     def pull_server(self, server):

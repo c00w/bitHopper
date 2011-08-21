@@ -6,9 +6,12 @@
 
 import eventlet
 from eventlet import wsgi
+from eventlet.green import os, sys, time
 eventlet.monkey_patch()
 
 import json
+import optparse
+
 import work
 import diff
 import pool
@@ -18,24 +21,16 @@ import scheduler
 import website
 import getwork_store
 import data
-
-import sys
-import optparse
-import time
 import lp
 import lp_callback
-
-import os
-
+from scheduler import Scheduler
+from lpbot import LpBot
 
 
 from twisted.web import server
 from twisted.internet import reactor, defer
 from twisted.internet.defer import Deferred
-from twisted.internet.task import LoopingCall
 from twisted.python import log
-from scheduler import Scheduler
-from lpbot import LpBot
 
 class BitHopper():
     def __init__(self, options):
@@ -56,8 +51,7 @@ class BitHopper():
         self.auth = None
         self.work = work.Work(self)
         self.website = website.bitSite(self)
-        delag_call = LoopingCall(self.delag_server)
-        delag_call.start(10)
+        eventlet.spawn_n(self.delag_server)
 
     def reject_callback(self, server, data, user, password):
         self.data.reject_callback(server, data, user, password)
@@ -138,20 +132,22 @@ class BitHopper():
 
     @defer.inlineCallbacks
     def delag_server(self ):
-        #Delags servers which have been marked as lag.
-        #If this function breaks bitHopper dies a long slow death.
-        
-        self.log_dbg('Running Delager')
-        for server in self.pool.get_servers():
-            info = self.pool.servers[server]
-            if info['lag'] == True:
-                data = yield self.work.jsonrpc_call(server, [])
-                self.log_dbg('Got' + server + ":" + str(data))
-                if data != None:
-                    info['lag'] = False
-                    self.log_dbg('Delagging')
-                else:
-                    self.log_dbg('Not delagging')
+        while True:
+            #Delags servers which have been marked as lag.
+            #If this function breaks bitHopper dies a long slow death.
+            with self.pool.lock
+                self.log_dbg('Running Delager')
+                for server in self.pool.get_servers():
+                    info = self.pool.servers[server]
+                    if info['lag'] == True:
+                        data = yield self.work.jsonrpc_call(server, [])
+                        self.log_dbg('Got' + server + ":" + str(data))
+                        if data != None:
+                            info['lag'] = False
+                            self.log_dbg('Delagging')
+                        else:
+                            self.log_dbg('Not delagging')
+            eventlet.sleep(20)
 
 def main():
     parser = optparse.OptionParser(description='bitHopper')
