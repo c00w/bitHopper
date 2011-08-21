@@ -83,7 +83,7 @@ class Work():
                 #bitHopper.log_msg('Inside LP check')
                 for k,v in resp.items():
                     if k.lower() == 'x-long-polling':
-                        lp.set_lp(v[0],server)
+                        lp.set_lp(v,server)
                         break
         except Exception, e:
             self.bitHopper.log_dbg('Caught, jsonrpc_call insides')
