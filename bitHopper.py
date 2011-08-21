@@ -202,7 +202,11 @@ def main():
         bithopper_instance.log_msg('Starting p2p LP')
         bithopper_instance.lpBot = LpBot(bithopper_instance)
 
-    wsgi.server(eventlet.listen((options.ip,options.port)),bithopper_instance.website.handle_start)
+    if not options.debug:
+       log = open(os.devnull, 'wb')
+    else:
+        log = None 
+    wsgi.server(eventlet.listen((options.ip,options.port)),bithopper_instance.website.handle_start, log=log)
     bithopper_instance.db.close()
 
 if __name__ == "__main__":
