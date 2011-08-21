@@ -97,8 +97,8 @@ class dataSite():
         self.bitHopper = bitHopper
 
     isLeaf = True
-    def render_GET(self, request):
-
+    def handle(self, env, start_response):
+        start_response('200 OK', [('Content-Type', 'text/html')])
         #Slice Info
         if hasattr(self.bitHopper.scheduler, 'sliceinfo'):
             sliceinfo = self.bitHopper.scheduler.sliceinfo
@@ -117,9 +117,7 @@ class dataSite():
             'sliceinfo':sliceinfo,
             'servers':self.bitHopper.pool.get_servers(),
             'user':self.bitHopper.data.get_users()})
-        request.write(response)
-        request.finish()
-        return server.NOT_DONE_YET
+        return response
 
     #def render_POST(self, request):
     #     bithopper_global.new_server.addCallback(bitHopperLP, (request))
@@ -153,9 +151,9 @@ class bitSite():
         elif not self.auth(env):
             site = nullsite()
         else:
-            if env['PATH_INFO'] in ['stats', 'index.html', 'index.htm']:
+            if env['PATH_INFO'] in ['/stats', '/index.html', '/index.htm']:
                 site = dynamicSite(self.bitHopper)
-            elif env['PATH_INFO'] == 'data':
+            elif env['PATH_INFO'] == '/data':
                 site = dataSite(self.bitHopper)
             else:
                 site = self
