@@ -345,12 +345,14 @@
 					var r = rows[i];
 					var row = items[r];
 
-					row_role = columns['Role String']['data'](payload, row, r);
-					if( !showDisabledPools && row_role == "disable" ){
-					    continue;		//Skip disabled pools
-					}
-					if( !showInfoPools && row_role == "info" ){
-					    continue;		//Skip info pools
+					if (id == "#table") {
+						row_role = columns['Role String']['data'](payload, row, r);
+						if( !showDisabledPools && row_role == "disable" ){
+							continue;		//Skip disabled pools
+						}
+						if( !showInfoPools && row_role == "info" ){
+							continue;		//Skip info pools
+						}
 					}
 
 					html += "<tr id=\"row_" + i + "\">";
@@ -431,7 +433,7 @@
 							'Payout': { 'data':getPayout, 'color':getColor, 'align':'center' },
 							'Efficiency': { 'data':getEfficiency, 'color':getColor, 'align':'center' },
 							'Penalty': { 'data':getPenalty, 'color':getColor, 'align':'center' },
-							'Slice': { 'data':getSlice, 'color':getColor, 'align':'center', 'display':'none' },
+							'Slice': { 'data':getSlice, 'color':getColor, 'align':'center', 'display':'' },
 							'Round Shares': { 'data':getRoundShares, 'type':'linechart', 'width':'100%' },
 							'Role String' : { 'data':getRoleString, 'display':'none' }
 						},
