@@ -41,7 +41,7 @@
 			
 			#round_duration_estimate {
 				color: DarkGrey;
-			}		
+			}
 			
 		</style>
 		<title>bitHopper info</title>
@@ -195,6 +195,12 @@
 				update();
 			}
 
+			function resetUserShares() {
+				var frm = "<form><input type=hidden name='resetUserShares' value='reset'></form>";
+				$.post("/stats", $(frm).serialize());
+				update();
+			}
+
 
 			function getPayout(payload, srv) {
 				var srvName = "";
@@ -257,7 +263,7 @@
 					} else {
 						ghashColor = "<span class='round_duration'>"	
 					}					
-					return ghashColor + parseFloat(srv['ghash']).toFixed(1) + "</span>"
+					return ghashColor + parseFloat(srv['ghash']).toFixed(0) + "</span>"
 				} else {
 					return '&nbsp;';
 				}
@@ -302,6 +308,7 @@
 			
 			function buildTable(id, items, payload, columns, fnSort, tableCss) {
 				var showDisabledPools = document.getElementById('show_role_disabled').checked ;
+				var showInfoPools = document.getElementById('show_role_info').checked ;
 				var html = "";
 				var tCss = "";
 				if(tableCss != undefined) {
@@ -344,9 +351,14 @@
 					var r = rows[i];
 					var row = items[r];
 
-					row_role = columns['Role String']['data'](payload, row, r);
-					if( !showDisabledPools && row_role == "disable" ){
-					    continue;		//Skip disabled pools
+					if (id == "#table") {
+						row_role = columns['Role String']['data'](payload, row, r);
+						if( !showDisabledPools && row_role == "disable" ){
+							continue; //Skip disabled pools
+						}
+						if( !showInfoPools && row_role == "info" ){
+							continue; //Skip info pools
+						}
 					}
 
 					html += "<tr id=\"row_" + i + "\">";
@@ -422,12 +434,12 @@
 							'Shares': { 'data':getShares, 'color':getColor, 'align':'right' },
 							'Role': { 'data':getRole },
 							'User&nbsp;Shares<br>Rejects': { 'data':getUserShareRejects, 'color':getColor, 'align':'center' },
-							'Speed': { 'data':getPoolSpeed },
-							'Duration': { 'data':getRoundDuration},
+							'MH/s': { 'data':getPoolSpeed, 'align':'right' },
+							'Round<br>Time': { 'data':getRoundDuration, 'align':'center'},
 							'Payout': { 'data':getPayout, 'color':getColor, 'align':'center' },
 							'Efficiency': { 'data':getEfficiency, 'color':getColor, 'align':'center' },
 							'Penalty': { 'data':getPenalty, 'color':getColor, 'align':'center' },
-							'Slice': { 'data':getSlice, 'color':getColor, 'align':'center' },
+							'Slice': { 'data':getSlice, 'color':getColor, 'align':'center', 'display':'' },
 							'Round Shares': { 'data':getRoundShares, 'type':'linechart', 'width':'100%' },
 							'Role String' : { 'data':getRoleString, 'display':'none' }
 						},
@@ -469,7 +481,10 @@
 			<span style="background-color:yellow;width:20px;height:20px;">&nbsp;&nbsp;</span> Info
 			<span style="background-color:green;width:20px;height:20px;">&nbsp;&nbsp;</span> Mine
 			<span style="background-color:#FF3232;width:20px;height:20px;color:white;font-family:Arial,Helvetica,sans-serif;font-size:20px;"><b>Please Donate to c00w:1HEmzeuVEKxBQkEenysV1yM8oAddQ4o2TX</b></span> 
-			<form><input type="checkbox" id="show_role_disabled" name="show_role" value="disabled" checked="true" />Show Disabled Pools</form>
+			<form>
+				<input type="checkbox" id="show_role_disabled" name="show_role" value="disabled" checked="true" />Show Disabled Pools 
+				<input type="checkbox" id="show_role_info" name="show_role" value="info" checked="true" />Show Info Pools
+			</form>
 		</span>
 	</div>
 	<div id="admin">
@@ -478,7 +493,8 @@
 			<tr>
 				<td><b>Admin Tools:</b></td>
 				<td><input class="admin" type="button" name="resetsc" value="Reset Scheduler" onclick="resetScheduler(); return false;"/></td>
-				<td><input class="admin" type="button" name="resetsh" value="Reset Shares" onclick="resetShares(); return false;"/></td>
+				<td><input class="admin" type="button" name="resetsh" value="Reset Shares" onclick="resetShares(); return false;" title="Sets Pool Shares to Difficulty"/></td>
+				<td><input class="admin" type="button" name="resetUserShares" value="Reset User Shares & Est Payouts" onclick="resetUserShares(); return false;" title="Resets user shares/rejects, estimated payouts to 0"/></td>
 				<td><input class="admin" type="button" name="reloadconfig" value="Reload Config" onclick="reloadConfig(); return false;"/></td>
 			</tr>
 		</table>
