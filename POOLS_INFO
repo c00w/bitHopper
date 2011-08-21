@@ -30,13 +30,6 @@ info_1: Please report experience on forum or IRC
 info_1: Please report experience on forum or IRC
 
 
-[abc]
-#http://ABCPool.com
-info_1: PPS, intro. 0% fee, pays stales
-info_2: ABCPool.com, reg temp disabled
-info_3: High invalids on poclbm, site better supports phoenix 1.5+
-
-
 #######################################
 
 
@@ -172,6 +165,13 @@ info_1: PPS pool
 [ninjac]
 #https://www.ninjacoin.com/index.php
 info_1: PPS pool
+
+
+[abc]
+#http://ABCPool.com
+info_1: PPS, intro. 0% fee, pays stales
+info_2: ABCPool.com, reg temp disabled
+info_3: High invalids on poclbm, site better supports phoenix 1.5+
 
 
 ######################################
