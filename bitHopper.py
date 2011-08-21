@@ -4,7 +4,11 @@
 # Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-import eventlet
+try:
+    import eventlet
+except Exception, e:
+    print "You need to install eventlet. See the readme."
+    raise e
 from eventlet import wsgi
 from eventlet.green import os, time
 eventlet.monkey_patch()
