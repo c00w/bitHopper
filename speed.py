@@ -3,7 +3,8 @@
 # Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-import threading
+from eventlet.green import threading
+
 from twisted.internet.task import LoopingCall
 
 class Speed():

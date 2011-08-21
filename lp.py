@@ -4,7 +4,7 @@
 
 import json
 import time
-import threading
+from eventlet.green import threading
 
 from twisted.internet import defer
 from twisted.internet.task import LoopingCall

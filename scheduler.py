@@ -7,7 +7,7 @@
 import time
 import random
 import math
-import threading
+from eventlet.green import threading
 
 from twisted.internet.task import LoopingCall
 

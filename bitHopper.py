@@ -4,6 +4,10 @@
 # Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
+import eventlet
+from eventlet import wsgi
+eventlet.monkey_patch()
+
 import json
 import work
 import diff
@@ -12,8 +16,7 @@ import speed
 import database
 import scheduler
 import website
-import getwork_storenew
-import request_store
+import getwork_store
 import data
 
 import sys
@@ -24,8 +27,7 @@ import lp_callback
 
 import os
 
-import eventlet
-from eventlet import wsgi
+
 
 from twisted.web import server
 from twisted.internet import reactor, defer
@@ -39,7 +41,7 @@ class BitHopper():
     def __init__(self, options):
         """Initializes all of the submodules bitHopper uses"""
         self.options = options
-        self.lp_callback = lp_callback.LP_Callback()
+        self.lp_callback = lp_callback.LP_Callback(self)
         self.lpBot = None
         self.reactor = reactor
         self.difficulty = diff.Difficulty(self)           
@@ -49,7 +51,6 @@ class BitHopper():
         self.speed = speed.Speed(self)
         self.scheduler = scheduler.Scheduler(self)
         self.getwork_store = getwork_store.Getwork_store(self)
-        self.request_store = request_store.Request_store(self)
         self.data = data.Data(self)       
         self.lp = lp.LongPoll(self)
         self.auth = None

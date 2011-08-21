@@ -4,7 +4,7 @@
 #Based on a work at github.com.
 
 import time
-import threading
+from eventlet.green import threading
 
 from twisted.internet.task import LoopingCall
 

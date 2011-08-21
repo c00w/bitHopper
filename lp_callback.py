@@ -5,7 +5,7 @@
 #Based on a work at github.com.
 
 import time
-import threading
+from eventlet.green import threading
 
 class LP_Callback():
     def __init__(self, bitHopper):
@@ -15,7 +15,7 @@ class LP_Callback():
         self.lp_data = None
 
     def read(self):
-        "Gets the New Block work unit to send to clients
+        "Gets the New Block work unit to send to clients"
         self._lplock.acquire()
         return self.lp_data
 

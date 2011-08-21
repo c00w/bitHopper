@@ -8,7 +8,7 @@ import ConfigParser
 import os
 import sys
 import time
-import threading
+from eventlet.green import threading
 
 try:
     from collections import OrderedDict

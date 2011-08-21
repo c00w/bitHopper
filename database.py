@@ -5,7 +5,7 @@
 import sqlite3
 import os
 import sys
-import threading
+from eventlet.green import threading
 
 from twisted.internet.task import LoopingCall
 

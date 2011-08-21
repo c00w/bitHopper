@@ -5,7 +5,7 @@
 
 import urllib2
 import re
-import threading
+from eventlet.green import threading
 
 from twisted.internet.task import LoopingCall
 
