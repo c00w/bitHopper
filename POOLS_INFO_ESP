@@ -1,111 +1,148 @@
 #######################################
+#  Este archivo contiene informacion
+#   sobre la minas conocidas por bH,
+# recogida aqui con fines informativos
+#######################################
+
+#######################################
 #   Minas anadidas recientemente,
 #      saltalas a tu riesgo.
 #######################################
 
 
 [bloodys]
+#http://pool.bloodys.com
 info_1: Por favor reporta tu experiencia en foro o canal IRC.
 
 
 [bithasher]
+#http://bithasher.com/index.php/register/
 info_1: Por favor reporta tu experiencia en foro o canal IRC.
 
 
 [swepool]
+#http://swepool.net/profile
 info_1: Por favor reporta tu experiencia en foro o canal IRC.
 
 
 [bitfarms]
+#http://bitfarms.ca/
 info_1: Por favor reporta tu experiencia en foro o canal IRC.
+
+
+[abc]
+#http://ABCPool.com
+info_1: Mina PPS, 0% comisiones, paga shares "stales"
+info_2: Registro temporalmente deshabilitado
+info_3: Invalidos muy altos con poclbm, mejor utilizar phoenix 1.5+
 
 
 #######################################
 
 
 [bclc]
-info_2: Puedes probar minar con el rol mine_deepbit
+#http://www.bitcoins.lc
 info_1: Ralentiza stats y no tiene una actitud muy civica con los mineros (pagina 95)
+info_2: Puedes probar minar con el rol mine_deepbit
 
 
 [bcpool]
-info_3: Truca los stats json para que te quedes minando con ellos (pagina 184)
-info_2: Desactiva las medidas anti-hopper si donas 1% (pagina 111)
+#http://bitcoinpool.com
 info_1: Medidas anti-hopping basadas en "ventana de participacion" (pagina 36)
+info_2: Desactiva las medidas anti-hopper si donas 1% (pagina 111)
+info_3: Truca los stats json para que te quedes minando con ellos (pagina 184)
 
 
 [bitclockers]
+#http://bitclockers.com/
 info_1: Salta esta mina con precaucion, posibles medidas anti-hopper
 
 
 [bmunion]
+#http://www.bitminersunion.org/
 info_1: Pequena mina buena para saltar
 
 
 [btcg]
-info_2: Prueba suerte minar con el rol mine_deepbit
+#https://www.btcguild.com/
 info_1: Ralentiza stats (pagina 87)
+info_2: Prueba suerte minar con el rol mine_deepbit
 
 
 [btcmine]
+# https://btcmine.com/user/register/
 info_1: Sistema de pago por puntuacion, intenta minar con mine_slush (pagina 164)
 
 
 [btcmonkey]
+#http://bitcoinmonkey.com/
 info_1: Mina amigable
 
 
 [btcserv]
+#http://btcserv.net/
 info_1: Mina pequena, raportar informacion sobre ella en el foro
 
 
 [btcworld]
+#http://btcworld.de/signup
 info_1: Buena para saltar, nina pequena
 
 
 [deepbit]
+#https://deepbit.net/
 info_1: Saltando esta mina se parece un poco en saltar un elefante.
 
 
 [digbtc]
+#http://www.digbtc.net/register.php
 info_1: Mina pequena, recomendado que cambies el user-agent en el archivo "work.py" (page 154)
 
 
 [itzod]
+# https://pool.itzod.ru
 info_1: Sistema de pago por puntuacion, utiliza mine_slush si quieres saltarla (pagina 154)
 
 
 [kiwipool]
-info_2: Se quedaron con el sist. Proporcional (Canal IRC)
+#http://www.kiwipool.me/
 info_1: Cambio a sistema PPS (pagina 154)
+info_2: Se quedaron con el sist. Proporcional (Canal IRC)
 
 
 [mtred]
+#https://mtred.com/user/registration.html
 info_1: Buena para saltar, mina rapida para principiantes
 
 
 [nofeemining]
+#https://nofeemining.appspot.com/
 info_1: Mina amigable
 
 
 [ozco]
-info_2: Stats funcionan
+#https://ozco.in/register.php
 info_1: Congela stats sin razon (pagina 114, foro oficial bH)
+info_2: Stats funcionan
 
 
 [slush]
+#http://mining.bitcoin.cz/accounts/register/
 info_1: Buena para saltar hasta 10% de dificultad, utiliza mine_slush
 #   Aviso ! Mina a tu riesgo, el algoritmo con puntuacion que
 #   utiliza esta mina no esta disenado para mineros ocasionales.
 
 
 [triple]
+#https://www.triplemining.com/register
 info_1: Mina amigable
 
 
 [unitedminers]
-info_2: Desactiva las medidas anti-hopper si donas de tu recompensa (pagina 161)
+#http://www.unitedminers.com
 info_1: Ha cambiado a sistema PPLNS en medio de una ronda (pagina 94)
+info_2: Desactiva las medidas anti-hopper si donas de tu recompensa (pagina 161)
+info_3: Las minas PPLNS se pueden saltar con backup_latehop
 
 
 ######################################
@@ -119,18 +156,22 @@ info_1: Ha cambiado a sistema PPLNS en medio de una ronda (pagina 94)
 
 
 [eligius]
+#http://eligius.st/wiki/index.php/Getting_Started
 info_1: 0% tasas, mina PPS
 
 
 [arsbitcoin]
+#https://arsbitcoin.com/register.php
 info_1: 0% tasas, mina PPS
 
 
 [bitp]
+#http://bitp.it
 info_1: Mina PPS
 
 
 [ninjac]
+#https://www.ninjacoin.com/index.php
 info_1: Mina PPS
 
 
@@ -141,14 +182,32 @@ info_1: Mina PPS
 
 
 [bitparking]
+#http://bitparking.com/
 info_1: Mina namecoins (mine_nmc)
 
 
 [nmcbit]
+#http://nmcbit.com/
+info_1: Mina namecoins (mine_nmc)
+
+
+[masterpool]
+#https://masterpool.eu/signup
+info_1: Actualmente estan probando la mineria unida. Una vez implementada se va poder minar NMC y BTC a la vez.
+
+
+[namebit]
+#http://www.namebit.org/
+info_1: Pagos automaticos sin necesidad de registrarse
+
+
+[bitchomp]
+#http://www.bitchomp.info/ncp/register.php
 info_1: Mina namecoins (mine_nmc)
 
 
 [i0g]
+#http://i0.btcguild.com/register.php
 info_1: Mina i0coins, usa el rol mine_i0c
 
 
@@ -163,37 +222,46 @@ info_1: Mina i0coins, usa el rol mine_i0c
 
 
 [rfc]
-info_2: Mina cerrada (pagina 178) 
+#https://rfcpool.com/signup
 info_1: Mina pequena y mona
+info_2: Mina cerrada (pagina 178)
 
 
 [polmine]
-info_4: Pagos menores solo para hoppers basados en bloques de 30btc (pagina 174 + IRC)
-info_3: Puedes probar minar con el rol mine_deepbit
-info_2: Ralentiza y truca los stats (pagina 157)
+#https://polmine.pl
 info_1: Mina polaca
+info_2: Ralentiza y truca los stats (pagina 157)
+info_3: Puedes probar minar con el rol mine_deepbit
+info_4: Pagos menores solo para hoppers basados en bloques de 30btc (pagina 174 + IRC)
 
 
 [btcpool24]
+#http://www.btcpool24.com
 info_1: Ha cambiado el sistema de pagos y ralentiza los stats (pagina 116, foro bH)
 
 
 [poolmunity]
+#http://poolmunity.com/
 info_1: Sistema de pagos desconocido y medidas anti-hopping (pagina 55)
 
 
 [x8s]
+#http://btc.x8s.de/
 info_1: Mina cerrada (pagina 48)
 
 
 [mineco]
+#https://mineco.in
 info_1: Ha cambiado sistema de pagos a PPLNS (pagina 94)
 
 
 [eclipsemc]
+#https://eclipsemc.com
 info_1: Ha cambiado a sistema de pagos a uno por puntuacion (pagina 16)
 
 
 [mmf]
+#http://mining.mainframe.nl
 info_1: Utilizan algun sistema de pagos "anti truco" (trad. literal) desconocido (pagina 26)
+
 

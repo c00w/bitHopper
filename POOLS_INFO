@@ -1,99 +1,132 @@
 #######################################
+# This file contains brief information
+# of pools used for hopping, gathered
+#   here for orientative purposes.
+#######################################
+
+#######################################
 #   These Pools are added recently
 #      hop them at your risk
 #######################################
 
 
 [bloodys]
+#http://pool.bloodys.com
 info_1: Please report experience on forum or IRC
 
 
 [bithasher]
+#http://bithasher.com/index.php/register/
 info_1: Please report experience on forum or IRC
 
 
 [swepool]
+#http://swepool.net/profile
 info_1: Please report experience on forum or IRC
 
 
 [bitfarms]
+#http://bitfarms.ca/
 info_1: Please report experience on forum or IRC
+
+
+[abc]
+#http://ABCPool.com
+info_1: PPS, intro. 0% fee, pays stales
+info_2: ABCPool.com, reg temp disabled
+info_3: High invalids on poclbm, site better supports phoenix 1.5+
 
 
 #######################################
 
 
 [bclc]
-info_2: You could try mining here with the mine_deepbit role
+#http://www.bitcoins.lc
 info_1: Delaying stats and not very civic attitude with occasional miners (page 95)
+info_2: You could try mining here with the mine_deepbit role
 
 
 [bcpool]
-info_3: Fakes json stats so you keep hopping them (page 184)
-info_2: Disables anti-hopper measures for 1% donation (page 111)
+#http://bitcoinpool.com
 info_1: Anti-hopping method based on "window of participation" (page 36)
+info_2: Disables anti-hopper measures for 1% donation (page 111)
+info_3: Fakes json stats so you keep hopping them (page 184)
 
 
 [bitclockers]
+#http://bitclockers.com/
 info_1: Handle with care, possible anti-hopper measures in place
 
 
 [bmunion]
+#http://www.bitminersunion.org/
 info_1: Small pool good for hopping
 
 
 [btcg]
-info_2: Try mining here with the mine_deepbit role
+#https://www.btcguild.com/
 info_1: Delayed stats (page 87)
+info_2: Try mining here with the mine_deepbit role
 
 
 [btcmine]
+# https://btcmine.com/user/register/
 info_1: Score based payout, try mining with mine_slush (page 164)
 
 
 [btcmonkey]
+#http://bitcoinmonkey.com/
 info_1: Hopper friendly pool
 
 
 [btcserv]
+#http://btcserv.net/
 info_1: Small pool, pls report experience on forum
 
 
 [btcworld]
+#http://btcworld.de/signup
 info_1: Good for hopping, small pool
 
 
 [deepbit]
+#https://deepbit.net/
 info_1: Hopping them really feels like hopping an elefant
 
 
 [digbtc]
+#http://www.digbtc.net/register.php
 info_1: Small pool, recommended you change user-agent in file "work.py" (page 154)
 
 
 [itzod]
+# https://pool.itzod.ru
 info_1: Score based payout, hop using mine_slush if you want (page 154)
 
 
 [kiwipool]
-info_2: Seems like they're Prop. pool (IRC Chan.)
+#http://www.kiwipool.me/
 info_1: Switched to PPS (page 154)
+info_2: Seems like they're Prop. pool (IRC Chan.)
 
 
 [mtred]
+#https://mtred.com/user/registration.html
 info_1: Good for hopping, fast pool for hopper-starters
 
 
 [nofeemining]
+#https://nofeemining.appspot.com/
 info_1: Hopper friendly pool
 
 
 [ozco]
-info_2: Stats solved
+#https://ozco.in/register.php
 info_1: Freezing stats for unknown reason (page 114)
-
+info_2: Stats solved
 
 [slush]
+#http://mining.bitcoin.cz/accounts/register/
 info_1: Good for mining until 10% of diff. - use mine_slush
 #   Warning ! Mine at your own risk. The scoring
 #  system used by this pool is not designed to work
@@ -101,12 +134,15 @@ info_1: Good for mining until 10% of diff. - use mine_slush
 
 
 [triple]
+#https://www.triplemining.com/register
 info_1: Hopper friendly pool
 
 
 [unitedminers]
-info_2: Disables anti-hopper flagging if you donate to pool (page 161)
+#http://www.unitedminers.com
 info_1: Changed to PPLNS in the middle of a round (page 94)
+info_2: Disables anti-hopper flagging if you donate to pool (page 161)
+info_3: PPLNS pools are hoppable with backup_latehop
 
 
 ######################################
@@ -119,18 +155,22 @@ info_1: Changed to PPLNS in the middle of a round (page 94)
 
 
 [eligius]
+#http://eligius.st/wiki/index.php/Getting_Started
 info_1: 0% fee PPS pool
 
 
 [arsbitcoin]
+#https://arsbitcoin.com/register.php
 info_1: 0% fee PPS pool
 
 
 [bitp]
+#http://bitp.it
 info_1: PPS pool
 
 
 [ninjac]
+#https://www.ninjacoin.com/index.php
 info_1: PPS pool
 
 
@@ -141,14 +181,32 @@ info_1: PPS pool
 
 
 [bitparking]
+#http://bitparking.com/
 info_1: Nmc pool (mine_nmc)
 
 
 [nmcbit]
+#http://nmcbit.com/
+info_1: Nmc pool (mine_nmc)
+
+
+[masterpool]
+#https://masterpool.eu/signup
+info_1: Currently testing merged mining. Once implemented, you will be able to mine NMC and BTC simultaneously.
+
+
+[namebit]
+#http://www.namebit.org/
+info_1: Payouts are automatic and no need to signup
+
+
+[bitchomp]
+#http://www.bitchomp.info/ncp/register.php
 info_1: Nmc pool (mine_nmc)
 
 
 [i0g]
+#http://i0.btcguild.com/register.php
 info_1: i0coins pool, use mine_i0c
 
 
@@ -161,41 +219,45 @@ info_1: i0coins pool, use mine_i0c
 
 
 [rfc]
-info_2: Pool is closed down (page 178)
+#https://rfcpool.com/signup
 info_1: Nice small pool
+info_2: Pool is closed down (page 178)
 
 
 [polmine]
-info_4: Smaller payouts just for hoppers based on 30btc blocks (page 174 + IRC)
-info_3: You could try mining here with the mine_deepbit role
-info_2: Delays and fakes stats (page 157)
+#https://polmine.pl
 info_1: Nice polish pool
+info_2: Delays and fakes stats (page 157)
+info_3: You could try mining here with the mine_deepbit role
+info_4: Smaller payouts just for hoppers based on 30btc blocks (page 174 + IRC)
 
 
 [btcpool24]
+#http://www.btcpool24.com
 info_1: Changed payout system and delays stats, allot (page 116)
 
 
 [poolmunity]
+#http://poolmunity.com/
 info_1: Obscure payout system and anti-hopping measures (page 55)
 
 
 [x8s]
+#http://btc.x8s.de/
 info_1: Pool is closed down (page 48)
 
 
 [mineco]
+#https://mineco.in
 info_1: Changed to PPLNS (page 94)
 
 
 [eclipsemc]
+#https://eclipsemc.com
 info_1: Changed to a score system (page 16)
 
 
 [mmf]
+#http://mining.mainframe.nl
 info_1: They use some "cheat proof scoring" algorithm (page 26)
 
-[abc]
-info_1: PPS, intro. 0% fee, pays stales
-info_2: ABCPool.com, reg temp disabled
-info_3: Warning: high invalids on poclbm, site only supports phoenix 1.5+
