@@ -177,8 +177,8 @@ class bitSite():
     def auth(self, env):
         return True
         if self.bitHopper.auth != None:  
-            user = None
-            password = None
+            data = env.get('HTTP_AUTHORIZATION').split(None, 1)[1]
+            username, password = data.decode('base64').split(':', 1)
             if user != self.bitHopper.auth[0] or password != self.bitHopper.auth[1]:
                 return False
         return True

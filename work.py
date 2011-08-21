@@ -147,7 +147,9 @@ class Work():
 
         #some reject callbacks and merkle root stores
         if str(work) == 'False':
-            self.bitHopper.reject_callback(server, data, '', '')
+            data = env.get('HTTP_AUTHORIZATION').split(None, 1)[1]
+            username, password = data.decode('base64').split(':', 1)
+            self.bitHopper.reject_callback(server, data, username, password)
         elif str(work) != 'True':
             merkle_root = work["data"][72:136]
             self.bitHopper.getwork_store.add(server,merkle_root)
@@ -161,11 +163,9 @@ class Work():
             self.bitHopper.log_msg('RPC request [' + str(data[0][155:163]) + "] submitted to " + server)
 
         if data != []:
-            if request.remote_user == None:
-                remote_user = ''
-            else:
-                remote_user = request.remote_user
-            self.bitHopper.data_callback(server, data, remote_user,'') #request.remote_password)
+            data = env.get('HTTP_AUTHORIZATION').split(None, 1)[1]
+            username, password = data.decode('base64').split(':', 1)
+            self.bitHopper.data_callback(server, data, username,password) #request.remote_password)
         return [response]
 
     def handle_LP(self, env, start_response):
