@@ -47,7 +47,8 @@ You can launch bH with the following parameters:
 	--scheduler       = Select an alternate scheduler
 	--threshold       = Override difficulty threshold (default 0.43)
 	--p2pLP           = Starts up an IRC bot to validate LP based hopping
-	--debug           = Use twisted output
+	--debug           = Extra error output. Basically print all caught errors
+
 
 
 # Available Schedulers:
