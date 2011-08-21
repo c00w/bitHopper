@@ -344,12 +344,12 @@
 					var r = rows[i];
 					var row = items[r];
 
-                    if (id == "#table") {
-                        row_role = columns['Role String']['data'](payload, row, r);
-                        if( !showDisabledPools && row_role == "disable" ){
-                            continue; //Skip disabled pools
-                        }
-                    }
+					if (id == "#table") {
+						row_role = columns['Role String']['data'](payload, row, r);
+						if( !showDisabledPools && row_role == "disable" ){
+							continue; //Skip disabled pools
+						}
+					}
 
 					html += "<tr id=\"row_" + i + "\">";
 					
