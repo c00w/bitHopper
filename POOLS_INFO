@@ -195,3 +195,7 @@ info_1: Changed to a score system (page 16)
 [mmf]
 info_1: They use some "cheat proof scoring" algorithm (page 26)
 
+[abc]
+info_1: PPS, intro. 0% fee, pays stales
+info_2: ABCPool.com, reg temp disabled
+info_3: Warning: high invalids on poclbm, site only supports phoenix 1.5+

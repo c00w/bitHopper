@@ -81,7 +81,11 @@ class Pool():
                 self.servers[server]['lag'] = False
                 self.servers[server]['api_lag'] = False
                 if 'refresh_time' not in self.servers[server]:
-                    self.servers[server]['refresh_time'] = 120
+					#Reduce load on non-mined pools by reducing stat polling to 1 hr vs 2 mins
+					if self.servers[server]['role'] in ['info', 'backup', 'backup_latehop']:
+						self.servers[server]['refresh_time'] = 3600
+					else:
+						self.servers[server]['refresh_time'] = 120
                 else:
                     self.servers[server]['refresh_time'] = int(self.servers[server]['refresh_time'])
                 if 'refresh_limit' not in self.servers[server]:
@@ -317,6 +321,10 @@ class Pool():
             shares = int(rate * diff)
             round_shares = shares + server['shares']            
             self.UpdateShares(args,round_shares)
+        #Disable api scraping
+        elif server['api_method'] == 'disable':
+			self.UpdateShares(args,0)
+			self.bitHopper.log_msg('Share estimation disabled for: ' + server['name'])
         else:
             self.bitHopper.log_msg('Unrecognized api method: ' + str(server))
 

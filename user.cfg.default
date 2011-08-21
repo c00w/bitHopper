@@ -377,3 +377,11 @@ role: disable
 user: c00w.1
 pass: x
 
+[abc]
+#http://ABCPool.com, reg temp disabled
+#CHANGE THIS
+role: backup
+abc_user_apikey: 
+user: CHANGEME
+pass: CHANGEME
+
