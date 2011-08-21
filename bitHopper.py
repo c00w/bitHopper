@@ -198,9 +198,6 @@ def main():
 
     bithopper_instance.select_best_server()
 
-    if options.debug: 
-        log.startLogging(sys.stdout)
-
     if options.p2pLP:
         bithopper_instance.log_msg('Starting p2p LP')
         bithopper_instance.lpBot = LpBot(bithopper_instance)
