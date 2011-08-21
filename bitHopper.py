@@ -30,8 +30,6 @@ from lpbot import LpBot
 
 import sys
 
-from twisted.python import log
-
 class BitHopper():
     def __init__(self, options):
         """Initializes all of the submodules bitHopper uses"""
@@ -72,7 +70,7 @@ class BitHopper():
             print time.strftime("[%H:%M:%S] ") +str(msg)
             sys.stdout.flush()
         elif self.get_options().debug == True:
-            log.msg(msg)
+            print time.strftime("[%H:%M:%S] ") +str(msg)
             sys.stdout.flush()
         else: 
             print time.strftime("[%H:%M:%S] ") +str(msg)
@@ -80,14 +78,13 @@ class BitHopper():
 
     def log_dbg(self, msg, **kwargs):
         if self.get_options().debug == True and kwargs and kwargs.get('cat'):
-            log.err('['+kwargs.get('cat')+"] "+msg)
-            sys.stderr.flush()
+            self.log_msg('DEBUG: ' + '['+kwargs.get('cat')+"] "+msg)
+            #sys.stderr.flush()
         elif self.get_options() == None:
-            log.err(msg)
-            sys.stderr.flush()
+            pass
         elif self.get_options().debug == True:
-            log.err(msg)
-            sys.stderr.flush()
+            self.log_msg('DEBUG: ' + msg)
+            #sys.stderr.flush()
         return
 
     def log_trace(self, msg, **kwargs):
