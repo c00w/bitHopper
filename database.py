@@ -3,9 +3,9 @@
 #Based on a work at github.com.
 
 import sqlite3
-from eventlet.green import os
-from eventlet.green import sys
-from eventlet.green import threading
+import eventlet
+from eventlet.green import os, threading
+import sys
 
 try:
     # determine if application is a script file or frozen exe

@@ -113,7 +113,7 @@ class Work():
         except Exception, e:
             self.bitHopper.log_dbg( "Error in json decoding, Server probably down")
             self.bitHopper.log_dbg(server)
-            self.bitHopper.log_dbg(body)
+            self.bitHopper.log_dbg(content)
             return None
 
     def jsonrpc_getwork(self, server, data, request):
@@ -128,7 +128,7 @@ class Work():
             except Exception, e:
                 self.bitHopper.log_dbg( 'caught, inner jsonrpc_call loop')
                 self.bitHopper.log_dbg(server)
-                self.bitHopper.log_dbg(str(e))
+                self.bitHopper.log_dbg(e)
                 work = None
             if data == [] and tries > 2:
                 server = self.bitHopper.get_new_server(server)

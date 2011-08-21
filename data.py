@@ -3,8 +3,8 @@
 #bitHopper by Colin Rice is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-import time
-from eventlet.green import threading
+import eventlet
+from eventlet.green import threading, time
 
 class Data():
     def __init__(self,bitHopper):

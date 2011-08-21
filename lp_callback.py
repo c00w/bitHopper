@@ -16,7 +16,7 @@ class LP_Callback():
 
     def read(self):
         "Gets the New Block work unit to send to clients"
-        with self._lplock
+        with self._lplock:
             return self.lp_data
 
     def new_block(self,work):

@@ -6,7 +6,7 @@
 
 import eventlet
 from eventlet import wsgi
-from eventlet.green import os, sys, time
+from eventlet.green import os, time
 eventlet.monkey_patch()
 
 import json
@@ -26,6 +26,7 @@ import lp_callback
 from scheduler import Scheduler
 from lpbot import LpBot
 
+import sys
 
 from twisted.web import server
 from twisted.internet import reactor, defer
@@ -135,7 +136,7 @@ class BitHopper():
         while True:
             #Delags servers which have been marked as lag.
             #If this function breaks bitHopper dies a long slow death.
-            with self.pool.lock
+            with self.pool.lock:
                 self.log_dbg('Running Delager')
                 for server in self.pool.get_servers():
                     info = self.pool.servers[server]

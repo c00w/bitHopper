@@ -4,8 +4,7 @@
 #Based on a work at github.com.
 
 import eventlet
-from eventlet.green import threading
-import time.time()
+from eventlet.green import threading, time
 
 class Speed():
     def __init__(self, bitHopper):

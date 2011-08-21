@@ -3,6 +3,7 @@
 #Based on a work at github.com.
 
 import json
+import eventlet
 from eventlet.green import time
 from eventlet.green import threading
 

@@ -6,6 +6,7 @@
 
 import random
 import math
+import eventlet
 from eventlet.green import threading, time
 
 class Scheduler(object):
@@ -17,7 +18,7 @@ class Scheduler(object):
         else:
             self.difficultyThreshold = 0.435
         self.valid_roles = ['mine','mine_nmc','mine_deepbit','mine_slush','mine_ixc','mine_i0c']
-               eventlet.spawn_n(self.bh_server_update)
+        eventlet.spawn_n(self.bh_server_update)
 
     def bh_server_update(self):
         while True:
