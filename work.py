@@ -161,7 +161,7 @@ class Work():
             self.bitHopper.log_msg('RPC request [' + str(data[0][155:163]) + "] submitted to " + server)
 
         if data != []:
-            self.bitHopper.data_callback(server, data, request.remote_user, request.remote_password)
+            self.bitHopper.data_callback(server, data, request.remote_user,'') #request.remote_password)
         return [response]
 
     def handle_LP(self, env, start_response):
