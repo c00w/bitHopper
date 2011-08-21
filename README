@@ -36,6 +36,9 @@ sudo apt-get install python
 sudo apt-get install python-eventlet
 sudo apt-get install python-openssl
 sudo apt-get install webob
+If this doesn't work:
+sudo apt-get install python-setuptools
+sudo easy_install webob
 
 Then follow the above instructions
 
