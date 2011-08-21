@@ -217,7 +217,7 @@ class Pool():
                 if duration > 0:
                     server['duration'] = duration 
                     
-            self.UpdateShares(args,round_shares)
+            self.UpdateShares(server_name,round_shares)
 
         elif server['api_method'] == 'json_ec':
             info = json.loads(response[:response.find('}')+1])
@@ -226,7 +226,7 @@ class Pool():
             round_shares = int(info)
             if round_shares == None:
                 round_shares = int(self, self.bitHopper.difficulty.get_difficulty())
-            self.UpdateShares(args,round_shares)
+            self.UpdateShares(server_name,round_shares)
 
         elif server['api_method'] == 're':
             output = re.search(server['api_key'],response)
@@ -249,7 +249,7 @@ class Pool():
             round_shares = int(output)
             if round_shares == None:
                 round_shares = int(self.bitHopper.difficulty.get_difficulty())
-            self.UpdateShares(args,round_shares)
+            self.UpdateShares(server_name,round_shares)
             
         elif server['api_method'] == 're_rateduration':
             # get hashrate and duration to estimate share
@@ -278,7 +278,7 @@ class Pool():
             server['ghash'] = ghash
             server['duration'] = duration
             
-            self.UpdateShares(args,round_shares)
+            self.UpdateShares(server_name,round_shares)
             
         elif server['api_method'] == 're_rate':
             output = re.search(server['api_key'],response)
@@ -317,7 +317,7 @@ class Pool():
             diff = server['last_pulled'] - old
             shares = int(rate * diff)
             round_shares = shares + server['shares']            
-            self.UpdateShares(args,round_shares)
+            self.UpdateShares(server_name,round_shares)
         else:
             self.bitHopper.log_msg('Unrecognized api method: ' + str(server))
 

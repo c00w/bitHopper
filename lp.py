@@ -39,7 +39,7 @@ class LongPoll():
                 old_defer = self.blocks[block]['_defer']
             else:
                 old_defer = None
-            new_defer = threading.lock()
+            new_defer = threading.Lock()
             new_defer.acquire()
             self.blocks[block]['_defer'] = new_defer
             if old_defer:
@@ -109,6 +109,7 @@ class LongPoll():
                 self.errors[server] += 1
             #timeout? Something bizarre?
             if self.errors[server] < 3 or info['role'] == 'mine_deepbit':
+                eventlet.sleep(1)
                 eventlet.spawn_after(0,self.pull_lp, self.pool.servers[server]['lp_address'],server, False)
             return
         try:
@@ -138,7 +139,7 @@ class LongPoll():
 
         except Exception, e:
             output = False
-            self.bitHopper.log_dbg('Error in LP ' + str(server))
+            self.bitHopper.log_dbg('Error in LP ' + str(server) + str(body))
             self.bitHopper.log_dbg(e)
             if server not in self.errors:
                 self.errors[server] = 0

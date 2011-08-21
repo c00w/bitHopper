@@ -20,13 +20,17 @@ class Work():
         self.httppool = eventlet.pools.Pool()
         self.httppool.create = httplib2.Http
 
+        
+        self.httppool_lp = eventlet.pools.Pool()
+        self.httppool_lp.create = lambda: httplib2.Http(timeout=60*30)
+
     def jsonrpc_lpcall(self, server, url, lp):
         try:
             self.i += 1
             request = json.dumps({'method':'getwork', 'params':[], 'id':self.i}, ensure_ascii = True)
             pool = self.bitHopper.pool.servers[server]
             header = {'Authorization':"Basic " +base64.b64encode(pool['user']+ ":" + pool['pass']), 'User-Agent': 'poclbm/20110709', 'Content-Type': 'application/json' }
-            with self.httppool.item() as http:
+            with self.httppool_lp.item() as http:
                 try:
                     resp, content = http.request( url, 'GET', headers=header, body=request)
                 except Exception, e:
