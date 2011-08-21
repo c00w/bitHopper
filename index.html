@@ -302,6 +302,7 @@
 			
 			function buildTable(id, items, payload, columns, fnSort, tableCss) {
 				var showDisabledPools = document.getElementById('show_role_disabled').checked ;
+				var showInfoPools = document.getElementById('show_role_info').checked ;
 				var html = "";
 				var tCss = "";
 				if(tableCss != undefined) {
@@ -348,7 +349,7 @@
 					if( !showDisabledPools && row_role == "disable" ){
 					    continue;		//Skip disabled pools
 					}
-					if( !showDisabledPools && row_role == "info" ){
+					if( !showInfoPools && row_role == "info" ){
 					    continue;		//Skip info pools
 					}
 
