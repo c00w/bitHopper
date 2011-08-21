@@ -41,7 +41,7 @@
 			
 			#round_duration_estimate {
 				color: DarkGrey;
-			}		
+			}
 			
 		</style>
 		<title>bitHopper info</title>
@@ -257,7 +257,7 @@
 					} else {
 						ghashColor = "<span class='round_duration'>"	
 					}					
-					return ghashColor + parseFloat(srv['ghash']).toFixed(1) + "</span>"
+					return ghashColor + parseFloat(srv['ghash']).toFixed(0) + "</span>"
 				} else {
 					return '&nbsp;';
 				}
@@ -425,12 +425,12 @@
 							'Shares': { 'data':getShares, 'color':getColor, 'align':'right' },
 							'Role': { 'data':getRole },
 							'User&nbsp;Shares<br>Rejects': { 'data':getUserShareRejects, 'color':getColor, 'align':'center' },
-							'Speed': { 'data':getPoolSpeed },
-							'Duration': { 'data':getRoundDuration},
+							'MH/s': { 'data':getPoolSpeed, 'align':'right' },
+							'Round<br>Time': { 'data':getRoundDuration, 'align':'center'},
 							'Payout': { 'data':getPayout, 'color':getColor, 'align':'center' },
 							'Efficiency': { 'data':getEfficiency, 'color':getColor, 'align':'center' },
 							'Penalty': { 'data':getPenalty, 'color':getColor, 'align':'center' },
-							'Slice': { 'data':getSlice, 'color':getColor, 'align':'center' },
+							'Slice': { 'data':getSlice, 'color':getColor, 'align':'center', 'display':'none' },
 							'Round Shares': { 'data':getRoundShares, 'type':'linechart', 'width':'100%' },
 							'Role String' : { 'data':getRoleString, 'display':'none' }
 						},
