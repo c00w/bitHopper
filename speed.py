@@ -22,7 +22,7 @@ class Speed():
         old_time=time.time()
         while True:
             with self.lock:
-                diff = old_time-time.time()
+                diff = time.time()-old_time
                 if diff <=0:
                     diff = 1
                 old_time = time.time()
