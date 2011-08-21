@@ -208,6 +208,7 @@ def main():
         bithopper_instance.lpBot = LpBot(bithopper_instance)
 
     wsgi.server(eventlet.listen((options.ip,options.port)),bithopper_instance.website.handle_start)
+    bithopper_instance.db.close()
 
 if __name__ == "__main__":
     main()
