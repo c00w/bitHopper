@@ -273,10 +273,10 @@ pass: CHANGEME
 #http://bitparking.com/
 #CHANGE THIS (if you want)
 role: info
-user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
-pass: x
 #user is name coin address
+user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
 #passwords can be anything on bitparking
+pass: x
 
 [nmcbit]
 #http://nmcbit.com/
@@ -287,23 +287,24 @@ pass: x
 
 [masterpool]
 #https://masterpool.eu/signup
-#They are currently testing merged mining.  Once implemented, you will be able to mine NMC and BTC simultaneously.
-role:mine_nmc
+#CHANGE THIS (if you want)
+role: info
 user: x
 pass: xxx
 
 [namebit]
 #http://www.namebit.org/
-role:mine_nmc
-user: nmcaddress
-pass: none
-#payouts are automatic and no need to signup
+#CHANGE THIS (if you want)
+role: info
 #user is namecoin address
+user: nmcaddress
 #pasword must be "none"
+pass: none
 
 [bitchomp]
 #http://www.bitchomp.info/ncp/register.php
-role:mine_nmc
+#CHANGE THIS (if you want)
+role: info
 user: x
 pass: x
 
