@@ -8,49 +8,10 @@ import base64
 import traceback
 
 import eventlet
-httplib2 = eventlet.import_patched('httplib2')
+httplib2 = eventlet.import_patched('httplib20_7_1')
 from eventlet import pools
 
 import webob
-
-from zope.interface import implements
-
-from client import Agent
-from twisted.web.iweb import IBodyProducer
-from twisted.web.http_headers import Headers
-from twisted.internet import defer
-from twisted.internet.defer import succeed, Deferred
-from twisted.internet.protocol import Protocol
-import twisted.web.client
-
-class StringProducer(object):
-    implements(IBodyProducer)
-
-    def __init__(self, body):
-        self.body = body
-        self.length = len(body)
-
-    def startProducing(self, consumer):
-        consumer.write(self.body)
-        return succeed(None)
-
-    def pauseProducing(self):
-        pass
-
-    def stopProducing(self):
-        pass
-
-class WorkProtocol(Protocol):
-
-    def __init__(self, finished):
-        self.data = ""
-        self.finished = finished
-    
-    def dataReceived(self, data):
-        self.data += data
-
-    def connectionLost(self, reason):
-        self.finished.callback(self.data)
 
 class Work():
     def __init__(self, bitHopper):
@@ -87,7 +48,7 @@ class Work():
             request = json.dumps({'method':'getwork', 'params':data, 'id':self.i}, ensure_ascii = True)
             self.i += 1
             
-            info = self.bitHopper.pool.servers[server]
+            info = self.bitHopper.pool.get_entry(server)
             header = {'Authorization':"Basic " +base64.b64encode(info['user']+ ":" + info['pass']), 'User-Agent': 'poclbm/20110709','Content-Type': 'application/json' }
             url = "http://" + info['mine_address']
             with self.httppool.item() as http:
