@@ -4,16 +4,21 @@
 #Based on a work at github.com.
 
 
-import os
+from eventlet.green import os
 import json
 import sys
+
+import webob
 
 class dynamicSite():
     def __init__(self, bitHopper):
         self.bh = bitHopper
-      
-    isleaF = True
-    def render_GET(self, request):
+
+    def handle(self, env, start_response):
+        start_response('200 OK', [('Content-Type', 'text/html')])
+        #Handle Possible Post values
+        self.handle_POST(webob.Request(env))
+
         index_name = 'index.html'
         try:
             # determine scheduler index.html
@@ -28,14 +33,12 @@ class dynamicSite():
         except:
             index = os.path.join(os.curdir, index_name)
         index_file = open(index, 'r')
-        linestring = index_file.read()
+        line_string = index_file.read()
         index_file.close()
-        request.write(linestring)
-        request.finish()
-        return server.NOT_DONE_YET
+        return line_string
 
-    def render_POST(self, request):
-        for v in request.args:
+    def handle_POST(self, request):
+        for v in request.POST:
             if "role" in v:
                 try:
                     server = v.split('-')[1]
@@ -88,17 +91,14 @@ class dynamicSite():
                 except Exception,e:
                     self.bh.log_dbg('Incorrect http post reloadconfig')
                     self.bh.log_dbg(e)
-          
-        return self.render_GET(request)
 
 class dataSite():
 
     def __init__(self, bitHopper):
         self.bitHopper = bitHopper
 
-    isLeaf = True
     def handle(self, env, start_response):
-        start_response('200 OK', [('Content-Type', 'text/html')])
+        start_response('200 OK', [('Content-Type', 'text/json')])
         #Slice Info
         if hasattr(self.bitHopper.scheduler, 'sliceinfo'):
             sliceinfo = self.bitHopper.scheduler.sliceinfo
@@ -134,6 +134,7 @@ class lpSite():
 class nullsite():
     def __init__(self):
         pass
+
     def handle(self, env, start_response):
         start_response('200 OK', [('Content-Type', 'text/plain')])
         return ['']
