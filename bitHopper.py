@@ -78,12 +78,12 @@ class BitHopper():
 
     def log_dbg(self, msg, **kwargs):
         if self.get_options().debug == True and kwargs and kwargs.get('cat'):
-            self.log_msg('DEBUG: ' + '['+kwargs.get('cat')+"] "+msg)
+            self.log_msg('DEBUG: ' + '['+kwargs.get('cat')+"] "+str(msg))
             #sys.stderr.flush()
         elif self.get_options() == None:
             pass
         elif self.get_options().debug == True:
-            self.log_msg('DEBUG: ' + msg)
+            self.log_msg('DEBUG: ' + str(msg))
             #sys.stderr.flush()
         return
 
