@@ -9,6 +9,16 @@ import threading
 from twisted.internet import defer
 from twisted.internet.task import LoopingCall
 
+def wordreverse(in_buf):
+	out_words = []
+	for i in range(0, len(in_buf), 4):
+		out_words.append(in_buf[i:i+4])
+	out_words.reverse()
+	out_buf = ""
+	for word in out_words:
+		out_buf += word
+	return out_buf
+
 def byteswap(value):
     bytes = []
     for i in xrange(0,len(value)):
@@ -112,7 +122,11 @@ class LongPoll():
             response = json.loads(body)
             work = response['result']
             data = work['data']
-            block = data[8:72]
+	    block = data.decode('hex')[0:64]
+	    block = wordreverse(block)
+	    block = data.encode('hex')[56:120]
+
+            #block = data[8:72]
             #block = int(block, 16)
 
             with self.lock:
