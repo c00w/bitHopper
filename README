@@ -5,22 +5,18 @@ Based on a work at github.com
 
 # Instructions
 
-In order to run bithopper you need twisted phython and pyopenssl installed with Python 2.7 (recommended):
+In order to run bithopper you need eventlet and pyopenssl installed with Python 2.7 (recommended):
 
 http://python.org/download/
 https://launchpad.net/pyopenssl/+download
-http://pypi.python.org/pypi/zope.interface (for Windows)
-http://twistedmatrix.com/trac
+
 
 Copy "user.cfg.default" to a new file called "user.cfg" then modify the new
 file to include your pool worker usernames and passwords, instead of mine.
 Run "python bitHopper.py". After script updates info, please check if new pools
 have been added correctly if not edit your "user.cfg" accordingly.
 
-If you don't want to use a pool give it an invalid password (WARNING: some pools
-ignore passwords from miners!), or go to http://localhost:8337/stats and switch its
-role to disable, or just delete it from "user.cfg".
-
+If you don't want to use a pool delete it from user.cfg or go to http://localhost:8337/stats and switch its role to disable.
 BitHopper listens on loopback interface so you should direct your miner to
 localhost:8337 with any username and password (not blank).
 
@@ -29,10 +25,14 @@ BitHopper status page: http://localhost:8337/stats
 # Windows installation
 
 Download and install:
+http://python.org/download/
+https://launchpad.net/pyopenssl/+download
 
-https://launchpad.net/pyopenssl
-http://pypi.python.org/pypi/zope.interface
-http://twistedmatrix.com/trac
+# Ubuntu installation
+sudo apt-get install python
+sudo apt-get install python-eventlet
+sudo apt-get install python-openssl
+
 
 Then follow the above instructions
 
