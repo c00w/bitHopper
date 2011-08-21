@@ -3534,7 +3534,7 @@ DTEwMDExMTA0MzI1M1owDQYJKoZIhvcNAQEFBQADggEBAIqdxJ5xvENt9N+BXY0+
 AVrJ5du4bDg+TpJWQ+C8O0SdPmuKlBDOSsZMNESWMeBr2lU3Jt+LZqke1HxT9Lz/
 CuI=
 -----END X509 CRL-----
-
+#Pulled from http://curl.haxx.se/ca/cacert.pem
 # Certifcate Authority certificates for validating SSL connections.
 #
 # This file contains PEM format certificates generated from
