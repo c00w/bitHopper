@@ -163,7 +163,7 @@ class Work():
         if data != []:
             if request.remote_user == None:
                 remote_user = ''
-            else
+            else:
                 remote_user = request.remote_user
             self.bitHopper.data_callback(server, data, remote_user,'') #request.remote_password)
         return [response]
