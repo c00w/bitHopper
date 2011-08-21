@@ -17,11 +17,11 @@ class Work():
     def __init__(self, bitHopper):
         self.bitHopper = bitHopper
         self.i = 0
-        self.httppool = eventlet.pools.Pool()
+        self.httppool = pools.Pool()
         self.httppool.create = httplib2.Http
 
         
-        self.httppool_lp = eventlet.pools.Pool()
+        self.httppool_lp = pools.Pool()
         self.httppool_lp.create = lambda: httplib2.Http(timeout=60*30)
 
     def jsonrpc_lpcall(self, server, url, lp):
