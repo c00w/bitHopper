@@ -319,8 +319,8 @@ user: Sukrim.hopper
 pass: 1234
 
 [poolmunity]
-#CHANGE THIS (if you want)
 #http://poolmunity.com/
+#CHANGE THIS (if you want)
 role: info
 user: c00w.testhop
 pass: testhop
