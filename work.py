@@ -177,6 +177,8 @@ class Work():
             j_id = rpc_request['id']
         except Exception, e:
             self.bitHopper.log_dbg('Error in json handle_LP')
+            self.bitHopper.log_dbg(e)
+            j_id = 1
         
         value = self.bitHopper.lp_callback.read()
 
