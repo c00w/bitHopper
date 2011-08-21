@@ -19,7 +19,7 @@ class LP_Callback():
         with self._lplock:
             return self.lp_data
 
-    def new_block(self,work):
+    def new_block(self, work, server):
         "Called by LP to indicate a new_block as well as the work to send to clients"
         #Store the merkle root
         merkle_root = work['data'][72:136]

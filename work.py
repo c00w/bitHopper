@@ -23,11 +23,17 @@ class Work():
     def jsonrpc_lpcall(self, server, url, lp):
         try:
             self.i += 1
-            request = json.dumps({'method':'getwork', 'params':[], 'id':self.i}, ensure_ascii = True)            
+            request = json.dumps({'method':'getwork', 'params':[], 'id':self.i}, ensure_ascii = True)
             pool = self.bitHopper.pool.servers[server]
-            header = {'Authorization':["Basic " +base64.b64encode(pool['user']+ ":" + pool['pass'])], 'User-Agent': ['poclbm/20110709'], 'Content-Type': ['application/json'] }
+            header = {'Authorization':"Basic " +base64.b64encode(pool['user']+ ":" + pool['pass']), 'User-Agent': 'poclbm/20110709', 'Content-Type': 'application/json' }
             with self.httppool.item() as http:
-                resp, content = http.request( url, 'GET', headers=header, body=request)
+                try:
+                    resp, content = http.request( url, 'GET', headers=header, body=request)
+                except Exception, e:
+                    self.bitHopper.log_dbg('Error with an http request')
+                    self.bitHopper.log_dbg(e)
+                    resp = {}
+                    content = None
             lp.receive(content, server)
             return None
         except Exception, e:
@@ -40,7 +46,14 @@ class Work():
         "A utility method for getting webpages"
         header = {'User-Agent':'Mozilla/5.0 (Windows; U; MSIE 9.0; WIndows NT 9.0; en-US))'}
         with self.httppool.item() as http:
+            try:
                 resp, content = http.request( url, 'GET', headers=header)
+            except Exception, e:
+                self.bitHopper.log_dbg('Error with an http request')
+                self.bitHopper.log_dbg(e)
+                resp = {}
+                content = ""
+                
         return content
 
     def jsonrpc_call(self, server, data):
@@ -52,7 +65,14 @@ class Work():
             header = {'Authorization':"Basic " +base64.b64encode(info['user']+ ":" + info['pass']), 'User-Agent': 'poclbm/20110709','Content-Type': 'application/json' }
             url = "http://" + info['mine_address']
             with self.httppool.item() as http:
-                resp, content = http.request( url, 'POST', headers=header, body=request)
+                try:
+                    resp, content = http.request( url, 'POST', headers=header, body=request)
+                except Exception, e:
+                    self.bitHopper.log_dbg('Error with an http request')
+                    self.bitHopper.log_dbg(e)
+                    resp = {}
+                    content = ""
+
             #Check for long polling header
             lp = self.bitHopper.lp
             if lp.check_lp(server):

@@ -81,10 +81,11 @@ class LongPoll():
                 self.bitHopper.pool.servers[server]['shares'] += old_shares
                 self.bitHopper.select_best_server()
 
-    def add_block(self, block, work):
+    def add_block(self, block, work, server):
+        "Adds a new block. server must be the server the work is coming from"
         with self.lock:
             self.blocks[block]={}
-            self.bitHopper.lp_callback.new_block(work)
+            self.bitHopper.lp_callback.new_block(work, server)
             self.blocks[block]["_owner"] = None
             self.lastBlock = block
 
@@ -119,9 +120,9 @@ class LongPoll():
                         block = byteswap(block)
                     self.bitHopper.log_msg('New Block: ' + str(block))
                     self.bitHopper.log_msg('Block Owner ' + server)
-                    self.add_block(block, work)
+                    self.add_block(block, work, server)
                     if self.bitHopper.lpBot != None:
-                        self.bitHopper.lpBot.announce(str(server), str(block))
+                        self.bitHopper.lpBot.announce(server, block)
 
             #Add the lp_penalty if it exists.
             with self.lock:

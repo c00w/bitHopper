@@ -174,17 +174,18 @@ class Pool():
                 self.servers[server]['role'] = 'api_disable'
                 return
 
-    def errsharesResponse(self, error, args):
-        self.bitHopper.log_msg('Error in pool api for ' + str(args))
+    def errsharesResponse(self, error, server_name):
+        self.bitHopper.log_msg('Error in pool api for ' + str(server_name))
         self.bitHopper.log_dbg(str(error))
-        pool = args
-        self.servers[pool]['err_api_count'] += 1
-        self.servers[pool]['init'] = True
-        if self.servers[pool]['err_api_count'] > 1:
-            self.servers[pool]['api_lag'] = True
-        time = self.servers[pool]['refresh_time']
-        if time < self.servers[pool]['refresh_limit']:
-            time = self.servers[pool]['refresh_limit']
+        pool = server_name
+        with self.lock:
+            self.servers[pool]['err_api_count'] += 1
+            self.servers[pool]['init'] = True
+            if self.servers[pool]['err_api_count'] > 1:
+                self.servers[pool]['api_lag'] = True
+            time = self.servers[pool]['refresh_time']
+            if time < self.servers[pool]['refresh_limit']:
+                time = self.servers[pool]['refresh_limit']
         eventlet.spawn_after(time, self.update_api_server, pool)
 
     def selectsharesResponse(self, response, server_name):
@@ -434,9 +435,10 @@ class Pool():
             update = self.api_pull
             if info['role'] in update:
                 d = bitHopper.work.get(info['api_address'])
-                self.selectsharesResponse( d, server)
-                d.addErrback(self.errsharesResponse, (server))
-                d.addErrback(self.bitHopper.log_msg)
+                try:
+                    self.selectsharesResponse( d, server)
+                except Exception, e:
+                    self.errsharesResponse(e, server)
 
 if __name__ == "__main__":
     print 'Run python bitHopper.py instead.'
