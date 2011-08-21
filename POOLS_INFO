@@ -30,6 +30,13 @@ info_1: Please report experience on forum or IRC
 info_1: Please report experience on forum or IRC
 
 
+[abc]
+#http://ABCPool.com
+info_1: PPS, intro. 0% fee, pays stales
+info_2: ABCPool.com, reg temp disabled
+info_3: High invalids on poclbm, site better supports phoenix 1.5+
+
+
 #######################################
 
 
@@ -135,7 +142,7 @@ info_1: Hopper friendly pool
 #http://www.unitedminers.com
 info_1: Changed to PPLNS in the middle of a round (page 94)
 info_2: Disables anti-hopper flagging if you donate to pool (page 161)
-info_3: PPLNS is hoppable with backup_latehop
+info_3: PPLNS pools are hoppable with backup_latehop
 
 
 ######################################
@@ -239,7 +246,3 @@ info_1: Changed to a score system (page 16)
 #http://mining.mainframe.nl
 info_1: They use some "cheat proof scoring" algorithm (page 26)
 
-[abc]
-info_1: PPS, intro. 0% fee, pays stales
-info_2: ABCPool.com, reg temp disabled
-info_3: Warning: high invalids on poclbm, site only supports phoenix 1.5+

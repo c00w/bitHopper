@@ -217,6 +217,7 @@ role: info
 user: your_username
 pass: your_password
 
+
 ######################################
 # Backup pools for when there is
 # no pool where you would earn more
@@ -254,6 +255,14 @@ pass: u5cpmndZq4Jvp
 role: disable
 user: paraipanakos.works
 pass: minero
+
+[abc]
+#http://ABCPool.com
+#CHANGE THIS
+role: disable
+abc_user_apikey: 
+user: CHANGEME
+pass: CHANGEME
 
 ######################################
 # Namecoin and other type of pools.
@@ -353,12 +362,4 @@ pass: x
 role: disable
 user: c00w.1
 pass: x
-
-[abc]
-#http://ABCPool.com, reg temp disabled
-#CHANGE THIS
-role: backup
-abc_user_apikey: 
-user: CHANGEME
-pass: CHANGEME
 
