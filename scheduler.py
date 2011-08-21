@@ -4,12 +4,10 @@
 # Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-import time
 import random
 import math
-import threading
-
-from twisted.internet.task import LoopingCall
+import eventlet
+from eventlet.green import threading, time
 
 class Scheduler(object):
     def __init__(self,bitHopper):
@@ -20,7 +18,12 @@ class Scheduler(object):
         else:
             self.difficultyThreshold = 0.435
         self.valid_roles = ['mine','mine_nmc','mine_deepbit','mine_slush','mine_ixc','mine_i0c']
-        return
+        eventlet.spawn_n(self.bh_server_update)
+
+    def bh_server_update(self):
+        while True:
+            self.bh.server_update()
+            eventlet.sleep(20)
 
     @classmethod
     def server_update(self,):
@@ -225,9 +228,6 @@ class DefaultScheduler(Scheduler):
         self.sliceinfo = {}
         self.lastcalled = time.time()
         self.reset()
-
-        call = LoopingCall(self.bh.server_update)
-        call.start(10)
 
     def reset(self,):
         with self.lock:
