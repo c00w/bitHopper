@@ -147,7 +147,7 @@ class Work():
 
         #some reject callbacks and merkle root stores
         if str(work) == 'False':
-            self.bitHopper.reject_callback(server, data, request.request.remote_user, request.remote_password)
+            self.bitHopper.reject_callback(server, data, '', '')
         elif str(work) != 'True':
             merkle_root = work["data"][72:136]
             self.bitHopper.getwork_store.add(server,merkle_root)
