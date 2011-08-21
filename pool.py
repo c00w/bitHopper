@@ -426,7 +426,10 @@ class Pool():
         info = self.servers[server]
         self.bitHopper.scheduler.update_api_server(server)
         value = self.bitHopper.work.get(info['api_address'])
-        self.selectsharesResponse( value, server)
+        try:
+            self.selectsharesResponse( value, server)
+        except Exception, e:
+            self.errsharesResponse(e, server)
 
     def update_api_servers(self, bitHopper):
         self.bitHopper = bitHopper

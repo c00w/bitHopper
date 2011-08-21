@@ -60,6 +60,7 @@ class LongPoll():
             return ""
 
     def start_lp(self):
+        return
         while True:
             # Loop Through each server and either call pull_lp with the address or
             # Do a getwork.
