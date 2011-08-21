@@ -36,8 +36,14 @@ class LongPoll():
             old_owner = self.blocks[block]["_owner"]
             self.blocks[block]["_owner"] = server
             if '_defer' in self.blocks[block]:
-                self.blocks[block]['_defer'].callback(server)
-            self.blocks[block]['_defer'] = defer.Deferred()
+                old_defer = self.blocks[block]['_defer']
+            else:
+                old_defer = None
+            new_defer = threading.lock()
+            new_defer.acquire()
+            self.blocks[block]['_defer'] = new_defer
+            if old_defer:
+                old_defer.release()
             self.bitHopper.log_msg('Setting Block Owner ' + server+ ':' + str(block))
         with self.bitHopper.pool.lock:
             if server in self.bitHopper.pool.servers and self.bitHopper.pool.servers[server]['role'] == 'mine_deepbit' and old_owner != server:
@@ -45,9 +51,7 @@ class LongPoll():
                 self.bitHopper.pool.servers[server]['shares'] = 0
                 self.bitHopper.select_best_server()
                 with self.lock:
-                    if '_defer' not in self.blocks[block]:
-                        self.blocks[block]['_defer'] = defer.Deferred()
-                    self.blocks[block]['_defer'].addCallback(self.api_check,server,block,old_shares)
+                    eventlet.spawn_n(self.api_check,server,block,old_shares)
 
     def get_owner(self):
         with self.lock:
@@ -75,11 +79,12 @@ class LongPoll():
         # A helper function so that we can have this in a different call.
         self.bitHopper.work.jsonrpc_call(server, [])
 
-    def api_check(self, new_server, server, block, old_shares):
-        if self.blocks[block]['_owner'] != server:
-            with self.bitHopper.pool.lock:
-                self.bitHopper.pool.servers[server]['shares'] += old_shares
-                self.bitHopper.select_best_server()
+    def api_check(self, server, block, old_shares):
+        with self.blocks[block]['_defer']:
+            if self.blocks[block]['_owner'] != server:
+                with self.bitHopper.pool.lock:
+                    self.bitHopper.pool.servers[server]['shares'] += old_shares
+                    self.bitHopper.select_best_server()
 
     def add_block(self, block, work, server):
         "Adds a new block. server must be the server the work is coming from"
