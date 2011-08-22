@@ -81,10 +81,6 @@ class Pool():
                 self.servers[server]['lag'] = False
                 self.servers[server]['api_lag'] = False
                 if 'refresh_time' not in self.servers[server]:
-					#Reduce load on non-mined pools by reducing stat polling to 1 hr vs 2 mins
-					if self.servers[server]['role'] in ['info', 'backup', 'backup_latehop']:
-						self.servers[server]['refresh_time'] = 3600
-					else:
 						self.servers[server]['refresh_time'] = 120
                 else:
                     self.servers[server]['refresh_time'] = int(self.servers[server]['refresh_time'])
