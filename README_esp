@@ -7,9 +7,10 @@ Basado en trabajo hecho en github.com
 
 # Instalar en Ubuntu
 
-Para poder ejecutar bitHopper necesistas instalar el modulo greenlet junto con Python 2.7 (recomendado):
+Para poder ejecutar bitHopper necesitas instalar el modulo greenlet sobre Python 2.7+ (busca la version
+de tu instalacion de Python con "python -V"):
 
-sudo apt-get install python2.7 python-dev python-setuptools
+sudo apt-get install python-dev python-setuptools
 sudo easy_install greenlet
 
 

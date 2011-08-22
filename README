@@ -7,9 +7,10 @@ Based on a work at github.com
 
 # Ubuntu installation
 
-In order to run bitHopper you need to install greenlet module with Python 2.7 (recommended):
+In order to run bitHopper you need to install greenlet module over Python 2.7+ (lookup your allready
+installed version of Python with "python -V"):
 
-sudo apt-get install python2.7 python-dev python-setuptools
+sudo apt-get install python-dev python-setuptools
 sudo easy_install greenlet
 
 
