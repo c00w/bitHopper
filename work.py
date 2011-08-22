@@ -17,8 +17,8 @@ class Work():
     def __init__(self, bitHopper):
         self.bitHopper = bitHopper
         self.i = 0
-        self.httppool = pools.Pool(min_size = 2, max_size = 30, create = lambda: httplib2.Http(timeout=30))
-        self.httppool_lp = pools.Pool(min_size = 2, max_size = 30, create = lambda: httplib2.Http())
+        self.httppool = pools.Pool(disable_ssl_certificate_validation=True, min_size = 2, max_size = 30, create = lambda: httplib2.Http(timeout=30))
+        self.httppool_lp = pools.Pool(disable_ssl_certificate_validation=True, min_size = 2, max_size = 30, create = lambda: httplib2.Http())
 
     def jsonrpc_lpcall(self, server, url, lp):
         try:
