@@ -122,7 +122,7 @@ class BitHopper():
             return self.pool.get_current()
         with self.pool.lock:
             self.pool.servers[server]['lag'] = True
-        self.log_dbg('Lagging. :' + server)
+        self.log_msg('Lagging. :' + server)
         self.server_update()
         return self.pool.get_current()
 
