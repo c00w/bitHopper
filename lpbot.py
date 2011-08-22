@@ -3,11 +3,13 @@
 #bitHopper by Colin Rice is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-from irclib import SimpleIRCClient
 import random
 import re
 import eventlet
 from eventlet.green import time, threading
+import eventlet.patcher
+irclib = eventlet.patcher.import_patched('irclib')
+SimpleIRCClient = irclib.SimpleIRCClient
 
 class LpBot(SimpleIRCClient):
     def __init__(self, bitHopper):
