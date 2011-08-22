@@ -168,15 +168,22 @@ class Work():
         start_response('200 OK', [('Content-Type', 'text/json')])
         
         request = webob.Request(env)
+        j_id = None
         try:
             rpc_request = json.loads(request.body)
             j_id = rpc_request['id']
+            data = env.get('HTTP_AUTHORIZATION').split(None, 1)[1]
+            username, password = data.decode('base64').split(':', 1)
+
         except Exception, e:
             self.bitHopper.log_dbg('Error in json handle_LP')
             self.bitHopper.log_dbg(e)
-            j_id = 1
+            if not j_id:
+                j_id = 1
         
         value = self.bitHopper.lp_callback.read()
+
+        self.bitHopper.log_msg('LP Callback for miner: '+ username)
 
         response = json.dumps({"result":value, 'error':None, 'id':j_id})
 
