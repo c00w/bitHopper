@@ -13,6 +13,8 @@ de tu instalacion de Python con "python -V"):
 sudo apt-get install python-dev python-setuptools
 sudo easy_install greenlet
 
+Probado y funciona en Ubuntu 11.04, 10.10 and 10.04 LTS
+
 
 # Instrucciones para usuarios Windows
 
