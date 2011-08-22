@@ -5,13 +5,18 @@ Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 Based on a work at github.com
 
 
-# Instructions for Windows users
+# Ubuntu installation
 
-In order to run BitHopper you need to install greenlet module with Python 2.7(recommended):
+In order to run BitHopper you need to install greenlet module with Python 2.7 (recommended):
+
+sudo apt-get install python2.7 python-dev python-setuptools
+sudo easy_install greenlet
+
+
+# Instructions for Windows users
 
 ActiveState Python(recommended, use 32 bit even when you have 64 bit system, it will still work)
 http://downloads.activestate.com/ActivePython/releases/2.7.2.5/ActivePython-2.7.2.5-win32-x86.msi
-
 
 Greenlet
 http://pypi.python.org/pypi/greenlet
@@ -39,10 +44,6 @@ greenlet source yourself and compile it or use pypm method. If you have no other
 these unofficial binaries then greenlet-0.3.1.win32-py2.7.exe is the correct one to download. It will
 extract itself into correct directory.
 
-# Ubuntu installation
-
-sudo apt-get install python
-sudo apt-get install python-greenlet
 
 # Configuring user settings
 
@@ -73,7 +74,7 @@ You can launch bH with the following parameters:
 	--threshold           = Override difficulty threshold (default 0.43)
 	--p2pLP               = Starts up an IRC bot to validate LP based hopping
 	--OldConnectionSystem = Uses the old connection system. May help with lots of miners
-    --debug               = Extra error output. Basically print all caught errors
+	--debug               = Extra error output. Basically print all caught errors
 	--trace               = Extra debugging output
 
 
