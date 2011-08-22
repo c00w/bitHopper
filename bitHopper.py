@@ -13,7 +13,7 @@ from eventlet import wsgi
 from eventlet.green import os, time
 eventlet.monkey_patch()
 from eventlet import debug
-debug.hub_blocking_detection(True)
+#debug.hub_blocking_detection(True)
 
 import json
 import optparse
