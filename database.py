@@ -3,11 +3,9 @@
 #Based on a work at github.com.
 
 import sqlite3
-import os
+import eventlet
+from eventlet.green import os, threading
 import sys
-import threading
-
-from twisted.internet.task import LoopingCall
 
 try:
     # determine if application is a script file or frozen exe
@@ -31,9 +29,7 @@ class Database():
         self.rejects = {}
         self.payout = {}
         self.lock = threading.RLock()
-
-        call = LoopingCall(self.write_database)
-        call.start(60)
+        eventlet.spawn_n(self.write_database)
 
     def close(self):
         self.curs.close()
@@ -57,46 +53,48 @@ class Database():
         return sql
 
     def write_database(self):
-        with self.lock:
-            self.bitHopper.log_msg('writing to database')
+        while True:
+            with self.lock:
+                self.bitHopper.log_msg('writing to database')
 
-            difficulty = self.bitHopper.difficulty.get_difficulty()
-            for server in self.shares:
-                for user in self.shares[server]:
-                    if self.shares[server][user] == 0:
-                        continue
-                    shares = self.shares[server][user]
-                    sql = self.sql_update_add(server,'shares',shares,user)
-                    self.curs.execute(sql)
-                    if len(self.curs.execute('select * from ' + server + '  WHERE diff='+ str(difficulty) + ' and user= \'' + str(user) + "\'").fetchall()) == 0:
-                        sql = self.sql_insert(server,shares=shares,user=user)
+                difficulty = self.bitHopper.difficulty.get_difficulty()
+                for server in self.shares:
+                    for user in self.shares[server]:
+                        if self.shares[server][user] == 0:
+                            continue
+                        shares = self.shares[server][user]
+                        sql = self.sql_update_add(server,'shares',shares,user)
                         self.curs.execute(sql)
-                    self.shares[server][user] = 0
+                        if len(self.curs.execute('select * from ' + server + '  WHERE diff='+ str(difficulty) + ' and user= \'' + str(user) + "\'").fetchall()) == 0:
+                            sql = self.sql_insert(server,shares=shares,user=user)
+                            self.curs.execute(sql)
+                        self.shares[server][user] = 0
 
-            for server in self.rejects:
-                for user in self.rejects[server]:
-                    if self.rejects[server][user] == 0:
-                        continue
-                    rejects = self.rejects[server][user]
-                    sql = self.sql_update_add(server,'rejects',rejects,user)
-                    self.curs.execute(sql)
-                    if len(self.curs.execute('select * from ' + server + '  WHERE diff='+ str(difficulty) + ' and user= \'' + str(user) + "\'").fetchall()) == 0:
-                        sql = self.sql_insert(server,rejects=rejects,user=user)
+                for server in self.rejects:
+                    for user in self.rejects[server]:
+                        if self.rejects[server][user] == 0:
+                            continue
+                        rejects = self.rejects[server][user]
+                        sql = self.sql_update_add(server,'rejects',rejects,user)
                         self.curs.execute(sql)
-                    self.rejects[server][user] = 0
+                        if len(self.curs.execute('select * from ' + server + '  WHERE diff='+ str(difficulty) + ' and user= \'' + str(user) + "\'").fetchall()) == 0:
+                            sql = self.sql_insert(server,rejects=rejects,user=user)
+                            self.curs.execute(sql)
+                        self.rejects[server][user] = 0
 
-            for server in self.payout:
-                if self.payout[server] == None:
-                    continue
-                payout = self.payout[server]
-                sql = self.sql_update_set(server,'stored_payout', payout,'',1)
-                self.curs.execute(sql)
-                if len(self.curs.execute('select * from ' + server + '  WHERE diff='+ str(1) + ' and user= \'\'').fetchall()) == 0:
-                    sql = self.sql_insert(server,payout=payout,diff=1)
+                for server in self.payout:
+                    if self.payout[server] == None:
+                        continue
+                    payout = self.payout[server]
+                    sql = self.sql_update_set(server,'stored_payout', payout,'',1)
                     self.curs.execute(sql)
-                self.payout[server] = None
+                    if len(self.curs.execute('select * from ' + server + '  WHERE diff='+ str(1) + ' and user= \'\'').fetchall()) == 0:
+                        sql = self.sql_insert(server,payout=payout,diff=1)
+                        self.curs.execute(sql)
+                    self.payout[server] = None
 
-            self.database.commit()
+                self.database.commit()
+            eventlet.sleep(60)
 
     def check_database(self):
         self.bitHopper.log_msg('Checking Database')

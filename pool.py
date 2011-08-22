@@ -5,10 +5,10 @@
 import json
 import re
 import ConfigParser
-import os
 import sys
-import time
-import threading
+
+import eventlet
+from eventlet.green import threading, os, time
 
 try:
     from collections import OrderedDict
@@ -110,7 +110,7 @@ class Pool():
                 if self.servers[server]['default_role'] in ['info','disable']:
                     self.servers[server]['default_role'] = 'mine'
             self.servers = OrderedDict(sorted(self.servers.items(), key=lambda t: t[1]['role'] + t[0]))
-        self.bitHopper.reactor.callLater(0, self.update_api_servers, bitHopper)
+        eventlet.spawn_n(self.update_api_servers, bitHopper)
             
     def get_entry(self, server):
         with self.lock:
@@ -146,7 +146,7 @@ class Pool():
 
             if time <= self.servers[server]['refresh_limit']:
                 time = self.servers[server]['refresh_limit']
-            self.bitHopper.reactor.callLater(time,self.update_api_server,server)
+            eventlet.spawn_after(time,self.update_api_server,server)
 
             try:
                 k =  str('{0:d}'.format(int(shares)))
@@ -178,22 +178,23 @@ class Pool():
                 self.servers[server]['role'] = 'api_disable'
                 return
 
-    def errsharesResponse(self, error, args):
-        self.bitHopper.log_msg('Error in pool api for ' + str(args))
+    def errsharesResponse(self, error, server_name):
+        self.bitHopper.log_msg('Error in pool api for ' + str(server_name))
         self.bitHopper.log_dbg(str(error))
-        pool = args
-        self.servers[pool]['err_api_count'] += 1
-        self.servers[pool]['init'] = True
-        if self.servers[pool]['err_api_count'] > 1:
-            self.servers[pool]['api_lag'] = True
-        time = self.servers[pool]['refresh_time']
-        if time < self.servers[pool]['refresh_limit']:
-            time = self.servers[pool]['refresh_limit']
-        self.bitHopper.reactor.callLater(time, self.update_api_server, pool)
+        pool = server_name
+        with self.lock:
+            self.servers[pool]['err_api_count'] += 1
+            self.servers[pool]['init'] = True
+            if self.servers[pool]['err_api_count'] > 1:
+                self.servers[pool]['api_lag'] = True
+            time = self.servers[pool]['refresh_time']
+            if time < self.servers[pool]['refresh_limit']:
+                time = self.servers[pool]['refresh_limit']
+        eventlet.spawn_after(time, self.update_api_server, pool)
 
-    def selectsharesResponse(self, response, args):
+    def selectsharesResponse(self, response, server_name):
         #self.bitHopper.log_dbg('Calling sharesResponse for '+ args)
-        server = self.servers[args]
+        server = self.servers[server_name]
         if server['role'] not in self.api_pull:
             return
 
@@ -220,7 +221,7 @@ class Pool():
                 if duration > 0:
                     server['duration'] = duration 
                     
-            self.UpdateShares(args,round_shares)
+            self.UpdateShares(server_name,round_shares)
 
         elif server['api_method'] == 'json_ec':
             info = json.loads(response[:response.find('}')+1])
@@ -229,7 +230,7 @@ class Pool():
             round_shares = int(info)
             if round_shares == None:
                 round_shares = int(self, self.bitHopper.difficulty.get_difficulty())
-            self.UpdateShares(args,round_shares)
+            self.UpdateShares(server_name,round_shares)
 
         elif server['api_method'] == 're':
             output = re.search(server['api_key'],response)
@@ -252,7 +253,7 @@ class Pool():
             round_shares = int(output)
             if round_shares == None:
                 round_shares = int(self.bitHopper.difficulty.get_difficulty())
-            self.UpdateShares(args,round_shares)
+            self.UpdateShares(server_name,round_shares)
             
         elif server['api_method'] == 're_rateduration':
             # get hashrate and duration to estimate share
@@ -281,7 +282,7 @@ class Pool():
             server['ghash'] = ghash
             server['duration'] = duration
             
-            self.UpdateShares(args,round_shares)
+            self.UpdateShares(server_name,round_shares)
             
         elif server['api_method'] == 're_rate':
             output = re.search(server['api_key'],response)
@@ -319,11 +320,11 @@ class Pool():
             server['last_pulled'] = time.time()
             diff = server['last_pulled'] - old
             shares = int(rate * diff)
-            round_shares = shares + server['shares']            
-            self.UpdateShares(args,round_shares)
+            round_shares = shares + server['shares']
+            self.UpdateShares(server_name ,round_shares)
         #Disable api scraping
         elif server['api_method'] == 'disable':
-			self.UpdateShares(args,0)
+			self.UpdateShares(server_name,0)
 			self.bitHopper.log_msg('Share estimation disabled for: ' + server['name'])
         else:
             self.bitHopper.log_msg('Unrecognized api method: ' + str(server))
@@ -432,10 +433,11 @@ class Pool():
             return
         info = self.servers[server]
         self.bitHopper.scheduler.update_api_server(server)
-        d = self.bitHopper.work.get(info['api_address'])
-        d.addCallback(self.selectsharesResponse, (server))
-        d.addErrback(self.errsharesResponse, (server))
-        d.addErrback(self.bitHopper.log_msg)
+        value = self.bitHopper.work.get(info['api_address'])
+        try:
+            self.selectsharesResponse( value, server)
+        except Exception, e:
+            self.errsharesResponse(e, server)
 
     def update_api_servers(self, bitHopper):
         self.bitHopper = bitHopper
@@ -444,9 +446,10 @@ class Pool():
             update = self.api_pull
             if info['role'] in update:
                 d = bitHopper.work.get(info['api_address'])
-                d.addCallback(self.selectsharesResponse, (server))
-                d.addErrback(self.errsharesResponse, (server))
-                d.addErrback(self.bitHopper.log_msg)
+                try:
+                    self.selectsharesResponse( d, server)
+                except Exception, e:
+                    self.errsharesResponse(e, server)
 
 if __name__ == "__main__":
     print 'Run python bitHopper.py instead.'

@@ -6,3 +6,4 @@ stats.db
 stats.db-journal
 user.cfg
 *.komodoproject
+objgraph.py

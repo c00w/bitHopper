@@ -217,6 +217,7 @@ role: info
 user: your_username
 pass: your_password
 
+
 ######################################
 # Backup pools for when there is
 # no pool where you would earn more
@@ -255,6 +256,14 @@ role: disable
 user: paraipanakos.works
 pass: minero
 
+[abc]
+#http://ABCPool.com
+#CHANGE THIS
+role: disable
+abc_user_apikey: 
+user: CHANGEME
+pass: CHANGEME
+
 ######################################
 # Namecoin and other type of pools.
 # For hopping use mine_xxx accordingly
@@ -264,12 +273,36 @@ pass: minero
 #http://bitparking.com/
 #CHANGE THIS (if you want)
 role: info
+#user is name coin address
 user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
-pass: x
 #passwords can be anything on bitparking
+pass: x
 
 [nmcbit]
 #http://nmcbit.com/
+#CHANGE THIS (if you want)
+role: info
+user: x
+pass: x
+
+[masterpool]
+#https://masterpool.eu/signup
+#CHANGE THIS (if you want)
+role: info
+user: x
+pass: xxx
+
+[namebit]
+#http://www.namebit.org/
+#CHANGE THIS (if you want)
+role: info
+#user is namecoin address
+user: nmcaddress
+#pasword must be "none"
+pass: none
+
+[bitchomp]
+#http://www.bitchomp.info/ncp/register.php
 #CHANGE THIS (if you want)
 role: info
 user: x
@@ -319,8 +352,8 @@ user: Sukrim.hopper
 pass: 1234
 
 [poolmunity]
-#CHANGE THIS (if you want)
 #http://poolmunity.com/
+#CHANGE THIS (if you want)
 role: info
 user: c00w.testhop
 pass: testhop
@@ -353,12 +386,4 @@ pass: x
 role: disable
 user: c00w.1
 pass: x
-
-[abc]
-#http://ABCPool.com, reg temp disabled
-#CHANGE THIS
-role: backup
-abc_user_apikey: 
-user: CHANGEME
-pass: CHANGEME
 

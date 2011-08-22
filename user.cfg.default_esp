@@ -283,6 +283,29 @@ role: info
 user: x
 pass: x
 
+[masterpool]
+#https://masterpool.eu/signup
+#CAMBIA A CONTINUACION (si quieres)
+role: info
+user: x
+pass: xxx
+
+[namebit]
+#http://www.namebit.org/
+#CAMBIA A CONTINUACION (si quieres)
+role: info
+#user is namecoin address
+user: nmcaddress
+#pasword must be "none"
+pass: none
+
+[bitchomp]
+#http://www.bitchomp.info/ncp/register.php
+#CAMBIA A CONTINUACION (si quieres)
+role: info
+user: x
+pass: x
+
 [i0g]
 #http://i0.btcguild.com/register.php
 #CAMBIA A CONTINUACION (si quieres)
