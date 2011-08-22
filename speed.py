@@ -19,13 +19,14 @@ class Speed():
             self.shares += share
 
     def update_rate(self):
-        old_time=time.time()
+        self.old_time=time.time()
         while True:
             with self.lock:
-                diff = time.time()-old_time
+                now = time.time()
+                diff = now -self.old_time
                 if diff <=0:
                     diff = 1
-                old_time = time.time()
+                self.old_time = now
                 self.rate = int((float(self.shares) * (2**32)) / (diff * 1000000))
                 self.shares = 0
             eventlet.sleep(60)
