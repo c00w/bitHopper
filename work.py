@@ -172,8 +172,6 @@ class Work():
         try:
             rpc_request = json.loads(request.body)
             j_id = rpc_request['id']
-            data = env.get('HTTP_AUTHORIZATION').split(None, 1)[1]
-            username, password = data.decode('base64').split(':', 1)
 
         except Exception, e:
             self.bitHopper.log_dbg('Error in json handle_LP')
@@ -182,6 +180,13 @@ class Work():
                 j_id = 1
         
         value = self.bitHopper.lp_callback.read()
+
+        try:
+            data = env.get('HTTP_AUTHORIZATION').split(None, 1)[1]
+            username, password = data.decode('base64').split(':', 1)
+        except:
+            username = ''
+            password = ''
 
         self.bitHopper.log_msg('LP Callback for miner: '+ username)
 
