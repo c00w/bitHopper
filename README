@@ -5,13 +5,21 @@ Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 Based on a work at github.com
 
 
-# Instructions for Windows users
+# Ubuntu installation
 
-In order to run BitHopper you need to install greenlet module with Python 2.7(recommended):
+In order to run bitHopper you need to install greenlet module over Python 2.7+ (lookup your allready
+installed version of Python with "python -V"):
+
+sudo apt-get install python-dev python-setuptools
+sudo easy_install greenlet
+
+Tested and woking for Ubuntu 11.04, 10.10 and 10.04 LTS
+
+
+# Instructions for Windows users
 
 ActiveState Python(recommended, use 32 bit even when you have 64 bit system, it will still work)
 http://downloads.activestate.com/ActivePython/releases/2.7.2.5/ActivePython-2.7.2.5-win32-x86.msi
-
 
 Greenlet
 http://pypi.python.org/pypi/greenlet
@@ -28,7 +36,7 @@ Console will open up and to this console you have to type:
 
 pypm install greenlet
 
-After pypm has finished installing greenlet successully type "exit" and your BitHopper is all set. Although
+After pypm has finished installing greenlet successully type "exit" and your bitHopper is all set. Although
 using ActiveState Python's pypm should work 99% of the time there have been reports of people having issues
 with using it. If this is the case you could also download greenlet package from:
 
@@ -39,31 +47,25 @@ greenlet source yourself and compile it or use pypm method. If you have no other
 these unofficial binaries then greenlet-0.3.1.win32-py2.7.exe is the correct one to download. It will
 extract itself into correct directory.
 
-# Ubuntu installation
-
-sudo apt-get install python
-sudo apt-get install python-greenlet
 
 # Configuring user settings
 
+BitHopper Stats page: http://localhost:8337/stats
+
 Copy "user.cfg.default" to a new file called "user.cfg" then modify the new file to include your pool 
 worker usernames and passwords. Run "python bitHopper.py" in *nix or in Windows you can double click on
-run-bithopper.bat. After script updates info, please check if new pools have been added correctly from:
+run-bithopper.bat. After script updates info check if new pools have been added correctly to stats page.
 
-http://localhost:8337/stats 
+If any of the pools turns red or there is something else missing then edit your "user.cfg" accordingly.
 
-if any of the pools turns red or there is something else missing then edit your "user.cfg" accordingly.
-
-If you don't want to use a pool delete it from user.cfg or go to http://localhost:8337/stats and switch
-its role to disable. BitHopper listens on loopback interface so you should direct your miner to
-localhost:8337 with any username and password (not blank).
-
-BitHopper status page: http://localhost:8337/stats
+If you don't want to use a pool delete it from "user.cfg" or go to Stats page and switch its role to
+disable. BitHopper listens on loopback interface so you should direct your miner to localhost:8337
+with any username and password (not blank).
 
 
 # Switches
 
-You can launch bH with the following parameters:
+You can launch bitHopper with the following parameters:
 
 	--ip                  = IP to listen on
 	--port                = Port to listen on
@@ -73,7 +75,7 @@ You can launch bH with the following parameters:
 	--threshold           = Override difficulty threshold (default 0.43)
 	--p2pLP               = Starts up an IRC bot to validate LP based hopping
 	--OldConnectionSystem = Uses the old connection system. May help with lots of miners
-    --debug               = Extra error output. Basically print all caught errors
+	--debug               = Extra error output. Basically print all caught errors
 	--trace               = Extra debugging output
 
 
