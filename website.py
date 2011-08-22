@@ -42,7 +42,7 @@ class dynamicSite():
             if "role" in v:
                 try:
                     server = v.split('-')[1]
-                    self.bh.pool.get_entry(server)['role'] = request.args[v][0]
+                    self.bh.pool.get_entry(server)['role'] = request.POST[v][0]
                     self.bh.pool.get_entry(server)['refresh_time'] = 60
                     if request.args[v][0] in ['mine','info']:
                         self.bh.pool.update_api_server(server)
@@ -53,7 +53,7 @@ class dynamicSite():
             if "payout" in v:
                 try:
                     server = v.split('-')[1]
-                    self.bh.update_payout(server, float(request.args[v][0]))
+                    self.bh.update_payout(server, float(request.POST[v][0]))
                 except Exception, e:
                     self.bh.log_dbg('Incorrect http post request payout')
                     self.bh.log_dbg(e)
@@ -61,7 +61,7 @@ class dynamicSite():
                 try:
                     server = v.split('-')[1]
                     info = self.bh.pool.get_entry(server)
-                    info['penalty'] = float(request.args[v][0])                    
+                    info['penalty'] = float(request.POST[v][0])                    
                     self.bh.select_best_server()
                 except Exception, e:
                     self.bh.log_dbg('Incorrect http post request payout')
