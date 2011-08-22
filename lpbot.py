@@ -1,8 +1,13 @@
+#!/usr/bin/python
+#License#
+#bitHopper by Colin Rice is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
+#Based on a work at github.com.
+
 from irclib import SimpleIRCClient
-import time
 import random
 import re
-import thread
+import eventlet
+from eventlet.green import time
 
 class LpBot(SimpleIRCClient):
     def __init__(self, bitHopper):
@@ -15,19 +20,22 @@ class LpBot(SimpleIRCClient):
         self.hashinfo = {'':''}
         self.server=''
         self.current_block=''
-        # TODO: Use twisted
-        thread.start_new_thread(self.run, ())
-        thread.start_new_thread(self.ircobj.process_forever,())
+        eventlet.spawn_n(self.run)
+        eventlet.spawn_n(self.process_forever)
 
+    def process_forever(self):
+        while True:
+            self.ircobj.process_once(0.2)
+            
     def run(self):
-            while(True):
-                    if self.is_connected():
-                            self.join()
-                    else:
-                            self.chan_list = []
-                            self._connect()
-                            print "Connect returned"
-                    time.sleep(15)
+        while True:
+                if self.is_connected():
+                        self.join()
+                else:
+                        self.chan_list = []
+                        self._connect()
+                        print "Connect returned"
+                eventlet.sleep(15)
     
     def _connect(self):
         print "Connecting..."

@@ -3,10 +3,8 @@
 #bitHopper by Colin Rice is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-import time
-import threading
-
-from twisted.internet.task import LoopingCall
+import eventlet
+from eventlet.green import threading, time
 
 class Data():
     def __init__(self,bitHopper):
@@ -22,16 +20,17 @@ class Data():
 
             for user in users:
                 self.users[user] = {'shares':users[user]['shares'],'rejects':users[user]['rejects'], 'last':0, 'shares_time': [], 'hash_rate': 0}
-        prune = LoopingCall(self.prune)
-        prune.start(10)
+        eventlet.spawn_n(self.prune)
 
     def prune(self):
-        with self.lock:
-            for user in self.users:
-                for share_time in self.users[user]['shares_time']:
-                    if time.time() - share_time > 60 * 5:
-                        self.users[user]['shares_time'].remove(share_time)
-                self.users[user]['hash_rate'] = (len(self.users[user]['shares_time']) * 2**32) / (60 * 5 * 1000000)
+        while True:
+            with self.lock:
+                for user in self.users:
+                    for share_time in self.users[user]['shares_time']:
+                        if time.time() - share_time > 60 * 5:
+                            self.users[user]['shares_time'].remove(share_time)
+                    self.users[user]['hash_rate'] = (len(self.users[user]['shares_time']) * 2**32) / (60 * 5 * 1000000)
+            eventlet.sleep(30)
     
     def get_users(self):
         with self.lock:
