@@ -130,10 +130,6 @@ class dataSite():
             'user':self.bitHopper.data.get_users()})
         return response
 
-    #def render_POST(self, request):
-    #     bithopper_global.new_server.addCallback(bitHopperLP, (request))
-    #     return server.NOT_DONE_YET
-
 class lpSite():
 
     def __init__(self, bitHopper):
@@ -147,7 +143,7 @@ class nullsite():
         pass
 
     def handle(self, env, start_response):
-        start_response('200 OK', [('Content-Type', 'text/plain')])
+        start_response('401 UNAUTHORIZED', [('Content-Type', 'text/plain'),('WWW-Authenticate','Basic realm="Protected"')])
         return ['']
 
 class bitSite():
@@ -175,10 +171,15 @@ class bitSite():
         return self.bitHopper.work.handle(env, start_response)
 
     def auth(self, env):
-        return True
         if self.bitHopper.auth != None:  
-            data = env.get('HTTP_AUTHORIZATION').split(None, 1)[1]
-            username, password = data.decode('base64').split(':', 1)
-            if user != self.bitHopper.auth[0] or password != self.bitHopper.auth[1]:
+            if env.get('HTTP_AUTHORIZATION') == None:
+                return False
+            try:
+                data = env.get('HTTP_AUTHORIZATION').split(None, 1)[1]
+                username, password = data.decode('base64').split(':', 1)
+                if username != self.bitHopper.auth[0] or password != self.bitHopper.auth[1]:
+                    return False
+            except Exception, e:
+                self.bitHopper.log_msg(e)
                 return False
         return True
