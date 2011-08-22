@@ -184,7 +184,7 @@ pass: xndzEU
 [kiwipool]
 #http://www.kiwipool.me/
 #CHANGE THIS (if you want)
-role: disable
+role: info
 user: your_username
 pass: your_password
 
@@ -216,7 +216,6 @@ pass: your_password
 role: info
 user: your_username
 pass: your_password
-
 
 ######################################
 # Backup pools for when there is
@@ -354,7 +353,7 @@ pass: 1234
 [poolmunity]
 #http://poolmunity.com/
 #CHANGE THIS (if you want)
-role: info
+role: disable
 user: c00w.testhop
 pass: testhop
 
@@ -368,14 +367,14 @@ pass: x
 [mineco]
 #https://mineco.in
 #CHANGE THIS (if you want)
-role: info
+role: disable
 user: c00w.test
 pass: x
 
 [eclipsemc]
 #https://eclipsemc.com
 #CHANGE THIS (if you want)
-role: info
+role: disable
 eclipsemc_apikey: bd0eded7e35b1b5fc48f8d10214d98
 user: c00w_worker
 pass: x

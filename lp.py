@@ -45,13 +45,11 @@ class LongPoll():
             if old_defer:
                 old_defer.release()
             self.bitHopper.log_msg('Setting Block Owner ' + server+ ':' + str(block))
-        with self.bitHopper.pool.lock:
             if server in self.bitHopper.pool.servers and self.bitHopper.pool.servers[server]['role'] == 'mine_deepbit' and old_owner != server:
                 old_shares = self.bitHopper.pool.servers[server]['shares']
                 self.bitHopper.pool.servers[server]['shares'] = 0
                 self.bitHopper.select_best_server()
-                with self.lock:
-                    eventlet.spawn_n(self.api_check,server,block,old_shares)
+                eventlet.spawn_n(self.api_check,server,block,old_shares)
 
     def get_owner(self):
         with self.lock:
