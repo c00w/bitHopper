@@ -86,7 +86,7 @@ class LpBot(SimpleIRCClient):
                 total_votes = 1
             else:
                 # Info added, I have nothing else to do
-                print "Unknown work - " + block
+                #print "Unknown work - " + block
                 return
         else:
             # Add a vote
@@ -99,7 +99,7 @@ class LpBot(SimpleIRCClient):
             
             # If I haven't received the new work yet, I don't want to decide anything, just store it
             if self.current_block != block:
-                print "Old  work - " + block
+                #print "Old  work - " + block
                 return
 
             print "Total Votes: " + str(total_votes)
@@ -117,11 +117,16 @@ class LpBot(SimpleIRCClient):
                         if test_vote == test_server:
                             test_votes += 1
                     print str(test_votes) + " out of " + str(test_total_votes) + " votes."
-                    if float(test_votes) / test_total_votes > .5 and self.server != test_server:
-                        print "In the minority, updating to  " + test_server + ": " + str(test_votes) + "/" + str(test_total_votes)
-                        self.server = test_server
-                        votes = test_votes
-                        total_votes = test_total_votes
+                    if float(test_votes) / test_total_votes > .5 
+                        if self.server != test_server:
+                            print "In the minority, updating to  " + test_server + ": " + str(test_votes) + "/" + str(test_total_votes)
+                            self.server = test_server
+                            votes = test_votes
+                            total_votes = test_total_votes
+                        else:
+                            print "In the majority, keeping server"
+                    else:
+                        print "Not enough votes in one direction to make a decision"
             else: # Not enough for quarum, select first
                 self.server = self.hashinfo[block][0]
                 votes = 0
@@ -156,7 +161,6 @@ class LpBot(SimpleIRCClient):
                 self.decider(server, last_hash)
             else:
                 print "Not connected to IRC..."
-                self.bitHopper.lp.set_owner(self.server, self.current_block)
         except Exception, e:
             print "********************************"
             print "*****  ERROR IN ANNOUCE  *******"

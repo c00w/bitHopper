@@ -125,8 +125,6 @@ class LongPoll():
                     self.bitHopper.log_msg('New Block: ' + str(block))
                     self.bitHopper.log_msg('Block Owner ' + server)
                     self.add_block(block, work, server)
-                    if self.bitHopper.lpBot != None:
-                        self.bitHopper.lpBot.announce(server, block)
 
             #Add the lp_penalty if it exists.
             with self.lock:
@@ -134,6 +132,8 @@ class LongPoll():
                 self.blocks[block][server] = time.time() + float(offset)
                 if self.blocks[block]['_owner'] == None or self.blocks[block][server] < self.blocks[block][self.blocks[block]['_owner']]:
                     self.set_owner(server,block)
+                    if self.bitHopper.lpBot != None:
+                        self.bitHopper.lpBot.announce(server, block)
 
         except Exception, e:
             output = False
