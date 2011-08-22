@@ -1,13 +1,13 @@
 # License
 
-BitHopper by Colin Rice is licensed under a Creative Commons
+bitHopper by Colin Rice is licensed under a Creative Commons
 Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 Based on a work at github.com
 
 
 # Ubuntu installation
 
-In order to run BitHopper you need to install greenlet module with Python 2.7 (recommended):
+In order to run bitHopper you need to install greenlet module with Python 2.7 (recommended):
 
 sudo apt-get install python2.7 python-dev python-setuptools
 sudo easy_install greenlet
@@ -33,7 +33,7 @@ Console will open up and to this console you have to type:
 
 pypm install greenlet
 
-After pypm has finished installing greenlet successully type "exit" and your BitHopper is all set. Although
+After pypm has finished installing greenlet successully type "exit" and your bitHopper is all set. Although
 using ActiveState Python's pypm should work 99% of the time there have been reports of people having issues
 with using it. If this is the case you could also download greenlet package from:
 
@@ -64,7 +64,7 @@ BitHopper status page: http://localhost:8337/stats
 
 # Switches
 
-You can launch bH with the following parameters:
+You can launch bitHopper with the following parameters:
 
 	--ip                  = IP to listen on
 	--port                = Port to listen on
