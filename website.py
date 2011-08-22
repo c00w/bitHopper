@@ -165,8 +165,12 @@ class bitSite():
                 site = dataSite(self.bitHopper)
             else:
                 site = self
-        return site.handle(env,start_response)
-
+        try:
+            return site.handle(env,start_response)
+        except Exception, e:
+            self.bitHopper.log_msg('Error in a wsgi function')
+            self.bitHopper.log_msg(e)
+            return [""]
     def handle(self, env, start_response):
         return self.bitHopper.work.handle(env, start_response)
 
