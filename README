@@ -9,9 +9,7 @@ In order to run bithopper you need eventlet and pyopenssl installed with Python 
 
 http://python.org/download/
 https://launchpad.net/pyopenssl/+download
-http://pypi.python.org/pypi/eventlet/
 http://pypi.python.org/pypi/greenlet
-http://pypi.python.org/pypi/WebOb/1.1rc1
 
 Copy "user.cfg.default" to a new file called "user.cfg" then modify the new
 file to include your pool worker usernames and passwords, instead of mine.
@@ -30,17 +28,11 @@ Download and install:
 http://python.org/download/
 https://launchpad.net/pyopenssl/+download
 http://pypi.python.org/pypi/greenlet
-http://pypi.python.org/pypi/eventlet/
-http://pypi.python.org/pypi/WebOb/1.1rc1
 
 # Ubuntu installation
 sudo apt-get install python
-sudo apt-get install python-eventlet
 sudo apt-get install python-openssl
-sudo apt-get install webob
-If this doesn't work:
-sudo apt-get install python-setuptools
-sudo easy_install webob
+sudo apt-get install python-greenlet
 
 Then follow the above instructions
 
