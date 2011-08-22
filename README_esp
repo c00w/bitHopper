@@ -41,8 +41,8 @@ http://www.lfd.uci.edu/~gohlke/pythonlibs/
 
 Toma nota que estos no son binarios oficiales para Python. Siempre es mejor bajarte el codigo fuente de
 greenlet y compilarlo o utilizar el metodo pypm. Si no tienes otra alternativa y tienes que hacerlo asi
-el greenlet-0.3.1.win32-py2.7.exe es el instalador correcto que puedes bajarte. Se extraera solo en la
-carpeta adecuada.
+el greenlet-0.3.1.win32-py2.7.exe es el instalador correcto que puedes bajarte. Se extraera en la carpeta
+adecuada automaticamente.
 
 
 # Configurando los ajustes de usuario
