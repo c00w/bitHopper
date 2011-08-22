@@ -1,43 +1,65 @@
 # Licencia
+
 bitHopper por Colin Rice bajo licencia Creative Commons
-"Attribution-NonCommercial-ShareAlike 3.0 Unported License".
+Attribution-NonCommercial-ShareAlike 3.0 Unported License
 Basado en trabajo hecho en github.com
 
-# Instructiones
 
-Para ejecutar bithopper necesitas instalar "twisted phython"
-y "pyopenssl" junto con Python 2.7 (recomendado):
+# Instalar en Ubuntu
 
-http://python.org/download/
-https://launchpad.net/pyopenssl/+download
-http://pypi.python.org/pypi/zope.interface (para Windows)
-http://twistedmatrix.com/trac
+Para poder ejecutar bitHopper necesistas instalar el modulo greenlet junto con Python 2.7 (recomendado):
 
-Renombra el archivo "user.cfg.default_esp" a un archivo nuevo llamado "user.cfg".
-despues modifica este nuevo archivo para incluir los nombres y usuarios de
-trabajador (worker), para cada mina (pool) en parte, con tu editor de textos favorito.
-Lanza una linea de comandos (Inicio>Ejecutar> "cmd" para windows o consola en Linux),
-cambia de carpeta en la de bitHopper, ejecuta "python bitHopper.py", sin comillas.
+sudo apt-get install python2.7 python-dev python-setuptools
+sudo easy_install greenlet
 
-Si no quieres utilizar una mina (pool) le puedes poner un nombre de trabajador y
-contraseña no validos en "user.cfg" (ADVERTENCIA: algunas minas (pools) ignoran completamente
-los credenciales de trabajador), o puedes hacerlo en la direccion http://localhost:8337/stats
-y modificar "role" a "disable", o simplemente borra la entrada de mina del archivo "user.cfg".
 
-BitHopper escucha en la interfaz de loopback asi que deberias direccionar tu minero hacia
-localhost:8337 utilizando cualquier nombre y contraseña (no dejes sin).
+# Instrucciones para usuarios Windows
 
-BitHopper pagina estatistica: http://localhost:8337/stats
+ActiveState Python(recomendado, usa version 32 bit aunque tengas un sistema de 64 bit, funcionara igual)
+http://downloads.activestate.com/ActivePython/releases/2.7.2.5/ActivePython-2.7.2.5-win32-x86.msi
 
-# Instalacion Windows
+Greenlet
+http://pypi.python.org/pypi/greenlet
 
-Baja e instala:
+Puedes probar bajarte greenlet desde la pagina oficial y compilar el codigo fuente manualmente aunque esta
+modalidad es conocida de causar problemas para muchos usuarios. Mas facil seria instalar el modulo greenlet
+en modo automatico utilizando el manager que viene con ActiveState Python.
 
-https://launchpad.net/pyopenssl
-http://pypi.python.org/pypi/zope.interface
-http://twistedmatrix.com/trac
+Para hacer esto tienes que hacer click:
 
-Despues sigue las instrucciones de mas arriba
+Inicio -> Todos los programas -> ActiveState ActivePython 2.7(32-bit) -> Python Package Manager
+
+Se abrira una consola donde tienes que teclear:
+
+pypm install greenlet
+
+Despues de que pypm haya finalizado instalar greenlet con exito teclea "exit" y tu bitHopper esta listo
+para funcionar. Esta modalidad deberia funcionar en 99% de las instalaciones pero ha habido casos de
+personas que han tenido fallos. Si este es tu caso podrias probar el modulo greenlet precompilado desde:
+
+http://www.lfd.uci.edu/~gohlke/pythonlibs/
+
+Toma nota que estos no son binarios oficiales para Python. Siempre es mejor bajarte el codigo fuente de
+greenlet y compilarlo o utilizar el metodo pypm. Si no tienes otra alternativa y tienes que hacerlo asi
+el greenlet-0.3.1.win32-py2.7.exe es el instalador correcto que puedes bajarte. Se extraera solo en la
+carpeta adecuada.
+
+
+# Configurando los ajustes de usuario
+
+BitHopper pagina de Stats: http://localhost:8337/stats
+
+Copia y pega el archivo "user.cfg.default" a un nuevo archivo llamado "user.cfg" despues modifica este
+archivo para que incluya tus nombres y contraseñas de mineros (worker). Ejecuta "python bitHopper.py"
+en *nix (Ubuntu) o haz doble click en "run-bithopper.bat" si estas en Windows. Despues de actualizarse
+comprueba que las minas estan configuradas correctamente a la pagina de Stats.
+
+Si alguna mina se cambia en rojo seguro que te faltan datos por configurar en "user.cfg".
+
+Por si no quieres utilizar alguna mina puedes borrarla de "user.cfg" o ir en la pagina de Stats y cambiar
+su rol a "disable". BitHopper escucha conexiones en la interfaz de loopback asi que debes redireccionar
+tu minero a localhost:8337 con cualquier usuario y contraseña (ne dejes en blanco).
+
 
 # Parametros
 

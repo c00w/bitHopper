@@ -1,6 +1,6 @@
 # License
 
-bitHopper by Colin Rice is licensed under a Creative Commons
+BitHopper by Colin Rice is licensed under a Creative Commons
 Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 Based on a work at github.com
 
@@ -47,19 +47,19 @@ extract itself into correct directory.
 
 # Configuring user settings
 
+BitHopper Stats page: http://localhost:8337/stats
+
 Copy "user.cfg.default" to a new file called "user.cfg" then modify the new file to include your pool 
 worker usernames and passwords. Run "python bitHopper.py" in *nix or in Windows you can double click on
-run-bithopper.bat. After script updates info, please check if new pools have been added correctly from:
+run-bithopper.bat. After script updates info check if new pools have been added correctly to stats page.
 
-http://localhost:8337/stats 
+If any of the pools turns red or there is something else missing then edit your "user.cfg" accordingly.
 
-if any of the pools turns red or there is something else missing then edit your "user.cfg" accordingly.
+If you don't want to use a pool delete it from "user.cfg" or go to Stats page and switch its role to
+disable. BitHopper listens on loopback interface so you should direct your miner to localhost:8337
+with any username and password (not blank).
 
-If you don't want to use a pool delete it from user.cfg or go to http://localhost:8337/stats and switch
-its role to disable. BitHopper listens on loopback interface so you should direct your miner to
-localhost:8337 with any username and password (not blank).
 
-BitHopper status page: http://localhost:8337/stats
 
 
 # Switches
