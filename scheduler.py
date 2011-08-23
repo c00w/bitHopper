@@ -389,19 +389,20 @@ class AltSliceScheduler(Scheduler):
                 server_shares = {}
                 for server in self.bh.pool.get_servers():
                     shares,info = self.server_to_btc_shares(server)
+                    shares += 1
                     if info['role'] not in self.valid_roles:
                         continue
                     if info['api_lag'] or info['lag']:
                         continue
-                    if shares < min_shares and shares > 0:               
-                        totalshares = totalshares + shares           
-                        info['slicedShares'] = info['shares']
+                    if shares < min_shares and shares >= 0:               
+                        totalshares = totalshares + shares
+                        info['slicedShares'] = shares
                         server_shares[server] = shares
                     else:
                         self.bh.log_trace(server + ' skipped ')
                         continue
                 
-            # find total weight   
+                # find total weight   
                 for server in self.bh.pool.get_servers():
                     shares,info = self.server_to_btc_shares(server)
                     if info['role'] not in self.valid_roles:
@@ -424,9 +425,12 @@ class AltSliceScheduler(Scheduler):
                     # delta from target
                     for server in self.bh.pool.get_servers():              
                         info = self.bh.pool.get_entry(server)
-                        if info['role'] not in ['mine','mine_nmc','mine_slush']: continue
-                        if info['duration'] <= 0: continue
-                        if server not in server_shares: continue
+                        if info['role'] not in self.valid_roles:
+                            continue
+                        if info['duration'] <= 0:
+                            continue
+                        if server not in server_shares:
+                            continue
                         tb_delta[server] = self.target_duration - info['duration'] + 1
                         tb_log_delta[server] = math.log(abs(tb_delta[server]))
                         self.bh.log_trace('  ' + server + " delta: " + str(tb_delta[server]) + " log_delta: " + str(tb_log_delta[server]), cat=self.name)            
@@ -436,9 +440,12 @@ class AltSliceScheduler(Scheduler):
                     neg_total = 0
                     for server in self.bh.pool.get_servers():              
                         info = self.bh.pool.get_entry(server)
-                        if info['role'] not in ['mine','mine_nmc','mine_slush']: continue
-                        if info['duration'] <= 0: continue
-                        if server not in server_shares: continue
+                        if info['role'] not in self.valid_roles:
+                            continue
+                        if info['duration'] <= 0:
+                            continue
+                        if server not in server_shares:
+                            continue
                         if tb_delta[server] >= 0: pos_total += tb_log_delta[server]
                         if tb_delta[server]  < 0: neg_total += tb_log_delta[server]
                     self.bh.log_trace("pos_total: " + str(pos_total) + " / neg_total: " + str(neg_total), cat=self.name)   
@@ -464,8 +471,10 @@ class AltSliceScheduler(Scheduler):
                     info = self.bh.pool.get_entry(server)
                     if info['role'] not in self.valid_roles:
                        continue
-                    if info['shares'] <= 0: continue
-                    if server not in server_shares: continue
+                    if info['shares'] <= 0:
+                        continue
+                    if server not in server_shares:
+                        continue
                     shares = server_shares[server] + 1
                     if shares < min_shares and shares > 0:
                         weight = 0
@@ -523,9 +532,9 @@ class AltSliceScheduler(Scheduler):
                     ad_totalslice = 0
                     for server in self.bh.pool.get_servers():
                         info = self.bh.pool.get_entry(server)
-                        if info['role'] not in ['mine','mine_nmc','mine_slush']:
+                        if info['role'] not in self.valid_roles:
                             continue
-                        if info['shares'] <=0: continue
+                        if info['shares'] < 0: continue
                         if server not in server_shares: continue
                         shares = server_shares[server] + 1
                         if shares < min_shares and shares > 0:
@@ -536,9 +545,9 @@ class AltSliceScheduler(Scheduler):
                              
                     for server in self.bh.pool.get_servers():            
                         info = self.bh.pool.get_entry(server)
-                        if info['role'] not in ['mine','mine_nmc','mine_slush']:
+                        if info['role'] not in self.valid_roles:
                             continue
-                        if info['shares'] <=0: continue
+                        if info['shares'] < 0: continue
                         if server not in server_shares: continue
                         if server not in tb_log_delta: continue # no servers to adjust
                         shares = server_shares[server] + 1
@@ -560,9 +569,9 @@ class AltSliceScheduler(Scheduler):
                 # min share adjustment
                 for server in self.bh.pool.get_servers():
                     info = self.bh.pool.get_entry(server)
-                    if info['role'] not in ['mine','mine_nmc','mine_slush']:
+                    if info['role'] not in self.valid_roles:
                         continue
-                    if info['shares'] <=0: continue
+                    if info['shares'] < 0: continue
                     if server not in server_shares: continue
                     if info['slice'] < self.bh.options.altminslicesize:
                         info['slice'] = self.bh.options.altminslicesize
