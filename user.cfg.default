@@ -217,6 +217,13 @@ role: info
 user: your_username
 pass: your_password
 
+[p2pool]
+#https://en.bitcoin.it/wiki/P2Pool
+#passwords and user can be anything p2pool
+role: disable
+user: happy
+pass: miner
+
 ######################################
 # Backup pools for when there is
 # no pool where you would earn more

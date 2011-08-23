@@ -30,6 +30,12 @@ info_1: Please report experience on forum or IRC
 info_1: Please report experience on forum or IRC
 
 
+[p2pool]
+#https://en.bitcoin.it/wiki/P2Pool
+info_1: Descentralized pool with support for btc, nmc and others
+info_2: Please report experience on forum or IRC
+
+
 #######################################
 
 
