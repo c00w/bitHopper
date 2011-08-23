@@ -17,9 +17,13 @@ class Work():
     def __init__(self, bitHopper):
         self.bitHopper = bitHopper
         self.i = 0
-        self.httppool = pools.Pool(min_size = 2, max_size = 100, create = lambda: httplib2.Http(disable_ssl_certificate_validation=True))
-        self.httppool_lp = self.httppool
+        self.connect_pool = {}
         #pools.Pool(min_size = 2, max_size = 10, create = lambda: httplib2.Http(disable_ssl_certificate_validation=True))
+
+    def get_http(self, address):
+        if address not in self.connect_pool:
+            self.connect_pool[address] =  pools.Pool(min_size = 2, max_size = 8, create = lambda: httplib2.Http(disable_ssl_certificate_validation=True))
+        return self.connect_pool[address].item()
 
     def jsonrpc_lpcall(self, server, url, lp):
         try:
@@ -27,7 +31,7 @@ class Work():
             request = json.dumps({'method':'getwork', 'params':[], 'id':self.i}, ensure_ascii = True)
             pool = self.bitHopper.pool.servers[server]
             header = {'Authorization':"Basic " +base64.b64encode(pool['user']+ ":" + pool['pass']), 'User-Agent': 'poclbm/20110709', 'Content-Type': 'application/json' }
-            with self.httppool_lp.item() as http:
+            with self.get_http(url) as http:
                 try:
                     resp, content = http.request( url, 'GET', headers=header, body=request)
                 except Exception, e:
@@ -46,7 +50,7 @@ class Work():
     def get(self, url):
         "A utility method for getting webpages"
         header = {'User-Agent':'Mozilla/5.0 (Windows; U; MSIE 9.0; WIndows NT 9.0; en-US))'}
-        with self.httppool.item() as http:
+        with self.get_http(url) as http:
             try:
                 resp, content = http.request( url, 'GET', headers=header)
             except Exception, e:
@@ -65,7 +69,7 @@ class Work():
             info = self.bitHopper.pool.get_entry(server)
             header = {'Authorization':"Basic " +base64.b64encode(info['user']+ ":" + info['pass']), 'User-Agent': 'poclbm/20110709','Content-Type': 'application/json' }
             url = "http://" + info['mine_address']
-            with self.httppool.item() as http:
+            with self.get_http(url) as http:
                 try:
                     resp, content = http.request( url, 'POST', headers=header, body=request)
                 except Exception, e:
@@ -185,7 +189,7 @@ class Work():
         try:
             data = env.get('HTTP_AUTHORIZATION').split(None, 1)[1]
             username, password = data.decode('base64').split(':', 1)
-        except:
+        except Exception,e:
             username = ''
             password = ''
 
