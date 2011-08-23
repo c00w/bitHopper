@@ -168,10 +168,19 @@
 				}
 			}
 
-			function setPenalty(srvName) {
-				var penalty = prompt("Set penalty for: " + srvName, 0);
+			function setPenalty(srvName, value) {
+				var penalty = prompt("Set penalty for: " + srvName, value);
 				if(penalty != null && penalty != undefined && penalty != "") {
 					var frm = "<form><input type=hidden name='penalty-" + srvName + "' value='" + penalty + "'></form>";
+					$.post("/stats", $(frm).serialize());					
+					update();
+				}
+			}
+			
+			function setLPPenalty(srvName, value) {
+				var penalty = prompt("Set LP penalty for: " + srvName, value);
+				if(penalty != null && penalty != undefined && penalty != "") {
+					var frm = "<form><input type=hidden name='setLPPenalty-" + srvName + "' value='" + penalty + "'></form>";
 					$.post("/stats", $(frm).serialize());					
 					update();
 				}
@@ -263,7 +272,18 @@
 					 penalty = parseFloat(srv['penalty']);
 				}
 				var penalty_html = "<a href='#' onFocus='this.blur();' onClick=\"setPenalty('"
-				penalty_html = penalty_html + srvName + "');\" style='text-decoration:underline;color:" + getColor(payload,srv) + ";'>"
+				penalty_html = penalty_html + srvName + "', " + penalty + ");\" style='text-decoration:underline;color:" + getColor(payload,srv) + ";'>"
+				penalty_html = penalty_html + penalty.toFixed(2) + "</a>";			
+				return penalty_html;
+			}
+			
+			function getLPPenalty(payload, srv) {
+				var penalty = 0.00
+				if (srv['lp_penalty'] && srv['lp_penalty'] > 0) {
+					 penalty = parseFloat(srv['lp_penalty']);
+				}
+				var penalty_html = "<a href='#' onFocus='this.blur();' onClick=\"setLPPenalty('"
+				penalty_html = penalty_html + srvName + "', " + penalty + ");\" style='text-decoration:underline;color:" + getColor(payload,srv) + ";'>"
 				penalty_html = penalty_html + penalty.toFixed(2) + "</a>";			
 				return penalty_html;
 			}
@@ -451,6 +471,7 @@
 							'Payout': { 'data':getPayout, 'color':getColor, 'align':'center' },
 							'Efficiency': { 'data':getEfficiency, 'color':getColor, 'align':'center' },
 							'Penalty': { 'data':getPenalty, 'color':getColor, 'align':'center' },
+							'LP Penalty': { 'data':getLPPenalty, 'color':getColor, 'align':'center' },
 							'Slice': { 'data':getSlice, 'color':getColor, 'align':'center', 'display':'' },
 							'Round Shares': { 'data':getRoundShares, 'type':'linechart', 'width':'100%' },
 							'Role String' : { 'data':getRoleString, 'display':'none' }
