@@ -17,7 +17,7 @@ info_1: Please report experience on forum or IRC - 1.86 Ghash/s @ 08.23.11
 
 [bithasher]
 #http://bithasher.com/index.php/register/
-info_1: Please report experience on forum or IRC - 7.12 Ghash/s @ 08.23.11
+info_1: Please report experience on forum or IRC
 
 
 [swepool]
@@ -32,7 +32,7 @@ info_1: Please report experience on forum or IRC - 4.41 Ghash/s @ 08.23.11
 
 [p2pool]
 #https://en.bitcoin.it/wiki/P2Pool
-info_1: Decentralized pool with support for btc, nmc and others 1.898 Ghash/s @ 08.23.11
+info_1: Decentralized pool with support for btc, nmc and others - 1.89 Ghash/s @ 08.23.11
 info_2: Please report experience on forum or IRC
 
 
@@ -150,7 +150,7 @@ info_3: PPLNS pools are hoppable with backup_latehop  - 3.07 GHash/s @ 08.23.11
 #https://rfcpool.com/signup
 info_1: Nice small pool
 info_2: Pool is closed down (page 178)
-info_3: Pool is online and accepting miners - 25.51 @ 08.23.11
+info_3: Pool is online and accepting miners - 25.51 GHash/s @ 08.23.11
 
 
 ######################################

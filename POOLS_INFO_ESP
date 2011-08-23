@@ -12,27 +12,27 @@
 
 [bloodys]
 #http://pool.bloodys.com
-info_1: Por favor reporta tu experiencia en foro o canal IRC
+info_1: Por favor reporta tu experiencia en foro o canal IRC - 1.86 Ghash/s @ 08.23.11
 
 
 [bithasher]
 #http://bithasher.com/index.php/register/
-info_1: Por favor reporta tu experiencia en foro o canal IRC
+info_1: Por favor reporta tu experiencia en foro o canal IRC - 7.12 Ghash/s @ 08.23.11
 
 
 [swepool]
 #http://swepool.net/profile
-info_1: Por favor reporta tu experiencia en foro o canal IRC
+info_1: Por favor reporta tu experiencia en foro o canal IRC - 2.98 GHash/s @ 08.23.11
 
 
 [bitfarms]
 #http://bitfarms.ca/
-info_1: Por favor reporta tu experiencia en foro o canal IRC
+info_1: Por favor reporta tu experiencia en foro o canal IRC - 4.41 Ghash/s @ 08.23.11
 
 
 [p2pool]
 #https://en.bitcoin.it/wiki/P2Pool
-info_1: Mina descentralizada con sopote para btc, nmc y otros
+info_1: Mina descentralizada con sopote para btc, nmc y otros - 1.89 Ghash/s @ 08.23.11
 info_2: Por favor reporta tu experiencia en foro o canal IRC
 
 
@@ -42,100 +42,100 @@ info_2: Por favor reporta tu experiencia en foro o canal IRC
 [bclc]
 #http://www.bitcoins.lc
 info_1: Ralentiza stats y no tiene una actitud muy civica con los mineros (pagina 95)
-info_2: Puedes probar minar con el rol mine_deepbit
+info_2: Puedes probar minar con el rol mine_deepbit - 466.02 Ghash/s @ 08.23.11
 
 
 [bcpool]
 #http://bitcoinpool.com
 info_1: Medidas anti-hopping basadas en "ventana de participacion" (pagina 36)
 info_2: Desactiva las medidas anti-hopper si donas 1% (pagina 111)
-info_3: Truca los stats json para que te quedes minando con ellos (pagina 184)
+info_3: Truca los stats json para que te quedes minando con ellos (pagina 184) - 88.63 Ghash/s @ 08.23.11
 
 
 [bitclockers]
 #http://bitclockers.com/
 info_1: Salta esta mina con precaucion, posibles medidas anti-hopper
-info_2: Los nuevos servidores funcionan sin problemas con cero share stale, seguro para minar
+info_2: Los nuevos servidores funcionan sin problemas con cero share stale, seguro para minar - 276.20 Ghash/s @ 08.23.11
 
 
 [bmunion]
 #http://www.bitminersunion.org/
-info_1: Pequena mina buena para saltar
+info_1: Pequena mina buena para saltar - 8.6 Ghash/s @ 08.23.11
 
 
 [btcg]
 #https://www.btcguild.com/
 info_1: Ralentiza stats (pagina 87)
-info_2: Prueba suerte minar con el rol mine_deepbit
+info_2: Prueba suerte minar con el rol mine_deepbit - 2132.23 Ghash/s @ 08.23.11
 
 
 [btcmine]
 # https://btcmine.com/user/register/
-info_1: Sistema de pago por puntuacion, intenta minar con mine_slush (pagina 164)
+info_1: Sistema de pago por puntuacion, intenta minar con mine_slush (pagina 164) - 356.68 Ghash/s @ 08.23.11
 
 
 [btcmonkey]
 #http://bitcoinmonkey.com/
-info_1: Mina amigable
+info_1: Mina amigable - 1.917 Ghash/s @ 08.23.11
 
 
 [btcserv]
 #http://btcserv.net/
-info_1: Mina pequena, raportar informacion sobre ella en el foro
+info_1: Mina pequena, raportar informacion sobre ella en el foro - 2.94 GHash/s @ 08.23.11
 
 
 [btcworld]
 #http://btcworld.de/signup
-info_1: Buena para saltar, nina pequena
+info_1: Buena para saltar, nina pequena - 14.05 Ghash/s @ 08.23.11
 
 
 [deepbit]
 #https://deepbit.net/
-info_1: Saltando esta mina se parece un poco en saltar un elefante.
+info_1: Saltando esta mina se parece un poco en saltar un elefante - 5723 Ghash/s @ 08.23.11
 
 
 [digbtc]
 #http://www.digbtc.net/register.php
-info_1: Mina pequena, recomendado que cambies el user-agent en el archivo "work.py" (page 154)
+info_1: Mina pequena, recomendado que cambies el user-agent (pagina 154) - 5.5 Ghash/s @ 08.23.11
 
 
 [itzod]
 # https://pool.itzod.ru
-info_1: Sistema de pago por puntuacion, utiliza mine_slush si quieres saltarla (pagina 154)
+info_1: Sistema de pago por puntuacion, utiliza mine_slush si quieres saltarla (pagina 154) - 74.61 Ghash/s @ 08.23.11
 
 
 [kiwipool]
 #http://www.kiwipool.me/
 info_1: Cambio a sistema PPS (pagina 154)
-info_2: Se quedaron con el sist. Proporcional (Canal IRC)
+info_2: Se quedaron con el sist. Proporcional (Canal IRC) - 36 GHash/s @ 08.23.11
 
 
 [mtred]
 #https://mtred.com/user/registration.html
-info_1: Buena para saltar, mina rapida para principiantes
+info_1: Buena para saltar, mina rapida para principiantes - 176.52 GHash/s @ 08.23.11
 
 
 [nofeemining]
 #https://nofeemining.appspot.com/
-info_1: Mina amigable
+info_1: Mina amigable - Velocidad de mineria desconocida @ 08.23.11
 
 
 [ozco]
 #https://ozco.in/register.php
 info_1: Congela stats sin razon (pagina 114, foro oficial bH)
-info_2: Stats funcionan
+info_2: Stats funcionan - 60.5 GHash/s @ 08.23.11
 
 
 [slush]
 #http://mining.bitcoin.cz/accounts/register/
-info_1: Buena para saltar hasta 10% de dificultad, utiliza mine_slush
+info_1: Buena para saltar hasta 10% de dificultad, utiliza mine_slush - 1872.64 GHash/s @ 08.23.11
 #   Aviso ! Mina a tu riesgo, el algoritmo con puntuacion que
 #   utiliza esta mina no esta disenado para mineros ocasionales.
 
 
 [triple]
 #https://www.triplemining.com/register
-info_1: Mina amigable
+info_1: Mina amigable - 43.6 GHash/s @ 08.23.11
 info_2: Usa como backup_latehop si quieres ayudarlos encontrar por fin un bloque (Flash Mob Mining Event - 08.21.11)
 
 
@@ -143,7 +143,14 @@ info_2: Usa como backup_latehop si quieres ayudarlos encontrar por fin un bloque
 #http://www.unitedminers.com
 info_1: Ha cambiado a sistema PPLNS en medio de una ronda (pagina 94)
 info_2: Desactiva las medidas anti-hopper si donas de tu recompensa (pagina 161)
-info_3: Las minas PPLNS se pueden saltar con backup_latehop
+info_3: Las minas PPLNS se pueden saltar con backup_latehop  - 3.07 GHash/s @ 08.23.11
+
+
+[rfc]
+#https://rfcpool.com/signup
+info_1: Mina pequena y mona
+info_2: Mina cerrada (pagina 178)
+info_3: Mina abierta y acceptando nuevos mineros - 25.51 GHash/s @ 08.23.11
 
 
 ######################################
@@ -158,29 +165,29 @@ info_3: Las minas PPLNS se pueden saltar con backup_latehop
 
 [eligius]
 #http://eligius.st/wiki/index.php/Getting_Started
-info_1: 0% tasas, mina PPS
+info_1: 0% tasas, mina PPS - 504.69 GHash/s @ 08.23.11
 
 
 [arsbitcoin]
 #https://arsbitcoin.com/register.php
-info_1: 0% tasas, mina PPS
+info_1: 0% tasas, mina PPS - 484.4 GHash/s @ 08.23.11
 
 
 [bitp]
 #http://bitp.it
-info_1: Mina PPS
+info_1: Mina PPS - 27.60 GHash/s @ 08.23.11
 
 
 [ninjac]
 #https://www.ninjacoin.com/index.php
-info_1: Mina PPS
+info_1: Mina PPS - 25.2 GHash/s @ 08.23.11
 
 
 [abc]
-#http://ABCPool.com
+#http://www.abcpool.co/
 info_1: Mina PPS, 0% comisiones, paga shares "stale"
-info_2: Registro temporalmente deshabilitado
-info_3: Invalidos muy altos con poclbm, mejor utilizar phoenix 1.5+
+info_2: Invalidos muy altos con poclbm, mejor utilizar phoenix 1.5+
+info_3: Registro temporalmente deshabilitado - 111.9 GHash/s @ 08.23.11
 
 
 ######################################
@@ -191,32 +198,32 @@ info_3: Invalidos muy altos con poclbm, mejor utilizar phoenix 1.5+
 
 [bitparking]
 #http://bitparking.com/
-info_1: Mina namecoins (mine_nmc)
+info_1: Mina namecoins (mine_nmc) - 20.2 GHash/s @ 08.23.11
 
 
 [nmcbit]
 #http://nmcbit.com/
-info_1: Mina namecoins (mine_nmc)
+info_1: Mina namecoins (mine_nmc) - 9.94 Ghash/s @ 08.23.11
 
 
 [masterpool]
 #https://masterpool.eu/signup
-info_1: Actualmente estan probando la mineria unida. Una vez implementada se va poder minar NMC y BTC a la vez.
+info_1: Actualmente estan probando la mineria unida (en: http://dot-bit.org/Merged_Mining) - 3.12 Ghash/s @ 08.23.11
 
 
 [namebit]
 #http://www.namebit.org/
-info_1: Pagos automaticos sin necesidad de registrarse
+info_1: Pagos automaticos sin necesidad de registrarse - 8.35 Ghash/s @ 08.23.11
 
 
 [bitchomp]
 #http://www.bitchomp.info/ncp/register.php
-info_1: Mina namecoins (mine_nmc)
+info_1: Mina namecoins (mine_nmc) - 47 Mhash/s @ 08.23.11
 
 
 [i0g]
 #http://i0.btcguild.com/register.php
-info_1: Mina i0coins, usa el rol mine_i0c
+info_1: Mina i0coins, usa el rol mine_i0c - Offline @ 08.23.11
 
 
 ######################################
@@ -229,47 +236,42 @@ info_1: Mina i0coins, usa el rol mine_i0c
 ######################################
 
 
-[rfc]
-#https://rfcpool.com/signup
-info_1: Mina pequena y mona
-info_2: Mina cerrada (pagina 178)
-
-
 [polmine]
 #https://polmine.pl
 info_1: Mina polaca
 info_2: Ralentiza y truca los stats (pagina 157)
-info_3: Puedes probar minar con el rol mine_deepbit
+info_3: Puedes probar minar con el rol mine_deepbit - 137.48 Ghash/s @ 08.23.11
 info_4: Pagos menores solo para hoppers basados en bloques de 30btc (pagina 174 + IRC)
 
 
 [btcpool24]
 #http://www.btcpool24.com
-info_1: Ha cambiado el sistema de pagos y ralentiza los stats (pagina 116, foro bH)
+info_1: Ha cambiado el sistema de pagos y ralentiza los stats (pagina 116, foro bH) - 31.3 Ghash/s @ 08.23.11
 
 
 [poolmunity]
 #http://poolmunity.com/
 info_1: Sistema de pagos desconocido y medidas anti-hopping (pagina 55)
+info_2: Cierra sus puertas en Septiembre (http://poolmunity.com/index.php/topic,83.0.html) - 0 Mhash/s @ 08.23.11
 
 
 [x8s]
 #http://btc.x8s.de/
-info_1: Mina cerrada (pagina 48)
+info_1: Mina cerrada (pagina 48) - Offline @ 08.23.11
 
 
 [mineco]
 #https://mineco.in
-info_1: Ha cambiado sistema de pagos a PPLNS (pagina 94)
+info_1: Ha cambiado sistema de pagos a PPLNS (pagina 94) - 79 Ghash/s @ 08.23.11
 
 
 [eclipsemc]
 #https://eclipsemc.com
-info_1: Ha cambiado a sistema de pagos a uno por puntuacion (pagina 16)
+info_1: Ha cambiado a sistema de pagos a uno por puntuacion (pagina 16) - 53.51 Ghash/s @ 08.23.11
 
 
 [mmf]
 #http://mining.mainframe.nl
 info_1: Utilizan algun sistema de pagos "anti truco" (trad. literal) desconocido (pagina 26)
-info_2: Han cambiado sistema de pago a PPLNS (pagina 190)
+info_2: Han cambiado sistema de pago a PPLNS (pagina 190) - 96.9 Ghash/s @ 08.23.11
 
