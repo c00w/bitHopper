@@ -34,7 +34,7 @@ class Work():
             header = {'Authorization':"Basic " +base64.b64encode(pool['user']+ ":" + pool['pass']), 'User-Agent': 'poclbm/20110709', 'Content-Type': 'application/json' }
             with self.get_http(url, timeout=None) as http:
                 try:
-                    resp, content = http.request( url, 'GET', headers=header, body=urllib.urlencode(request))
+                    resp, content = http.request( url, 'GET', headers=header, body=request)
                 except Exception, e:
                     self.bitHopper.log_dbg('Error with an http request')
                     self.bitHopper.log_dbg(e)
@@ -72,7 +72,7 @@ class Work():
             url = "http://" + info['mine_address']
             with self.get_http(url) as http:
                 try:
-                    resp, content = http.request( url, 'POST', headers=header, body=urllib.urlencode(request))
+                    resp, content = http.request( url, 'POST', headers=header, body=request)
                 except Exception, e:
                     self.bitHopper.log_dbg('Error with an http request')
                     self.bitHopper.log_dbg(e)
