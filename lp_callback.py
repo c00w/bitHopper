@@ -6,7 +6,10 @@
 
 import time
 from eventlet import event
-from eventlet.green import threading
+from eventlet.green import threading, socket
+
+# Global timeout for sockets in case something leaks
+socket.setdefaulttimeout(900)
 
 class LP_Callback():
     def __init__(self, bitHopper):

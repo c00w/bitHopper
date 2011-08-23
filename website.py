@@ -4,9 +4,12 @@
 #Based on a work at github.com.
 
 
-from eventlet.green import os
+from eventlet.green import os, socket
 import json
 import sys
+
+socketTimeout = 300
+socket.setdefaulttimeout(socketTimeout)
 
 import webob
 

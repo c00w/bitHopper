@@ -10,7 +10,10 @@ import traceback
 import urllib
 import eventlet
 httplib2 = eventlet.import_patched('httplib20_7_1')
-from eventlet import pools
+from eventlet import pools, socket
+
+socketTimeout = 300
+socket.setdefaulttimeout(socketTimeout)
 
 import webob
 

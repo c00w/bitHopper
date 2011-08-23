@@ -69,6 +69,9 @@ import string
 import time
 import types
 
+socketTimeout = 300
+socket.setdefaulttimeout(socketTimeout)
+
 VERSION = 0, 4, 8
 DEBUG = 0
 
