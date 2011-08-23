@@ -9,7 +9,7 @@ try:
 except Exception, e:
     print "You need to install eventlet. See the readme."
     raise e
-from eventlet import wsgi, greenpool
+from eventlet import wsgi, greenpool, backdoor
 from eventlet.green import os, time
 eventlet.monkey_patch()
 from eventlet import debug
