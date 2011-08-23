@@ -12,22 +12,28 @@
 
 [bloodys]
 #http://pool.bloodys.com
-info_1: Por favor reporta tu experiencia en foro o canal IRC.
+info_1: Por favor reporta tu experiencia en foro o canal IRC
 
 
 [bithasher]
 #http://bithasher.com/index.php/register/
-info_1: Por favor reporta tu experiencia en foro o canal IRC.
+info_1: Por favor reporta tu experiencia en foro o canal IRC
 
 
 [swepool]
 #http://swepool.net/profile
-info_1: Por favor reporta tu experiencia en foro o canal IRC.
+info_1: Por favor reporta tu experiencia en foro o canal IRC
 
 
 [bitfarms]
 #http://bitfarms.ca/
-info_1: Por favor reporta tu experiencia en foro o canal IRC.
+info_1: Por favor reporta tu experiencia en foro o canal IRC
+
+
+[p2pool]
+#https://en.bitcoin.it/wiki/P2Pool
+info_1: Mina descentralizada con sopote para btc, nmc y otros
+info_2: Por favor reporta tu experiencia en foro o canal IRC
 
 
 #######################################
@@ -49,6 +55,7 @@ info_3: Truca los stats json para que te quedes minando con ellos (pagina 184)
 [bitclockers]
 #http://bitclockers.com/
 info_1: Salta esta mina con precaucion, posibles medidas anti-hopper
+info_2: Los nuevos servidores funcionan sin problemas con cero share stale, seguro para minar
 
 
 [bmunion]

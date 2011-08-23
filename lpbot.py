@@ -29,6 +29,7 @@ class LpBot(SimpleIRCClient):
     def process_forever(self):
         while True:
             self.ircobj.process_once(0.2)
+            eventlet.sleep(0.2)
             
     def run(self):
         while True:
