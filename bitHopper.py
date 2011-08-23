@@ -217,6 +217,7 @@ def main():
             wsgi.server(eventlet.listen((options.ip,options.port)),bithopper_instance.website.handle_start, log=log)
         except Exception, e:
             print e
+            eventlet.sleep(60)
     bithopper_instance.db.close()
 
 if __name__ == "__main__":
