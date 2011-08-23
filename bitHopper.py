@@ -121,8 +121,7 @@ class BitHopper():
     def get_new_server(self, server):
         if server not in self.pool.servers:
             return self.pool.get_current()
-        with self.pool.lock:
-            self.pool.servers[server]['lag'] = True
+        self.pool.servers[server]['lag'] = True
         self.log_msg('Lagging. :' + server)
         self.server_update()
         return self.pool.get_current()
@@ -135,18 +134,17 @@ class BitHopper():
         while True:
             #Delags servers which have been marked as lag.
             #If this function breaks bitHopper dies a long slow death.
-            with self.pool.lock:
-                self.log_dbg('Running Delager')
-                for server in self.pool.get_servers():
-                    info = self.pool.servers[server]
-                    if info['lag'] == True:
-                        data = self.work.jsonrpc_call(server, [])
-                        self.log_dbg('Got' + server + ":" + str(data))
-                        if data != None:
-                            info['lag'] = False
-                            self.log_dbg('Delagging')
-                        else:
-                            self.log_dbg('Not delagging')
+            self.log_dbg('Running Delager')
+            for server in self.pool.get_servers():
+                info = self.pool.servers[server]
+                if info['lag'] == True:
+                    data = self.work.jsonrpc_call(server, [])
+                    self.log_dbg('Got' + server + ":" + str(data))
+                    if data != None:
+                        info['lag'] = False
+                        self.log_dbg('Delagging')
+                    else:
+                        self.log_dbg('Not delagging')
             eventlet.sleep(20)
 
 def main():
