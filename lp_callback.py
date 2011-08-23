@@ -5,7 +5,7 @@
 #Based on a work at github.com.
 
 import time
-import eventlet.event
+from eventlet import event
 from eventlet.green import threading
 
 class LP_Callback():
