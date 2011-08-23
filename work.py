@@ -17,8 +17,8 @@ class Work():
     def __init__(self, bitHopper):
         self.bitHopper = bitHopper
         self.i = 0
-        self.httppool = pools.Pool(min_size = 2, max_size = 30, create = lambda: httplib2.Http(timeout=30, disable_ssl_certificate_validation=True))
-        self.httppool_lp = pools.Pool(min_size = 2, max_size = 30, create = lambda: httplib2.Http(disable_ssl_certificate_validation=True))
+        self.httppool = pools.Pool(min_size = 2, max_size = 10, create = lambda: httplib2.Http(timeout=30, disable_ssl_certificate_validation=True))
+        self.httppool_lp = pools.Pool(min_size = 2, max_size = 10, create = lambda: httplib2.Http(disable_ssl_certificate_validation=True))
 
     def jsonrpc_lpcall(self, server, url, lp):
         try:
@@ -172,8 +172,6 @@ class Work():
         try:
             rpc_request = json.loads(request.body)
             j_id = rpc_request['id']
-            data = env.get('HTTP_AUTHORIZATION').split(None, 1)[1]
-            username, password = data.decode('base64').split(':', 1)
 
         except Exception, e:
             self.bitHopper.log_dbg('Error in json handle_LP')
@@ -182,6 +180,13 @@ class Work():
                 j_id = 1
         
         value = self.bitHopper.lp_callback.read()
+
+        try:
+            data = env.get('HTTP_AUTHORIZATION').split(None, 1)[1]
+            username, password = data.decode('base64').split(':', 1)
+        except:
+            username = ''
+            password = ''
 
         self.bitHopper.log_msg('LP Callback for miner: '+ username)
 
