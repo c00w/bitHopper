@@ -237,7 +237,6 @@ class DefaultScheduler(Scheduler):
     def select_best_server(self,):
         with self.lock:
             #self.bh.log_dbg('select_best_server', cat='scheduler-default')
-            server_name = None
             difficulty = self.bh.difficulty.get_difficulty()
             min_shares = difficulty * self.difficultyThreshold
 
@@ -463,7 +462,7 @@ class AltSliceScheduler(Scheduler):
             for server in self.bh.pool.get_servers():
                 info = self.bh.pool.get_entry(server)
                 if info['role'] not in self.valid_roles:
-                   continue
+                    continue
                 if info['shares'] <= 0: continue
                 if server not in server_shares: continue
                 shares = server_shares[server] + 1

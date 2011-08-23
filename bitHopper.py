@@ -15,7 +15,6 @@ eventlet.monkey_patch()
 from eventlet import debug
 #debug.hub_blocking_detection(True)
 
-import json
 import optparse
 
 import work
@@ -29,7 +28,6 @@ import getwork_store
 import data
 import lp
 import lp_callback
-from scheduler import Scheduler
 from lpbot import LpBot
 
 import sys
@@ -93,11 +91,11 @@ class BitHopper():
 
     def log_trace(self, msg, **kwargs):
         if self.get_options().trace == True and kwargs and kwargs.get('cat'):
-            log.err('['+kwargs.get('cat')+"] "+msg)
-            sys.stderr.flush()
+            self.log_msg('['+kwargs.get('cat')+"] "+msg)
+            #sys.stderr.flush()
         elif self.get_options().trace == True:
-            log.err(msg)
-            sys.stderr.flush()
+            self.log_msg(msg)
+            #sys.stderr.flush()
         return
 
 
@@ -105,9 +103,8 @@ class BitHopper():
         return self.pool.get_current()
 
     def select_best_server(self, ):
-        server_name = None
         server_name = self.scheduler.select_best_server()
-        if server_name == None:
+        if not server_name:
             self.log_msg('FATAL Error, scheduler did not return any pool!')
             os._exit(-1)
             
@@ -188,7 +185,7 @@ def main():
     if options.scheduler:
         bithopper_instance.log_msg("Selecting scheduler: " + options.scheduler)
         foundScheduler = False
-        for s in Scheduler.__subclasses__():
+        for s in scheduler.Scheduler.__subclasses__():
             if s.__name__ == options.scheduler:
                 bithopper_instance.scheduler = s(bithopper_instance)
                 foundScheduler = True
@@ -207,7 +204,7 @@ def main():
         bithopper_instance.lpBot = LpBot(bithopper_instance)
 
     if not options.debug:
-       log = open(os.devnull, 'wb')
+        log = open(os.devnull, 'wb')
     else:
         log = None 
     while True:
