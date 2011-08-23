@@ -224,6 +224,13 @@ role: disable
 user: happy
 pass: miner
 
+[rfc]
+#https://rfcpool.com/signup
+#CHANGE THIS
+role: disable
+user: c00w_test
+pass: x
+
 ######################################
 # Backup pools for when there is
 # no pool where you would earn more
@@ -327,13 +334,6 @@ pass: your_password
 # user/pass unless you really want
 # to hop them at your own risk.
 ######################################
-
-[rfc]
-#https://rfcpool.com/signup
-#CHANGE THIS
-role: disable
-user: c00w_test
-pass: x
 
 [polmine]
 #https://polmine.pl

@@ -222,6 +222,13 @@ role: disable
 user: minero
 pass: feliz
 
+[rfc]
+#https://rfcpool.com/signup
+#CAMBIA A CONTINUACION
+role: disable
+user: c00w_test
+pass: x
+
 ######################################
 # Minas de respaldo (backup) para
 # cuando no tienes ninguna mina
@@ -325,13 +332,6 @@ pass: your_password
 # usuario/contrasena solo si quieres
 # saltarlas a tu riesgo.
 ######################################
-
-[rfc]
-#https://rfcpool.com/signup
-#CAMBIA A CONTINUACION
-role: disable
-user: c00w_test
-pass: x
 
 [polmine]
 #https://polmine.pl
