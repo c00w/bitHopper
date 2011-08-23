@@ -7,6 +7,7 @@ import json
 import base64
 import traceback
 
+import urllib
 import eventlet
 httplib2 = eventlet.import_patched('httplib20_7_1')
 from eventlet import pools
@@ -20,9 +21,9 @@ class Work():
         self.connect_pool = {}
         #pools.Pool(min_size = 2, max_size = 10, create = lambda: httplib2.Http(disable_ssl_certificate_validation=True))
 
-    def get_http(self, address):
+    def get_http(self, address, timeout=30):
         if address not in self.connect_pool:
-            self.connect_pool[address] =  pools.Pool(create = lambda: httplib2.Http(disable_ssl_certificate_validation=True))
+            self.connect_pool[address] =  pools.Pool(create = lambda: httplib2.Http(disable_ssl_certificate_validation=True, timeout=timeout))
         return self.connect_pool[address].item()
 
     def jsonrpc_lpcall(self, server, url, lp):
@@ -31,9 +32,9 @@ class Work():
             request = json.dumps({'method':'getwork', 'params':[], 'id':self.i}, ensure_ascii = True)
             pool = self.bitHopper.pool.servers[server]
             header = {'Authorization':"Basic " +base64.b64encode(pool['user']+ ":" + pool['pass']), 'User-Agent': 'poclbm/20110709', 'Content-Type': 'application/json' }
-            with self.get_http(url) as http:
+            with self.get_http(url, timeout=None) as http:
                 try:
-                    resp, content = http.request( url, 'GET', headers=header, body=request)
+                    resp, content = http.request( url, 'GET', headers=header, body=urllib.urlencode(request))
                 except Exception, e:
                     self.bitHopper.log_dbg('Error with an http request')
                     self.bitHopper.log_dbg(e)
@@ -71,7 +72,7 @@ class Work():
             url = "http://" + info['mine_address']
             with self.get_http(url) as http:
                 try:
-                    resp, content = http.request( url, 'POST', headers=header, body=request)
+                    resp, content = http.request( url, 'POST', headers=header, body=urllib.urlencode(request))
                 except Exception, e:
                     self.bitHopper.log_dbg('Error with an http request')
                     self.bitHopper.log_dbg(e)
