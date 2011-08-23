@@ -33,11 +33,10 @@ class Work():
             header = {'Authorization':"Basic " +base64.b64encode(pool['user']+ ":" + pool['pass']), 'User-Agent': 'poclbm/20110709', 'Content-Type': 'application/json' }
             with self.get_http(url) as http:
                 try:
-                    resp, content = http.request( url, 'GET', headers=header, body=request)
+                    content = http.request( url, 'GET', headers=header, body=request)[1] # Returns response dict and content str
                 except Exception, e:
                     self.bitHopper.log_dbg('Error with an http request')
                     self.bitHopper.log_dbg(e)
-                    resp = {}
                     content = None
             lp.receive(content, server)
             return None
@@ -52,11 +51,10 @@ class Work():
         header = {'User-Agent':'Mozilla/5.0 (Windows; U; MSIE 9.0; WIndows NT 9.0; en-US))'}
         with self.get_http(url) as http:
             try:
-                resp, content = http.request( url, 'GET', headers=header)
+                content = http.request( url, 'GET', headers=header)[1] # Returns response dict and content str
             except Exception, e:
                 self.bitHopper.log_dbg('Error with an http request')
                 self.bitHopper.log_dbg(e)
-                resp = {}
                 content = ""
                 
         return content
@@ -188,10 +186,9 @@ class Work():
 
         try:
             data = env.get('HTTP_AUTHORIZATION').split(None, 1)[1]
-            username, password = data.decode('base64').split(':', 1)
+            username = data.decode('base64').split(':', 1)[0] # Returns ['username', 'password']
         except Exception,e:
             username = ''
-            password = ''
 
         self.bitHopper.log_msg('LP Callback for miner: '+ username)
 
