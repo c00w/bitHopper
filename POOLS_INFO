@@ -55,6 +55,7 @@ info_3: Fakes json stats so you keep hopping them (page 184)
 [bitclockers]
 #http://bitclockers.com/
 info_1: Handle with care, possible anti-hopper measures in place
+info_2: Their new servers work like clocks with zero stales, safe to mine with them
 
 
 [bmunion]

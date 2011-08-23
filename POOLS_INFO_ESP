@@ -55,6 +55,7 @@ info_3: Truca los stats json para que te quedes minando con ellos (pagina 184)
 [bitclockers]
 #http://bitclockers.com/
 info_1: Salta esta mina con precaucion, posibles medidas anti-hopper
+info_2: Los nuevos servidores funcionan sin problemas con cero share stale, seguro para minar
 
 
 [bmunion]
