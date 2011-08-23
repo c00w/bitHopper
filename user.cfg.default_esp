@@ -215,6 +215,13 @@ role: info
 user: your_username
 pass: your_password
 
+[p2pool]
+#https://en.bitcoin.it/wiki/P2Pool
+#las contrasenas y el usuario no importan en p2pool
+role: disable
+user: minero
+pass: feliz
+
 ######################################
 # Minas de respaldo (backup) para
 # cuando no tienes ninguna mina
