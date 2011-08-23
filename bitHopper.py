@@ -9,7 +9,7 @@ try:
 except Exception, e:
     print "You need to install eventlet. See the readme."
     raise e
-from eventlet import wsgi
+from eventlet import wsgi, greenpool
 from eventlet.green import os, time
 eventlet.monkey_patch()
 from eventlet import debug
@@ -52,7 +52,8 @@ class BitHopper():
         self.auth = None
         self.work = work.Work(self)
         self.website = website.bitSite(self)
-        eventlet.spawn_n(self.delag_server)
+        self.pile = greenpool.GreenPool()
+        self.pile.eventlet.spawn_n(self.delag_server)
 
     def reject_callback(self, server, data, user, password):
         self.data.reject_callback(server, data, user, password)
@@ -210,6 +211,7 @@ def main():
        log = open(os.devnull, 'wb')
     else:
         log = None 
+        bitHopper_instance.pile.spawn(backdoor.backdoor_server, eventlet.listen(('', 3000)), locals=bitHopper_instance)
     while True:
         try:
             wsgi.server(eventlet.listen((options.ip,options.port)),bithopper_instance.website.handle_start, log=log)
