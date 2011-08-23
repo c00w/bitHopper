@@ -53,7 +53,7 @@ class BitHopper():
         self.work = work.Work(self)
         self.website = website.bitSite(self)
         self.pile = greenpool.GreenPool()
-        self.pile.eventlet.spawn_n(self.delag_server)
+        self.pile.spawn_n(self.delag_server)
 
     def reject_callback(self, server, data, user, password):
         self.data.reject_callback(server, data, user, password)
