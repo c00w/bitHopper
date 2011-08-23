@@ -4,46 +4,21 @@
 #Based on a work at github.com.
 
 
-import os
+from eventlet.green import os
 import json
 import sys
-from twisted.web import server, resource
-from twisted.web.http import UNAUTHORIZED
 
-def flat_info(request, bithopper_global):
-    response = '<html><head><title>bitHopper Info</title></head><body>'
-    current_name = bithopper_global.pool.servers[bithopper_global.pool.get_current()]['name']
-    response += '<p>Current Pool: ' + current_name+' @ ' 
-    response += str(bithopper_global.speed.get_rate()) + 'MH/s</p>'
-    response += '<table border="1"><tr><td>Name</td><td>Role</td><td>Shares'
-    response += '</td><td>Rejects</td><td>Payouts</td><td>Efficiency</td></tr>'
-    servers = bithopper_global.pool.get_servers()
-    for server in servers:
-        info = servers[server]
-        if info['role'] not in ['backup', 'mine', 'api_disable']:
-            continue
-        shares = str(bithopper_global.db.get_shares(server))
-        rejects = bithopper_global.pool.get_servers()[server]['rejects']
-        rejects_str = "{:.3}%".format(float(rejects/(float(shares)+1)*100)) + "(" + str(rejects)+")"
-        response += '<tr><td>' + info['name'] + '</td><td>' + info['role'] + \
-            '</td><td>' + shares + \
-            '</td><td>' + rejects_str +\
-            '</td><td>' + str(bithopper_global.db.get_payout(server)) + \
-            '</td><td>' + str(bithopper_global.stats.get_efficiency(server)) \
-            + '</td></tr>'
+import webob
 
-    response += '</table></body></html>'
-    request.write(response)
-    request.finish()
-    return
-
-class dynamicSite(resource.Resource):
+class dynamicSite():
     def __init__(self, bitHopper):
-        resource.Resource.__init__(self)
         self.bh = bitHopper
-      
-    isleaF = True
-    def render_GET(self, request):
+
+    def handle(self, env, start_response):
+        start_response('200 OK', [('Content-Type', 'text/html')])
+        #Handle Possible Post values
+        self.handle_POST(webob.Request(env))
+
         index_name = 'index.html'
         try:
             # determine scheduler index.html
@@ -58,20 +33,18 @@ class dynamicSite(resource.Resource):
         except:
             index = os.path.join(os.curdir, index_name)
         index_file = open(index, 'r')
-        linestring = index_file.read()
+        line_string = index_file.read()
         index_file.close()
-        request.write(linestring)
-        request.finish()
-        return server.NOT_DONE_YET
+        return line_string
 
-    def render_POST(self, request):
-        for v in request.args:
+    def handle_POST(self, request):
+        for v in request.POST:
             if "role" in v:
                 try:
                     server = v.split('-')[1]
-                    self.bh.pool.get_entry(server)['role'] = request.args[v][0]
+                    self.bh.pool.get_entry(server)['role'] = request.POST[v]
                     self.bh.pool.get_entry(server)['refresh_time'] = 60
-                    if request.args[v][0] in ['mine','info']:
+                    if request.POST[v] in ['mine','info']:
                         self.bh.pool.update_api_server(server)
 
                 except Exception, e:
@@ -80,7 +53,7 @@ class dynamicSite(resource.Resource):
             if "payout" in v:
                 try:
                     server = v.split('-')[1]
-                    self.bh.update_payout(server, float(request.args[v][0]))
+                    self.bh.update_payout(server, float(request.POST[v]))
                 except Exception, e:
                     self.bh.log_dbg('Incorrect http post request payout')
                     self.bh.log_dbg(e)
@@ -88,7 +61,7 @@ class dynamicSite(resource.Resource):
                 try:
                     server = v.split('-')[1]
                     info = self.bh.pool.get_entry(server)
-                    info['penalty'] = float(request.args[v][0])                    
+                    info['penalty'] = float(request.POST[v])                    
                     self.bh.select_best_server()
                 except Exception, e:
                     self.bh.log_dbg('Incorrect http post request payout')
@@ -118,42 +91,25 @@ class dynamicSite(resource.Resource):
                 except Exception,e:
                     self.bh.log_dbg('Incorrect http post reloadconfig')
                     self.bh.log_dbg(e)
-            if "enableDebug" in v:
-                self.bh.options.debug = True
-            if "disableDebug" in v:
-                self.bh.options.debug = True
-          
-        return self.render_GET(request)
+            if "resetUserShares" in v:
+                self.bh.log_msg('User forced user shares, est payouts to be reset')
+                try:
+                    for server in self.bh.pool.get_servers():
+                        info = self.bh.pool.get_entry(server)
+                        info['user_shares'] = 0
+                        info['rejects'] = 0
+                        info['expected_payout'] = 0
+                except Exception,e:
+                    self.bh.log_dbg('Incorrect http post resetUserShares')
+                    self.bh.log_dbg(e)
 
-class flatSite(resource.Resource):
-
-    def __init__(self, bitHopper):
-        resource.Resource.__init__(self)
-        self.bitHopper = bitHopper
-
-    isLeaf = True
-    def render_GET(self, request):
-        flat_info(request, self.bitHopper)
-        return server.NOT_DONE_YET
-
-    #def render_POST(self, request):
-    #     global new_server
-    #     bithopper_global.new_server.addCallback(bitHopperLP, (request))
-    #     return server.NOT_DONE_YET
-
-
-    def getChild(self, name, request):
-        return self
-
-class dataSite(resource.Resource):
+class dataSite():
 
     def __init__(self, bitHopper):
-        resource.Resource.__init__(self)
         self.bitHopper = bitHopper
 
-    isLeaf = True
-    def render_GET(self, request):
-
+    def handle(self, env, start_response):
+        start_response('200 OK', [('Content-Type', 'text/json')])
         #Slice Info
         if hasattr(self.bitHopper.scheduler, 'sliceinfo'):
             sliceinfo = self.bitHopper.scheduler.sliceinfo
@@ -172,83 +128,62 @@ class dataSite(resource.Resource):
             'sliceinfo':sliceinfo,
             'servers':self.bitHopper.pool.get_servers(),
             'user':self.bitHopper.data.get_users()})
-        request.write(response)
-        request.finish()
-        return server.NOT_DONE_YET
+        return response
 
-    #def render_POST(self, request):
-    #     bithopper_global.new_server.addCallback(bitHopperLP, (request))
-    #     return server.NOT_DONE_YET
-
-class lpSite(resource.Resource):
+class lpSite():
 
     def __init__(self, bitHopper):
-        resource.Resource.__init__(self)
         self.bitHopper = bitHopper
 
-    isLeaf = True
-    def render_GET(self, request):
-        self.bitHopper.request_store.add(request)
-        self.bitHopper.new_server.addCallback(self.bitHopper.bitHopperLP, (request))
-        return server.NOT_DONE_YET
+    def handle(self, env, start_response):
+        return self.bitHopper.work.handle_LP(env, start_response)
 
-    def render_POST(self, request):
-        self.bitHopper.request_store.add(request)
-        self.bitHopper.new_server.addCallback(self.bitHopper.bitHopperLP, (request))
-        return server.NOT_DONE_YET
-
-class nullsite(resource.Resource):
+class nullsite():
     def __init__(self):
-        resource.Resource.__init__(self) 
-   
-    def render_GET(self, request):
-        request.finish()
-        return server.NOT_DONE_YET
+        pass
 
-    def render_POST(self, request):
-        request.finish()
-        return server.NOT_DONE_YET
+    def handle(self, env, start_response):
+        start_response('401 UNAUTHORIZED', [('Content-Type', 'text/plain'),('WWW-Authenticate','Basic realm="Protected"')])
+        return ['']
 
-class bitSite(resource.Resource):
+class bitSite():
 
     def __init__(self, bitHopper):
-        resource.Resource.__init__(self)
         self.bitHopper = bitHopper
 
-    def render_GET(self, request):
-        self.bitHopper.request_store.add(request, 60)
-        self.bitHopper.new_server.addCallback(self.bitHopper.bitHopperLP, (request))
-        return server.NOT_DONE_YET
-
-    def render_POST(self, request):
-        self.bitHopper.work.handle(request)
-        return server.NOT_DONE_YET
-
-    def auth(self, request):
-        if self.bitHopper.auth != None:  
-            user = request.getUser()
-            password = request.getPassword()
-            if user != self.bitHopper.auth[0] or password != self.bitHopper.auth[1]:
-                request.setResponseCode(UNAUTHORIZED)
-                request.setHeader('WWW-authenticate', 'basic realm="%s"' 
-            % "Admin")
-                return False
-        return True
-
-    def getChild(self, name, request):
-        if name == '':
+    def handle_start(self, env, start_response):
+        if env['PATH_INFO'] in ['','/']:
             site = self
-        elif name == 'LP':
+        elif env['PATH_INFO'] == '/LP':
             site = lpSite(self.bitHopper)
-        elif not self.auth(request):
+        elif not self.auth(env):
             site = nullsite()
         else:
-            if name == 'flat':
-                site = flatSite(self.bitHopper)
-            elif name == 'stats' or name == 'index.html':
+            if env['PATH_INFO'] in ['/stats', '/index.html', '/index.htm']:
                 site = dynamicSite(self.bitHopper)
-            elif name == 'data':
+            elif env['PATH_INFO'] == '/data':
                 site = dataSite(self.bitHopper)
             else:
                 site = self
-        return site
+        try:
+            return site.handle(env,start_response)
+        except Exception, e:
+            self.bitHopper.log_msg('Error in a wsgi function')
+            self.bitHopper.log_msg(e)
+            return [""]
+    def handle(self, env, start_response):
+        return self.bitHopper.work.handle(env, start_response)
+
+    def auth(self, env):
+        if self.bitHopper.auth != None:  
+            if env.get('HTTP_AUTHORIZATION') == None:
+                return False
+            try:
+                data = env.get('HTTP_AUTHORIZATION').split(None, 1)[1]
+                username, password = data.decode('base64').split(':', 1)
+                if username != self.bitHopper.auth[0] or password != self.bitHopper.auth[1]:
+                    return False
+            except Exception, e:
+                self.bitHopper.log_msg(e)
+                return False
+        return True

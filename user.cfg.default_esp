@@ -155,7 +155,7 @@ pass: your_password
 [unitedminers]
 #http://www.unitedminers.com
 #CAMBIA A CONTINUACION (si quieres)
-role: disable
+role: info
 user: dah4k0r@gmail.com_testhop
 pass: testhop
 
@@ -182,18 +182,9 @@ pass: xndzEU
 
 [kiwipool]
 #CAMBIA A CONTINUACION (si quieres)
-role: disable
+role: info
 user: your_username
 pass: your_password
-
-#######################################
-#  Estas minas son muy nuevas para
-# saber si toman medidas anti-hoping
-# Nota: Por favor busca informacion en
-#    el hilo de bitHopper o en otra
-#    fuente confiable sobre cualquier
-#    mina que quieras saltar.
-#######################################
 
 [bloodys]
 #http://pool.bloodys.com
@@ -223,6 +214,13 @@ pass: your_password
 role: info
 user: your_username
 pass: your_password
+
+[p2pool]
+#https://en.bitcoin.it/wiki/P2Pool
+#las contrasenas y el usuario no importan en p2pool
+role: disable
+user: minero
+pass: feliz
 
 ######################################
 # Minas de respaldo (backup) para
@@ -263,6 +261,14 @@ role: disable
 user: paraipanakos.works
 pass: minero
 
+[abc]
+#http://ABCPool.com
+#CAMBIA A CONTINUACION
+role: disable
+abc_user_apikey: 
+user: CHANGEME
+pass: CHANGEME
+
 ######################################
 # Minas Namecoin u otro tipo. Salta
 # usando el modo adecuado (mine_xxx)
@@ -278,6 +284,29 @@ pass: x
 
 [nmcbit]
 #http://nmcbit.com/
+#CAMBIA A CONTINUACION (si quieres)
+role: info
+user: x
+pass: x
+
+[masterpool]
+#https://masterpool.eu/signup
+#CAMBIA A CONTINUACION (si quieres)
+role: info
+user: x
+pass: xxx
+
+[namebit]
+#http://www.namebit.org/
+#CAMBIA A CONTINUACION (si quieres)
+role: info
+#user is namecoin address
+user: nmcaddress
+#pasword must be "none"
+pass: none
+
+[bitchomp]
+#http://www.bitchomp.info/ncp/register.php
 #CAMBIA A CONTINUACION (si quieres)
 role: info
 user: x
@@ -329,7 +358,7 @@ pass: 1234
 [poolmunity]
 #http://poolmunity.com/
 #CAMBIA A CONTINUACION (si quieres)
-role: info
+role: disable
 user: c00w.testhop
 pass: testhop
 
@@ -343,14 +372,14 @@ pass: x
 [mineco]
 #https://mineco.in
 #CAMBIA A CONTINUACION (si quieres)
-role: info
+role: disable
 user: c00w.test
 pass: x
 
 [eclipsemc]
 #https://eclipsemc.com
 #CAMBIA A CONTINUACION (si quieres)
-role: info
+role: disable
 eclipsemc_apikey: bd0eded7e35b1b5fc48f8d10214d98
 user: c00w_worker
 pass: x

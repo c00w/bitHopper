@@ -3,20 +3,17 @@
 # Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-import time
-import threading
-
-from twisted.internet.task import LoopingCall
+import eventlet
+from eventlet.green import threading
+from eventlet.green import time
 
 class Getwork_store:
     
     def __init__(self, bitHopper):
         self.data = {}
         self.bitHopper = bitHopper
-        self.lock = threading.Semaphore()
-
-        call = LoopingCall(self.prune)
-        call.start(60)
+        self.lock = threading.RLock()
+        eventlet.spawn_n(self.prune)
 
     def add(self, server, merkle_root):
         with self.lock:
@@ -29,7 +26,9 @@ class Getwork_store:
             return None      
     
     def prune(self):
-        with self.lock:
-            for key, work in self.data.items():
-                if work[1] < (time.time() - (60*5)):
-                    del self.data[key]
+        while True:
+            with self.lock:
+                for key, work in self.data.items():
+                    if work[1] < (time.time() - (60*5)):
+                        del self.data[key]
+            eventlet.sleep(60)

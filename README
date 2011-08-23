@@ -1,44 +1,71 @@
 # License
-bitHopper by Colin Rice is licensed under a Creative Commons
+
+BitHopper by Colin Rice is licensed under a Creative Commons
 Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 Based on a work at github.com
 
-# Instructions
 
-In order to run bithopper you need twisted phython and pyopenssl installed with Python 2.7 (recommended):
+# Ubuntu installation
 
-http://python.org/download/
-https://launchpad.net/pyopenssl/+download
-http://pypi.python.org/pypi/zope.interface (for Windows)
-http://twistedmatrix.com/trac
+In order to run bitHopper you need to install greenlet module over Python 2.7+ (lookup your allready
+installed version of Python with "python -V"):
 
-Copy "user.cfg.default" to a new file called "user.cfg" then modify the new
-file to include your pool worker usernames and passwords, instead of mine.
-Run "python bitHopper.py". After script updates info, please check if new pools
-have been added correctly if not edit your "user.cfg" accordingly.
+sudo apt-get install python-dev python-setuptools
+sudo easy_install greenlet
 
-If you don't want to use a pool give it an invalid password (WARNING: some pools
-ignore passwords from miners!), or go to http://localhost:8337/stats and switch its
-role to disable, or just delete it from "user.cfg".
+Tested and woking for Ubuntu 11.04, 10.10 and 10.04 LTS
 
-BitHopper listens on loopback interface so you should direct your miner to
-localhost:8337 with any username and password (not blank).
 
-BitHopper status page: http://localhost:8337/stats
+# Instructions for Windows users
 
-# Windows installation
+ActiveState Python(recommended, use 32 bit even when you have 64 bit system, it will still work)
+http://downloads.activestate.com/ActivePython/releases/2.7.2.5/ActivePython-2.7.2.5-win32-x86.msi
 
-Download and install:
+Greenlet
+http://pypi.python.org/pypi/greenlet
 
-https://launchpad.net/pyopenssl
-http://pypi.python.org/pypi/zope.interface
-http://twistedmatrix.com/trac
+Although you can download greenlet from the original web site and compile the source manually this is
+known to cause issues for lot of users. It is much easier to install greenlet automatically using Python
+package manager that comes with ActiveState Python.
 
-Then follow the above instructions
+To do this you have to click:
+
+Start -> All Programs -> ActiveState ActivePython 2.7(32-bit) -> Python Package Manager
+
+Console will open up and to this console you have to type:
+
+pypm install greenlet
+
+After pypm has finished installing greenlet successully type "exit" and your bitHopper is all set. Although
+using ActiveState Python's pypm should work 99% of the time there have been reports of people having issues
+with using it. If this is the case you could also download greenlet package from:
+
+http://www.lfd.uci.edu/~gohlke/pythonlibs/
+
+Please be aware that these are unofficial Windows binaries for Python. It is always best to either download
+greenlet source yourself and compile it or use pypm method. If you have no other way and you have to use
+these unofficial binaries then greenlet-0.3.1.win32-py2.7.exe is the correct one to download. It will
+extract itself into correct directory.
+
+
+# Configuring user settings
+
+BitHopper Stats page: http://localhost:8337/stats
+
+Copy "user.cfg.default" to a new file called "user.cfg" then modify the new file to include your pool 
+worker usernames and passwords. Run "python bitHopper.py" in *nix or in Windows you can double click on
+run-bithopper.bat. After script updates info check if new pools have been added correctly to stats page.
+
+If any of the pools turns red or there is something else missing then edit your "user.cfg" accordingly.
+
+If you don't want to use a pool delete it from "user.cfg" or go to Stats page and switch its role to
+disable. BitHopper listens on loopback interface so you should direct your miner to localhost:8337
+with any username and password (not blank).
+
 
 # Switches
 
-You can launch bH with the following parameters:
+You can launch bitHopper with the following parameters:
 
 	--ip                  = IP to listen on
 	--port                = Port to listen on
@@ -48,7 +75,7 @@ You can launch bH with the following parameters:
 	--threshold           = Override difficulty threshold (default 0.43)
 	--p2pLP               = Starts up an IRC bot to validate LP based hopping
 	--OldConnectionSystem = Uses the old connection system. May help with lots of miners
-	--debug               = Log twisted output
+	--debug               = Extra error output. Basically print all caught errors
 	--trace               = Extra debugging output
 
 
@@ -60,11 +87,15 @@ A none slicing scheduler. May actually be the best scheduler there is.
 
    DefaultScheduler
 
-The time based default scheduler. All that matters is time and it tries to be completely fair across all pools. A little less effective but thoroughly debugged.
+The time based default scheduler. All that matters is time and it tries to be completely fair across all
+pools. A little less effective but thoroughly debugged.
 
    AltSliceScheduler
 
-Tries to be more aggressive at switching pools when thresholds are met rather than finishing a slice. Can be used with --altslicesize=xxx --altminslicesize=xxx (where you replace x with a number for slice size and min). Also slice size can be used with --altslicejitter=xx which adds some random variance to slice size. There can be issues with failing to re-slice often enough.
+Tries to be more aggressive at switching pools when thresholds are met rather than finishing a slice. Can be
+used with --altslicesize=xxx --altminslicesize=xxx (where you replace x with a number for slice size and min).
+Also slice size can be used with --altslicejitter=xx which adds some random variance to slice size. There can
+be issues with failing to re-slice often enough.
 
 Specific parameters:
 
@@ -97,6 +128,6 @@ You can go to https://github.com/c00w/bitHopper/wiki and start reading the bitHo
 at https://bitcointalk.org/index.php?topic=26866. Join us on Freenode (http://webchat.freenode.net/) #bithopper channel.
 
 
-#Donations
+# Donations
 
 1HEmzeuVEKxBQkEenysV1yM8oAddQ4o2TX
