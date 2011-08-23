@@ -58,11 +58,6 @@ info_1: Salta esta mina con precaucion, posibles medidas anti-hopper
 info_2: Los nuevos servidores funcionan sin problemas con cero share stale, seguro para minar - 276.20 Ghash/s @ 08.23.11
 
 
-[bmunion]
-#http://www.bitminersunion.org/
-info_1: Pequena mina buena para saltar - 8.6 Ghash/s @ 08.23.11
-
-
 [btcg]
 #https://www.btcguild.com/
 info_1: Ralentiza stats (pagina 87)
@@ -234,6 +229,12 @@ info_1: Mina i0coins, usa el rol mine_i0c - Offline @ 08.23.11
 # usuario/contrasena solo si quieres
 # saltarlas a tu riesgo.
 ######################################
+
+
+[bmunion]
+#http://www.bitminersunion.org/
+info_1: Pequena mina buena para saltar - 8.6 Ghash/s @ 08.23.11
+info_2: Ha cambiado el sistema de pagos con uno desconocido para prevenir la mineria ocasional (hilo ofic en foro BC - pagina 11)
 
 
 [polmine]

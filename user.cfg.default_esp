@@ -102,13 +102,6 @@ bitclockers_user_apikey: 965469e512aa0de5a37b83ccfd5e849e
 user: flargle
 pass: x
 
-[bmunion]
-#http://www.bitminersunion.org/
-#CAMBIA A CONTINUACION
-role: info
-user: x
-pass: x
-
 [btcserv]
 #http://btcserv.net/
 #CAMBIA A CONTINUACION
@@ -332,6 +325,13 @@ pass: your_password
 # usuario/contrasena solo si quieres
 # saltarlas a tu riesgo.
 ######################################
+
+[bmunion]
+#http://www.bitminersunion.org/
+#CAMBIA A CONTINUACION
+role: info
+user: x
+pass: x
 
 [polmine]
 #https://polmine.pl
