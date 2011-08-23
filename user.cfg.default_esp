@@ -262,7 +262,7 @@ user: paraipanakos.works
 pass: minero
 
 [abc]
-#http://ABCPool.com
+#http://www.abcpool.co/
 #CAMBIA A CONTINUACION
 role: disable
 abc_user_apikey: 
