@@ -162,22 +162,6 @@ class OldDefaultScheduler(Scheduler):
             else: 
                 return server_name   
 
-    def select_latehop_server(self):
-        server_name = None
-        max_share_count = 1
-        for server in self.bh.pool.get_servers():
-            info = self.bh.pool.get_entry(server)
-            if info['api_lag'] or info['lag']:
-                continue
-            if info['role'] != 'backup_latehop':
-                continue
-            if info['shares'] > max_share_count:
-                server_name = server
-                max_share_count = info['shares']
-        self.bh.log_dbg('select_latehop_server: ' + str(server), cat='scheduler-default')
-
-        return server_name   
-
     def server_update(self,):
         with self.lock:
             current = self.bh.pool.get_current()

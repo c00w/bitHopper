@@ -102,13 +102,6 @@ bitclockers_user_apikey: 965469e512aa0de5a37b83ccfd5e849e
 user: flargle
 pass: x
 
-[bmunion]
-#http://www.bitminersunion.org/
-#CHANGE THIS
-role: info
-user: x
-pass: x
-
 [btcserv]
 #http://btcserv.net/
 #CHANGE THIS
@@ -224,6 +217,13 @@ role: disable
 user: happy
 pass: miner
 
+[rfc]
+#https://rfcpool.com/signup
+#CHANGE THIS
+role: disable
+user: c00w_test
+pass: x
+
 ######################################
 # Backup pools for when there is
 # no pool where you would earn more
@@ -263,7 +263,7 @@ user: paraipanakos.works
 pass: minero
 
 [abc]
-#http://ABCPool.com
+#http://www.abcpool.co/
 #CHANGE THIS
 role: disable
 abc_user_apikey: 
@@ -328,11 +328,11 @@ pass: your_password
 # to hop them at your own risk.
 ######################################
 
-[rfc]
-#https://rfcpool.com/signup
+[bmunion]
+#http://www.bitminersunion.org/
 #CHANGE THIS
-role: disable
-user: c00w_test
+role: info
+user: x
 pass: x
 
 [polmine]
