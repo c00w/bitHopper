@@ -22,7 +22,7 @@ class Work():
 
     def get_http(self, address):
         if address not in self.connect_pool:
-            self.connect_pool[address] =  pools.Pool(min_size = 2, max_size = 8, create = lambda: httplib2.Http(disable_ssl_certificate_validation=True))
+            self.connect_pool[address] =  pools.Pool(create = lambda: httplib2.Http(disable_ssl_certificate_validation=True))
         return self.connect_pool[address].item()
 
     def jsonrpc_lpcall(self, server, url, lp):
