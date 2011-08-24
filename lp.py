@@ -180,7 +180,7 @@ class LongPoll():
             lp_address = "http://" + lp_address
         try:
             if self.polled[server].acquire(False):
-                if output:
+                if output or self.bitHopper.options.debug:
                     self.bitHopper.log_msg("LP Call " + lp_address)
                 else:
                     self.bitHopper.log_dbg("LP Call " + lp_address)
