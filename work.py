@@ -28,13 +28,13 @@ class Work():
 
     def jsonrpc_lpcall(self, server, url, lp):
         try:
-            self.i += 1
-            request = json.dumps({'method':'getwork', 'params':[], 'id':self.i}, ensure_ascii = True)
+            #self.i += 1
+            #request = json.dumps({'method':'getwork', 'params':[], 'id':self.i}, ensure_ascii = True)
             pool = self.bitHopper.pool.servers[server]
             header = {'Authorization':"Basic " +base64.b64encode(pool['user']+ ":" + pool['pass']), 'User-Agent': 'poclbm/20110709', 'Content-Type': 'application/json' }
             with self.get_http(url, timeout=None) as http:
                 try:
-                    content = http.request( url, 'GET', headers=header, body=request)[1] # Returns response dict and content str
+                    content = http.request( url, 'GET', headers=header)#, body=request)[1] # Returns response dict and content str
                 except Exception, e:
                     self.bitHopper.log_dbg('Error with an http request')
                     self.bitHopper.log_dbg(e)
