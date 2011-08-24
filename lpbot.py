@@ -39,12 +39,14 @@ class LpBot(SimpleIRCClient):
                         self.chan_list = []
                         self._connect()
                         print "Connect returned"
-                eventlet.sleep(15)
+                eventlet.sleep(self.bitHopper.config.getint('lpbot', 'run_interval'))
     
     def _connect(self):
         print "Connecting..."
         try:
-            self.connect('irc.bithopper.org', 6667, self.nick)
+            irc_server = self.bitHopper.config.get('lpbot', 'irc_server')
+            irc_port = self.bitHopper.config.getint('lpbot', 'irc_port')
+            self.connect(irc_server, irc_port, self.nick)
         except Exception, e:
             print e
 
@@ -110,7 +112,7 @@ class LpBot(SimpleIRCClient):
 
                 print "Total Votes: " + str(total_votes)
                 # Enough votes for a quarum?
-                if total_votes > 5:
+                if total_votes > self.bitHopper.config.getint('lpbot','min_votes'):
                     # Enought compelling evidence to switch?
                     # Loop through unique servers for the block
                     for test_server in set(self.hashinfo[block]):
@@ -123,7 +125,7 @@ class LpBot(SimpleIRCClient):
                             if test_vote == test_server:
                                 test_votes += 1
                         print str(test_votes) + " out of " + str(test_total_votes) + " votes."
-                        if float(test_votes) / test_total_votes > .5:
+                        if float(test_votes) / test_total_votes > self.bitHopper.config.getfloat('lpbot','vote_threshold'):
                             if self.server != test_server:
                                 print "In the minority, updating to  " + test_server + ": " + str(test_votes) + "/" + str(test_total_votes)
                                 self.server = test_server
