@@ -8,8 +8,8 @@ from eventlet.green import os, socket
 import json
 import sys
 
-socketTimeout = 300
-socket.setdefaulttimeout(socketTimeout)
+# Global timeout for sockets in case something leaks
+socket.setdefaulttimeout(900)
 
 import webob
 

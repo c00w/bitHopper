@@ -11,8 +11,8 @@ import eventlet.patcher
 irclib = eventlet.patcher.import_patched('irclib')
 SimpleIRCClient = irclib.SimpleIRCClient
 
-socketTimeout = 300
-socket.setdefaulttimeout(socketTimeout)
+# Global timeout for sockets in case something leaks
+socket.setdefaulttimeout(900)
 
 class LpBot(SimpleIRCClient):
     def __init__(self, bitHopper):

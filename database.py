@@ -9,8 +9,8 @@ import eventlet.patcher
 import sqlite3
 import sys
 
-socketTimeout = 300
-socket.setdefaulttimeout(socketTimeout)
+# Global timeout for sockets in case something leaks
+socket.setdefaulttimeout(900)
 
 try:
     # determine if application is a script file or frozen exe
