@@ -220,7 +220,6 @@ class DefaultScheduler(Scheduler):
     def select_best_server(self,):
         with self.lock:
             #self.bh.log_dbg('select_best_server', cat='scheduler-default')
-            server_name = None
             difficulty = self.bh.difficulty.get_difficulty()
             min_shares = difficulty * self.difficultyThreshold
 

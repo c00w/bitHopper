@@ -85,7 +85,7 @@ class LongPoll():
                 self.bitHopper.select_best_server()
 
     def add_block(self, block, work, server):
-        "Adds a new block. server must be the server the work is coming from"
+        """ Adds a new block. server must be the server the work is coming from """
         with self.lock:
             self.blocks[block]={}
             self.bitHopper.lp_callback.new_block(work, server)
@@ -93,7 +93,7 @@ class LongPoll():
             self.lastBlock = block
 
     def receive(self, body, server):
-    
+
         if server in self.polled and not self.polled[server].acquire(False):
             self.polled[server].release()
         self.bitHopper.log_dbg('received lp from: ' + server)
