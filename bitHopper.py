@@ -9,7 +9,7 @@ try:
 except Exception, e:
     print "You need to install eventlet. See the readme."
     raise e
-from eventlet import wsgi
+from eventlet import wsgi, greenpool, backdoor
 from eventlet.green import os, time
 eventlet.monkey_patch()
 from eventlet import debug
@@ -52,7 +52,8 @@ class BitHopper():
         self.auth = None
         self.work = work.Work(self)
         self.website = website.bitSite(self)
-        eventlet.spawn_n(self.delag_server)
+        self.pile = greenpool.GreenPool()
+        self.pile.spawn_n(self.delag_server)
 
     def reject_callback(self, server, data, user, password):
         self.data.reject_callback(server, data, user, password)
@@ -120,8 +121,7 @@ class BitHopper():
     def get_new_server(self, server):
         if server not in self.pool.servers:
             return self.pool.get_current()
-        with self.pool.lock:
-            self.pool.servers[server]['lag'] = True
+        self.pool.servers[server]['lag'] = True
         self.log_msg('Lagging. :' + server)
         self.server_update()
         return self.pool.get_current()
@@ -134,18 +134,17 @@ class BitHopper():
         while True:
             #Delags servers which have been marked as lag.
             #If this function breaks bitHopper dies a long slow death.
-            with self.pool.lock:
-                self.log_dbg('Running Delager')
-                for server in self.pool.get_servers():
-                    info = self.pool.servers[server]
-                    if info['lag'] == True:
-                        data = self.work.jsonrpc_call(server, [])
-                        self.log_dbg('Got' + server + ":" + str(data))
-                        if data != None:
-                            info['lag'] = False
-                            self.log_dbg('Delagging')
-                        else:
-                            self.log_dbg('Not delagging')
+            self.log_dbg('Running Delager')
+            for server in self.pool.get_servers():
+                info = self.pool.servers[server]
+                if info['lag'] == True:
+                    data = self.work.jsonrpc_call(server, [])
+                    self.log_dbg('Got' + server + ":" + str(data))
+                    if data != None:
+                        info['lag'] = False
+                        self.log_dbg('Delagging')
+                    else:
+                        self.log_dbg('Not delagging')
             eventlet.sleep(20)
 
 def main():
@@ -210,11 +209,13 @@ def main():
        log = open(os.devnull, 'wb')
     else:
         log = None 
+        bithopper_instance.pile.spawn(backdoor.backdoor_server, eventlet.listen(('', 3000)), locals={'bh':bithopper_instance})
     while True:
         try:
             wsgi.server(eventlet.listen((options.ip,options.port)),bithopper_instance.website.handle_start, log=log)
         except Exception, e:
             print e
+            eventlet.sleep(60)
     bithopper_instance.db.close()
 
 if __name__ == "__main__":

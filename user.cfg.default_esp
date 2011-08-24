@@ -102,13 +102,6 @@ bitclockers_user_apikey: 965469e512aa0de5a37b83ccfd5e849e
 user: flargle
 pass: x
 
-[bmunion]
-#http://www.bitminersunion.org/
-#CAMBIA A CONTINUACION
-role: info
-user: x
-pass: x
-
 [btcserv]
 #http://btcserv.net/
 #CAMBIA A CONTINUACION
@@ -222,6 +215,13 @@ role: disable
 user: minero
 pass: feliz
 
+[rfc]
+#https://rfcpool.com/signup
+#CAMBIA A CONTINUACION
+role: disable
+user: c00w_test
+pass: x
+
 ######################################
 # Minas de respaldo (backup) para
 # cuando no tienes ninguna mina
@@ -262,7 +262,7 @@ user: paraipanakos.works
 pass: minero
 
 [abc]
-#http://ABCPool.com
+#http://www.abcpool.co/
 #CAMBIA A CONTINUACION
 role: disable
 abc_user_apikey: 
@@ -326,11 +326,11 @@ pass: your_password
 # saltarlas a tu riesgo.
 ######################################
 
-[rfc]
-#https://rfcpool.com/signup
+[bmunion]
+#http://www.bitminersunion.org/
 #CAMBIA A CONTINUACION
-role: disable
-user: c00w_test
+role: info
+user: x
 pass: x
 
 [polmine]
