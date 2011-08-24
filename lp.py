@@ -48,6 +48,7 @@ class LongPoll():
             if server in self.bitHopper.pool.servers and self.bitHopper.pool.servers[server]['role'] == 'mine_deepbit' and old_owner != server:
                 old_shares = self.bitHopper.pool.servers[server]['shares']
                 self.bitHopper.pool.servers[server]['shares'] = 0
+                self.bitHopper.scheduler.reset()
                 self.bitHopper.select_best_server()
                 eventlet.spawn_n(self.api_check,server,block,old_shares)
 
@@ -179,7 +180,7 @@ class LongPoll():
             lp_address = "http://" + lp_address
         try:
             if self.polled[server].acquire(False):
-                if output:
+                if output or self.bitHopper.options.debug:
                     self.bitHopper.log_msg("LP Call " + lp_address)
                 else:
                     self.bitHopper.log_dbg("LP Call " + lp_address)

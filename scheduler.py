@@ -25,13 +25,8 @@ class Scheduler(object):
             self.bh.server_update()
             eventlet.sleep(20)
 
-    @classmethod
-    def server_update(self,):
-        return
-
-    @classmethod
-    def select_best_server(self,):
-        return
+    def reset(self):
+        pass
 
     def select_charity_server(self):
         server_name = None
@@ -371,187 +366,196 @@ class AltSliceScheduler(Scheduler):
                 server_shares = {}
                 for server in self.bh.pool.get_servers():
                     shares,info = self.server_to_btc_shares(server)
+                    shares += 1
                     if info['role'] not in self.valid_roles:
                         continue
                     if info['api_lag'] or info['lag']:
                         continue
-                    if shares < min_shares and shares > 0:               
-                        totalshares = totalshares + shares           
-                        info['slicedShares'] = info['shares']
+                    if shares < min_shares and shares >= 0:               
+                        totalshares = totalshares + shares
+                        info['slicedShares'] = shares
                         server_shares[server] = shares
                     else:
                         self.bh.log_trace(server + ' skipped ')
                         continue
                 
-            # find total weight   
-            for server in self.bh.pool.get_servers():
-                shares,info = self.server_to_btc_shares(server)
-                if info['role'] not in self.valid_roles:
-                    continue
-                if info['api_lag'] or info['lag']:
-                    continue
-                if server not in server_shares: continue
-                if server_shares[server] < min_shares and server_shares[server] > 0:
-                    totalweight += 1/(float(shares)/totalshares)
-                      
-                      
-            # round time biasing
-            tb_delta = {}
-            tb_log_delta = {}
-            pos_weight = {}
-            neg_weight = {}
-            adj_slice = {}
-            # TODO punish duration estimates weighed by temporal duration
-            if (self.bh.options.altsliceroundtimebias == True):
-                # delta from target
-                for server in self.bh.pool.get_servers():              
-                    info = self.bh.pool.get_entry(server)
-                    if info['role'] not in ['mine','mine_nmc','mine_slush']: continue
-                    if info['duration'] <= 0: continue
-                    if server not in server_shares: continue
-                    tb_delta[server] = self.target_duration - info['duration'] + 1
-                    tb_log_delta[server] = math.log(abs(tb_delta[server]))
-                    self.bh.log_trace('  ' + server + " delta: " + str(tb_delta[server]) + " log_delta: " + str(tb_log_delta[server]), cat=self.name)            
-
-                # pos/neg_total
-                pos_total = 0
-                neg_total = 0
-                for server in self.bh.pool.get_servers():              
-                    info = self.bh.pool.get_entry(server)
-                    if info['role'] not in ['mine','mine_nmc','mine_slush']: continue
-                    if info['duration'] <= 0: continue
-                    if server not in server_shares: continue
-                    if tb_delta[server] >= 0: pos_total += tb_log_delta[server]
-                    if tb_delta[server]  < 0: neg_total += tb_log_delta[server]
-                self.bh.log_trace("pos_total: " + str(pos_total) + " / neg_total: " + str(neg_total), cat=self.name)   
-                
-                # preslice            
-                self.bh.options.altslicesize
+                # find total weight   
                 for server in self.bh.pool.get_servers():
-                    if server in tb_delta:
+                    shares,info = self.server_to_btc_shares(server)
+                    if info['role'] not in self.valid_roles:
+                        continue
+                    if info['api_lag'] or info['lag']:
+                        continue
+                    if server not in server_shares: continue
+                    if server_shares[server] < min_shares and server_shares[server] > 0:
+                        totalweight += 1/(float(shares)/totalshares)
+                          
+                          
+                # round time biasing
+                tb_delta = {}
+                tb_log_delta = {}
+                pos_weight = {}
+                neg_weight = {}
+                adj_slice = {}
+                # TODO punish duration estimates weighed by temporal duration
+                if (self.bh.options.altsliceroundtimebias == True):
+                    # delta from target
+                    for server in self.bh.pool.get_servers():              
                         info = self.bh.pool.get_entry(server)
-                        if info['isDurationEstimated'] == True and info['duration_temporal'] < 300:
-                            tb_delta[server] = 0
-                        else:
-                            if tb_delta[server] >= 0:
-                                pos_weight[server] = tb_log_delta[server] / pos_total
-                                self.bh.log_trace(server + " pos_weight: " + str(pos_weight[server]), cat=self.name)
-                            elif tb_delta[server] < 0:
-                                neg_weight[server] = tb_log_delta[server] / neg_total
-                                self.bh.log_trace(server + " neg_weight: " + str(neg_weight[server]), cat=self.name)
-                                                    
-
-            # allocate slices         
-            for server in self.bh.pool.get_servers():
-                info = self.bh.pool.get_entry(server)
-                if info['role'] not in self.valid_roles:
-                    continue
-                if info['shares'] <= 0: continue
-                if server not in server_shares: continue
-                shares = server_shares[server] + 1
-                if shares < min_shares and shares > 0:
-                    weight = 0
-                    self.bh.log_trace('tb_delta: ' + str(len(tb_delta)) + ' / server_shares: ' + str(len(server_shares)), cat=self.name)
-                    if (self.bh.options.altsliceroundtimebias == True):
-                        if len(tb_delta) == 1 and len(server_shares) == 1:
-                            # only 1 server to slice (zzz)
-                            if info['duration'] > 0:
+                        if info['role'] not in self.valid_roles:
+                            continue
+                        if info['duration'] <= 0:
+                            continue
+                        if server not in server_shares:
+                            continue
+                        tb_delta[server] = self.target_duration - info['duration'] + 1
+                        tb_log_delta[server] = math.log(abs(tb_delta[server]))
+                        self.bh.log_trace('  ' + server + " delta: " + str(tb_delta[server]) + " log_delta: " + str(tb_log_delta[server]), cat=self.name)            
+    
+                    # pos/neg_total
+                    pos_total = 0
+                    neg_total = 0
+                    for server in self.bh.pool.get_servers():              
+                        info = self.bh.pool.get_entry(server)
+                        if info['role'] not in self.valid_roles:
+                            continue
+                        if info['duration'] <= 0:
+                            continue
+                        if server not in server_shares:
+                            continue
+                        if tb_delta[server] >= 0: pos_total += tb_log_delta[server]
+                        if tb_delta[server]  < 0: neg_total += tb_log_delta[server]
+                    self.bh.log_trace("pos_total: " + str(pos_total) + " / neg_total: " + str(neg_total), cat=self.name)   
+                    
+                    # preslice            
+                    self.bh.options.altslicesize
+                    for server in self.bh.pool.get_servers():
+                        if server in tb_delta:
+                            info = self.bh.pool.get_entry(server)
+                            if info['isDurationEstimated'] == True and info['duration_temporal'] < 300:
+                                tb_delta[server] = 0
+                            else:
+                                if tb_delta[server] >= 0:
+                                    pos_weight[server] = tb_log_delta[server] / pos_total
+                                    self.bh.log_trace(server + " pos_weight: " + str(pos_weight[server]), cat=self.name)
+                                elif tb_delta[server] < 0:
+                                    neg_weight[server] = tb_log_delta[server] / neg_total
+                                    self.bh.log_trace(server + " neg_weight: " + str(neg_weight[server]), cat=self.name)
+                                                        
+    
+                # allocate slices         
+                for server in self.bh.pool.get_servers():
+                    info = self.bh.pool.get_entry(server)
+                    if info['role'] not in self.valid_roles:
+                       continue
+                    if info['shares'] <= 0:
+                        continue
+                    if server not in server_shares:
+                        continue
+                    shares = server_shares[server] + 1
+                    if shares < min_shares and shares > 0:
+                        weight = 0
+                        self.bh.log_trace('tb_delta: ' + str(len(tb_delta)) + ' / server_shares: ' + str(len(server_shares)), cat=self.name)
+                        if (self.bh.options.altsliceroundtimebias == True):
+                            if len(tb_delta) == 1 and len(server_shares) == 1:
+                                # only 1 server to slice (zzz)
+                                if info['duration'] > 0:
+                                    slice = self.bh.options.altslicesize
+                                else:
+                                    slice = 0
+                            else:
+                                weight = 1/(float(shares)/totalshares)
+                                slice = weight * self.bh.options.altslicesize / totalweight
+                                if self.bh.options.altslicejitter != 0:
+                                    jitter = random.randint(0-self.bh.options.altslicejitter, self.bh.options.altslicejitter)
+                                    slice += jitter
+                        else:                  
+                            if shares == totalshares:
+                                # only 1 server to slice (zzz)
                                 slice = self.bh.options.altslicesize
                             else:
-                                slice = 0
+                                weight = 1/(float(shares)/totalshares)
+                                slice = weight * self.bh.options.altslicesize / totalweight
+                                if self.bh.options.altslicejitter != 0:
+                                    jitter = random.randint(0-self.bh.options.altslicejitter, self.bh.options.altslicejitter)
+                                    slice += jitter
+                        info['slice'] = slice
+                        if self.bh.options.debug:
+                            self.bh.log_dbg(server + " sliced to " + "{0:.2f}".format(info['slice']) + '/' + "{0:d}".format(int(self.bh.options.altslicesize)) + '/' + str(shares) + '/' + "{0:.3f}".format(weight) + '/' + "{0:.3f}".format(totalweight) , cat=self.name)
                         else:
-                            weight = 1/(float(shares)/totalshares)
-                            slice = weight * self.bh.options.altslicesize / totalweight
-                            if self.bh.options.altslicejitter != 0:
-                                jitter = random.randint(0-self.bh.options.altslicejitter, self.bh.options.altslicejitter)
-                                slice += jitter
-                    else:                  
-                        if shares == totalshares:
-                            # only 1 server to slice (zzz)
-                            slice = self.bh.options.altslicesize
-                        else:
-                            weight = 1/(float(shares)/totalshares)
-                            slice = weight * self.bh.options.altslicesize / totalweight
-                            if self.bh.options.altslicejitter != 0:
-                                jitter = random.randint(0-self.bh.options.altslicejitter, self.bh.options.altslicejitter)
-                                slice += jitter
-                    info['slice'] = slice
-                    if self.bh.options.debug:
-                        self.bh.log_dbg(server + " sliced to " + "{0:.2f}".format(info['slice']) + '/' + "{0:d}".format(int(self.bh.options.altslicesize)) + '/' + str(shares) + '/' + "{0:.3f}".format(weight) + '/' + "{0:.3f}".format(totalweight) , cat=self.name)
-                    else:
-                        self.bh.log_msg(server + " sliced to " + "{0:.2f}".format(info['slice']), cat=self.name)
-                   
-            # adjust based on round time bias
-            if self.bh.options.altsliceroundtimebias == True:
-                self.bh.log_dbg('Check if apply Round Time Bias: tb_log_delta: ' + str(len(tb_log_delta)) + ' == servers: ' + str(len(server_shares)), cat=self.name)
-            if self.bh.options.altsliceroundtimebias == True and len(tb_log_delta) >= 1:            
-                self.bh.log_msg('>>> Apply Round Time Bias === ', cat=self.name)
-                ns_total = 0
-                adj_factor = self.bh.options.altsliceroundtimemagic
-                self.bh.log_trace('     server: ' + server)
+                            self.bh.log_msg(server + " sliced to " + "{0:.2f}".format(info['slice']), cat=self.name)
+                       
+                # adjust based on round time bias
+                if self.bh.options.altsliceroundtimebias == True:
+                    self.bh.log_dbg('Check if apply Round Time Bias: tb_log_delta: ' + str(len(tb_log_delta)) + ' == servers: ' + str(len(server_shares)), cat=self.name)
+                if self.bh.options.altsliceroundtimebias == True and len(tb_log_delta) >= 1:            
+                    self.bh.log_msg('>>> Apply Round Time Bias === ', cat=self.name)
+                    ns_total = 0
+                    adj_factor = self.bh.options.altsliceroundtimemagic
+                    self.bh.log_trace('     server: ' + server)
+                    for server in self.bh.pool.get_servers():
+                        info = self.bh.pool.get_entry(server)
+                        if server not in tb_log_delta: continue # no servers to adjust
+                        self.bh.log_trace('     server(tld): ' + server)
+                        if server in pos_weight:
+                            adj_slice[server] = info['slice'] + adj_factor * pos_weight[server]
+                            self.bh.log_trace('     server (pos): ' + str(adj_slice[server]))
+                            ns_total += adj_slice[server]            
+                        elif server in neg_weight:                  
+                            adj_slice[server] = info['slice'] - adj_factor * neg_weight[server]
+                            self.bh.log_trace('     server (neg): ' + str(adj_slice[server]))
+                            ns_total += adj_slice[server]
+                    # re-slice the slices
+                    ad_totalslice = 0
+                    for server in self.bh.pool.get_servers():
+                        info = self.bh.pool.get_entry(server)
+                        if info['role'] not in self.valid_roles:
+                            continue
+                        if info['shares'] < 0: continue
+                        if server not in server_shares: continue
+                        shares = server_shares[server] + 1
+                        if shares < min_shares and shares > 0:
+                            if server in adj_slice:
+                                ad_totalslice += adj_slice[server]
+                            else:
+                                ad_totalslice += info['slice']
+                             
+                    for server in self.bh.pool.get_servers():            
+                        info = self.bh.pool.get_entry(server)
+                        if info['role'] not in self.valid_roles:
+                            continue
+                        if info['shares'] < 0: continue
+                        if server not in server_shares: continue
+                        if server not in tb_log_delta: continue # no servers to adjust
+                        shares = server_shares[server] + 1
+                        if shares < min_shares and shares > 0:
+                            if server in adj_slice:
+                                previous = info['slice']
+                                info['slice'] = self.bh.options.altslicesize * (adj_slice[server] / ad_totalslice)
+                                if self.bh.options.debug:
+                                    self.bh.log_dbg(server + " _adjusted_ slice to " + "{0:.2f}".format(info['slice']) + '/' + "{0:d}".format(int(self.bh.options.altslicesize)) + '/' + str(shares) + '/' + "{0:.3f}".format(adj_slice[server]) + '/' + "{0:.3f}".format(ad_totalslice) , cat=self.name)
+                                else:
+                                    self.bh.log_msg('  > ' + server + " _adjusted_ slice to " + "{0:.2f}".format(info['slice']) + " from {0:.2f}".format(previous), cat=self.name)
+                            else:
+                                info['slice'] = self.bh.options.altslicesize * (info['slice'] / ad_totalslice)
+                                if self.bh.options.debug:
+                                    self.bh.log_dbg(server + " sliced to " + "{0:.2f}".format(info['slice']) + '/' + "{0:d}".format(int(self.bh.options.altslicesize)) + '/' + str(shares) + '/na/' + "{0:.3f}".format(ad_totalslice) , cat=self.name)
+                                else:
+                                    self.bh.log_msg(server + " sliced to " + "{0:.2f}".format(info['slice']), cat=self.name)
+                                         
+                # min share adjustment
                 for server in self.bh.pool.get_servers():
                     info = self.bh.pool.get_entry(server)
-                    if server not in tb_log_delta: continue # no servers to adjust
-                    self.bh.log_trace('     server(tld): ' + server)
-                    if server in pos_weight:
-                        adj_slice[server] = info['slice'] + adj_factor * pos_weight[server]
-                        self.bh.log_trace('     server (pos): ' + str(adj_slice[server]))
-                        ns_total += adj_slice[server]            
-                    elif server in neg_weight:                  
-                        adj_slice[server] = info['slice'] - adj_factor * neg_weight[server]
-                        self.bh.log_trace('     server (neg): ' + str(adj_slice[server]))
-                        ns_total += adj_slice[server]
-                # re-slice the slices
-                ad_totalslice = 0
-                for server in self.bh.pool.get_servers():
-                    info = self.bh.pool.get_entry(server)
-                    if info['role'] not in ['mine','mine_nmc','mine_slush']:
+                    if info['role'] not in self.valid_roles:
                         continue
-                    if info['shares'] <=0: continue
+                    if info['shares'] < 0: continue
                     if server not in server_shares: continue
-                    shares = server_shares[server] + 1
-                    if shares < min_shares and shares > 0:
-                        if server in adj_slice:
-                            ad_totalslice += adj_slice[server]
+                    if info['slice'] < self.bh.options.altminslicesize:
+                        info['slice'] = self.bh.options.altminslicesize
+                        if self.bh.options.debug:
+                            self.bh.log_dbg(server + " (min)sliced to " + "{0:.2f}".format(info['slice']) + '/' + "{0:d}".format(int(self.bh.options.altslicesize)) + '/' + str(shares) + '/' + "{0:d}".format(info['duration']), cat=self.name)
                         else:
-                            ad_totalslice += info['slice']
-                         
-                for server in self.bh.pool.get_servers():            
-                    info = self.bh.pool.get_entry(server)
-                    if info['role'] not in ['mine','mine_nmc','mine_slush']:
-                        continue
-                    if info['shares'] <=0: continue
-                    if server not in server_shares: continue
-                    if server not in tb_log_delta: continue # no servers to adjust
-                    shares = server_shares[server] + 1
-                    if shares < min_shares and shares > 0:
-                        if server in adj_slice:
-                            previous = info['slice']
-                            info['slice'] = self.bh.options.altslicesize * (adj_slice[server] / ad_totalslice)
-                            if self.bh.options.debug:
-                                self.bh.log_dbg(server + " _adjusted_ slice to " + "{0:.2f}".format(info['slice']) + '/' + "{0:d}".format(int(self.bh.options.altslicesize)) + '/' + str(shares) + '/' + "{0:.3f}".format(adj_slice[server]) + '/' + "{0:.3f}".format(ad_totalslice) , cat=self.name)
-                            else:
-                                self.bh.log_msg('  > ' + server + " _adjusted_ slice to " + "{0:.2f}".format(info['slice']) + " from {0:.2f}".format(previous), cat=self.name)
-                        else:
-                            info['slice'] = self.bh.options.altslicesize * (info['slice'] / ad_totalslice)
-                            if self.bh.options.debug:
-                                self.bh.log_dbg(server + " sliced to " + "{0:.2f}".format(info['slice']) + '/' + "{0:d}".format(int(self.bh.options.altslicesize)) + '/' + str(shares) + '/na/' + "{0:.3f}".format(ad_totalslice) , cat=self.name)
-                            else:
-                                self.bh.log_msg(server + " sliced to " + "{0:.2f}".format(info['slice']), cat=self.name)
-                                     
-            # min share adjustment
-            for server in self.bh.pool.get_servers():
-                info = self.bh.pool.get_entry(server)
-                if info['role'] not in ['mine','mine_nmc','mine_slush']:
-                    continue
-                if info['shares'] <=0: continue
-                if server not in server_shares: continue
-                if info['slice'] < self.bh.options.altminslicesize:
-                    info['slice'] = self.bh.options.altminslicesize
-                    if self.bh.options.debug:
-                        self.bh.log_dbg(server + " (min)sliced to " + "{0:.2f}".format(info['slice']) + '/' + "{0:d}".format(int(self.bh.options.altslicesize)) + '/' + str(shares) + '/' + "{0:d}".format(info['duration']), cat=self.name)
-                    else:
-                        self.bh.log_msg(server + " (min)sliced to " + "{0:.2f}".format(info['slice']), cat=self.name)                                           
+                            self.bh.log_msg(server + " (min)sliced to " + "{0:.2f}".format(info['slice']), cat=self.name)                                           
        
             # Pick server with largest slice first
             max_slice = -1
