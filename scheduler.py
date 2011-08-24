@@ -179,11 +179,10 @@ class OldDefaultScheduler(Scheduler):
 
             min_shares = info['shares']
 
-            with self.bh.pool.lock:
-                for server in self.bh.pool.servers:
-                    pool = self.bh.pool.get_entry(server)
-                    if pool['shares'] < min_shares:
-                        min_shares = pool['shares']
+            for server in self.bh.pool.servers:
+                pool = self.bh.pool.get_entry(server)
+                if pool['shares'] < min_shares:
+                    min_shares = pool['shares']
 
             if min_shares < info['shares']*.90:
                 return True       

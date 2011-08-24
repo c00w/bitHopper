@@ -61,15 +61,15 @@ class LongPoll():
         while True:
             # Loop Through each server and either call pull_lp with the address or
             # Do a getwork.
-            with self.pool.lock:
-                for server in self.pool.get_servers():
-                    info = self.pool.servers[server]
-                    if info['role'] not in ['mine','mine_charity','mine_deepbit','backup','backup_latehop']:
-                        continue
-                    if info['lp_address'] != None:
-                        self.pull_lp(info['lp_address'],server)
-                    else:
-                        eventlet.spawn_n(self.pull_server, server)
+            
+            for server in self.pool.get_servers():
+                info = self.pool.servers[server]
+                if info['role'] not in ['mine','mine_charity','mine_deepbit','backup','backup_latehop']:
+                    continue
+                if info['lp_address'] != None:
+                    self.pull_lp(info['lp_address'],server)
+                else:
+                    eventlet.spawn_n(self.pull_server, server)
             eventlet.sleep(60*60)
                 
                 
@@ -80,9 +80,8 @@ class LongPoll():
     def api_check(self, server, block, old_shares):
         with self.blocks[block]['_defer']:
             if self.blocks[block]['_owner'] != server:
-                with self.bitHopper.pool.lock:
-                    self.bitHopper.pool.servers[server]['shares'] += old_shares
-                    self.bitHopper.select_best_server()
+                self.bitHopper.pool.servers[server]['shares'] += old_shares
+                self.bitHopper.select_best_server()
 
     def add_block(self, block, work, server):
         """ Adds a new block. server must be the server the work is coming from """
@@ -93,7 +92,9 @@ class LongPoll():
             self.lastBlock = block
 
     def receive(self, body, server):
-        self.polled[server].release()
+
+        if server in self.polled and not self.polled[server].acquire(False):
+            self.polled[server].release()
         self.bitHopper.log_dbg('received lp from: ' + server)
         info = self.bitHopper.pool.servers[server]
         if info['role'] in ['mine_nmc', 'disable', 'mine_ixc', 'mine_i0c', 'info']:
