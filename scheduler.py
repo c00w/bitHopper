@@ -25,13 +25,8 @@ class Scheduler(object):
             self.bh.server_update()
             eventlet.sleep(20)
 
-    @classmethod
-    def server_update(self,):
-        return
-
-    @classmethod
-    def select_best_server(self,):
-        return
+    def reset(self):
+        pass
 
     def select_charity_server(self):
         server_name = None
