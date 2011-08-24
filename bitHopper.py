@@ -29,6 +29,8 @@ import getwork_store
 import data
 import lp
 import lp_callback
+import plugin
+
 from scheduler import Scheduler
 from lpbot import LpBot
 
@@ -52,6 +54,7 @@ class BitHopper():
         self.auth = None
         self.work = work.Work(self)
         self.website = website.bitSite(self)
+        self.plugin = plugin.Plugin(self)
         self.pile = greenpool.GreenPool()
         self.pile.spawn_n(self.delag_server)
 
