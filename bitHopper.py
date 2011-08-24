@@ -67,35 +67,35 @@ class BitHopper():
         return self.options
 
     def log_msg(self, msg, **kwargs):
-        if kwargs and kwargs.get('cat'):
-            print time.strftime("[%H:%M:%S] ") + '[' + kwargs.get('cat') + '] ' + str(msg)
+        if kwargs and kwargs.get("cat"):
+            print time.strftime("[%H:%M:%S] ") + "[" + kwargs.get("cat") + "] " + str(msg)
         elif self.get_options() == None:
-            print time.strftime("[%H:%M:%S] ") +str(msg)
+            print time.strftime("[%H:%M:%S] ") + str(msg)
             sys.stdout.flush()
         elif self.get_options().debug == True:
-            print time.strftime("[%H:%M:%S] ") +str(msg)
+            print time.strftime("[%H:%M:%S] ") + str(msg)
             sys.stdout.flush()
         else: 
-            print time.strftime("[%H:%M:%S] ") +str(msg)
+            print time.strftime("[%H:%M:%S] ") + str(msg)
             sys.stdout.flush()
 
     def log_dbg(self, msg, **kwargs):
-        if self.get_options().debug == True and kwargs and kwargs.get('cat'):
-            self.log_msg('DEBUG: ' + '['+kwargs.get('cat')+"] "+str(msg))
+        if self.get_options().debug == True and kwargs and kwargs.get("cat"):
+            self.log_msg("DEBUG: " + "[" + kwargs.get("cat") + "] " + str(msg))
             #sys.stderr.flush()
         elif self.get_options() == None:
             pass
         elif self.get_options().debug == True:
-            self.log_msg('DEBUG: ' + str(msg))
+            self.log_msg("DEBUG: " + str(msg))
             #sys.stderr.flush()
         return
 
     def log_trace(self, msg, **kwargs):
-        if self.get_options().trace == True and kwargs and kwargs.get('cat'):
-            self.log_msg('['+kwargs.get('cat')+"] "+msg)
+        if self.get_options().trace == True and kwargs and kwargs.get("cat"):
+            self.log_msg("TRACE: " + "[" + kwargs.get("cat") + "] " + str(msg))
             #sys.stderr.flush()
         elif self.get_options().trace == True:
-            self.log_msg(msg)
+            self.log_msg("TRACE: " + str(msg))
             #sys.stderr.flush()
         return
 
@@ -210,6 +210,7 @@ def main():
     while True:
         try:
             wsgi.server(eventlet.listen((options.ip,options.port)),bithopper_instance.website.handle_start, log=log)
+            break
         except Exception, e:
             print e
             eventlet.sleep(60)
