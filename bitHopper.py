@@ -32,12 +32,14 @@ import lp_callback
 from scheduler import Scheduler
 from lpbot import LpBot
 
+import ConfigParser
 import sys
 
 class BitHopper():
-    def __init__(self, options):
+    def __init__(self, options, config):
         """Initializes all of the submodules bitHopper uses"""
         self.options = options
+        self.config = config
         self.lp_callback = lp_callback.LP_Callback(self)
         self.lpBot = None
         self.difficulty = diff.Difficulty(self)           
@@ -55,6 +57,12 @@ class BitHopper():
         self.pile = greenpool.GreenPool()
         self.pile.spawn_n(self.delag_server)
 
+    def reloadConfig(self):
+        self.config = ConfigParser.ConfigParser()
+        self.config.read(self.options.config)
+        with self.pool.lock:
+            self.pool.loadConfig(self)
+        
     def reject_callback(self, server, data, user, password):
         self.data.reject_callback(server, data, user, password)
 
@@ -145,7 +153,8 @@ class BitHopper():
                         self.log_dbg('Delagging')
                     else:
                         self.log_dbg('Not delagging')
-            eventlet.sleep(20)
+            sleeptime = self.config.getint('main', 'delag_sleep')
+            eventlet.sleep(sleeptime)
 
 def main():
     parser = optparse.OptionParser(description='bitHopper')
@@ -161,6 +170,7 @@ def main():
     parser.add_option('--altsliceroundtimebias', action='store_true', default=False, help='Bias slicing slightly by round time duration with respect to round time target (default false)')
     parser.add_option('--altsliceroundtimetarget', type=int, default=1000, help='Round time target based on GHash/s (default 1000 Ghash/s)')
     parser.add_option('--altsliceroundtimemagic', type=int, default=10, help='Round time magic number, increase to bias towards round time over shares')
+    parser.add_option('--config', type=str, default='bh.cfg', help='Select an alternate main config file')
     parser.add_option('--p2pLP', action='store_true', default=False, help='Starts up an IRC bot to validate LP based hopping.')
     parser.add_option('--ip', type = str, default='', help='IP to listen on')
     parser.add_option('--auth', type = str, default=None, help='User,Password')
@@ -174,8 +184,11 @@ def main():
             schedulers += ", " + s.__name__
         print "Available Schedulers: " + schedulers[2:]
         return
+    
+    config = ConfigParser.ConfigParser()
+    config.read(options.config)
 
-    bithopper_instance = BitHopper(options)
+    bithopper_instance = BitHopper(options, config)
 
     if options.auth:
         auth = options.auth.split(',')
@@ -184,16 +197,36 @@ def main():
             print 'User,Password. Not whatever you just entered'
             return
     
-    if options.scheduler:
-        bithopper_instance.log_msg("Selecting scheduler: " + options.scheduler)
+    # auth from config
+    try:
+        c = config.get('auth', 'username'), config.get('auth', 'password')
+        bithopper_instance.auth = c
+    except:
+        pass
+    
+    override_scheduler = False
+    
+    if options.scheduler != None:
+        scheduler_name = options.scheduler_name
+        override_scheduler = True
+    try:
+        sched = config.get('main', 'scheduler')
+        if sched != None:
+            override_scheduler = True
+            scheduler_name = sched
+    except:
+        pass
+    
+    if override_scheduler:
+        bithopper_instance.log_msg("Selecting scheduler: " + scheduler_name)
         foundScheduler = False
         for s in Scheduler.__subclasses__():
-            if s.__name__ == options.scheduler:
+            if s.__name__ == scheduler_name:
                 bithopper_instance.scheduler = s(bithopper_instance)
                 foundScheduler = True
                 break
         if not foundScheduler:            
-            bithopper_instance.log_msg("Error couldn't find: " + options.scheduler + ". Using default scheduler.")
+            bithopper_instance.log_msg("Error couldn't find: " + scheduler_name + ". Using default scheduler.")
             bithopper_instance.scheduler = scheduler.DefaultScheduler(bithopper_instance)
     else:
         bithopper_instance.log_msg("Using default scheduler.")
@@ -208,11 +241,19 @@ def main():
     if not options.debug:
        log = open(os.devnull, 'wb')
     else:
-        log = None 
-        bithopper_instance.pile.spawn(backdoor.backdoor_server, eventlet.listen(('', 3000)), locals={'bh':bithopper_instance})
+        log = None
+        backdoor_port = config.getint('backdoor', 'port')
+        backdoor_enabled = config.getboolean('backdoor', 'enabled')
+        if backdoor_enabled:
+            bithopper_instance.pile.spawn(backdoor.backdoor_server, eventlet.listen(('', backdoor_port)), locals={'bh':bithopper_instance})
     while True:
         try:
-            wsgi.server(eventlet.listen((options.ip,options.port)),bithopper_instance.website.handle_start, log=log)
+            listen_port = options.port            
+            try:
+                listen_port = config.getint('main', 'port')
+            except ConfigParser.Error:
+                pass
+            wsgi.server(eventlet.listen((options.ip,listen_port)),bithopper_instance.website.handle_start, log=log)
         except Exception, e:
             print e
             eventlet.sleep(60)

@@ -80,12 +80,14 @@ class Pool():
                 self.servers[server]['last_pulled'] = time.time()
                 self.servers[server]['lag'] = False
                 self.servers[server]['api_lag'] = False
+                
+                refresh_limit = self.bitHopper.config.getint('main', 'pool_refreshlimit')
                 if 'refresh_time' not in self.servers[server]:
-						self.servers[server]['refresh_time'] = 120
+						self.servers[server]['refresh_time'] = refresh_limit
                 else:
                     self.servers[server]['refresh_time'] = int(self.servers[server]['refresh_time'])
                 if 'refresh_limit' not in self.servers[server]:
-                    self.servers[server]['refresh_limit'] = 120
+                    self.servers[server]['refresh_limit'] = refresh_limit
                 else:
                     self.servers[server]['refresh_limit'] = int(self.servers[server]['refresh_limit'])
                 self.servers[server]['rejects'] = self.bitHopper.db.get_rejects(server)
