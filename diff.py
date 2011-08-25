@@ -45,7 +45,7 @@ class Difficulty():
                     response = urllib2.urlopen(req)
                     diff_string = response.read()
                     self.difficulty = float(diff_string)
-                    self.bitHopper.log_dbg(str(diff_string))
+                    self.bitHopper.log_dbg('Retrieved Difficulty:' + str(diff_string))
                 except:
                     pass
                 
@@ -57,7 +57,7 @@ class Difficulty():
                     output = re.search('<td id="difficulty">([.0-9]+)</td>', diff_str)
                     output = output.group(1)
                     self.nmc_difficulty = float(output)
-                    self.bitHopper.log_dbg(str(self.nmc_difficulty))
+                    self.bitHopper.log_dbg('Retrieved NameCoin Difficulty:' + str(self.nmc_difficulty))
                 except:
                     pass
             eventlet.sleep(60*60*6)
