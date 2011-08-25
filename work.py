@@ -104,6 +104,10 @@ class Work():
         tries = 0
         work = None
         while work == None:
+            if data == [] and tries > 2:
+                server = self.bitHopper.get_new_server(server)
+            elif tries > 2:
+                self.bitHopper.get_new_server(server)
             tries += 1
             try:
                 if tries > 4:
@@ -114,10 +118,6 @@ class Work():
                 self.bitHopper.log_dbg(server)
                 self.bitHopper.log_dbg(e)
                 work = None
-            if data == [] and tries > 2:
-                server = self.bitHopper.get_new_server(server)
-            elif tries > 2:
-                self.bitHopper.get_new_server(server)
         return work
 
     def handle(self, env, start_request):
