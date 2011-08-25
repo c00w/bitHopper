@@ -7,7 +7,6 @@ import json
 import base64
 import traceback
 
-import urllib
 import eventlet
 httplib2 = eventlet.import_patched('httplib20_7_1')
 from eventlet import pools
@@ -32,15 +31,15 @@ class Work():
 
     def jsonrpc_lpcall(self, server, url, lp):
         try:
-            self.i += 1
-            request = json.dumps({'method':'getwork', 'params':[], 'id':self.i}, ensure_ascii = True)
+            #self.i += 1
+            #request = json.dumps({'method':'getwork', 'params':[], 'id':self.i}, ensure_ascii = True)
             pool = self.bitHopper.pool.servers[server]
             header = {'Authorization':"Basic " +base64.b64encode(pool['user']+ ":" + pool['pass']), 'User-Agent': 'poclbm/20110709', 'Content-Type': 'application/json' }
             with self.get_http(url, timeout=None) as http:
                 try:
-                    content = http.request( url, 'GET', headers=header, body=request)[1] # Returns response dict and content str
+                    resp, content = http.request( url, 'GET', headers=header)#, body=request)[1] # Returns response dict and content str
                 except Exception, e:
-                    self.bitHopper.log_dbg('Error with an http request')
+                    self.bitHopper.log_dbg('Error with a jsonrpc_lpcall http request')
                     self.bitHopper.log_dbg(e)
                     content = None
             lp.receive(content, server)
@@ -52,13 +51,13 @@ class Work():
             return None
 
     def get(self, url):
-        "A utility method for getting webpages"
-        header = {'User-Agent':'Mozilla/5.0 (Windows; U; MSIE 9.0; WIndows NT 9.0; en-US))'}
+        """A utility method for getting webpages"""
+        header = {'User-Agent':'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)'}
         with self.get_http(url) as http:
             try:
                 content = http.request( url, 'GET', headers=header)[1] # Returns response dict and content str
             except Exception, e:
-                self.bitHopper.log_dbg('Error with an http request')
+                self.bitHopper.log_dbg('Error with a work.get http request')
                 self.bitHopper.log_dbg(e)
                 content = ""
                 
@@ -76,7 +75,7 @@ class Work():
                 try:
                     resp, content = http.request( url, 'POST', headers=header, body=request)
                 except Exception, e:
-                    self.bitHopper.log_dbg('Error with an http request')
+                    self.bitHopper.log_dbg('Error with a jsonrpc_call http request')
                     self.bitHopper.log_dbg(e)
                     resp = {}
                     content = ""
@@ -109,6 +108,10 @@ class Work():
         tries = 0
         work = None
         while work == None:
+            if data == [] and tries > 2:
+                server = self.bitHopper.get_new_server(server)
+            elif tries > 2:
+                self.bitHopper.get_new_server(server)
             tries += 1
             try:
                 if tries > 4:
@@ -119,10 +122,6 @@ class Work():
                 self.bitHopper.log_dbg(server)
                 self.bitHopper.log_dbg(e)
                 work = None
-            if data == [] and tries > 2:
-                server = self.bitHopper.get_new_server(server)
-            elif tries > 2:
-                self.bitHopper.get_new_server(server)
         return work
 
     def handle(self, env, start_request):

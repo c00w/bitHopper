@@ -48,7 +48,7 @@ info_2: Puedes probar minar con el rol mine_deepbit - 466.02 Ghash/s @ 08.23.11
 [bcpool]
 #http://bitcoinpool.com
 info_1: Medidas anti-hopping basadas en "ventana de participacion" (pagina 36)
-info_2: Desactiva las medidas anti-hopper si donas 1% (pagina 111)
+info_2: Desactiva las medidas anti-hopper si donas (pagina 111)
 info_3: Truca los stats json para que te quedes minando con ellos (pagina 184) - 88.63 Ghash/s @ 08.23.11
 
 
@@ -71,7 +71,7 @@ info_1: Sistema de pago por puntuacion, intenta minar con mine_slush (pagina 164
 
 [btcmonkey]
 #http://bitcoinmonkey.com/
-info_1: Mina amigable - 1.917 Ghash/s @ 08.23.11
+info_1: Mina pequena y mona - 1.917 Ghash/s @ 08.23.11
 
 
 [btcserv]
@@ -81,12 +81,12 @@ info_1: Mina pequena, raportar informacion sobre ella en el foro - 2.94 GHash/s 
 
 [btcworld]
 #http://btcworld.de/signup
-info_1: Buena para saltar, nina pequena - 14.05 Ghash/s @ 08.23.11
+info_1: Mina pequena y mona- 14.05 Ghash/s @ 08.23.11
 
 
 [deepbit]
 #https://deepbit.net/
-info_1: Saltando esta mina se parece un poco en saltar un elefante - 5723 Ghash/s @ 08.23.11
+info_1: La mina mas grande que hay, minar con ellos te ayudara cobrar regularmente - 5723 Ghash/s @ 08.23.11
 
 
 [digbtc]
@@ -112,7 +112,7 @@ info_1: Buena para saltar, mina rapida para principiantes - 176.52 GHash/s @ 08.
 
 [nofeemining]
 #https://nofeemining.appspot.com/
-info_1: Mina amigable - Velocidad de mineria desconocida @ 08.23.11
+info_1: Mina pequena y mona - Velocidad de mineria desconocida @ 08.23.11
 
 
 [ozco]
@@ -130,7 +130,7 @@ info_1: Buena para saltar hasta 10% de dificultad, utiliza mine_slush - 1872.64 
 
 [triple]
 #https://www.triplemining.com/register
-info_1: Mina amigable - 43.6 GHash/s @ 08.23.11
+info_1: Mina de tamano mediano - 43.6 GHash/s @ 08.23.11
 info_2: Usa como backup_latehop si quieres ayudarlos encontrar por fin un bloque (Flash Mob Mining Event - 08.21.11)
 
 

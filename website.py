@@ -64,10 +64,15 @@ class dynamicSite():
                 try:
                     server = v.split('-')[1]
                     info = self.bh.pool.get_entry(server)
-                    info['penalty'] = float(request.POST[v])                    
+                    old_penalty = 1
+                    if 'penalty' in info:
+                        old_penalty = info['penalty']
+                    new_penalty = float(request.POST[v])
+                    self.bh.log_msg('Set ' + server + ' penalty from ' + str(old_penalty) + ' to ' + str(new_penalty))
+                    info['penalty'] = new_penalty                    
                     self.bh.select_best_server()
                 except Exception, e:
-                    self.bh.log_dbg('Incorrect http post request payout')
+                    self.bh.log_dbg('Incorrect http post request penalty: ' + str(v))
                     self.bh.log_dbg(e)
             if "resetscheduler" in v:
                 self.bh.log_msg('User forced scheduler reset')
@@ -90,7 +95,7 @@ class dynamicSite():
             if "reloadconfig" in v:
                 self.bh.log_msg('User forced configuration reload')
                 try:
-                    self.bh.pool.loadConfig(self.bh)
+                    self.bh.pool.loadConfig()
                 except Exception,e:
                     self.bh.log_dbg('Incorrect http post reloadconfig')
                     self.bh.log_dbg(e)
@@ -105,6 +110,26 @@ class dynamicSite():
                 except Exception,e:
                     self.bh.log_dbg('Incorrect http post resetUserShares')
                     self.bh.log_dbg(e)
+            if "enableDebug" in v:
+                self.bh.log_dbg('User enabled DEBUG from web')
+                self.bh.options.debug = True
+            if "disableDebug" in v:
+                self.bh.options.debug = False
+                self.bh.log_msg('User disabled DEBUG from web')
+            if "setLPPenalty" in v:
+                try:
+                    server = v.split('-')[1]
+                    info = self.bh.pool.get_entry(server)
+                    old_lp_penalty = 0
+                    if 'lp_penalty' in info:
+                        old_lp_penalty = info['lp_penalty']
+                    new_lp_penalty = float(request.POST[v])
+                    self.bh.log_msg("Updating LP Penalty for " + server + " from " + str(old_lp_penalty) + ' to ' + str(new_lp_penalty))
+                    info['lp_penalty'] = new_lp_penalty
+                except Exception, e:
+                    self.bh.log_dbg('Incorrect http post request setLPPenalty: ' + str(v))
+                    self.bh.log_dbg(e)
+
 
 class dataSite():
 
@@ -174,6 +199,7 @@ class bitSite():
             self.bitHopper.log_msg('Error in a wsgi function')
             self.bitHopper.log_msg(e)
             return [""]
+
     def handle(self, env, start_response):
         return self.bitHopper.work.handle(env, start_response)
 

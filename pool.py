@@ -20,44 +20,45 @@ except:
 
 class Pool():
     def __init__(self, bitHopper):
+        self.bitHopper = bitHopper
         self.servers = {}
         self.api_pull = ['mine','info','mine_slush','mine_nmc','mine_ixc','mine_i0c','mine_charity','mine_deepbit','backup','backup_latehop']
         self.initialized = False
         self.lock = threading.RLock()
+        self.pool_configs = ['pools.cfg']
         with self.lock:
-            self.loadConfig(bitHopper)
+            self.loadConfig()
         
 
-    def loadConfig(self, bitHopper):
-        parser = ConfigParser.SafeConfigParser()
+    def load_file(self, file_path, parser):
         try:
             # determine if application is a script file or frozen exe
             if hasattr(sys, 'frozen'):
                 application_path = os.path.dirname(sys.executable)
             elif __file__:
                 application_path = os.path.dirname(__file__)
-            read = parser.read(os.path.join(application_path, 'user.cfg'))
+            read = parser.read(os.path.join(application_path, file_path))
         except:
-            read = parser.read('user.cfg')
+            read = parser.read(file_path)
+        return read
+
+    def loadConfig(self):
+        parser = ConfigParser.SafeConfigParser()
+        
+        read = self.load_file('user.cfg', parser)
         if len(read) == 0:
             bitHopper.log_msg("user.cfg not found. You may need to move it from user.cfg.default")
             os._exit(1)
 
         userpools = parser.sections()
 
-        try:
-            # determine if application is a script file or frozen exe
-            if hasattr(sys, 'frozen'):
-                application_path = os.path.dirname(sys.executable)
-            elif __file__:
-                application_path = os.path.dirname(__file__)
-            read = parser.read(os.path.join(application_path, 'pools.cfg'))
-        except:
-            read = parser.read('pools.cfg')
-        if len(read) == 0:
-            bitHopper.log_msg("pools.cfg not found.")
-            if self.initialized == False: 
-                os._exit(1)
+
+        for file_name in self.pool_configs:
+            read = self.load_file(file_name, parser)
+            if len(read) == 0:
+                self.bitHopper.log_msg(file_name + " not found.")
+                if self.initialized == False: 
+                    os._exit(1)
 
         for pool in userpools:
             self.servers[pool] = dict(parser.items(pool))
@@ -68,7 +69,7 @@ class Pool():
         if self.initialized == False: 
             self.current_server = pool
         else:
-            self.setup(bitHopper) 
+            self.setup(self.bitHopper) 
         self.initialized = True
         
     def setup(self, bitHopper):
@@ -84,7 +85,7 @@ class Pool():
                 self.servers[server]['lag'] = False
                 self.servers[server]['api_lag'] = False
                 if 'refresh_time' not in self.servers[server]:
-						self.servers[server]['refresh_time'] = 120
+                    self.servers[server]['refresh_time'] = 120
                 else:
                     self.servers[server]['refresh_time'] = int(self.servers[server]['refresh_time'])
                 if 'refresh_limit' not in self.servers[server]:
@@ -323,8 +324,8 @@ class Pool():
             self.UpdateShares(server_name ,round_shares)
         #Disable api scraping
         elif server['api_method'] == 'disable':
-			self.UpdateShares(server_name,0)
-			self.bitHopper.log_msg('Share estimation disabled for: ' + server['name'])
+            self.UpdateShares(server_name,0)
+            self.bitHopper.log_msg('Share estimation disabled for: ' + server['name'])
         else:
             self.bitHopper.log_msg('Unrecognized api method: ' + str(server))
 
