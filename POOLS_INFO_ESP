@@ -48,7 +48,7 @@ info_2: Puedes probar minar con el rol mine_deepbit - 466.02 Ghash/s @ 08.23.11
 [bcpool]
 #http://bitcoinpool.com
 info_1: Medidas anti-hopping basadas en "ventana de participacion" (pagina 36)
-info_2: Desactiva las medidas anti-hopper si donas 1% (pagina 111)
+info_2: Desactiva las medidas anti-hopper si donas (pagina 111)
 info_3: Truca los stats json para que te quedes minando con ellos (pagina 184) - 88.63 Ghash/s @ 08.23.11
 
 

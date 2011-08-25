@@ -48,7 +48,7 @@ info_2: You could try mining here with the mine_deepbit role - 466.02 Ghash/s @ 
 [bcpool]
 #http://bitcoinpool.com
 info_1: Anti-hopping method based on "window of participation" (page 36)
-info_2: Disables anti-hopper measures for 1% donation (page 111)
+info_2: Disables anti-hopper measures if you donate (page 111)
 info_3: Fakes json stats so you keep hopping them (page 184) - 88.63 Ghash/s @ 08.23.11
 
 
