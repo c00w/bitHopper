@@ -82,7 +82,7 @@ class Pool():
                 self.servers[server]['lag'] = False
                 self.servers[server]['api_lag'] = False
                 if 'refresh_time' not in self.servers[server]:
-						self.servers[server]['refresh_time'] = 120
+                    self.servers[server]['refresh_time'] = 120
                 else:
                     self.servers[server]['refresh_time'] = int(self.servers[server]['refresh_time'])
                 if 'refresh_limit' not in self.servers[server]:
@@ -321,8 +321,8 @@ class Pool():
             self.UpdateShares(server_name ,round_shares)
         #Disable api scraping
         elif server['api_method'] == 'disable':
-			self.UpdateShares(server_name,0)
-			self.bitHopper.log_msg('Share estimation disabled for: ' + server['name'])
+            self.UpdateShares(server_name,0)
+            self.bitHopper.log_msg('Share estimation disabled for: ' + server['name'])
         else:
             self.bitHopper.log_msg('Unrecognized api method: ' + str(server))
 

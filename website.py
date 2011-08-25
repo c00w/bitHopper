@@ -196,6 +196,7 @@ class bitSite():
             self.bitHopper.log_msg('Error in a wsgi function')
             self.bitHopper.log_msg(e)
             return [""]
+
     def handle(self, env, start_response):
         return self.bitHopper.work.handle(env, start_response)
 
