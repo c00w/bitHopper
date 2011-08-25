@@ -59,13 +59,16 @@ class Work():
                 
         return content
 
-    def jsonrpc_call(self, server, data):
+    def jsonrpc_call(self, server, data, client_header={}):
         try:
             request = json.dumps({'method':'getwork', 'params':data, 'id':self.i}, ensure_ascii = True)
             self.i += 1
             
             info = self.bitHopper.pool.get_entry(server)
-            header = {'Authorization':"Basic " +base64.b64encode(info['user']+ ":" + info['pass']), 'User-Agent': 'poclbm/20110709','Content-Type': 'application/json' }
+            header = {'Authorization':"Basic " +base64.b64encode(info['user']+ ":" + info['pass'])}
+            for k,v in client_header:
+                if k not in header:
+                    header[k] = v
             url = "http://" + info['mine_address']
             with self.get_http(url) as http:
                 try:
@@ -100,7 +103,7 @@ class Work():
             self.bitHopper.log_dbg(content)
             return None, None
 
-    def jsonrpc_getwork(self, server, data, request):
+    def jsonrpc_getwork(self, server, data, request, headers={}):
         tries = 0
         work = None
         while work == None:
@@ -112,7 +115,7 @@ class Work():
             try:
                 if tries > 4:
                     eventlet.sleep(0.5)
-                work, headers = self.jsonrpc_call(server,data)
+                work, headers = self.jsonrpc_call(server, data, headers)
             except Exception, e:
                 self.bitHopper.log_dbg( 'caught, inner jsonrpc_call loop')
                 self.bitHopper.log_dbg(server)
@@ -121,12 +124,14 @@ class Work():
         return work, headers
 
     def handle(self, env, start_request):
-        
-        start_request('200 OK', [("Content-type", "text/json"), 
-                                 ('X-Long-Polling', '/LP')])
 
         request = webob.Request(env)
         rpc_request = json.loads(request.body)
+
+        client_headers = {}
+        for header in env:
+            if len(header)> 5 and header[0:5] is 'HTTP_':
+                client_headers[header[5:]] = env[header]
 
         #check if they are sending a valid message
         if rpc_request['method'] != "getwork":
@@ -140,7 +145,22 @@ class Work():
         if data == [] or server == None:
             server = self.bitHopper.pool.get_work_server()
 
-        work, headers  = self.jsonrpc_getwork(server, data, request)
+        work, server_headers  = self.jsonrpc_getwork(server, data, request, client_headers)
+
+
+        print server_headers
+        to_delete = []
+        for header in server_headers:
+            if header.lower() not in []: #['x-roll-ntime', 'nonce-range]:
+                to_delete.append(header)
+        for item in to_delete:
+            del server_headers[item]
+        
+
+        server_headers['X-Long-Polling'] = '/LP'
+        print server_headers
+
+        start_request('200 OK', server_headers.items())
 
         response = json.dumps({"result":work, 'error':None, 'id':j_id})        
 
