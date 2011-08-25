@@ -87,7 +87,7 @@ class Work():
         except Exception, e:
             self.bitHopper.log_dbg('Caught, jsonrpc_call insides')
             self.bitHopper.log_dbg(e)
-            traceback.print_exc()
+            #traceback.print_exc()
             return None, None
 
         try:
