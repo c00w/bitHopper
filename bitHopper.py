@@ -206,14 +206,19 @@ def main():
         bithopper_instance.log_msg('Starting p2p LP')
         bithopper_instance.lpBot = LpBot(bithopper_instance)
 
+    lastDefaultTimeout = socket.getdefaulttimeout()
     if not options.debug:
         log = open(os.devnull, 'wb')
     else:
         log = None 
+        socket.setdefaulttimeout(None)
         bithopper_instance.pile.spawn(backdoor.backdoor_server, eventlet.listen(('', 3000)), locals={'bh':bithopper_instance})
+        socket.setdefaulttimeout(lastDefaultTimeout)
     while True:
         try:
+            socket.setdefaulttimeout(None)
             wsgi.server(eventlet.listen((options.ip,options.port)),bithopper_instance.website.handle_start, log=log)
+	    socket.setdefaulttimeout(lastDefaultTimeout)
             break
         except Exception, e:
             print e
