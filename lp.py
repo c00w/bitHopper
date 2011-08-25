@@ -95,7 +95,7 @@ class LongPoll():
 
     def receive(self, body, server):
 
-        if server in self.polled and not self.polled[server].acquire(False):
+        if server in self.polled:
             self.polled[server].release()
         self.bitHopper.log_dbg('received lp from: ' + server)
         info = self.bitHopper.pool.servers[server]
