@@ -8,11 +8,18 @@ from eventlet.green import time
 from eventlet.green import threading
 import traceback
 
-def byteswap(value):
+def bytereverse(value):
     bytes = []
     for i in xrange(0,len(value)):
         if i%2 == 1:
             bytes.append(value[i-1:i+1])
+    return "".join(bytes[::-1])
+
+def wordreverse(value):
+    bytes = []
+    for i in xrange(0,len(value)):
+        if i%4 == 1:
+            bytes.append(value[i-3:i+1])
     return "".join(bytes[::-1])
 
 class LongPoll():
@@ -122,8 +129,8 @@ class LongPoll():
 
             with self.lock:
                 if block not in self.blocks:
-                    if byteswap(block) in self.blocks:
-                        block = byteswap(block)
+                    if bytereverse(block) in self.blocks:
+                        block = bytereverse(block)
                     self.bitHopper.log_msg('New Block: ' + str(block))
                     self.bitHopper.log_msg('Block Owner ' + server)
                     self.add_block(block, work, server)
