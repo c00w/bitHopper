@@ -134,12 +134,14 @@ class Pool():
            Can be configured to do trickle through to other servers"""
         with self.lock:
             value = random.randint(0,99)
-            if value in self.result_map:
-                result = self.result_map[value]
+            if value in self.server_map:
+                result = self.server_map[value]
                 if self.servers[result]['lag']:
-                    return self.get_current(self)
+                    return self.get_current()
+                else:
+                    return result
             else:
-                return self.get_current(self)
+                return self.get_current()
                     
     def build_server_map(self):
         possible_servers = {}
