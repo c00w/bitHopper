@@ -107,6 +107,7 @@ class Pool():
                 if self.servers[server]['default_role'] in ['info','disable']:
                     self.servers[server]['default_role'] = 'mine'
             self.servers = OrderedDict(sorted(self.servers.items(), key=lambda t: t[1]['role'] + t[0]))
+            self.build_server_map()
         eventlet.spawn_n(self.update_api_servers, bitHopper)
             
     def get_entry(self, server):
@@ -123,6 +124,34 @@ class Pool():
     def get_current(self, ):
         with self.lock:
             return self.current_server
+
+    def get_work_server(self):
+        """A function which returns the server to query for work.
+           Currently uses the donation server 1/100 times. 
+           Can be configured to do trickle through to other servers"""
+        with self.lock:
+            if server_map not in self:
+                self.build_server_map()
+            value = random.randint(0,100)
+            if value in self.result_map:
+                result = self.result_map[value]
+                if self.servers[result]['lag']:
+                    return self.get_current(self)
+            else:
+                return self.get_current(self)
+                    
+    def build_server_map(self):
+        possible_servers = {}
+        for server in self.servers:
+            if 'percent' in self.servers[server]:
+                possible_servers[server] = use_percent
+        i = 0
+        server_map = {}
+        for k,v in possible_servers.items():
+            for _ in xrange(v):
+                server_map[i] = k
+                i += 1
+        self.server_map = server_map
 
     def set_current(self, server):
         with self.lock:

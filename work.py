@@ -88,17 +88,17 @@ class Work():
             self.bitHopper.log_dbg('Caught, jsonrpc_call insides')
             self.bitHopper.log_dbg(e)
             traceback.print_exc()
-            return None
+            return None, None
 
         try:
             message = json.loads(content)
             value =  message['result']
-            return value
+            return value, resp
         except Exception, e:
             self.bitHopper.log_dbg( "Error in json decoding, Server probably down")
             self.bitHopper.log_dbg(server)
             self.bitHopper.log_dbg(content)
-            return None
+            return None, None
 
     def jsonrpc_getwork(self, server, data, request):
         tries = 0
@@ -112,13 +112,13 @@ class Work():
             try:
                 if tries > 4:
                     eventlet.sleep(0.5)
-                work = self.jsonrpc_call(server,data)
+                work, headers = self.jsonrpc_call(server,data)
             except Exception, e:
                 self.bitHopper.log_dbg( 'caught, inner jsonrpc_call loop')
                 self.bitHopper.log_dbg(server)
                 self.bitHopper.log_dbg(e)
                 work = None
-        return work
+        return work, headers
 
     def handle(self, env, start_request):
         
@@ -138,11 +138,11 @@ class Work():
         if data != []:
             server = self.bitHopper.getwork_store.get_server(data[0][72:136])
         if data == [] or server == None:
-            server = self.bitHopper.pool.get_current()
+            server = self.bitHopper.pool.get_work_server()
 
         work = self.jsonrpc_getwork(server, data, request)
 
-        response = json.dumps({"result":work, 'error':None, 'id':j_id})        
+        response, headers = json.dumps({"result":work, 'error':None, 'id':j_id})        
 
         #some reject callbacks and merkle root stores
         if str(work) == 'False':
