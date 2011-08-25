@@ -47,8 +47,8 @@ class Work():
             return None
 
     def get(self, url):
-        "A utility method for getting webpages"
-        header = {'User-Agent':'Mozilla/5.0 (Windows; U; MSIE 9.0; WIndows NT 9.0; en-US))'}
+        """A utility method for getting webpages"""
+        header = {'User-Agent':'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)'}
         with self.get_http(url) as http:
             try:
                 content = http.request( url, 'GET', headers=header)[1] # Returns response dict and content str
