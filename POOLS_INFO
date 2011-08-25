@@ -112,7 +112,8 @@ info_1: Good for hopping, fast pool for hopper-starters - 176.52 GHash/s @ 08.23
 
 [nofeemining]
 #https://nofeemining.appspot.com/
-info_1: Nice small pool - Pool speed unknown @ 08.23.11
+info_1: Nice small pool
+info_2: They moved pool to google appspot - Pool speed unknown @ 08.23.11
 
 
 [ozco]
@@ -266,6 +267,7 @@ info_1: Changed to PPLNS (page 94) - 79 Ghash/s @ 08.23.11
 [eclipsemc]
 #https://eclipsemc.com
 info_1: Changed to a score system (page 16) - 53.51 Ghash/s @ 08.23.11
+info_2: Uses CPS (cheat proof scoring) method (BC forum)
 
 
 [mmf]

@@ -44,7 +44,10 @@
 #              multiplica con este numero al comparar con la
 #              dificultad (si incrementas este numero hace
 #              que dejes la mina antes de dificultad*0.43)
-#  lp_penalty: normaliza las LP de esta mina con "x" segundos (mayor para LP muy rapidos)
+#  lp_penalty: normaliza las LP de esta mina con "x" segundos (mayor para
+#              LP muy rapidos)
+#  percent:    continue enviando shares aqui, valor proc. calculado sobre el
+#              total de tus shares (1% = 1 share cada 100)
 #  user:       nombre del trabajador que se tiene que utilizar
 #  pass:       contrasena del trabajador (no se necesita para todas las minas)
 #
