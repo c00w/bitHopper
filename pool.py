@@ -62,6 +62,13 @@ class Pool():
         for pool in userpools:
             self.servers[pool] = dict(parser.items(pool))
 
+        for pool in parser.sections():
+            try:
+                if 'role' in dict(parser.items(pool)) and pool not in self.servers:
+                    self.servers[pool] = dict(parser.items(pool))
+            except:
+                continue
+
         if self.servers == {}:
             bitHopper.log_msg("No pools found in pools.cfg or user.cfg")
 
@@ -147,7 +154,7 @@ class Pool():
         possible_servers = {}
         for server in self.servers:
             if 'percent' in self.servers[server]:
-                possible_servers[server] = use_percent
+                possible_servers[server] = int(self.servers[server]['percent'])
         i = 0
         server_map = {}
         for k,v in possible_servers.items():
