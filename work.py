@@ -140,9 +140,9 @@ class Work():
         if data == [] or server == None:
             server = self.bitHopper.pool.get_work_server()
 
-        work = self.jsonrpc_getwork(server, data, request)
+        work, headers  = self.jsonrpc_getwork(server, data, request)
 
-        response, headers = json.dumps({"result":work, 'error':None, 'id':j_id})        
+        response = json.dumps({"result":work, 'error':None, 'id':j_id})        
 
         #some reject callbacks and merkle root stores
         if str(work) == 'False':
