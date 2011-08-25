@@ -6,6 +6,7 @@ import json
 import eventlet
 from eventlet.green import time
 from eventlet.green import threading
+import traceback
 
 def byteswap(value):
     bytes = []
@@ -139,7 +140,7 @@ class LongPoll():
         except Exception, e:
             output = False
             self.bitHopper.log_dbg('Error in LP ' + str(server) + str(body))
-            self.bitHopper.log_dbg(e)
+            traceback.print_exc()
             if server not in self.errors:
                 self.errors[server] = 0
             with self.lock:
