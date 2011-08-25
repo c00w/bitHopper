@@ -24,8 +24,11 @@ class Pool():
         self.initialized = False
         self.lock = threading.RLock()
         self.pool_configs = ['pools.cfg']
+        self.started = False
+        self.current_server = None
         with self.lock:
             self.loadConfig()
+        self.started = True
         
 
     def load_file(self, file_path, parser):
@@ -64,11 +67,10 @@ class Pool():
         if self.servers == {}:
             bitHopper.log_msg("No pools found in pools.cfg or user.cfg")
 
-        if self.initialized == False: 
+        if self.current_server is None: 
             self.current_server = pool
-        else:
-            self.setup(self.bitHopper) 
-        self.initialized = True
+        if self.started == True:
+            self.setup(self.bitHopper)
         
     def setup(self, bitHopper):
         with self.lock:
@@ -109,7 +111,6 @@ class Pool():
                     self.servers[server]['default_role'] = 'mine'
             self.servers = OrderedDict(sorted(self.servers.items(), key=lambda t: t[1]['role'] + t[0]))
             self.build_server_map()
-        eventlet.spawn_n(self.update_api_servers, bitHopper)
             
     def get_entry(self, server):
         with self.lock:
