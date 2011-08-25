@@ -44,6 +44,7 @@ class BitHopper():
         self.difficulty = diff.Difficulty(self)           
         self.pool = pool.Pool(self)     
         self.db = database.Database(self)
+        self.work = work.Work(self)
         self.pool.setup(self) 
         self.speed = speed.Speed(self)
         self.scheduler = scheduler.Scheduler(self)
@@ -51,7 +52,7 @@ class BitHopper():
         self.data = data.Data(self)       
         self.lp = lp.LongPoll(self)
         self.auth = None
-        self.work = work.Work(self)
+        
         self.website = website.bitSite(self)
         self.plugin = plugin.Plugin(self)
         self.pile = greenpool.GreenPool()

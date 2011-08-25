@@ -28,8 +28,6 @@ class Pool():
         self.current_server = None
         with self.lock:
             self.loadConfig()
-        self.started = True
-        
 
     def load_file(self, file_path, parser):
         try:
@@ -111,6 +109,9 @@ class Pool():
                     self.servers[server]['default_role'] = 'mine'
             self.servers = OrderedDict(sorted(self.servers.items(), key=lambda t: t[1]['role'] + t[0]))
             self.build_server_map()
+            if not self.started:
+                self.update_api_servers()
+                self.started = True
             
     def get_entry(self, server):
         with self.lock:
@@ -467,17 +468,9 @@ class Pool():
         except Exception, e:
             self.errsharesResponse(e, server)
 
-    def update_api_servers(self, bitHopper):
-        self.bitHopper = bitHopper
+    def update_api_servers(self):
         for server in self.servers:
-            info = self.servers[server]
-            update = self.api_pull
-            if info['role'] in update:
-                d = bitHopper.work.get(info['api_address'])
-                try:
-                    self.selectsharesResponse( d, server)
-                except Exception, e:
-                    self.errsharesResponse(e, server)
+            eventlet.spawn_n(self.update_api_server, server)
 
 if __name__ == "__main__":
     print 'Run python bitHopper.py instead.'
