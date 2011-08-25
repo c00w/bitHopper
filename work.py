@@ -147,18 +147,14 @@ class Work():
 
         work, server_headers  = self.jsonrpc_getwork(server, data, request, client_headers)
 
-
-        print server_headers
         to_delete = []
         for header in server_headers:
             if header.lower() not in []: #['x-roll-ntime', 'nonce-range]:
                 to_delete.append(header)
         for item in to_delete:
-            del server_headers[item]
-        
+            del server_headers[item]  
 
         server_headers['X-Long-Polling'] = '/LP'
-        print server_headers
 
         start_request('200 OK', server_headers.items())
 
