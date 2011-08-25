@@ -132,7 +132,7 @@ class Pool():
         with self.lock:
             if server_map not in self:
                 self.build_server_map()
-            value = random.randint(0,100)
+            value = random.randint(0,99)
             if value in self.result_map:
                 result = self.result_map[value]
                 if self.servers[result]['lag']:
