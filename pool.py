@@ -133,8 +133,6 @@ class Pool():
            Currently uses the donation server 1/100 times. 
            Can be configured to do trickle through to other servers"""
         with self.lock:
-            if 'server_map' not in self:
-                self.build_server_map()
             value = random.randint(0,99)
             if value in self.result_map:
                 result = self.result_map[value]
