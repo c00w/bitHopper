@@ -356,8 +356,10 @@ class AltSliceScheduler(Scheduler):
                 if info['slice'] > 0:
                     reslice = False
                     allSlicesDone = False
-                if info['init'] == False and info['role'] in self.valid_roles:
+                if 'init' in info and info['init'] == False and info['role'] in self.valid_roles:
                     self.bh.log_trace(server + " not yet initialized", cat=self.name)
+                    fullinit = False
+                if 'init' not in info:
                     fullinit = False
                 shares = info['shares']
                 if 'penalty' in info:
@@ -378,7 +380,7 @@ class AltSliceScheduler(Scheduler):
             #self.bh.log_dbg('allSlicesDone: ' + str(allSlicesDone) + ' fullinit: ' + str(fullinit) + ' initDone: ' + str(self.initDone), cat='reslice')
             if (reslice == True):
                 self.bh.log_msg('Re-Slicing...', cat=self.name)
-                totalshares = 0
+                totalshares = 1
                 totalweight = 0
                 server_shares = {}
                 for server in self.bh.pool.get_servers():
@@ -393,19 +395,19 @@ class AltSliceScheduler(Scheduler):
                         info['slicedShares'] = shares
                         server_shares[server] = shares
                     else:
-                        self.bh.log_trace(server + ' skipped ')
+                        self.bh.log_trace(server + ' skipped ' + str(shares))
                         continue
                 
                 # find total weight   
                 for server in self.bh.pool.get_servers():
-                    shares,info = self.server_to_btc_shares(server)
+                    info = self.bh.pool.get_entry(server)
                     if info['role'] not in self.valid_roles:
                         continue
                     if info['api_lag'] or info['lag']:
                         continue
                     if server not in server_shares: continue
                     if server_shares[server] < min_shares and server_shares[server] > 0:
-                        totalweight += 1/(float(shares)/totalshares)
+                        totalweight += 1/(float(server_shares[server])/totalshares)
                           
                           
                 # round time biasing
@@ -465,11 +467,11 @@ class AltSliceScheduler(Scheduler):
                     info = self.bh.pool.get_entry(server)
                     if info['role'] not in self.valid_roles:
                        continue
-                    if info['shares'] <= 0:
-                        continue
                     if server not in server_shares:
                         continue
                     shares = server_shares[server] + 1
+                    if shares <= 0:
+                        continue                    
                     if shares < min_shares and shares > 0:
                         weight = 0
                         self.bh.log_trace('tb_delta: ' + str(len(tb_delta)) + ' / server_shares: ' + str(len(server_shares)), cat=self.name)
@@ -583,6 +585,7 @@ class AltSliceScheduler(Scheduler):
                     shares = shares * float(info['penalty'])
                 # favor slush over other pools if low enough
                 if info['role'] in ['mine_slush'] and shares * 4 < min_shares:
+                    max_slice = info['slice']
                     server_name = server
                     continue
                 if info['role'] in self.valid_roles and info['slice'] > 0 and not info['lag']:
