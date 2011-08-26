@@ -330,7 +330,8 @@ class AltSliceScheduler(Scheduler):
                 info = self.bh.pool.get_entry(server)
                 info['slice'] = -1
                 info['slicedShares'] = 0
-                info['init'] = False
+                if 'init' not in info:
+                    info['init'] = False
             if (self.bh.options.altsliceroundtimebias == True):
                 difficulty = self.bh.difficulty.get_difficulty()
                 one_ghash = 1000000 * 1000
