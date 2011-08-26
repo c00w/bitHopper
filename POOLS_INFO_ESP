@@ -112,7 +112,8 @@ info_1: Buena para saltar, mina rapida para principiantes - 176.52 GHash/s @ 08.
 
 [nofeemining]
 #https://nofeemining.appspot.com/
-info_1: Mina pequena y mona - Velocidad de mineria desconocida @ 08.23.11
+info_1: Mina pequena y mona
+info_2: Han cambiado el servidor a google appspot - Velocida de mina desconocida @ 08.23.11
 
 
 [ozco]
@@ -269,6 +270,7 @@ info_1: Ha cambiado sistema de pagos a PPLNS (pagina 94) - 79 Ghash/s @ 08.23.11
 [eclipsemc]
 #https://eclipsemc.com
 info_1: Ha cambiado a sistema de pagos a uno por puntuacion (pagina 16) - 53.51 Ghash/s @ 08.23.11
+info_2: Usa el metodo PCT (proteccion contra truco), eng: CPS (BC forum)
 
 
 [mmf]
