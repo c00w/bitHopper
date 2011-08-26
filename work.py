@@ -115,13 +115,13 @@ class Work():
             try:
                 if tries > 4:
                     eventlet.sleep(0.5)
-                work, headers = self.jsonrpc_call(server, data, headers)
+                work, server_headers = self.jsonrpc_call(server, data, headers)
             except Exception, e:
                 self.bitHopper.log_dbg( 'caught, inner jsonrpc_call loop')
                 self.bitHopper.log_dbg(server)
                 self.bitHopper.log_dbg(e)
                 work = None
-        return work, headers
+        return work, server_headers
 
     def handle(self, env, start_request):
 
