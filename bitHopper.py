@@ -49,7 +49,7 @@ class BitHopper():
         self.work = work.Work(self)
         self.pool.setup(self) 
         self.speed = speed.Speed(self)
-        self.scheduler = scheduler.Scheduler(self)
+        self.scheduler = None
         self.getwork_store = getwork_store.Getwork_store(self)
         self.data = data.Data(self)       
         self.lp = lp.LongPoll(self)
@@ -64,7 +64,7 @@ class BitHopper():
         self.config = ConfigParser.ConfigParser()
         self.config.read(self.options.config)
         with self.pool.lock:
-            self.pool.loadConfig(self)
+            self.pool.loadConfig()
         
     def reject_callback(self, server, data, user, password):
         self.data.reject_callback(server, data, user, password)
@@ -164,7 +164,7 @@ def main():
     parser.add_option('--trace', action= 'store_true', default = False, help='Extra debugging output')
     parser.add_option('--listschedulers', action='store_true', default = False, help='List alternate schedulers available')
     parser.add_option('--port', type = int, default=8337, help='Port to listen on')
-    parser.add_option('--scheduler', type=str, default=None, help='Select an alternate scheduler')
+    parser.add_option('--scheduler', type=str, default='OldDefaultScheduler', help='Select an alternate scheduler')
     parser.add_option('--threshold', type=float, default=None, help='Override difficulty threshold (default 0.43)')
     parser.add_option('--altslicesize', type=int, default=900, help='Override Default AltSliceScheduler Slice Size of 900')
     parser.add_option('--altminslicesize', type=int, default=60, help='Override Default Minimum Pool Slice Size of 60 (AltSliceScheduler only)')
@@ -209,7 +209,7 @@ def main():
     override_scheduler = False
     
     if options.scheduler != None:
-        scheduler_name = options.scheduler_name
+        scheduler_name = options.scheduler
         override_scheduler = True
     try:
         sched = config.get('main', 'scheduler')

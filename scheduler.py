@@ -18,7 +18,14 @@ class Scheduler(object):
         else:
             self.difficultyThreshold = 0.435
         self.valid_roles = ['mine','mine_nmc','mine_deepbit','mine_slush','mine_ixc','mine_i0c']
+        self.loadConfig()
         eventlet.spawn_n(self.bh_server_update)
+
+    def loadConfig(self):
+        try:
+            self.difficultyThreshold = self.bh.getfloat('main', 'threshold')
+        except Exception, e:
+            pass
 
     def bh_server_update(self):
         while True:
@@ -204,8 +211,18 @@ class DefaultScheduler(Scheduler):
         self.bh = bitHopper
         self.bitHopper = self.bh
         self.sliceinfo = {}
+        self.slicesize = 30
         self.lastcalled = time.time()
+        self.loadConfig()
         self.reset()
+    
+    def loadConfig(self,):
+        Scheduler.loadConfig(self)
+        try:
+            ss = self.bh.config.getint('defaultscheduler', 'slicesize')
+            self.slicesize = ss
+        except Exception, e:
+            pass
 
     def reset(self,):
         with self.lock:
