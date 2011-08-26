@@ -97,6 +97,9 @@ class dynamicSite():
                 except Exception,e:
                     self.bh.log_dbg('Incorrect http post reloadconfig')
                     self.bh.log_dbg(e)
+                    if self.bh.options.debug:
+                        traceback.print_exc()
+                        
             if "resetUserShares" in v:
                 self.bh.log_msg('User forced user shares, est payouts to be reset')
                 try:
