@@ -75,7 +75,6 @@ Puedes lanzar bH con los siguientes parametros:
 	--scheduler           = Selecciona otro modo programado
 	--threshold           = Sobrescribe dificultad de base (default 0.43)
 	--p2pLP               = Inicia el bot IRC para poder validar mucho mejor los saltos LP
-	--OldConnectionSystem = Utiliza el metodo de conexion antiguo. Puede ayudar con algunos programas mineros.
 	--debug               = Visiona la salida de twisted
 	--trace               = Informacion extra para debugging
 

@@ -74,7 +74,6 @@ You can launch bitHopper with the following parameters:
 	--scheduler           = Select an alternate scheduler
 	--threshold           = Override difficulty threshold (default 0.43)
 	--p2pLP               = Starts up an IRC bot to validate LP based hopping
-	--OldConnectionSystem = Uses the old connection system. May help with lots of miners
 	--debug               = Extra error output. Basically print all caught errors
 	--trace               = Extra debugging output
 
