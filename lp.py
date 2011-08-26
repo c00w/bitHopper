@@ -124,9 +124,7 @@ class LongPoll():
             response = json.loads(body)
             work = response['result']
             data = work['data']
-	    block = data.decode('hex')[0:64]
-	    block = wordreverse(block)
-	    block = data.encode('hex')[56:120]
+	    block = data[8:72]
 
             #block = data[8:72]
             #block = int(block, 16)
