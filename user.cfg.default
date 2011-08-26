@@ -102,13 +102,6 @@ bitclockers_user_apikey: 965469e512aa0de5a37b83ccfd5e849e
 user: flargle
 pass: x
 
-[bmunion]
-#http://www.bitminersunion.org/
-#CHANGE THIS
-role: info
-user: x
-pass: x
-
 [btcserv]
 #http://btcserv.net/
 #CHANGE THIS
@@ -184,7 +177,7 @@ pass: xndzEU
 [kiwipool]
 #http://www.kiwipool.me/
 #CHANGE THIS (if you want)
-role: disable
+role: info
 user: your_username
 pass: your_password
 
@@ -216,6 +209,20 @@ pass: your_password
 role: info
 user: your_username
 pass: your_password
+
+[p2pool]
+#https://en.bitcoin.it/wiki/P2Pool
+#password and user can be anything p2pool
+role: disable
+user: happy
+pass: miner
+
+[rfc]
+#https://rfcpool.com/signup
+#CHANGE THIS
+role: disable
+user: c00w_test
+pass: x
 
 ######################################
 # Backup pools for when there is
@@ -255,6 +262,14 @@ role: disable
 user: paraipanakos.works
 pass: minero
 
+[abc]
+#http://www.abcpool.co/
+#CHANGE THIS
+role: disable
+abc_user_apikey: 
+user: CHANGEME
+pass: CHANGEME
+
 ######################################
 # Namecoin and other type of pools.
 # For hopping use mine_xxx accordingly
@@ -264,12 +279,36 @@ pass: minero
 #http://bitparking.com/
 #CHANGE THIS (if you want)
 role: info
+#user is name coin address
 user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
-pass: x
 #passwords can be anything on bitparking
+pass: x
 
 [nmcbit]
 #http://nmcbit.com/
+#CHANGE THIS (if you want)
+role: info
+user: x
+pass: x
+
+[masterpool]
+#https://masterpool.eu/signup
+#CHANGE THIS (if you want)
+role: info
+user: x
+pass: xxx
+
+[namebit]
+#http://www.namebit.org/
+#CHANGE THIS (if you want)
+role: info
+#user is namecoin address
+user: nmcaddress
+#pasword must be "none"
+pass: none
+
+[bitchomp]
+#http://www.bitchomp.info/ncp/register.php
 #CHANGE THIS (if you want)
 role: info
 user: x
@@ -289,11 +328,11 @@ pass: your_password
 # to hop them at your own risk.
 ######################################
 
-[rfc]
-#https://rfcpool.com/signup
+[bmunion]
+#http://www.bitminersunion.org/
 #CHANGE THIS
-role: disable
-user: c00w_test
+role: info
+user: x
 pass: x
 
 [polmine]
@@ -319,9 +358,9 @@ user: Sukrim.hopper
 pass: 1234
 
 [poolmunity]
-#CHANGE THIS (if you want)
 #http://poolmunity.com/
-role: info
+#CHANGE THIS (if you want)
+role: disable
 user: c00w.testhop
 pass: testhop
 
@@ -335,14 +374,14 @@ pass: x
 [mineco]
 #https://mineco.in
 #CHANGE THIS (if you want)
-role: info
+role: disable
 user: c00w.test
 pass: x
 
 [eclipsemc]
 #https://eclipsemc.com
 #CHANGE THIS (if you want)
-role: info
+role: disable
 eclipsemc_apikey: bd0eded7e35b1b5fc48f8d10214d98
 user: c00w_worker
 pass: x

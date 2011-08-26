@@ -4,12 +4,10 @@
 # Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-import time
 import random
 import math
-import threading
-
-from twisted.internet.task import LoopingCall
+import eventlet
+from eventlet.green import threading, time
 
 class Scheduler(object):
     def __init__(self,bitHopper):
@@ -20,7 +18,12 @@ class Scheduler(object):
         else:
             self.difficultyThreshold = 0.435
         self.valid_roles = ['mine','mine_nmc','mine_deepbit','mine_slush','mine_ixc','mine_i0c']
-        return
+        eventlet.spawn_n(self.bh_server_update)
+
+    def bh_server_update(self):
+        while True:
+            self.bh.server_update()
+            eventlet.sleep(20)
 
     @classmethod
     def server_update(self,):
@@ -159,22 +162,6 @@ class OldDefaultScheduler(Scheduler):
             else: 
                 return server_name   
 
-    def select_latehop_server(self):
-        server_name = None
-        max_share_count = 1
-        for server in self.bh.pool.get_servers():
-            info = self.bh.pool.get_entry(server)
-            if info['api_lag'] or info['lag']:
-                continue
-            if info['role'] != 'backup_latehop':
-                continue
-            if info['shares'] > max_share_count:
-                server_name = server
-                max_share_count = info['shares']
-        self.bh.log_dbg('select_latehop_server: ' + str(server), cat='scheduler-default')
-
-        return server_name   
-
     def server_update(self,):
         with self.lock:
             current = self.bh.pool.get_current()
@@ -192,11 +179,10 @@ class OldDefaultScheduler(Scheduler):
 
             min_shares = info['shares']
 
-            with self.bh.pool.lock:
-                for server in self.bh.pool.servers:
-                    pool = self.bh.pool.get_entry(server)
-                    if pool['shares'] < min_shares:
-                        min_shares = pool['shares']
+            for server in self.bh.pool.servers:
+                pool = self.bh.pool.get_entry(server)
+                if pool['shares'] < min_shares:
+                    min_shares = pool['shares']
 
             if min_shares < info['shares']*.90:
                 return True       
@@ -225,9 +211,6 @@ class DefaultScheduler(Scheduler):
         self.sliceinfo = {}
         self.lastcalled = time.time()
         self.reset()
-
-        call = LoopingCall(self.bh.server_update)
-        call.start(10)
 
     def reset(self,):
         with self.lock:
@@ -389,19 +372,20 @@ class AltSliceScheduler(Scheduler):
                 server_shares = {}
                 for server in self.bh.pool.get_servers():
                     shares,info = self.server_to_btc_shares(server)
+                    shares += 1
                     if info['role'] not in self.valid_roles:
                         continue
                     if info['api_lag'] or info['lag']:
                         continue
-                    if shares < min_shares and shares > 0:               
-                        totalshares = totalshares + shares           
-                        info['slicedShares'] = info['shares']
+                    if shares < min_shares and shares >= 0:               
+                        totalshares = totalshares + shares
+                        info['slicedShares'] = shares
                         server_shares[server] = shares
                     else:
                         self.bh.log_trace(server + ' skipped ')
                         continue
                 
-            # find total weight   
+                # find total weight   
                 for server in self.bh.pool.get_servers():
                     shares,info = self.server_to_btc_shares(server)
                     if info['role'] not in self.valid_roles:
@@ -424,9 +408,12 @@ class AltSliceScheduler(Scheduler):
                     # delta from target
                     for server in self.bh.pool.get_servers():              
                         info = self.bh.pool.get_entry(server)
-                        if info['role'] not in ['mine','mine_nmc','mine_slush']: continue
-                        if info['duration'] <= 0: continue
-                        if server not in server_shares: continue
+                        if info['role'] not in self.valid_roles:
+                            continue
+                        if info['duration'] <= 0:
+                            continue
+                        if server not in server_shares:
+                            continue
                         tb_delta[server] = self.target_duration - info['duration'] + 1
                         tb_log_delta[server] = math.log(abs(tb_delta[server]))
                         self.bh.log_trace('  ' + server + " delta: " + str(tb_delta[server]) + " log_delta: " + str(tb_log_delta[server]), cat=self.name)            
@@ -436,9 +423,12 @@ class AltSliceScheduler(Scheduler):
                     neg_total = 0
                     for server in self.bh.pool.get_servers():              
                         info = self.bh.pool.get_entry(server)
-                        if info['role'] not in ['mine','mine_nmc','mine_slush']: continue
-                        if info['duration'] <= 0: continue
-                        if server not in server_shares: continue
+                        if info['role'] not in self.valid_roles:
+                            continue
+                        if info['duration'] <= 0:
+                            continue
+                        if server not in server_shares:
+                            continue
                         if tb_delta[server] >= 0: pos_total += tb_log_delta[server]
                         if tb_delta[server]  < 0: neg_total += tb_log_delta[server]
                     self.bh.log_trace("pos_total: " + str(pos_total) + " / neg_total: " + str(neg_total), cat=self.name)   
@@ -464,8 +454,10 @@ class AltSliceScheduler(Scheduler):
                     info = self.bh.pool.get_entry(server)
                     if info['role'] not in self.valid_roles:
                        continue
-                    if info['shares'] <= 0: continue
-                    if server not in server_shares: continue
+                    if info['shares'] <= 0:
+                        continue
+                    if server not in server_shares:
+                        continue
                     shares = server_shares[server] + 1
                     if shares < min_shares and shares > 0:
                         weight = 0
@@ -523,9 +515,9 @@ class AltSliceScheduler(Scheduler):
                     ad_totalslice = 0
                     for server in self.bh.pool.get_servers():
                         info = self.bh.pool.get_entry(server)
-                        if info['role'] not in ['mine','mine_nmc','mine_slush']:
+                        if info['role'] not in self.valid_roles:
                             continue
-                        if info['shares'] <=0: continue
+                        if info['shares'] < 0: continue
                         if server not in server_shares: continue
                         shares = server_shares[server] + 1
                         if shares < min_shares and shares > 0:
@@ -536,9 +528,9 @@ class AltSliceScheduler(Scheduler):
                              
                     for server in self.bh.pool.get_servers():            
                         info = self.bh.pool.get_entry(server)
-                        if info['role'] not in ['mine','mine_nmc','mine_slush']:
+                        if info['role'] not in self.valid_roles:
                             continue
-                        if info['shares'] <=0: continue
+                        if info['shares'] < 0: continue
                         if server not in server_shares: continue
                         if server not in tb_log_delta: continue # no servers to adjust
                         shares = server_shares[server] + 1
@@ -560,9 +552,9 @@ class AltSliceScheduler(Scheduler):
                 # min share adjustment
                 for server in self.bh.pool.get_servers():
                     info = self.bh.pool.get_entry(server)
-                    if info['role'] not in ['mine','mine_nmc','mine_slush']:
+                    if info['role'] not in self.valid_roles:
                         continue
-                    if info['shares'] <=0: continue
+                    if info['shares'] < 0: continue
                     if server not in server_shares: continue
                     if info['slice'] < self.bh.options.altminslicesize:
                         info['slice'] = self.bh.options.altminslicesize
