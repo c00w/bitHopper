@@ -23,7 +23,7 @@ class Plugin():
         for dirpath, dirnames, filenames in os.walk('plugins'):
             for name in filenames:
                 try:
-                    if name.split('.')[1] == 'cfg':
+                    if name.split('.')[-1] == 'cfg':
                         pool_configs.append(os.path.join(dirpath, name))
                 except Exception, e:
                     print e
