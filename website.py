@@ -197,7 +197,7 @@ class bitSite():
         except Exception, e:
             self.bitHopper.log_msg('Error in a wsgi function')
             self.bitHopper.log_msg(e)
-            traceback.print_exc()
+            #traceback.print_exc()
             return [""]
 
     def handle(self, env, start_response):
