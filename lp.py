@@ -6,22 +6,20 @@ import json
 import eventlet
 from eventlet.green import time
 from eventlet.green import threading
+import traceback
 
-def wordreverse(in_buf):
-	out_words = []
-	for i in range(0, len(in_buf), 4):
-		out_words.append(in_buf[i:i+4])
-	out_words.reverse()
-	out_buf = ""
-	for word in out_words:
-		out_buf += word
-	return out_buf
-
-def byteswap(value):
+def bytereverse(value):
     bytes = []
     for i in xrange(0,len(value)):
         if i%2 == 1:
             bytes.append(value[i-1:i+1])
+    return "".join(bytes[::-1])
+
+def wordreverse(value):
+    bytes = []
+    for i in xrange(0,len(value)):
+        if i%4 == 1:
+            bytes.append(value[i-3:i+1])
     return "".join(bytes[::-1])
 
 class LongPoll():
@@ -58,7 +56,7 @@ class LongPoll():
             if server in self.bitHopper.pool.servers and self.bitHopper.pool.servers[server]['role'] == 'mine_deepbit' and old_owner != server:
                 old_shares = self.bitHopper.pool.servers[server]['shares']
                 self.bitHopper.pool.servers[server]['shares'] = 0
-		self.bitHopper.scheduler.reset()
+                self.bitHopper.scheduler.reset()
                 self.bitHopper.select_best_server()
                 eventlet.spawn_n(self.api_check,server,block,old_shares)
 
@@ -95,7 +93,7 @@ class LongPoll():
                 self.bitHopper.select_best_server()
 
     def add_block(self, block, work, server):
-        "Adds a new block. server must be the server the work is coming from"
+        """ Adds a new block. server must be the server the work is coming from """
         with self.lock:
             self.blocks[block]={}
             self.bitHopper.lp_callback.new_block(work, server)
@@ -103,8 +101,8 @@ class LongPoll():
             self.lastBlock = block
 
     def receive(self, body, server):
-    
-        if server in self.polled and not self.polled[server].acquire(False):
+
+        if server in self.polled:
             self.polled[server].release()
         self.bitHopper.log_dbg('received lp from: ' + server)
         info = self.bitHopper.pool.servers[server]
@@ -135,8 +133,8 @@ class LongPoll():
 
             with self.lock:
                 if block not in self.blocks:
-                    if byteswap(block) in self.blocks:
-                        block = byteswap(block)
+                    if bytereverse(block) in self.blocks:
+                        block = bytereverse(block)
                     self.bitHopper.log_msg('New Block: ' + str(block))
                     self.bitHopper.log_msg('Block Owner ' + server)
                     self.add_block(block, work, server)
@@ -153,7 +151,7 @@ class LongPoll():
         except Exception, e:
             output = False
             self.bitHopper.log_dbg('Error in LP ' + str(server) + str(body))
-            self.bitHopper.log_dbg(e)
+            traceback.print_exc()
             if server not in self.errors:
                 self.errors[server] = 0
             with self.lock:
@@ -194,7 +192,7 @@ class LongPoll():
             lp_address = "http://" + lp_address
         try:
             if self.polled[server].acquire(False):
-                if output:
+                if output or self.bitHopper.options.debug:
                     self.bitHopper.log_msg("LP Call " + lp_address)
                 else:
                     self.bitHopper.log_dbg("LP Call " + lp_address)

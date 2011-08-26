@@ -7,7 +7,7 @@
 try:
     import eventlet
 except Exception, e:
-    print "You need to install eventlet. See the readme."
+    print "You need to install greenlet. See the readme."
     raise e
 from eventlet import wsgi, greenpool, backdoor
 from eventlet.green import os, time
@@ -15,7 +15,6 @@ eventlet.monkey_patch()
 from eventlet import debug
 #debug.hub_blocking_detection(True)
 
-import json
 import optparse
 
 import work
@@ -29,6 +28,8 @@ import getwork_store
 import data
 import lp
 import lp_callback
+import plugin
+
 from scheduler import Scheduler
 from lpbot import LpBot
 
@@ -45,6 +46,7 @@ class BitHopper():
         self.difficulty = diff.Difficulty(self)           
         self.pool = pool.Pool(self)     
         self.db = database.Database(self)
+        self.work = work.Work(self)
         self.pool.setup(self) 
         self.speed = speed.Speed(self)
         self.scheduler = scheduler.Scheduler(self)
@@ -52,8 +54,9 @@ class BitHopper():
         self.data = data.Data(self)       
         self.lp = lp.LongPoll(self)
         self.auth = None
-        self.work = work.Work(self)
+        
         self.website = website.bitSite(self)
+        self.plugin = plugin.Plugin(self)
         self.pile = greenpool.GreenPool()
         self.pile.spawn_n(self.delag_server)
 
@@ -77,36 +80,36 @@ class BitHopper():
         return self.options
 
     def log_msg(self, msg, **kwargs):
-        if kwargs and kwargs.get('cat'):
-            print time.strftime("[%H:%M:%S] ") + '[' + kwargs.get('cat') + '] ' + str(msg)
+        if kwargs and kwargs.get("cat"):
+            print time.strftime("[%H:%M:%S] ") + "[" + kwargs.get("cat") + "] " + str(msg)
         elif self.get_options() == None:
-            print time.strftime("[%H:%M:%S] ") +str(msg)
+            print time.strftime("[%H:%M:%S] ") + str(msg)
             sys.stdout.flush()
         elif self.get_options().debug == True:
-            print time.strftime("[%H:%M:%S] ") +str(msg)
+            print time.strftime("[%H:%M:%S] ") + str(msg)
             sys.stdout.flush()
         else: 
-            print time.strftime("[%H:%M:%S] ") +str(msg)
+            print time.strftime("[%H:%M:%S] ") + str(msg)
             sys.stdout.flush()
 
     def log_dbg(self, msg, **kwargs):
-        if self.get_options().debug == True and kwargs and kwargs.get('cat'):
-            self.log_msg('DEBUG: ' + '['+kwargs.get('cat')+"] "+str(msg))
+        if self.get_options().debug == True and kwargs and kwargs.get("cat"):
+            self.log_msg("DEBUG: " + "[" + kwargs.get("cat") + "] " + str(msg))
             #sys.stderr.flush()
         elif self.get_options() == None:
             pass
         elif self.get_options().debug == True:
-            self.log_msg('DEBUG: ' + str(msg))
+            self.log_msg("DEBUG: " + str(msg))
             #sys.stderr.flush()
         return
 
     def log_trace(self, msg, **kwargs):
-        if self.get_options().trace == True and kwargs and kwargs.get('cat'):
-            log.err('['+kwargs.get('cat')+"] "+msg)
-            sys.stderr.flush()
+        if self.get_options().trace == True and kwargs and kwargs.get("cat"):
+            self.log_msg("TRACE: " + "[" + kwargs.get("cat") + "] " + str(msg))
+            #sys.stderr.flush()
         elif self.get_options().trace == True:
-            log.err(msg)
-            sys.stderr.flush()
+            self.log_msg("TRACE: " + str(msg))
+            #sys.stderr.flush()
         return
 
 
@@ -114,9 +117,8 @@ class BitHopper():
         return self.pool.get_current()
 
     def select_best_server(self, ):
-        server_name = None
         server_name = self.scheduler.select_best_server()
-        if server_name == None:
+        if not server_name:
             self.log_msg('FATAL Error, scheduler did not return any pool!')
             os._exit(-1)
             
@@ -239,7 +241,7 @@ def main():
         bithopper_instance.lpBot = LpBot(bithopper_instance)
 
     if not options.debug:
-       log = open(os.devnull, 'wb')
+        log = open(os.devnull, 'wb')
     else:
         log = None
         backdoor_port = config.getint('backdoor', 'port')
@@ -254,6 +256,7 @@ def main():
             except ConfigParser.Error:
                 pass
             wsgi.server(eventlet.listen((options.ip,listen_port)),bithopper_instance.website.handle_start, log=log)
+            break
         except Exception, e:
             print e
             eventlet.sleep(60)
