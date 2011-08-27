@@ -15,12 +15,15 @@ def bytereverse(value):
             bytes.append(value[i-1:i+1])
     return "".join(bytes[::-1])
 
-def wordreverse(value):
-    bytes = []
-    for i in xrange(0,len(value)):
-        if i%4 == 1:
-            bytes.append(value[i-3:i+1])
-    return "".join(bytes[::-1])
+def wordreverse(in_buf):
+    out_words = []
+    for i in range(0, len(in_buf), 4):
+	out_words.append(in_buf[i:i+4])
+    out_words.reverse()
+    out_buf = ""
+    for word in out_words:
+	out_buf += word
+    return out_buf
 
 class LongPoll():
     def __init__(self, bitHopper):
@@ -101,7 +104,6 @@ class LongPoll():
             self.lastBlock = block
 
     def receive(self, body, server):
-
         if server in self.polled:
             self.polled[server].release()
         self.bitHopper.log_dbg('received lp from: ' + server)
@@ -121,10 +123,13 @@ class LongPoll():
             return
         try:
             output = True
+	    #self.bitHopper.log_dbg('LP: ' + str(body))
             response = json.loads(body)
             work = response['result']
             data = work['data']
-	    block = data[8:72]
+	    block = data.decode('hex')[0:64]
+	    block = wordreverse(block)
+	    block = block.encode('hex')[56:120]
 
             #block = data[8:72]
             #block = int(block, 16)
