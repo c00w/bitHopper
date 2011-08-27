@@ -222,6 +222,31 @@ info_1: Mina namecoins (mine_nmc) - 47 Mhash/s @ 08.23.11
 info_1: Mina i0coins, usa el rol mine_i0c - Offline @ 08.23.11
 
 
+[scguild]
+#http://sc.btcguild.com/
+info_1: Mina solidcoin, usa el rol mine_scc
+
+
+[sodigbtc]
+#http://sobtc.digbtc.net
+info_1: Mina solidcoin, usa el rol mine_scc
+
+
+[scbitparking]
+#http://scpool.bitparking.com
+info_1: Mina solidcoin, usa el rol mine_scc
+
+
+[squid]
+#http://pool.squidnet.org
+info_1: Mina solidcoin, usa el rol mine_scc
+
+
+[mine4us]
+#http://solid.mine-for.us
+info_1: Mina solidcoin, usa el rol mine_scc
+
+
 ######################################
 # Estas minas no se saltan por una
 # razon. La pagina del hilo oficial
