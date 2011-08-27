@@ -20,7 +20,7 @@ class Pool():
     def __init__(self, bitHopper):
         self.bitHopper = bitHopper
         self.servers = {}
-        self.api_pull = ['mine','info','mine_slush','mine_nmc','mine_ixc','mine_i0c','mine_charity','mine_deepbit','backup','backup_latehop']
+        self.api_pull = ['mine','info','mine_slush','mine_nmc','mine_ixc','mine_i0c', 'mine_scc','mine_charity','mine_deepbit','backup','backup_latehop']
         self.initialized = False
         self.lock = threading.RLock()
         self.pool_configs = ['pools.cfg']

@@ -216,9 +216,47 @@ info_1: Payouts are automatic and no need to signup - 8.35 Ghash/s @ 08.23.11
 info_1: Nmc pool (mine_nmc) - 47 Mhash/s @ 08.23.11
 
 
+######
+### Currently no activity in the pools of i0coins due to a failure
+### of implementation of the program that generates a problem with
+### the block chain. More information on http://bitcointalk.org/index.php?topic=36425.msg479182#msg479182
+######
+
+
 [i0g]
 #http://i0.btcguild.com/register.php
 info_1: i0coins pool, use mine_i0c - Offline @ 08.23.11
+
+
+[i0parking]
+#http://i0pool.bitparking.com/pool
+info_1: i0coins pool, use mine_i0c
+
+
+[digi0c]
+#http://i0.digbtc.net
+info_1: i0coins pool, use mine_i0c
+info_2: According to http://forum.i0coin.org/index.php?topic=15.0 the pool delay statistics and distrust of its legitimacy
+
+
+[ixparking]
+#http://ixpool.bitparking.com/pool
+info_1: i0coins pool, use mine_i0c
+
+
+[scparking]
+#http://scpool.bitparking.com/pool
+info_1: SolidCoins pool, use mine_scc
+
+
+[scg]
+#http://sc.btcguild.com/
+info_1: SolidCoins pool, use mine_scc
+
+
+[digsc]
+#http://sc.digbtc.net/main.php
+info_1: SolidCoins pool, use mine_scc
 
 
 ######################################
@@ -252,6 +290,11 @@ info_1: Changed payout system and delays stats, allot (page 116) - 31.3 Ghash/s 
 #http://poolmunity.com/
 info_1: Obscure payout system and anti-hopping measures (page 55)
 info_2: Pooles closes in September (http://poolmunity.com/index.php/topic,83.0.html) - 0 Mhash/s @ 08.23.11
+
+
+[poolmunitynmc]
+#http://poolmunity.com/
+info_1: The same mine, and using the same worker user and pass to mine NameCoins (mine_nmc)
 
 
 [x8s]
