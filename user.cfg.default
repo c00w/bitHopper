@@ -25,6 +25,7 @@
 # mine_nmc = setup pool for NMC mining
 # mine_ixc = ixcoins pool and diff.
 # mine_i0c = i0coins pool and diff.
+# mine_scc = solidcoin pool and diff.
 # backup = hopps on this when no Prop. pool is available
 # backup_latehop = prefers this for backup if pool has
 #   high share count (full descr. on page 121, bH thread)
@@ -109,8 +110,8 @@ pass: x
 #http://btcserv.net/
 #CHANGE THIS
 role: info
-user: x
-pass: y
+user: your_username
+pass: your_password
 
 [bcpool]
 #http://bitcoinpool.com
@@ -131,8 +132,8 @@ pass: x
 #https://deepbit.net/
 #CHANGE THIS
 role: mine_deepbit
-user: CHANGEME
-pass: CHANGEME
+user: your_username
+pass: your_password
 
 [btcg]
 #https://www.btcguild.com/
@@ -270,8 +271,8 @@ pass: minero
 #CHANGE THIS
 role: disable
 abc_user_apikey: 
-user: CHANGEME
-pass: CHANGEME
+user: your_username
+pass: your_password
 
 ######################################
 # Namecoin and other type of pools.
@@ -291,15 +292,15 @@ pass: x
 #http://nmcbit.com/
 #CHANGE THIS (if you want)
 role: info
-user: x
-pass: x
+user: your_username
+pass: your_password
 
 [masterpool]
 #https://masterpool.eu/signup
 #CHANGE THIS (if you want)
 role: info
-user: x
-pass: xxx
+user: your_username
+pass: your_password
 
 [namebit]
 #http://www.namebit.org/
@@ -314,11 +315,46 @@ pass: none
 #http://www.bitchomp.info/ncp/register.php
 #CHANGE THIS (if you want)
 role: info
-user: x
-pass: x
+user: your_username
+pass: your_password
 
 [i0g]
 #http://i0.btcguild.com/register.php
+#CHANGE THIS (if you want)
+role: disable
+user: your_username
+pass: your_password
+
+[scguild]
+#http://sc.btcguild.com/
+#CHANGE THIS (if you want)
+role: disable
+user: your_username
+pass: your_password
+
+[sodigbtc]
+#http://sobtc.digbtc.net
+#CHANGE THIS (if you want)
+role: disable
+user: your_username
+pass: your_password
+
+[scbitparking]
+#http://scpool.bitparking.com
+#CHANGE THIS (if you want)
+role: disable
+user: your_username
+pass: your_password
+
+[squid]
+#http://pool.squidnet.org
+#CHANGE THIS (if you want)
+role: disable
+user: your_username
+pass: your_password
+
+[mine4us]
+#http://solid.mine-for.us
 #CHANGE THIS (if you want)
 role: disable
 user: your_username
