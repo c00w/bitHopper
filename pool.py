@@ -223,7 +223,12 @@ class Pool():
                 self.bitHopper.lp.set_owner(server)
             self.servers[server]['shares'] = shares
             self.servers[server]['err_api_count'] = 0
-            if self.servers[server]['refresh_time'] > 60*120 and self.servers[server]['role'] not in ['info','backup','backup_latehop']:
+            api_disable_sec = 7200
+            try:
+                api_disable_sec = self.bitHopper.config.getint('main', 'api_disable_sec')
+            except:
+                pass
+            if self.servers[server]['refresh_time'] > api_disable_sec and self.servers[server]['role'] not in ['info','backup','backup_latehop']:
                 self.bitHopper.log_msg('Disabled due to unchanging api: ' + server)
                 self.servers[server]['role'] = 'api_disable'
                 return
