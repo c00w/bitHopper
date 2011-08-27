@@ -16,6 +16,7 @@ class Difficulty():
         self.nmc_difficulty = 94037.96
         self.ixc_difficulty = 16384
         self.i0c_difficulty = 4096
+        self.scc_difficulty = 13970
         self.lock = threading.RLock()
         eventlet.spawn_n(self.update_difficulty)
 
@@ -34,6 +35,10 @@ class Difficulty():
     def get_i0c_difficulty(self):
         with self.lock:
             return self.i0c_difficulty
+
+    def get_scc_difficulty(self):
+        with self.lock:
+            return self.scc_difficulty
 
     def update_difficulty(self):
         while True:
@@ -58,6 +63,18 @@ class Difficulty():
                     output = output.group(1)
                     self.nmc_difficulty = float(output)
                     self.bitHopper.log_dbg('Retrieved NameCoin Difficulty:' + str(self.nmc_difficulty))
+                except:
+                    pass
+                    
+                self.bitHopper.log_msg('Updating SolidCoin Difficulty')
+                try:
+                    req = urllib2.Request('http://sobtc.digbtc.net')
+                    response = urllib2.urlopen(req)
+                    diff_str = response.read()
+                    output = re.search('difficulty: <b>([0-9]+)<', diff_str)
+                    output = output.group(1)
+                    self.scc_difficulty = float(output)
+                    self.bitHopper.log_dbg('Retrieved SolidCoin Difficulty:' + str(self.scc_difficulty))
                 except:
                     pass
             eventlet.sleep(60*60*6)
