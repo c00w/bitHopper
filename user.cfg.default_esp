@@ -26,6 +26,7 @@
 # mine_nmc = indica que es una mina minecoin
 # mine_ixc = mina y dificultad ixcoins
 # mine_i0c = mina y dificultad i0coins
+# mine_scc = mina y dificultad solidcoin
 # backup = viene a minar en esta si no tiene ninguna 
 #   mina Proporcional disponible
 # backup_latehop = prefiere minar en esta como backup si
@@ -46,7 +47,7 @@
 #              que dejes la mina antes de dificultad*0.43)
 #  lp_penalty: normaliza las LP de esta mina con "x" segundos (mayor para
 #              LP muy rapidos)
-#  percent:    continue enviando shares aqui, valor proc. calculado sobre el
+#  percent:    continua enviando shares aqui, valor proc. calculado sobre el
 #              total de tus shares (1% = 1 share cada 100)
 #  user:       nombre del trabajador que se tiene que utilizar
 #  pass:       contrasena del trabajador (no se necesita para todas las minas)
@@ -109,8 +110,8 @@ pass: x
 #http://btcserv.net/
 #CAMBIA A CONTINUACION
 role: info
-user: x
-pass: y
+user: nombre_minero
+pass: contrasena_minero
 
 [bcpool]
 #http://bitcoinpool.com
@@ -131,8 +132,8 @@ pass: x
 #https://deepbit.net/
 #CAMBIA A CONTINUACION
 role: mine_deepbit
-user: CHANGEME
-pass: CHANGEME
+user: nombre_minero
+pass: contrasena_minero
 
 [btcg]
 #https://www.btcguild.com/
@@ -145,8 +146,8 @@ pass: 1234
 [itzod]
 #CHANGE THIS (if you want)
 role: info
-user: your_username
-pass: your_password
+user: nombre_minero
+pass: contrasena_minero
 
 [unitedminers]
 #http://www.unitedminers.com
@@ -159,15 +160,15 @@ pass: testhop
 # https://btcmine.com/user/register/
 #CAMBIA A CONTINUACION (si quieres)
 role: info
-user: your_username
-pass: your_password
+user: nombre_minero
+pass: contrasena_minero
 
 [digbtc]
 #http://www.digbtc.net/register.php
 #CAMBIA A CONTINUACION (si quieres)
 role: info
-user: your_username
-pass: your_password
+user: nombre_minero
+pass: contrasena_minero
 
 [bclc]
 #http://www.bitcoins.lc
@@ -179,37 +180,37 @@ pass: xndzEU
 [kiwipool]
 #CAMBIA A CONTINUACION (si quieres)
 role: info
-user: your_username
-pass: your_password
+user: nombre_minero
+pass: contrasena_minero
 
 [bloodys]
 #http://pool.bloodys.com
 #CAMBIA A CONTINUACION (si quieres)
 role: info
-user: your_username
-pass: your_password
+user: nombre_minero
+pass: contrasena_minero
 
 [bithasher]
 #http://bithasher.com/index.php/register/
 #CAMBIA A CONTINUACION (si quieres)
 role: info
-user: your_username
-pass: your_password
+user: nombre_minero
+pass: contrasena_minero
 
 [swepool]
 #http://swepool.net/profile
 #CAMBIA A CONTINUACION (si quieres)
 role: info
 swepool_user_apikey: xxxxxx
-user: your_username
-pass: your_password
+user: nombre_minero
+pass: contrasena_minero
 
 [bitfarms]
 #http://bitfarms.ca/
 #CAMBIA A CONTINUACION (si quieres)
 role: info
-user: your_username
-pass: your_password
+user: nombre_minero
+pass: contrasena_minero
 
 [p2pool]
 #https://en.bitcoin.it/wiki/P2Pool
@@ -269,8 +270,8 @@ pass: minero
 #CAMBIA A CONTINUACION
 role: disable
 abc_user_apikey: 
-user: CHANGEME
-pass: CHANGEME
+user: nombre_minero
+pass: contrasena_minero
 
 ######################################
 # Minas Namecoin u otro tipo. Salta
@@ -289,15 +290,15 @@ pass: x
 #http://nmcbit.com/
 #CAMBIA A CONTINUACION (si quieres)
 role: info
-user: x
-pass: x
+user: nombre_minero
+pass: contrasena_minero
 
 [masterpool]
 #https://masterpool.eu/signup
 #CAMBIA A CONTINUACION (si quieres)
 role: info
-user: x
-pass: xxx
+user: nombre_minero
+pass: contrasena_minero
 
 [namebit]
 #http://www.namebit.org/
@@ -312,15 +313,50 @@ pass: none
 #http://www.bitchomp.info/ncp/register.php
 #CAMBIA A CONTINUACION (si quieres)
 role: info
-user: x
-pass: x
+user: nombre_minero
+pass: contrasena_minero
 
 [i0g]
 #http://i0.btcguild.com/register.php
 #CAMBIA A CONTINUACION (si quieres)
 role: disable
-user: your_username
-pass: your_password
+user: nombre_minero
+pass: contrasena_minero
+
+[scguild]
+#http://sc.btcguild.com/
+#CAMBIA A CONTINUACION (si quieres)
+role: disable
+user: nombre_minero
+pass: contrasena_minero
+
+[sodigbtc]
+#http://sobtc.digbtc.net
+#CAMBIA A CONTINUACION (si quieres)
+role: disable
+user: nombre_minero
+pass: contrasena_minero
+
+[scbitparking]
+#http://scpool.bitparking.com
+#CAMBIA A CONTINUACION (si quieres)
+role: disable
+user: nombre_minero
+pass: contrasena_minero
+
+[squid]
+#http://pool.squidnet.org
+#CAMBIA A CONTINUACION (si quieres)
+role: disable
+user: nombre_minero
+pass: contrasena_minero
+
+[mine4us]
+#http://solid.mine-for.us
+#CAMBIA A CONTINUACION (si quieres)
+role: disable
+user: nombre_minero
+pass: contrasena_minero
 
 ######################################
 # Estas minas no se saltan por una
@@ -333,8 +369,8 @@ pass: your_password
 #http://www.bitminersunion.org/
 #CAMBIA A CONTINUACION
 role: info
-user: x
-pass: x
+user: nombre_minero
+pass: contrasena_minero
 
 [polmine]
 #https://polmine.pl

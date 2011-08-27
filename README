@@ -74,7 +74,6 @@ You can launch bitHopper with the following parameters:
 	--scheduler           = Select an alternate scheduler
 	--threshold           = Override difficulty threshold (default 0.43)
 	--p2pLP               = Starts up an IRC bot to validate LP based hopping
-	--OldConnectionSystem = Uses the old connection system. May help with lots of miners
 	--debug               = Extra error output. Basically print all caught errors
 	--trace               = Extra debugging output
 
@@ -135,7 +134,6 @@ If you think this project is cool and you want more features added consider maki
  1HEmzeuVEKxBQkEenysV1yM8oAddQ4o2TX - c00w
 
  17wp2zfxZKeycWt6NKiueVYmYyrciiuq2t - ryouiki
- 1mhFNL38eBeyz6EFHMjZbZzzByzAwDM68  - flower1024
  1CWjg4soWEAQjMD4dCchdPpJ6fWDBRUU5b - ed64
  15iS8iDqVCM2MF5ndaS3exR7Kw4LxFf2ra - hawks5999
  1QEBu4Tr7Qe6BMHdpeTmNDTPJhMqpDDtQ3 - paraipanakos
@@ -143,4 +141,8 @@ If you think this project is cool and you want more features added consider maki
  1GgorPurRdDgsbPmoGEJm2WWGxKkJ8ktkf - sdogi
 
  All the people who contribute to this project - https://github.com/c00w/bitHopper/network/members
+
+ flower1024, echiu64 (ed64), graphiclunarkid, elitak, Clipseza, littleant, bb-btc, gnaget, murfshake, Sukrim, gtrrkicw,
+ swordv2, bitcoindaddy, rkozola, ryouiki, starlightbreaker, hawks5999, erasmo, pueytan, macboy80, sdogi, joulesbeef,
+ Seoulboy1, paraipanakos, Swicher
 
