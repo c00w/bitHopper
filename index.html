@@ -74,9 +74,18 @@
 					return "N/A";
 				}
 				
+				switch (srv['role'])
+				{
+					case 'mine_ixc': diff = payload['ixc_difficulty']; break;
+					case 'mine_i0c': diff = payload['i0c_difficulty']; break;
+					case 'mine_nmc': diff = payload['nmc_difficulty']; break;
+					case 'mine_scc': diff = payload['scc_difficulty']; break;
+					default: diff = payload['difficulty']; break;
+				}
+				
 				return shares
 					+ "<br>"
-					+ fixLength((shares / payload['difficulty'] * 100).toFixed(2), 6)
+					+ fixLength((shares / diff * 100).toFixed(2), 6)
 					+ "%";
 			}
 			
