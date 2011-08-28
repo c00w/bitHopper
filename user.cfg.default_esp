@@ -121,14 +121,6 @@ role: info
 user: c00w_test
 pass: x
 
-[nofeemining]
-#https://www.nofeemining.com/ 
-#CAMBIA A CONTINUACION
-role: info
-nofeemining_user_apikey: 4140cbc6405f4425cf91ca74e1450b66
-user: dah4k0r@gmail.com_test
-pass: x
-
 [deepbit]
 #https://deepbit.net/
 #CAMBIA A CONTINUACION
@@ -281,6 +273,14 @@ role: disable
 mtred_user_apikey:d91c52cfe1609f161f28a1268a2915b8+
 user:scarium
 pass:x 
+
+[nofeemining]
+#https://www.nofeemining.com/ 
+#CAMBIA A CONTINUACION
+role: info
+nofeemining_user_apikey: 4140cbc6405f4425cf91ca74e1450b66
+user: dah4k0r@gmail.com_test
+pass: x
 
 ######################################
 # Minas Namecoin u otro tipo. Salta

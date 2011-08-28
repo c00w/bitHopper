@@ -110,17 +110,11 @@ info_2: Seems like they're Prop. pool (IRC Chan.) - 36 GHash/s @ 08.23.11
 info_1: Good for hopping, fast pool for hopper-starters - 176.52 GHash/s @ 08.23.11
 
 
-[nofeemining]
-#https://nofeemining.appspot.com/
-info_1: Nice small pool
-info_2: They moved pool to google appspot - Pool speed unknown @ 08.23.11
-info_3: Changed payout to rsmpps (page 195)
-
-
 [ozco]
 #https://ozco.in/register.php
 info_1: Freezing stats for unknown reason (page 114)
 info_2: Stats solved - 60.5 GHash/s @ 08.23.11
+
 
 [slush]
 #http://mining.bitcoin.cz/accounts/register/
@@ -184,6 +178,13 @@ info_1: PPS pool - 25.2 GHash/s @ 08.23.11
 info_1: PPS, intro. 0% fee, pays stales
 info_2: High invalids on poclbm, site better supports phoenix 1.5+
 info_3: Registering temp disabled - 111.9 GHash/s @ 08.23.11
+
+
+[nofeemining]
+#https://nofeemining.appspot.com/
+info_1: Nice small pool
+info_2: They moved pool to google appspot - Pool speed unknown @ 08.23.11
+info_3: Changed payout to rsmpps (page 195)
 
 
 ######################################
