@@ -279,6 +279,8 @@ pass: your_password
 # For hopping use mine_xxx accordingly
 ######################################
 
+#Nmc pools
+
 [bitparking]
 #http://bitparking.com/
 #CHANGE THIS (if you want)
@@ -318,12 +320,30 @@ role: info
 user: your_username
 pass: your_password
 
+
+#i0c pools
+
 [i0g]
 #http://i0.btcguild.com/register.php
 #CHANGE THIS (if you want)
 role: disable
 user: your_username
 pass: your_password
+
+[i0parking]
+#http://i0pool.bitparking.com/pool
+role: disable
+user: your_username
+pass: your_password
+
+[digi0c]
+#http://i0.digbtc.net
+role: disable
+user: your_username
+pass: your_password
+
+
+#scc pools
 
 [scguild]
 #http://sc.btcguild.com/
@@ -334,6 +354,7 @@ pass: your_password
 
 [sodigbtc]
 #http://sobtc.digbtc.net
+#http://sc.digbtc.net
 #CHANGE THIS (if you want)
 role: disable
 user: your_username
@@ -356,6 +377,15 @@ pass: your_password
 [mine4us]
 #http://solid.mine-for.us
 #CHANGE THIS (if you want)
+role: disable
+user: your_username
+pass: your_password
+
+
+#ixc pools
+
+[ixparking]
+#http://ixpool.bitparking.com/pool
 role: disable
 user: your_username
 pass: your_password
