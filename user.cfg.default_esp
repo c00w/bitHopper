@@ -274,6 +274,14 @@ abc_user_apikey:
 user: nombre_minero
 pass: contrasena_minero
 
+[mtredpps]
+#https://mtred.com/user/registration.html
+#CAMBIA A CONTINUACION
+role: disable
+mtred_user_apikey:d91c52cfe1609f161f28a1268a2915b8+
+user:scarium
+pass:x 
+
 ######################################
 # Minas Namecoin u otro tipo. Salta
 # usando el modo adecuado (mine_xxx)
