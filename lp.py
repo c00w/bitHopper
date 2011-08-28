@@ -147,7 +147,7 @@ class LongPoll():
         except Exception, e:
             output = False
             self.bitHopper.log_dbg('Error in Long Pool ' + str(server) + str(body))
-            traceback.print_exc()
+            #traceback.print_exc()
             if server not in self.errors:
                 self.errors[server] = 0
             with self.lock:
