@@ -17,7 +17,7 @@ class Scheduler(object):
             self.difficultyThreshold = self.bh.options.threshold
         else:
             self.difficultyThreshold = 0.435
-        self.valid_roles = ['mine','mine_nmc','mine_deepbit','mine_slush','mine_ixc','mine_i0c','mine_scc']
+        self.valid_roles = ['mine', 'mine_nmc', 'mine_deepbit', 'mine_slush', 'mine_ixc', 'mine_i0c', 'mine_scc']
         eventlet.spawn_n(self.bh_server_update)
 
     def bh_server_update(self):
