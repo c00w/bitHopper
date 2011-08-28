@@ -190,6 +190,7 @@ info_3: Registering temp disabled - 111.9 GHash/s @ 08.23.11
 # For hopping use mine_xxx accordingly
 ######################################
 
+#Nmc pools
 
 [bitparking]
 #http://bitparking.com/
@@ -216,16 +217,26 @@ info_1: Payouts are automatic and no need to signup - 8.35 Ghash/s @ 08.23.11
 info_1: Nmc pool (mine_nmc) - 47 Mhash/s @ 08.23.11
 
 
-######
-### Currently no activity in the pools of i0coins due to a failure
-### of implementation of the program that generates a problem with
-### the block chain. More information on http://bitcointalk.org/index.php?topic=36425.msg479182#msg479182
-######
-
+#i0c pools
+# Currently there is no activity in the i0c pools due to a failure
+# in main client (http://bitcointalk.org/index.php?topic=36425.msg479182#msg479182)
 
 [i0g]
 #http://i0.btcguild.com/register.php
 info_1: i0coins pool, use mine_i0c - Offline @ 08.23.11
+
+
+[i0parking]
+#http://i0pool.bitparking.com/pool
+info_1: i0coins pool, use mine_i0c
+
+
+[digi0c]
+#http://i0.digbtc.net
+info_1: Delays statistics and distrust of its legitimacy (i0coin.org forum)
+
+
+#scc pools
 
 [scguild]
 #http://sc.btcguild.com/
@@ -251,35 +262,17 @@ info_1: Solidcoin pool, use mine_scc
 #http://solid.mine-for.us
 info_1: Solidcoin pool, use mine_scc
 
-[i0parking]
-#http://i0pool.bitparking.com/pool
-info_1: i0coins pool, use mine_i0c
-
-
-[digi0c]
-#http://i0.digbtc.net
-info_1: i0coins pool, use mine_i0c
-info_2: According to http://forum.i0coin.org/index.php?topic=15.0 the pool delay statistics and distrust of its legitimacy
-
-
-[ixparking]
-#http://ixpool.bitparking.com/pool
-info_1: i0coins pool, use mine_i0c
-
-
-[scparking]
-#http://scpool.bitparking.com/pool
-info_1: SolidCoins pool, use mine_scc
-
-
-[scg]
-#http://sc.btcguild.com/
-info_1: SolidCoins pool, use mine_scc
-
 
 [digsc]
 #http://sc.digbtc.net/main.php
 info_1: SolidCoins pool, use mine_scc
+
+
+#ixc pools
+
+[ixparking]
+#http://ixpool.bitparking.com/pool
+info_1: ixcoins pool, use mine_ixc
 
 
 ######################################
