@@ -37,20 +37,21 @@
 # 
 # Pool set-up:
 #
-#  role:       tell bH what kind of mining is wanted at
-#              this pool, pick a valid one from the list above
-#  penalty:    floating point number, # of shares will be
-#              multiplied by this number when calculating
-#              shares against difficulty
-#              BACKUP SERVERS: Set it to the percent the server takes. 
-#              The penalty/100 is added to the reject rate when calculating 
-#              which server to use
-#  lp_penalty: normalize LP's of this pool with "x" seconds (greater for fast
-#              LP response pools)
-#  percent:    keep submitting shares to pool, % value from you total output
-#              (1% = 1 share every 100)
-#  user:       worker username you setup for this pool
-#  pass:       password you have for the worker (not needed for all pools)
+#  role:          tell bH what kind of mining is wanted at
+#                 this pool, pick a valid one from the list above
+#  penalty:       floating point number, # of shares will be
+#                 multiplied by this number when calculating
+#                 shares against difficulty
+#                 BACKUP SERVERS: Set it to the percent the server takes. 
+#                 The penalty/100 is added to the reject rate when calculating 
+#                 which server to use
+#  lp_penalty:    normalize LP's of this pool with "x" seconds (greater for fast
+#                 LP response pools)
+#  percent:       keep submitting shares to pool, % value from you total output
+#                 (1% = 1 share every 100)
+#  refresh_limit: pool's api refreshing interval in seconds
+#  user:          worker username you setup for this pool
+#  pass:          password you have for the worker (not needed for all pools)
 #
 ###############################################################################
 
