@@ -143,7 +143,7 @@ class Pool():
             value = random.randint(0,99)
             if value in self.server_map:
                 result = self.server_map[value]
-                if self.servers[result]['lag']:
+                if self.servers[result]['lag'] or self.server[result]['role'] == 'disable':
                     return self.get_current()
                 else:
                     return result
