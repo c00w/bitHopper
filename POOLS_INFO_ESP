@@ -231,47 +231,47 @@ info_2: Cerrado indefinidamente
 
 [i0parking]
 #http://i0pool.bitparking.com/pool
-info_1: Mina i0coins, usa el rol mine_i0c
+info_1: Mina i0coins, usa el rol mine_i0c - 0 hash/s @ 08.28.11
 
 
 [digi0c]
 #http://i0.digbtc.net/
-info_1: Ralentiza las estadisticas y sospechan de su legitimidad (foro i0coin.org)
+info_1: Ralentiza las estadisticas y sospechan de su legitimidad (foro i0coin.org) - 0 hash/s @ 08.28.11
 
 
 #Minas scc
 
 [scguild]
 #http://sc.btcguild.com/
-info_1: Mina solidcoin, usa el rol mine_scc
+info_1: Mina solidcoin, usa el rol mine_scc - 325.14 Ghash/s @ 08.28.11
 
 
 [sodigbtc]
 #http://sobtc.digbtc.net
 #http://sc.digbtc.net
-info_1: Mina solidcoin, usa el rol mine_scc
+info_1: Mina solidcoin, usa el rol mine_scc - 62.3 Ghash/s @ 08.28.11
 
 
 [scbitparking]
 #http://scpool.bitparking.com
-info_1: Mina solidcoin, usa el rol mine_scc
+info_1: Mina solidcoin, usa el rol mine_scc - 64.06 Ghash/s @ 08.28.11
 
 
 [squid]
 #http://pool.squidnet.org
-info_1: Mina solidcoin, usa el rol mine_scc
+info_1: Mina solidcoin, usa el rol mine_scc - 23.64 Ghash/s @ 08.28.11
 
 
 [mine4us]
 #http://solid.mine-for.us
-info_1: Mina solidcoin, usa el rol mine_scc
+info_1: Mina solidcoin, usa el rol mine_scc - 2.51 Ghash/s @ 08.28.11
 
 
 #Minas ixc
 
 [ixparking]
 #http://ixpool.bitparking.com/pool
-info_1: Mina IXcoins, usa el rol mine_ixc
+info_1: Mina IXcoins, usa el rol mine_ixc - 4.99 Ghash/s @ 08.28.11
 
 
 ######################################
@@ -306,7 +306,7 @@ info_1: Ha cambiado el sistema de pagos y ralentiza los stats (pagina 116, foro 
 [poolmunity]
 #http://poolmunity.com/
 info_1: Sistema de pagos desconocido y medidas anti-hopping (pagina 55)
-info_2: Cierra sus puertas en Septiembre (http://poolmunity.com/index.php/topic,83.0.html) - 0 Mhash/s @ 08.23.11
+info_2: Cierra sus puertas en Septiembre (http://poolmunity.com/index.php/topic,83.0.html) - 0 hash/s @ 08.23.11
 
 
 [poolmunitynmc]
