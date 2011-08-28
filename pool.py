@@ -75,6 +75,7 @@ class Pool():
         if self.current_server is None: 
             self.current_server = pool
         if self.started == True:
+            self.bitHopper.db.check_database()
             self.setup(self.bitHopper)
         
     def setup(self, bitHopper):
