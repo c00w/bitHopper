@@ -30,7 +30,7 @@ class Work():
             #self.i += 1
             #request = json.dumps({'method':'getwork', 'params':[], 'id':self.i}, ensure_ascii = True)
             pool = self.bitHopper.pool.servers[server]
-            header = {'Authorization':"Basic " +base64.b64encode(pool['user']+ ":" + pool['pass']), 'User-Agent': 'poclbm/20110709', 'Content-Type': 'application/json' }
+            header = {'Authorization':"Basic " +base64.b64encode(pool['user']+ ":" + pool['pass']), 'user-agent': 'poclbm/20110709', 'Content-Type': 'application/json' }
             with self.get_http(url, timeout=None) as http:
                 try:
                     resp, content = http.request( url, 'GET', headers=header)#, body=request)[1] # Returns response dict and content str
@@ -48,7 +48,7 @@ class Work():
 
     def get(self, url):
         """A utility method for getting webpages"""
-        header = {'User-Agent':'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)'}
+        header = {'user-agent':'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)'}
         with self.get_http(url) as http:
             try:
                 content = http.request( url, 'GET', headers=header)[1] # Returns response dict and content str
@@ -66,9 +66,16 @@ class Work():
             
             info = self.bitHopper.pool.get_entry(server)
             header = {'Authorization':"Basic " +base64.b64encode(info['user']+ ":" + info['pass'])}
+            user_agent = None
             for k,v in client_header:
                 if k not in header:
                     header[k] = v
+                if k.lower() == 'user-agent':
+                    user_agent = k
+            if user_agent != 'user-agent' and user_agent != None:
+                header['user-agent'] = header[user_agent]
+                del header[user_agent]
+            
             url = "http://" + info['mine_address']
             with self.get_http(url) as http:
                 try:
