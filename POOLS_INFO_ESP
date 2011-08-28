@@ -236,8 +236,7 @@ info_1: Mina i0coins, usa el rol mine_i0c
 
 [digi0c]
 #http://i0.digbtc.net/
-info_1: Mina i0coins, usa el rol mine_i0c
-info_2: Segun http://forum.i0coin.org/index.php?topic=15.0 el pool ralentiza las estadisticas y sospechan de su legitimidad
+info_1: Ralentiza las estadisticas y sospechan de su legitimidad (foro i0coin.org)
 
 
 #Minas scc
@@ -312,7 +311,7 @@ info_2: Cierra sus puertas en Septiembre (http://poolmunity.com/index.php/topic,
 
 [poolmunitynmc]
 #http://poolmunity.com/
-info_1: La misma mina, usando el mismo usuario y contraseña del worker para minar NameCoins (mine_nmc)
+info_1: La misma mina, usando el mismo usuario y contrasena del worker para minar NameCoins (mine_nmc)
 
 
 [x8s]
