@@ -278,6 +278,8 @@ pass: contrasena_minero
 # usando el modo adecuado (mine_xxx)
 ######################################
 
+#Minas nmc
+
 [bitparking]
 #http://bitparking.com/
 #CAMBIA A CONTINUACION (si quieres)
@@ -316,12 +318,30 @@ role: info
 user: nombre_minero
 pass: contrasena_minero
 
+
+#Minas i0c
+
 [i0g]
 #http://i0.btcguild.com/register.php
 #CAMBIA A CONTINUACION (si quieres)
 role: disable
 user: nombre_minero
 pass: contrasena_minero
+
+[i0parking]
+#http://i0pool.bitparking.com/pool
+role: disable
+user: nombre_minero
+pass: contrasena_minero
+
+[digi0c]
+#http://i0.digbtc.net/
+role: disable
+user: nombre_minero
+pass: contrasena_minero
+
+
+#Minas scc
 
 [scguild]
 #http://sc.btcguild.com/
@@ -332,6 +352,7 @@ pass: contrasena_minero
 
 [sodigbtc]
 #http://sobtc.digbtc.net
+#http://sc.digbtc.net
 #CAMBIA A CONTINUACION (si quieres)
 role: disable
 user: nombre_minero
@@ -354,6 +375,15 @@ pass: contrasena_minero
 [mine4us]
 #http://solid.mine-for.us
 #CAMBIA A CONTINUACION (si quieres)
+role: disable
+user: nombre_minero
+pass: contrasena_minero
+
+
+#Minas ixc
+
+[ixparking]
+#http://ixpool.bitparking.com/pool
 role: disable
 user: nombre_minero
 pass: contrasena_minero

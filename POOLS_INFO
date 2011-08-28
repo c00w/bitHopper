@@ -245,6 +245,7 @@ info_1: Solidcoin pool, use mine_scc
 
 [sodigbtc]
 #http://sobtc.digbtc.net
+#http://sc.digbtc.net
 info_1: Solidcoin pool, use mine_scc
 
 
@@ -261,11 +262,6 @@ info_1: Solidcoin pool, use mine_scc
 [mine4us]
 #http://solid.mine-for.us
 info_1: Solidcoin pool, use mine_scc
-
-
-[digsc]
-#http://sc.digbtc.net/main.php
-info_1: SolidCoins pool, use mine_scc
 
 
 #ixc pools

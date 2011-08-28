@@ -249,6 +249,7 @@ info_1: Mina solidcoin, usa el rol mine_scc
 
 [sodigbtc]
 #http://sobtc.digbtc.net
+#http://sc.digbtc.net
 info_1: Mina solidcoin, usa el rol mine_scc
 
 
@@ -265,11 +266,6 @@ info_1: Mina solidcoin, usa el rol mine_scc
 [mine4us]
 #http://solid.mine-for.us
 info_1: Mina solidcoin, usa el rol mine_scc
-
-
-[digsc]
-#http://sc.digbtc.net/
-info_1: Mina SolidCoins, usa el rol mine_scc
 
 
 #Minas ixc
