@@ -217,9 +217,48 @@ info_1: Pagos automaticos sin necesidad de registrarse - 8.35 Ghash/s @ 08.23.11
 info_1: Mina namecoins (mine_nmc) - 47 Mhash/s @ 08.23.11
 
 
+######
+### Actualmente no hay actividad en los pooles de i0coins debido a un
+### fallo de implementacion del programa que genera un problema con el
+### manejo de bloques. Mas informacion en http://bitcointalk.org/index.php?topic=36425.msg479182#msg479182
+######
+
+
 [i0g]
 #http://i0.btcguild.com/register.php
 info_1: Mina i0coins, usa el rol mine_i0c - Offline @ 08.23.11
+info_2: Cerrado indefinidamente
+
+
+[i0parking]
+#http://i0pool.bitparking.com/pool
+info_1: Mina i0coins, usa el rol mine_i0c
+
+
+[digi0c]
+#http://i0.digbtc.net/
+info_1: Mina i0coins, usa el rol mine_i0c
+info_2: Segun http://forum.i0coin.org/index.php?topic=15.0 el pool ralentiza las estadisticas y sospechan de su legitimidad
+
+
+[ixparking]
+#http://ixpool.bitparking.com/pool
+info_1: Mina IXcoins, usa el rol mine_ixc
+
+
+[scparking]
+#http://scpool.bitparking.com/pool
+info_1: Mina SolidCoins, usa el rol mine_scc
+
+
+[scg]
+#http://sc.btcguild.com/
+info_1: Mina SolidCoins, usa el rol mine_scc
+
+
+[digsc]
+#http://sc.digbtc.net/
+info_1: Mina SolidCoins, usa el rol mine_scc
 
 
 [scguild]
@@ -280,6 +319,11 @@ info_1: Ha cambiado el sistema de pagos y ralentiza los stats (pagina 116, foro 
 #http://poolmunity.com/
 info_1: Sistema de pagos desconocido y medidas anti-hopping (pagina 55)
 info_2: Cierra sus puertas en Septiembre (http://poolmunity.com/index.php/topic,83.0.html) - 0 Mhash/s @ 08.23.11
+
+
+[poolmunitynmc]
+#http://poolmunity.com/
+info_1: La misma mina, y usando el mismo usuario y contraseña del worker para minar NameCoins (mine_nmc)
 
 
 [x8s]

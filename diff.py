@@ -35,6 +35,25 @@ class Difficulty():
     def get_i0c_difficulty(self):
         with self.lock:
             return self.i0c_difficulty
+    
+    def get_scc_difficulty(self):
+        with self.lock:
+            return self.scc_difficulty
+
+    def updater(self, coin, url_diff, diff_attr, reg_exp = None):
+        # Generic method to update the difficulty of a given currency
+        self.bitHopper.log_msg('Updating Difficulty of ' + coin)
+        try:
+            req = urllib2.Request(url_diff)
+            response = urllib2.urlopen(req)
+            if reg_exp == None: output = response.read()
+            else:
+                output = re.search('<td id="difficulty">([.0-9]+)</td>', diff_str)
+                output = output.group(1)
+            self.__dict__[diff_attr] = float(output)
+            self.bitHopper.log_dbg('Retrieved Difficulty:' + str(self.__dict__[diff_attr]))
+        except:
+            pass
 
     def get_scc_difficulty(self):
         with self.lock:
@@ -44,37 +63,7 @@ class Difficulty():
         while True:
             "Tries to update difficulty from the internet"
             with self.lock:
-                self.bitHopper.log_msg('Updating Difficulty')
-                try:
-                    req = urllib2.Request('http://blockexplorer.com/q/getdifficulty')
-                    response = urllib2.urlopen(req)
-                    diff_string = response.read()
-                    self.difficulty = float(diff_string)
-                    self.bitHopper.log_dbg('Retrieved Difficulty:' + str(diff_string))
-                except:
-                    pass
-                
-                self.bitHopper.log_msg('Updating NameCoin Difficulty')
-                try:
-                    req = urllib2.Request('http://namebit.org/')
-                    response = urllib2.urlopen(req)
-                    diff_str = response.read()
-                    output = re.search('<td id="difficulty">([.0-9]+)</td>', diff_str)
-                    output = output.group(1)
-                    self.nmc_difficulty = float(output)
-                    self.bitHopper.log_dbg('Retrieved NameCoin Difficulty:' + str(self.nmc_difficulty))
-                except:
-                    pass
-                    
-                self.bitHopper.log_msg('Updating SolidCoin Difficulty')
-                try:
-                    req = urllib2.Request('http://sobtc.digbtc.net')
-                    response = urllib2.urlopen(req)
-                    diff_str = response.read()
-                    output = re.search('difficulty: <b>([0-9]+)<', diff_str)
-                    output = output.group(1)
-                    self.scc_difficulty = float(output)
-                    self.bitHopper.log_dbg('Retrieved SolidCoin Difficulty:' + str(self.scc_difficulty))
-                except:
-                    pass
+                self.updater("Bitcoin", 'http://blockexplorer.com/q/getdifficulty', 'difficulty')
+                self.updater("Namecoin", 'http://namebit.org/', 'nmc_difficulty', '<td id="difficulty">([.0-9]+)</td>')
+                self.updater("SolidCoin", 'http://solidcoin.whmcr.co.uk/chain/SolidCoin?count=1', 'scc_difficulty', '<td>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}</td><td>\d{1,}</td><td>\d{1,}</td><td>([.0-9]+)</td>')
             eventlet.sleep(60*60*6)

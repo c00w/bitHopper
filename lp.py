@@ -109,7 +109,7 @@ class LongPoll():
         if info['role'] in ['mine_nmc', 'disable', 'mine_ixc', 'mine_i0c', 'mine_scc', 'info']:
             return
         if body == None:
-            self.bitHopper.log_dbg('error in lp from: ' + server)
+            self.bitHopper.log_dbg('error in long pool from: ' + server)
             with self.lock:
                 if server not in self.errors:
                     self.errors[server] = 0
@@ -146,7 +146,7 @@ class LongPoll():
 
         except Exception, e:
             output = False
-            self.bitHopper.log_dbg('Error in LP ' + str(server) + str(body))
+            self.bitHopper.log_dbg('Error in Long Pool ' + str(server) + str(body))
             traceback.print_exc()
             if server not in self.errors:
                 self.errors[server] = 0
@@ -189,9 +189,9 @@ class LongPoll():
         try:
             if self.polled[server].acquire(False):
                 if output or self.bitHopper.options.debug:
-                    self.bitHopper.log_msg("LP Call " + lp_address)
+                    self.bitHopper.log_msg("Long Poll Call " + lp_address)
                 else:
-                    self.bitHopper.log_dbg("LP Call " + lp_address)
+                    self.bitHopper.log_dbg("Long Poll Call " + lp_address)
                 self.bitHopper.work.jsonrpc_lpcall(server, lp_address, self)
         except Exception, e :
             self.bitHopper.log_dbg('pull_lp error')
