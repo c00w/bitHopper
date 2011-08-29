@@ -127,7 +127,9 @@ Not currently in use.
 # Skins
 
 You can change the color scheme on the status page. Skins and .jpg preview are located in the StatSkin sub directory.
-Just copy the index file to the main directory to change skin and hit refresh on your browser. No need to restart.
+Just rename your choice to index.html and copy to the main directory to change skin. (Current version requires you to restart bH)
+Tested and working on the following browsers: Firefox 6 (Win 7; Android); Chrome 13 (Win 7)
+Known issues with the following browsers: WebKit (Android 2.3.4); Internet Explorer 9 (Win 7)
 
 
 # More help
