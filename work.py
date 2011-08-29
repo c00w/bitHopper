@@ -67,14 +67,11 @@ class Work():
             info = self.bitHopper.pool.get_entry(server)
             header = {'Authorization':"Basic " +base64.b64encode(info['user']+ ":" + info['pass'])}
             user_agent = None
-            for k,v in client_header:
-                if k not in header:
-                    header[k] = v
-                if k.lower() == 'user-agent':
+            for k,v in client_header.items():
+                if k.lower() in [ 'user-agent', 'user_agent']:
                     user_agent = k
             if user_agent != 'user-agent' and user_agent != None:
-                header['user-agent'] = header[user_agent]
-                del header[user_agent]
+                header['user-agent'] = client_header[user_agent]
             
             url = "http://" + info['mine_address']
             with self.get_http(url) as http:
@@ -137,7 +134,7 @@ class Work():
 
         client_headers = {}
         for header in env:
-            if len(header)> 5 and header[0:5] is 'HTTP_':
+            if header[0:5] in 'HTTP_':
                 client_headers[header[5:]] = env[header]
 
         #check if they are sending a valid message
