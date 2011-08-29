@@ -7,27 +7,27 @@ Based on a work at github.com
 
 # Ubuntu installation
 
-In order to run bitHopper you need to install greenlet module with Python. Version 2.7 for Python is suggested
-although it has been tested with version 2.6 too(to find out which version of Python your system currently has
-you have to type "python -V" to a console.
+In order to run bitHopper you need to have Python installed in your system. Version 2.7 of Python is suggested
+although it has been tested and appears to work with version 2.6 too. To find out which version of Python your
+system currently has type "python -V" to a shell console.
 
-If you don't have Python installed you have to run:
+If you don't have Python installed at all you have to run:
 
 sudo apt-get install python
 
-If you have Python installed then you have to install some other packages that bitHopper requires to
-function properly:
+After verifying that you have Python installed then you have to install some extra packages that bitHopper
+requires to function properly:
 
 sudo apt-get install python-dev python-setuptools
 sudo easy_install greenlet
 sudo easy_install importlib
 
-Tested and woking for Ubuntu 11.04, 10.10 and 10.04 LTS
+Tested and working with Ubuntu 11.04, 10.10 and 10.04 LTS
 
 
 # Instructions for Windows users
 
-ActiveState Python(recommended, use 32 bit even when you have 64 bit system, it will still work)
+ActiveState Python(recommended, use 32 bit even when you have 64 bit system)
 http://downloads.activestate.com/ActivePython/releases/2.7.2.5/ActivePython-2.7.2.5-win32-x86.msi
 
 Greenlet
