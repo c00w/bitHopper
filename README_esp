@@ -1,43 +1,68 @@
 # Licencia
+
 bitHopper por Colin Rice bajo licencia Creative Commons
-"Attribution-NonCommercial-ShareAlike 3.0 Unported License".
+Attribution-NonCommercial-ShareAlike 3.0 Unported License
 Basado en trabajo hecho en github.com
 
-# Instructiones
 
-Para ejecutar bithopper necesitas instalar "twisted phython"
-y "pyopenssl" junto con Python 2.7 (recomendado):
+# Instalar en Ubuntu
 
-http://python.org/download/
-https://launchpad.net/pyopenssl/+download
-http://pypi.python.org/pypi/zope.interface (para Windows)
-http://twistedmatrix.com/trac
+Para poder ejecutar bitHopper necesitas instalar el modulo greenlet sobre Python 2.7+ (busca la version
+de tu instalacion de Python con "python -V"):
 
-Renombra el archivo "user.cfg.default_esp" a un archivo nuevo llamado "user.cfg".
-despues modifica este nuevo archivo para incluir los nombres y usuarios de
-trabajador (worker), para cada mina (pool) en parte, con tu editor de textos favorito.
-Lanza una linea de comandos (Inicio>Ejecutar> "cmd" para windows o consola en Linux),
-cambia de carpeta en la de bitHopper, ejecuta "python bitHopper.py", sin comillas.
+sudo apt-get install python-dev python-setuptools
+sudo easy_install greenlet
 
-Si no quieres utilizar una mina (pool) le puedes poner un nombre de trabajador y
-contraseña no validos en "user.cfg" (ADVERTENCIA: algunas minas (pools) ignoran completamente
-los credenciales de trabajador), o puedes hacerlo en la direccion http://localhost:8337/stats
-y modificar "role" a "disable", o simplemente borra la entrada de mina del archivo "user.cfg".
+Probado y funciona en Ubuntu 11.04, 10.10 and 10.04 LTS
 
-BitHopper escucha en la interfaz de loopback asi que deberias direccionar tu minero hacia
-localhost:8337 utilizando cualquier nombre y contraseña (no dejes sin).
 
-BitHopper pagina estatistica: http://localhost:8337/stats
+# Instrucciones para usuarios Windows
 
-# Instalacion Windows
+ActiveState Python(recomendado, usa version 32 bit aunque tengas un sistema de 64 bit, funcionara igual)
+http://downloads.activestate.com/ActivePython/releases/2.7.2.5/ActivePython-2.7.2.5-win32-x86.msi
 
-Baja e instala:
+Greenlet
+http://pypi.python.org/pypi/greenlet
 
-https://launchpad.net/pyopenssl
-http://pypi.python.org/pypi/zope.interface
-http://twistedmatrix.com/trac
+Puedes probar bajarte greenlet desde la pagina oficial y compilar el codigo fuente manualmente aunque esta
+modalidad es conocida de causar problemas para muchos usuarios. Mas facil seria instalar el modulo greenlet
+en modo automatico utilizando el manager que viene con ActiveState Python.
 
-Despues sigue las instrucciones de mas arriba
+Para hacer esto tienes que hacer click:
+
+Inicio -> Todos los programas -> ActiveState ActivePython 2.7(32-bit) -> Python Package Manager
+
+Se abrira una consola donde tienes que teclear:
+
+pypm install greenlet
+
+Despues de que pypm haya finalizado instalar greenlet con exito teclea "exit" y tu bitHopper esta listo
+para funcionar. Esta modalidad deberia funcionar en 99% de las instalaciones pero ha habido casos de
+personas que han tenido fallos. Si este es tu caso podrias probar el modulo greenlet precompilado desde:
+
+http://www.lfd.uci.edu/~gohlke/pythonlibs/
+
+Toma nota que estos no son binarios oficiales para Python. Siempre es mejor bajarte el codigo fuente de
+greenlet y compilarlo o utilizar el metodo pypm. Si no tienes otra alternativa y tienes que hacerlo asi
+el greenlet-0.3.1.win32-py2.7.exe es el instalador correcto que puedes bajarte. Se extraera en la carpeta
+adecuada automaticamente.
+
+
+# Configurando los ajustes de usuario
+
+BitHopper pagina de Stats: http://localhost:8337/stats
+
+Copia y pega el archivo "user.cfg.default" a un nuevo archivo llamado "user.cfg" despues modifica este
+archivo para que incluya tus nombres y contraseñas de mineros (worker). Ejecuta "python bitHopper.py"
+en *nix (Ubuntu) o haz doble click en "run-bithopper.bat" si estas en Windows. Despues de actualizarse
+comprueba que las minas estan configuradas correctamente a la pagina de Stats.
+
+Si alguna mina se cambia en rojo seguro que te faltan datos por configurar en "user.cfg".
+
+Por si no quieres utilizar alguna mina puedes borrarla de "user.cfg" o ir en la pagina de Stats y cambiar
+su rol a "disable". BitHopper escucha conexiones en la interfaz de loopback asi que debes redireccionar
+tu minero a localhost:8337 con cualquier usuario y contraseña (ne dejes en blanco).
+
 
 # Parametros
 
@@ -50,7 +75,6 @@ Puedes lanzar bH con los siguientes parametros:
 	--scheduler           = Selecciona otro modo programado
 	--threshold           = Sobrescribe dificultad de base (default 0.43)
 	--p2pLP               = Inicia el bot IRC para poder validar mucho mejor los saltos LP
-	--OldConnectionSystem = Utiliza el metodo de conexion antiguo. Puede ayudar con algunos programas mineros.
 	--debug               = Visiona la salida de twisted
 	--trace               = Informacion extra para debugging
 
@@ -96,10 +120,26 @@ Para cambier de tema solo tienes que reemplazar el archivo "index.html" del dire
 
 # Mas ayuda
 
-Puedes visitar el siguiente enlace https://github.com/c00w/bitHopper/wiki y empezar a leer sobre bitHopper o bien pregunta en el foro oficial en ingles
-siguiendo el link https://bitcointalk.org/index.php?topic=26866 , en español http://foros.3dgames.com.ar/bitcoin.396/704386.bithopper.html
+Puedes visitar el siguiente enlace https://github.com/c00w/bitHopper/wiki y empezar a leer sobre bitHopper o bien pregunta en el foro oficial en espanol
+siguiendo el link https://bitcointalk.org/index.php?topic=39539 (2 foro en español http://foros.3dgames.com.ar/bitcoin.396/704386.bithopper.html)
 
 
-#Donativos
+# Donativos
 
-1HEmzeuVEKxBQkEenysV1yM8oAddQ4o2TX
+Si piensas que este es un proyecto valioso y quieres que se siga trabajando y anadiendo mas cosas considera hacer una donacion, todo cuenta ;)
+
+ 1HEmzeuVEKxBQkEenysV1yM8oAddQ4o2TX - c00w
+
+ 17wp2zfxZKeycWt6NKiueVYmYyrciiuq2t - ryouiki
+ 1CWjg4soWEAQjMD4dCchdPpJ6fWDBRUU5b - ed64
+ 15iS8iDqVCM2MF5ndaS3exR7Kw4LxFf2ra - hawks5999
+ 1QEBu4Tr7Qe6BMHdpeTmNDTPJhMqpDDtQ3 - paraipanakos
+ 13hP5QuFccLUZQDNxPwnfmn6q5RiV48TEn - macboy80
+ 1GgorPurRdDgsbPmoGEJm2WWGxKkJ8ktkf - sdogi
+
+ Todas las personas que contribuyen a este proyecto - https://github.com/c00w/bitHopper/network/members
+
+ flower1024, echiu64 (ed64), graphiclunarkid, elitak, Clipseza, littleant, bb-btc, gnaget, murfshake, Sukrim, gtrrkicw,
+ swordv2, bitcoindaddy, rkozola, ryouiki, starlightbreaker, hawks5999, erasmo, pueytan, macboy80, sdogi, joulesbeef,
+ Seoulboy1, paraipanakos, Swicher, lucita777
+

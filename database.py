@@ -2,9 +2,11 @@
 #bitHopper by Colin Rice is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-import sqlite3
 import eventlet
 from eventlet.green import os, threading
+import eventlet.patcher
+#sqlite3 = eventlet.patcher.import_patched("sqlite3")
+import sqlite3
 import sys
 
 try:

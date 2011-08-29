@@ -6,6 +6,7 @@ import json
 import re
 import ConfigParser
 import sys
+import random
 
 import eventlet
 from eventlet.green import threading, os, time
@@ -17,56 +18,65 @@ except:
 
 class Pool():
     def __init__(self, bitHopper):
+        self.bitHopper = bitHopper
         self.servers = {}
-        self.api_pull = ['mine','info','mine_slush','mine_nmc','mine_ixc','mine_i0c','mine_charity','mine_deepbit','backup','backup_latehop']
+        self.api_pull = ['mine', 'info', 'mine_slush', 'mine_nmc', 'mine_ixc', 'mine_i0c',  'mine_scc', 'mine_charity', 'mine_deepbit', 'backup', 'backup_latehop']
         self.initialized = False
         self.lock = threading.RLock()
+        self.pool_configs = ['pools.cfg']
+        self.started = False
+        self.current_server = None
         with self.lock:
-            self.loadConfig(bitHopper)
-        
+            self.loadConfig()
 
-    def loadConfig(self, bitHopper):
-        parser = ConfigParser.SafeConfigParser()
+    def load_file(self, file_path, parser):
         try:
             # determine if application is a script file or frozen exe
             if hasattr(sys, 'frozen'):
                 application_path = os.path.dirname(sys.executable)
             elif __file__:
                 application_path = os.path.dirname(__file__)
-            read = parser.read(os.path.join(application_path, 'user.cfg'))
+            read = parser.read(os.path.join(application_path, file_path))
         except:
-            read = parser.read('user.cfg')
+            read = parser.read(file_path)
+        return read
+
+    def loadConfig(self):
+        parser = ConfigParser.SafeConfigParser()
+        
+        read = self.load_file('user.cfg', parser)
         if len(read) == 0:
             bitHopper.log_msg("user.cfg not found. You may need to move it from user.cfg.default")
             os._exit(1)
 
         userpools = parser.sections()
 
-        try:
-            # determine if application is a script file or frozen exe
-            if hasattr(sys, 'frozen'):
-                application_path = os.path.dirname(sys.executable)
-            elif __file__:
-                application_path = os.path.dirname(__file__)
-            read = parser.read(os.path.join(application_path, 'pools.cfg'))
-        except:
-            read = parser.read('pools.cfg')
-        if len(read) == 0:
-            bitHopper.log_msg("pools.cfg not found.")
-            if self.initialized == False: 
-                os._exit(1)
+
+        for file_name in self.pool_configs:
+            read = self.load_file(file_name, parser)
+            if len(read) == 0:
+                self.bitHopper.log_msg(file_name + " not found.")
+                if self.initialized == False: 
+                    os._exit(1)
 
         for pool in userpools:
             self.servers[pool] = dict(parser.items(pool))
 
+        for pool in parser.sections():
+            try:
+                if 'role' in dict(parser.items(pool)) and pool not in self.servers:
+                    self.servers[pool] = dict(parser.items(pool))
+            except:
+                continue
+
         if self.servers == {}:
             bitHopper.log_msg("No pools found in pools.cfg or user.cfg")
 
-        if self.initialized == False: 
+        if self.current_server is None: 
             self.current_server = pool
-        else:
-            self.setup(bitHopper) 
-        self.initialized = True
+        if self.started == True:
+            self.bitHopper.db.check_database()
+            self.setup(self.bitHopper)
         
     def setup(self, bitHopper):
         with self.lock:
@@ -81,11 +91,7 @@ class Pool():
                 self.servers[server]['lag'] = False
                 self.servers[server]['api_lag'] = False
                 if 'refresh_time' not in self.servers[server]:
-					#Reduce load on non-mined pools by reducing stat polling to 1 hr vs 2 mins
-					if self.servers[server]['role'] in ['info', 'backup', 'backup_latehop']:
-						self.servers[server]['refresh_time'] = 3600
-					else:
-						self.servers[server]['refresh_time'] = 120
+                    self.servers[server]['refresh_time'] = 120
                 else:
                     self.servers[server]['refresh_time'] = int(self.servers[server]['refresh_time'])
                 if 'refresh_limit' not in self.servers[server]:
@@ -110,7 +116,10 @@ class Pool():
                 if self.servers[server]['default_role'] in ['info','disable']:
                     self.servers[server]['default_role'] = 'mine'
             self.servers = OrderedDict(sorted(self.servers.items(), key=lambda t: t[1]['role'] + t[0]))
-        eventlet.spawn_n(self.update_api_servers, bitHopper)
+            self.build_server_map()
+            if not self.started:
+                self.update_api_servers()
+                self.started = True
             
     def get_entry(self, server):
         with self.lock:
@@ -126,6 +135,34 @@ class Pool():
     def get_current(self, ):
         with self.lock:
             return self.current_server
+
+    def get_work_server(self):
+        """A function which returns the server to query for work.
+           Currently uses the donation server 1/100 times. 
+           Can be configured to do trickle through to other servers"""
+        with self.lock:
+            value = random.randint(0,99)
+            if value in self.server_map:
+                result = self.server_map[value]
+                if self.servers[result]['lag'] or self.servers[result]['role'] == 'disable':
+                    return self.get_current()
+                else:
+                    return result
+            else:
+                return self.get_current()
+                    
+    def build_server_map(self):
+        possible_servers = {}
+        for server in self.servers:
+            if 'percent' in self.servers[server]:
+                possible_servers[server] = int(self.servers[server]['percent'])
+        i = 0
+        server_map = {}
+        for k,v in possible_servers.items():
+            for _ in xrange(v):
+                server_map[i] = k
+                i += 1
+        self.server_map = server_map
 
     def set_current(self, server):
         with self.lock:
@@ -173,7 +210,7 @@ class Pool():
                 self.bitHopper.lp.set_owner(server)
             self.servers[server]['shares'] = shares
             self.servers[server]['err_api_count'] = 0
-            if self.servers[server]['refresh_time'] > 60*30 and self.servers[server]['role'] not in ['info','backup','backup_latehop']:
+            if self.servers[server]['refresh_time'] > 60*120 and self.servers[server]['role'] not in ['info','backup','backup_latehop']:
                 self.bitHopper.log_msg('Disabled due to unchanging api: ' + server)
                 self.servers[server]['role'] = 'api_disable'
                 return
@@ -324,8 +361,8 @@ class Pool():
             self.UpdateShares(server_name ,round_shares)
         #Disable api scraping
         elif server['api_method'] == 'disable':
-			self.UpdateShares(server_name,0)
-			self.bitHopper.log_msg('Share estimation disabled for: ' + server['name'])
+            self.UpdateShares(server_name,0)
+            self.bitHopper.log_msg('Share estimation disabled for: ' + server['name'])
         else:
             self.bitHopper.log_msg('Unrecognized api method: ' + str(server))
 
@@ -439,17 +476,9 @@ class Pool():
         except Exception, e:
             self.errsharesResponse(e, server)
 
-    def update_api_servers(self, bitHopper):
-        self.bitHopper = bitHopper
+    def update_api_servers(self):
         for server in self.servers:
-            info = self.servers[server]
-            update = self.api_pull
-            if info['role'] in update:
-                d = bitHopper.work.get(info['api_address'])
-                try:
-                    self.selectsharesResponse( d, server)
-                except Exception, e:
-                    self.errsharesResponse(e, server)
+            eventlet.spawn_n(self.update_api_server, server)
 
 if __name__ == "__main__":
     print 'Run python bitHopper.py instead.'
