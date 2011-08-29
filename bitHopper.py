@@ -207,11 +207,14 @@ def main():
         bithopper_instance.log_msg('Starting p2p LP')
         bithopper_instance.lpBot = LpBot(bithopper_instance)
 
-    if not options.debug:
-        log = open(os.devnull, 'wb')
-    else:
+    if options.debug:
         log = None 
-        bithopper_instance.pile.spawn(backdoor.backdoor_server, eventlet.listen(('', 3000)), locals={'bh':bithopper_instance})
+        try:
+            bithopper_instance.pile.spawn(backdoor.backdoor_server, eventlet.listen(('', 3000)), locals={'bh':bithopper_instance})
+        except Exception, e:
+            print e   
+    else:
+        log = open(os.devnull, 'wb')
     while True:
         try:
             wsgi.server(eventlet.listen((options.ip,options.port)),bithopper_instance.website.handle_start, log=log)
