@@ -20,7 +20,7 @@ class Work():
         self.connect_pool = {}
         #pools.Pool(min_size = 2, max_size = 10, create = lambda: httplib2.Http(disable_ssl_certificate_validation=True))
 
-    def get_http(self, address, timeout=30):
+    def get_http(self, address, timeout=15):
         if address not in self.connect_pool:
             self.connect_pool[address] =  pools.Pool(min_size = 0, create = lambda: httplib2.Http(disable_ssl_certificate_validation=True, timeout=timeout))
         return self.connect_pool[address].item()
@@ -113,14 +113,14 @@ class Work():
         tries = 0
         work = None
         while work == None:
-            if data == [] and tries > 2:
+            if data == [] and tries > 1:
                 server = self.bitHopper.get_new_server(server)
-            elif tries > 2:
+            if data != [] and tries > 1:
                 self.bitHopper.get_new_server(server)
+            if data != [] and tries >5:
+                return 'False', {}
             tries += 1
             try:
-                if tries > 4:
-                    eventlet.sleep(0.5)
                 work, server_headers = self.jsonrpc_call(server, data, headers)
             except Exception, e:
                 self.bitHopper.log_dbg( 'caught, inner jsonrpc_call loop')
