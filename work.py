@@ -68,10 +68,12 @@ class Work():
             header = {'Authorization':"Basic " +base64.b64encode(info['user']+ ":" + info['pass'])}
             user_agent = None
             for k,v in client_header.items():
+                #Ugly hack to deal with httplib trying to be smart and supplying its own user agent.
                 if k.lower() in [ 'user-agent', 'user_agent']:
-                    user_agent = k
-            if user_agent != 'user-agent' and user_agent != None:
-                header['user-agent'] = client_header[user_agent]
+                    header['user-agent'] = v
+                if k.lower() in ['x-mining-extensions', 'x-mining-hashrate']:
+                    header[k] = v
+                
             
             url = "http://" + info['mine_address']
             with self.get_http(url) as http:
@@ -135,7 +137,7 @@ class Work():
         client_headers = {}
         for header in env:
             if header[0:5] in 'HTTP_':
-                client_headers[header[5:]] = env[header]
+                client_headers[header[5:].replace('_','-')] = env[header]
 
         #check if they are sending a valid message
         if rpc_request['method'] != "getwork":
@@ -153,7 +155,7 @@ class Work():
 
         to_delete = []
         for header in server_headers:
-            if header.lower() not in []: #['x-roll-ntime', 'nonce-range]:
+            if header.lower() not in ['x-roll-ntime']:
                 to_delete.append(header)
         for item in to_delete:
             del server_headers[item]  
