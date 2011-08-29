@@ -46,9 +46,16 @@ class Work():
             lp.receive(None, server)
             return None
 
-    def get(self, url):
+    def get(self, url, useragent=None):
         """A utility method for getting webpages"""
-        header = {'User-Agent':'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)'}
+        if useragent == None:
+            try:
+                useragent = self.bitHopper.config.get('main', 'work_user_agent')
+            except:
+                useragent = 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)'
+                pass
+        self.bitHopper.log_dbg('user-agent: ' + useragent + ' for ' + str(url) )
+        header = {'User-Agent':useragent}
         with self.get_http(url) as http:
             try:
                 content = http.request( url, 'GET', headers=header)[1] # Returns response dict and content str

@@ -7,6 +7,7 @@ import re
 import ConfigParser
 import sys
 import random
+import traceback
 
 import eventlet
 from eventlet.green import threading, os, time
@@ -43,14 +44,13 @@ class Pool():
 
     def loadConfig(self):
         parser = ConfigParser.SafeConfigParser()
-        
+
         read = self.load_file('user.cfg', parser)
         if len(read) == 0:
             bitHopper.log_msg("user.cfg not found. You may need to move it from user.cfg.default")
             os._exit(1)
 
         userpools = parser.sections()
-
 
         for file_name in self.pool_configs:
             read = self.load_file(file_name, parser)
@@ -68,6 +68,18 @@ class Pool():
                     self.servers[pool] = dict(parser.items(pool))
             except:
                 continue
+
+        # random UA strings
+        try:
+            if ( self.bitHopper.config.getboolean('main', 'use_random_ua') ):
+                ua_strings = self.bitHopper.config.get('main', 'random_ua_list').split('|')
+                for pool in self.servers:
+                    if 'user_agent' not in self.servers[pool]:
+                        idx = random.randint(0, len(ua_strings)-1)
+                        self.bitHopper.log_dbg('['+pool+"] Assigned user-agent " + str(idx) + ' of ' + ua_strings[idx])
+                        self.servers[pool]['user_agent'] = ua_strings[idx]
+        except:
+            traceback.print_exc()
 
         if self.servers == {}:
             bitHopper.log_msg("No pools found in pools.cfg or user.cfg")
@@ -471,7 +483,10 @@ class Pool():
             return
         info = self.servers[server]
         self.bitHopper.scheduler.update_api_server(server)
-        value = self.bitHopper.work.get(info['api_address'])
+        user_agent = None
+        if 'user_agent' in info:
+            user_agent = info['user_agent']
+        value = self.bitHopper.work.get(info['api_address'], user_agent)
         try:
             self.selectsharesResponse( value, server)
         except Exception, e:

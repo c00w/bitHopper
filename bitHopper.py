@@ -44,10 +44,10 @@ class BitHopper():
         self.lp_callback = lp_callback.LP_Callback(self)
         self.lpBot = None
         self.difficulty = diff.Difficulty(self)           
-        self.pool = pool.Pool(self)     
+        self.pool = pool.Pool(self)
         self.db = database.Database(self)
+        self.pool.setup(self)
         self.work = work.Work(self)
-        self.pool.setup(self) 
         self.speed = speed.Speed(self)
         self.scheduler = None
         self.getwork_store = getwork_store.Getwork_store(self)
