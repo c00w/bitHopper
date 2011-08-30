@@ -269,7 +269,7 @@ class DefaultScheduler(Scheduler):
             if valid_servers == []: return self.select_backup_server()
           
             min_slice = self.sliceinfo[valid_servers[0]]
-            server = None #valid_servers[0]
+            server = valid_servers[0]
             for pool in valid_servers:
                 info = self.bh.pool.servers[pool]
                 if info['api_lag'] or info['lag']:
