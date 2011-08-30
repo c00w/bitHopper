@@ -188,8 +188,22 @@ def main():
         return
     
     config = ConfigParser.ConfigParser()
-    config.read(options.config)
-
+    try:
+        # determine if application is a script file or frozen exe
+        if hasattr(sys, 'frozen'):
+            application_path = os.path.dirname(sys.executable)
+        elif __file__:
+            application_path = os.path.dirname(__file__)
+        if not os.path.exists(os.path.join(application_path, options.config)):
+            print "Missing " + options.config + " may need to rename bh.cfg.default"
+            os._exit(-1)        
+        config.read(os.path.join(application_path, options.config))
+    except:
+        if not os.path.exists(options.config):
+            print "Missing " + options.config + " may need to rename bh.cfg.default"
+            os._exit(-1)        
+        config.read(options.config)
+    
     bithopper_instance = BitHopper(options, config)
 
     if options.auth:
