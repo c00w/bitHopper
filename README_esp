@@ -79,7 +79,7 @@ Puedes lanzar bH con los siguientes parametros:
 
    --ip                  = IP donde escuchar
    --port                = Puerto del proxy
-   --auth                = Pide usuario y contraseña para pagina stats (--auth usuario,contraseña)
+   --auth                = Pide usuario y contrasena para pagina stats (--auth usuario,contrasena)
    --listschedulers      = Muestra los modos programados
    --scheduler           = Selecciona otro modo programado
    --threshold           = Sobrescribe dificultad de base (default 0.43)
