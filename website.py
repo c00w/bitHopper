@@ -4,9 +4,13 @@
 #Based on a work at github.com.
 
 
-from eventlet.green import os
+from eventlet.green import os, socket
 import json
 import sys
+
+# Global timeout for sockets in case something leaks
+socket.setdefaulttimeout(900)
+
 import traceback
 import webob
 
@@ -107,10 +111,13 @@ class dynamicSite():
             if "reloadconfig" in v:
                 self.bh.log_msg('User forced configuration reload')
                 try:
-                    self.bh.pool.loadConfig()
+                    self.bh.reloadConfig()
                 except Exception,e:
                     self.bh.log_dbg('Incorrect http post reloadconfig')
                     self.bh.log_dbg(e)
+                    if self.bh.options.debug:
+                        traceback.print_exc()
+                        
             if "resetUserShares" in v:
                 self.bh.log_msg('User forced user shares, est payouts to be reset')
                 try:
