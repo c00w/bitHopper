@@ -177,6 +177,16 @@
 				}
 			}
 
+			function setExpPayout(srvName) {
+				var payout = prompt("set expected payout for: " + srvName, 0);
+				if(payout != null && payout != undefined && payout != "") {
+					var frm = "<form><input type=hidden name='expout-" + srvName + "' value='" + payout + "'></form>";
+					$.post("/stats", $(frm).serialize());
+					
+					update();
+				}
+			}
+
 			function setPenalty(srvName, value) {
 				var penalty = prompt("Set penalty for: " + srvName, value);
 				if(penalty != null && penalty != undefined && penalty != "") {
@@ -242,7 +252,7 @@
 				
 				payout = "<a href='#' onFocus='this.blur();' onClick=\"setPayout('" + srvName + "');\" style='text-decoration:underline;color:" + getColor(payload,srv) + ";'>" + srv["payout"].toFixed(8) + "</a>";
 				
-				return payout + "<br />Exp:&nbsp;" + srv['expected_payout'].toFixed(8);
+				return payout + "<br />Exp:&nbsp;" + "<a href='#' onFocus='this.blur();' onClick=\"setExpPayout('" + srvName + "');\" style='text-decoration:underline;color:" + getColor(payload,srv) + ";'>" + srv['expected_payout'].toFixed(8) + "</a>";
 			}
 			
 			function getEfficiency(payload, srv) {
@@ -477,7 +487,7 @@
 							'User&nbsp;Shares<br>Rejects': { 'data':getUserShareRejects, 'color':getColor, 'align':'center' },
 							'GH/s': { 'data':getPoolSpeed, 'align':'right' },
 							'Round<br>Time': { 'data':getRoundDuration, 'align':'center'},
-							'Payout': { 'data':getPayout, 'color':getColor, 'align':'center' },
+							'Payout': { 'data':getPayout, 'color':getColor, 'align':'right' },
 							'Eff.': { 'data':getEfficiency, 'color':getColor, 'align':'center' },
 							'ThrPnlty': { 'data':getPenalty, 'color':getColor, 'align':'center' },
 							'LP-Pnlty': { 'data':getLPPenalty, 'color':getColor, 'align':'center' },
