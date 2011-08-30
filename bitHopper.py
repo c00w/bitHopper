@@ -215,7 +215,7 @@ def main():
         log = None 
         try:
             socket.setdefaulttimeout(None)
-            bithopper_instance.pile.spawn(backdoor.backdoor_server, eventlet.listen(('', 3000)), locals={'bh':bithopper_instance})
+            bithopper_instance.pile.spawn(backdoor.backdoor_server, eventlet.listen(('127.0.0.1', 3000)), locals={'bh':bithopper_instance})
             socket.setdefaulttimeout(lastDefaultTimeout)
         except Exception, e:
             print e   
