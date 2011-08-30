@@ -141,7 +141,7 @@ class Work():
                 return None, {}
             tries += 1
             try:
-                work, server_headers = self.jsonrpc_call(server, data, headers, username = None, password = None)
+                work, server_headers = self.jsonrpc_call(server, data, headers, username, password)
             except Exception, e:
                 self.bitHopper.log_dbg( 'caught, inner jsonrpc_call loop')
                 self.bitHopper.log_dbg(server)
