@@ -102,7 +102,7 @@ class Work():
                     self.bitHopper.log_dbg('Error with a jsonrpc_call http request')
                     self.bitHopper.log_dbg(e)
                     resp = {}
-                    content = ""
+                    content = None
 
             #Check for long polling header
             lp = self.bitHopper.lp
@@ -134,10 +134,11 @@ class Work():
         while work == None:
             if data == [] and tries > 1:
                 server = self.bitHopper.get_new_server(server)
+                print 'Got new server' + server
             if data != [] and tries > 1:
                 self.bitHopper.get_new_server(server)
             if data != [] and tries >5:
-                return 'False', {}
+                return None, {}
             tries += 1
             try:
                 work, server_headers = self.jsonrpc_call(server, data, headers, username = None, password = None)
@@ -186,7 +187,11 @@ class Work():
 
         start_request('200 OK', server_headers.items())
 
-        response = json.dumps({"result":work, 'error':None, 'id':j_id})        
+        if work == None:
+            response = json.dumps({"result":None, 'error':{'message':'Cannot get work unit'}, 'id':j_id})
+            return [response]
+        else:
+            response = json.dumps({"result":work, 'error':None, 'id':j_id})        
 
         #some reject callbacks and merkle root stores
         if str(work).lower() == 'false':

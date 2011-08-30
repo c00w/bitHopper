@@ -182,8 +182,7 @@ class Pool():
         self.server_map = server_map
 
     def set_current(self, server):
-        with self.lock:
-            self.current_server = server
+        self.current_server = server
 
     def UpdateShares(self, server, shares):
         with self.lock:

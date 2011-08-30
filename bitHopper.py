@@ -136,7 +136,7 @@ class BitHopper():
             return self.pool.get_current()
         self.pool.servers[server]['lag'] = True
         self.log_msg('Lagging. :' + server)
-        self.server_update()
+        self.select_best_server()
         return self.pool.get_current()
 
     def server_update(self, ):

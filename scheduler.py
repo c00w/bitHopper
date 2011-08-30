@@ -247,6 +247,9 @@ class DefaultScheduler(Scheduler):
                 if info['role'] not in self.valid_roles:
                     continue
 
+                if info['lag'] or info['api_lag']:
+                    continue
+
                 if shares< min_shares:
                     valid_servers.append(server)
              
@@ -266,12 +269,12 @@ class DefaultScheduler(Scheduler):
             if valid_servers == []: return self.select_backup_server()
           
             min_slice = self.sliceinfo[valid_servers[0]]
-            server = valid_servers[0]
+            server = None #valid_servers[0]
             for pool in valid_servers:
                 info = self.bh.pool.servers[pool]
                 if info['api_lag'] or info['lag']:
                     continue
-                if self.sliceinfo[pool] < min_slice:
+                if self.sliceinfo[pool] <= min_slice:
                     min_slice = self.sliceinfo[pool]
                     server = pool
         
