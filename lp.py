@@ -5,8 +5,11 @@
 import json
 import eventlet
 from eventlet.green import time
-from eventlet.green import threading
+from eventlet.green import threading, socket
 import traceback
+
+# Global timeout for sockets in case something leaks
+socket.setdefaulttimeout(900)
 
 def bytereverse(value):
     bytes = []

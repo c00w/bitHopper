@@ -6,10 +6,13 @@
 import random
 import re
 import eventlet
-from eventlet.green import time, threading
+from eventlet.green import time, threading, socket
 import eventlet.patcher
 irclib = eventlet.patcher.import_patched('irclib')
 SimpleIRCClient = irclib.SimpleIRCClient
+
+# Global timeout for sockets in case something leaks
+socket.setdefaulttimeout(900)
 
 class LpBot(SimpleIRCClient):
     def __init__(self, bitHopper):

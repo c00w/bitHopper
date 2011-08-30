@@ -10,6 +10,10 @@ import traceback
 import eventlet
 httplib2 = eventlet.import_patched('httplib20_7_1')
 from eventlet import pools
+from eventlet.green import socket
+
+# Global timeout for sockets in case something leaks
+socket.setdefaulttimeout(900)
 
 import webob
 

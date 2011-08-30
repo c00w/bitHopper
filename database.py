@@ -3,11 +3,14 @@
 #Based on a work at github.com.
 
 import eventlet
-from eventlet.green import os, threading
+from eventlet.green import os, threading, socket
 import eventlet.patcher
 #sqlite3 = eventlet.patcher.import_patched("sqlite3")
 import sqlite3
 import sys
+
+# Global timeout for sockets in case something leaks
+socket.setdefaulttimeout(900)
 
 try:
     # determine if application is a script file or frozen exe

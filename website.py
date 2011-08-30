@@ -4,9 +4,13 @@
 #Based on a work at github.com.
 
 
-from eventlet.green import os
+from eventlet.green import os, socket
 import json
 import sys
+
+# Global timeout for sockets in case something leaks
+socket.setdefaulttimeout(900)
+
 import traceback
 import webob
 

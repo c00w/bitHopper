@@ -9,7 +9,10 @@ import sys
 import random
 
 import eventlet
-from eventlet.green import threading, os, time
+from eventlet.green import threading, os, time, socket
+
+# Global timeout for sockets in case something leaks
+socket.setdefaulttimeout(900)
 
 try:
     from collections import OrderedDict

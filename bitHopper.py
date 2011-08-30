@@ -10,10 +10,13 @@ except Exception, e:
     print "You need to install greenlet. See the readme."
     raise e
 from eventlet import wsgi, greenpool, backdoor
-from eventlet.green import os, time
+from eventlet.green import os, time, socket
 eventlet.monkey_patch()
-from eventlet import debug
+#from eventlet import debug
 #debug.hub_blocking_detection(True)
+
+# Global timeout for sockets in case something leaks
+socket.setdefaulttimeout(900)
 
 import optparse
 
@@ -207,17 +210,22 @@ def main():
         bithopper_instance.log_msg('Starting p2p LP')
         bithopper_instance.lpBot = LpBot(bithopper_instance)
 
+    lastDefaultTimeout = socket.getdefaulttimeout()
     if options.debug:
         log = None 
         try:
+            socket.setdefaulttimeout(None)
             bithopper_instance.pile.spawn(backdoor.backdoor_server, eventlet.listen(('', 3000)), locals={'bh':bithopper_instance})
+            socket.setdefaulttimeout(lastDefaultTimeout)
         except Exception, e:
             print e   
     else:
         log = open(os.devnull, 'wb')
     while True:
         try:
+            socket.setdefaulttimeout(None)
             wsgi.server(eventlet.listen((options.ip,options.port)),bithopper_instance.website.handle_start, log=log)
+            socket.setdefaulttimeout(lastDefaultTimeout)
             break
         except Exception, e:
             print e

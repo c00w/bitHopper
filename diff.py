@@ -6,7 +6,10 @@
 import urllib2
 import re
 import eventlet
-from eventlet.green import threading
+from eventlet.green import threading, socket
+
+# Global timeout for sockets in case something leaks
+socket.setdefaulttimeout(900)
 
 class Difficulty():
     "Stores difficulties and automaticlaly updates them"

@@ -7,7 +7,10 @@
 import random
 import math
 import eventlet
-from eventlet.green import threading, time
+from eventlet.green import threading, time, socket
+
+# Global timeout for sockets in case something leaks
+socket.setdefaulttimeout(900)
 
 class Scheduler(object):
     def __init__(self,bitHopper):
