@@ -67,7 +67,7 @@ class dynamicSite():
                             info = self.bh.pool.get_entry(loopServer)
                             info['expected_payout'] = float(request.POST[v])
                             userShares = info['expected_payout'] * self.bh.difficulty.get_difficulty() / 50
-                            info['user_shares'] = userShares
+                            info['user_shares'] = int(userShares)
                             self.bh.log_msg('Expected payout for ' + str(server) + " modified")
                 except Exception, e:
                     self.bh.log_dbg('Incorrect http post request for expected payout')
