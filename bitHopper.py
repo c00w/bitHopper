@@ -225,7 +225,7 @@ def main():
         try:
             socket.setdefaulttimeout(None)
             wsgi.server(eventlet.listen((options.ip,options.port)),bithopper_instance.website.handle_start, log=log)
-	    socket.setdefaulttimeout(lastDefaultTimeout)
+            socket.setdefaulttimeout(lastDefaultTimeout)
             break
         except Exception, e:
             print e
