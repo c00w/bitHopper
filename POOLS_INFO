@@ -1,0 +1,335 @@
+#######################################
+# This file contains brief information
+# of pools used for hopping, gathered
+#   here for orientative purposes.
+#######################################
+
+#######################################
+#   These Pools are added recently
+#      hop them at your risk
+#######################################
+
+
+[bloodys]
+#http://pool.bloodys.com/?action=signup
+info_1: Please report experience on forum or IRC - 1.86 Ghash/s @ 08.23.11
+
+
+[bithasher]
+#http://bithasher.com/index.php/register/
+info_1: Please report experience on forum or IRC - 7.12 Ghash/s @ 08.23.11
+
+
+[swepool]
+#http://swepool.net/profile
+info_1: Please report experience on forum or IRC - 2.98 GHash/s @ 08.23.11
+
+
+[bitfarms]
+#http://bitfarms.ca/
+info_1: Please report experience on forum or IRC - 4.41 Ghash/s @ 08.23.11
+
+
+[p2pool]
+#https://en.bitcoin.it/wiki/P2Pool
+info_1: Decentralized pool with support for btc, nmc and others - 1.89 Ghash/s @ 08.23.11
+info_2: Please report experience on forum or IRC
+
+
+#######################################
+
+
+[bclc]
+#http://www.bitcoins.lc
+info_1: Delaying stats and not very civic attitude with occasional miners (page 95)
+info_2: You could try mining here with the mine_deepbit role - 466.02 Ghash/s @ 08.23.11
+
+
+[bcpool]
+#http://bitcoinpool.com
+info_1: Anti-hopping method based on "window of participation" (page 36)
+info_2: Disables anti-hopper measures if you donate (page 111)
+info_3: Fakes json stats so you keep hopping them (page 184) - 88.63 Ghash/s @ 08.23.11
+
+
+[bitclockers]
+#http://bitclockers.com/
+info_1: Handle with care, possible anti-hopper measures in place
+info_2: Their new servers work like clocks with zero stales, safe to mine with them - 276.20 Ghash/s @ 08.23.11
+
+
+[btcg]
+#https://www.btcguild.com/
+info_1: Delayed stats (page 87)
+info_2: Try mining here with the mine_deepbit role - 2132.23 Ghash/s @ 08.23.11
+
+
+[btcmine]
+#https://btcmine.com/user/register/
+info_1: Score based payout, try mining with mine_slush (page 164) - 356.68 Ghash/s @ 08.23.11
+
+
+[btcmonkey]
+#http://bitcoinmonkey.com/
+info_1: Nice small pool - 1.917 Ghash/s @ 08.23.11
+info_2: Pool went offline after supposedly finding a block (08.29.11)
+
+
+[btcserv]
+#http://btcserv.net/
+info_1: Small pool, pls report experience on forum - 2.94 GHash/s @ 08.23.11
+
+
+[btcworld]
+#http://btcworld.de/signup
+info_1: Nice small pool - 14.05 Ghash/s @ 08.23.11
+
+
+[deepbit]
+#https://deepbit.net/
+info_1: Biggest pool around, mining with them should get your variance down - 5723 Ghash/s @ 08.23.11
+
+
+[digbtc]
+#http://www.digbtc.net/register.php
+info_1: Small pool, recommended you change user-agent (page 154) - 5.5 Ghash/s @ 08.23.11
+
+
+[itzod]
+# https://pool.itzod.ru
+info_1: Score based payout, hop using mine_slush if you want (page 154) - 74.61 Ghash/s @ 08.23.11
+
+
+[kiwipool]
+#http://www.kiwipool.me/
+info_1: Switched to PPS (page 154)
+info_2: Seems like they're Prop. pool (IRC Chan.) - 36 GHash/s @ 08.23.11
+
+
+[mtred]
+#https://mtred.com/user/registration.html
+info_1: Good for hopping, fast pool for hopper-starters - 176.52 GHash/s @ 08.23.11
+
+
+[ozco]
+#https://ozco.in/register.php
+info_1: Freezing stats for unknown reason (page 114)
+info_2: Stats solved - 60.5 GHash/s @ 08.23.11
+
+
+[slush]
+#http://mining.bitcoin.cz/accounts/register/
+info_1: Good for mining until 10% of diff. - use mine_slush - 1872.64 GHash/s @ 08.23.11
+#   Warning ! Mine at your own risk. The scoring
+#  system used by this pool is not designed to work
+#             for occasional miners.
+
+
+[triple]
+#https://www.triplemining.com/register
+info_1: Mid-size pool - 43.6 GHash/s @ 08.23.11
+info_2: Use as backup_latehop if you want to help them find the block (Flash Mob Mining Event - 08.21.11)
+
+
+[unitedminers]
+#http://www.unitedminers.com
+info_1: Changed to PPLNS in the middle of a round (page 94)
+info_2: Disables anti-hopper flagging if you donate to pool (page 161)
+info_3: PPLNS pools are hoppable with backup_latehop  - 3.07 GHash/s @ 08.23.11
+
+
+[rfc]
+#https://rfcpool.com/signup
+info_1: Nice small pool
+info_2: Pool is closed down (page 178)
+info_3: Pool is online and accepting miners, changed payout to PPLNS (pool page + IRC) - 25.51 GHash/s @ 08.23.11
+
+
+######################################
+# Backup pools for when there is
+# no pool where you would earn more
+# than expected (can be any pool with
+# hopping proof algorithms, PPS has
+# lowest variance though)
+######################################
+
+
+[eligius]
+#http://eligius.st/wiki/index.php/Getting_Started
+info_1: 0% fee PPS pool - 504.69 GHash/s @ 08.23.11
+
+
+[arsbitcoin]
+#https://arsbitcoin.com/register.php
+info_1: 0% fee PPS pool - 484.4 GHash/s @ 08.23.11
+
+
+[bitp]
+#http://bitp.it
+info_1: PPS pool - 27.60 GHash/s @ 08.23.11
+
+
+[ninjac]
+#https://www.ninjacoin.com/index.php
+info_1: PPS pool - 25.2 GHash/s @ 08.23.11
+
+
+[abc]
+#http://www.abcpool.co/
+info_1: PPS, intro. 0% fee, pays stales
+info_2: High invalids on poclbm, site better supports phoenix 1.5+
+info_3: Registering temp disabled - 111.9 GHash/s @ 08.23.11
+
+
+[nofeemining]
+#https://nofeemining.appspot.com/
+info_1: Nice small pool
+info_2: They moved pool to google appspot - Pool speed unknown @ 08.23.11
+info_3: Changed payout to rsmpps (page 195)
+
+
+######################################
+# Namecoin and other type of pools.
+# For hopping use mine_xxx accordingly
+######################################
+
+#Nmc pools
+
+[bitparking]
+#http://bitparking.com/
+info_1: Nmc pool (mine_nmc) - 20.2 GHash/s @ 08.23.11
+
+
+[nmcbit]
+#http://nmcbit.com/
+info_1: Nmc pool (mine_nmc) - 9.94 Ghash/s @ 08.23.11
+
+
+[masterpool]
+#https://masterpool.eu/signup
+info_1: Currently testing merged mining (http://dot-bit.org/Merged_Mining) - 3.12 Ghash/s @ 08.23.11
+
+
+[namebit]
+#http://www.namebit.org/
+info_1: Payouts are automatic and no need to signup - 8.35 Ghash/s @ 08.23.11
+
+
+[bitchomp]
+#http://www.bitchomp.info/ncp/register.php
+info_1: Nmc pool (mine_nmc) - 47 Mhash/s @ 08.23.11
+
+
+#i0c pools
+# Currently there is no activity in the i0c pools due to a failure
+# in main client (http://bitcointalk.org/index.php?topic=36425.msg479182#msg479182)
+
+[i0g]
+#http://i0.btcguild.com/register.php
+info_1: i0coins pool, use mine_i0c - Offline @ 08.23.11
+
+
+[i0parking]
+#http://i0pool.bitparking.com/pool
+info_1: i0coins pool, use mine_i0c - 0 hash/s @ 08.28.11
+
+
+[digi0c]
+#http://i0.digbtc.net
+info_1: Delays statistics and distrust of its legitimacy (i0coin.org forum) - 0 hash/s @ 08.28.11
+
+
+#scc pools
+
+[scguild]
+#http://sc.btcguild.com/
+info_1: Solidcoin pool, use mine_scc - 325.14 Ghash/s @ 08.28.11
+
+
+[sodigbtc]
+#http://sobtc.digbtc.net
+#http://sc.digbtc.net
+info_1: Solidcoin pool, use mine_scc - 62.3 Ghash/s @ 08.28.11
+
+
+[scbitparking]
+#http://scpool.bitparking.com
+info_1: Solidcoin pool, use mine_scc - 64.06 Ghash/s @ 08.28.11
+
+
+[squid]
+#http://pool.squidnet.org
+info_1: Solidcoin pool, use mine_scc - 23.64 Ghash/s @ 08.28.11
+
+
+[mine4us]
+#http://solid.mine-for.us
+info_1: Solidcoin pool, use mine_scc - 2.51 Ghash/s @ 08.28.11
+
+
+#ixc pools
+
+[ixparking]
+#http://ixpool.bitparking.com/pool
+info_1: ixcoins pool, use mine_ixc - 4.99 Ghash/s @ 08.28.11
+
+
+######################################
+# These Pools are not hopped for a
+# reason. Page of the BitHopper
+# thread annotated in parentheses.
+# Hop them at your own risk
+######################################
+
+
+[bmunion]
+#http://www.bitminersunion.org/
+info_1: Small pool good for hopping - 8.6 Ghash/s @ 08.23.11
+info_2: Changed to unknown payout system to prevent occasional mining (pool thread on BC forum - page 11)
+
+
+[polmine]
+#https://polmine.pl
+info_1: Nice polish pool
+info_2: Delays and fakes stats (page 157)
+info_3: You could try mining here with the mine_deepbit role - 137.48 Ghash/s @ 08.23.11
+info_4: Smaller payouts just for hoppers based on 30btc blocks (page 174 + IRC)
+
+
+[btcpool24]
+#http://www.btcpool24.com
+info_1: Changed payout system and delays stats, allot (page 116) - 31.3 Ghash/s @ 08.23.11
+
+
+[poolmunity]
+#http://poolmunity.com/
+info_1: Obscure payout system and anti-hopping measures (page 55)
+info_2: Pooles closes in September (http://poolmunity.com/index.php/topic,83.0.html) - 0 hash/s @ 08.23.11
+
+
+[poolmunitynmc]
+#http://poolmunity.com/
+info_1: The same mine, and using the same worker user and pass to mine NameCoins (mine_nmc)
+
+
+[x8s]
+#http://btc.x8s.de/
+info_1: Pool is closed down (page 48) - Offline @ 08.23.11
+
+
+[mineco]
+#https://mineco.in
+info_1: Changed to PPLNS (page 94) - 79 Ghash/s @ 08.23.11
+
+
+[eclipsemc]
+#https://eclipsemc.com
+info_1: Changed to a score system (page 16) - 53.51 Ghash/s @ 08.23.11
+info_2: Uses CPS (cheat proof scoring) method (BC forum)
+
+
+[mmf]
+#http://mining.mainframe.nl
+info_1: They use some "cheat proof scoring" algorithm (page 26)
+info_2: Changed payout system to PPLNS (page 190) - 96.9 Ghash/s @ 08.23.11
+

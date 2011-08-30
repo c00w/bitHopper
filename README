@@ -1,60 +1,90 @@
 # License
-bitHopper by Colin Rice is licensed under a Creative Commons
+
+BitHopper by Colin Rice is licensed under a Creative Commons
 Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 Based on a work at github.com
 
-# Instructions
 
-In order to run bithopper you need twisted phython and pyopenssl installed with Python 2.7 (recommended):
+# Ubuntu installation
 
-http://python.org/download/
-https://launchpad.net/pyopenssl/+download
-http://pypi.python.org/pypi/zope.interface (for Windows)
-http://twistedmatrix.com/trac
+In order to run bitHopper you need to have Python installed in your system. Version 2.7 of Python is suggested
+although it has been tested and appears to work with version 2.6 too. To find out which version of Python your
+system currently has type "python -V" to a shell console.
 
-Copy "user.cfg.default" to a new file called "user.cfg" then modify the new
-file to include your pool worker usernames and passwords, instead of mine.
-Run "python bitHopper.py". After script updates info, please check if new pools
-have been added correctly if not edit your "user.cfg" accordingly.
+If you don't have Python installed at all you have to run:
 
-If you don't want to use a pool give it an invalid password (WARNING: some pools
-ignore passwords from miners!), or go to http://localhost:8337/stats and switch its
-role to disable, or just delete it from "user.cfg".
+sudo apt-get install python
 
-BitHopper listens on loopback interface so you should direct your miner to
-localhost:8337 with any username and password (not blank).
+After verifying that you have Python installed then you have to install some extra packages that bitHopper
+requires to function properly:
 
-BitHopper status page: http://localhost:8337/stats
+sudo apt-get install python-dev python-setuptools
+sudo easy_install greenlet
+sudo easy_install importlib
 
-# Windows installation
+Tested and working with Ubuntu 11.04, 10.10 and 10.04 LTS
 
-Download and install:
 
-https://launchpad.net/pyopenssl
-http://pypi.python.org/pypi/zope.interface
-http://twistedmatrix.com/trac
+# Instructions for Windows users
 
-Then follow the above instructions
+ActiveState Python(recommended, use 32 bit even when you have 64 bit system)
+http://downloads.activestate.com/ActivePython/releases/2.7.2.5/ActivePython-2.7.2.5-win32-x86.msi
+
+Greenlet
+http://pypi.python.org/pypi/greenlet
+
+Although you can download greenlet from the original web site and compile the source manually this is
+known to cause issues for lot of users. It is much easier to install greenlet automatically using Python
+package manager that comes with ActiveState Python.
+
+To do this you have to click:
+
+Start -> All Programs -> ActiveState ActivePython 2.7(32-bit) -> Python Package Manager
+
+Console will open up and to this console you have to type:
+
+pypm install greenlet
+
+After pypm has finished installing greenlet successully type "exit" and your bitHopper is all set. Although
+using ActiveState Python's pypm should work 99% of the time there have been reports of people having issues
+with using it. If this is the case you could also download greenlet package from:
+
+http://www.lfd.uci.edu/~gohlke/pythonlibs/
+
+Please be aware that these are unofficial Windows binaries for Python. It is always best to either download
+greenlet source yourself and compile it or use pypm method. If you have no other way and you have to use
+these unofficial binaries then greenlet-0.3.1.win32-py2.7.exe is the correct one to download. It will
+extract itself into correct directory.
+
+
+# Configuring user settings
+
+BitHopper Stats page: http://localhost:8337/stats
+
+Copy "user.cfg.default" to a new file called "user.cfg" then modify the new file to include your pool 
+worker usernames and passwords. Run "python bitHopper.py" in *nix or in Windows you can double click on
+run-bithopper.bat. After script updates info check if new pools have been added correctly to stats page.
+
+If any of the pools turns red or there is something else missing then edit your "user.cfg" accordingly.
+
+If you don't want to use a pool delete it from "user.cfg" or go to Stats page and switch its role to
+disable. BitHopper listens on loopback interface so you should direct your miner to localhost:8337
+with any username and password (not blank).
+
 
 # Switches
 
-You can launch bH with the following parameters:
+You can launch bitHopper with the following parameters:
 
-	--list            = List servers
-	--disable         = Servers to disable. Get name from --list. Servera,Serverb,Serverc
-	--port            = Port to listen on
-	--scheduler       = Select an alternate scheduler
-	--listschedulers  = List alternate schedulers available
-	--threshold       = Override difficulty threshold (default 0.43)
-	--altslicesize    = Override Default AltSliceScheduler Slice Size of 900
-	--altminslicesize = Override Default Minimum Pool Slice Size of 60 (AltSliceScheduler only)
-	--altslicejitter  = Add some random variance to slice size, disabled by default (AltSliceScheduler only)
-	--startLP         = Seeds the LP module with known pools.
-	--noLP            = Turns off client side longpolling
-	--debug           = Use twisted output
-	--p2pLP           = Starts up an IRC bot to validate LP based hopping
-	--ip              = IP to listen on
-	--auth            = Ask for user and password on stats page (--auth user,pass)
+	--ip                  = IP to listen on
+	--port                = Port to listen on
+	--auth                = Ask for user and password on stats page (--auth user,pass)
+	--listschedulers      = List alternate schedulers available
+	--scheduler           = Select an alternate scheduler
+	--threshold           = Override difficulty threshold (default 0.43)
+	--p2pLP               = Starts up an IRC bot to validate LP based hopping
+	--debug               = Extra error output. Basically print all caught errors
+	--trace               = Extra debugging output
 
 
 # Available Schedulers:
@@ -65,11 +95,25 @@ A none slicing scheduler. May actually be the best scheduler there is.
 
    DefaultScheduler
 
-The time based default scheduler. All that matters is time and it tries to be completely fair across all pools. A little less effective but thoroughly debugged.
+The time based default scheduler. All that matters is time and it tries to be completely fair across all
+pools. A little less effective but thoroughly debugged.
 
    AltSliceScheduler
 
-Tries to be more aggressive at switching pools when thresholds are met rather than finishing a slice. Can be used with --altslicesize=xxx --altminslicesize=xxx (where you replace x with a number for slice size and min). Also slice size can be used with --altslicejitter=xx which adds some random variance to slice size. There can be issues with failing to re-slice often enough.
+Tries to be more aggressive at switching pools when thresholds are met rather than finishing a slice. Can be
+used with --altslicesize=xxx --altminslicesize=xxx (where you replace x with a number for slice size and min).
+Also slice size can be used with --altslicejitter=xx which adds some random variance to slice size. There can
+be issues with failing to re-slice often enough.
+
+Specific parameters:
+
+	--altslicesize            = Override Default AltSliceScheduler Slice Size of 900
+	--altminslicesize         = Override Default Minimum Pool Slice Size of 60 (AltSliceScheduler only)
+	--altslicejitter          = Add some random variance to slice size, disabled by default (AltSliceScheduler only)
+	--altsliceroundtimebias   = Bias slicing slightly by round time duration with respect to round time target (default false)
+	--altsliceroundtimetarget = Round time target based on GHash/s (default 1000 Ghash/s)
+	--altsliceroundtimemagic  = Round time magic number, increase to bias towards round time over shares
+
 
    RoundTimeScheduler
 
@@ -83,7 +127,9 @@ Not currently in use.
 # Skins
 
 You can change the color scheme on the status page. Skins and .jpg preview are located in the StatSkin sub directory.
-Just copy the index file to the main directory to change skin and hit refresh on your browser. No need to restart.
+Just rename your choice to index.html and copy to the main directory to change skin. (Current version requires you to restart bH)
+Tested and working on the following browsers: Firefox 6 (Win 7; Android); Chrome 13 (Win 7)
+Known issues with the following browsers: WebKit (Android 2.3.4); Internet Explorer 9 (Win 7)
 
 
 # More help
@@ -92,6 +138,22 @@ You can go to https://github.com/c00w/bitHopper/wiki and start reading the bitHo
 at https://bitcointalk.org/index.php?topic=26866. Join us on Freenode (http://webchat.freenode.net/) #bithopper channel.
 
 
-#Donations
+# Donations
 
-1HEmzeuVEKxBQkEenysV1yM8oAddQ4o2TX
+If you think this project is cool and you want more features added consider making a donation, anything counts ;)
+
+ 1HEmzeuVEKxBQkEenysV1yM8oAddQ4o2TX - c00w
+
+ 17wp2zfxZKeycWt6NKiueVYmYyrciiuq2t - ryouiki
+ 1CWjg4soWEAQjMD4dCchdPpJ6fWDBRUU5b - ed64
+ 15iS8iDqVCM2MF5ndaS3exR7Kw4LxFf2ra - hawks5999
+ 1QEBu4Tr7Qe6BMHdpeTmNDTPJhMqpDDtQ3 - paraipanakos
+ 13hP5QuFccLUZQDNxPwnfmn6q5RiV48TEn - macboy80
+ 1GgorPurRdDgsbPmoGEJm2WWGxKkJ8ktkf - sdogi
+
+ All the people who contribute to this project - https://github.com/c00w/bitHopper/network/members
+
+ flower1024, echiu64 (ed64), graphiclunarkid, elitak, Clipseza, littleant, bb-btc, gnaget, murfshake, Sukrim, gtrrkicw,
+ swordv2, bitcoindaddy, rkozola, ryouiki, starlightbreaker, hawks5999, erasmo, pueytan, macboy80, sdogi, joulesbeef,
+ Seoulboy1, paraipanakos, Swicher, lucita777
+

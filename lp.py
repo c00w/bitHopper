@@ -3,94 +3,121 @@
 #Based on a work at github.com.
 
 import json
-import exceptions
-import time
-import threading
+import eventlet
+from eventlet.green import time
+from eventlet.green import threading
+import traceback
 
-from twisted.internet import reactor, defer
-from twisted.internet.task import LoopingCall
-
-def byteswap(value):
+def bytereverse(value):
     bytes = []
     for i in xrange(0,len(value)):
         if i%2 == 1:
             bytes.append(value[i-1:i+1])
     return "".join(bytes[::-1])
 
+def wordreverse(value):
+    bytes = []
+    for i in xrange(0,len(value)):
+        if i%4 == 1:
+            bytes.append(value[i-3:i+1])
+    return "".join(bytes[::-1])
+
 class LongPoll():
-    def __init__(self,bitHopper):
+    def __init__(self, bitHopper):
         self.bitHopper = bitHopper
+        self.bitHopper.log_msg('LP Module Load')
         self.pool = self.bitHopper.pool
         self.blocks = {}
         self.lastBlock = None
         self.errors = {}
         self.polled = {}
-        startlp = LoopingCall(self.start_lp)
-        startlp.start(60*60)
+        self.lock = threading.RLock()
+        eventlet.spawn_n(self.start_lp)
 
-    def set_owner(self,server):
-        if self.lastBlock != None:
-            self.blocks[self.lastBlock]["_owner"] = server
-            if '_defer' in self.blocks[self.lastBlock]:
-                self.blocks[self.lastBlock]['_defer'].callback(server)
-            self.bitHopper.log_msg('Setting Block Owner ' + server+ ':' + str(self.lastBlock))
+    def set_owner(self, server, block = None):
+        with self.lock:
+            if block == None:
+                if self.lastBlock == None:
+                    return
+                block = self.lastBlock
+            
+            old_owner = self.blocks[block]["_owner"]
+            self.blocks[block]["_owner"] = server
+            if '_defer' in self.blocks[block]:
+                old_defer = self.blocks[block]['_defer']
+            else:
+                old_defer = None
+            new_defer = threading.Lock()
+            new_defer.acquire()
+            self.blocks[block]['_defer'] = new_defer
+            if old_defer:
+                old_defer.release()
+            self.bitHopper.log_msg('Setting Block Owner ' + server+ ':' + str(block))
+            if server in self.bitHopper.pool.servers and self.bitHopper.pool.servers[server]['role'] == 'mine_deepbit' and old_owner != server:
+                old_shares = self.bitHopper.pool.servers[server]['shares']
+                self.bitHopper.pool.servers[server]['shares'] = 0
+                self.bitHopper.scheduler.reset()
+                self.bitHopper.select_best_server()
+                eventlet.spawn_n(self.api_check,server,block,old_shares)
 
     def get_owner(self):
-        if self.lastBlock != None:
-            return self.blocks[self.lastBlock]["_owner"]
-        return ""
+        with self.lock:
+            if self.lastBlock != None:
+                return self.blocks[self.lastBlock]["_owner"]
+            return ""
 
     def start_lp(self):
-        # Loop Through each server and either call pull_lp with the address or
-        # Do a getwork.
-        for server in self.pool.servers:
-            info = self.pool.servers[server]
-            if info['role'] not in ['mine','mine_charity','mine_deepbit','mine_i0c','info','backup','backup_latehop','disable']:
-                continue
-            if info['lp_address'] != None:
-                self.pull_lp(info['lp_address'],server)
-            else:
-                reactor.callLater(0, self.pull_server, server)
+        while True:
+            # Loop Through each server and either call pull_lp with the address or
+            # Do a getwork.
+            
+            for server in self.pool.get_servers():
+                info = self.pool.servers[server]
+                if info['role'] not in ['mine','mine_charity','mine_deepbit','backup','backup_latehop']:
+                    continue
+                if info['lp_address'] != None:
+                    self.pull_lp(info['lp_address'],server)
+                else:
+                    eventlet.spawn_n(self.pull_server, server)
+            eventlet.sleep(60*60)
                 
                 
-    def pull_server(self,server):
+    def pull_server(self, server):
         # A helper function so that we can have this in a different call.
         self.bitHopper.work.jsonrpc_call(server, [])
 
-    def lp_api(self,server,block):
-	if self.bitHopper.pool.servers[server]['role'] == 'mine_deepbit':
-            self.set_owner(server)
-            old_shares = self.bitHopper.pool.servers[server]['shares']
-            self.bitHopper.pool.servers[server]['shares'] = 0
-            self.bitHopper.select_best_server()
-            if '_defer' not in self.blocks[block]:
-                self.blocks[block]['_defer'] = defer.Deferred()
-            self.blocks[block]['_defer'].addCallback(self.api_check,server,block,old_shares)
-	elif self.lastBlock != None and self.blocks[self.lastBlock]["_owner"] != server and '_defer' in self.blocks[self.lastBlock]:
-            # Don't switch, just reset shares
-            self.blocks[self.lastBlock]['_reset']=True
-            self.blocks[self.lastBlock]['_defer'].callback(server)
-
     def api_check(self, server, block, old_shares):
-        if self.blocks[block]['_owner'] != server or self.blocks[block]['_reset']:
-            self.bitHopper.pool.servers[server]['_reset']=False
-            self.bitHopper.pool.servers[server]['shares'] += old_shares
-            self.bitHopper.select_best_server()
+        with self.blocks[block]['_defer']:
+            if self.blocks[block]['_owner'] != server:
+                self.bitHopper.pool.servers[server]['shares'] += old_shares
+                self.bitHopper.select_best_server()
+
+    def add_block(self, block, work, server):
+        """ Adds a new block. server must be the server the work is coming from """
+        with self.lock:
+            self.blocks[block]={}
+            self.bitHopper.lp_callback.new_block(work, server)
+            self.blocks[block]["_owner"] = None
+            self.lastBlock = block
 
     def receive(self, body, server):
-        self.polled[server].release()
+
+        if server in self.polled:
+            self.polled[server].release()
         self.bitHopper.log_dbg('received lp from: ' + server)
         info = self.bitHopper.pool.servers[server]
-        if info['role'] in ['mine_nmc','disable','mine_ixc','mine_i0c']:
+        if info['role'] in ['mine_nmc', 'disable', 'mine_ixc', 'mine_i0c', 'mine_scc', 'info']:
             return
         if body == None:
-            self.bitHopper.log_dbg('error in lp from: ' + server)
-            if server not in self.errors:
-                self.errors[server] = 0
-            self.errors[server] += 1
+            self.bitHopper.log_dbg('error in long pool from: ' + server)
+            with self.lock:
+                if server not in self.errors:
+                    self.errors[server] = 0
+                self.errors[server] += 1
             #timeout? Something bizarre?
             if self.errors[server] < 3 or info['role'] == 'mine_deepbit':
-                self.bitHopper.reactor.callLater(0,self.pull_lp, self.pool.servers[server]['lp_address'],server, False)
+                eventlet.sleep(1)
+                eventlet.spawn_after(0,self.pull_lp, self.pool.servers[server]['lp_address'],server, False)
             return
         try:
             output = True
@@ -99,40 +126,36 @@ class LongPoll():
             data = work['data']
             block = data[8:72]
             #block = int(block, 16)
-            if block not in self.blocks:
-                if byteswap(block) in self.blocks:
-                    block = byteswap(block)
-                else:
+
+            with self.lock:
+                if block not in self.blocks:
+                    if bytereverse(block) in self.blocks:
+                        block = bytereverse(block)
                     self.bitHopper.log_msg('New Block: ' + str(block))
                     self.bitHopper.log_msg('Block Owner ' + server)
-                    self.blocks[block]={}
-                    self.bitHopper.lp_callback(work)
-                    self.blocks[block]["_owner"] = server
-                    if self.bitHopper.lpBot != None:
-                        self.bitHopper.lpBot.announce(str(server), str(block))
-                    else:
-                        if self.bitHopper.pool.servers[server]['role'] == 'mine_deepbit':
-                            self.lp_api(server, block)
-                        
-            if self.bitHopper.pool.servers[server]['role'] == 'mine_deepbit':
-                self.lastBlock = block
+                    self.add_block(block, work, server)
 
             #Add the lp_penalty if it exists.
-            offset = self.pool.servers[server].get('lp_penalty','0')
-            self.blocks[block][server] = time.time() + float(offset)
-            if self.blocks[block][server] < self.blocks[block][self.blocks[block]['_owner']]:
-                self.blocks[block]['_owner'] = server
+            with self.lock:
+                offset = self.pool.servers[server].get('lp_penalty','0')
+                self.blocks[block][server] = time.time() + float(offset)
+                if self.blocks[block]['_owner'] == None or self.blocks[block][server] < self.blocks[block][self.blocks[block]['_owner']]:
+                    self.set_owner(server,block)
+                    if self.bitHopper.lpBot != None:
+                        self.bitHopper.lpBot.announce(server, block)
+
         except Exception, e:
             output = False
-            self.bitHopper.log_dbg('Error in LP ' + str(server))
-            self.bitHopper.log_dbg(e)
+            self.bitHopper.log_dbg('Error in Long Pool ' + str(server) + str(body))
+            #traceback.print_exc()
             if server not in self.errors:
                 self.errors[server] = 0
-            self.errors[server] += 1
+            with self.lock:
+                self.errors[server] += 1
             #timeout? Something bizarre?
             if self.errors[server] > 3 and info['role'] != 'mine_deepbit':
                 return
-        self.bitHopper.reactor.callLater(0,self.pull_lp, self.pool.servers[server]['lp_address'],server,output)
+        eventlet.spawn_n(self.pull_lp, self.pool.servers[server]['lp_address'],server,output)
         
     def clear_lp(self,):
         pass
@@ -146,14 +169,16 @@ class LongPoll():
             info = self.bitHopper.pool.get_entry(server)
             info['lp_address'] = url
             if server not in self.polled:
-                self.polled[server] = threading.Semaphore()
-            self.bitHopper.reactor.callLater(0,self.pull_lp, url,server)
-        except Exception,e:
+                self.polled[server] = threading.Lock()
+            eventlet.spawn_n(self.pull_lp, url,server)
+        except Exception, e:
             self.bitHopper.log_msg('set_lp error')
-            self.bitHopper.log_dbg(str(e))
+            self.bitHopper.log_msg(e)
 
     def pull_lp(self,url,server, output = True):
         #self.bitHopper.log_msg('pull_lp ' + url + ' ' + server)
+        if url == None or server not in self.pool.servers:
+            return
         pool = self.pool.servers[server]
         if url[0] == '/':
             lp_address = str(pool['mine_address']) + str(url)
@@ -163,11 +188,11 @@ class LongPoll():
             lp_address = "http://" + lp_address
         try:
             if self.polled[server].acquire(False):
-                if output:
-                    self.bitHopper.log_msg("LP Call " + lp_address)
+                if output or self.bitHopper.options.debug:
+                    self.bitHopper.log_msg("Long Poll Call " + lp_address)
                 else:
-                    self.bitHopper.log_dbg("LP Call " + lp_address)
+                    self.bitHopper.log_dbg("Long Poll Call " + lp_address)
                 self.bitHopper.work.jsonrpc_lpcall(server, lp_address, self)
-        except Exception,e :
+        except Exception, e :
             self.bitHopper.log_dbg('pull_lp error')
             self.bitHopper.log_dbg(e)

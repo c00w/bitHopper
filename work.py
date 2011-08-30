@@ -6,169 +6,138 @@
 import json
 import base64
 import traceback
-from zope.interface import implements
 
-from client import Agent
-from _newclient import Request
-from twisted.web.iweb import IBodyProducer
-from twisted.web.http_headers import Headers
-from twisted.internet import defer
-from twisted.internet.defer import succeed, Deferred
-from twisted.internet.protocol import Protocol
-import twisted.web.client
+import eventlet
+httplib2 = eventlet.import_patched('httplib20_7_1')
+from eventlet import pools
 
-class StringProducer(object):
-    implements(IBodyProducer)
-
-    def __init__(self, body):
-        self.body = body
-        self.length = len(body)
-
-    def startProducing(self, consumer):
-        consumer.write(self.body)
-        return succeed(None)
-
-    def pauseProducing(self):
-        pass
-
-    def stopProducing(self):
-        pass
-
-class WorkProtocol(Protocol):
-
-    def __init__(self, finished):
-        self.data = ""
-        self.finished = finished
-    
-    def dataReceived(self, data):
-        self.data += data
-
-    def connectionLost(self, reason):
-        self.finished.callback(self.data)
+import webob
 
 class Work():
     def __init__(self, bitHopper):
         self.bitHopper = bitHopper
         self.i = 0
-        try:
-            self.agent = twisted.web.client.Agent(bitHopper.reactor, connectTimeout=5)
-        except:
-            self.agent = twisted.web.client.Agent(bitHopper.reactor)
-        
-        self.lp_agent = Agent(bitHopper.reactor, persistent=True)
+        self.connect_pool = {}
+        #pools.Pool(min_size = 2, max_size = 10, create = lambda: httplib2.Http(disable_ssl_certificate_validation=True))
 
-    @defer.inlineCallbacks
-    def jsonrpc_lpcall(self,server, url, lp):
+    def get_http(self, address, timeout=15):
+        if address not in self.connect_pool:
+            self.connect_pool[address] =  pools.Pool(min_size = 0, create = lambda: httplib2.Http(disable_ssl_certificate_validation=True, timeout=timeout))
+        return self.connect_pool[address].item()
+
+    def jsonrpc_lpcall(self, server, url, lp):
         try:
-            self.i += 1
-            request = json.dumps({'method':'getwork', 'params':[], 'id':self.i}, ensure_ascii = True)            
+            #self.i += 1
+            #request = json.dumps({'method':'getwork', 'params':[], 'id':self.i}, ensure_ascii = True)
             pool = self.bitHopper.pool.servers[server]
-            header = {'Authorization':["Basic " +base64.b64encode(pool['user']+ ":" + pool['pass'])], 'User-Agent': ['poclbm/20110709'],'Content-Type': ['application/json'] }
-            d = self.lp_agent.request('GET', url, Headers(header), StringProducer(request))
-            body = yield d
-            if body == None:
-                lp.receive(None,server)
-                defer.returnValue(None)
-            finish = Deferred()
-            body.deliverBody(WorkProtocol(finish))
-            text = yield finish
-            lp.receive(text,server)
-            defer.returnValue(None)
+            header = {'Authorization':"Basic " +base64.b64encode(pool['user']+ ":" + pool['pass']), 'user-agent': 'poclbm/20110709', 'Content-Type': 'application/json' }
+            with self.get_http(url, timeout=None) as http:
+                try:
+                    resp, content = http.request( url, 'GET', headers=header)#, body=request)[1] # Returns response dict and content str
+                except Exception, e:
+                    self.bitHopper.log_dbg('Error with a jsonrpc_lpcall http request')
+                    self.bitHopper.log_dbg(e)
+                    content = None
+            lp.receive(content, server)
+            return None
         except Exception, e:
             self.bitHopper.log_dbg('Error in lpcall work.py')
             self.bitHopper.log_dbg(e)
-            #traceback.print_exc()
-            #print e.reasons[0]
-            lp.receive(None,server)
-            defer.returnValue(None)
-    
-    @defer.inlineCallbacks
-    def get(self,url):
-        "A utility method for getting webpages"
-        d = self.agent.request('GET', url, Headers({'User-Agent':['Mozilla/5.0 (Windows; U; MSIE 9.0; WIndows NT 9.0; en-US))']}),None)
-        response = yield d
-        finish = Deferred()
-        response.deliverBody(WorkProtocol(finish))
-        body = yield finish
-        defer.returnValue(body)
+            lp.receive(None, server)
+            return None
 
-    @defer.inlineCallbacks
-    def jsonrpc_call(self, server, data):
+    def get(self, url):
+        """A utility method for getting webpages"""
+        header = {'user-agent':'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)'}
+        with self.get_http(url) as http:
+            try:
+                content = http.request( url, 'GET', headers=header)[1] # Returns response dict and content str
+            except Exception, e:
+                self.bitHopper.log_dbg('Error with a work.get http request')
+                self.bitHopper.log_dbg(e)
+                content = ""
+                
+        return content
+
+    def jsonrpc_call(self, server, data, client_header={}):
         try:
             request = json.dumps({'method':'getwork', 'params':data, 'id':self.i}, ensure_ascii = True)
-            self.i +=1
+            self.i += 1
             
-            info = self.bitHopper.pool.servers[server]
-            header = {'Authorization':["Basic " +base64.b64encode(info['user']+ ":" + info['pass'])], 'User-Agent': ['poclbm/20110709'],'Content-Type': ['application/json'] }
-            d = self.agent.request('POST', "http://" + info['mine_address'], Headers(header), StringProducer(request))
-            response = yield d
-            if response == None:
-                raise Exception("Response is none")
-            header = response.headers
+            info = self.bitHopper.pool.get_entry(server)
+            header = {'Authorization':"Basic " +base64.b64encode(info['user']+ ":" + info['pass'])}
+            user_agent = None
+            for k,v in client_header.items():
+                #Ugly hack to deal with httplib trying to be smart and supplying its own user agent.
+                if k.lower() in [ 'user-agent', 'user_agent']:
+                    header['user-agent'] = v
+                if k.lower() in ['x-mining-extensions', 'x-mining-hashrate']:
+                    header[k] = v
+                
+            
+            url = "http://" + info['mine_address']
+            with self.get_http(url) as http:
+                try:
+                    resp, content = http.request( url, 'POST', headers=header, body=request)
+                except Exception, e:
+                    self.bitHopper.log_dbg('Error with a jsonrpc_call http request')
+                    self.bitHopper.log_dbg(e)
+                    resp = {}
+                    content = ""
+
             #Check for long polling header
             lp = self.bitHopper.lp
             if lp.check_lp(server):
                 #bitHopper.log_msg('Inside LP check')
-                for k,v in header.getAllRawHeaders():
+                for k,v in resp.items():
                     if k.lower() == 'x-long-polling':
-                        lp.set_lp(v[0],server)
+                        lp.set_lp(v,server)
                         break
-
-            finish = Deferred()
-            response.deliverBody(WorkProtocol(finish))
-            body = yield finish
         except Exception, e:
             self.bitHopper.log_dbg('Caught, jsonrpc_call insides')
-            self.bitHopper.log_dbg(server)
             self.bitHopper.log_dbg(e)
-            #traceback.print_exc
-            defer.returnValue(None)
+            #traceback.print_exc()
+            return None, None
 
         try:
-            message = json.loads(body)
+            message = json.loads(content)
             value =  message['result']
-            defer.returnValue(value)
+            return value, resp
         except Exception, e:
             self.bitHopper.log_dbg( "Error in json decoding, Server probably down")
             self.bitHopper.log_dbg(server)
-            self.bitHopper.log_dbg(body)
-            defer.returnValue(None)
+            self.bitHopper.log_dbg(content)
+            return None, None
 
-    def sleep(self,length):
-        d = Deferred()
-        self.bitHopper.reactor.callLater(length, d.callback, None)
-        return d
-
-    @defer.inlineCallbacks
-    def jsonrpc_getwork(self,server, data, request):
-
+    def jsonrpc_getwork(self, server, data, request, headers={}):
         tries = 0
         work = None
         while work == None:
+            if data == [] and tries > 1:
+                server = self.bitHopper.get_new_server(server)
+            if data != [] and tries > 1:
+                self.bitHopper.get_new_server(server)
+            if data != [] and tries >5:
+                return 'False', {}
             tries += 1
             try:
-                if tries > 4:
-                    yield self.sleep(1)
-                if data == [] and self.bitHopper.request_store.closed(request):
-                    return
-                work = yield self.jsonrpc_call(server,data)
+                work, server_headers = self.jsonrpc_call(server, data, headers)
             except Exception, e:
                 self.bitHopper.log_dbg( 'caught, inner jsonrpc_call loop')
                 self.bitHopper.log_dbg(server)
-                self.bitHopper.log_dbg(str(e))
+                self.bitHopper.log_dbg(e)
                 work = None
-            if data == [] and tries > 2:
-                server = self.bitHopper.get_new_server(server)
-            elif tries >2:
-                self.bitHopper.get_new_server(server)
-        defer.returnValue(work)
+        return work, server_headers
 
-    @defer.inlineCallbacks
-    def handle(self,request):
-        
-        self.bitHopper.request_store.add(request)
-        request.setHeader('X-Long-Polling', '/LP')
-        rpc_request = json.loads(request.content.read())
+    def handle(self, env, start_request):
+
+        request = webob.Request(env)
+        rpc_request = json.loads(request.body)
+
+        client_headers = {}
+        for header in env:
+            if header[0:5] in 'HTTP_':
+                client_headers[header[5:].replace('_','-')] = env[header]
 
         #check if they are sending a valid message
         if rpc_request['method'] != "getwork":
@@ -180,21 +149,28 @@ class Work():
         if data != []:
             server = self.bitHopper.getwork_store.get_server(data[0][72:136])
         if data == [] or server == None:
-            server = self.bitHopper.pool.get_current()
+            server = self.bitHopper.pool.get_work_server()
 
-        work = yield self.jsonrpc_getwork(server, data, request)
+        work, server_headers  = self.jsonrpc_getwork(server, data, request, client_headers)
 
-        response = json.dumps({"result":work,'error':None,'id':j_id})        
-        request.write(response)
-        
-        #Check if the request has been closed
-        if self.bitHopper.request_store.closed(request):
-            return
-        request.finish()
+        to_delete = []
+        for header in server_headers:
+            if header.lower() not in ['x-roll-ntime']:
+                to_delete.append(header)
+        for item in to_delete:
+            del server_headers[item]  
+
+        server_headers['X-Long-Polling'] = '/LP'
+
+        start_request('200 OK', server_headers.items())
+
+        response = json.dumps({"result":work, 'error':None, 'id':j_id})        
 
         #some reject callbacks and merkle root stores
         if str(work) == 'False':
-            self.bitHopper.reject_callback(server, data, request.getUser(), request.getPassword())
+            data = env.get('HTTP_AUTHORIZATION').split(None, 1)[1]
+            username, password = data.decode('base64').split(':', 1)
+            self.bitHopper.reject_callback(server, data, username, password)
         elif str(work) != 'True':
             merkle_root = work["data"][72:136]
             self.bitHopper.getwork_store.add(server,merkle_root)
@@ -208,4 +184,36 @@ class Work():
             self.bitHopper.log_msg('RPC request [' + str(data[0][155:163]) + "] submitted to " + server)
 
         if data != []:
-            self.bitHopper.data_callback(server, data, request.getUser(), request.getPassword())  
+            data = env.get('HTTP_AUTHORIZATION').split(None, 1)[1]
+            username, password = data.decode('base64').split(':', 1)
+            self.bitHopper.data_callback(server, data, username,password) #request.remote_password)
+        return [response]
+
+    def handle_LP(self, env, start_response):
+        start_response('200 OK', [('Content-Type', 'text/json')])
+        
+        request = webob.Request(env)
+        j_id = None
+        try:
+            rpc_request = json.loads(request.body)
+            j_id = rpc_request['id']
+
+        except Exception, e:
+            self.bitHopper.log_dbg('Error in json handle_LP')
+            self.bitHopper.log_dbg(e)
+            if not j_id:
+                j_id = 1
+        
+        value = self.bitHopper.lp_callback.read()
+
+        try:
+            data = env.get('HTTP_AUTHORIZATION').split(None, 1)[1]
+            username = data.decode('base64').split(':', 1)[0] # Returns ['username', 'password']
+        except Exception,e:
+            username = ''
+
+        self.bitHopper.log_msg('LP Callback for miner: '+ username)
+
+        response = json.dumps({"result":value, 'error':None, 'id':j_id})
+
+        return [response]
