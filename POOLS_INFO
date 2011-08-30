@@ -72,6 +72,7 @@ info_1: Score based payout, try mining with mine_slush (page 164) - 356.68 Ghash
 [btcmonkey]
 #http://bitcoinmonkey.com/
 info_1: Nice small pool - 1.917 Ghash/s @ 08.23.11
+info_2: Pool went offline after supposedly finding a block (08.29.11)
 
 
 [btcserv]
@@ -110,16 +111,11 @@ info_2: Seems like they're Prop. pool (IRC Chan.) - 36 GHash/s @ 08.23.11
 info_1: Good for hopping, fast pool for hopper-starters - 176.52 GHash/s @ 08.23.11
 
 
-[nofeemining]
-#https://nofeemining.appspot.com/
-info_1: Nice small pool
-info_2: They moved pool to google appspot - Pool speed unknown @ 08.23.11
-
-
 [ozco]
 #https://ozco.in/register.php
 info_1: Freezing stats for unknown reason (page 114)
 info_2: Stats solved - 60.5 GHash/s @ 08.23.11
+
 
 [slush]
 #http://mining.bitcoin.cz/accounts/register/
@@ -185,11 +181,19 @@ info_2: High invalids on poclbm, site better supports phoenix 1.5+
 info_3: Registering temp disabled - 111.9 GHash/s @ 08.23.11
 
 
+[nofeemining]
+#https://nofeemining.appspot.com/
+info_1: Nice small pool
+info_2: They moved pool to google appspot - Pool speed unknown @ 08.23.11
+info_3: Changed payout to rsmpps (page 195)
+
+
 ######################################
 # Namecoin and other type of pools.
 # For hopping use mine_xxx accordingly
 ######################################
 
+#Nmc pools
 
 [bitparking]
 #http://bitparking.com/
@@ -216,9 +220,58 @@ info_1: Payouts are automatic and no need to signup - 8.35 Ghash/s @ 08.23.11
 info_1: Nmc pool (mine_nmc) - 47 Mhash/s @ 08.23.11
 
 
+#i0c pools
+# Currently there is no activity in the i0c pools due to a failure
+# in main client (http://bitcointalk.org/index.php?topic=36425.msg479182#msg479182)
+
 [i0g]
 #http://i0.btcguild.com/register.php
 info_1: i0coins pool, use mine_i0c - Offline @ 08.23.11
+
+
+[i0parking]
+#http://i0pool.bitparking.com/pool
+info_1: i0coins pool, use mine_i0c - 0 hash/s @ 08.28.11
+
+
+[digi0c]
+#http://i0.digbtc.net
+info_1: Delays statistics and distrust of its legitimacy (i0coin.org forum) - 0 hash/s @ 08.28.11
+
+
+#scc pools
+
+[scguild]
+#http://sc.btcguild.com/
+info_1: Solidcoin pool, use mine_scc - 325.14 Ghash/s @ 08.28.11
+
+
+[sodigbtc]
+#http://sobtc.digbtc.net
+#http://sc.digbtc.net
+info_1: Solidcoin pool, use mine_scc - 62.3 Ghash/s @ 08.28.11
+
+
+[scbitparking]
+#http://scpool.bitparking.com
+info_1: Solidcoin pool, use mine_scc - 64.06 Ghash/s @ 08.28.11
+
+
+[squid]
+#http://pool.squidnet.org
+info_1: Solidcoin pool, use mine_scc - 23.64 Ghash/s @ 08.28.11
+
+
+[mine4us]
+#http://solid.mine-for.us
+info_1: Solidcoin pool, use mine_scc - 2.51 Ghash/s @ 08.28.11
+
+
+#ixc pools
+
+[ixparking]
+#http://ixpool.bitparking.com/pool
+info_1: ixcoins pool, use mine_ixc - 4.99 Ghash/s @ 08.28.11
 
 
 ######################################
@@ -251,7 +304,12 @@ info_1: Changed payout system and delays stats, allot (page 116) - 31.3 Ghash/s 
 [poolmunity]
 #http://poolmunity.com/
 info_1: Obscure payout system and anti-hopping measures (page 55)
-info_2: Pooles closes in September (http://poolmunity.com/index.php/topic,83.0.html) - 0 Mhash/s @ 08.23.11
+info_2: Pooles closes in September (http://poolmunity.com/index.php/topic,83.0.html) - 0 hash/s @ 08.23.11
+
+
+[poolmunitynmc]
+#http://poolmunity.com/
+info_1: The same mine, and using the same worker user and pass to mine NameCoins (mine_nmc)
 
 
 [x8s]

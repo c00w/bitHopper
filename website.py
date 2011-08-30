@@ -14,6 +14,7 @@ class dynamicSite():
     def __init__(self, bitHopper):
         self.bh = bitHopper
         index_name = 'index.html'
+        self.site_names = ['/stats', '/index.html', '/index.htm']
         try:
             # determine scheduler index.html
             if hasattr(self.bh.scheduler,'index_html'):
@@ -111,6 +112,25 @@ class dynamicSite():
                 except Exception,e:
                     self.bh.log_dbg('Incorrect http post resetUserShares')
                     self.bh.log_dbg(e)
+            if "resetUShares" in v:
+                self.bh.log_msg('User forced user shares to be reset')
+                try:
+                    for server in self.bh.pool.get_servers():
+                        info = self.bh.pool.get_entry(server)
+                        info['user_shares'] = 0
+                        info['rejects'] = 0
+                except Exception,e:
+                    self.bh.log_dbg('Incorrect http post resetUserShares')
+                    self.bh.log_dbg(e)
+            if "resetEstPayout" in v:
+                self.bh.log_msg('User forced est payouts to be reset')
+                try:
+                    for server in self.bh.pool.get_servers():
+                        info = self.bh.pool.get_entry(server)
+                        info['expected_payout'] = 0
+                except Exception,e:
+                    self.bh.log_dbg('Incorrect http post resetEstPayout')
+                    self.bh.log_dbg(e)
             if "enableDebug" in v:
                 self.bh.log_dbg('User enabled DEBUG from web')
                 self.bh.options.debug = True
@@ -136,6 +156,7 @@ class dataSite():
 
     def __init__(self, bitHopper):
         self.bitHopper = bitHopper
+        self.site_names = ['/data']
 
     def handle(self, env, start_response):
         start_response('200 OK', [('Content-Type', 'text/json')])
@@ -154,6 +175,10 @@ class dataSite():
             "current":self.bitHopper.pool.get_current(), 
             'mhash':self.bitHopper.speed.get_rate(), 
             'difficulty':self.bitHopper.difficulty.get_difficulty(),
+            'ixc_difficulty':self.bitHopper.difficulty.get_ixc_difficulty(),
+            'i0c_difficulty':self.bitHopper.difficulty.get_i0c_difficulty(),
+            'nmc_difficulty':self.bitHopper.difficulty.get_nmc_difficulty(),
+            'scc_difficulty':self.bitHopper.difficulty.get_scc_difficulty(),
             'sliceinfo':sliceinfo,
             'servers':self.bitHopper.pool.get_servers(),
             'user':self.bitHopper.data.get_users()})
@@ -163,6 +188,8 @@ class lpSite():
 
     def __init__(self, bitHopper):
         self.bitHopper = bitHopper
+        self.site_names = ['/LP']
+        self.auth = False
 
     def handle(self, env, start_response):
         return self.bitHopper.work.handle_LP(env, start_response)
@@ -178,25 +205,24 @@ class nullsite():
 class bitSite():
 
     def __init__(self, bitHopper):
+        self.auth = False
+        self.site_names = ['','/']
         self.bitHopper = bitHopper
         self.dynamicSite = dynamicSite(self.bitHopper)
+        self.sites = [self, lpSite(self.bitHopper), dynamicSite(self.bitHopper), dataSite(self.bitHopper)]
 
     def handle_start(self, env, start_response):
-        if env['PATH_INFO'] in ['','/']:
-            site = self
-        elif env['PATH_INFO'] == '/LP':
-            site = lpSite(self.bitHopper)
-        elif not self.auth(env):
-            site = nullsite()
-        else:
-            if env['PATH_INFO'] in ['/stats', '/index.html', '/index.htm']:
-                site = self.dynamicSite
-            elif env['PATH_INFO'] == '/data':
-                site = dataSite(self.bitHopper)
-            else:
-                site = self
+        use_site = self
+        for site in self.sites:
+            if getattr(site, 'auth', True):
+                if not self.auth_check(env):
+                    use_site = nullsite()
+                    break
+            if env['PATH_INFO'] in site.site_names:
+                use_site = site
+                break
         try:
-            return site.handle(env,start_response)
+            return use_site.handle(env,start_response)
         except Exception, e:
             self.bitHopper.log_msg('Error in a wsgi function')
             self.bitHopper.log_msg(e)
@@ -206,7 +232,7 @@ class bitSite():
     def handle(self, env, start_response):
         return self.bitHopper.work.handle(env, start_response)
 
-    def auth(self, env):
+    def auth_check(self, env):
         if self.bitHopper.auth != None:  
             if env.get('HTTP_AUTHORIZATION') == None:
                 return False

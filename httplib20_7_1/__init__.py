@@ -1281,6 +1281,7 @@ a string that contains the response entity body.
                 headers = self._normalize_headers(headers)
 
             if not headers.has_key('user-agent'):
+                # Could be this conflicting with miner headers forwarding ?
                 headers['user-agent'] = "Python-httplib2/%s (gzip)" % __version__
 
             uri = iri2uri(uri)

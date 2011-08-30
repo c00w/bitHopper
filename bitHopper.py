@@ -254,14 +254,18 @@ def main():
         bithopper_instance.log_msg('Starting p2p LP')
         bithopper_instance.lpBot = LpBot(bithopper_instance)
 
-    if not options.debug:
-        log = open(os.devnull, 'wb')
-    else:
-        log = None
+    if options.debug:
+        log = None 
         backdoor_port = config.getint('backdoor', 'port')
         backdoor_enabled = config.getboolean('backdoor', 'enabled')
         if backdoor_enabled:
-            bithopper_instance.pile.spawn(backdoor.backdoor_server, eventlet.listen(('', backdoor_port)), locals={'bh':bithopper_instance})
+            try:
+                bithopper_instance.pile.spawn(backdoor.backdoor_server, eventlet.listen(('', backdoor_port)), locals={'bh':bithopper_instance})
+            except Exception, e:
+                print e   
+    else:
+        log = open(os.devnull, 'wb')
+
     while True:
         try:
             listen_port = options.port            

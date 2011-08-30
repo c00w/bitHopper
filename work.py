@@ -20,7 +20,7 @@ class Work():
         self.connect_pool = {}
         #pools.Pool(min_size = 2, max_size = 10, create = lambda: httplib2.Http(disable_ssl_certificate_validation=True))
 
-    def get_http(self, address, timeout=30):
+    def get_http(self, address, timeout=15):
         if address not in self.connect_pool:
             self.connect_pool[address] =  pools.Pool(min_size = 0, create = lambda: httplib2.Http(disable_ssl_certificate_validation=True, timeout=timeout))
         return self.connect_pool[address].item()
@@ -30,7 +30,7 @@ class Work():
             #self.i += 1
             #request = json.dumps({'method':'getwork', 'params':[], 'id':self.i}, ensure_ascii = True)
             pool = self.bitHopper.pool.servers[server]
-            header = {'Authorization':"Basic " +base64.b64encode(pool['user']+ ":" + pool['pass']), 'User-Agent': 'poclbm/20110709', 'Content-Type': 'application/json' }
+            header = {'Authorization':"Basic " +base64.b64encode(pool['user']+ ":" + pool['pass']), 'user-agent': 'poclbm/20110709', 'Content-Type': 'application/json' }
             with self.get_http(url, timeout=None) as http:
                 try:
                     resp, content = http.request( url, 'GET', headers=header)#, body=request)[1] # Returns response dict and content str
@@ -55,7 +55,7 @@ class Work():
                 useragent = 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)'
                 pass
         #self.bitHopper.log_dbg('user-agent: ' + useragent + ' for ' + str(url) )
-        header = {'User-Agent':useragent}
+        header = {'user-agent':useragent}
         with self.get_http(url) as http:
             try:
                 content = http.request( url, 'GET', headers=header)[1] # Returns response dict and content str
@@ -73,9 +73,15 @@ class Work():
             
             info = self.bitHopper.pool.get_entry(server)
             header = {'Authorization':"Basic " +base64.b64encode(info['user']+ ":" + info['pass'])}
-            for k,v in client_header:
-                if k not in header:
+            user_agent = None
+            for k,v in client_header.items():
+                #Ugly hack to deal with httplib trying to be smart and supplying its own user agent.
+                if k.lower() in [ 'user-agent', 'user_agent']:
+                    header['user-agent'] = v
+                if k.lower() in ['x-mining-extensions', 'x-mining-hashrate']:
                     header[k] = v
+                
+            
             url = "http://" + info['mine_address']
             with self.get_http(url) as http:
                 try:
@@ -114,14 +120,14 @@ class Work():
         tries = 0
         work = None
         while work == None:
-            if data == [] and tries > 2:
+            if data == [] and tries > 1:
                 server = self.bitHopper.get_new_server(server)
-            elif tries > 2:
+            if data != [] and tries > 1:
                 self.bitHopper.get_new_server(server)
+            if data != [] and tries >5:
+                return 'False', {}
             tries += 1
             try:
-                if tries > 4:
-                    eventlet.sleep(0.5)
                 work, server_headers = self.jsonrpc_call(server, data, headers)
             except Exception, e:
                 self.bitHopper.log_dbg( 'caught, inner jsonrpc_call loop')
@@ -137,8 +143,8 @@ class Work():
 
         client_headers = {}
         for header in env:
-            if len(header)> 5 and header[0:5] is 'HTTP_':
-                client_headers[header[5:]] = env[header]
+            if header[0:5] in 'HTTP_':
+                client_headers[header[5:].replace('_','-')] = env[header]
 
         #check if they are sending a valid message
         if rpc_request['method'] != "getwork":
@@ -156,7 +162,7 @@ class Work():
 
         to_delete = []
         for header in server_headers:
-            if header.lower() not in []: #['x-roll-ntime', 'nonce-range]:
+            if header.lower() not in ['x-roll-ntime']:
                 to_delete.append(header)
         for item in to_delete:
             del server_headers[item]  

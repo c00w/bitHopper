@@ -72,6 +72,7 @@ info_1: Sistema de pago por puntuacion, intenta minar con mine_slush (pagina 164
 [btcmonkey]
 #http://bitcoinmonkey.com/
 info_1: Mina pequena y mona - 1.917 Ghash/s @ 08.23.11
+info_2: Mina fuera de linea despues de supuestamente encontrar un bloque (08.29.11)
 
 
 [btcserv]
@@ -108,12 +109,6 @@ info_2: Se quedaron con el sist. Proporcional (Canal IRC) - 36 GHash/s @ 08.23.1
 [mtred]
 #https://mtred.com/user/registration.html
 info_1: Buena para saltar, mina rapida para principiantes - 176.52 GHash/s @ 08.23.11
-
-
-[nofeemining]
-#https://nofeemining.appspot.com/
-info_1: Mina pequena y mona
-info_2: Han cambiado el servidor a google appspot - Velocida de mina desconocida @ 08.23.11
 
 
 [ozco]
@@ -186,11 +181,19 @@ info_2: Invalidos muy altos con poclbm, mejor utilizar phoenix 1.5+
 info_3: Registro temporalmente deshabilitado - 111.9 GHash/s @ 08.23.11
 
 
+[nofeemining]
+#https://nofeemining.appspot.com/
+info_1: Mina pequena y mona
+info_2: Han cambiado el servidor a google appspot - Velocida de mina desconocida @ 08.23.11
+info_3: Cambiaron sistema de pago a rsmpps (pagina 195)
+
+
 ######################################
 # Minas Namecoin u otro tipo. Salta
 # usando el modo adecuado (mine_xxx)
 ######################################
 
+#Minas nmc
 
 [bitparking]
 #http://bitparking.com/
@@ -217,9 +220,60 @@ info_1: Pagos automaticos sin necesidad de registrarse - 8.35 Ghash/s @ 08.23.11
 info_1: Mina namecoins (mine_nmc) - 47 Mhash/s @ 08.23.11
 
 
+#Minas i0c
+# Actualmente (08.28.11) no hay actividad en las minas i0c debido a un fallo encontrado
+# en el cliente (http://bitcointalk.org/index.php?topic=36425.msg479182#msg479182)
+
+
 [i0g]
 #http://i0.btcguild.com/register.php
 info_1: Mina i0coins, usa el rol mine_i0c - Offline @ 08.23.11
+info_2: Cerrado indefinidamente
+
+
+[i0parking]
+#http://i0pool.bitparking.com/pool
+info_1: Mina i0coins, usa el rol mine_i0c - 0 hash/s @ 08.28.11
+
+
+[digi0c]
+#http://i0.digbtc.net/
+info_1: Ralentiza las estadisticas y sospechan de su legitimidad (foro i0coin.org) - 0 hash/s @ 08.28.11
+
+
+#Minas scc
+
+[scguild]
+#http://sc.btcguild.com/
+info_1: Mina solidcoin, usa el rol mine_scc - 325.14 Ghash/s @ 08.28.11
+
+
+[sodigbtc]
+#http://sobtc.digbtc.net
+#http://sc.digbtc.net
+info_1: Mina solidcoin, usa el rol mine_scc - 62.3 Ghash/s @ 08.28.11
+
+
+[scbitparking]
+#http://scpool.bitparking.com
+info_1: Mina solidcoin, usa el rol mine_scc - 64.06 Ghash/s @ 08.28.11
+
+
+[squid]
+#http://pool.squidnet.org
+info_1: Mina solidcoin, usa el rol mine_scc - 23.64 Ghash/s @ 08.28.11
+
+
+[mine4us]
+#http://solid.mine-for.us
+info_1: Mina solidcoin, usa el rol mine_scc - 2.51 Ghash/s @ 08.28.11
+
+
+#Minas ixc
+
+[ixparking]
+#http://ixpool.bitparking.com/pool
+info_1: Mina IXcoins, usa el rol mine_ixc - 4.99 Ghash/s @ 08.28.11
 
 
 ######################################
@@ -254,7 +308,12 @@ info_1: Ha cambiado el sistema de pagos y ralentiza los stats (pagina 116, foro 
 [poolmunity]
 #http://poolmunity.com/
 info_1: Sistema de pagos desconocido y medidas anti-hopping (pagina 55)
-info_2: Cierra sus puertas en Septiembre (http://poolmunity.com/index.php/topic,83.0.html) - 0 Mhash/s @ 08.23.11
+info_2: Cierra sus puertas en Septiembre (http://poolmunity.com/index.php/topic,83.0.html) - 0 hash/s @ 08.23.11
+
+
+[poolmunitynmc]
+#http://poolmunity.com/
+info_1: La misma mina, usando el mismo usuario y contrasena del worker para minar NameCoins (mine_nmc)
 
 
 [x8s]

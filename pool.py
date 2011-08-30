@@ -21,7 +21,7 @@ class Pool():
     def __init__(self, bitHopper):
         self.bitHopper = bitHopper
         self.servers = {}
-        self.api_pull = ['mine','info','mine_slush','mine_nmc','mine_ixc','mine_i0c','mine_charity','mine_deepbit','backup','backup_latehop']
+        self.api_pull = ['mine', 'info', 'mine_slush', 'mine_nmc', 'mine_ixc', 'mine_i0c',  'mine_scc', 'mine_charity', 'mine_deepbit', 'backup', 'backup_latehop']
         self.initialized = False
         self.lock = threading.RLock()
         self.pool_configs = ['pools.cfg']
@@ -87,6 +87,7 @@ class Pool():
         if self.current_server is None: 
             self.current_server = pool
         if self.started == True:
+            self.bitHopper.db.check_database()
             self.setup(self.bitHopper)
         
     def setup(self, bitHopper):
@@ -157,7 +158,7 @@ class Pool():
             value = random.randint(0,99)
             if value in self.server_map:
                 result = self.server_map[value]
-                if self.servers[result]['lag']:
+                if self.servers[result]['lag'] or self.servers[result]['role'] == 'disable':
                     return self.get_current()
                 else:
                     return result
