@@ -221,8 +221,6 @@ info_1: Nmc pool (mine_nmc) - 47 Mhash/s @ 08.23.11
 
 
 #i0c pools
-# Currently there is no activity in the i0c pools due to a failure
-# in main client (http://bitcointalk.org/index.php?topic=36425.msg479182#msg479182)
 
 [i0g]
 #http://i0.btcguild.com/register.php
