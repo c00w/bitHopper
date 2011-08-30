@@ -25,6 +25,7 @@
 # mine_nmc = setup pool for NMC mining
 # mine_ixc = ixcoins pool and diff.
 # mine_i0c = i0coins pool and diff.
+# mine_scc = solidcoin pool and diff.
 # backup = hopps on this when no Prop. pool is available
 # backup_latehop = prefers this for backup if pool has
 #   high share count (full descr. on page 121, bH thread)
@@ -36,17 +37,21 @@
 # 
 # Pool set-up:
 #
-#  role:       tell bH what kind of mining is wanted at
-#              this pool, pick a valid one from the list above
-#  penalty:    floating point number, # of shares will be
-#              multiplied by this number when calculating
-#              shares against difficulty
-#              BACKUP SERVERS: Set it to the percent the server takes. 
-#              The penalty/100 is added to the reject rate when calculating 
-#              which server to use
-#  lp_penalty: normalize LP's of this pool with "x" seconds (greater for fast LP response pools)
-#  user:       worker username you setup for this pool
-#  pass:       password you have for the worker (not needed for all pools)
+#  role:          tell bH what kind of mining is wanted at
+#                 this pool, pick a valid one from the list above
+#  penalty:       floating point number, # of shares will be
+#                 multiplied by this number when calculating
+#                 shares against difficulty
+#                 BACKUP SERVERS: Set it to the percent the server takes. 
+#                 The penalty/100 is added to the reject rate when calculating 
+#                 which server to use
+#  lp_penalty:    normalize LP's of this pool with "x" seconds (greater for fast
+#                 LP response pools)
+#  percent:       keep submitting shares to pool, % value from you total output
+#                 (1% = 1 share every 100)
+#  refresh_limit: pool's api refreshing interval in seconds
+#  user:          worker username you setup for this pool
+#  pass:          password you have for the worker (not needed for all pools)
 #
 ###############################################################################
 
@@ -106,8 +111,8 @@ pass: x
 #http://btcserv.net/
 #CHANGE THIS
 role: info
-user: x
-pass: y
+user: your_username
+pass: your_password
 
 [bcpool]
 #http://bitcoinpool.com
@@ -116,20 +121,12 @@ role: info
 user: c00w_test
 pass: x
 
-[nofeemining]
-#https://nofeemining.appspot.com/
-#CHANGE THIS
-role: mine
-nofeemining_user_apikey: 4140cbc6405f4425cf91ca74e1450b66
-user: 1Q4B1LdoKHtMbj6tBLhj1cyuMWTDYFJ9Y7
-pass: x
-
 [deepbit]
 #https://deepbit.net/
 #CHANGE THIS
 role: mine_deepbit
-user: CHANGEME
-pass: CHANGEME
+user: your_username
+pass: your_password
 
 [btcg]
 #https://www.btcguild.com/
@@ -267,13 +264,31 @@ pass: minero
 #CHANGE THIS
 role: disable
 abc_user_apikey: 
-user: CHANGEME
-pass: CHANGEME
+user: your_username
+pass: your_password
+
+[mtredpps]
+#https://mtred.com/user/registration.html
+#CHANGE THIS
+role: disable
+mtred_user_apikey:d91c52cfe1609f161f28a1268a2915b8+
+user:scarium
+pass:x
+
+[nofeemining]
+#https://nofeemining.appspot.com/
+#CHANGE THIS
+role: mine
+nofeemining_user_apikey: 4140cbc6405f4425cf91ca74e1450b66
+user: 1Q4B1LdoKHtMbj6tBLhj1cyuMWTDYFJ9Y7
+pass: x
 
 ######################################
 # Namecoin and other type of pools.
 # For hopping use mine_xxx accordingly
 ######################################
+
+#Nmc pools
 
 [bitparking]
 #http://bitparking.com/
@@ -288,15 +303,15 @@ pass: x
 #http://nmcbit.com/
 #CHANGE THIS (if you want)
 role: info
-user: x
-pass: x
+user: your_username
+pass: your_password
 
 [masterpool]
 #https://masterpool.eu/signup
 #CHANGE THIS (if you want)
 role: info
-user: x
-pass: xxx
+user: your_username
+pass: your_password
 
 [namebit]
 #http://www.namebit.org/
@@ -311,12 +326,75 @@ pass: none
 #http://www.bitchomp.info/ncp/register.php
 #CHANGE THIS (if you want)
 role: info
-user: x
-pass: x
+user: your_username
+pass: your_password
+
+
+#i0c pools
 
 [i0g]
 #http://i0.btcguild.com/register.php
 #CHANGE THIS (if you want)
+role: disable
+user: your_username
+pass: your_password
+
+[i0parking]
+#http://i0pool.bitparking.com/pool
+role: disable
+user: your_username
+pass: your_password
+
+[digi0c]
+#http://i0.digbtc.net
+role: disable
+user: your_username
+pass: your_password
+
+
+#scc pools
+
+[scguild]
+#http://sc.btcguild.com/
+#CHANGE THIS (if you want)
+role: disable
+user: your_username
+pass: your_password
+
+[sodigbtc]
+#http://sobtc.digbtc.net
+#http://sc.digbtc.net
+#CHANGE THIS (if you want)
+role: disable
+user: your_username
+pass: your_password
+
+[scbitparking]
+#http://scpool.bitparking.com
+#CHANGE THIS (if you want)
+role: disable
+user: your_username
+pass: your_password
+
+[squid]
+#http://pool.squidnet.org
+#CHANGE THIS (if you want)
+role: disable
+user: your_username
+pass: your_password
+
+[mine4us]
+#http://solid.mine-for.us
+#CHANGE THIS (if you want)
+role: disable
+user: your_username
+pass: your_password
+
+
+#ixc pools
+
+[ixparking]
+#http://ixpool.bitparking.com/pool
 role: disable
 user: your_username
 pass: your_password

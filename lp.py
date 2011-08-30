@@ -11,11 +11,18 @@ import traceback
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
 
-def byteswap(value):
+def bytereverse(value):
     bytes = []
     for i in xrange(0,len(value)):
         if i%2 == 1:
             bytes.append(value[i-1:i+1])
+    return "".join(bytes[::-1])
+
+def wordreverse(value):
+    bytes = []
+    for i in xrange(0,len(value)):
+        if i%4 == 1:
+            bytes.append(value[i-3:i+1])
     return "".join(bytes[::-1])
 
 class LongPoll():
@@ -102,10 +109,10 @@ class LongPoll():
             self.polled[server].release()
         self.bitHopper.log_dbg('received lp from: ' + server)
         info = self.bitHopper.pool.servers[server]
-        if info['role'] in ['mine_nmc', 'disable', 'mine_ixc', 'mine_i0c', 'info']:
+        if info['role'] in ['mine_nmc', 'disable', 'mine_ixc', 'mine_i0c', 'mine_scc', 'info']:
             return
         if body == None:
-            self.bitHopper.log_dbg('error in lp from: ' + server)
+            self.bitHopper.log_dbg('error in long pool from: ' + server)
             with self.lock:
                 if server not in self.errors:
                     self.errors[server] = 0
@@ -125,8 +132,8 @@ class LongPoll():
 
             with self.lock:
                 if block not in self.blocks:
-                    if byteswap(block) in self.blocks:
-                        block = byteswap(block)
+                    if bytereverse(block) in self.blocks:
+                        block = bytereverse(block)
                     self.bitHopper.log_msg('New Block: ' + str(block))
                     self.bitHopper.log_msg('Block Owner ' + server)
                     self.add_block(block, work, server)
@@ -142,8 +149,8 @@ class LongPoll():
 
         except Exception, e:
             output = False
-            self.bitHopper.log_dbg('Error in LP ' + str(server) + str(body))
-            traceback.print_exc()
+            self.bitHopper.log_dbg('Error in Long Pool ' + str(server) + str(body))
+            #traceback.print_exc()
             if server not in self.errors:
                 self.errors[server] = 0
             with self.lock:
@@ -185,9 +192,9 @@ class LongPoll():
         try:
             if self.polled[server].acquire(False):
                 if output or self.bitHopper.options.debug:
-                    self.bitHopper.log_msg("LP Call " + lp_address)
+                    self.bitHopper.log_msg("Long Poll Call " + lp_address)
                 else:
-                    self.bitHopper.log_dbg("LP Call " + lp_address)
+                    self.bitHopper.log_dbg("Long Poll Call " + lp_address)
                 self.bitHopper.work.jsonrpc_lpcall(server, lp_address, self)
         except Exception, e :
             self.bitHopper.log_dbg('pull_lp error')

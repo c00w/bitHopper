@@ -6,6 +6,7 @@ import json
 import re
 import ConfigParser
 import sys
+import random
 
 import eventlet
 from eventlet.green import threading, os, time, socket
@@ -22,13 +23,14 @@ class Pool():
     def __init__(self, bitHopper):
         self.bitHopper = bitHopper
         self.servers = {}
-        self.api_pull = ['mine','info','mine_slush','mine_nmc','mine_ixc','mine_i0c','mine_charity','mine_deepbit','backup','backup_latehop']
+        self.api_pull = ['mine', 'info', 'mine_slush', 'mine_nmc', 'mine_ixc', 'mine_i0c',  'mine_scc', 'mine_charity', 'mine_deepbit', 'backup', 'backup_latehop']
         self.initialized = False
         self.lock = threading.RLock()
         self.pool_configs = ['pools.cfg']
+        self.started = False
+        self.current_server = None
         with self.lock:
             self.loadConfig()
-        
 
     def load_file(self, file_path, parser):
         try:
@@ -63,14 +65,21 @@ class Pool():
         for pool in userpools:
             self.servers[pool] = dict(parser.items(pool))
 
+        for pool in parser.sections():
+            try:
+                if 'role' in dict(parser.items(pool)) and pool not in self.servers:
+                    self.servers[pool] = dict(parser.items(pool))
+            except:
+                continue
+
         if self.servers == {}:
             bitHopper.log_msg("No pools found in pools.cfg or user.cfg")
 
-        if self.initialized == False: 
+        if self.current_server is None: 
             self.current_server = pool
-        else:
-            self.setup(self.bitHopper) 
-        self.initialized = True
+        if self.started == True:
+            self.bitHopper.db.check_database()
+            self.setup(self.bitHopper)
         
     def setup(self, bitHopper):
         with self.lock:
@@ -110,7 +119,10 @@ class Pool():
                 if self.servers[server]['default_role'] in ['info','disable']:
                     self.servers[server]['default_role'] = 'mine'
             self.servers = OrderedDict(sorted(self.servers.items(), key=lambda t: t[1]['role'] + t[0]))
-        eventlet.spawn_n(self.update_api_servers, bitHopper)
+            self.build_server_map()
+            if not self.started:
+                self.update_api_servers()
+                self.started = True
             
     def get_entry(self, server):
         with self.lock:
@@ -126,6 +138,34 @@ class Pool():
     def get_current(self, ):
         with self.lock:
             return self.current_server
+
+    def get_work_server(self):
+        """A function which returns the server to query for work.
+           Currently uses the donation server 1/100 times. 
+           Can be configured to do trickle through to other servers"""
+        with self.lock:
+            value = random.randint(0,99)
+            if value in self.server_map:
+                result = self.server_map[value]
+                if self.servers[result]['lag'] or self.servers[result]['role'] == 'disable':
+                    return self.get_current()
+                else:
+                    return result
+            else:
+                return self.get_current()
+                    
+    def build_server_map(self):
+        possible_servers = {}
+        for server in self.servers:
+            if 'percent' in self.servers[server]:
+                possible_servers[server] = int(self.servers[server]['percent'])
+        i = 0
+        server_map = {}
+        for k,v in possible_servers.items():
+            for _ in xrange(v):
+                server_map[i] = k
+                i += 1
+        self.server_map = server_map
 
     def set_current(self, server):
         with self.lock:
@@ -439,17 +479,9 @@ class Pool():
         except Exception, e:
             self.errsharesResponse(e, server)
 
-    def update_api_servers(self, bitHopper):
-        self.bitHopper = bitHopper
+    def update_api_servers(self):
         for server in self.servers:
-            info = self.servers[server]
-            update = self.api_pull
-            if info['role'] in update:
-                d = bitHopper.work.get(info['api_address'])
-                try:
-                    self.selectsharesResponse( d, server)
-                except Exception, e:
-                    self.errsharesResponse(e, server)
+            eventlet.spawn_n(self.update_api_server, server)
 
 if __name__ == "__main__":
     print 'Run python bitHopper.py instead.'

@@ -7,7 +7,7 @@
 try:
     import eventlet
 except Exception, e:
-    print "You need to install eventlet. See the readme."
+    print "You need to install greenlet. See the readme."
     raise e
 from eventlet import wsgi, greenpool, backdoor
 from eventlet.green import os, time, socket
@@ -44,6 +44,7 @@ class BitHopper():
         self.difficulty = diff.Difficulty(self)           
         self.pool = pool.Pool(self)     
         self.db = database.Database(self)
+        self.work = work.Work(self)
         self.pool.setup(self) 
         self.speed = speed.Speed(self)
         self.scheduler = scheduler.Scheduler(self)
@@ -51,7 +52,7 @@ class BitHopper():
         self.data = data.Data(self)       
         self.lp = lp.LongPoll(self)
         self.auth = None
-        self.work = work.Work(self)
+        
         self.website = website.bitSite(self)
         self.plugin = plugin.Plugin(self)
         self.pile = greenpool.GreenPool()
@@ -207,13 +208,16 @@ def main():
         bithopper_instance.lpBot = LpBot(bithopper_instance)
 
     lastDefaultTimeout = socket.getdefaulttimeout()
-    if not options.debug:
-        log = open(os.devnull, 'wb')
-    else:
+    if options.debug:
         log = None 
-        socket.setdefaulttimeout(None)
-        bithopper_instance.pile.spawn(backdoor.backdoor_server, eventlet.listen(('', 3000)), locals={'bh':bithopper_instance})
-        socket.setdefaulttimeout(lastDefaultTimeout)
+        try:
+            socket.setdefaulttimeout(None)
+            bithopper_instance.pile.spawn(backdoor.backdoor_server, eventlet.listen(('', 3000)), locals={'bh':bithopper_instance})
+            socket.setdefaulttimeout(lastDefaultTimeout)
+        except Exception, e:
+            print e   
+    else:
+        log = open(os.devnull, 'wb')
     while True:
         try:
             socket.setdefaulttimeout(None)

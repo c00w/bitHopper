@@ -7,18 +7,27 @@ Based on a work at github.com
 
 # Ubuntu installation
 
-In order to run bitHopper you need to install greenlet module over Python 2.7+ (lookup your allready
-installed version of Python with "python -V"):
+In order to run bitHopper you need to have Python installed in your system. Version 2.7 of Python is suggested
+although it has been tested and appears to work with version 2.6 too. To find out which version of Python your
+system currently has type "python -V" to a shell console.
+
+If you don't have Python installed at all you have to run:
+
+sudo apt-get install python
+
+After verifying that you have Python installed then you have to install some extra packages that bitHopper
+requires to function properly:
 
 sudo apt-get install python-dev python-setuptools
 sudo easy_install greenlet
+sudo easy_install importlib
 
-Tested and woking for Ubuntu 11.04, 10.10 and 10.04 LTS
+Tested and working with Ubuntu 11.04, 10.10 and 10.04 LTS
 
 
 # Instructions for Windows users
 
-ActiveState Python(recommended, use 32 bit even when you have 64 bit system, it will still work)
+ActiveState Python(recommended, use 32 bit even when you have 64 bit system)
 http://downloads.activestate.com/ActivePython/releases/2.7.2.5/ActivePython-2.7.2.5-win32-x86.msi
 
 Greenlet
@@ -74,7 +83,6 @@ You can launch bitHopper with the following parameters:
 	--scheduler           = Select an alternate scheduler
 	--threshold           = Override difficulty threshold (default 0.43)
 	--p2pLP               = Starts up an IRC bot to validate LP based hopping
-	--OldConnectionSystem = Uses the old connection system. May help with lots of miners
 	--debug               = Extra error output. Basically print all caught errors
 	--trace               = Extra debugging output
 
@@ -119,7 +127,9 @@ Not currently in use.
 # Skins
 
 You can change the color scheme on the status page. Skins and .jpg preview are located in the StatSkin sub directory.
-Just copy the index file to the main directory to change skin and hit refresh on your browser. No need to restart.
+Just rename your choice to index.html and copy to the main directory to change skin. (Current version requires you to restart bH)
+Tested and working on the following browsers: Firefox 6 (Win 7; Android); Chrome 13 (Win 7)
+Known issues with the following browsers: WebKit (Android 2.3.4); Internet Explorer 9 (Win 7)
 
 
 # More help
@@ -130,4 +140,20 @@ at https://bitcointalk.org/index.php?topic=26866. Join us on Freenode (http://we
 
 # Donations
 
-1HEmzeuVEKxBQkEenysV1yM8oAddQ4o2TX
+If you think this project is cool and you want more features added consider making a donation, anything counts ;)
+
+ 1HEmzeuVEKxBQkEenysV1yM8oAddQ4o2TX - c00w
+
+ 17wp2zfxZKeycWt6NKiueVYmYyrciiuq2t - ryouiki
+ 1CWjg4soWEAQjMD4dCchdPpJ6fWDBRUU5b - ed64
+ 15iS8iDqVCM2MF5ndaS3exR7Kw4LxFf2ra - hawks5999
+ 1QEBu4Tr7Qe6BMHdpeTmNDTPJhMqpDDtQ3 - paraipanakos
+ 13hP5QuFccLUZQDNxPwnfmn6q5RiV48TEn - macboy80
+ 1GgorPurRdDgsbPmoGEJm2WWGxKkJ8ktkf - sdogi
+
+ All the people who contribute to this project - https://github.com/c00w/bitHopper/network/members
+
+ flower1024, echiu64 (ed64), graphiclunarkid, elitak, Clipseza, littleant, bb-btc, gnaget, murfshake, Sukrim, gtrrkicw,
+ swordv2, bitcoindaddy, rkozola, ryouiki, starlightbreaker, hawks5999, erasmo, pueytan, macboy80, sdogi, joulesbeef,
+ Seoulboy1, paraipanakos, Swicher, lucita777
+

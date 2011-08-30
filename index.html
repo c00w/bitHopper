@@ -74,9 +74,18 @@
 					return "N/A";
 				}
 				
+				switch (srv['role'])
+				{
+					case 'mine_ixc': diff = payload['ixc_difficulty']; break;
+					case 'mine_i0c': diff = payload['i0c_difficulty']; break;
+					case 'mine_nmc': diff = payload['nmc_difficulty']; break;
+					case 'mine_scc': diff = payload['scc_difficulty']; break;
+					default: diff = payload['difficulty']; break;
+				}
+				
 				return shares
 					+ "<br>"
-					+ fixLength((shares / payload['difficulty'] * 100).toFixed(2), 6)
+					+ fixLength((shares / diff * 100).toFixed(2), 6)
 					+ "%";
 			}
 			
@@ -469,9 +478,9 @@
 							'GH/s': { 'data':getPoolSpeed, 'align':'right' },
 							'Round<br>Time': { 'data':getRoundDuration, 'align':'center'},
 							'Payout': { 'data':getPayout, 'color':getColor, 'align':'center' },
-							'Efficiency': { 'data':getEfficiency, 'color':getColor, 'align':'center' },
-							'ThrPenalty': { 'data':getPenalty, 'color':getColor, 'align':'center' },
-							'LP Penalty': { 'data':getLPPenalty, 'color':getColor, 'align':'center' },
+							'Eff.': { 'data':getEfficiency, 'color':getColor, 'align':'center' },
+							'ThrPnlty': { 'data':getPenalty, 'color':getColor, 'align':'center' },
+							'LP-Pnlty': { 'data':getLPPenalty, 'color':getColor, 'align':'center' },
 							'Slice': { 'data':getSlice, 'color':getColor, 'align':'center', 'display':'' },
 							'Round Shares': { 'data':getRoundShares, 'type':'linechart', 'width':'100%' },
 							'Role String' : { 'data':getRoleString, 'display':'none' }
@@ -513,10 +522,9 @@
 			<span style="background-color:black;width:20px;height:20px;">&nbsp;&nbsp;</span> Disabled
 			<span style="background-color:yellow;width:20px;height:20px;">&nbsp;&nbsp;</span> Info
 			<span style="background-color:green;width:20px;height:20px;">&nbsp;&nbsp;</span> Mine
-			<span style="background-color:#FF3232;width:20px;height:20px;color:white;font-family:Arial,Helvetica,sans-serif;font-size:20px;"><b>Please Donate to c00w:1HEmzeuVEKxBQkEenysV1yM8oAddQ4o2TX</b></span> 
 			<form>
-				<input type="checkbox" id="show_role_disabled" name="show_role" value="disabled" checked="true" />Show Disabled Pools 
-				<input type="checkbox" id="show_role_info" name="show_role" value="info" checked="true" />Show Info Pools
+				<input type="checkbox" id="show_role_disabled" name="show_role" value="disabled" checked="true" onclick="javascript:update()" />Show Disabled Pools 
+				<input type="checkbox" id="show_role_info" name="show_role" value="info" checked="true" onclick="javascript:update()" />Show Info Pools
 			</form>
 		</span>
 	</div>
