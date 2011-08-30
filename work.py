@@ -70,13 +70,21 @@ class Work():
                 
         return content
 
-    def jsonrpc_call(self, server, data, client_header={}):
+    def jsonrpc_call(self, server, data, client_header={}, username = None, password = None):
         try:
             request = json.dumps({'method':'getwork', 'params':data, 'id':self.i}, ensure_ascii = True)
             self.i += 1
             
             info = self.bitHopper.pool.get_entry(server)
-            header = {'Authorization':"Basic " +base64.b64encode(info['user']+ ":" + info['pass'])}
+            if '{USER}' in info['user'] and username == None:
+                user = info['user'].replace('{USER}', username)
+            else:
+                user = info['user']
+            if '{USER}' in info['pass'] and password == None:
+                passw = info['pass'].replace('{PASSWORD}', password)
+            else:
+                passw = info['pass']
+            header = {'Authorization':"Basic " +base64.b64encode(user + ":" + passw)}
             user_agent = None
             for k,v in client_header.items():
                 #Ugly hack to deal with httplib trying to be smart and supplying its own user agent.
@@ -120,7 +128,7 @@ class Work():
             self.bitHopper.log_dbg(content)
             return None, None
 
-    def jsonrpc_getwork(self, server, data, request, headers={}):
+    def jsonrpc_getwork(self, server, data, request, headers={}, username = None, password = None):
         tries = 0
         work = None
         while work == None:
@@ -132,7 +140,7 @@ class Work():
                 return 'False', {}
             tries += 1
             try:
-                work, server_headers = self.jsonrpc_call(server, data, headers)
+                work, server_headers = self.jsonrpc_call(server, data, headers, username = None, password = None)
             except Exception, e:
                 self.bitHopper.log_dbg( 'caught, inner jsonrpc_call loop')
                 self.bitHopper.log_dbg(server)
@@ -162,7 +170,10 @@ class Work():
         if data == [] or server == None:
             server = self.bitHopper.pool.get_work_server()
 
-        work, server_headers  = self.jsonrpc_getwork(server, data, request, client_headers)
+        data = env.get('HTTP_AUTHORIZATION').split(None, 1)[1]
+        username, password = data.decode('base64').split(':', 1)
+
+        work, server_headers  = self.jsonrpc_getwork(server, data, request, client_headers, username, password)
 
         to_delete = []
         for header in server_headers:
@@ -179,8 +190,6 @@ class Work():
 
         #some reject callbacks and merkle root stores
         if str(work).lower() == 'false':
-            data = env.get('HTTP_AUTHORIZATION').split(None, 1)[1]
-            username, password = data.decode('base64').split(':', 1)
             self.bitHopper.reject_callback(server, data, username, password)
         elif str(work).lower() != 'true':
             merkle_root = work["data"][72:136]
