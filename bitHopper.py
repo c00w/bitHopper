@@ -12,11 +12,14 @@ except Exception, e:
 from eventlet import wsgi, greenpool, backdoor
 from eventlet.green import os, time, socket
 eventlet.monkey_patch()
+#from eventlet import debug
+#debug.hub_blocking_detection(True)
 
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
 
 import optparse
+
 import work
 import diff
 import pool
