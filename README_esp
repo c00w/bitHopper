@@ -62,7 +62,8 @@ adecuada automaticamente.
 BitHopper pagina de Stats: http://localhost:8337/stats
 
 Copia y pega el archivo "user.cfg.default" a un nuevo archivo llamado "user.cfg" despues modifica este
-archivo para que incluya tus nombres y contraseñas de mineros (worker). Ejecuta "python bitHopper.py"
+archivo para que incluya tus nombres y contrasenas de mineros (worker). Repite el proceso con el archivo
+"bh.cfg.default" y comprueba que los reglajes por defecto te sirven. Ejecuta "python bitHopper.py"
 en *nix (Ubuntu) o haz doble click en "run-bithopper.bat" si estas en Windows. Despues de actualizarse
 comprueba que las minas estan configuradas correctamente a la pagina de Stats.
 
