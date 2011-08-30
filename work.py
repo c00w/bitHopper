@@ -167,11 +167,11 @@ class Work():
         response = json.dumps({"result":work, 'error':None, 'id':j_id})        
 
         #some reject callbacks and merkle root stores
-        if str(work) == 'False':
+        if str(work).lower() == 'false':
             data = env.get('HTTP_AUTHORIZATION').split(None, 1)[1]
             username, password = data.decode('base64').split(':', 1)
             self.bitHopper.reject_callback(server, data, username, password)
-        elif str(work) != 'True':
+        elif str(work).lower() != 'true':
             merkle_root = work["data"][72:136]
             self.bitHopper.getwork_store.add(server,merkle_root)
 
