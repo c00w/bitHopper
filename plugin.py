@@ -35,7 +35,7 @@ class Plugin():
         self.bitHopper.log_msg('Loading Plugins')      
         possible_plugins = os.listdir('plugins')
         for item in possible_plugins:
-            if os.path.isdir(item):
+            if os.path.isdir(os.path.join('plugins', item)):
                 try:
                     module = importlib.import_module('plugins.' + str(item))
                     bithop_attr = getattr(self.bitHopper, item, None)
@@ -49,7 +49,8 @@ class Plugin():
                         setattr(self.bitHopper, item, module)
                     else:
                         setattr(self.bitHopper, item, return_value)
+                    self.bitHopper.log_msg(item + " loaded")
                 except Exception, e:
-                    self.bitHopper.log_msg("Error loading plugin: " + item)
+                    self.bitHopper.log_msg("ERROR LOADING PLUGIN: " + item)
                     self.bitHopper.log_msg(e)
 
