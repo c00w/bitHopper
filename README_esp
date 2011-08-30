@@ -7,13 +7,22 @@ Basado en trabajo hecho en github.com
 
 # Instalar en Ubuntu
 
-Para poder ejecutar bitHopper necesitas instalar el modulo greenlet sobre Python 2.7+ (busca la version
-de tu instalacion de Python con "python -V"):
+Para poder ejecutar bitHopper necesitas tener instalado Python en el sistema. La version 2.7 es la recomendada
+aunque funciona correctamente con la version previa, Python 2.6. Para averiguar que version tienes instalada
+teclea en una consola "python -V".
+
+Si no tienes Python instalado puedes hacerlo con el siguiente comando:
+
+sudo apt-get install python
+
+Despues de comprobar haber instalado Python sigue con los paquetes extra que bitHopper necesita para funcionar
+correctamente:
 
 sudo apt-get install python-dev python-setuptools
 sudo easy_install greenlet
+sudo easy_install importlib
 
-Probado y funciona en Ubuntu 11.04, 10.10 and 10.04 LTS
+Testeado y funciona en Ubuntu 11.04, 10.10 y 10.04 LTS
 
 
 # Instrucciones para usuarios Windows
@@ -68,15 +77,15 @@ tu minero a localhost:8337 con cualquier usuario y contraseña (ne dejes en blan
 
 Puedes lanzar bH con los siguientes parametros:
 
-	--ip                  = IP donde escuchar
-	--port                = Puerto del proxy
-	--auth                = Pide usuario y contraseña para pagina stats (--auth usuario,contraseña)
-	--listschedulers      = Muestra los modos programados
-	--scheduler           = Selecciona otro modo programado
-	--threshold           = Sobrescribe dificultad de base (default 0.43)
-	--p2pLP               = Inicia el bot IRC para poder validar mucho mejor los saltos LP
-	--debug               = Visiona la salida de twisted
-	--trace               = Informacion extra para debugging
+   --ip                  = IP donde escuchar
+   --port                = Puerto del proxy
+   --auth                = Pide usuario y contraseña para pagina stats (--auth usuario,contraseña)
+   --listschedulers      = Muestra los modos programados
+   --scheduler           = Selecciona otro modo programado
+   --threshold           = Sobrescribe dificultad de base (default 0.43)
+   --p2pLP               = Inicia el bot IRC para poder validar mucho mejor los saltos LP
+   --debug               = Visiona la salida de twisted
+   --trace               = Informacion extra para debugging
 
 
 # Schedulers (programadores) disponibles:
@@ -95,12 +104,12 @@ Intenta un cambiar de un modo mas agresivo cuendo se llega a los limites preesta
 
 Parametros especificos:
 
-	--altslicesize            = Sobrescribe trozo para el modo AltSliceScheduler, tamaño trozo base es 900
-	--altminslicesize         = Sobrescribe tamaño minimo de trozo, base 60 (AltSliceScheduler solo)
-	--altslicejitter          = Añade variacion en el tamaño de trozo, deshabilitado por defecto (AltSliceScheduler solo)
-	--altsliceroundtimebias   = Moldea los trozos en funcion del tiempo de ronda con respecto al tiempo preestablecido (desactivado)
-	--altsliceroundtimetarget = Establece tiempo de ronda basado en velocidad de mina (GHash/s - establ. en 1000 Ghash/s)
-	--altsliceroundtimemagic  = Numero magico de tiempo de ronda, incrementa to moldear hacia shares de final de ronda.
+   --altslicesize            = Sobrescribe trozo para el modo AltSliceScheduler, tamaño trozo base es 900
+   --altminslicesize         = Sobrescribe tamaño minimo de trozo, base 60 (AltSliceScheduler solo)
+   --altslicejitter          = Añade variacion en el tamaño de trozo, deshabilitado por defecto (AltSliceScheduler solo)
+   --altsliceroundtimebias   = Moldea los trozos en funcion del tiempo de ronda con respecto al tiempo preestablecido (desactivado)
+   --altsliceroundtimetarget = Establece tiempo de ronda basado en velocidad de mina (GHash/s - establ. en 1000 Ghash/s)
+   --altsliceroundtimemagic  = Numero magico de tiempo de ronda, incrementa to moldear hacia shares de final de ronda.
 
 
    RoundTimeScheduler
