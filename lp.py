@@ -21,11 +21,11 @@ def bytereverse(value):
 def wordreverse(in_buf):
     out_words = []
     for i in range(0, len(in_buf), 4):
-	out_words.append(in_buf[i:i+4])
+   out_words.append(in_buf[i:i+4])
     out_words.reverse()
     out_buf = ""
     for word in out_words:
-	out_buf += word
+   out_buf += word
     return out_buf
 
 class LongPoll():
@@ -126,13 +126,13 @@ class LongPoll():
             return
         try:
             output = True
-	    #self.bitHopper.log_dbg('LP: ' + str(body))
+       #self.bitHopper.log_dbg('LP: ' + str(body))
             response = json.loads(body)
             work = response['result']
             data = work['data']
-	    block = data.decode('hex')[0:64]
-	    block = wordreverse(block)
-	    block = block.encode('hex')[56:120]
+       block = data.decode('hex')[0:64]
+       block = wordreverse(block)
+       block = block.encode('hex')[56:120]
 
             #block = data[8:72]
             #block = int(block, 16)
@@ -149,7 +149,7 @@ class LongPoll():
             with self.lock:
                 offset = self.pool.servers[server].get('lp_penalty','0')
                 self.blocks[block][server] = time.time() + float(offset)
-                self.bitHopper.log_dbg('EXACT ' + server + ': ' + self.blocks[block][server])
+                self.bitHopper.log_dbg('EXACT ' + str(server) + ': ' + str(self.blocks[block][server]))
                 if self.blocks[block]['_owner'] == None or self.blocks[block][server] < self.blocks[block][self.blocks[block]['_owner']]:
                     self.set_owner(server,block)
                     if self.bitHopper.lpBot != None:
