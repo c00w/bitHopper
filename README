@@ -22,10 +22,10 @@ sudo apt-get install python-dev python-setuptools
 sudo easy_install greenlet
 sudo easy_install importlib
 
-If you would like the poclbm plugin to work do
+If you would like to use the poclbm miner plugin do
 sudo easy_install numpy
 
-Tested and working with Ubuntu 11.04, 10.10 and 10.04 LTS
+Tested and working in Ubuntu 11.04, 10.10 and 10.04 LTS
 
 
 # Instructions for Windows users
