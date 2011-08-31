@@ -22,7 +22,7 @@ pool_refreshlimit = 120
 # upper mining limit on pools
 threshold = 0.46
 
-# number of seconds to wait for the shares to change befor disabling the API (7200 == 2 hours)
+# number of seconds to wait for the shares to change before disabling the API (7200 == 2 hours)
 api_disable_sec = 7200
 
 # bH browser ident
