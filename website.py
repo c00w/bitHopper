@@ -16,13 +16,13 @@ import webob
 
 class dynamicSite():
     def __init__(self, bitHopper):
-        self.bh = bitHopper
+        self.bitHopper = bitHopper
         index_name = 'index.html'
         self.site_names = ['/stats', '/index.html', '/index.htm']
         try:
             # determine scheduler index.html
-            if hasattr(self.bh.scheduler,'index_html'):
-                index_name = self.bh.scheduler.index_html
+            if hasattr(self.bitHopper.scheduler,'index_html'):
+                index_name = self.bitHopper.scheduler.index_html
             # determine if application is a script file or frozen exe
             if hasattr(sys, 'frozen'):
                 application_path = os.path.dirname(sys.executable)
@@ -48,122 +48,124 @@ class dynamicSite():
             if "role" in v:
                 try:
                     server = v.split('-')[1]
-                    self.bh.pool.get_entry(server)['role'] = request.POST[v]
-                    self.bh.pool.get_entry(server)['refresh_time'] = 60
+                    self.bitHopper.pool.get_entry(server)['role'] = request.POST[v]
+                    self.bitHopper.pool.get_entry(server)['refresh_time'] = 60
                     if request.POST[v] in ['mine','info']:
-                        self.bh.pool.update_api_server(server)
+                        self.bitHopper.pool.update_api_server(server)
 
                 except Exception, e:
-                    self.bh.log_msg('Incorrect http post request role')
-                    self.bh.log_msg(e)
+                    self.bitHopper.log_msg('Incorrect http post request role')
+                    self.bitHopper.log_msg(e)
             if "payout" in v:
                 try:
                     server = v.split('-')[1]
-                    self.bh.update_payout(server, float(request.POST[v]))
+                    self.bitHopper.update_payout(server, float(request.POST[v]))
                 except Exception, e:
-                    self.bh.log_dbg('Incorrect http post request payout')
-                    self.bh.log_dbg(e)
+                    self.bitHopper.log_dbg('Incorrect http post request payout')
+                    self.bitHopper.log_dbg(e)
             if "expout" in v:
                 try:
                     server = v.split('-')[1]
-                    for loopServer in self.bh.pool.get_servers():
+                    for loopServer in self.bitHopper.pool.get_servers():
                         if loopServer == server:
-                            info = self.bh.pool.get_entry(loopServer)
+                            info = self.bitHopper.pool.get_entry(loopServer)
                             info['expected_payout'] = float(request.POST[v])
-                            userShares = info['expected_payout'] * self.bh.difficulty.get_difficulty() / 50
+                            userShares = info['expected_payout'] * self.bitHopper.difficulty.get_difficulty() / 50
                             info['user_shares'] = int(userShares)
-                            self.bh.log_msg('Expected payout for ' + str(server) + " modified")
+                            self.bitHopper.db.get_shares(server)
+                            
+                            self.bitHopper.log_msg('Expected payout for ' + str(server) + " modified")
                 except Exception, e:
-                    self.bh.log_dbg('Incorrect http post request for expected payout')
-                    self.bh.log_dbg(e)
+                    self.bitHopper.log_dbg('Incorrect http post request for expected payout')
+                    self.bitHopper.log_dbg(e)
             if "penalty" in v:
                 try:
                     server = v.split('-')[1]
-                    info = self.bh.pool.get_entry(server)
+                    info = self.bitHopper.pool.get_entry(server)
                     old_penalty = 1
                     if 'penalty' in info:
                         old_penalty = info['penalty']
                     new_penalty = float(request.POST[v])
-                    self.bh.log_msg('Set ' + server + ' penalty from ' + str(old_penalty) + ' to ' + str(new_penalty))
+                    self.bitHopper.log_msg('Set ' + server + ' penalty from ' + str(old_penalty) + ' to ' + str(new_penalty))
                     info['penalty'] = new_penalty                    
-                    self.bh.select_best_server()
+                    self.bitHopper.select_best_server()
                 except Exception, e:
-                    self.bh.log_dbg('Incorrect http post request penalty: ' + str(v))
-                    self.bh.log_dbg(e)
+                    self.bitHopper.log_dbg('Incorrect http post request penalty: ' + str(v))
+                    self.bitHopper.log_dbg(e)
             if "resetscheduler" in v:
-                self.bh.log_msg('User forced scheduler reset')
+                self.bitHopper.log_msg('User forced scheduler reset')
                 try:
-                    if hasattr(self.bh.scheduler, 'reset'):
-                        self.bh.scheduler.reset()
-                        self.bh.select_best_server()
+                    if hasattr(self.bitHopper.scheduler, 'reset'):
+                        self.bitHopper.scheduler.reset()
+                        self.bitHopper.select_best_server()
                 except Exception,e:
-                    self.bh.log_dbg('Incorrect http post resetscheduler')
-                    self.bh.log_dbg(e)
+                    self.bitHopper.log_dbg('Incorrect http post resetscheduler')
+                    self.bitHopper.log_dbg(e)
             if "resetshares" in v:
-                self.bh.log_msg('User forced resetshares')
+                self.bitHopper.log_msg('User forced resetshares')
                 try:
-                    for server in self.bh.pool.get_servers():
-                        info = self.bh.pool.get_entry(server)
-                        info['shares'] = self.bh.difficulty.get_difficulty()
+                    for server in self.bitHopper.pool.get_servers():
+                        info = self.bitHopper.pool.get_entry(server)
+                        info['shares'] = self.bitHopper.difficulty.get_difficulty()
                 except Exception,e:
-                    self.bh.log_dbg('Incorrect http post resetshares')
-                    self.bh.log_dbg(e)
+                    self.bitHopper.log_dbg('Incorrect http post resetshares')
+                    self.bitHopper.log_dbg(e)
             if "reloadconfig" in v:
-                self.bh.log_msg('User forced configuration reload')
+                self.bitHopper.log_msg('User forced configuration reload')
                 try:
-                    self.bh.pool.loadConfig()
+                    self.bitHopper.pool.loadConfig()
                 except Exception,e:
-                    self.bh.log_dbg('Incorrect http post reloadconfig')
-                    self.bh.log_dbg(e)
+                    self.bitHopper.log_dbg('Incorrect http post reloadconfig')
+                    self.bitHopper.log_dbg(e)
             if "resetUserShares" in v:
-                self.bh.log_msg('User forced user shares, est payouts to be reset')
+                self.bitHopper.log_msg('User forced user shares, est payouts to be reset')
                 try:
-                    for server in self.bh.pool.get_servers():
-                        info = self.bh.pool.get_entry(server)
+                    for server in self.bitHopper.pool.get_servers():
+                        info = self.bitHopper.pool.get_entry(server)
                         info['user_shares'] = 0
                         info['rejects'] = 0
                         info['expected_payout'] = 0
                 except Exception,e:
-                    self.bh.log_dbg('Incorrect http post resetUserShares')
-                    self.bh.log_dbg(e)
+                    self.bitHopper.log_dbg('Incorrect http post resetUserShares')
+                    self.bitHopper.log_dbg(e)
             if "resetUShares" in v:
-                self.bh.log_msg('User forced user shares to be reset')
+                self.bitHopper.log_msg('User forced user shares to be reset')
                 try:
-                    for server in self.bh.pool.get_servers():
-                        info = self.bh.pool.get_entry(server)
+                    for server in self.bitHopper.pool.get_servers():
+                        info = self.bitHopper.pool.get_entry(server)
                         info['user_shares'] = 0
                         info['rejects'] = 0
                 except Exception,e:
-                    self.bh.log_dbg('Incorrect http post resetUserShares')
-                    self.bh.log_dbg(e)
+                    self.bitHopper.log_dbg('Incorrect http post resetUserShares')
+                    self.bitHopper.log_dbg(e)
             if "resetEstPayout" in v:
-                self.bh.log_msg('User forced est payouts to be reset')
+                self.bitHopper.log_msg('User forced est payouts to be reset')
                 try:
-                    for server in self.bh.pool.get_servers():
-                        info = self.bh.pool.get_entry(server)
+                    for server in self.bitHopper.pool.get_servers():
+                        info = self.bitHopper.pool.get_entry(server)
                         info['expected_payout'] = 0
                 except Exception,e:
-                    self.bh.log_dbg('Incorrect http post resetEstPayout')
-                    self.bh.log_dbg(e)
+                    self.bitHopper.log_dbg('Incorrect http post resetEstPayout')
+                    self.bitHopper.log_dbg(e)
             if "enableDebug" in v:
-                self.bh.log_dbg('User enabled DEBUG from web')
-                self.bh.options.debug = True
+                self.bitHopper.log_dbg('User enabled DEBUG from web')
+                self.bitHopper.options.debug = True
             if "disableDebug" in v:
-                self.bh.options.debug = False
-                self.bh.log_msg('User disabled DEBUG from web')
+                self.bitHopper.options.debug = False
+                self.bitHopper.log_msg('User disabled DEBUG from web')
             if "setLPPenalty" in v:
                 try:
                     server = v.split('-')[1]
-                    info = self.bh.pool.get_entry(server)
+                    info = self.bitHopper.pool.get_entry(server)
                     old_lp_penalty = 0
                     if 'lp_penalty' in info:
                         old_lp_penalty = info['lp_penalty']
                     new_lp_penalty = float(request.POST[v])
-                    self.bh.log_msg("Updating LP Penalty for " + server + " from " + str(old_lp_penalty) + ' to ' + str(new_lp_penalty))
+                    self.bitHopper.log_msg("Updating LP Penalty for " + server + " from " + str(old_lp_penalty) + ' to ' + str(new_lp_penalty))
                     info['lp_penalty'] = new_lp_penalty
                 except Exception, e:
-                    self.bh.log_dbg('Incorrect http post request setLPPenalty: ' + str(v))
-                    self.bh.log_dbg(e)
+                    self.bitHopper.log_dbg('Incorrect http post request setLPPenalty: ' + str(v))
+                    self.bitHopper.log_dbg(e)
 
 
 class dataSite():
