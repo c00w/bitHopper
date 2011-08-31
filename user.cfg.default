@@ -285,6 +285,13 @@ nofeemining_user_apikey: 4140cbc6405f4425cf91ca74e1450b66
 user: 1Q4B1LdoKHtMbj6tBLhj1cyuMWTDYFJ9Y7
 pass: x
 
+[btcservpps]
+#http://btcserv.net/
+#CHANGE THIS
+role: info
+user: your_username
+pass: your_password
+
 ######################################
 # Namecoin and other type of pools.
 # For hopping use mine_xxx accordingly
