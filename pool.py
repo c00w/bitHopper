@@ -79,7 +79,6 @@ class Pool():
                 for pool in self.servers:
                     if 'user_agent' not in self.servers[pool]:
                         idx = random.randint(0, len(ua_strings)-1)
-                        self.bitHopper.log_dbg('['+pool+"] Assigned user-agent " + str(idx) + ' of ' + ua_strings[idx])
                         self.servers[pool]['user_agent'] = ua_strings[idx]
         except:
             traceback.print_exc()
@@ -237,8 +236,7 @@ class Pool():
                 return
 
     def errsharesResponse(self, error, server_name):
-        self.bitHopper.log_msg('Error in pool api for ' + str(server_name))
-        self.bitHopper.log_dbg(str(error))
+        self.bitHopper.log_msg(server_name + ' api error:' + str(error))
         pool = server_name
         with self.lock:
             self.servers[pool]['err_api_count'] += 1

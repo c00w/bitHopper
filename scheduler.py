@@ -95,7 +95,6 @@ class Scheduler(object):
         return shares, info
 
     def select_backup_server(self,):
-        #self.bitHopper.log_dbg('select_backup_server', cat='scheduler-default')
         server_name = self.select_latehop_server()
         reject_rate = 1      
 
@@ -112,7 +111,6 @@ class Scheduler(object):
                     rr_server += float(info['penalty'])/100
                 if rr_server < reject_rate:
                     server_name = server
-                    self.bitHopper.log_dbg('select_backup_server: ' + str(server), cat='select_backup_server')
                     reject_rate = rr_server
 
         if server_name == None:
@@ -124,7 +122,6 @@ class Scheduler(object):
                     continue
                 if shares < min_shares and not info['lag']:
                     min_shares = shares
-                    #self.bitHopper.log_dbg('Selecting pool ' + str(server) + ' with shares ' + str(shares), cat='select_backup_server')
                     server_name = server
           
         if server_name == None:

@@ -111,10 +111,8 @@ class Work():
                 try:
                     resp, content = http.request( url, 'POST', headers=header, body=request)
                 except Exception, e:
-                    self.bitHopper.log_dbg('Error with a jsonrpc_call http request')
-                    self.bitHopper.log_dbg(e)
-                    resp = {}
-                    content = None
+                    self.bitHopper.log_dbg('jsonrpc_call http error: ' + str(e))
+                    return None, None
 
             #Check for long polling header
             lp = self.bitHopper.lp
@@ -125,8 +123,7 @@ class Work():
                         lp.set_lp(v,server)
                         break
         except Exception, e:
-            self.bitHopper.log_dbg('Caught, jsonrpc_call insides')
-            self.bitHopper.log_dbg(e)
+            self.bitHopper.log_dbg('jsonrpc_call error: ' + str(e))
             #traceback.print_exc()
             return None, None
 

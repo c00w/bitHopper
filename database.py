@@ -136,8 +136,6 @@ class Database():
 
         self.database.commit()
 
-        self.bitHopper.log_dbg('Database Setup')
-
     def get_users(self):
         """
         Get a dictionary of user information to seed data.py
