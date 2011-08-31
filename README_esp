@@ -22,7 +22,10 @@ sudo apt-get install python-dev python-setuptools
 sudo easy_install greenlet
 sudo easy_install importlib
 
-Testeado y funciona en Ubuntu 11.04, 10.10 y 10.04 LTS
+Si quieres hacer funcionar el minero poclbm incluido instala lo siguiente
+sudo easy_install numpy
+
+Probado y funciona en Ubuntu 11.04, 10.10 y 10.04 LTS
 
 
 # Instrucciones para usuarios Windows

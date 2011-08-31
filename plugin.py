@@ -37,7 +37,6 @@ class Plugin():
         for item in possible_plugins:
             if os.path.isdir(os.path.join('plugins', item)):
                 try:
-                    self.bitHopper.log_msg(' + ' + str(item))
                     module = importlib.import_module('plugins.' + str(item))
                     bithop_attr = getattr(self.bitHopper, item, None)
                     if bithop_attr is not None:

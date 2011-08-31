@@ -49,15 +49,17 @@ class Difficulty():
         try:
             req = urllib2.Request(url_diff)
             response = urllib2.urlopen(req)
-            if reg_exp == None: output = response.read()
+            if reg_exp == None: 
+                output = response.read()
             else:
-                output = re.search('<td id="difficulty">([.0-9]+)</td>', diff_str)
+                diff_str = response.read()
+                output = re.search(reg_exp, diff_str)
                 output = output.group(1)
             self.__dict__[diff_attr] = float(output)
             self.bitHopper.log_dbg('Retrieved Difficulty:' + str(self.__dict__[diff_attr]))
-        except:
+        except Exception, e:
+            #print 'ERROR:!!!!!: ' + str(e)
             pass
-
     def get_scc_difficulty(self):
         with self.lock:
             return self.scc_difficulty

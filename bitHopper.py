@@ -178,6 +178,7 @@ def main():
     parser.add_option('--p2pLP', action='store_true', default=False, help='Starts up an IRC bot to validate LP based hopping.')
     parser.add_option('--ip', type = str, default='', help='IP to listen on')
     parser.add_option('--auth', type = str, default=None, help='User,Password')
+    parser.add_option('--logconnections', default = False, action='store_true', help='show connection log')
     options = parser.parse_args()[0]
 
     if options.trace == True: options.debug = True
@@ -258,7 +259,6 @@ def main():
 
     lastDefaultTimeout = socket.getdefaulttimeout()
     if options.debug:
-        log = None 
         backdoor_port = config.getint('backdoor', 'port')
         backdoor_enabled = config.getboolean('backdoor', 'enabled')
         if backdoor_enabled:
@@ -268,6 +268,9 @@ def main():
                 socket.setdefaulttimeout(lastDefaultTimeout)
             except Exception, e:
                 print e   
+
+    if options.logconnections:
+        log = None
     else:
         log = open(os.devnull, 'wb')
 
