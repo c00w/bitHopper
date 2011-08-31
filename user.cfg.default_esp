@@ -50,6 +50,8 @@
 #  percent:       continua enviando shares aqui, valor proc. calculado sobre el
 #                 total de tus shares (1% = 1 share cada 100)
 #  refresh_limit: intervalo para refrescar la api de mina en segundos
+#  user_agent:    identificacion de navegador HTTP de bH para minas, sobrescribe
+#                 el reglaje general que se encuentra en bh.cfg
 #  user:          nombre del trabajador que se tiene que utilizar
 #  pass:          contrasena del trabajador (no se necesita para todas las minas)
 #
