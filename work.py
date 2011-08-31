@@ -80,7 +80,7 @@ class Work():
                 user = info['user'].replace('{USER}', username)
             else:
                 user = info['user']
-            if '{USER}' in info['pass'] and password == None:
+            if '{PASSWORD}' in info['pass'] and password == None:
                 passw = info['pass'].replace('{PASSWORD}', password)
             else:
                 passw = info['pass']
