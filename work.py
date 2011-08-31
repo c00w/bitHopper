@@ -33,8 +33,11 @@ class Work():
         try:
             #self.i += 1
             #request = json.dumps({'method':'getwork', 'params':[], 'id':self.i}, ensure_ascii = True)
-            pool = self.bitHopper.pool.servers[server]
-            header = {'Authorization':"Basic " +base64.b64encode(pool['user']+ ":" + pool['pass']), 'user-agent': 'poclbm/20110709', 'Content-Type': 'application/json' }
+            user, passw, error = self.user_substitution(server, None, None)
+            #Check if we are using {USER} or {PASSWORD}
+            if error:
+                return None
+            header = {'Authorization':"Basic " +base64.b64encode(user+ ":" + passw), 'user-agent': 'poclbm/20110709', 'Content-Type': 'application/json' }
             with self.get_http(url, timeout=None) as http:
                 try:
                     resp, content = http.request( url, 'GET', headers=header)#, body=request)[1] # Returns response dict and content str
@@ -70,20 +73,29 @@ class Work():
                 
         return content
 
+    def user_substitution(self, server, username, password):
+        info = self.bitHopper.pool.get_entry(server)
+        if '{USER}' in info['user'] and username is not None:
+            user = info['user'].replace('{USER}', username)
+        else:
+            user = info['user']
+        if '{PASSWORD}' in info['pass'] and password is not None:
+            passw = info['pass'].replace('{PASSWORD}', password)
+        else:
+            passw = info['pass']
+        if '{USER}' in info['user'] and username is None or '{PASSWORD}' in info['pass'] and password is None:
+            error = True
+        else:
+            error = False
+        return user, passw, error
+
     def jsonrpc_call(self, server, data, client_header={}, username = None, password = None):
         try:
             request = json.dumps({'method':'getwork', 'params':data, 'id':self.i}, ensure_ascii = True)
             self.i += 1
             
             info = self.bitHopper.pool.get_entry(server)
-            if '{USER}' in info['user'] and username == None:
-                user = info['user'].replace('{USER}', username)
-            else:
-                user = info['user']
-            if '{PASSWORD}' in info['pass'] and password == None:
-                passw = info['pass'].replace('{PASSWORD}', password)
-            else:
-                passw = info['pass']
+            user, passw, error = self.user_substitution(server, username, password)
             header = {'Authorization':"Basic " +base64.b64encode(user + ":" + passw)}
             user_agent = None
             for k,v in client_header.items():
