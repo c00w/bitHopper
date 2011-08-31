@@ -34,7 +34,7 @@ use_random_ua = True
 # lista de identificaciones delimitadas por '|'
 random_ua_list = Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0)|Mozilla/5.0 (Windows; U; MSIE 9.0; Windows NT 9.0; en-US)|Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0; WOW64; Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; .NET CLR 1.0.3705; .NET CLR 1.1.4322)|Mozilla/5.0 (Windows NT 5.0; WOW64; rv:6.0) Gecko/20100101 Firefox/6.0|Mozilla/5.0 (Windows NT 6.2; WOW64; rv:5.0) Gecko/20100101 Firefox/5.0|Mozilla/5.0 (Windows; U; Windows NT 5.2; en-GB; rv:1.9.2.9) Gecko/20100824 Firefox/3.6.9|Opera/9.80 (Windows NT 6.1; U; es-ES) Presto/2.9.181 Version/12.00|Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; de-at) AppleWebKit/533.21.1 (KHTML, like Gecko) Version/5.0.5 Safari/533.21.1
 
-[auth]
+#[auth]
 # nombre ususario/contrasena opcionales
 #username = user
 #password = pass
@@ -56,9 +56,9 @@ enabled = False
 port = 3000
 
 [lpbot]
-irc_server = 'irc.bithopper.org'
+irc_server = irc.bithopper.org
 irc_port = 6667
-irc_channel = '#bithopper-lp'
+irc_channel = #bithopper-lp
 run_interval = 15
 # min votes before votes are considered
 min_votes = 5
