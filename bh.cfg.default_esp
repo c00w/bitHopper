@@ -56,9 +56,9 @@ enabled = False
 port = 3000
 
 [lpbot]
-irc_server = 'irc.bithopper.org'
+irc_server = irc.bithopper.org
 irc_port = 6667
-irc_channel = '#bithopper-lp'
+irc_channel = #bithopper-lp
 run_interval = 15
 # min votes before votes are considered
 min_votes = 5
