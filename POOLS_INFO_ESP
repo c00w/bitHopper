@@ -73,6 +73,7 @@ info_1: Sistema de pago por puntuacion, intenta minar con mine_slush (pagina 164
 #http://bitcoinmonkey.com/
 info_1: Mina pequena y mona - 1.917 Ghash/s @ 08.23.11
 info_2: Mina fuera de linea despues de supuestamente encontrar un bloque (08.29.11)
+info_3: Online y funcionando bien (08.30.11)
 
 
 [btcserv]

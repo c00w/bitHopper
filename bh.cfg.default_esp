@@ -20,7 +20,7 @@ delag_sleep = 20
 pool_refreshlimit = 120
 
 # limite de mineria en cada mina
-threshold = 0.46
+threshold = 0.435
 
 # segundos que hay que esperar para desactivar API de mina si los stats no se actualizan (7200 == 2 horas)
 api_disable_sec = 7200
