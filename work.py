@@ -140,17 +140,16 @@ class Work():
             self.bitHopper.log_dbg(content)
             return None, None
 
-    def jsonrpc_getwork(self, server, data, request, headers={}, username = None, password = None):
+    def jsonrpc_getwork(self, server, data,  headers={}, username = None, password = None):
         tries = 0
         work = None
         while work == None:
             if data == [] and tries > 1:
                 server = self.bitHopper.get_new_server(server)
-                print 'Got new server' + server
-            if data != [] and tries > 1:
+            elif data != [] and tries > 1:
                 self.bitHopper.get_new_server(server)
-            if data != [] and tries >5:
-                return None, {}
+            if tries >5:
+                return None, {}, 'No Server'
             tries += 1
             try:
                 work, server_headers = self.jsonrpc_call(server, data, headers, username, password)
@@ -159,7 +158,7 @@ class Work():
                 self.bitHopper.log_dbg(server)
                 self.bitHopper.log_dbg(e)
                 work = None
-        return work, server_headers
+        return work, server_headers, server
 
     def handle(self, env, start_request):
 
@@ -173,7 +172,8 @@ class Work():
 
         #check if they are sending a valid message
         if rpc_request['method'] != "getwork":
-            return
+            response = json.dumps({"result":None, 'error':{'message':'Invalid method'}, 'id':j_id})
+            return [response]
 
         data = rpc_request['params']
         j_id = rpc_request['id']
@@ -183,10 +183,10 @@ class Work():
         if data == [] or server == None:
             server = self.bitHopper.pool.get_work_server()
 
-        data = env.get('HTTP_AUTHORIZATION').split(None, 1)[1]
-        username, password = data.decode('base64').split(':', 1)
+        auth_data = env.get('HTTP_AUTHORIZATION').split(None, 1)[1]
+        username, password = auth_data.decode('base64').split(':', 1)
 
-        work, server_headers  = self.jsonrpc_getwork(server, data, request, client_headers, username, password)
+        work, server_headers, server  = self.jsonrpc_getwork(server, data, client_headers, username, password)
 
         to_delete = []
         for header in server_headers:
@@ -218,7 +218,7 @@ class Work():
         elif data == []:
             self.bitHopper.log_msg('RPC request [' + rpc_request['method'] + "] submitted to " + server)
         else:
-            self.bitHopper.log_msg('RPC request [' + str(data[0][155:163]) + "] submitted to " + server)
+            self.bitHopper.log_msg('RPC request [' + data[0][155:163] + "] submitted to " + server)
 
         if data != []:
             data = env.get('HTTP_AUTHORIZATION').split(None, 1)[1]
