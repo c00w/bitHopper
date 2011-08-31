@@ -20,7 +20,7 @@ class Scheduler(object):
             self.difficultyThreshold = self.bitHopper.options.threshold
         else:
             self.difficultyThreshold = 0.435
-        self.valid_roles = ['mine', 'mine_nmc', 'mine_deepbit', 'mine_slush', 'mine_ixc', 'mine_i0c', 'mine_scc']
+        self.valid_roles = ['mine', 'mine_nmc', 'mine_deepbit', 'mine_slush', 'mine_ixc', 'mine_i0c', 'mine_scc', 'mine_charity']
         self.loadConfig()
         eventlet.spawn_n(self.bitHopper_server_update)
 
@@ -163,9 +163,9 @@ class OldDefaultScheduler(Scheduler):
                 server_name = self.select_charity_server()
 
             if server_name == None:     
-                return self.select_backup_server()
-            else: 
-                return server_name   
+                server_name = self.select_backup_server()
+
+            return server_name   
 
     def server_update(self,):
         with self.lock:
@@ -260,9 +260,11 @@ class DefaultScheduler(Scheduler):
                     self.sliceinfo[server] = -1
 
             charity_server = self.select_charity_server()
-            if valid_servers == [] and charity_server != None: return charity_server
+            if valid_servers == [] and charity_server != None: 
+                return charity_server
 
-            if valid_servers == []: return self.select_backup_server()
+            if valid_servers == []: 
+                return self.select_backup_server()
           
             min_slice = self.sliceinfo[valid_servers[0]]
             server = valid_servers[0]
