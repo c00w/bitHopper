@@ -149,6 +149,7 @@ class LongPoll():
             with self.lock:
                 offset = self.pool.servers[server].get('lp_penalty','0')
                 self.blocks[block][server] = time.time() + float(offset)
+                self.bitHopper.log_dbg(self.blocks[block][server])
                 if self.blocks[block]['_owner'] == None or self.blocks[block][server] < self.blocks[block][self.blocks[block]['_owner']]:
                     self.set_owner(server,block)
                     if self.bitHopper.lpBot != None:
