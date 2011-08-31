@@ -259,6 +259,11 @@ def main():
 
     lastDefaultTimeout = socket.getdefaulttimeout()
 
+    if options.debug:
+        log = None
+    else:
+        log = open(os.devnull, 'wb')
+        
     while True:
         try:
             listen_port = options.port            
