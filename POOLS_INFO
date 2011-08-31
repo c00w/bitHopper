@@ -79,6 +79,7 @@ info_3: Online and running fine (08.30.11)
 [btcserv]
 #http://btcserv.net/
 info_1: Small pool, pls report experience on forum - 2.94 GHash/s @ 08.23.11
+info_2: Alternate PPS payout available for use as backup if wanted
 
 
 [btcworld]
