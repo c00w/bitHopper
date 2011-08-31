@@ -139,8 +139,10 @@ class Database():
         self.bitHopper.log_dbg('Database Setup')
 
     def get_users(self):
-        #Get an dictionary of user information to seed data.py
-        #This is a direct database lookup and should only be called once
+        """
+        Get a dictionary of user information to seed data.py
+        This is a direct database lookup and should only be called once
+        """
         with self.lock:
             users = {}
             servers = self.bitHopper.pool.get_servers()
