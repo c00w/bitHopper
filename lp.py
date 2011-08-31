@@ -126,15 +126,11 @@ class LongPoll():
             return
         try:
             output = True
-       #self.bitHopper.log_dbg('LP: ' + str(body))
             response = json.loads(body)
             work = response['result']
             data = work['data']
-            block = data.decode('hex')[0:64]
-            block = wordreverse(block)
-            block = block.encode('hex')[56:120]
 
-            #block = data[8:72]
+            block = data[8:72]
             #block = int(block, 16)
 
             with self.lock:
