@@ -284,6 +284,13 @@ nofeemining_user_apikey: 4140cbc6405f4425cf91ca74e1450b66
 user: dah4k0r@gmail.com_test
 pass: x
 
+[btcservpps]
+#http://btcserv.net/
+#CAMBIA A CONTINUACION
+role: disable
+user: nombre_minero
+pass: contrasena_minero
+
 ######################################
 # Minas Namecoin u otro tipo. Salta
 # usando el modo adecuado (mine_xxx)
