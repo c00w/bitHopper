@@ -113,10 +113,12 @@ class dynamicSite():
             if "reloadconfig" in v:
                 self.bitHopper.log_msg('User forced configuration reload')
                 try:
-                    self.bitHopper.pool.loadConfig()
+                    self.bitHopper.reloadConfig()
                 except Exception,e:
                     self.bitHopper.log_dbg('Incorrect http post reloadconfig')
                     self.bitHopper.log_dbg(e)
+                    if self.bitHopper.options.debug:
+                        traceback.print_exc()
             if "resetUserShares" in v:
                 self.bitHopper.log_msg('User forced user shares, est payouts to be reset')
                 try:

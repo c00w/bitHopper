@@ -62,8 +62,9 @@ extract itself into correct directory.
 BitHopper Stats page: http://localhost:8337/stats
 
 Copy "user.cfg.default" to a new file called "user.cfg" then modify the new file to include your pool 
-worker usernames and passwords. Run "python bitHopper.py" in *nix or in Windows you can double click on
-run-bithopper.bat. After script updates info check if new pools have been added correctly to stats page.
+worker usernames and passwords. Repeat with "bh.cfg.default" and make sure default values work for you.
+Run "python bitHopper.py" in *nix or in Windows you can double click on run-bithopper.bat. After script
+updates info check if the pools have been added correctly to your stats page.
 
 If any of the pools turns red or there is something else missing then edit your "user.cfg" accordingly.
 
@@ -76,15 +77,15 @@ with any username and password (not blank).
 
 You can launch bitHopper with the following parameters:
 
-	--ip                  = IP to listen on
-	--port                = Port to listen on
-	--auth                = Ask for user and password on stats page (--auth user,pass)
-	--listschedulers      = List alternate schedulers available
-	--scheduler           = Select an alternate scheduler
-	--threshold           = Override difficulty threshold (default 0.43)
-	--p2pLP               = Starts up an IRC bot to validate LP based hopping
-	--debug               = Extra error output. Basically print all caught errors
-	--trace               = Extra debugging output
+   --ip                  = IP to listen on
+   --port                = Port to listen on
+   --auth                = Ask for user and password on stats page (--auth user,pass)
+   --listschedulers      = List alternate schedulers available
+   --scheduler           = Select an alternate scheduler
+   --threshold           = Override difficulty threshold (default 0.43)
+   --p2pLP               = Starts up an IRC bot to validate LP based hopping
+   --debug               = Extra error output. Basically print all caught errors
+   --trace               = Extra debugging output
 
 
 # Available Schedulers:
@@ -107,12 +108,12 @@ be issues with failing to re-slice often enough.
 
 Specific parameters:
 
-	--altslicesize            = Override Default AltSliceScheduler Slice Size of 900
-	--altminslicesize         = Override Default Minimum Pool Slice Size of 60 (AltSliceScheduler only)
-	--altslicejitter          = Add some random variance to slice size, disabled by default (AltSliceScheduler only)
-	--altsliceroundtimebias   = Bias slicing slightly by round time duration with respect to round time target (default false)
-	--altsliceroundtimetarget = Round time target based on GHash/s (default 1000 Ghash/s)
-	--altsliceroundtimemagic  = Round time magic number, increase to bias towards round time over shares
+   --altslicesize            = Override Default AltSliceScheduler Slice Size of 900
+   --altminslicesize         = Override Default Minimum Pool Slice Size of 60 (AltSliceScheduler only)
+   --altslicejitter          = Add some random variance to slice size, disabled by default (AltSliceScheduler only)
+   --altsliceroundtimebias   = Bias slicing slightly by round time duration with respect to round time target (default false)
+   --altsliceroundtimetarget = Round time target based on GHash/s (default 1000 Ghash/s)
+   --altsliceroundtimemagic  = Round time magic number, increase to bias towards round time over shares
 
 
    RoundTimeScheduler

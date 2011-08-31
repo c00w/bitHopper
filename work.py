@@ -50,9 +50,16 @@ class Work():
             lp.receive(None, server)
             return None
 
-    def get(self, url):
+    def get(self, url, useragent=None):
         """A utility method for getting webpages"""
-        header = {'user-agent':'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)'}
+        if useragent == None:
+            try:
+                useragent = self.bitHopper.config.get('main', 'work_user_agent')
+            except:
+                useragent = 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)'
+                pass
+        #self.bitHopper.log_dbg('user-agent: ' + useragent + ' for ' + str(url) )
+        header = {'user-agent':useragent}
         with self.get_http(url) as http:
             try:
                 content = http.request( url, 'GET', headers=header)[1] # Returns response dict and content str
@@ -63,13 +70,21 @@ class Work():
                 
         return content
 
-    def jsonrpc_call(self, server, data, client_header={}):
+    def jsonrpc_call(self, server, data, client_header={}, username = None, password = None):
         try:
             request = json.dumps({'method':'getwork', 'params':data, 'id':self.i}, ensure_ascii = True)
             self.i += 1
             
             info = self.bitHopper.pool.get_entry(server)
-            header = {'Authorization':"Basic " +base64.b64encode(info['user']+ ":" + info['pass'])}
+            if '{USER}' in info['user'] and username == None:
+                user = info['user'].replace('{USER}', username)
+            else:
+                user = info['user']
+            if '{PASSWORD}' in info['pass'] and password == None:
+                passw = info['pass'].replace('{PASSWORD}', password)
+            else:
+                passw = info['pass']
+            header = {'Authorization':"Basic " +base64.b64encode(user + ":" + passw)}
             user_agent = None
             for k,v in client_header.items():
                 #Ugly hack to deal with httplib trying to be smart and supplying its own user agent.
@@ -87,7 +102,7 @@ class Work():
                     self.bitHopper.log_dbg('Error with a jsonrpc_call http request')
                     self.bitHopper.log_dbg(e)
                     resp = {}
-                    content = ""
+                    content = None
 
             #Check for long polling header
             lp = self.bitHopper.lp
@@ -113,19 +128,20 @@ class Work():
             self.bitHopper.log_dbg(content)
             return None, None
 
-    def jsonrpc_getwork(self, server, data, request, headers={}):
+    def jsonrpc_getwork(self, server, data, request, headers={}, username = None, password = None):
         tries = 0
         work = None
         while work == None:
             if data == [] and tries > 1:
                 server = self.bitHopper.get_new_server(server)
+                print 'Got new server' + server
             if data != [] and tries > 1:
                 self.bitHopper.get_new_server(server)
             if data != [] and tries >5:
-                return 'False', {}
+                return None, {}
             tries += 1
             try:
-                work, server_headers = self.jsonrpc_call(server, data, headers)
+                work, server_headers = self.jsonrpc_call(server, data, headers, username, password)
             except Exception, e:
                 self.bitHopper.log_dbg( 'caught, inner jsonrpc_call loop')
                 self.bitHopper.log_dbg(server)
@@ -155,7 +171,10 @@ class Work():
         if data == [] or server == None:
             server = self.bitHopper.pool.get_work_server()
 
-        work, server_headers  = self.jsonrpc_getwork(server, data, request, client_headers)
+        data = env.get('HTTP_AUTHORIZATION').split(None, 1)[1]
+        username, password = data.decode('base64').split(':', 1)
+
+        work, server_headers  = self.jsonrpc_getwork(server, data, request, client_headers, username, password)
 
         to_delete = []
         for header in server_headers:
@@ -168,12 +187,14 @@ class Work():
 
         start_request('200 OK', server_headers.items())
 
-        response = json.dumps({"result":work, 'error':None, 'id':j_id})        
+        if work == None:
+            response = json.dumps({"result":None, 'error':{'message':'Cannot get work unit'}, 'id':j_id})
+            return [response]
+        else:
+            response = json.dumps({"result":work, 'error':None, 'id':j_id})        
 
         #some reject callbacks and merkle root stores
         if str(work).lower() == 'false':
-            data = env.get('HTTP_AUTHORIZATION').split(None, 1)[1]
-            username, password = data.decode('base64').split(':', 1)
             self.bitHopper.reject_callback(server, data, username, password)
         elif str(work).lower() != 'true':
             merkle_root = work["data"][72:136]

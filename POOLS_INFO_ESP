@@ -221,9 +221,6 @@ info_1: Mina namecoins (mine_nmc) - 47 Mhash/s @ 08.23.11
 
 
 #Minas i0c
-# Actualmente (08.28.11) no hay actividad en las minas i0c debido a un fallo encontrado
-# en el cliente (http://bitcointalk.org/index.php?topic=36425.msg479182#msg479182)
-
 
 [i0g]
 #http://i0.btcguild.com/register.php

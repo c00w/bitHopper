@@ -21,7 +21,14 @@ class Scheduler(object):
         else:
             self.difficultyThreshold = 0.435
         self.valid_roles = ['mine', 'mine_nmc', 'mine_deepbit', 'mine_slush', 'mine_ixc', 'mine_i0c', 'mine_scc']
+        self.loadConfig()
         eventlet.spawn_n(self.bitHopper_server_update)
+
+    def loadConfig(self):
+        try:
+            self.difficultyThreshold = self.bitHopper.config.getfloat('main', 'threshold')
+        except Exception, e:
+            pass
 
     def bitHopper_server_update(self):
         while True:
@@ -209,8 +216,18 @@ class DefaultScheduler(Scheduler):
         Scheduler.__init__(self, bitHopper)
         self.bitHopper = bitHopper
         self.sliceinfo = {}
+        self.slicesize = 30
         self.lastcalled = time.time()
+        self.loadConfig()
         self.reset()
+    
+    def loadConfig(self,):
+        Scheduler.loadConfig(self)
+        try:
+            ss = self.bh.config.getint('defaultscheduler', 'slicesize')
+            self.slicesize = ss
+        except Exception, e:
+            pass
 
     def reset(self,):
         with self.lock:
@@ -227,6 +244,9 @@ class DefaultScheduler(Scheduler):
             for server in self.bitHopper.pool.get_servers():
                 shares,info = self.server_to_btc_shares(server)
                 if info['role'] not in self.valid_roles:
+                    continue
+
+                if info['lag'] or info['api_lag']:
                     continue
 
                 if shares< min_shares:
@@ -253,7 +273,7 @@ class DefaultScheduler(Scheduler):
                 info = self.bitHopper.pool.servers[pool]
                 if info['api_lag'] or info['lag']:
                     continue
-                if self.sliceinfo[pool] < min_slice:
+                if self.sliceinfo[pool] <= min_slice:
                     min_slice = self.sliceinfo[pool]
                     server = pool
         
@@ -317,7 +337,8 @@ class AltSliceScheduler(Scheduler):
                 info = self.bitHopper.pool.get_entry(server)
                 info['slice'] = -1
                 info['slicedShares'] = 0
-                info['init'] = False
+                if 'init' not in info:
+                    info['init'] = False
             if (self.bitHopper.options.altsliceroundtimebias == True):
                 difficulty = self.bitHopper.difficulty.get_difficulty()
                 one_ghash = 1000000 * 1000
@@ -343,8 +364,10 @@ class AltSliceScheduler(Scheduler):
                 if info['slice'] > 0:
                     reslice = False
                     allSlicesDone = False
-                if info['init'] == False and info['role'] in self.valid_roles:
+                if 'init' in info and info['init'] == False and info['role'] in self.valid_roles:
                     self.bitHopper.log_trace(server + " not yet initialized", cat=self.name)
+                    fullinit = False
+                if 'init' not in info:
                     fullinit = False
                 shares = info['shares']
                 if 'penalty' in info:
@@ -365,7 +388,7 @@ class AltSliceScheduler(Scheduler):
             #self.bitHopper.log_dbg('allSlicesDone: ' + str(allSlicesDone) + ' fullinit: ' + str(fullinit) + ' initDone: ' + str(self.initDone), cat='reslice')
             if (reslice == True):
                 self.bitHopper.log_msg('Re-Slicing...', cat=self.name)
-                totalshares = 0
+                totalshares = 1
                 totalweight = 0
                 server_shares = {}
                 for server in self.bitHopper.pool.get_servers():
@@ -380,19 +403,18 @@ class AltSliceScheduler(Scheduler):
                         info['slicedShares'] = shares
                         server_shares[server] = shares
                     else:
-                        self.bitHopper.log_trace(server + ' skipped ')
+                        self.bitHopper.log_trace(server + ' skipped ' + str(shares))
                         continue
-                
-                # find total weight   
+                # find total weight
                 for server in self.bitHopper.pool.get_servers():
-                    shares,info = self.server_to_btc_shares(server)
+                    info = self.bitHopper.pool.get_entry(server)
                     if info['role'] not in self.valid_roles:
                         continue
                     if info['api_lag'] or info['lag']:
                         continue
                     if server not in server_shares: continue
                     if server_shares[server] < min_shares and server_shares[server] > 0:
-                        totalweight += 1/(float(shares)/totalshares)
+                        totalweight += 1/(float(server_shares[server])/totalshares)
                           
                           
                 # round time biasing
@@ -451,12 +473,12 @@ class AltSliceScheduler(Scheduler):
                 for server in self.bitHopper.pool.get_servers():
                     info = self.bitHopper.pool.get_entry(server)
                     if info['role'] not in self.valid_roles:
-                        continue
-                    if info['shares'] <= 0:
-                        continue
+                       continue
                     if server not in server_shares:
                         continue
                     shares = server_shares[server] + 1
+                    if shares <= 0:
+                        continue                    
                     if shares < min_shares and shares > 0:
                         weight = 0
                         self.bitHopper.log_trace('tb_delta: ' + str(len(tb_delta)) + ' / server_shares: ' + str(len(server_shares)), cat=self.name)
@@ -570,6 +592,7 @@ class AltSliceScheduler(Scheduler):
                     shares = shares * float(info['penalty'])
                 # favor slush over other pools if low enough
                 if info['role'] in ['mine_slush'] and shares * 4 < min_shares:
+                    max_slice = info['slice']
                     server_name = server
                     continue
                 if info['role'] in self.valid_roles and info['slice'] > 0 and not info['lag']:
