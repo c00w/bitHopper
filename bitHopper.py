@@ -59,8 +59,8 @@ class BitHopper():
         self.auth = None
         
         self.website = website.bitSite(self)
-        self.plugin = plugin.Plugin(self)
         self.pile = greenpool.GreenPool()
+        self.plugin = plugin.Plugin(self)
         self.pile.spawn_n(self.delag_server)
 
     def reloadConfig(self):
@@ -258,19 +258,6 @@ def main():
         bithopper_instance.lpBot = LpBot(bithopper_instance)
 
     lastDefaultTimeout = socket.getdefaulttimeout()
-    if options.debug:
-        log = None 
-        backdoor_port = config.getint('backdoor', 'port')
-        backdoor_enabled = config.getboolean('backdoor', 'enabled')
-        if backdoor_enabled:
-            try:
-                socket.setdefaulttimeout(None)
-                bithopper_instance.pile.spawn(backdoor.backdoor_server, eventlet.listen(('127.0.0.1', backdoor_port)), locals={'bh':bithopper_instance})
-                socket.setdefaulttimeout(lastDefaultTimeout)
-            except Exception, e:
-                print e   
-    else:
-        log = open(os.devnull, 'wb')
 
     while True:
         try:
