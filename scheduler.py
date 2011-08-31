@@ -14,25 +14,25 @@ socket.setdefaulttimeout(900)
 
 class Scheduler(object):
     def __init__(self,bitHopper):
-        self.bh = bitHopper
+        self.bitHopper = bitHopper
         self.lock = threading.RLock()
-        if self.bh.options.threshold:
-            self.difficultyThreshold = self.bh.options.threshold
+        if self.bitHopper.options.threshold:
+            self.difficultyThreshold = self.bitHopper.options.threshold
         else:
             self.difficultyThreshold = 0.435
         self.valid_roles = ['mine', 'mine_nmc', 'mine_deepbit', 'mine_slush', 'mine_ixc', 'mine_i0c', 'mine_scc']
         self.loadConfig()
-        eventlet.spawn_n(self.bh_server_update)
+        eventlet.spawn_n(self.bitHopper_server_update)
 
     def loadConfig(self):
         try:
-            self.difficultyThreshold = self.bh.getfloat('main', 'threshold')
+            self.difficultyThreshold = self.bitHopper.config.getfloat('main', 'threshold')
         except Exception, e:
             pass
 
-    def bh_server_update(self):
+    def bitHopper_server_update(self):
         while True:
-            self.bh.server_update()
+            self.bitHopper.server_update()
             eventlet.sleep(20)
 
     def reset(self):
@@ -40,23 +40,23 @@ class Scheduler(object):
 
     def select_charity_server(self):
         server_name = None
-        most_shares = self.bh.difficulty.get_difficulty() * 2
-        for server in self.bh.pool.get_servers():
-            info = self.bh.pool.get_entry(server)
+        most_shares = self.bitHopper.difficulty.get_difficulty() * 2
+        for server in self.bitHopper.pool.get_servers():
+            info = self.bitHopper.pool.get_entry(server)
             if info['role'] != 'mine_charity':
                 continue
             if info['shares'] > most_shares and info['lag'] == False:
                 server_name = server
                 most_shares = info['shares']
-                self.bh.log_dbg('select_charity_server: ' + str(server), cat='scheduler-default')
+                self.bitHopper.log_dbg('select_charity_server: ' + str(server), cat='scheduler-default')
 
         return server_name
 
     def select_latehop_server(self):
         server_name = None
         max_share_count = 1
-        for server in self.bh.pool.get_servers():
-            info = self.bh.pool.get_entry(server)
+        for server in self.bitHopper.pool.get_servers():
+            info = self.bitHopper.pool.get_entry(server)
             if info['api_lag'] or info['lag']:
                 continue
             if info['role'] != 'backup_latehop':
@@ -64,17 +64,17 @@ class Scheduler(object):
             if info['shares'] > max_share_count:
                 server_name = server
                 max_share_count = info['shares']
-                #self.bh.log_dbg('select_latehop_server: ' + str(server), cat='scheduler-default')
+                #self.bitHopper.log_dbg('select_latehop_server: ' + str(server), cat='scheduler-default')
 
         return server_name   
 
     def server_to_btc_shares(self,server):
-        difficulty = self.bh.difficulty.get_difficulty()
-        nmc_difficulty = self.bh.difficulty.get_nmc_difficulty()
-        ixc_difficulty = self.bh.difficulty.get_ixc_difficulty()
-        i0c_difficulty = self.bh.difficulty.get_i0c_difficulty()
-        scc_difficulty = self.bh.difficulty.get_scc_difficulty()
-        info = self.bh.pool.get_entry(server)
+        difficulty = self.bitHopper.difficulty.get_difficulty()
+        nmc_difficulty = self.bitHopper.difficulty.get_nmc_difficulty()
+        ixc_difficulty = self.bitHopper.difficulty.get_ixc_difficulty()
+        i0c_difficulty = self.bitHopper.difficulty.get_i0c_difficulty()
+        scc_difficulty = self.bitHopper.difficulty.get_scc_difficulty()
+        info = self.bitHopper.pool.get_entry(server)
         if info['role'] in ['mine', 'mine_deepbit']:
             shares = info['shares']
         elif info['role'] == 'mine_slush':
@@ -95,42 +95,42 @@ class Scheduler(object):
         return shares, info
 
     def select_backup_server(self,):
-        #self.bh.log_dbg('select_backup_server', cat='scheduler-default')
+        #self.bitHopper.log_dbg('select_backup_server', cat='scheduler-default')
         server_name = self.select_latehop_server()
         reject_rate = 1      
 
         if server_name == None:
-            for server in self.bh.pool.get_servers():
-                info = self.bh.pool.get_entry(server)
+            for server in self.bitHopper.pool.get_servers():
+                info = self.bitHopper.pool.get_entry(server)
                 if info['role'] not in ['backup', 'backup_latehop']:
                     continue
                 if info['lag']:
                     continue
-                shares = info['user_shares']+1
+                shares = info['user_shares'] + 1
                 rr_server = float(info['rejects'])/shares
                 if 'penalty' in info:
                     rr_server += float(info['penalty'])/100
                 if rr_server < reject_rate:
                     server_name = server
-                    self.bh.log_dbg('select_backup_server: ' + str(server), cat='select_backup_server')
+                    self.bitHopper.log_dbg('select_backup_server: ' + str(server), cat='select_backup_server')
                     reject_rate = rr_server
 
         if server_name == None:
-            #self.bh.log_dbg('Try another backup' + str(server), cat='scheduler-default')
+            #self.bitHopper.log_dbg('Try another backup' + str(server), cat='scheduler-default')
             min_shares = 10**10
-            for server in self.bh.pool.get_servers():
+            for server in self.bitHopper.pool.get_servers():
                 shares,info = self.server_to_btc_shares(server)
                 if info['role'] not in self.valid_roles:
                     continue
                 if shares < min_shares and not info['lag']:
                     min_shares = shares
-                    #self.bh.log_dbg('Selecting pool ' + str(server) + ' with shares ' + str(shares), cat='select_backup_server')
+                    #self.bitHopper.log_dbg('Selecting pool ' + str(server) + ' with shares ' + str(shares), cat='select_backup_server')
                     server_name = server
           
         if server_name == None:
-            #self.bh.log_dbg('Try another backup pt2' + str(server), cat='scheduler-default')
-            for server in self.bh.pool.get_servers():
-                info = self.bh.pool.get_entry(server)
+            #self.bitHopper.log_dbg('Try another backup pt2' + str(server), cat='scheduler-default')
+            for server in self.bitHopper.pool.get_servers():
+                info = self.bitHopper.pool.get_entry(server)
                 if info['role'] != 'backup':
                     continue
                 server_name = server
@@ -145,13 +145,13 @@ class OldDefaultScheduler(Scheduler):
 
     def select_best_server(self,):
         with self.lock:
-            #self.bh.log_dbg('select_best_server', cat='scheduler-default')
+            #self.bitHopper.log_dbg('select_best_server', cat='scheduler-default')
             server_name = None
-            difficulty = self.bh.difficulty.get_difficulty()
+            difficulty = self.bitHopper.difficulty.get_difficulty()
             min_shares = difficulty * self.difficultyThreshold
 
-            #self.bh.log_dbg('min-shares: ' + str(min_shares), cat='scheduler-default')  
-            for server in self.bh.pool.get_servers():
+            #self.bitHopper.log_dbg('min-shares: ' + str(min_shares), cat='scheduler-default')  
+            for server in self.bitHopper.pool.get_servers():
                 shares,info = self.server_to_btc_shares(server)
                 if info['api_lag'] or info['lag']:
                     continue
@@ -159,7 +159,7 @@ class OldDefaultScheduler(Scheduler):
                     continue
                 if shares < min_shares:
                     min_shares = shares
-                    #self.bh.log_dbg('Selecting pool ' + str(server) + ' with shares ' + str(info['shares']), cat='scheduler-default')
+                    #self.bitHopper.log_dbg('Selecting pool ' + str(server) + ' with shares ' + str(info['shares']), cat='scheduler-default')
                     server_name = server
              
             if server_name == None:
@@ -172,9 +172,9 @@ class OldDefaultScheduler(Scheduler):
 
     def server_update(self,):
         with self.lock:
-            current = self.bh.pool.get_current()
+            current = self.bitHopper.pool.get_current()
             shares,info = self.server_to_btc_shares(current)
-            difficulty = self.bh.difficulty.get_difficulty()
+            difficulty = self.bitHopper.difficulty.get_difficulty()
 
             if info['role'] not in self.valid_roles:
                 return True
@@ -187,8 +187,8 @@ class OldDefaultScheduler(Scheduler):
 
             min_shares = info['shares']
 
-            for server in self.bh.pool.servers:
-                pool = self.bh.pool.get_entry(server)
+            for server in self.bitHopper.pool.servers:
+                pool = self.bitHopper.pool.get_entry(server)
                 if pool['shares'] < min_shares:
                     min_shares = pool['shares']
 
@@ -214,8 +214,7 @@ class RoundTimeDynamicPenaltyScheduler(Scheduler):
 class DefaultScheduler(Scheduler):
     def __init__(self, bitHopper):
         Scheduler.__init__(self, bitHopper)
-        self.bh = bitHopper
-        self.bitHopper = self.bh
+        self.bitHopper = bitHopper
         self.sliceinfo = {}
         self.slicesize = 30
         self.lastcalled = time.time()
@@ -232,17 +231,17 @@ class DefaultScheduler(Scheduler):
 
     def reset(self,):
         with self.lock:
-            for server in self.bh.pool.get_servers():
+            for server in self.bitHopper.pool.get_servers():
                 self.sliceinfo[server] = -1
 
     def select_best_server(self,):
         with self.lock:
-            #self.bh.log_dbg('select_best_server', cat='scheduler-default')
-            difficulty = self.bh.difficulty.get_difficulty()
+            #self.bitHopper.log_dbg('select_best_server', cat='scheduler-default')
+            difficulty = self.bitHopper.difficulty.get_difficulty()
             min_shares = difficulty * self.difficultyThreshold
 
             valid_servers = []
-            for server in self.bh.pool.get_servers():
+            for server in self.bitHopper.pool.get_servers():
                 shares,info = self.server_to_btc_shares(server)
                 if info['role'] not in self.valid_roles:
                     continue
@@ -271,7 +270,7 @@ class DefaultScheduler(Scheduler):
             min_slice = self.sliceinfo[valid_servers[0]]
             server = valid_servers[0]
             for pool in valid_servers:
-                info = self.bh.pool.servers[pool]
+                info = self.bitHopper.pool.servers[pool]
                 if info['api_lag'] or info['lag']:
                     continue
                 if self.sliceinfo[pool] <= min_slice:
@@ -286,13 +285,13 @@ class DefaultScheduler(Scheduler):
             #self.bitHopper.log_msg(str(self.sliceinfo))
             diff_time = time.time()-self.lastcalled
             self.lastcalled = time.time()
-            current = self.sliceinfo[self.bh.pool.get_current()]
+            current = self.sliceinfo[self.bitHopper.pool.get_current()]
             if current == -1:
                 return True
 
-            self.sliceinfo[self.bh.pool.get_current()] += diff_time
+            self.sliceinfo[self.bitHopper.pool.get_current()] += diff_time
 
-            if self.bh.pool.servers[self.bh.pool.get_current()]['role'] not in self.valid_roles:
+            if self.bitHopper.pool.servers[self.bitHopper.pool.get_current()]['role'] not in self.valid_roles:
                 return True
 
             valid = []
@@ -307,10 +306,10 @@ class DefaultScheduler(Scheduler):
                 if current - self.sliceinfo[server] > 30:
                     return True
 
-            difficulty = self.bh.difficulty.get_difficulty()
+            difficulty = self.bitHopper.difficulty.get_difficulty()
             min_shares = difficulty * self.difficultyThreshold
 
-            shares = self.server_to_btc_shares(self.bh.pool.get_current())[0]
+            shares = self.server_to_btc_shares(self.bitHopper.pool.get_current())[0]
             
             if shares > min_shares:
                 return True
@@ -320,13 +319,12 @@ class DefaultScheduler(Scheduler):
 class AltSliceScheduler(Scheduler):
     def __init__(self,bitHopper):
         Scheduler.__init__(self,bitHopper)
-        self.bh = bitHopper
-        self.bitHopper = self.bh
+        self.bitHopper = bitHopper
         self.sliceinfo = {}
         self.name = 'scheduler-altslice'
-        self.bh.log_msg('Initializing AltSliceScheduler...', cat=self.name)
-        self.bh.log_msg(' - Min Slice Size: ' + str(self.bh.options.altminslicesize), cat=self.name)
-        self.bh.log_msg(' - Slice Size: ' + str(self.bh.options.altslicesize), cat=self.name)
+        self.bitHopper.log_msg('Initializing AltSliceScheduler...', cat=self.name)
+        self.bitHopper.log_msg(' - Min Slice Size: ' + str(self.bitHopper.options.altminslicesize), cat=self.name)
+        self.bitHopper.log_msg(' - Slice Size: ' + str(self.bitHopper.options.altslicesize), cat=self.name)
         self.lastcalled = time.time()
         self.target_duration = 0
         self.sbs_count = 0
@@ -335,39 +333,39 @@ class AltSliceScheduler(Scheduler):
 
     def reset(self,):
         with self.lock:
-            for server in self.bh.pool.get_servers():
-                info = self.bh.pool.get_entry(server)
+            for server in self.bitHopper.pool.get_servers():
+                info = self.bitHopper.pool.get_entry(server)
                 info['slice'] = -1
                 info['slicedShares'] = 0
                 if 'init' not in info:
                     info['init'] = False
-            if (self.bh.options.altsliceroundtimebias == True):
-                difficulty = self.bh.difficulty.get_difficulty()
+            if (self.bitHopper.options.altsliceroundtimebias == True):
+                difficulty = self.bitHopper.difficulty.get_difficulty()
                 one_ghash = 1000000 * 1000
-                target_ghash = one_ghash * int(self.bh.options.altsliceroundtimetarget) * self.difficultyThreshold
-                self.bh.log_msg(' - Target Round Time Bias GHash/s: ' + str(float(target_ghash/one_ghash)), cat=self.name)
+                target_ghash = one_ghash * int(self.bitHopper.options.altsliceroundtimetarget) * self.difficultyThreshold
+                self.bitHopper.log_msg(' - Target Round Time Bias GHash/s: ' + str(float(target_ghash/one_ghash)), cat=self.name)
                 self.target_duration = difficulty * (2**32) / target_ghash
-                self.bh.log_msg(" - Target duration: " + str(int(self.target_duration)) + "(s) or " + str(int(self.target_duration/60)) + " minutes", cat=self.name)
+                self.bitHopper.log_msg(" - Target duration: " + str(int(self.target_duration)) + "(s) or " + str(int(self.target_duration/60)) + " minutes", cat=self.name)
             
     def select_best_server(self,):
         with self.lock:
-            self.bh.log_trace('select_best_server', cat=self.name)
+            self.bitHopper.log_trace('select_best_server', cat=self.name)
             server_name = None
-            difficulty = self.bh.difficulty.get_difficulty()
+            difficulty = self.bitHopper.difficulty.get_difficulty()
             min_shares = difficulty * self.difficultyThreshold
 
-            current_server = self.bh.pool.get_current()
+            current_server = self.bitHopper.pool.get_current()
             reslice = True
             fullinit = True
             allSlicesDone = True
           
-            for server in self.bh.pool.get_servers():
-                info = self.bh.pool.get_entry(server)
+            for server in self.bitHopper.pool.get_servers():
+                info = self.bitHopper.pool.get_entry(server)
                 if info['slice'] > 0:
                     reslice = False
                     allSlicesDone = False
                 if 'init' in info and info['init'] == False and info['role'] in self.valid_roles:
-                    self.bh.log_trace(server + " not yet initialized", cat=self.name)
+                    self.bitHopper.log_trace(server + " not yet initialized", cat=self.name)
                     fullinit = False
                 if 'init' not in info:
                     fullinit = False
@@ -378,22 +376,22 @@ class AltSliceScheduler(Scheduler):
                 if info['role'] in ['mine_slush'] and shares * 4 < min_shares:
                     fullinit = True
           
-            if self.bh.pool.get_current() == None or allSlicesDone == True:
+            if self.bitHopper.pool.get_current() == None or allSlicesDone == True:
                 reslice = True
-            elif self.bh.pool.get_entry(current_server)['lag'] == True:
+            elif self.bitHopper.pool.get_entry(current_server)['lag'] == True:
                 reslice = True
 
             if (fullinit and self.initDone == False) or self.sbs_count > 64: # catch long init
                 self.initDone = True
                 reslice = True
              
-            #self.bh.log_dbg('allSlicesDone: ' + str(allSlicesDone) + ' fullinit: ' + str(fullinit) + ' initDone: ' + str(self.initDone), cat='reslice')
+            #self.bitHopper.log_dbg('allSlicesDone: ' + str(allSlicesDone) + ' fullinit: ' + str(fullinit) + ' initDone: ' + str(self.initDone), cat='reslice')
             if (reslice == True):
-                self.bh.log_msg('Re-Slicing...', cat=self.name)
+                self.bitHopper.log_msg('Re-Slicing...', cat=self.name)
                 totalshares = 1
                 totalweight = 0
                 server_shares = {}
-                for server in self.bh.pool.get_servers():
+                for server in self.bitHopper.pool.get_servers():
                     shares,info = self.server_to_btc_shares(server)
                     shares += 1
                     if info['role'] not in self.valid_roles:
@@ -405,12 +403,11 @@ class AltSliceScheduler(Scheduler):
                         info['slicedShares'] = shares
                         server_shares[server] = shares
                     else:
-                        self.bh.log_trace(server + ' skipped ' + str(shares))
+                        self.bitHopper.log_trace(server + ' skipped ' + str(shares))
                         continue
-                
-                # find total weight   
-                for server in self.bh.pool.get_servers():
-                    info = self.bh.pool.get_entry(server)
+                # find total weight
+                for server in self.bitHopper.pool.get_servers():
+                    info = self.bitHopper.pool.get_entry(server)
                     if info['role'] not in self.valid_roles:
                         continue
                     if info['api_lag'] or info['lag']:
@@ -427,10 +424,10 @@ class AltSliceScheduler(Scheduler):
                 neg_weight = {}
                 adj_slice = {}
                 # TODO punish duration estimates weighed by temporal duration
-                if (self.bh.options.altsliceroundtimebias == True):
+                if (self.bitHopper.options.altsliceroundtimebias == True):
                     # delta from target
-                    for server in self.bh.pool.get_servers():              
-                        info = self.bh.pool.get_entry(server)
+                    for server in self.bitHopper.pool.get_servers():              
+                        info = self.bitHopper.pool.get_entry(server)
                         if info['role'] not in self.valid_roles:
                             continue
                         if info['duration'] <= 0:
@@ -439,13 +436,13 @@ class AltSliceScheduler(Scheduler):
                             continue
                         tb_delta[server] = self.target_duration - info['duration'] + 1
                         tb_log_delta[server] = math.log(abs(tb_delta[server]))
-                        self.bh.log_trace('  ' + server + " delta: " + str(tb_delta[server]) + " log_delta: " + str(tb_log_delta[server]), cat=self.name)            
+                        self.bitHopper.log_trace('  ' + server + " delta: " + str(tb_delta[server]) + " log_delta: " + str(tb_log_delta[server]), cat=self.name)            
     
                     # pos/neg_total
                     pos_total = 0
                     neg_total = 0
-                    for server in self.bh.pool.get_servers():              
-                        info = self.bh.pool.get_entry(server)
+                    for server in self.bitHopper.pool.get_servers():              
+                        info = self.bitHopper.pool.get_entry(server)
                         if info['role'] not in self.valid_roles:
                             continue
                         if info['duration'] <= 0:
@@ -454,27 +451,27 @@ class AltSliceScheduler(Scheduler):
                             continue
                         if tb_delta[server] >= 0: pos_total += tb_log_delta[server]
                         if tb_delta[server]  < 0: neg_total += tb_log_delta[server]
-                    self.bh.log_trace("pos_total: " + str(pos_total) + " / neg_total: " + str(neg_total), cat=self.name)   
+                    self.bitHopper.log_trace("pos_total: " + str(pos_total) + " / neg_total: " + str(neg_total), cat=self.name)   
                     
                     # preslice            
-                    self.bh.options.altslicesize
-                    for server in self.bh.pool.get_servers():
+                    self.bitHopper.options.altslicesize
+                    for server in self.bitHopper.pool.get_servers():
                         if server in tb_delta:
-                            info = self.bh.pool.get_entry(server)
+                            info = self.bitHopper.pool.get_entry(server)
                             if info['isDurationEstimated'] == True and info['duration_temporal'] < 300:
                                 tb_delta[server] = 0
                             else:
                                 if tb_delta[server] >= 0:
                                     pos_weight[server] = tb_log_delta[server] / pos_total
-                                    self.bh.log_trace(server + " pos_weight: " + str(pos_weight[server]), cat=self.name)
+                                    self.bitHopper.log_trace(server + " pos_weight: " + str(pos_weight[server]), cat=self.name)
                                 elif tb_delta[server] < 0:
                                     neg_weight[server] = tb_log_delta[server] / neg_total
-                                    self.bh.log_trace(server + " neg_weight: " + str(neg_weight[server]), cat=self.name)
+                                    self.bitHopper.log_trace(server + " neg_weight: " + str(neg_weight[server]), cat=self.name)
                                                         
     
                 # allocate slices         
-                for server in self.bh.pool.get_servers():
-                    info = self.bh.pool.get_entry(server)
+                for server in self.bitHopper.pool.get_servers():
+                    info = self.bitHopper.pool.get_entry(server)
                     if info['role'] not in self.valid_roles:
                        continue
                     if server not in server_shares:
@@ -484,60 +481,60 @@ class AltSliceScheduler(Scheduler):
                         continue                    
                     if shares < min_shares and shares > 0:
                         weight = 0
-                        self.bh.log_trace('tb_delta: ' + str(len(tb_delta)) + ' / server_shares: ' + str(len(server_shares)), cat=self.name)
-                        if (self.bh.options.altsliceroundtimebias == True):
+                        self.bitHopper.log_trace('tb_delta: ' + str(len(tb_delta)) + ' / server_shares: ' + str(len(server_shares)), cat=self.name)
+                        if (self.bitHopper.options.altsliceroundtimebias == True):
                             if len(tb_delta) == 1 and len(server_shares) == 1:
                                 # only 1 server to slice (zzz)
                                 if info['duration'] > 0:
-                                    slice = self.bh.options.altslicesize
+                                    slice = self.bitHopper.options.altslicesize
                                 else:
                                     slice = 0
                             else:
                                 weight = 1/(float(shares)/totalshares)
-                                slice = weight * self.bh.options.altslicesize / totalweight
-                                if self.bh.options.altslicejitter != 0:
-                                    jitter = random.randint(0-self.bh.options.altslicejitter, self.bh.options.altslicejitter)
+                                slice = weight * self.bitHopper.options.altslicesize / totalweight
+                                if self.bitHopper.options.altslicejitter != 0:
+                                    jitter = random.randint(0-self.bitHopper.options.altslicejitter, self.bitHopper.options.altslicejitter)
                                     slice += jitter
                         else:                  
                             if shares == totalshares:
                                 # only 1 server to slice (zzz)
-                                slice = self.bh.options.altslicesize
+                                slice = self.bitHopper.options.altslicesize
                             else:
                                 weight = 1/(float(shares)/totalshares)
-                                slice = weight * self.bh.options.altslicesize / totalweight
-                                if self.bh.options.altslicejitter != 0:
-                                    jitter = random.randint(0-self.bh.options.altslicejitter, self.bh.options.altslicejitter)
+                                slice = weight * self.bitHopper.options.altslicesize / totalweight
+                                if self.bitHopper.options.altslicejitter != 0:
+                                    jitter = random.randint(0-self.bitHopper.options.altslicejitter, self.bitHopper.options.altslicejitter)
                                     slice += jitter
                         info['slice'] = slice
-                        if self.bh.options.debug:
-                            self.bh.log_dbg(server + " sliced to " + "{0:.2f}".format(info['slice']) + '/' + "{0:d}".format(int(self.bh.options.altslicesize)) + '/' + str(shares) + '/' + "{0:.3f}".format(weight) + '/' + "{0:.3f}".format(totalweight) , cat=self.name)
+                        if self.bitHopper.options.debug:
+                            self.bitHopper.log_dbg(server + " sliced to " + "{0:.2f}".format(info['slice']) + '/' + "{0:d}".format(int(self.bitHopper.options.altslicesize)) + '/' + str(shares) + '/' + "{0:.3f}".format(weight) + '/' + "{0:.3f}".format(totalweight) , cat=self.name)
                         else:
-                            self.bh.log_msg(server + " sliced to " + "{0:.2f}".format(info['slice']), cat=self.name)
+                            self.bitHopper.log_msg(server + " sliced to " + "{0:.2f}".format(info['slice']), cat=self.name)
                        
                 # adjust based on round time bias
-                if self.bh.options.altsliceroundtimebias == True:
-                    self.bh.log_dbg('Check if apply Round Time Bias: tb_log_delta: ' + str(len(tb_log_delta)) + ' == servers: ' + str(len(server_shares)), cat=self.name)
-                if self.bh.options.altsliceroundtimebias == True and len(tb_log_delta) >= 1:            
-                    self.bh.log_msg('>>> Apply Round Time Bias === ', cat=self.name)
+                if self.bitHopper.options.altsliceroundtimebias == True:
+                    self.bitHopper.log_dbg('Check if apply Round Time Bias: tb_log_delta: ' + str(len(tb_log_delta)) + ' == servers: ' + str(len(server_shares)), cat=self.name)
+                if self.bitHopper.options.altsliceroundtimebias == True and len(tb_log_delta) >= 1:            
+                    self.bitHopper.log_msg('>>> Apply Round Time Bias === ', cat=self.name)
                     ns_total = 0
-                    adj_factor = self.bh.options.altsliceroundtimemagic
-                    self.bh.log_trace('     server: ' + server)
-                    for server in self.bh.pool.get_servers():
-                        info = self.bh.pool.get_entry(server)
+                    adj_factor = self.bitHopper.options.altsliceroundtimemagic
+                    self.bitHopper.log_trace('     server: ' + server)
+                    for server in self.bitHopper.pool.get_servers():
+                        info = self.bitHopper.pool.get_entry(server)
                         if server not in tb_log_delta: continue # no servers to adjust
-                        self.bh.log_trace('     server(tld): ' + server)
+                        self.bitHopper.log_trace('     server(tld): ' + server)
                         if server in pos_weight:
                             adj_slice[server] = info['slice'] + adj_factor * pos_weight[server]
-                            self.bh.log_trace('     server (pos): ' + str(adj_slice[server]))
+                            self.bitHopper.log_trace('     server (pos): ' + str(adj_slice[server]))
                             ns_total += adj_slice[server]            
                         elif server in neg_weight:                  
                             adj_slice[server] = info['slice'] - adj_factor * neg_weight[server]
-                            self.bh.log_trace('     server (neg): ' + str(adj_slice[server]))
+                            self.bitHopper.log_trace('     server (neg): ' + str(adj_slice[server]))
                             ns_total += adj_slice[server]
                     # re-slice the slices
                     ad_totalslice = 0
-                    for server in self.bh.pool.get_servers():
-                        info = self.bh.pool.get_entry(server)
+                    for server in self.bitHopper.pool.get_servers():
+                        info = self.bitHopper.pool.get_entry(server)
                         if info['role'] not in self.valid_roles:
                             continue
                         if info['shares'] < 0: continue
@@ -549,8 +546,8 @@ class AltSliceScheduler(Scheduler):
                             else:
                                 ad_totalslice += info['slice']
                              
-                    for server in self.bh.pool.get_servers():            
-                        info = self.bh.pool.get_entry(server)
+                    for server in self.bitHopper.pool.get_servers():            
+                        info = self.bitHopper.pool.get_entry(server)
                         if info['role'] not in self.valid_roles:
                             continue
                         if info['shares'] < 0: continue
@@ -560,36 +557,36 @@ class AltSliceScheduler(Scheduler):
                         if shares < min_shares and shares > 0:
                             if server in adj_slice:
                                 previous = info['slice']
-                                info['slice'] = self.bh.options.altslicesize * (adj_slice[server] / ad_totalslice)
-                                if self.bh.options.debug:
-                                    self.bh.log_dbg(server + " _adjusted_ slice to " + "{0:.2f}".format(info['slice']) + '/' + "{0:d}".format(int(self.bh.options.altslicesize)) + '/' + str(shares) + '/' + "{0:.3f}".format(adj_slice[server]) + '/' + "{0:.3f}".format(ad_totalslice) , cat=self.name)
+                                info['slice'] = self.bitHopper.options.altslicesize * (adj_slice[server] / ad_totalslice)
+                                if self.bitHopper.options.debug:
+                                    self.bitHopper.log_dbg(server + " _adjusted_ slice to " + "{0:.2f}".format(info['slice']) + '/' + "{0:d}".format(int(self.bitHopper.options.altslicesize)) + '/' + str(shares) + '/' + "{0:.3f}".format(adj_slice[server]) + '/' + "{0:.3f}".format(ad_totalslice) , cat=self.name)
                                 else:
-                                    self.bh.log_msg('  > ' + server + " _adjusted_ slice to " + "{0:.2f}".format(info['slice']) + " from {0:.2f}".format(previous), cat=self.name)
+                                    self.bitHopper.log_msg('  > ' + server + " _adjusted_ slice to " + "{0:.2f}".format(info['slice']) + " from {0:.2f}".format(previous), cat=self.name)
                             else:
-                                info['slice'] = self.bh.options.altslicesize * (info['slice'] / ad_totalslice)
-                                if self.bh.options.debug:
-                                    self.bh.log_dbg(server + " sliced to " + "{0:.2f}".format(info['slice']) + '/' + "{0:d}".format(int(self.bh.options.altslicesize)) + '/' + str(shares) + '/na/' + "{0:.3f}".format(ad_totalslice) , cat=self.name)
+                                info['slice'] = self.bitHopper.options.altslicesize * (info['slice'] / ad_totalslice)
+                                if self.bitHopper.options.debug:
+                                    self.bitHopper.log_dbg(server + " sliced to " + "{0:.2f}".format(info['slice']) + '/' + "{0:d}".format(int(self.bitHopper.options.altslicesize)) + '/' + str(shares) + '/na/' + "{0:.3f}".format(ad_totalslice) , cat=self.name)
                                 else:
-                                    self.bh.log_msg(server + " sliced to " + "{0:.2f}".format(info['slice']), cat=self.name)
+                                    self.bitHopper.log_msg(server + " sliced to " + "{0:.2f}".format(info['slice']), cat=self.name)
                                          
                 # min share adjustment
-                for server in self.bh.pool.get_servers():
-                    info = self.bh.pool.get_entry(server)
+                for server in self.bitHopper.pool.get_servers():
+                    info = self.bitHopper.pool.get_entry(server)
                     if info['role'] not in self.valid_roles:
                         continue
                     if info['shares'] < 0: continue
                     if server not in server_shares: continue
-                    if info['slice'] < self.bh.options.altminslicesize:
-                        info['slice'] = self.bh.options.altminslicesize
-                        if self.bh.options.debug:
-                            self.bh.log_dbg(server + " (min)sliced to " + "{0:.2f}".format(info['slice']) + '/' + "{0:d}".format(int(self.bh.options.altslicesize)) + '/' + str(shares) + '/' + "{0:d}".format(info['duration']), cat=self.name)
+                    if info['slice'] < self.bitHopper.options.altminslicesize:
+                        info['slice'] = self.bitHopper.options.altminslicesize
+                        if self.bitHopper.options.debug:
+                            self.bitHopper.log_dbg(server + " (min)sliced to " + "{0:.2f}".format(info['slice']) + '/' + "{0:d}".format(int(self.bitHopper.options.altslicesize)) + '/' + str(shares) + '/' + "{0:d}".format(info['duration']), cat=self.name)
                         else:
-                            self.bh.log_msg(server + " (min)sliced to " + "{0:.2f}".format(info['slice']), cat=self.name)                                           
+                            self.bitHopper.log_msg(server + " (min)sliced to " + "{0:.2f}".format(info['slice']), cat=self.name)                                           
        
             # Pick server with largest slice first
             max_slice = -1
-            for server in self.bh.pool.get_servers():
-                info = self.bh.pool.get_entry(server)
+            for server in self.bitHopper.pool.get_servers():
+                info = self.bitHopper.pool.get_entry(server)
                 shares = info['shares']
                 if 'penalty' in info:
                     shares = shares * float(info['penalty'])
@@ -608,41 +605,41 @@ class AltSliceScheduler(Scheduler):
            
             if server_name == None: server_name = self.select_charity_server()
                        
-            #self.bh.log_dbg('server_name: ' + str(server_name), cat=self.name)
+            #self.bitHopper.log_dbg('server_name: ' + str(server_name), cat=self.name)
             if server_name == None:
-                self.bh.log_msg('No servers to slice, picking a backup...')
+                self.bitHopper.log_msg('No servers to slice, picking a backup...')
                 server_name = self.select_backup_server()
             return server_name
          
 
     def server_update(self,):
         with self.lock:
-            #self.bh.log_dbg('server_update', cat='server_update')
+            #self.bitHopper.log_dbg('server_update', cat='server_update')
             diff_time = time.time()-self.lastcalled
             self.lastcalled = time.time()
-            current = self.bh.pool.get_current()
+            current = self.bitHopper.pool.get_current()
             shares,info = self.server_to_btc_shares(current)
             info['slice'] = info['slice'] - diff_time
-            #self.bh.log_dbg(current_server + ' slice ' + str(info['slice']), cat='server_update' )
+            #self.bitHopper.log_dbg(current_server + ' slice ' + str(info['slice']), cat='server_update' )
             if self.initDone == False:
-                self.bh.select_best_server()
+                self.bitHopper.select_best_server()
                 return True
             if info['slice'] <= 0: return True
               
             # shares are now less than shares at time of slicing (new block found?)
             if info['slicedShares'] > info['shares']:
-                self.bh.log_dbg("slicedShares > shares")
+                self.bitHopper.log_dbg("slicedShares > shares")
                 return True
               
             # double check role
             if info['role'] not in self.valid_roles: return True
               
             # check to see if threshold exceeded
-            difficulty = self.bh.difficulty.get_difficulty()
+            difficulty = self.bitHopper.difficulty.get_difficulty()
             min_shares = difficulty * self.difficultyThreshold
         
             if shares > min_shares:
-                self.bh.log_dbg("shares > min_shares")
+                self.bitHopper.log_dbg("shares > min_shares")
                 info['slice'] = -1 # force switch
                 return True
               
@@ -650,7 +647,7 @@ class AltSliceScheduler(Scheduler):
 
     def update_api_server(self,server):
         with self.lock:
-            info = self.bh.pool.get_entry(server)
+            info = self.bitHopper.pool.get_entry(server)
             if info['role'] in ['info', 'disable'] and info['slice'] > 0:
                 info['slice'] = -1
             return
