@@ -50,6 +50,8 @@
 #  percent:       keep submitting shares to pool, % value from you total output
 #                 (1% = 1 share every 100)
 #  refresh_limit: pool's api refreshing interval in seconds
+#  user_agent:    HTTP User-Agent header to set when retrieving pool stats
+#                 Overrides the default in bh.cfg
 #  user:          worker username you setup for this pool
 #  pass:          password you have for the worker (not needed for all pools)
 #
