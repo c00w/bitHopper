@@ -33,7 +33,6 @@ import lp
 import lp_callback
 import plugin
 
-from scheduler import Scheduler
 from lpbot import LpBot
 
 import ConfigParser
@@ -240,7 +239,7 @@ def main():
     if override_scheduler:
         bithopper_instance.log_msg("Selecting scheduler: " + scheduler_name)
         foundScheduler = False
-        for s in Scheduler.__subclasses__():
+        for s in scheduler.Scheduler.__subclasses__():
             if s.__name__ == scheduler_name:
                 bithopper_instance.scheduler = s(bithopper_instance)
                 foundScheduler = True
