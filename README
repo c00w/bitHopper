@@ -75,6 +75,15 @@ If you don't want to use a pool delete it from "user.cfg" or go to Stats page an
 disable. BitHopper listens on loopback interface so you should direct your miner to localhost:8337
 with any username and password (not blank).
 
+# LP tuning / dashboard
+
+LP Workbench: http://localhost:8337/lpworkbench
+
+See:
+ Block Hash, Owner, LP Timings as deltas against winning "owner"
+
+Able to override the owner
+List of pools, role and LP penalties for easy access to adjust penalties
 
 # Switches
 

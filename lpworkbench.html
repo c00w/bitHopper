@@ -1,0 +1,567 @@
+<html>
+	<head>
+		<style type="text/css">
+			* {
+				font-family:monospace;
+			}
+			html,body {
+				background: #272F87;
+				height:100%;
+				color:white;
+				font-family:Arial,Helvetica,sans-serif;
+				font-size:12px;
+			}
+			
+			body {
+				margin:0;
+				padding:10;
+			}
+			
+			a {
+				text-decoration:none;
+				color: white;
+			}
+			
+			a:visited {
+				color: white;
+			}
+			
+			td, th {
+				padding:2px;
+				padding-left:6px;
+				padding-right:6px;
+				margin:0px;
+			}
+			
+			th.head {
+				border-bottom:2px solid white;
+			}
+			#headercontainer { position: fixed; top: 0; left: 0; right: 0; height: 55px; margin: 0; padding: 0; background-color: #272F87; }
+
+			#round_duration {
+				color: White;
+			}
+			
+			#round_duration_estimate {
+				color: DarkGrey;
+			}
+			
+		</style>
+		<title>bitHopper info</title>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
+		<script type="text/javascript" src="http://omnipotent.net/jquery.sparkline/1.6/jquery.sparkline.min.js"></script>
+		<script type="text/javascript">
+
+			function getName(payload, srv) {
+				if(payload['servers'][payload['current']]['name'] == srv['name']) {
+                    return "<a href='" + srv['url']  + "' target='_blank' style='font-weight:bold;font-size:16px;text-decoration:underline;color:" + getColor(payload,srv) + ";'>" + srv['name'] + "</href>";
+                }
+                else return "<a href='" + srv['url']  + "' target='_blank' style='font-size:12px;text-decoration:underline;color:" + getColor(payload,srv) + ";'>" + srv['name'] + "</href>";
+			}
+
+			function getColor(payload, srv) {
+				if(payload['servers'][payload['current']]['name'] == srv['name']) {
+					return 'yellow';
+				}
+					
+				if(srv['lag'] == true) {
+					return 'red';
+				}
+					
+				return 'white';
+			}
+			
+			function getBlock(payload, srv, key) {
+				var h = ""
+				h += "<a href='http://pident.artefact2.com/block/"+ key + "' target='_pident'>";
+				h += key + "</a>";
+				return h;
+			}
+			
+			function getBlockOwner(payload, block, key) {
+				var h = "";
+				h += "<a href='#' onClick=\"setOwner('" + key + "');\" style='text-decoration:underline;color:white'>";
+				h += block['_owner'] + "</a>";
+				return h;
+			}
+			
+			function getBlockTimings(payload, block, key) {
+				var h = "";
+				//h = "<button id='b_"+key+"'>Timings</button>";				
+				h += "<table class='none;' id='table_"+key+"'>";
+				//h += "<th>Pool</th><th>Timing</th>";
+				for (pool in block) {
+					if (pool != "_owner") {
+						h += "<th>" + pool + "</th>";						
+					}
+				}
+				h += "<tr>";
+				
+				// find owner
+				var owner = '';
+				for (pool in block) {
+					if (pool == "_owner") {
+						owner = block[pool];
+					}
+				}
+				var base_timing = parseFloat(block[owner]);				
+				for (pool in block) {
+					if (pool != "_owner") {
+						h += "<td>" + (parseFloat(block[pool]) - base_timing).toFixed(4) + "</td>";
+					}
+				}
+				h += "</tr>";
+				h += "</table>";
+				return h;			
+			}
+			
+			function setBlockTimingTriggers(key) {
+				$("#b_"+key).click(function() {
+					//$("#table_"+key).toggle();
+				});
+			}
+			
+			function getShares(payload, srv) {
+				shares = srv['shares'];
+				if(srv["role"].substring(0,4) != "mine" && srv["role"] != 'info' && srv["role"].substring(0,6) != "backup") {
+					return "N/A";
+				}
+				
+				switch (srv['role'])
+				{
+					case 'mine_ixc': diff = payload['ixc_difficulty']; break;
+					case 'mine_i0c': diff = payload['i0c_difficulty']; break;
+					case 'mine_nmc': diff = payload['nmc_difficulty']; break;
+					case 'mine_scc': diff = payload['scc_difficulty']; break;
+					default: diff = payload['difficulty']; break;
+				}
+				
+				return shares
+					+ "<br>"
+					+ fixLength((shares / diff * 100).toFixed(2), 6)
+					+ "%";
+			}
+			
+			function setRole(srvName, role) {
+			
+				var frm = "<form><input type=hidden name='role-" + srvName + "' value='" + role + "'></form>";
+				$.post("/stats", $(frm).serialize());
+				
+				update();
+			}
+			
+			function selectRole(srvName, role) {
+				var nrole = prompt(srvName + " new role: ", role);
+				if(nrole != null && nrole != undefined && nrole != "") {
+					setRole(srvName, nrole);
+				}
+			}
+			
+			function getRole(payload, srv) {
+				var roles = "";
+				
+				var defaultRole = "mine";
+				for(var v in payload["servers"]) {
+					if(payload["servers"][v]['name'] == srv['name']) {
+						srvName = v;
+					}
+				}
+
+			    roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'disable');\" onFocus='this.blur();' style='border:1px solid black;";
+				if(srv["role"] == "disable") roles += "background-color:black;";
+				roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
+
+				roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'info');\" onFocus='this.blur();' style='border:1px solid yellow;";
+				if(srv["role"] == "info") roles += "background-color:yellow;";
+				roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
+
+				roles += "<a href='#' onClick=\"setRole('" + srvName + "', '" + srv['default_role'] + "');\" onFocus='this.blur();' style='border:1px solid green;";
+				if(srv["role"][0] == "m" || srv["role"].substring(0,6) == "backup") roles += "background-color:green;";
+				roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
+			
+				var role = "<a href='#' onClick=\"selectRole('" + srvName + "', '" + srv["role"] + "')\" onFocus='this.blur();' style='text-decoration:underline;color:" + getColor(payload,srv) + ";'>" + srv["role"] + "</a>";
+			
+				return roles + role;
+			}
+			
+			function getUserShareRejects(payload, srv) {
+				var pp = 0;
+				if(srv["rejects"] > 0) {
+					pp = parseFloat(parseFloat(srv["rejects"])) / parseFloat(srv["user_shares"]) * 100;
+				}
+				return srv["user_shares"]
+					+ "&nbsp;/&nbsp;"
+					+ srv["rejects"]
+					+ "<br>"
+					+ fixLength("" + pp.toFixed(2), 5) + "%";
+			}
+			
+			function getUserTime(payload, user, key){
+				var newDate = new Date(user['last']*1000);
+			    if (newDate != null) {
+				    dateString = newDate.toLocaleString();
+			    }
+				return dateString;
+			}
+
+			function getUserRejects(payload, user, key){
+				return user['rejects']
+			}
+
+			function getUserShares(payload, user, key) {
+				return user["shares"];
+			}
+			
+			function getUserName(payload, user, key) {
+				return key;
+			}
+
+			function getUserHashrate(payload, user, key) {
+				return user["hash_rate"];
+			}
+
+			function setPayout(srvName) {
+				var payout = prompt("set payout for: " + srvName, 0);
+				if(payout != null && payout != undefined && payout != "") {
+					var frm = "<form><input type=hidden name='payout-" + srvName + "' value='" + payout + "'></form>";
+					$.post("/stats", $(frm).serialize());
+					
+					update();
+				}
+			}
+
+			function setExpPayout(srvName) {
+				var payout = prompt("set expected payout for: " + srvName, 0);
+				if(payout != null && payout != undefined && payout != "") {
+					var frm = "<form><input type=hidden name='expout-" + srvName + "' value='" + payout + "'></form>";
+					$.post("/stats", $(frm).serialize());
+					
+					update();
+				}
+			}
+
+			function setPenalty(srvName, value) {
+				var penalty = prompt("Set penalty for: " + srvName, value);
+				if(penalty != null && penalty != undefined && penalty != "") {
+					var frm = "<form><input type=hidden name='penalty-" + srvName + "' value='" + penalty + "'></form>";
+					$.post("/stats", $(frm).serialize());					
+					update();
+				}
+			}
+			
+			function setOwner(srvName, value) {
+				var penalty = prompt("Set Block Owner for: " + srvName, value);
+				if(penalty != null && penalty != undefined && penalty != "") {
+					var frm = "<form><input type=hidden name='setOwner-" + srvName + "' value='" + penalty + "'></form>";
+					$.post("/lpworkbench", $(frm).serialize());					
+					update();
+				}
+			}
+			
+			function setLPPenalty(srvName, value) {
+				var penalty = prompt("Set LP penalty for: " + srvName, value);
+				if(penalty != null && penalty != undefined && penalty != "") {
+					var frm = "<form><input type=hidden name='setLPPenalty-" + srvName + "' value='" + penalty + "'></form>";
+					$.post("/stats", $(frm).serialize());					
+					update();
+				}
+			}
+			
+			function resetScheduler() {
+				var frm = "<form><input type=hidden name='resetscheduler' value='reset'></form>";
+				$.post("/stats", $(frm).serialize());
+				update();
+			}
+
+			function resetShares() {
+				var frm = "<form><input type=hidden name='resetshares' value='reset'></form>";
+				$.post("/stats", $(frm).serialize());
+				update();
+			}
+
+			function reloadConfig() {
+				var frm = "<form><input type=hidden name='reloadconfig' value=''></form>";
+				$.post("/stats", $(frm).serialize());
+				update();
+			}
+			
+			function enableDebug() {
+				var frm = "<form><input type=hidden name='enableDebug' value=''></form>";
+				$.post("/stats", $(frm).serialize());
+				update();
+			}
+			
+			function disableDebug() {
+				var frm = "<form><input type=hidden name='disableDebug' value=''></form>";
+				$.post("/stats", $(frm).serialize());
+				update();
+			}
+
+			function resetUserShares() {
+				var frm = "<form><input type=hidden name='resetUserShares' value='reset'></form>";
+				$.post("/stats", $(frm).serialize());
+				update();
+			}
+
+
+			function getPayout(payload, srv) {
+				var srvName = "";
+				for(var v in payload["servers"]) {
+					if(payload["servers"][v]['name'] == srv['name']) {
+						srvName = v;
+					}
+				}
+				
+				payout = "<a href='#' onFocus='this.blur();' onClick=\"setPayout('" + srvName + "');\" style='text-decoration:underline;color:" + getColor(payload,srv) + ";'>" + srv["payout"].toFixed(8) + "</a>";
+				
+				return payout + "<br />Exp:&nbsp;" + "<a href='#' onFocus='this.blur();' onClick=\"setExpPayout('" + srvName + "');\" style='text-decoration:underline;color:" + getColor(payload,srv) + ";'>" + srv['expected_payout'].toFixed(8) + "</a>";
+			}
+			
+			function getEfficiency(payload, srv) {
+				var payout = srv["payout"]
+				var expect = (parseFloat(srv["user_shares"])*50)/payload["difficulty"];
+				expect  = parseFloat((parseFloat(payout)/expect) * 100).toFixed(1);
+				var pay_str = expect +  "%";
+				if (isNaN(expect)) {
+					pay_str = "-";
+				}
+				return pay_str;
+			}
+			
+			function getRoundShares(payload, srv) {
+				if(srv["role"] == "disable")
+					return [];
+
+				return srvhist[srv['name']];
+			}
+			
+			function getSlice(payload, srv) {
+				var name = srv['pool_index'];
+				if (payload['sliceinfo'] == undefined && srv['slice'] == undefined)
+					 return "-"
+				if (payload['sliceinfo'] != undefined && payload['sliceinfo'][name] >= 0)
+					return parseFloat(payload['sliceinfo'][name]).toFixed(0)
+				else if (srv['slice'] >= 0)
+					return parseFloat(srv['slice']).toFixed(0)
+				else
+					return "-"
+			}
+			
+			function getPenalty(payload, srv) {
+				var penalty = 1.00
+				if (srv['penalty'] && srv['penalty'] > 0) {
+					 penalty = parseFloat(srv['penalty']);
+				}
+				var penalty_html = "<a href='#' onFocus='this.blur();' onClick=\"setPenalty('"
+				penalty_html = penalty_html + srvName + "', " + penalty + ");\" style='text-decoration:underline;color:" + getColor(payload,srv) + ";'>"
+				penalty_html = penalty_html + penalty.toFixed(2) + "</a>";			
+				return penalty_html;
+			}
+			
+			function getLPPenalty(payload, srv) {
+				var penalty = 0.00
+				if (srv['lp_penalty'] && srv['lp_penalty'] > 0) {
+					 penalty = parseFloat(srv['lp_penalty']);
+				}
+				var penalty_html = "<a href='#' onFocus='this.blur();' onClick=\"setLPPenalty('"
+				penalty_html = penalty_html + srvName + "', " + penalty + ");\" style='text-decoration:underline;color:" + getColor(payload,srv) + ";'>"
+				penalty_html = penalty_html + penalty.toFixed(2) + "</a>";			
+				return penalty_html;
+			}
+			
+			function getPoolSpeed(payload, srv) {
+				if (srv['ghash'] > 0) {
+					if (srv["isSpeedEstimated"] == true) {
+						ghashColor = "<span class='round_duration_estimate'>*"	
+					} else {
+						ghashColor = "<span class='round_duration'>"	
+					}					
+					return ghashColor + parseFloat(srv['ghash']).toFixed(0) + "</span>"
+				} else {
+					return '&nbsp;';
+				}
+			}
+
+			function getRoundDuration(payload, srv) {
+				var h = '&nbsp;';
+				if (srv['duration'] > 0) {
+					var totalSec = parseInt(srv["duration"]);
+					var days =    Math.floor(  totalSec / 86400 );
+					var hours =   Math.floor( (totalSec - (days*86400)) / 3600 );
+					var minutes = Math.floor( (totalSec - (days*86400) - (hours * 3600))/60);
+					var estimationColor = "<span class='round_duration'>"
+					if (srv["isDurationEstimated"] == true ) {
+						estimationColor = "<span class='round_duration_estimate'>*"
+					}
+					if (days>0) {
+						h = "<font=-2>" + estimationColor + days + "d:" + hours +"h:" + minutes + "m</span></font>";
+					} else {
+						h = estimationColor + hours +"h:" + minutes + "m</span>";
+					}
+				}
+				return h;
+			}
+
+			//Returns the string representation of the role of the pool
+			function getRoleString(payload, srv) {
+				return (srv["role"]);
+			}
+
+			var srvhist = {};
+			function updateRoundShares(data) {
+				for(v in data["servers"]) {
+					var d = data["servers"][v]["shares"];
+					if(srvhist[data["servers"][v]['name']] == undefined) {
+						srvhist[data["servers"][v]['name']] = [ d ];
+					} else {
+						srvhist[data["servers"][v]['name']].push(d);
+					}
+				}
+			}
+			
+			function buildTable(id, items, payload, columns, fnSort, tableCss) {
+				//var showDisabledPools = document.getElementById('show_role_disabled').checked ;
+				//var showInfoPools = document.getElementById('show_role_info').checked ;
+				var html = "";
+				var tCss = "";
+				if(tableCss != undefined) {
+					tCss = "style='" + tableCss + "'";
+				}
+				html += "<table border=0 padding=0 cellpadding=0 cellspacing=0 " + tCss + ">";
+				html += "	<tr>";
+				
+				for(col in columns) {
+					var column = columns[col];
+					var tdAttr = "";
+					var cssAttr = "";
+
+					if(column['width'] != undefined) {
+						cssAttr += "width:" + column['width'] + "; ";
+					}
+					
+					if(column['align'] != undefined)
+						tdAttr += " align='" + column['align'] + "'";
+
+					if(column['display'] != undefined ){
+						cssAttr += "display:" + column['display'] + "; ";
+					}
+					
+					html += "	<th class='head' " + tdAttr + " style='" + cssAttr + "'><b>" + col.replace(/\s/g, "&nbsp;") + "</b></th>";
+				}
+				
+				html += "	</tr>";
+				
+				var rows = [];
+				for(row in items) {				
+					rows.push(row);
+				}
+				if(fnSort != undefined) {
+					row = rows.sort(fnSort);
+				}
+				var chartBuildUps = [];
+
+				for(var i=0;i<rows.length;i++) {
+					var r = rows[i];
+					var row = items[r];
+					
+					html += "<tr id=\"row_" + i + "\">";
+					
+					for(col in columns) {
+						var column = columns[col];
+						var tdAttr = "";
+						var cssAttr = "";
+						
+						if(column['align'] != undefined) {
+							tdAttr += " align='" + column['align'] + "'";
+						}
+						
+						if(column['width'] != undefined) {
+							cssAttr += "width:" + column['width'] + ";";
+						}
+						
+						if(column['color'] != undefined) {
+							var color = column['color'](payload, row);
+							if(color != undefined) {
+								cssAttr += "color:" + color + ";";
+							}
+						}
+						
+						var content = "";
+						var data = column['data'](payload, row, r);
+						
+						if(column['type'] == undefined) {
+							content = data;
+						} 
+
+						if(column['display'] != undefined ){
+							cssAttr += "display:" + column['display'] + "; ";
+						}
+						
+						html += "<td " + tdAttr + " style='" + cssAttr + "'>" + content + "</td>";
+					}
+					
+					html += "</tr>";
+				}
+				
+				html += "</table>";
+				$(id).html(html);
+				
+			}
+		
+			function fixLength(t, l) {
+				while(t.length < l) {
+					t = "&nbsp;" + t;
+				}
+				return t;
+			}
+		
+			function update() {
+				$.getJSON('/data', function(data) {
+					//document.title = data["current"] + ' @ '+ parseInt(data["mhash"]) + " MHash - bitHopper";
+					//$("#current").html("<span style='font-weight:bold;color:yellow;'>" + data["current"] + "</span> @" + parseInt(data["mhash"]) + "MHash");
+
+					//updateRoundShares(data);
+					
+					buildTable("#table", data['servers'], data,
+						{
+							'Server': { 'data':getName, 'color':getColor },
+							'Role': { 'data':getRole },
+							'LP Penalty': { 'data':getLPPenalty, 'color':getColor, 'align':'center' },
+							'Role String' : { 'data':getRoleString, 'display':'none' }
+						}, "width:100%"
+					);
+					
+					buildTable("#lpdata", data['block'], data['block'],
+						{
+							'Block': {'data':getBlock},
+							'Owner': {'data':getBlockOwner},
+							'Timings': {'data':getBlockTimings},
+						}, "width: 100%"
+					);
+					
+					for (pool in data['block']) {
+						setBlockTimingTriggers(pool);
+					}
+				});
+			}
+			
+			$(document).ready(function() {
+				setInterval("update()", 5000);
+				update();
+			});
+		</script>
+	</head>
+	<body>
+	<div id="headercontainer">	
+		<h1>LP Workbench</h1>
+		<span style="padding:5px;">
+		</span>
+	</div>
+	<br/>
+	<br/>
+	<br/>
+	<div id="lpdata"></div>
+	<br/>
+	<div id="table"></div>
+	</body>
+</html>

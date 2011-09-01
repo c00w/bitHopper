@@ -46,6 +46,16 @@ class LongPoll():
         hook_end.notify(self, bitHopper)
         eventlet.spawn_n(self.start_lp)
 
+    # return all blocks data (excluding special "_defer" entry)
+    def getBlocks(self):
+        temp = {};
+        for b in self.blocks:
+            temp[b] = {}
+            for v in self.blocks[b]:
+                if v != "_defer":
+                    temp[b][v] = self.blocks[b][v]
+        return temp
+    
     def set_owner(self, server, block = None):
         with self.lock:
             hook_start = plugins.Hook('plugins.lp.set_owner.start')
