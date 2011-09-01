@@ -20,7 +20,7 @@ class Scheduler(object):
             self.difficultyThreshold = self.bitHopper.options.threshold
         else:
             self.difficultyThreshold = 0.435
-        self.valid_roles = ['mine', 'mine_nmc', 'mine_deepbit', 'mine_slush', 'mine_ixc', 'mine_i0c', 'mine_scc']
+        self.valid_roles = ['mine', 'mine_nmc', 'mine_deepbit', 'mine_slush', 'mine_ixc', 'mine_i0c', 'mine_scc', 'mine_charity']
         self.loadConfig()
         eventlet.spawn_n(self.bitHopper_server_update)
 
@@ -75,27 +75,27 @@ class Scheduler(object):
         i0c_difficulty = self.bitHopper.difficulty.get_i0c_difficulty()
         scc_difficulty = self.bitHopper.difficulty.get_scc_difficulty()
         info = self.bitHopper.pool.get_entry(server)
-        if info['role'] in ['mine', 'mine_deepbit']:
+        if info['coin'] in ['btc']:
             shares = info['shares']
-        elif info['role'] == 'mine_slush':
-            shares = info['shares'] * self.difficultyThreshold /  0.10
-        elif info['role'] == 'mine_nmc':
+        elif info['coin'] in ['nmc']:
             shares = info['shares']*difficulty / nmc_difficulty
-        elif info['role'] == 'mine_ixc':
+        elif info['coin'] in ['ixc']:
             shares = info['shares']*difficulty / ixc_difficulty
-        elif info['role'] == 'mine_i0c':
+        elif info['coin'] in ['i0c']:
             shares = info['shares']*difficulty / i0c_difficulty
-        elif info['role'] == 'mine_scc':
+        elif info['coin'] in ['scc']:
             shares = info['shares']*difficulty / scc_difficulty
         else:
             shares = difficulty
+
+        if info['role'] == 'mine_slush':
+            shares = shares * self.difficultyThreshold /  0.10
         # apply penalty
         if 'penalty' in info:
             shares = shares * float(info['penalty'])
         return shares, info
 
     def select_backup_server(self,):
-        #self.bitHopper.log_dbg('select_backup_server', cat='scheduler-default')
         server_name = self.select_latehop_server()
         reject_rate = 1      
 
@@ -112,7 +112,6 @@ class Scheduler(object):
                     rr_server += float(info['penalty'])/100
                 if rr_server < reject_rate:
                     server_name = server
-                    self.bitHopper.log_dbg('select_backup_server: ' + str(server), cat='select_backup_server')
                     reject_rate = rr_server
 
         if server_name == None:
@@ -124,7 +123,6 @@ class Scheduler(object):
                     continue
                 if shares < min_shares and not info['lag']:
                     min_shares = shares
-                    #self.bitHopper.log_dbg('Selecting pool ' + str(server) + ' with shares ' + str(shares), cat='select_backup_server')
                     server_name = server
           
         if server_name == None:
@@ -166,9 +164,9 @@ class OldDefaultScheduler(Scheduler):
                 server_name = self.select_charity_server()
 
             if server_name == None:     
-                return self.select_backup_server()
-            else: 
-                return server_name   
+                server_name = self.select_backup_server()
+
+            return server_name   
 
     def server_update(self,):
         with self.lock:
@@ -263,9 +261,11 @@ class DefaultScheduler(Scheduler):
                     self.sliceinfo[server] = -1
 
             charity_server = self.select_charity_server()
-            if valid_servers == [] and charity_server != None: return charity_server
+            if valid_servers == [] and charity_server != None: 
+                return charity_server
 
-            if valid_servers == []: return self.select_backup_server()
+            if valid_servers == []: 
+                return self.select_backup_server()
           
             min_slice = self.sliceinfo[valid_servers[0]]
             server = valid_servers[0]

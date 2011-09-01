@@ -79,7 +79,6 @@ class Pool():
                 for pool in self.servers:
                     if 'user_agent' not in self.servers[pool]:
                         idx = random.randint(0, len(ua_strings)-1)
-                        self.bitHopper.log_dbg('['+pool+"] Assigned user-agent " + str(idx) + ' of ' + ua_strings[idx])
                         self.servers[pool]['user_agent'] = ua_strings[idx]
         except:
             traceback.print_exc()
@@ -132,6 +131,22 @@ class Pool():
                 self.servers[server]['default_role'] = self.servers[server]['role']
                 if self.servers[server]['default_role'] in ['info','disable']:
                     self.servers[server]['default_role'] = 'mine'
+
+                #Coin Handling
+                if 'coin' not in self.servers[server]:
+                    if self.servers[server]['role'] in ['mine', 'info', 'backup', 'backup_latehop', 'mine_charity', 'mine_slush']:
+                        coin_type = 'btc'
+                    elif self.servers[server]['role'] in ['mine_nmc']:
+                        coin_type = 'nmc'
+                    elif self.servers[server]['role'] in ['mine_ixc']:
+                        coin_type = 'ixc'
+                    elif self.servers[server]['role'] in ['mine_i0c']:
+                        coin_type = 'i0c'
+                    elif self.servers[server]['role'] in ['mine_ssc']:
+                        coin_type = 'scc'   
+                    else:
+                        coin_type = 'btc'
+                    self.servers[server]['coin'] = coin_type
             self.servers = OrderedDict(sorted(self.servers.items(), key=lambda t: t[1]['role'] + t[0]))
             self.build_server_map()
             if not self.started:
@@ -237,8 +252,7 @@ class Pool():
                 return
 
     def errsharesResponse(self, error, server_name):
-        self.bitHopper.log_msg('Error in pool api for ' + str(server_name))
-        self.bitHopper.log_dbg(str(error))
+        self.bitHopper.log_msg(server_name + ' api error:' + str(error))
         pool = server_name
         with self.lock:
             self.servers[pool]['err_api_count'] += 1

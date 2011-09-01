@@ -33,7 +33,6 @@ import lp
 import lp_callback
 import plugin
 
-from scheduler import Scheduler
 from lpbot import LpBot
 
 import ConfigParser
@@ -179,6 +178,7 @@ def main():
     parser.add_option('--p2pLP', action='store_true', default=False, help='Starts up an IRC bot to validate LP based hopping.')
     parser.add_option('--ip', type = str, default='', help='IP to listen on')
     parser.add_option('--auth', type = str, default=None, help='User,Password')
+    parser.add_option('--logconnections', default = False, action='store_true', help='show connection log')
     options = parser.parse_args()[0]
 
     if options.trace == True: options.debug = True
@@ -239,7 +239,7 @@ def main():
     if override_scheduler:
         bithopper_instance.log_msg("Selecting scheduler: " + scheduler_name)
         foundScheduler = False
-        for s in Scheduler.__subclasses__():
+        for s in scheduler.Scheduler.__subclasses__():
             if s.__name__ == scheduler_name:
                 bithopper_instance.scheduler = s(bithopper_instance)
                 foundScheduler = True
@@ -257,9 +257,9 @@ def main():
         bithopper_instance.log_msg('Starting p2p LP')
         bithopper_instance.lpBot = LpBot(bithopper_instance)
 
-    lastDefaultTimeout = socket.getdefaulttimeout()
+    lastDefaultTimeout = socket.getdefaulttimeout()  
 
-    if options.debug:
+    if options.logconnections:
         log = None
     else:
         log = open(os.devnull, 'wb')

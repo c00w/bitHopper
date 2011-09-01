@@ -22,7 +22,10 @@ sudo apt-get install python-dev python-setuptools
 sudo easy_install greenlet
 sudo easy_install importlib
 
-Testeado y funciona en Ubuntu 11.04, 10.10 y 10.04 LTS
+Si quieres hacer funcionar el minero poclbm incluido instala lo siguiente
+sudo easy_install numpy
+
+Probado y funciona en Ubuntu 11.04, 10.10 y 10.04 LTS
 
 
 # Instrucciones para usuarios Windows
@@ -97,11 +100,15 @@ El antiguo programador que no utiliza trozos para minar. Podria ser el mejor pro
 
    DefaultScheduler
 
-Programador de base basado en tiempo. Todo lo que hace este programador es pasar un tiempo igual en cada mina disponible. No muy efficiente pero depurado a maximo y estable.
+Programador de base basado en tiempo. Todo lo que hace este programador es pasar un tiempo igual en
+cada mina disponible. No muy efficiente pero depurado a maximo y estable.
 
    AltSliceScheduler
 
-Intenta un cambiar de un modo mas agresivo cuendo se llega a los limites preestablecidos (threshold). Se puede utilizar con los parametros --altslicesize=xxx --altminslicesize=xxx (donde reemplazas x con un numero para tamaño y trozo minimo). Tambien puedes utilizar --altslicejitter=xx  para variar el tamaño de trozo de modo dinamico (aleatorio). De momento tiene problemas para recalcular los trozos bastante a menudo.
+Intenta un cambiar de un modo mas agresivo cuendo se llega a los limites preestablecidos (threshold).
+Se puede utilizar con los parametros --altslicesize=xxx --altminslicesize=xxx (donde reemplazas x con un numero
+para tamano y trozo minimo). Tambien puedes utilizar --altslicejitter=xx  para variar el tamano de trozo
+de modo dinamico (aleatorio). De momento tiene problemas para recalcular los trozos bastante a menudo.
 
 Parametros especificos:
 
@@ -124,8 +131,10 @@ En desuso actualmente.
 
 # Temas
 
-Puedes cambiar el tema de colores que utiliza la pagina de statisticas. Los temas y su previsualizacion estan en la carpeta "StatSkin".
-Para cambier de tema solo tienes que reemplazar el archivo "index.html" del directorio raiz con el de la carpeta de tema deseada y despues dando refrescar en el navegador, ne se necesita reiniciar el bH.
+Puedes cambiar el tema de colores para la pagina de Stats. Temas y su previsualizacion .jpg estan en la carpeta StatSkin.
+Solo renombra tu tema preferido a "index.html" y copia el archivo en la carpeta principal para cambiar (la version actual necesita
+que reinicies el bH). Probado y funciona en los siguientes navegadores: Firefox 6 (Win 7; Android); Chrome 13 (Win 7)
+Pequenos problemas de compatibilidad con los siguientes: WebKit (Android 2.3.4); Internet Explorer 9 (Win 7)
 
 
 # Mas ayuda

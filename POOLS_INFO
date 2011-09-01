@@ -20,7 +20,7 @@ info_1: Please report experience on forum or IRC - 1.86 Ghash/s @ 08.23.11
 info_1: Please report experience on forum or IRC - 7.12 Ghash/s @ 08.23.11
 
 
-[swepool]
+[swepool]                        
 #http://swepool.net/profile
 info_1: Please report experience on forum or IRC - 2.98 GHash/s @ 08.23.11
 
@@ -73,11 +73,13 @@ info_1: Score based payout, try mining with mine_slush (page 164) - 356.68 Ghash
 #http://bitcoinmonkey.com/
 info_1: Nice small pool - 1.917 Ghash/s @ 08.23.11
 info_2: Pool went offline after supposedly finding a block (08.29.11)
+info_3: Online and running fine (08.30.11)
 
 
 [btcserv]
 #http://btcserv.net/
 info_1: Small pool, pls report experience on forum - 2.94 GHash/s @ 08.23.11
+info_2: Alternate PPS payout available for use as backup if wanted - 4.60 GHash/s @ 08.31.11
 
 
 [btcworld]
@@ -109,6 +111,7 @@ info_2: Seems like they're Prop. pool (IRC Chan.) - 36 GHash/s @ 08.23.11
 [mtred]
 #https://mtred.com/user/registration.html
 info_1: Good for hopping, fast pool for hopper-starters - 176.52 GHash/s @ 08.23.11
+info_2: Alternate PPS payout available for use as backup if wanted 
 
 
 [ozco]

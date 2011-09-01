@@ -12,7 +12,6 @@ from eventlet.green import time, threading
 class APIAngel():
     def __init__(self, bitHopper):
         self.bitHopper = bitHopper
-        self.bitHopper.log_msg("APIAngel Init()")
         self.interval = 60
         self.reincarnateInterval = 7200
         self.parseConfig()

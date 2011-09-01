@@ -50,6 +50,8 @@
 #  percent:       continua enviando shares aqui, valor proc. calculado sobre el
 #                 total de tus shares (1% = 1 share cada 100)
 #  refresh_limit: intervalo para refrescar la api de mina en segundos
+#  user_agent:    identificacion de navegador HTTP de bH para minas, sobrescribe
+#                 el reglaje general que se encuentra en bh.cfg
 #  user:          nombre del trabajador que se tiene que utilizar
 #  pass:          contrasena del trabajador (no se necesita para todas las minas)
 #
@@ -137,6 +139,7 @@ user: c00w_test
 pass: 1234
 
 [itzod]
+# https://pool.itzod.ru
 #CHANGE THIS (if you want)
 role: info
 user: nombre_minero
@@ -171,6 +174,7 @@ user: FSkyvM
 pass: xndzEU
 
 [kiwipool]
+#http://www.kiwipool.me/
 #CAMBIA A CONTINUACION (si quieres)
 role: info
 user: nombre_minero
@@ -279,8 +283,15 @@ pass:x
 #CAMBIA A CONTINUACION
 role: info
 nofeemining_user_apikey: 4140cbc6405f4425cf91ca74e1450b66
-user: dah4k0r@gmail.com_test
+user: 1Q4B1LdoKHtMbj6tBLhj1cyuMWTDYFJ9Y7
 pass: x
+
+[btcservpps]
+#http://btcserv.net/
+#CAMBIA A CONTINUACION
+role: disable
+user: nombre_minero
+pass: contrasena_minero
 
 ######################################
 # Minas Namecoin u otro tipo. Salta
@@ -293,9 +304,10 @@ pass: x
 #http://bitparking.com/
 #CAMBIA A CONTINUACION (si quieres)
 role: info
+# el nombre de minero es la direccion de pago
 user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
-pass: x
 #las contrasenas no importan en BitParking
+pass: x
 
 [nmcbit]
 #http://nmcbit.com/
