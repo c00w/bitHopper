@@ -37,7 +37,7 @@ class Work():
             #Check if we are using {USER} or {PASSWORD}
             if error:
                 return None
-            header = {'Authorization':"Basic " +base64.b64encode(user+ ":" + passw), 'user-agent': 'poclbm/20110709', 'Content-Type': 'application/json' }
+            header = {'Authorization':"Basic " +base64.b64encode(user+ ":" + passw), 'user-agent': 'poclbm/20110709', 'Content-Type': 'application/json', 'connection': 'keep-alive'}
             with self.get_http(url, timeout=None) as http:
                 try:
                     resp, content = http.request( url, 'GET', headers=header)#, body=request)[1] # Returns response dict and content str
@@ -96,7 +96,7 @@ class Work():
             
             info = self.bitHopper.pool.get_entry(server)
             user, passw, error = self.user_substitution(server, username, password)
-            header = {'Authorization':"Basic " +base64.b64encode(user + ":" + passw)}
+            header = {'Authorization':"Basic " +base64.b64encode(user + ":" + passw), 'connection': 'keep-alive'}
             user_agent = None
             for k,v in client_header.items():
                 #Ugly hack to deal with httplib trying to be smart and supplying its own user agent.

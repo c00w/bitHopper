@@ -33,7 +33,6 @@ import lp
 import lp_callback
 import plugin
 
-from scheduler import Scheduler
 from lpbot import LpBot
 
 import ConfigParser
@@ -59,8 +58,8 @@ class BitHopper():
         self.auth = None
         
         self.website = website.bitSite(self)
-        self.plugin = plugin.Plugin(self)
         self.pile = greenpool.GreenPool()
+        self.plugin = plugin.Plugin(self)
         self.pile.spawn_n(self.delag_server)
 
     def reloadConfig(self):
@@ -240,7 +239,7 @@ def main():
     if override_scheduler:
         bithopper_instance.log_msg("Selecting scheduler: " + scheduler_name)
         foundScheduler = False
-        for s in Scheduler.__subclasses__():
+        for s in scheduler.Scheduler.__subclasses__():
             if s.__name__ == scheduler_name:
                 bithopper_instance.scheduler = s(bithopper_instance)
                 foundScheduler = True
@@ -258,23 +257,13 @@ def main():
         bithopper_instance.log_msg('Starting p2p LP')
         bithopper_instance.lpBot = LpBot(bithopper_instance)
 
-    lastDefaultTimeout = socket.getdefaulttimeout()
-    if options.debug:
-        backdoor_port = config.getint('backdoor', 'port')
-        backdoor_enabled = config.getboolean('backdoor', 'enabled')
-        if backdoor_enabled:
-            try:
-                socket.setdefaulttimeout(None)
-                bithopper_instance.pile.spawn(backdoor.backdoor_server, eventlet.listen(('127.0.0.1', backdoor_port)), locals={'bh':bithopper_instance})
-                socket.setdefaulttimeout(lastDefaultTimeout)
-            except Exception, e:
-                print e   
+    lastDefaultTimeout = socket.getdefaulttimeout()  
 
     if options.logconnections:
         log = None
     else:
         log = open(os.devnull, 'wb')
-
+        
     while True:
         try:
             listen_port = options.port            

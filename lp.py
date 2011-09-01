@@ -48,6 +48,8 @@ class LongPoll():
                 block = self.lastBlock
             
             old_owner = self.blocks[block]["_owner"]
+            if old_owner and self.pool.servers[server]['coin'] != self.pool.server[old_owner]['coin']:
+                return
             self.blocks[block]["_owner"] = server
             if '_defer' in self.blocks[block]:
                 old_defer = self.blocks[block]['_defer']

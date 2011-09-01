@@ -75,20 +75,21 @@ class Scheduler(object):
         i0c_difficulty = self.bitHopper.difficulty.get_i0c_difficulty()
         scc_difficulty = self.bitHopper.difficulty.get_scc_difficulty()
         info = self.bitHopper.pool.get_entry(server)
-        if info['role'] in ['mine', 'mine_deepbit']:
+        if info['coin'] in ['btc']:
             shares = info['shares']
-        elif info['role'] == 'mine_slush':
-            shares = info['shares'] * self.difficultyThreshold /  0.10
-        elif info['role'] == 'mine_nmc':
+        elif info['coin'] in ['nmc']:
             shares = info['shares']*difficulty / nmc_difficulty
-        elif info['role'] == 'mine_ixc':
+        elif info['coin'] in ['ixc']:
             shares = info['shares']*difficulty / ixc_difficulty
-        elif info['role'] == 'mine_i0c':
+        elif info['coin'] in ['i0c']:
             shares = info['shares']*difficulty / i0c_difficulty
-        elif info['role'] == 'mine_scc':
+        elif info['coin'] in ['scc']:
             shares = info['shares']*difficulty / scc_difficulty
         else:
             shares = difficulty
+
+        if info['role'] == 'mine_slush':
+            shares = shares * self.difficultyThreshold /  0.10
         # apply penalty
         if 'penalty' in info:
             shares = shares * float(info['penalty'])
