@@ -90,6 +90,7 @@ Puedes lanzar bH con los siguientes parametros (prevalecen los que ajustas en el
    --p2pLP               = Inicia el bot IRC para poder validar mucho mejor los saltos LP
    --debug               = Visiona la salida de twisted
    --trace               = Informacion extra para debugging
+   --logconnections      = Muestra el registro de conexiones
 
 
 # Schedulers (programadores) disponibles:
