@@ -68,6 +68,7 @@ pass: testhop
 [ozco]
 #https://ozco.in/register.php
 #CAMBIA A CONTINUACION
+lp_penalty: 10
 role: mine
 user:c00w.1
 pass:1234
@@ -75,6 +76,7 @@ pass:1234
 [mtred]
 #https://mtred.com/user/registration.html
 #CAMBIA A CONTINUACION
+lp_penalty: 10
 role: mine
 mtred_user_apikey:d91c52cfe1609f161f28a1268a2915b8+
 user:scarium
@@ -83,6 +85,7 @@ pass:x
 [btcmonkey]
 #http://bitcoinmonkey.com/
 #CAMBIA A CONTINUACION
+lp_penalty: 10
 role: mine
 user: dah4k0r.testhop
 pass: x
@@ -90,6 +93,7 @@ pass: x
 [btcworld]
 #http://btcworld.de/signup
 #CAMBIA A CONTINUACION
+lp_penalty: 10
 role: info
 user: testhop
 pass: x
@@ -97,6 +101,7 @@ pass: x
 [triple]
 #https://www.triplemining.com/register
 #CAMBIA A CONTINUACION
+lp_penalty: 10
 role: mine
 user: c00w_test
 pass: x
@@ -104,6 +109,7 @@ pass: x
 [bitclockers]
 #http://bitclockers.com/
 #CAMBIA A CONTINUACION
+lp_penalty: 10
 role: info
 bitclockers_user_apikey: 965469e512aa0de5a37b83ccfd5e849e
 user: flargle
@@ -112,6 +118,7 @@ pass: x
 [btcserv]
 #http://btcserv.net/
 #CAMBIA A CONTINUACION
+lp_penalty: 10
 role: info
 user: nombre_minero
 pass: contrasena_minero
@@ -119,6 +126,7 @@ pass: contrasena_minero
 [bcpool]
 #http://bitcoinpool.com
 #CAMBIA A CONTINUACION
+lp_penalty: 10
 role: info
 user: c00w_test
 pass: x
@@ -126,6 +134,7 @@ pass: x
 [deepbit]
 #https://deepbit.net/
 #CAMBIA A CONTINUACION
+lp_penalty: 0
 role: mine_deepbit
 user: nombre_minero
 pass: contrasena_minero
@@ -133,6 +142,7 @@ pass: contrasena_minero
 [btcg]
 #https://www.btcguild.com/
 #CAMBIA A CONTINUACION (si quieres)
+lp_penalty: 0
 role: info
 btcguild_user_apikey: 81a9081f4d5f32db7dbbed407cb5f686
 user: c00w_test
@@ -140,7 +150,8 @@ pass: 1234
 
 [itzod]
 # https://pool.itzod.ru
-#CHANGE THIS (if you want)
+#CAMBIA A CONTINUACION (si quieres)
+lp_penalty: 10
 role: info
 user: nombre_minero
 pass: contrasena_minero
@@ -148,6 +159,7 @@ pass: contrasena_minero
 [unitedminers]
 #http://www.unitedminers.com
 #CAMBIA A CONTINUACION (si quieres)
+lp_penalty: 10
 role: info
 user: dah4k0r@gmail.com_testhop
 pass: testhop
@@ -155,6 +167,7 @@ pass: testhop
 [btcmine]
 # https://btcmine.com/user/register/
 #CAMBIA A CONTINUACION (si quieres)
+lp_penalty: 10
 role: info
 user: nombre_minero
 pass: contrasena_minero
@@ -162,6 +175,7 @@ pass: contrasena_minero
 [digbtc]
 #http://www.digbtc.net/register.php
 #CAMBIA A CONTINUACION (si quieres)
+lp_penalty: 10
 role: info
 user: nombre_minero
 pass: contrasena_minero
@@ -169,6 +183,7 @@ pass: contrasena_minero
 [bclc]
 #http://www.bitcoins.lc
 #CAMBIA A CONTINUACION (si quieres)
+lp_penalty: 10
 role: info
 user: FSkyvM
 pass: xndzEU
@@ -176,6 +191,7 @@ pass: xndzEU
 [kiwipool]
 #http://www.kiwipool.me/
 #CAMBIA A CONTINUACION (si quieres)
+lp_penalty: 10
 role: info
 user: nombre_minero
 pass: contrasena_minero
@@ -183,6 +199,7 @@ pass: contrasena_minero
 [bloodys]
 #http://pool.bloodys.com
 #CAMBIA A CONTINUACION (si quieres)
+lp_penalty: 10
 role: info
 user: nombre_minero
 pass: contrasena_minero
@@ -190,6 +207,7 @@ pass: contrasena_minero
 [bithasher]
 #http://bithasher.com/index.php/register/
 #CAMBIA A CONTINUACION (si quieres)
+lp_penalty: 10
 role: info
 user: nombre_minero
 pass: contrasena_minero
@@ -197,6 +215,7 @@ pass: contrasena_minero
 [swepool]
 #http://swepool.net/profile
 #CAMBIA A CONTINUACION (si quieres)
+lp_penalty: 10
 role: info
 swepool_user_apikey: xxxxxx
 user: nombre_minero
@@ -205,6 +224,7 @@ pass: contrasena_minero
 [bitfarms]
 #http://bitfarms.ca/
 #CAMBIA A CONTINUACION (si quieres)
+lp_penalty: 10
 role: info
 user: nombre_minero
 pass: contrasena_minero
@@ -219,6 +239,7 @@ pass: feliz
 [rfc]
 #https://rfcpool.com/signup
 #CAMBIA A CONTINUACION
+lp_penalty: 10
 role: disable
 user: c00w_test
 pass: x

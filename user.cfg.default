@@ -33,7 +33,7 @@
 #   and increased diff block (bad luck) + normal mining
 # info = shows share count for this pool on stat page
 # disable = disables pool completely (you can delete 
-# pool's entry in this cfg file too)
+#   pool's entry in this cfg file too)
 # 
 # Pool set-up:
 #
@@ -68,6 +68,7 @@ pass: testhop
 [ozco]
 #https://ozco.in/register.php
 #CHANGE THIS
+lp_penalty: 10
 role: mine
 user:c00w.1
 pass:1234
@@ -75,6 +76,7 @@ pass:1234
 [mtred]
 #https://mtred.com/user/registration.html
 #CHANGE THIS
+lp_penalty: 10
 role: mine
 mtred_user_apikey:d91c52cfe1609f161f28a1268a2915b8+
 user:scarium
@@ -83,6 +85,7 @@ pass:x
 [btcmonkey]
 #http://bitcoinmonkey.com/
 #CHANGE THIS
+lp_penalty: 10
 role: mine
 user: dah4k0r.testhop
 pass: x
@@ -90,6 +93,7 @@ pass: x
 [btcworld]
 #http://btcworld.de/signup
 #CHANGE THIS
+lp_penalty: 10
 role: info
 user: testhop
 pass: x
@@ -97,6 +101,7 @@ pass: x
 [triple]
 #https://www.triplemining.com/register
 #CHANGE THIS
+lp_penalty: 10
 role: mine
 user: c00w_test
 pass: x
@@ -104,6 +109,7 @@ pass: x
 [bitclockers]
 #http://bitclockers.com/
 #CHANGE THIS
+lp_penalty: 10
 role: info
 bitclockers_user_apikey: 965469e512aa0de5a37b83ccfd5e849e
 user: flargle
@@ -112,6 +118,7 @@ pass: x
 [btcserv]
 #http://btcserv.net/
 #CHANGE THIS
+lp_penalty: 10
 role: info
 user: your_username
 pass: your_password
@@ -119,6 +126,7 @@ pass: your_password
 [bcpool]
 #http://bitcoinpool.com
 #CHANGE THIS
+lp_penalty: 10
 role: info
 user: c00w_test
 pass: x
@@ -126,6 +134,7 @@ pass: x
 [deepbit]
 #https://deepbit.net/
 #CHANGE THIS
+lp_penalty: 0
 role: mine_deepbit
 user: your_username
 pass: your_password
@@ -133,6 +142,7 @@ pass: your_password
 [btcg]
 #https://www.btcguild.com/
 #CHANGE THIS (if you want)
+lp_penalty: 0
 role: info
 btcguild_user_apikey: 81a9081f4d5f32db7dbbed407cb5f686
 user: c00w_test
@@ -141,6 +151,7 @@ pass: 1234
 [itzod]
 # https://pool.itzod.ru
 #CHANGE THIS (if you want)
+lp_penalty: 10
 role: info
 user: your_username
 pass: your_password
@@ -148,6 +159,7 @@ pass: your_password
 [unitedminers]
 #http://www.unitedminers.com
 #CHANGE THIS (if you want)
+lp_penalty: 10
 role: info
 user: dah4k0r@gmail.com_testhop
 pass: testhop
@@ -155,6 +167,7 @@ pass: testhop
 [btcmine]
 # https://btcmine.com/user/register/
 #CHANGE THIS (if you want)
+lp_penalty: 10
 role: info
 user: your_username
 pass: your_password
@@ -162,6 +175,7 @@ pass: your_password
 [digbtc]
 #http://www.digbtc.net/register.php
 #CHANGE THIS (if you want)
+lp_penalty: 10
 role: info
 user: your_username
 pass: your_password
@@ -169,6 +183,7 @@ pass: your_password
 [bclc]
 #http://www.bitcoins.lc
 #CHANGE THIS (if you want)
+lp_penalty: 10
 role: info
 user: FSkyvM
 pass: xndzEU
@@ -176,6 +191,7 @@ pass: xndzEU
 [kiwipool]
 #http://www.kiwipool.me/
 #CHANGE THIS (if you want)
+lp_penalty: 10
 role: info
 user: your_username
 pass: your_password
@@ -183,6 +199,7 @@ pass: your_password
 [bloodys]
 #http://pool.bloodys.com
 #CHANGE THIS (if you want)
+lp_penalty: 10
 role: info
 user: your_username
 pass: your_password
@@ -190,6 +207,7 @@ pass: your_password
 [bithasher]
 #http://bithasher.com/index.php/register/
 #CHANGE THIS (if you want)
+lp_penalty: 10
 role: info
 user: your_username
 pass: your_password
@@ -197,6 +215,7 @@ pass: your_password
 [swepool]
 #http://swepool.net/profile
 #CHANGE THIS (if you want)
+lp_penalty: 10
 role: info
 swepool_user_apikey: xxxxxx
 user: your_username
@@ -205,6 +224,7 @@ pass: your_password
 [bitfarms]
 #http://bitfarms.ca/
 #CHANGE THIS (if you want)
+lp_penalty: 10
 role: info
 user: your_username
 pass: your_password
@@ -219,6 +239,7 @@ pass: miner
 [rfc]
 #https://rfcpool.com/signup
 #CHANGE THIS
+lp_penalty: 10
 role: disable
 user: c00w_test
 pass: x
@@ -234,6 +255,7 @@ pass: x
 [eligius]
 #http://eligius.st/wiki/index.php/Getting_Started
 #CHANGE THIS
+lp_penalty: 10
 role: backup
 user: 1AofHmwVef5QkamCW6KqiD4cRqEcq5U7hZ
 pass: x
@@ -242,6 +264,7 @@ pass: x
 [arsbitcoin]
 #https://arsbitcoin.com/register.php
 #CHANGE THIS
+lp_penalty: 10
 role: backup
 user: c00w.default
 pass: fire
@@ -249,6 +272,7 @@ pass: fire
 [bitp]
 #http://bitp.it
 #CHANGE THIS
+lp_penalty: 10
 role: backup
 bitp_user_apikey: 80c5dbea750563eb24e5310f94a56b38bad14dc35efb41e9ca421c92f31563ed
 user: 4bjibc3R1RGF9
@@ -257,6 +281,7 @@ pass: u5cpmndZq4Jvp
 [ninjac]
 #https://www.ninjacoin.com/index.php
 #CHANGE THIS
+lp_penalty: 10
 role: disable
 user: paraipanakos.works
 pass: minero
@@ -264,6 +289,7 @@ pass: minero
 [abc]
 #http://www.abcpool.co/
 #CHANGE THIS
+lp_penalty: 10
 role: disable
 abc_user_apikey: 
 user: your_username
@@ -272,6 +298,7 @@ pass: your_password
 [mtredpps]
 #https://mtred.com/user/registration.html
 #CHANGE THIS
+lp_penalty: 10
 role: disable
 mtred_user_apikey:d91c52cfe1609f161f28a1268a2915b8+
 user:scarium
@@ -280,6 +307,7 @@ pass:x
 [nofeemining]
 #https://nofeemining.appspot.com/
 #CHANGE THIS
+lp_penalty: 10
 role: mine
 nofeemining_user_apikey: 4140cbc6405f4425cf91ca74e1450b66
 user: 1Q4B1LdoKHtMbj6tBLhj1cyuMWTDYFJ9Y7
@@ -288,6 +316,7 @@ pass: x
 [btcservpps]
 #http://btcserv.net/
 #CHANGE THIS
+lp_penalty: 10
 role: info
 user: your_username
 pass: your_password
