@@ -1,5 +1,6 @@
 # These settings will override any command line options
 # Not all options are runtime reloadable
+#
 # Non-runtime configurable:
 #    main/scheduler
 #    main/port
@@ -16,7 +17,7 @@ scheduler = DefaultScheduler
 # waiting time for checking pools conectivity
 delag_sleep = 20
 
-# time in seconds to refresh pool stats
+# default time in seconds to refresh pool stats (can be overriden in user.cfg on a per pool basis)
 pool_refreshlimit = 120
 
 # upper mining limit on pools
@@ -54,6 +55,13 @@ roundtimemagic = 10
 [backdoor]
 enabled = False
 port = 3000
+
+# APIAngel will look for api_disable pools and restore them
+#  - Checks every "interval" seconds
+#  - Restores if "last_pulled" + "reincarnateInterval" > now (current time in seconds)
+[apiangel]
+interval = 60
+reincarnateInterval = 3600
 
 [lpbot]
 irc_server = irc.bithopper.org
