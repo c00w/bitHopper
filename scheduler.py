@@ -89,7 +89,7 @@ class Scheduler(object):
             shares = difficulty
 
         if info['role'] == 'mine_slush':
-            shares = shares * self.difficultyThreshold /  0.10
+            shares = shares * self.difficultyThreshold /  0.147
         # apply penalty
         if 'penalty' in info:
             shares = shares * float(info['penalty'])
