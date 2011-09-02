@@ -19,7 +19,7 @@
 # Valid pool roles are:
 #
 # mine = mines on this pool as usual (diff.*0.43)
-# mine_slush = mines pool until diff.*0.10
+# mine_slush = mines pool until diff.*0.147
 # mine_deepbit = monitor and makes educated guess mining
 #   without using the api
 # mine_nmc = setup pool for NMC mining

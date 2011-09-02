@@ -513,7 +513,10 @@
 							"Shares": { 'data':getUserShares, 'align':'center' },
 							"Rejects": { 'data':getUserRejects, 'align':'center' },
 							"Hashrate": { 'data':getUserHashrate, 'align':'center' }  
-						}
+						},
+						function(c,d){
+							return c > d;
+						},""
 					);
 					
 				});
