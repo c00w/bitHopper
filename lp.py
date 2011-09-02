@@ -22,8 +22,8 @@ def wordreverse(in_buf):
     out_words = []
     for i in range(0, len(in_buf), 4):
         out_words.append(in_buf[i:i+4])
-        out_words.reverse()
-        out_buf = ""
+    out_words.reverse()
+    out_buf = ""
     for word in out_words:
         out_buf += word
     return out_buf
@@ -132,7 +132,9 @@ class LongPoll():
             work = response['result']
             data = work['data']
 
-            block = data[8:72]
+            block = data.decode('hex')[0:64]
+            block = wordreverse(block)
+            block = block.encode('hex')[56:120]
             #block = int(block, 16)
 
             with self.lock:
