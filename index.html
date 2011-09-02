@@ -11,16 +11,16 @@
 				font-family:Arial,Helvetica,sans-serif;
 				font-size:12px;
 			}
-			
+
 			body {
 				margin:0;
 				padding:10;
 			}
-			
+
 			a {
 				text-decoration:none;
 			}
-			
+
 			td, th {
 				padding:2px;
 				padding-left:6px;
@@ -29,7 +29,7 @@
 				border-bottom:2px solid darkblue;
 				height:40px;
 			}
-			
+
 			th.head {
 				border-bottom:2px solid white;
 			}
@@ -38,11 +38,11 @@
 			#round_duration {
 				color: White;
 			}
-			
+
 			#round_duration_estimate {
 				color: DarkGrey;
 			}
-			
+
 		</style>
 		<title>bitHopper info</title>
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
@@ -60,20 +60,20 @@
 				if(payload['servers'][payload['current']]['name'] == srv['name']) {
 					return 'yellow';
 				}
-					
+
 				if(srv['lag'] == true) {
 					return 'red';
 				}
-					
+
 				return 'white';
 			}
-			
+
 			function getShares(payload, srv) {
 				shares = srv['shares'];
 				if(srv["role"].substring(0,4) != "mine" && srv["role"] != 'info' && srv["role"].substring(0,6) != "backup") {
 					return "N/A";
 				}
-				
+
 				switch (srv['role'])
 				{
 					case 'mine_ixc': diff = payload['ixc_difficulty']; break;
@@ -82,31 +82,31 @@
 					case 'mine_scc': diff = payload['scc_difficulty']; break;
 					default: diff = payload['difficulty']; break;
 				}
-				
+
 				return shares
 					+ "<br>"
 					+ fixLength((shares / diff * 100).toFixed(2), 6)
 					+ "%";
 			}
-			
+
 			function setRole(srvName, role) {
-			
+
 				var frm = "<form><input type=hidden name='role-" + srvName + "' value='" + role + "'></form>";
 				$.post("/stats", $(frm).serialize());
-				
+
 				update();
 			}
-			
+
 			function selectRole(srvName, role) {
 				var nrole = prompt(srvName + " new role: ", role);
 				if(nrole != null && nrole != undefined && nrole != "") {
 					setRole(srvName, nrole);
 				}
 			}
-			
+
 			function getRole(payload, srv) {
 				var roles = "";
-				
+
 				var defaultRole = "mine";
 				for(var v in payload["servers"]) {
 					if(payload["servers"][v]['name'] == srv['name']) {
@@ -125,12 +125,12 @@
 				roles += "<a href='#' onClick=\"setRole('" + srvName + "', '" + srv['default_role'] + "');\" onFocus='this.blur();' style='border:1px solid green;";
 				if(srv["role"][0] == "m" || srv["role"].substring(0,6) == "backup") roles += "background-color:green;";
 				roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
-			
+
 				var role = "<a href='#' onClick=\"selectRole('" + srvName + "', '" + srv["role"] + "')\" onFocus='this.blur();' style='text-decoration:underline;color:" + getColor(payload,srv) + ";'>" + srv["role"] + "</a>";
-			
+
 				return roles + role;
 			}
-			
+
 			function getUserShareRejects(payload, srv) {
 				var pp = 0;
 				if(srv["rejects"] > 0) {
@@ -142,7 +142,7 @@
 					+ "<br>"
 					+ fixLength("" + pp.toFixed(2), 5) + "%";
 			}
-			
+
 			function getUserTime(payload, user, key){
                 if(user['last'] == 0){
                     return 'Not Seen This Session';
@@ -161,7 +161,7 @@
 			function getUserShares(payload, user, key) {
 				return user["shares"];
 			}
-			
+
 			function getUserName(payload, user, key) {
 				return key;
 			}
@@ -170,12 +170,33 @@
 				return user["hash_rate"];
 			}
 
+			function getUserShareAverage(payload, user, key) {
+				var x = (((user["shares"] / shareTotal)*100).toFixed(2)) + '%';
+
+				if(x.toLowerCase().indexOf('nan') > -1 || x.toLowerCase().indexOf('infinity') > -1)
+				{
+					x = '';
+				}
+
+				return x;
+			}
+
+			function getUserRejectAverage(payload, user, key) {
+				var x =  (((user["rejects"] / rejectTotal)*100).toFixed(2)) + '%';
+
+				if(x.toLowerCase().indexOf('nan') > -1 || x.toLowerCase().indexOf('infinity') > -1)
+				{
+					x = '';
+				}
+				return x;
+			}
+
 			function setPayout(srvName) {
 				var payout = prompt("set payout for: " + srvName, 0);
 				if(payout != null && payout != undefined && payout != "") {
 					var frm = "<form><input type=hidden name='payout-" + srvName + "' value='" + payout + "'></form>";
 					$.post("/stats", $(frm).serialize());
-					
+
 					update();
 				}
 			}
@@ -185,7 +206,7 @@
 				if(payout != null && payout != undefined && payout != "") {
 					var frm = "<form><input type=hidden name='expout-" + srvName + "' value='" + payout + "'></form>";
 					$.post("/stats", $(frm).serialize());
-					
+
 					update();
 				}
 			}
@@ -194,20 +215,20 @@
 				var penalty = prompt("Set penalty for: " + srvName, value);
 				if(penalty != null && penalty != undefined && penalty != "") {
 					var frm = "<form><input type=hidden name='penalty-" + srvName + "' value='" + penalty + "'></form>";
-					$.post("/stats", $(frm).serialize());					
+					$.post("/stats", $(frm).serialize());
 					update();
 				}
 			}
-			
+
 			function setLPPenalty(srvName, value) {
 				var penalty = prompt("Set LP penalty for: " + srvName, value);
 				if(penalty != null && penalty != undefined && penalty != "") {
 					var frm = "<form><input type=hidden name='setLPPenalty-" + srvName + "' value='" + penalty + "'></form>";
-					$.post("/stats", $(frm).serialize());					
+					$.post("/stats", $(frm).serialize());
 					update();
 				}
 			}
-			
+
 			function resetScheduler() {
 				var frm = "<form><input type=hidden name='resetscheduler' value='reset'></form>";
 				$.post("/stats", $(frm).serialize());
@@ -225,13 +246,13 @@
 				$.post("/stats", $(frm).serialize());
 				update();
 			}
-			
+
 			function enableDebug() {
 				var frm = "<form><input type=hidden name='enableDebug' value=''></form>";
 				$.post("/stats", $(frm).serialize());
 				update();
 			}
-			
+
 			function disableDebug() {
 				var frm = "<form><input type=hidden name='disableDebug' value=''></form>";
 				$.post("/stats", $(frm).serialize());
@@ -252,12 +273,12 @@
 						srvName = v;
 					}
 				}
-				
+
 				payout = "<a href='#' onFocus='this.blur();' onClick=\"setPayout('" + srvName + "');\" style='text-decoration:underline;color:" + getColor(payload,srv) + ";'>" + srv["payout"].toFixed(8) + "</a>";
-				
+
 				return payout + "<br />Exp:&nbsp;" + "<a href='#' onFocus='this.blur();' onClick=\"setExpPayout('" + srvName + "');\" style='text-decoration:underline;color:" + getColor(payload,srv) + ";'>" + srv['expected_payout'].toFixed(8) + "</a>";
 			}
-			
+
 			function getEfficiency(payload, srv) {
 				var payout = srv["payout"]
 				var expect = (parseFloat(srv["user_shares"])*50)/payload["difficulty"];
@@ -268,14 +289,14 @@
 				}
 				return pay_str;
 			}
-			
+
 			function getRoundShares(payload, srv) {
 				if(srv["role"] == "disable")
 					return [];
 
 				return srvhist[srv['name']];
 			}
-			
+
 			function getSlice(payload, srv) {
 				var name = srv['pool_index'];
 				if (payload['sliceinfo'] == undefined && srv['slice'] == undefined)
@@ -287,7 +308,7 @@
 				else
 					return "-"
 			}
-			
+
 			function getPenalty(payload, srv) {
 				var penalty = 1.00
 				if (srv['penalty'] && srv['penalty'] > 0) {
@@ -295,10 +316,10 @@
 				}
 				var penalty_html = "<a href='#' onFocus='this.blur();' onClick=\"setPenalty('"
 				penalty_html = penalty_html + srvName + "', " + penalty + ");\" style='text-decoration:underline;color:" + getColor(payload,srv) + ";'>"
-				penalty_html = penalty_html + penalty.toFixed(2) + "</a>";			
+				penalty_html = penalty_html + penalty.toFixed(2) + "</a>";
 				return penalty_html;
 			}
-			
+
 			function getLPPenalty(payload, srv) {
 				var penalty = 0.00
 				if (srv['lp_penalty'] && srv['lp_penalty'] > 0) {
@@ -306,17 +327,17 @@
 				}
 				var penalty_html = "<a href='#' onFocus='this.blur();' onClick=\"setLPPenalty('"
 				penalty_html = penalty_html + srvName + "', " + penalty + ");\" style='text-decoration:underline;color:" + getColor(payload,srv) + ";'>"
-				penalty_html = penalty_html + penalty.toFixed(2) + "</a>";			
+				penalty_html = penalty_html + penalty.toFixed(2) + "</a>";
 				return penalty_html;
 			}
-			
+
 			function getPoolSpeed(payload, srv) {
 				if (srv['ghash'] > 0) {
 					if (srv["isSpeedEstimated"] == true) {
-						ghashColor = "<span class='round_duration_estimate'>*"	
+						ghashColor = "<span class='round_duration_estimate'>*"
 					} else {
-						ghashColor = "<span class='round_duration'>"	
-					}					
+						ghashColor = "<span class='round_duration'>"
+					}
 					return ghashColor + parseFloat(srv['ghash']).toFixed(0) + "</span>"
 				} else {
 					return '&nbsp;';
@@ -349,17 +370,32 @@
 			}
 
 			var srvhist = {};
+			var shareTotal = 0;
+			var rejectTotal = 0;
 			function updateRoundShares(data) {
+				shareTotal = 0;
+				rejectTotal = 0;
 				for(v in data["servers"]) {
+
 					var d = data["servers"][v]["shares"];
+
+
 					if(srvhist[data["servers"][v]['name']] == undefined) {
 						srvhist[data["servers"][v]['name']] = [ d ];
+
 					} else {
 						srvhist[data["servers"][v]['name']].push(d);
 					}
 				}
+
+				for(v in data["user"])
+				{
+					shareTotal += data["user"][v]["shares"];
+					rejectTotal += data["user"][v]["rejects"];
+				}
 			}
-			
+
+
 			function buildTable(id, items, payload, columns, fnSort, tableCss) {
 				var showDisabledPools = document.getElementById('show_role_disabled').checked ;
 				var showInfoPools = document.getElementById('show_role_info').checked ;
@@ -370,7 +406,7 @@
 				}
 				html += "<table border=0 padding=0 cellpadding=0 cellspacing=0 " + tCss + ">";
 				html += "	<tr>";
-				
+
 				for(col in columns) {
 					var column = columns[col];
 					var tdAttr = "";
@@ -379,19 +415,19 @@
 					if(column['width'] != undefined) {
 						cssAttr += "width:" + column['width'] + "; ";
 					}
-					
+
 					if(column['align'] != undefined)
 						tdAttr += " align='" + column['align'] + "'";
 
 					if(column['display'] != undefined ){
 						cssAttr += "display:" + column['display'] + "; ";
 					}
-					
+
 					html += "	<th class='head' " + tdAttr + " style='" + cssAttr + "'><b>" + col.replace(/\s/g, "&nbsp;") + "</b></th>";
 				}
-				
+
 				html += "	</tr>";
-				
+
 				var rows = [];
 				for(row in items) {
 					rows.push(row);
@@ -416,33 +452,33 @@
 					}
 
 					html += "<tr id=\"row_" + i + "\">";
-					
+
 					for(col in columns) {
 						var column = columns[col];
 						var tdAttr = "";
 						var cssAttr = "";
-						
+
 						if(column['align'] != undefined) {
 							tdAttr += " align='" + column['align'] + "'";
 						}
-						
+
 						if(column['width'] != undefined) {
 							cssAttr += "width:" + column['width'] + ";";
 						}
-						
+
 						if(column['color'] != undefined) {
 							var color = column['color'](payload, row);
 							if(color != undefined) {
 								cssAttr += "color:" + color + ";";
 							}
 						}
-						
+
 						var content = "";
 						var data = column['data'](payload, row, r);
-						
+
 						if(column['type'] == undefined) {
 							content = data;
-						} 
+						}
 						else if(column['type'] == 'linechart') {
 							content = "<span id='chart" + chartBuildUps.length + "' style='width:100%;'></span>";
 							chartBuildUps.push( { 'data':data } );
@@ -453,35 +489,35 @@
 						if(column['display'] != undefined ){
 							cssAttr += "display:" + column['display'] + "; ";
 						}
-						
+
 						html += "<td " + tdAttr + " style='" + cssAttr + "'>" + content + "</td>";
 					}
-					
+
 					html += "</tr>";
 				}
-				
+
 				html += "</table>";
 				$(id).html(html);
-				
+
 				for(var i=0; i < chartBuildUps.length; i++) {
-					$("#chart" + i).sparkline(chartBuildUps[i]['data'], { type:'line', 'lineColor':'white', 'fillColor':false,'composite':true, 'spotColor':false, 'lineWidth':2 ,'spotRadius':0, 'width':'100%', 'height':'100%'} );							
+					$("#chart" + i).sparkline(chartBuildUps[i]['data'], { type:'line', 'lineColor':'white', 'fillColor':false,'composite':true, 'spotColor':false, 'lineWidth':2 ,'spotRadius':0, 'width':'100%', 'height':'100%'} );
 				}
 			}
-		
+
 			function fixLength(t, l) {
 				while(t.length < l) {
 					t = "&nbsp;" + t;
 				}
 				return t;
 			}
-		
+
 			function update() {
 				$.getJSON('/data', function(data) {
 					document.title = data["current"] + ' @ '+ parseInt(data["mhash"]) + " MHash - bitHopper";
 					$("#current").html("<span style='font-weight:bold;color:yellow;'>" + data["current"] + "</span> @" + parseInt(data["mhash"]) + "MHash");
 
 					updateRoundShares(data);
-					
+
 					buildTable("#table", data['servers'], data,
 						{
 							'Server': { 'data':getName, 'color':getColor },
@@ -502,29 +538,31 @@
 							if(data["servers"][a]["role"].trim() != data["servers"][b]["role"].trim()) {
 								return data["servers"][a]["role"] < data["servers"][b]["role"];
 							}
-							
+
 							return data["servers"][a]["name"] > data["servers"][b]["name"]
 						}, "width:100%"
 					);
-					
+
 					users = data["user"];
-					
+
 					buildTable("#users", users, users,
 						{
 							"User": { 'data':getUserName } ,
 							"Last Seen": { 'data':getUserTime, 'align':'left' },
 							"Shares": { 'data':getUserShares, 'align':'center' },
 							"Rejects": { 'data':getUserRejects, 'align':'center' },
-							"Hashrate": { 'data':getUserHashrate, 'align':'center' }  
+							"Hashrate": { 'data':getUserHashrate, 'align':'center' },
+							"Average": { 'data':getUserShareAverage, 'align':'center' },
+							"Reject Avg": { 'data':getUserRejectAverage, 'align':'center' }
 						},
 						function(c,d){
 							return c > d;
 						},""
 					);
-					
+
 				});
 			}
-			
+
 			$(document).ready(function() {
 				setInterval("update()", 5000);
 				update();
@@ -532,14 +570,14 @@
 		</script>
 	</head>
 	<body>
-	<div id="headercontainer">	
+	<div id="headercontainer">
 		<h1 id="current"></h1>
 		<span style="padding:5px;">
 			<span style="background-color:black;width:20px;height:20px;">&nbsp;&nbsp;</span> Disabled
 			<span style="background-color:yellow;width:20px;height:20px;">&nbsp;&nbsp;</span> Info
 			<span style="background-color:green;width:20px;height:20px;">&nbsp;&nbsp;</span> Mine
 			<form>
-				<input type="checkbox" id="show_role_disabled" name="show_role" value="disabled" onclick="javascript:update()" />Show Disabled Pools 
+				<input type="checkbox" id="show_role_disabled" name="show_role" value="disabled" onclick="javascript:update()" />Show Disabled Pools
 				<input type="checkbox" id="show_role_info" name="show_role" value="info" checked="true" onclick="javascript:update()" />Show Info Pools
 			</form>
 		</span>
@@ -553,7 +591,7 @@
 				<td><input class="admin" type="button" name="resetsh" value="Reset Shares" onclick="resetShares(); return false;" title="Sets Pool Shares to Difficulty"/></td>
 				<td><input class="admin" type="button" name="resetUserShares" value="Reset User Shares & Est Payouts" onclick="resetUserShares(); return false;" title="Resets user shares/rejects, estimated payouts to 0"/></td>
 				<td><input class="admin" type="button" name="reloadconfig" value="Reload Config" onclick="reloadConfig(); return false;"/></td>
-				<td><input class="admin" type="button" name="enableDebug" value="Enable Debug" onclick="enableDebug(); return false;"/></td>				
+				<td><input class="admin" type="button" name="enableDebug" value="Enable Debug" onclick="enableDebug(); return false;"/></td>
 				<td><input class="admin" type="button" name="disableDebug" value="Disable Debug" onclick="disableDebug(); return false;"/></td>
 			</tr>
 		</table>
