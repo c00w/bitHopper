@@ -79,7 +79,7 @@ tu minero a localhost:8337 con cualquier usuario y contraseña (ne dejes en blan
 
 # Parametros
 
-Puedes lanzar bH con los siguientes parametros:
+Puedes lanzar bH con los siguientes parametros (prevalecen los que ajustas en el archivo "bh.cfg"):
 
    --ip                  = IP donde escuchar
    --port                = Puerto del proxy

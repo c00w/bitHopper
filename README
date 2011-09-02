@@ -78,7 +78,8 @@ with any username and password (not blank).
 
 # Switches
 
-You can launch bitHopper with the following parameters:
+You can launch bitHopper with the following parameters (some get overwriten at runtime by the ones you set-up
+in "bh.cfg"):
 
    --ip                  = IP to listen on
    --port                = Port to listen on
