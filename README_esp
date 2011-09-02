@@ -74,7 +74,7 @@ Si alguna mina se cambia en rojo seguro que te faltan datos por configurar en "u
 
 Por si no quieres utilizar alguna mina puedes borrarla de "user.cfg" o ir en la pagina de Stats y cambiar
 su rol a "disable". BitHopper escucha conexiones en la interfaz de loopback asi que debes redireccionar
-tu minero a localhost:8337 con cualquier usuario y contraseña (ne dejes en blanco).
+tu minero a localhost:8337 con cualquier usuario y contrasena (ne dejes en blanco).
 
 
 # Parametros
@@ -114,9 +114,9 @@ de modo dinamico (aleatorio). De momento tiene problemas para recalcular los tro
 
 Parametros especificos:
 
-   --altslicesize            = Sobrescribe trozo para el modo AltSliceScheduler, tamaño trozo base es 900
-   --altminslicesize         = Sobrescribe tamaño minimo de trozo, base 60 (AltSliceScheduler solo)
-   --altslicejitter          = Añade variacion en el tamaño de trozo, deshabilitado por defecto (AltSliceScheduler solo)
+   --altslicesize            = Sobrescribe trozo para el modo AltSliceScheduler, tamano trozo base es 900
+   --altminslicesize         = Sobrescribe tamano minimo de trozo, base 60 (AltSliceScheduler solo)
+   --altslicejitter          = Anade variacion en el tamano de trozo, deshabilitado por defecto (AltSliceScheduler solo)
    --altsliceroundtimebias   = Moldea los trozos en funcion del tiempo de ronda con respecto al tiempo preestablecido (desactivado)
    --altsliceroundtimetarget = Establece tiempo de ronda basado en velocidad de mina (GHash/s - establ. en 1000 Ghash/s)
    --altsliceroundtimemagic  = Numero magico de tiempo de ronda, incrementa to moldear hacia shares de final de ronda.
@@ -142,7 +142,7 @@ Pequenos problemas de compatibilidad con los siguientes: WebKit (Android 2.3.4);
 # Mas ayuda
 
 Puedes visitar el siguiente enlace https://github.com/c00w/bitHopper/wiki y empezar a leer sobre bitHopper o bien pregunta en el foro oficial en espanol
-siguiendo el link https://bitcointalk.org/index.php?topic=39539 (2 foro en español http://foros.3dgames.com.ar/bitcoin.396/704386.bithopper.html)
+siguiendo el link https://bitcointalk.org/index.php?topic=39539 (2 foro en espanol http://foros.3dgames.com.ar/bitcoin.396/704386.bithopper.html)
 
 
 # Donativos
