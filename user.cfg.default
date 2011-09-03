@@ -236,7 +236,6 @@ pass: x
 [eligius]
 #http://eligius.st/wiki/index.php/Getting_Started
 #CHANGE THIS
-lp_penalty: 10
 role: backup
 user: 1AofHmwVef5QkamCW6KqiD4cRqEcq5U7hZ
 pass: x
@@ -245,7 +244,6 @@ pass: x
 [arsbitcoin]
 #https://arsbitcoin.com/register.php
 #CHANGE THIS
-lp_penalty: 10
 role: backup
 user: c00w.default
 pass: fire
@@ -253,7 +251,6 @@ pass: fire
 [bitp]
 #http://bitp.it
 #CHANGE THIS
-lp_penalty: 10
 role: backup
 bitp_user_apikey: 80c5dbea750563eb24e5310f94a56b38bad14dc35efb41e9ca421c92f31563ed
 user: 4bjibc3R1RGF9
@@ -262,7 +259,6 @@ pass: u5cpmndZq4Jvp
 [ninjac]
 #https://www.ninjacoin.com/index.php
 #CHANGE THIS
-lp_penalty: 10
 role: disable
 user: paraipanakos.works
 pass: minero
@@ -270,7 +266,6 @@ pass: minero
 [abc]
 #http://www.abcpool.co/
 #CHANGE THIS
-lp_penalty: 10
 role: disable
 abc_user_apikey: 
 user: your_username
@@ -279,7 +274,6 @@ pass: your_password
 [mtredpps]
 #https://mtred.com/user/registration.html
 #CHANGE THIS
-lp_penalty: 10
 role: disable
 mtred_user_apikey:d91c52cfe1609f161f28a1268a2915b8+
 user:scarium
@@ -288,7 +282,6 @@ pass:x
 [nofeemining]
 #https://nofeemining.appspot.com/
 #CHANGE THIS
-lp_penalty: 10
 role: mine
 nofeemining_user_apikey: 4140cbc6405f4425cf91ca74e1450b66
 user: 1Q4B1LdoKHtMbj6tBLhj1cyuMWTDYFJ9Y7
@@ -297,7 +290,6 @@ pass: x
 [btcservpps]
 #http://btcserv.net/
 #CHANGE THIS
-lp_penalty: 10
 role: info
 user: your_username
 pass: your_password
