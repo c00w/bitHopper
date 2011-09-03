@@ -92,6 +92,7 @@ Puedes lanzar bH con los siguientes parametros (prevalecen los que ajustas en el
    --debug               = Visiona la salida de twisted
    --trace               = Informacion extra para debugging
    --logconnections      = Muestra el registro de conexiones
+   --simple_logging      = Salida de consola sin peticiones RPC
 
 
 # Schedulers (programadores) disponibles:
