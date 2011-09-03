@@ -58,11 +58,8 @@ class Difficulty():
             self.__dict__[diff_attr] = float(output)
             self.bitHopper.log_dbg('Retrieved Difficulty:' + str(self.__dict__[diff_attr]))
         except Exception, e:
-            #print 'ERROR:!!!!!: ' + str(e)
+            self.bitHopper.log_dbg('Unable to update difficulty for ' + coin + ': ' + str(e))
             pass
-    def get_scc_difficulty(self):
-        with self.lock:
-            return self.scc_difficulty
 
     def update_difficulty(self):
         while True:
