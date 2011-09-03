@@ -140,7 +140,7 @@ class Scheduler(object):
     def update_api_server(self,server):
         return
 
-class OldDefaultScheduler(Scheduler):
+class DefaultScheduler(Scheduler):
 
     def select_best_server(self,):
         with self.lock:
@@ -210,7 +210,7 @@ class RoundTimeDynamicPenaltyScheduler(Scheduler):
         return
 
 
-class DefaultScheduler(Scheduler):
+class SimpleSliceScheduler(Scheduler):
     def __init__(self, bitHopper):
         Scheduler.__init__(self, bitHopper)
         self.bitHopper = bitHopper
