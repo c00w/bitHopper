@@ -133,7 +133,7 @@ class LongPoll():
         if info['role'] in ['mine_nmc', 'disable', 'mine_ixc', 'mine_i0c', 'mine_scc', 'info']:
             return
         if body == None:
-            self.bitHopper.log_dbg('error in long pool from: ' + server)
+            self.bitHopper.log_dbg('error in long poll from: ' + server)
             with self.lock:
                 if server not in self.errors:
                     self.errors[server] = 0
@@ -156,8 +156,6 @@ class LongPoll():
 
             with self.lock:
                 if block not in self.blocks:
-                    if bytereverse(block) in self.blocks:
-                        block = bytereverse(block)
                     self.bitHopper.log_msg('New Block: ' + str(block))
                     self.bitHopper.log_msg('Block Owner ' + server)
                     self.add_block(block, work, server)
@@ -169,6 +167,9 @@ class LongPoll():
                 self.bitHopper.log_dbg('EXACT ' + str(server) + ': ' + str(self.blocks[block][server]))
                 if self.blocks[block]['_owner'] == None or self.blocks[block][server] < self.blocks[block][self.blocks[block]['_owner']]:
                     self.set_owner(server,block)
+                    hook_announce = plugins.Hook('plugins.lp.announce')
+                    self.bitHopper.log_dbg('LP Notify')
+                    hook_announce.notify(self, body, server, block)
                     if self.bitHopper.lpBot != None:
                         self.bitHopper.lpBot.announce(server, block)
 	    
@@ -177,8 +178,9 @@ class LongPoll():
 
         except Exception, e:
             output = False
-            self.bitHopper.log_dbg('Error in Long Pool ' + str(server) + str(body))
-            #traceback.print_exc()
+            self.bitHopper.log_dbg('Error in Long Poll ' + str(server) + str(body))
+            if self.bitHopper.options.debug:
+                traceback.print_exc()
             if server not in self.errors:
                 self.errors[server] = 0
             with self.lock:
