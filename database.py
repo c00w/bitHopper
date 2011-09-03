@@ -98,7 +98,7 @@ class Database():
                         self.curs.execute(sql)
                     self.payout[server] = None
 
-                self.database.commit()
+            self.database.commit()
             eventlet.sleep(60)
 
     def check_database(self):
