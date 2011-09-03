@@ -70,10 +70,10 @@ lpbot = False
 [backdoor]
 port = 3000
 
+[apiangel]
 # APIAngel will look for api_disable pools and restore them
 #  - Checks every "interval" seconds
 #  - Restores if "last_pulled" + "reincarnateInterval" > now (current time in seconds)
-[apiangel]
 interval = 60
 reincarnateInterval = 3600
 
