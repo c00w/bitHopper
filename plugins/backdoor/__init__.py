@@ -8,20 +8,16 @@ from eventlet import wsgi, greenpool, backdoor
 from eventlet.green import os, time, socket
 eventlet.monkey_patch()
 
+# Global timeout for sockets in case something leaks
+socket.setdefaulttimeout(900)
+
 def main(bitHopper):
-    lastDefaultTimeout = socket.getdefaulttimeout()
-    options = bitHopper.options
-    config = bitHopper.config
-    log = None 
-    if options.debug:        
-        backdoor_port = config.getint('backdoor', 'port')
-        backdoor_enabled = config.getboolean('backdoor', 'enabled')
-        if backdoor_enabled:
-            try:
-                socket.setdefaulttimeout(None)
-                bitHopper.pile.spawn(backdoor.backdoor_server, eventlet.listen(('127.0.0.1', backdoor_port)), locals={'bh':bitHopper})
-                socket.setdefaulttimeout(lastDefaultTimeout)
-            except Exception, e:
-                print e   
-    else:
-        log = open(os.devnull, 'wb')
+    backdoor_port = bitHopper.config.getint('backdoor', 'port')
+    try:
+        lastDefaultTimeout = socket.getdefaulttimeout()
+        socket.setdefaulttimeout(None)
+        bitHopper.pile.spawn(backdoor.backdoor_server, eventlet.listen(('127.0.0.1', backdoor_port)), locals={'bh':bitHopper})
+        socket.setdefaulttimeout(lastDefaultTimeout)
+    except Exception, e:
+        bitHopper.log_msg("Unable to start up backdoor: %s") % (e)
+

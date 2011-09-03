@@ -8,9 +8,9 @@
 
 [main]
 # main port for miners
-#port = 8337
+port = 8337
 
-# active scheduler 
+# active scheduler
 scheduler = DefaultScheduler
 #scheduler = AltSliceScheduler
 
@@ -52,8 +52,22 @@ roundtimebias = False
 roundtimetarget = 1000
 roundtimemagic = 10
 
+[pluginmode]
+# Plugin loading modes: 
+#    auto - loads everything automatically
+#    manual - specify which plugins you want to load below
+#    disabled - disable plugin loading completely
+mode = auto
+
+[plugins]
+test = True
+backdoor = True
+apiangel = True
+poclbm = False
+# Probably need the one below in the future
+lpbot = False
+
 [backdoor]
-enabled = False
 port = 3000
 
 # APIAngel will look for api_disable pools and restore them
