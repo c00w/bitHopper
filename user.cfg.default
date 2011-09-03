@@ -68,7 +68,6 @@ pass: testhop
 [ozco]
 #https://ozco.in/register.php
 #CHANGE THIS
-lp_penalty: 10
 role: mine
 user:c00w.1
 pass:1234
@@ -76,7 +75,6 @@ pass:1234
 [mtred]
 #https://mtred.com/user/registration.html
 #CHANGE THIS
-lp_penalty: 10
 role: mine
 mtred_user_apikey:d91c52cfe1609f161f28a1268a2915b8+
 user:scarium
@@ -85,7 +83,6 @@ pass:x
 [btcmonkey]
 #http://bitcoinmonkey.com/
 #CHANGE THIS
-lp_penalty: 10
 role: mine
 user: dah4k0r.testhop
 pass: x
@@ -93,7 +90,6 @@ pass: x
 [btcworld]
 #http://btcworld.de/signup
 #CHANGE THIS
-lp_penalty: 10
 role: info
 user: testhop
 pass: x
@@ -101,7 +97,6 @@ pass: x
 [triple]
 #https://www.triplemining.com/register
 #CHANGE THIS
-lp_penalty: 10
 role: mine
 user: c00w_test
 pass: x
@@ -109,7 +104,6 @@ pass: x
 [bitclockers]
 #http://bitclockers.com/
 #CHANGE THIS
-lp_penalty: 10
 role: info
 bitclockers_user_apikey: 965469e512aa0de5a37b83ccfd5e849e
 user: flargle
@@ -118,7 +112,6 @@ pass: x
 [btcserv]
 #http://btcserv.net/
 #CHANGE THIS
-lp_penalty: 10
 role: info
 user: your_username
 pass: your_password
@@ -126,7 +119,6 @@ pass: your_password
 [bcpool]
 #http://bitcoinpool.com
 #CHANGE THIS
-lp_penalty: 10
 role: info
 user: c00w_test
 pass: x
@@ -151,7 +143,6 @@ pass: 1234
 [itzod]
 # https://pool.itzod.ru
 #CHANGE THIS (if you want)
-lp_penalty: 10
 role: info
 user: your_username
 pass: your_password
@@ -159,7 +150,6 @@ pass: your_password
 [unitedminers]
 #http://www.unitedminers.com
 #CHANGE THIS (if you want)
-lp_penalty: 10
 role: info
 user: dah4k0r@gmail.com_testhop
 pass: testhop
@@ -167,7 +157,6 @@ pass: testhop
 [btcmine]
 # https://btcmine.com/user/register/
 #CHANGE THIS (if you want)
-lp_penalty: 10
 role: info
 user: your_username
 pass: your_password
@@ -175,7 +164,6 @@ pass: your_password
 [digbtc]
 #http://www.digbtc.net/register.php
 #CHANGE THIS (if you want)
-lp_penalty: 10
 role: info
 user: your_username
 pass: your_password
@@ -183,7 +171,6 @@ pass: your_password
 [bclc]
 #http://www.bitcoins.lc
 #CHANGE THIS (if you want)
-lp_penalty: 10
 role: info
 user: FSkyvM
 pass: xndzEU
@@ -191,7 +178,6 @@ pass: xndzEU
 [kiwipool]
 #http://www.kiwipool.me/
 #CHANGE THIS (if you want)
-lp_penalty: 10
 role: info
 user: your_username
 pass: your_password
@@ -199,7 +185,6 @@ pass: your_password
 [bloodys]
 #http://pool.bloodys.com
 #CHANGE THIS (if you want)
-lp_penalty: 10
 role: info
 user: your_username
 pass: your_password
@@ -207,7 +192,6 @@ pass: your_password
 [bithasher]
 #http://bithasher.com/index.php/register/
 #CHANGE THIS (if you want)
-lp_penalty: 10
 role: info
 user: your_username
 pass: your_password
@@ -215,7 +199,6 @@ pass: your_password
 [swepool]
 #http://swepool.net/profile
 #CHANGE THIS (if you want)
-lp_penalty: 10
 role: info
 swepool_user_apikey: xxxxxx
 user: your_username
@@ -224,7 +207,6 @@ pass: your_password
 [bitfarms]
 #http://bitfarms.ca/
 #CHANGE THIS (if you want)
-lp_penalty: 10
 role: info
 user: your_username
 pass: your_password
@@ -239,7 +221,6 @@ pass: miner
 [rfc]
 #https://rfcpool.com/signup
 #CHANGE THIS
-lp_penalty: 10
 role: disable
 user: c00w_test
 pass: x
