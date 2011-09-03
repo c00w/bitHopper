@@ -33,7 +33,7 @@
 #   and increased diff block (bad luck) + normal mining
 # info = shows share count for this pool on stat page
 # disable = disables pool completely (you can delete 
-# pool's entry in this cfg file too)
+#   pool's entry in this cfg file too)
 # 
 # Pool set-up:
 #
@@ -126,6 +126,7 @@ pass: x
 [deepbit]
 #https://deepbit.net/
 #CHANGE THIS
+lp_penalty: 0
 role: mine_deepbit
 user: your_username
 pass: your_password
@@ -133,6 +134,7 @@ pass: your_password
 [btcg]
 #https://www.btcguild.com/
 #CHANGE THIS (if you want)
+lp_penalty: 0
 role: info
 btcguild_user_apikey: 81a9081f4d5f32db7dbbed407cb5f686
 user: c00w_test
@@ -418,7 +420,7 @@ pass: your_password
 [bmunion]
 #http://www.bitminersunion.org/
 #CHANGE THIS
-role: info
+role: disable
 user: x
 pass: x
 
