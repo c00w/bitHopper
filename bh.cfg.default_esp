@@ -7,7 +7,7 @@
 
 [main]
 # puerto principal para mineros
-#port = 8337
+port = 8337
 
 # modo programado
 scheduler = DefaultScheduler
@@ -51,9 +51,30 @@ roundtimebias = False
 roundtimetarget = 1000
 roundtimemagic = 10
 
+[pluginmode]
+# Modos de carga para modulos extra: 
+#    auto - carga automatica de modulos
+#    manual - especifica que modulos se van a cargar
+#    disabled - desactiva la carga de modulos extra
+mode = auto
+
+[plugins]
+test = True
+backdoor = True
+apiangel = True
+poclbm = False
+# Probablemente necesario en el futuro
+lpbot = False
+
 [backdoor]
-enabled = False
 port = 3000
+
+[apiangel]
+# APIAngel vigila sobre las minas con api deshabilitada y la vuelve activar
+#  - Comprueba cada invervalo en segundos
+#  - Rehabilita si "last_pulled" + "reincarnateInterval" > ahora (tiempo actual en segundos)
+interval = 60
+reincarnateInterval = 3600
 
 [lpbot]
 irc_server = irc.bithopper.org
