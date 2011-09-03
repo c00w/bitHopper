@@ -124,8 +124,6 @@ info_2: Stats funcionan - 60.5 GHash/s @ 08.23.11
 [slush]
 #http://mining.bitcoin.cz/accounts/register/
 info_1: Buena para saltar hasta 10% de dificultad, utiliza mine_slush - 1872.64 GHash/s @ 08.23.11
-#   Aviso ! Mina a tu riesgo, el algoritmo con puntuacion que
-#   utiliza esta mina no esta disenado para mineros ocasionales.
 
 
 [triple]

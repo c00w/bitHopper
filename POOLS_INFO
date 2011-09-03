@@ -124,9 +124,6 @@ info_2: Stats solved - 60.5 GHash/s @ 08.23.11
 [slush]
 #http://mining.bitcoin.cz/accounts/register/
 info_1: Good for mining until 10% of diff. - use mine_slush - 1872.64 GHash/s @ 08.23.11
-#   Warning ! Mine at your own risk. The scoring
-#  system used by this pool is not designed to work
-#             for occasional miners.
 
 
 [triple]
