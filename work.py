@@ -211,7 +211,7 @@ class Work():
 
         #Fancy display methods
         
-        if not selt.bitHopper.options.simple_logging:
+        if not self.bitHopper.options.simple_logging:
             if self.bitHopper.options.debug:
                 self.bitHopper.log_msg('RPC request ' + str(data) + " submitted to " + server)
             elif data == []:
