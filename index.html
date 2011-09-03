@@ -14,7 +14,7 @@
 
 			body {
 				margin:0;
-				padding:10;
+				padding:10px;
 			}
 
 			a {
@@ -26,7 +26,7 @@
 				padding-left:6px;
 				padding-right:6px;
 				margin:0px;
-				border-bottom:2px solid darkblue;
+				border-bottom:2px solid #00008B;
 				height:40px;
 			}
 
@@ -40,7 +40,7 @@
 			}
 
 			#round_duration_estimate {
-				color: DarkGrey;
+				color: #A9A9A9;
 			}
 
 		</style>
@@ -67,6 +67,9 @@
 
 				return 'white';
 			}
+			function numberWithCommas(x) {
+				return x.toString().replace(/\B(?=(?:\d{3})+(?!\d))/g, ",");
+			}
 
 			function getShares(payload, srv) {
 				shares = srv['shares'];
@@ -83,7 +86,7 @@
 					default: diff = payload['difficulty']; break;
 				}
 
-				return shares
+				return numberWithCommas(shares)
 					+ "<br>"
 					+ fixLength((shares / diff * 100).toFixed(2), 6)
 					+ "%";

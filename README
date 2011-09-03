@@ -97,11 +97,11 @@ you set-up in "bh.cfg"):
 
 # Available Schedulers:
 
-   OldDefaultScheduler
+   DefaultScheduler
 
 A none slicing scheduler. May actually be the best scheduler there is.
 
-   DefaultScheduler
+   SimpleSliceScheduler
 
 The time based default scheduler. All that matters is time and it tries to be completely fair across all
 pools. A little less effective but thoroughly debugged.

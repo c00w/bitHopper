@@ -64,6 +64,6 @@ class Plugin():
                                 self.bitHopper.log_msg("ERROR LOADING PLUGIN: " + item)
                                 self.bitHopper.log_msg(e)
                     except Exception, e:
-                        self.bitHopper.log_dbg("Unable to get boolean state for plugin %s: %s") % (item, e)
+                        self.bitHopper.log_dbg('Unable to get boolean state for plugin ' + item + ': ' + str(e))
                         pass
 
