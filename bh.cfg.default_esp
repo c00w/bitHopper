@@ -11,6 +11,7 @@ port = 8337
 
 # modo programado
 scheduler = DefaultScheduler
+#scheduler = SimpleSliceScheduler
 #scheduler = AltSliceScheduler
 
 # tiempo de espera para comprobar conectividad con mina
