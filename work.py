@@ -167,13 +167,13 @@ class Work():
             if header[0:5] in 'HTTP_':
                 client_headers[header[5:].replace('_','-')] = env[header]
 
+        data = rpc_request['params']
+        j_id = rpc_request['id']
+
         #check if they are sending a valid message
         if rpc_request['method'] != "getwork":
             response = json.dumps({"result":None, 'error':{'message':'Invalid method'}, 'id':j_id})
             return [response]
-
-        data = rpc_request['params']
-        j_id = rpc_request['id']
 
         if data != []:
             server = self.bitHopper.getwork_store.get_server(data[0][72:136])
