@@ -67,6 +67,9 @@
 
 				return 'white';
 			}
+			function numberWithCommas(x) {
+				return x.toString().replace(/\B(?=(?:\d{3})+(?!\d))/g, ",");
+			}
 
 			function getShares(payload, srv) {
 				shares = srv['shares'];
@@ -83,7 +86,7 @@
 					default: diff = payload['difficulty']; break;
 				}
 
-				return shares
+				return numberWithCommas(shares)
 					+ "<br>"
 					+ fixLength((shares / diff * 100).toFixed(2), 6)
 					+ "%";
