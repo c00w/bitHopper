@@ -38,7 +38,7 @@ class Work():
             if error:
                 return None
             header = {'Authorization':"Basic " +base64.b64encode(user+ ":" + passw), 'user-agent': 'poclbm/20110709', 'Content-Type': 'application/json', 'connection': 'keep-alive'}
-            with self.get_http(url, timeout=None) as http:
+            with self.get_http(url, timeout=15*60) as http:
                 try:
                     resp, content = http.request( url, 'GET', headers=header)#, body=request)[1] # Returns response dict and content str
                 except Exception, e:
