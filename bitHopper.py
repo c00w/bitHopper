@@ -9,7 +9,7 @@ try:
 except Exception, e:
     print "You need to install greenlet. See the readme."
     raise e
-from eventlet import wsgi, greenpool, backdoor
+from eventlet import wsgi, greenpool
 from eventlet.green import os, time, socket
 eventlet.monkey_patch()
 #from eventlet import debug
@@ -179,6 +179,7 @@ def main():
     parser.add_option('--ip', type = str, default='', help='IP to listen on')
     parser.add_option('--auth', type = str, default=None, help='User,Password')
     parser.add_option('--logconnections', default = False, action='store_true', help='show connection log')
+    parser.add_option('--simple_logging', default = False, action='store_true', help='remove RCP logging from output')
     options = parser.parse_args()[0]
 
     if options.trace == True: options.debug = True
@@ -270,13 +271,14 @@ def main():
             try:
                 listen_port = config.getint('main', 'port')
             except ConfigParser.Error:
+                bithopper_instance.log_dbg("Unable to load main listening port from config file")
                 pass
             socket.setdefaulttimeout(None)
             wsgi.server(eventlet.listen((options.ip,listen_port)),bithopper_instance.website.handle_start, log=log)
             socket.setdefaulttimeout(lastDefaultTimeout)
             break
         except Exception, e:
-            print e
+            bithopper_instance.log_msg("Exception in wsgi server loop, restarting wsgi in 60 seconds\n%s") % (e)
             eventlet.sleep(60)
     bithopper_instance.db.close()
 
