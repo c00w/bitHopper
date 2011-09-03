@@ -210,12 +210,14 @@ class Work():
             self.bitHopper.getwork_store.add(server,merkle_root)
 
         #Fancy display methods
-        if self.bitHopper.options.debug:
-            self.bitHopper.log_msg('RPC request ' + str(data) + " submitted to " + server)
-        elif data == []:
-            self.bitHopper.log_msg('RPC request [' + rpc_request['method'] + "] submitted to " + server)
-        else:
-            self.bitHopper.log_msg('RPC request [' + data[0][155:163] + "] submitted to " + server)
+        
+        if not selt.bitHopper.options.simple_logging:
+            if self.bitHopper.options.debug:
+                self.bitHopper.log_msg('RPC request ' + str(data) + " submitted to " + server)
+            elif data == []:
+                self.bitHopper.log_msg('RPC request [' + rpc_request['method'] + "] submitted to " + server)
+            else:
+                self.bitHopper.log_msg('RPC request [' + data[0][155:163] + "] submitted to " + server)
 
         if data != []:
             data = env.get('HTTP_AUTHORIZATION').split(None, 1)[1]
