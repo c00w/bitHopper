@@ -92,15 +92,16 @@ Puedes lanzar bH con los siguientes parametros (prevalecen los que ajustas en el
    --debug               = Visiona la salida de twisted
    --trace               = Informacion extra para debugging
    --logconnections      = Muestra el registro de conexiones
+   --simple_logging      = Salida de consola sin peticiones RPC
 
 
 # Schedulers (programadores) disponibles:
 
-   OldDefaultScheduler
+   DefaultScheduler
 
 El antiguo programador que no utiliza trozos para minar. Podria ser el mejor programador que existe.
 
-   DefaultScheduler
+   SimpleSliceScheduler
 
 Programador de base basado en tiempo. Todo lo que hace este programador es pasar un tiempo igual en
 cada mina disponible. No muy efficiente pero depurado a maximo y estable.

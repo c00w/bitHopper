@@ -92,6 +92,7 @@ you set-up in "bh.cfg"):
    --debug               = Extra error output. Basically print all caught errors
    --trace               = Extra debugging output
    --logconnections      = Show connection log
+   --simple_logging      = Remove RPC logging from console output
 
 
 # Available Schedulers:
