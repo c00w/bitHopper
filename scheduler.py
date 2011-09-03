@@ -28,6 +28,7 @@ class Scheduler(object):
         try:
             self.difficultyThreshold = self.bitHopper.config.getfloat('main', 'threshold')
         except Exception, e:
+            self.bitHopper.log_dbg("Unable to load threshold for selected scheduler from a config file: " + str(e))
             pass
 
     def bitHopper_server_update(self):
@@ -222,9 +223,10 @@ class DefaultScheduler(Scheduler):
     def loadConfig(self,):
         Scheduler.loadConfig(self)
         try:
-            ss = self.bh.config.getint('defaultscheduler', 'slicesize')
+            ss = self.bitHopper.config.getint('defaultscheduler', 'slicesize')
             self.slicesize = ss
         except Exception, e:
+            self.bitHopper.log_dbg("Unable to set slicesize for defaultscheduler from a config file: " + str(e))
             pass
 
     def reset(self,):
@@ -473,7 +475,7 @@ class AltSliceScheduler(Scheduler):
                 for server in self.bitHopper.pool.get_servers():
                     info = self.bitHopper.pool.get_entry(server)
                     if info['role'] not in self.valid_roles:
-                       continue
+                        continue
                     if server not in server_shares:
                         continue
                     shares = server_shares[server] + 1
