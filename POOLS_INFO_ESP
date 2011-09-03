@@ -97,12 +97,6 @@ info_1: La mina mas grande que hay, minar con ellos te ayudara cobrar regularmen
 info_1: Mina pequena, recomendado que cambies el user-agent (pagina 154) - 5.5 Ghash/s @ 08.23.11
 
 
-[itzod]
-# https://pool.itzod.ru
-info_1: Sistema de pago por puntuacion, utiliza mine_slush si quieres saltarla (pagina 154) - 74.61 Ghash/s @ 08.23.11
-info_2: Ha cambiado a sistema SMPPS (IRC)
-
-
 [kiwipool]
 #http://www.kiwipool.me/
 info_1: Cambio a sistema PPS (pagina 154)
@@ -188,6 +182,12 @@ info_3: Registro temporalmente deshabilitado - 111.9 GHash/s @ 08.23.11
 info_1: Mina pequena y mona
 info_2: Han cambiado el servidor a google appspot - Velocida de mina desconocida @ 08.23.11
 info_3: Cambiaron sistema de pago a rsmpps (pagina 195)
+
+
+[itzod]
+# https://pool.itzod.ru
+info_1: Sistema de pago por puntuacion, utiliza mine_slush si quieres saltarla (pagina 154) - 74.61 Ghash/s @ 08.23.11
+info_2: Ha cambiado a sistema SMPPS (IRC)
 
 
 ######################################
