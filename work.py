@@ -121,7 +121,8 @@ class Work():
                         break
         except Exception, e:
             self.bitHopper.log_dbg('jsonrpc_call error: ' + str(e))
-            #traceback.print_exc()
+            if self.bitHopper.options.debug:
+                traceback.print_exc()
             return None, None
 
         try:
