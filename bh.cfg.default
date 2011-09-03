@@ -11,7 +11,7 @@
 port = 8337
 
 # active scheduler
-scheduler = OldDefaultScheduler
+scheduler = DefaultScheduler
 #scheduler = AltSliceScheduler
 
 # waiting time for checking pools conectivity
