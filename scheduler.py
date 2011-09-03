@@ -167,7 +167,7 @@ class OldDefaultScheduler(Scheduler):
             if server_name == None:     
                 server_name = self.select_backup_server()
 
-            return server_name   
+            return server_name
 
     def server_update(self,):
         with self.lock:
