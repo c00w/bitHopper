@@ -3,10 +3,9 @@
 # Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-import urllib2
 import re
 import eventlet
-from eventlet.green import threading, socket
+from eventlet.green import threading, socket, urllib2
 
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
