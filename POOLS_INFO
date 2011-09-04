@@ -4,40 +4,6 @@
 #   here for orientative purposes.
 #######################################
 
-#######################################
-#   These Pools are added recently
-#      hop them at your risk
-#######################################
-
-
-[bloodys]
-#http://pool.bloodys.com/?action=signup
-info_1: Please report experience on forum or IRC - 1.86 Ghash/s @ 08.23.11
-
-
-[bithasher]
-#http://bithasher.com/index.php/register/
-info_1: Please report experience on forum or IRC - 7.12 Ghash/s @ 08.23.11
-
-
-[swepool]                        
-#http://swepool.net/profile
-info_1: Please report experience on forum or IRC - 2.98 GHash/s @ 08.23.11
-
-
-[bitfarms]
-#http://bitfarms.ca/
-info_1: Please report experience on forum or IRC - 4.41 Ghash/s @ 08.23.11
-
-
-[p2pool]
-#https://en.bitcoin.it/wiki/P2Pool
-info_1: Decentralized pool with support for btc, nmc and others - 1.89 Ghash/s @ 08.23.11
-info_2: Please report experience on forum or IRC
-
-
-#######################################
-
 
 [bclc]
 #http://www.bitcoins.lc
@@ -56,6 +22,21 @@ info_3: Fakes json stats so you keep hopping them (page 184) - 88.63 Ghash/s @ 0
 #http://bitclockers.com/
 info_1: Handle with care, possible anti-hopper measures in place
 info_2: Their new servers work like clocks with zero stales, safe to mine with them - 276.20 Ghash/s @ 08.23.11
+
+
+[bitfarms]
+#http://bitfarms.ca/
+info_1: Please report experience on forum or IRC - 4.41 Ghash/s @ 08.23.11
+
+
+[bithasher]
+#http://bithasher.com/index.php/register/
+info_1: Please report experience on forum or IRC - 7.12 Ghash/s @ 08.23.11
+
+
+[bloodys]
+#http://pool.bloodys.com/?action=signup
+info_1: Please report experience on forum or IRC - 1.86 Ghash/s @ 08.23.11
 
 
 [btcg]
@@ -115,9 +96,20 @@ info_1: Freezing stats for unknown reason (page 114)
 info_2: Stats solved - 60.5 GHash/s @ 08.23.11
 
 
+[p2pool]
+#https://en.bitcoin.it/wiki/P2Pool
+info_1: Decentralized pool with support for btc, nmc and others - 1.89 Ghash/s @ 08.23.11
+info_2: Please report experience on forum or IRC
+
+
 [slush]
 #http://mining.bitcoin.cz/accounts/register/
 info_1: Good for mining until 10% of diff. - use mine_slush - 1872.64 GHash/s @ 08.23.11
+
+
+[swepool]                        
+#http://swepool.net/profile
+info_1: Please report experience on forum or IRC - 2.98 GHash/s @ 08.23.11
 
 
 [triple]

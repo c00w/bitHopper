@@ -4,40 +4,6 @@
 # recogida aqui con fines informativos
 #######################################
 
-#######################################
-#   Minas anadidas recientemente,
-#      saltalas a tu riesgo.
-#######################################
-
-
-[bloodys]
-#http://pool.bloodys.com
-info_1: Por favor reporta tu experiencia en foro o canal IRC - 1.86 Ghash/s @ 08.23.11
-
-
-[bithasher]
-#http://bithasher.com/index.php/register/
-info_1: Por favor reporta tu experiencia en foro o canal IRC - 7.12 Ghash/s @ 08.23.11
-
-
-[swepool]
-#http://swepool.net/profile
-info_1: Por favor reporta tu experiencia en foro o canal IRC - 2.98 GHash/s @ 08.23.11
-
-
-[bitfarms]
-#http://bitfarms.ca/
-info_1: Por favor reporta tu experiencia en foro o canal IRC - 4.41 Ghash/s @ 08.23.11
-
-
-[p2pool]
-#https://en.bitcoin.it/wiki/P2Pool
-info_1: Mina descentralizada con sopote para btc, nmc y otros - 1.89 Ghash/s @ 08.23.11
-info_2: Por favor reporta tu experiencia en foro o canal IRC
-
-
-#######################################
-
 
 [bclc]
 #http://www.bitcoins.lc
@@ -56,6 +22,21 @@ info_3: Truca los stats json para que te quedes minando con ellos (pagina 184) -
 #http://bitclockers.com/
 info_1: Salta esta mina con precaucion, posibles medidas anti-hopper
 info_2: Los nuevos servidores funcionan sin problemas con cero share stale, seguro para minar - 276.20 Ghash/s @ 08.23.11
+
+
+[bitfarms]
+#http://bitfarms.ca/
+info_1: Por favor reporta tu experiencia en foro o canal IRC - 4.41 Ghash/s @ 08.23.11
+
+
+[bithasher]
+#http://bithasher.com/index.php/register/
+info_1: Por favor reporta tu experiencia en foro o canal IRC - 7.12 Ghash/s @ 08.23.11
+
+
+[bloodys]
+#http://pool.bloodys.com
+info_1: Por favor reporta tu experiencia en foro o canal IRC - 1.86 Ghash/s @ 08.23.11
 
 
 [btcg]
@@ -115,9 +96,20 @@ info_1: Congela stats sin razon (pagina 114, foro oficial bH)
 info_2: Stats funcionan - 60.5 GHash/s @ 08.23.11
 
 
+[p2pool]
+#https://en.bitcoin.it/wiki/P2Pool
+info_1: Mina descentralizada con sopote para btc, nmc y otros - 1.89 Ghash/s @ 08.23.11
+info_2: Por favor reporta tu experiencia en foro o canal IRC
+
+
 [slush]
 #http://mining.bitcoin.cz/accounts/register/
 info_1: Buena para saltar hasta 10% de dificultad, utiliza mine_slush - 1872.64 GHash/s @ 08.23.11
+
+
+[swepool]
+#http://swepool.net/profile
+info_1: Por favor reporta tu experiencia en foro o canal IRC - 2.98 GHash/s @ 08.23.11
 
 
 [triple]
