@@ -50,7 +50,7 @@ class Pool():
 
         read = self.load_file('user.cfg', parser)
         if len(read) == 0:
-            bitHopper.log_msg("user.cfg not found. You may need to move it from user.cfg.default")
+            self.bitHopper.log_msg("user.cfg not found. You may need to move it from user.cfg.default")
             os._exit(1)
 
         userpools = parser.sections()
@@ -84,7 +84,7 @@ class Pool():
             traceback.print_exc()
 
         if self.servers == {}:
-            bitHopper.log_msg("No pools found in pools.cfg or user.cfg")
+            self.bitHopper.log_msg("No pools found in pools.cfg or user.cfg")
 
         if self.current_server is None: 
             self.current_server = pool
