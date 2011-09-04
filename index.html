@@ -51,9 +51,9 @@
 
 			function getName(payload, srv) {
 				if(payload['servers'][payload['current']]['name'] == srv['name']) {
-                    return "<a href='" + srv['url']  + "' target='_blank' style='font-weight:bold;font-size:16px;text-decoration:underline;color:" + getColor(payload,srv) + ";'>" + srv['name'] + "</href>";
-                }
-                else return "<a href='" + srv['url']  + "' target='_blank' style='font-size:12px;text-decoration:underline;color:" + getColor(payload,srv) + ";'>" + srv['name'] + "</href>";
+					return "<a href='" + srv['url']  + "' target='_blank' style='font-weight:bold;font-size:16px;text-decoration:underline;color:" + getColor(payload,srv) + ";'>" + srv['name'] + "</href>";
+				}
+				else return "<a href='" + srv['url']  + "' target='_blank' style='font-size:12px;text-decoration:underline;color:" + getColor(payload,srv) + ";'>" + srv['name'] + "</href>";
 			}
 
 			function getColor(payload, srv) {
@@ -117,7 +117,7 @@
 					}
 				}
 
-			    roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'disable');\" onFocus='this.blur();' style='border:1px solid black;";
+				roles += "<a href='#' onClick=\"setRole('" + srvName + "', 'disable');\" onFocus='this.blur();' style='border:1px solid black;";
 				if(srv["role"] == "disable") roles += "background-color:black;";
 				roles += "width:20px;height:15px;'>&nbsp;&nbsp;</a>&nbsp;";
 
@@ -147,13 +147,13 @@
 			}
 
 			function getUserTime(payload, user, key){
-                if(user['last'] == 0){
-                    return 'Not Seen This Session';
-                }
+				if(user['last'] == 0){
+					return 'Not Seen This Session';
+				}
 				var newDate = new Date(user['last']*1000);
-			    if (newDate != null) {
-				    dateString = newDate.toLocaleString();
-			    }
+				if (newDate != null) {
+					dateString = newDate.toLocaleString();
+				}
 				return dateString;
 			}
 
@@ -351,7 +351,7 @@
 				var h = '&nbsp;';
 				if (srv['duration'] > 0) {
 					var totalSec = parseInt(srv["duration"]);
-					var days =    Math.floor(  totalSec / 86400 );
+					var days =	Math.floor(  totalSec / 86400 );
 					var hours =   Math.floor( (totalSec - (days*86400)) / 3600 );
 					var minutes = Math.floor( (totalSec - (days*86400) - (hours * 3600))/60);
 					var estimationColor = "<span class='round_duration'>"
@@ -538,11 +538,16 @@
 							'Role String' : { 'data':getRoleString, 'display':'none' }
 						},
 						function(a, b) {
-							if(data["servers"][a]["role"].trim() != data["servers"][b]["role"].trim()) {
-								return data["servers"][a]["role"] < data["servers"][b]["role"];
+							a_role = data["servers"][a]["role"].toString().trim();
+							b_role = data["servers"][b]["role"].toString().trim();
+							comparison = a_role.localeCompare(b_role);
+							if (comparison != 0) {
+								return comparison < 0;
 							}
+							a_name = data["servers"][a]["name"].toString().trim();
+							b_name = data["servers"][b]["name"].toString().trim();
 
-							return data["servers"][a]["name"] > data["servers"][b]["name"]
+							return a_name.localeCompare(b_name) > 0;
 						}, "width:100%"
 					);
 
