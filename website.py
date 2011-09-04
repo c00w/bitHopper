@@ -61,8 +61,7 @@ class dynamicSite():
                     server = v.split('-')[1]
                     self.bitHopper.update_payout(server, float(request.POST[v]))
                 except Exception, e:
-                    self.bitHopper.log_dbg('Incorrect http post request payout')
-                    self.bitHopper.log_dbg(e)
+                    self.bitHopper.log_msg('Incorrect http post request payout: ' + str(e))
             if "expout" in v:
                 try:
                     server = v.split('-')[1]
@@ -73,11 +72,9 @@ class dynamicSite():
                             userShares = info['expected_payout'] * self.bitHopper.difficulty.get_difficulty() / 50
                             info['user_shares'] = int(userShares)
                             self.bitHopper.db.get_shares(server)
-                            
                             self.bitHopper.log_msg('Expected payout for ' + str(server) + " modified")
                 except Exception, e:
-                    self.bitHopper.log_dbg('Incorrect http post request for expected payout')
-                    self.bitHopper.log_dbg(e)
+                    self.bitHopper.log_msg('Incorrect http post request for expected payout: ' + str(e))
             if "penalty" in v:
                 try:
                     server = v.split('-')[1]
@@ -90,8 +87,8 @@ class dynamicSite():
                     info['penalty'] = new_penalty                    
                     self.bitHopper.select_best_server()
                 except Exception, e:
-                    self.bitHopper.log_dbg('Incorrect http post request penalty: ' + str(v))
-                    self.bitHopper.log_dbg(e)
+                    self.bitHopper.log_msg('Incorrect http post request penalty: ' + str(v))
+                    self.bitHopper.log_msg(e)
             if "resetscheduler" in v:
                 self.bitHopper.log_msg('User forced scheduler reset')
                 try:
@@ -99,8 +96,7 @@ class dynamicSite():
                         self.bitHopper.scheduler.reset()
                         self.bitHopper.select_best_server()
                 except Exception,e:
-                    self.bitHopper.log_dbg('Incorrect http post resetscheduler')
-                    self.bitHopper.log_dbg(e)
+                    self.bitHopper.log_msg('Incorrect http post resetscheduler: ' + str(e))
             if "resetshares" in v:
                 self.bitHopper.log_msg('User forced resetshares')
                 try:
@@ -108,15 +104,13 @@ class dynamicSite():
                         info = self.bitHopper.pool.get_entry(server)
                         info['shares'] = self.bitHopper.difficulty.get_difficulty()
                 except Exception,e:
-                    self.bitHopper.log_dbg('Incorrect http post resetshares')
-                    self.bitHopper.log_dbg(e)
+                    self.bitHopper.log_msg('Incorrect http post resetshares: ' + str(e))
             if "reloadconfig" in v:
                 self.bitHopper.log_msg('User forced configuration reload')
                 try:
                     self.bitHopper.reloadConfig()
                 except Exception,e:
-                    self.bitHopper.log_dbg('Incorrect http post reloadconfig')
-                    self.bitHopper.log_dbg(e)
+                    self.bitHopper.log_msg('Incorrect http post reloadconfig: ' + str(e))
                     if self.bitHopper.options.debug:
                         traceback.print_exc()
             if "resetUserShares" in v:
@@ -128,8 +122,7 @@ class dynamicSite():
                         info['rejects'] = 0
                         info['expected_payout'] = 0
                 except Exception,e:
-                    self.bitHopper.log_dbg('Incorrect http post resetUserShares')
-                    self.bitHopper.log_dbg(e)
+                    self.bitHopper.log_msg('Incorrect http post resetUserShares: ' + str(e))
             if "resetUShares" in v:
                 self.bitHopper.log_msg('User forced user shares to be reset')
                 try:
@@ -138,8 +131,7 @@ class dynamicSite():
                         info['user_shares'] = 0
                         info['rejects'] = 0
                 except Exception,e:
-                    self.bitHopper.log_dbg('Incorrect http post resetUserShares')
-                    self.bitHopper.log_dbg(e)
+                    self.bitHopper.log_msg('Incorrect http post resetUserShares: ' + str(e))
             if "resetEstPayout" in v:
                 self.bitHopper.log_msg('User forced est payouts to be reset')
                 try:
@@ -147,8 +139,7 @@ class dynamicSite():
                         info = self.bitHopper.pool.get_entry(server)
                         info['expected_payout'] = 0
                 except Exception,e:
-                    self.bitHopper.log_dbg('Incorrect http post resetEstPayout')
-                    self.bitHopper.log_dbg(e)
+                    self.bitHopper.log_msg('Incorrect http post resetEstPayout: ' + str(e))
             if "enableDebug" in v:
                 self.bitHopper.log_dbg('User enabled DEBUG from web')
                 self.bitHopper.options.debug = True
@@ -166,8 +157,8 @@ class dynamicSite():
                     self.bitHopper.log_msg("Updating LP Penalty for " + server + " from " + str(old_lp_penalty) + ' to ' + str(new_lp_penalty))
                     info['lp_penalty'] = new_lp_penalty
                 except Exception, e:
-                    self.bitHopper.log_dbg('Incorrect http post request setLPPenalty: ' + str(v))
-                    self.bitHopper.log_dbg(e)
+                    self.bitHopper.log_msg('Incorrect http post request setLPPenalty: ' + str(v))
+                    self.bitHopper.log_msg(e)
 
 
 class dataSite():
