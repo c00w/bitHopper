@@ -39,8 +39,8 @@ class Plugin():
                     autoMode = True
                     self.bitHopper.log_msg("Plugin loading mode: auto")
                 else:
-                    self.bitHopper.log_msg("Plugin loading mode: manual")
                     autoMode = False
+                    self.bitHopper.log_msg("Plugin loading mode: manual")
             else:
                 self.bitHopper.log_msg("Plugin loading mode: disabled")
                 return
