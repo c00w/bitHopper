@@ -97,7 +97,7 @@ class Work():
             info = self.bitHopper.pool.get_entry(server)
             user, passw, error = self.user_substitution(server, username, password)
             header = {'Authorization':"Basic " +base64.b64encode(user + ":" + passw), 'connection': 'keep-alive'}
-            user_agent = None
+            header['user-agent'] = 'poclbm/20110709'
             for k,v in client_header.items():
                 #Ugly hack to deal with httplib trying to be smart and supplying its own user agent.
                 if k.lower() in [ 'user-agent', 'user_agent']:
