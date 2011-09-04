@@ -3,10 +3,9 @@
 # Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-import urllib2
 import re
 import eventlet
-from eventlet.green import threading, socket
+from eventlet.green import threading, socket, urllib2
 
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
@@ -58,11 +57,8 @@ class Difficulty():
             self.__dict__[diff_attr] = float(output)
             self.bitHopper.log_dbg('Retrieved Difficulty:' + str(self.__dict__[diff_attr]))
         except Exception, e:
-            #print 'ERROR:!!!!!: ' + str(e)
+            self.bitHopper.log_dbg('Unable to update difficulty for ' + coin + ': ' + str(e))
             pass
-    def get_scc_difficulty(self):
-        with self.lock:
-            return self.scc_difficulty
 
     def update_difficulty(self):
         while True:

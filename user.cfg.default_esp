@@ -20,7 +20,7 @@
 # Los "role" (roles) validos son:
 #
 # mine = mina como esta mandado, normal (dificultad*0.43)
-# mine_slush = en esta se queda hasta dificultad.*0.10
+# mine_slush = en esta se queda hasta dificultad.*0.147
 # mine_deepbit = monitorea y prueba suerte minar en
 #   esta mina sin utilizar la api
 # mine_nmc = indica que es una mina minecoin
@@ -126,6 +126,7 @@ pass: x
 [deepbit]
 #https://deepbit.net/
 #CAMBIA A CONTINUACION
+lp_penalty: 0
 role: mine_deepbit
 user: nombre_minero
 pass: contrasena_minero
@@ -133,6 +134,7 @@ pass: contrasena_minero
 [btcg]
 #https://www.btcguild.com/
 #CAMBIA A CONTINUACION (si quieres)
+lp_penalty: 0
 role: info
 btcguild_user_apikey: 81a9081f4d5f32db7dbbed407cb5f686
 user: c00w_test
@@ -140,7 +142,7 @@ pass: 1234
 
 [itzod]
 # https://pool.itzod.ru
-#CHANGE THIS (if you want)
+#CAMBIA A CONTINUACION (si quieres)
 role: info
 user: nombre_minero
 pass: contrasena_minero
@@ -419,7 +421,7 @@ pass: contrasena_minero
 [bmunion]
 #http://www.bitminersunion.org/
 #CAMBIA A CONTINUACION
-role: info
+role: disable
 user: nombre_minero
 pass: contrasena_minero
 

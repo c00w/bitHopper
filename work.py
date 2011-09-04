@@ -38,7 +38,7 @@ class Work():
             if error:
                 return None
             header = {'Authorization':"Basic " +base64.b64encode(user+ ":" + passw), 'user-agent': 'poclbm/20110709', 'Content-Type': 'application/json', 'connection': 'keep-alive'}
-            with self.get_http(url, timeout=None) as http:
+            with self.get_http(url, timeout=15*60) as http:
                 try:
                     resp, content = http.request( url, 'GET', headers=header)#, body=request)[1] # Returns response dict and content str
                 except Exception, e:
@@ -67,10 +67,8 @@ class Work():
             try:
                 content = http.request( url, 'GET', headers=header)[1] # Returns response dict and content str
             except Exception, e:
-                self.bitHopper.log_dbg('Error with a work.get http request')
-                self.bitHopper.log_dbg(e)
+                self.bitHopper.log_dbg('Error with a work.get() http request: ' + str(e))
                 content = ""
-                
         return content
 
     def user_substitution(self, server, username, password):
@@ -97,15 +95,14 @@ class Work():
             info = self.bitHopper.pool.get_entry(server)
             user, passw, error = self.user_substitution(server, username, password)
             header = {'Authorization':"Basic " +base64.b64encode(user + ":" + passw), 'connection': 'keep-alive'}
-            user_agent = None
+            header['user-agent'] = 'poclbm/20110709'
             for k,v in client_header.items():
                 #Ugly hack to deal with httplib trying to be smart and supplying its own user agent.
                 if k.lower() in [ 'user-agent', 'user_agent']:
                     header['user-agent'] = v
                 if k.lower() in ['x-mining-extensions', 'x-mining-hashrate']:
                     header[k] = v
-                
-            
+
             url = "http://" + info['mine_address']
             with self.get_http(url) as http:
                 try:
@@ -167,13 +164,13 @@ class Work():
             if header[0:5] in 'HTTP_':
                 client_headers[header[5:].replace('_','-')] = env[header]
 
+        data = rpc_request['params']
+        j_id = rpc_request['id']
+
         #check if they are sending a valid message
         if rpc_request['method'] != "getwork":
             response = json.dumps({"result":None, 'error':{'message':'Invalid method'}, 'id':j_id})
             return [response]
-
-        data = rpc_request['params']
-        j_id = rpc_request['id']
 
         if data != []:
             server = self.bitHopper.getwork_store.get_server(data[0][72:136])
@@ -210,12 +207,14 @@ class Work():
             self.bitHopper.getwork_store.add(server,merkle_root)
 
         #Fancy display methods
-        if self.bitHopper.options.debug:
-            self.bitHopper.log_msg('RPC request ' + str(data) + " submitted to " + server)
-        elif data == []:
-            self.bitHopper.log_msg('RPC request [' + rpc_request['method'] + "] submitted to " + server)
-        else:
-            self.bitHopper.log_msg('RPC request [' + data[0][155:163] + "] submitted to " + server)
+        
+        if not self.bitHopper.options.simple_logging:
+            if self.bitHopper.options.debug:
+                self.bitHopper.log_msg('RPC request ' + str(data) + " submitted to " + server)
+            elif data == []:
+                self.bitHopper.log_msg('RPC request [' + rpc_request['method'] + "] submitted to " + server)
+            else:
+                self.bitHopper.log_msg('RPC request [' + data[0][155:163] + "] submitted to " + server)
 
         if data != []:
             data = env.get('HTTP_AUTHORIZATION').split(None, 1)[1]

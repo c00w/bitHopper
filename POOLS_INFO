@@ -97,11 +97,6 @@ info_1: Biggest pool around, mining with them should get your variance down - 57
 info_1: Small pool, recommended you change user-agent (page 154) - 5.5 Ghash/s @ 08.23.11
 
 
-[itzod]
-# https://pool.itzod.ru
-info_1: Score based payout, hop using mine_slush if you want (page 154) - 74.61 Ghash/s @ 08.23.11
-
-
 [kiwipool]
 #http://www.kiwipool.me/
 info_1: Switched to PPS (page 154)
@@ -123,9 +118,6 @@ info_2: Stats solved - 60.5 GHash/s @ 08.23.11
 [slush]
 #http://mining.bitcoin.cz/accounts/register/
 info_1: Good for mining until 10% of diff. - use mine_slush - 1872.64 GHash/s @ 08.23.11
-#   Warning ! Mine at your own risk. The scoring
-#  system used by this pool is not designed to work
-#             for occasional miners.
 
 
 [triple]
@@ -189,6 +181,12 @@ info_3: Registering temp disabled - 111.9 GHash/s @ 08.23.11
 info_1: Nice small pool
 info_2: They moved pool to google appspot - Pool speed unknown @ 08.23.11
 info_3: Changed payout to rsmpps (page 195)
+
+
+[itzod]
+# https://pool.itzod.ru
+info_1: Score based payout, hop using mine_slush if you want (page 154) - 74.61 Ghash/s @ 08.23.11
+info_2: Changed to SMPPS system (IRC)
 
 
 ######################################
@@ -256,6 +254,7 @@ info_1: Solidcoin pool, use mine_scc - 62.3 Ghash/s @ 08.28.11
 [scbitparking]
 #http://scpool.bitparking.com
 info_1: Solidcoin pool, use mine_scc - 64.06 Ghash/s @ 08.28.11
+info_2: Pool will be closing down due to solidcoin software relicense (pool webpage) - 10.61 Ghash/s @ 09.04.11
 
 
 [squid]

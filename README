@@ -78,26 +78,30 @@ with any username and password (not blank).
 
 # Switches
 
-You can launch bitHopper with the following parameters:
+You can launch bitHopper with the following parameters (some get overwriten at runtime by the ones
+you set-up in "bh.cfg"):
 
    --ip                  = IP to listen on
    --port                = Port to listen on
    --auth                = Ask for user and password on stats page (--auth user,pass)
+   --config              = Select an alternate main config file from "bh.cfg"
    --listschedulers      = List alternate schedulers available
    --scheduler           = Select an alternate scheduler
    --threshold           = Override difficulty threshold (default 0.43)
    --p2pLP               = Starts up an IRC bot to validate LP based hopping
    --debug               = Extra error output. Basically print all caught errors
    --trace               = Extra debugging output
+   --logconnections      = Show connection log
+   --simple_logging      = Remove RPC logging from console output
 
 
 # Available Schedulers:
 
-   OldDefaultScheduler
+   DefaultScheduler
 
 A none slicing scheduler. May actually be the best scheduler there is.
 
-   DefaultScheduler
+   SimpleSliceScheduler
 
 The time based default scheduler. All that matters is time and it tries to be completely fair across all
 pools. A little less effective but thoroughly debugged.

@@ -28,6 +28,7 @@ class Scheduler(object):
         try:
             self.difficultyThreshold = self.bitHopper.config.getfloat('main', 'threshold')
         except Exception, e:
+            self.bitHopper.log_dbg("Unable to load threshold for selected scheduler from a config file: " + str(e))
             pass
 
     def bitHopper_server_update(self):
@@ -89,7 +90,7 @@ class Scheduler(object):
             shares = difficulty
 
         if info['role'] == 'mine_slush':
-            shares = shares * self.difficultyThreshold /  0.10
+            shares = shares * self.difficultyThreshold /  0.147
         # apply penalty
         if 'penalty' in info:
             shares = shares * float(info['penalty'])
@@ -139,7 +140,7 @@ class Scheduler(object):
     def update_api_server(self,server):
         return
 
-class OldDefaultScheduler(Scheduler):
+class DefaultScheduler(Scheduler):
 
     def select_best_server(self,):
         with self.lock:
@@ -166,7 +167,7 @@ class OldDefaultScheduler(Scheduler):
             if server_name == None:     
                 server_name = self.select_backup_server()
 
-            return server_name   
+            return server_name
 
     def server_update(self,):
         with self.lock:
@@ -209,7 +210,7 @@ class RoundTimeDynamicPenaltyScheduler(Scheduler):
         return
 
 
-class DefaultScheduler(Scheduler):
+class SimpleSliceScheduler(Scheduler):
     def __init__(self, bitHopper):
         Scheduler.__init__(self, bitHopper)
         self.bitHopper = bitHopper
@@ -222,9 +223,10 @@ class DefaultScheduler(Scheduler):
     def loadConfig(self,):
         Scheduler.loadConfig(self)
         try:
-            ss = self.bh.config.getint('defaultscheduler', 'slicesize')
+            ss = self.bitHopper.config.getint('defaultscheduler', 'slicesize')
             self.slicesize = ss
         except Exception, e:
+            self.bitHopper.log_dbg("Unable to set slicesize for defaultscheduler from a config file: " + str(e))
             pass
 
     def reset(self,):
@@ -473,7 +475,7 @@ class AltSliceScheduler(Scheduler):
                 for server in self.bitHopper.pool.get_servers():
                     info = self.bitHopper.pool.get_entry(server)
                     if info['role'] not in self.valid_roles:
-                       continue
+                        continue
                     if server not in server_shares:
                         continue
                     shares = server_shares[server] + 1

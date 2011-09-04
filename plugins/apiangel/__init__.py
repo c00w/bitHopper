@@ -5,7 +5,6 @@
 
 import traceback
 
-import time
 import eventlet
 from eventlet.green import time, threading
 
@@ -15,24 +14,25 @@ class APIAngel():
         self.interval = 60
         self.reincarnateInterval = 7200
         self.parseConfig()
+        self.bitHopper.log_msg("apiangel is getting initialized")
         self.bitHopper.log_msg(" - Check interval: " + str(self.interval))
         self.bitHopper.log_msg(" - Re-Incarnate interval: " + str(self.reincarnateInterval))
         eventlet.spawn_n(self.run)
         self.lock = threading.RLock()
-            
+
     def parseConfig(self):
         try:
             self.interval = self.bitHopper.config.getint('apiangel', 'interval')
             self.reincarnateInterval = self.bitHopper.config.getint('apiangel', 'reincarnateInterval')
         except:
             traceback.print_exc()
-        
+
     def log_msg(self, msg, **kwargs):
         self.bitHopper.log_msg(msg, cat='apiangel')
-        
+
     def log_dbg(self, msg, **kwargs):
         self.bitHopper.log_dbg(msg, cat='apiangel')
-        
+
     def run(self):
         while True:
             now = time.time()
@@ -48,6 +48,5 @@ class APIAngel():
 
 
 def main(bitHopper):
-    me = APIAngel(bitHopper)
+    APIAngel(bitHopper)
 
-    
