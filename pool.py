@@ -50,7 +50,7 @@ class Pool():
 
         read = self.load_file('user.cfg', parser)
         if len(read) == 0:
-            bitHopper.log_msg("user.cfg not found. You may need to move it from user.cfg.default")
+            self.bitHopper.log_msg("user.cfg not found. You may need to move it from user.cfg.default")
             os._exit(1)
 
         userpools = parser.sections()
@@ -84,7 +84,7 @@ class Pool():
             traceback.print_exc()
 
         if self.servers == {}:
-            bitHopper.log_msg("No pools found in pools.cfg or user.cfg")
+            self.bitHopper.log_msg("No pools found in pools.cfg or user.cfg")
 
         if self.current_server is None: 
             self.current_server = pool
@@ -271,7 +271,11 @@ class Pool():
             return
 
         if server['api_method'] == 'json':
-            info = json.loads(response)
+            try:
+                info = json.loads(response)
+            except ValueError:
+                self.bitHopper.log_dbg(str(server_name) + " - unable to extract JSON from response")
+                return
             for value in server['api_key'].split(','):
                 info = info[value]
             if 'api_strip' in server:
@@ -296,7 +300,11 @@ class Pool():
             self.UpdateShares(server_name,round_shares)
 
         elif server['api_method'] == 'json_ec':
-            info = json.loads(response[:response.find('}')+1])
+            try:
+                info = json.loads(response[:response.find('}')+1])
+            except ValueError:
+                self.bitHopper.log_dbg(str(server_name) + " - unable to extract JSON from response")
+                return
             for value in server['api_key'].split(','):
                 info = info[value]
             round_shares = int(info)
@@ -307,6 +315,7 @@ class Pool():
         elif server['api_method'] == 're':
             output = re.search(server['api_key'],response)
             if output == None:
+                self.bitHopper.log_dbg(str(server_name) + " - unable to extract shares from response using regexp")
                 return
             if 'api_group' in server:
                 output = output.group(int(server['api_group']))

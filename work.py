@@ -67,10 +67,8 @@ class Work():
             try:
                 content = http.request( url, 'GET', headers=header)[1] # Returns response dict and content str
             except Exception, e:
-                self.bitHopper.log_dbg('Error with a work.get http request')
-                self.bitHopper.log_dbg(e)
+                self.bitHopper.log_dbg('Error with a work.get() http request: ' + str(e))
                 content = ""
-                
         return content
 
     def user_substitution(self, server, username, password):
@@ -97,15 +95,14 @@ class Work():
             info = self.bitHopper.pool.get_entry(server)
             user, passw, error = self.user_substitution(server, username, password)
             header = {'Authorization':"Basic " +base64.b64encode(user + ":" + passw), 'connection': 'keep-alive'}
-            user_agent = None
+            header['user-agent'] = 'poclbm/20110709'
             for k,v in client_header.items():
                 #Ugly hack to deal with httplib trying to be smart and supplying its own user agent.
                 if k.lower() in [ 'user-agent', 'user_agent']:
                     header['user-agent'] = v
                 if k.lower() in ['x-mining-extensions', 'x-mining-hashrate']:
                     header[k] = v
-                
-            
+
             url = "http://" + info['mine_address']
             with self.get_http(url) as http:
                 try:
