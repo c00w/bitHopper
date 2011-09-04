@@ -67,10 +67,8 @@ class Work():
             try:
                 content = http.request( url, 'GET', headers=header)[1] # Returns response dict and content str
             except Exception, e:
-                self.bitHopper.log_dbg('Error with a work.get http request')
-                self.bitHopper.log_dbg(e)
+                self.bitHopper.log_dbg('Error with a work.get() http request: ' + str(e))
                 content = ""
-                
         return content
 
     def user_substitution(self, server, username, password):
@@ -104,8 +102,7 @@ class Work():
                     header['user-agent'] = v
                 if k.lower() in ['x-mining-extensions', 'x-mining-hashrate']:
                     header[k] = v
-                
-            
+
             url = "http://" + info['mine_address']
             with self.get_http(url) as http:
                 try:

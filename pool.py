@@ -271,7 +271,11 @@ class Pool():
             return
 
         if server['api_method'] == 'json':
-            info = json.loads(response)
+            try:
+                info = json.loads(response)
+            except ValueError:
+                self.bitHopper.log_dbg(str(server_name) + " - unable to extract JSON from response")
+                return
             for value in server['api_key'].split(','):
                 info = info[value]
             if 'api_strip' in server:
@@ -296,7 +300,11 @@ class Pool():
             self.UpdateShares(server_name,round_shares)
 
         elif server['api_method'] == 'json_ec':
-            info = json.loads(response[:response.find('}')+1])
+            try:
+                info = json.loads(response[:response.find('}')+1])
+            except ValueError:
+                self.bitHopper.log_dbg(str(server_name) + " - unable to extract JSON from response")
+                return
             for value in server['api_key'].split(','):
                 info = info[value]
             round_shares = int(info)
@@ -307,6 +315,7 @@ class Pool():
         elif server['api_method'] == 're':
             output = re.search(server['api_key'],response)
             if output == None:
+                self.bitHopper.log_dbg(str(server_name) + " - unable to extract shares from response using regexp")
                 return
             if 'api_group' in server:
                 output = output.group(int(server['api_group']))
