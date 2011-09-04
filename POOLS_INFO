@@ -99,7 +99,7 @@ info_2: Stats solved - 60.5 GHash/s @ 08.23.11
 [p2pool]
 #https://en.bitcoin.it/wiki/P2Pool
 info_1: Decentralized pool with support for btc, nmc and others - 1.89 Ghash/s @ 08.23.11
-info_2: Please report experience on forum or IRC
+info_2: Pool software needs to be installed on local pc
 
 
 [slush]
