@@ -229,6 +229,7 @@ pass: x
 #http://asspennypool.com/register.php
 #CAMBIA A CONTINUACION (si quieres)
 role: info
+asspenny_user_apikey: xxxxxx
 user: nombre_minero
 pass: contrasena_minero
 
