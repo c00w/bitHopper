@@ -225,6 +225,14 @@ role: disable
 user: c00w_test
 pass: x
 
+[asspenny]
+#http://asspennypool.com/register.php
+#CHANGE THIS (if you want)
+role: info
+asspenny_user_apikey: xxxxxx
+user: your_username
+pass: your_password
+
 ######################################
 # Backup pools for when there is
 # no pool where you would earn more
