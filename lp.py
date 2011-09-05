@@ -32,8 +32,8 @@ def wordreverse(in_buf):
 
 class LongPoll():
     def __init__(self, bitHopper):
-	hook_start = plugins.Hook('plugins.lp.init.start')
-	hook_start.notify(self, bitHopper)
+        hook_start = plugins.Hook('plugins.lp.init.start')
+        hook_start.notify(self, bitHopper)
         self.bitHopper = bitHopper
         self.bitHopper.log_msg('LP Module Load')
         self.pool = self.bitHopper.pool
@@ -42,14 +42,14 @@ class LongPoll():
         self.errors = {}
         self.polled = {}
         self.lock = threading.RLock()
-	hook_end = plugins.Hook('plugins.lp.init.end')
-	hook_end.notify(self, bitHopper)
+        hook_end = plugins.Hook('plugins.lp.init.end')
+        hook_end.notify(self, bitHopper)
         eventlet.spawn_n(self.start_lp)
 
     def set_owner(self, server, block = None):
         with self.lock:
-	    hook_start = plugins.Hook('plugins.lp.set_owner.start')
-	    hook_start.notify(self, server, block)
+            hook_start = plugins.Hook('plugins.lp.set_owner.start')
+            hook_start.notify(self, server, block)
 
             if block == None:
                 if self.lastBlock == None:
@@ -76,8 +76,8 @@ class LongPoll():
                 self.bitHopper.scheduler.reset()
                 self.bitHopper.select_best_server()
                 eventlet.spawn_n(self.api_check,server,block,old_shares)
-	    hook_end = plugins.Hook('plugins.lp.set_owner.end')
-	    hook_end.notify(self, server, block)
+            hook_end = plugins.Hook('plugins.lp.set_owner.end')
+            hook_end.notify(self, server, block)
 
     def get_owner(self):
         with self.lock:
@@ -114,18 +114,18 @@ class LongPoll():
     def add_block(self, block, work, server):
         """ Adds a new block. server must be the server the work is coming from """
         with self.lock:
-	    hook_start = plugins.Hook('plugins.lp.add_block.start')
-	    hook_start.notify(self, block, work, server)
+            hook_start = plugins.Hook('plugins.lp.add_block.start')
+            hook_start.notify(self, block, work, server)
             self.blocks[block]={}
             self.bitHopper.lp_callback.new_block(work, server)
             self.blocks[block]["_owner"] = None
             self.lastBlock = block
-	    hook_end = plugins.Hook('plugins.lp.add_block.end')
-	    hook_end.notify(self, block, work, server)
+        hook_end = plugins.Hook('plugins.lp.add_block.end')
+        hook_end.notify(self, block, work, server)
 
     def receive(self, body, server):
-	hook_start = plugins.Hook('plugins.lp.receive.start')
-	hook_start.notify(self, body, server)
+        hook_start = plugins.Hook('plugins.lp.receive.start')
+        hook_start.notify(self, body, server)
         if server in self.polled:
             self.polled[server].release()
         self.bitHopper.log_dbg('received lp from: ' + server)
@@ -172,9 +172,9 @@ class LongPoll():
                     hook_announce.notify(self, body, server, block)
                     if self.bitHopper.lpBot != None:
                         self.bitHopper.lpBot.announce(server, block)
-	    
-	    hook_start = plugins.Hook('plugins.lp.receive.end')
-	    hook_start.notify(self, body, server, block)
+        
+            hook_start = plugins.Hook('plugins.lp.receive.end')
+            hook_start.notify(self, body, server, block)
 
         except Exception, e:
             output = False
