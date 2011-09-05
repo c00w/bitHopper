@@ -3,6 +3,18 @@
 # of pools used for hopping, gathered
 #   here for orientative purposes.
 #######################################
+#######################################
+#   These Pools are added recently
+#      hop them at your risk
+#######################################
+
+
+[asspenny]
+#http://asspennypool.com/register.php
+info_1: New pool on the "block", prop. payouts, please report experience - 3.1 Ghash/s @ 09.05.11
+
+
+#######################################
 
 
 [bclc]

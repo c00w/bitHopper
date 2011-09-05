@@ -3,7 +3,17 @@
 #   sobre la minas conocidas por bH,
 # recogida aqui con fines informativos
 #######################################
+#######################################
+#   Minas anadidas recientemente,
+#      saltalas a tu riesgo.
+#######################################
 
+[asspenny]
+#http://asspennypool.com/register.php
+info_1: Nueva mina en el barrio, sistema prop. , porfavor reporta tu experiencia - 3.1 Ghash/s @ 09.05.11
+
+
+####################################### 
 
 [bclc]
 #http://www.bitcoins.lc
