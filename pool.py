@@ -364,7 +364,18 @@ class Pool():
             server['duration'] = duration
             
             self.UpdateShares(server_name,round_shares)
+        
+        elif server['api_method'] == 're_shareestimate':
+            # get share count based on user shares and user reward estimate
+            output = re.search(server['api_key_shares'],response)
+            shares = output.group(1)                
             
+            output = re.search(server['api_key_estimate'],response)
+            estimate = output.group(1)
+            
+            round_shares = int(50.0 * float(shares) / float(estimate))
+            self.UpdateShares(server_name,round_shares)            
+        
         elif server['api_method'] == 're_rate':
             output = re.search(server['api_key'],response)
             if 'api_group' in server:
