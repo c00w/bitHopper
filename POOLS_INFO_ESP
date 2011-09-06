@@ -26,6 +26,7 @@ info_2: Puedes probar minar con el rol mine_deepbit - 466.02 Ghash/s @ 08.23.11
 info_1: Medidas anti-hopping basadas en "ventana de participacion" (pagina 36)
 info_2: Desactiva las medidas anti-hopper si donas (pagina 111)
 info_3: Truca los stats json para que te quedes minando con ellos (pagina 184) - 88.63 Ghash/s @ 08.23.11
+info_4: La mina impone una penalidad de 50% solo para mineros ocasionales (pagina de mina) - 68.87 Ghash/s @ 09.06.11
 
 
 [bitclockers]
