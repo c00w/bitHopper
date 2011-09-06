@@ -23,24 +23,19 @@ class Difficulty():
         eventlet.spawn_n(self.update_difficulty)
 
     def get_difficulty(self):
-        with self.lock:
-            return self.difficulty
+        return self.difficulty
     
     def get_nmc_difficulty(self):
-        with self.lock:
-            return self.nmc_difficulty
+        return self.nmc_difficulty
 
     def get_ixc_difficulty(self):
-        with self.lock:
-            return self.ixc_difficulty
+        return self.ixc_difficulty
     
     def get_i0c_difficulty(self):
-        with self.lock:
-            return self.i0c_difficulty
+        return self.i0c_difficulty
     
     def get_scc_difficulty(self):
-        with self.lock:
-            return self.scc_difficulty
+        return self.scc_difficulty
 
     def updater(self, coin, url_diff, diff_attr, reg_exp = None):
         # Generic method to update the difficulty of a given currency
@@ -59,7 +54,6 @@ class Difficulty():
             self.bitHopper.log_dbg('Retrieved Difficulty: ' + str(self.__dict__[diff_attr]))
         except Exception, e:
             self.bitHopper.log_dbg('Unable to update difficulty for ' + coin + ': ' + str(e))
-            pass
 
     def update_difficulty(self):
         while True:
