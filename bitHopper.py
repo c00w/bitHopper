@@ -4,6 +4,9 @@
 # Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
+import warnings
+warnings.filterwarnings('ignore','' , UserWarning)
+
 try:
     import eventlet
 except Exception, e:
