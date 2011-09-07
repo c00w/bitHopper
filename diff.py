@@ -41,6 +41,7 @@ class Difficulty():
         # Generic method to update the difficulty of a given currency
         self.bitHopper.log_msg('Updating Difficulty of ' + coin)
         try:
+            timeout = eventlet.timeout.Timeout(5, Exception(''))
             useragent = {'User-Agent': self.bitHopper.config.get('main', 'work_user_agent')}
             req = urllib2.Request(url_diff, headers = useragent)
             response = urllib2.urlopen(req)
@@ -54,11 +55,14 @@ class Difficulty():
             self.bitHopper.log_dbg('Retrieved Difficulty: ' + str(self.__dict__[diff_attr]))
         except Exception, e:
             self.bitHopper.log_dbg('Unable to update difficulty for ' + coin + ': ' + str(e))
+        finally:
+            timeout.cancel()
 
     def update_difficulty(self):
         while True:
             "Tries to update difficulty from the internet"
             with self.lock:
+                
                 self.updater("Bitcoin", 'http://blockexplorer.com/q/getdifficulty', 'difficulty')
                 self.updater("Namecoin", 'http://namebit.org/', 'nmc_difficulty', '<td id="difficulty">([.0-9]+)</td>')
                 self.updater("SolidCoin", 'http://solidcoin.whmcr.co.uk/chain/SolidCoin?count=1', 'scc_difficulty', '<td>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}</td><td>\d{1,}</td><td>[.0-9]+</td><td>([.0-9]+)</td>')
