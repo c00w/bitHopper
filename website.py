@@ -222,14 +222,14 @@ class nosite():
 class bitSite():
 
     def __init__(self, bitHopper):
-        self.auth = nosite()
+        self.auth = False
         self.site_names = ['','/']
         self.bitHopper = bitHopper
         self.dynamicSite = dynamicSite(self.bitHopper)
         self.sites = [self, lpSite(self.bitHopper), dynamicSite(self.bitHopper), dataSite(self.bitHopper)]
 
     def handle_start(self, env, start_response):
-        use_site = nullsite()
+        use_site = nosite()
         for site in self.sites:
             if getattr(site, 'auth', True):
                 if not self.auth_check(env):
