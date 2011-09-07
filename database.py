@@ -75,6 +75,7 @@ class Database():
                             self.curs.execute(sql)
                         self.shares[server][user] = 0
 
+            with self.lock:
                 for server in self.rejects:
                     for user in self.rejects[server]:
                         if self.rejects[server][user] == 0:
@@ -87,6 +88,7 @@ class Database():
                             self.curs.execute(sql)
                         self.rejects[server][user] = 0
 
+            with self.lock:
                 for server in self.payout:
                     if self.payout[server] == None:
                         continue
