@@ -1,0 +1,16 @@
+import mechanize
+if "x8s" in pools:
+  br = mechanize.Browser()
+  br.addheaders = [('User-agent', 'Opera/9.80 (X11; Linux x86_64; U; en) Presto/2.9.168 Version/11.50')]
+  br.open("http://btc.x8s.de/account/login")
+  br.select_form(nr=0)
+  br["_username"] = "sadsadf"
+  br["_password"] = """e!rU,Oafasj"WsGtDGO0"""
+  br.submit()
+  br.follow_link([l for l in br.links(url_regex="stats")][0])
+def scrape_x8s():
+  soup = BeautifulSoup(br.reload().read())
+  s = [x for x in soup.findAll("td") if x.get("id") == "shareupdate"][0].text
+  if (s.lower() == "nan"):
+    return 0
+  return int(s)
