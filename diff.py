@@ -41,7 +41,7 @@ class Difficulty():
         # Generic method to update the difficulty of a given currency
         self.bitHopper.log_msg('Updating Difficulty of ' + coin)
         try:
-            timeout = eventlet.timeout.Timeout(5, Exception(''))
+            #timeout = eventlet.timeout.Timeout(5, Exception(''))
             useragent = {'User-Agent': self.bitHopper.config.get('main', 'work_user_agent')}
             req = urllib2.Request(url_diff, headers = useragent)
             response = urllib2.urlopen(req)
@@ -56,7 +56,8 @@ class Difficulty():
         except Exception, e:
             self.bitHopper.log_dbg('Unable to update difficulty for ' + coin + ': ' + str(e))
         finally:
-            timeout.cancel()
+            #timeout.cancel()
+            pass
 
     def update_difficulty(self):
         while True:
