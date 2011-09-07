@@ -211,17 +211,25 @@ class nullsite():
         start_response('401 UNAUTHORIZED', [('Content-Type', 'text/plain'),('WWW-Authenticate','Basic realm="Protected"')])
         return ['']
 
+class nosite():
+    def __init__(self):
+        self.auth = False
+
+    def handle(self, env, start_response):
+        start_response('200 OK', [])
+        return ['']
+
 class bitSite():
 
     def __init__(self, bitHopper):
-        self.auth = False
+        self.auth = nosite()
         self.site_names = ['','/']
         self.bitHopper = bitHopper
         self.dynamicSite = dynamicSite(self.bitHopper)
         self.sites = [self, lpSite(self.bitHopper), dynamicSite(self.bitHopper), dataSite(self.bitHopper)]
 
     def handle_start(self, env, start_response):
-        use_site = self
+        use_site = nullsite()
         for site in self.sites:
             if getattr(site, 'auth', True):
                 if not self.auth_check(env):
@@ -235,7 +243,8 @@ class bitSite():
         except Exception, e:
             self.bitHopper.log_msg('Error in a wsgi function')
             self.bitHopper.log_msg(e)
-            #traceback.print_exc()
+            traceback.print_exc()
+            print env['PATH_INFO']
             return [""]
 
     def handle(self, env, start_response):

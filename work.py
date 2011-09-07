@@ -24,7 +24,7 @@ class Work():
         self.connect_pool = {}
         #pools.Pool(min_size = 2, max_size = 10, create = lambda: httplib2.Http(disable_ssl_certificate_validation=True))
 
-    def get_http(self, address, timeout=15):
+    def get_http(self, address, timeout=2.5):
         if address not in self.connect_pool:
             self.connect_pool[address] =  pools.Pool(min_size = 0, create = lambda: httplib2.Http(disable_ssl_certificate_validation=True, timeout=timeout))
         return self.connect_pool[address].item()
@@ -196,9 +196,13 @@ class Work():
 
         if work == None:
             response = json.dumps({"result":None, 'error':{'message':'Cannot get work unit'}, 'id':j_id})
-            return [response]
         else:
-            response = json.dumps({"result":work, 'error':None, 'id':j_id})        
+            response = json.dumps({"result":work, 'error':None, 'id':j_id}) 
+
+        eventlet.spawn_n(self.handle_store, work, server, data, username, password, rpc_request)
+        return [response]       
+
+    def handle_store(self, work, server, data, username, password, rpc_request):
 
         #some reject callbacks and merkle root stores
         if str(work).lower() == 'false':
@@ -218,10 +222,7 @@ class Work():
                 self.bitHopper.log_msg('RPC request [' + data[0][155:163] + "] submitted to " + server)
 
         if data != []:
-            data = env.get('HTTP_AUTHORIZATION').split(None, 1)[1]
-            username, password = data.decode('base64').split(':', 1)
             self.bitHopper.data_callback(server, data, username,password) #request.remote_password)
-        return [response]
 
     def handle_LP(self, env, start_response):
         start_response('200 OK', [('Content-Type', 'text/json')])
