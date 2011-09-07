@@ -142,7 +142,7 @@ class Pool():
                         coin_type = 'ixc'
                     elif self.servers[server]['role'] in ['mine_i0c']:
                         coin_type = 'i0c'
-                    elif self.servers[server]['role'] in ['mine_ssc']:
+                    elif self.servers[server]['role'] in ['mine_scc']:
                         coin_type = 'scc'   
                     else:
                         coin_type = 'btc'
