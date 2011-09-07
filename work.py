@@ -222,8 +222,6 @@ class Work():
                 self.bitHopper.log_msg('RPC request [' + data[0][155:163] + "] submitted to " + server)
 
         if data != []:
-            data = env.get('HTTP_AUTHORIZATION').split(None, 1)[1]
-            username, password = data.decode('base64').split(':', 1)
             self.bitHopper.data_callback(server, data, username,password) #request.remote_password)
 
     def handle_LP(self, env, start_response):
