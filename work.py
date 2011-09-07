@@ -196,9 +196,13 @@ class Work():
 
         if work == None:
             response = json.dumps({"result":None, 'error':{'message':'Cannot get work unit'}, 'id':j_id})
-            return [response]
         else:
-            response = json.dumps({"result":work, 'error':None, 'id':j_id})        
+            response = json.dumps({"result":work, 'error':None, 'id':j_id}) 
+
+        eventlet.spawn_n(self.handle_store, work, server, data, username, password, rpc_request)
+        return [response]       
+
+    def handle_store(self, work, server, data, username, password, rpc_request):
 
         #some reject callbacks and merkle root stores
         if str(work).lower() == 'false':
@@ -221,7 +225,6 @@ class Work():
             data = env.get('HTTP_AUTHORIZATION').split(None, 1)[1]
             username, password = data.decode('base64').split(':', 1)
             self.bitHopper.data_callback(server, data, username,password) #request.remote_password)
-        return [response]
 
     def handle_LP(self, env, start_response):
         start_response('200 OK', [('Content-Type', 'text/json')])
