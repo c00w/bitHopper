@@ -42,6 +42,7 @@ info_2: Their new servers work like clocks with zero stales, safe to mine with t
 [bitfarms]
 #http://bitfarms.ca/
 info_1: Please report experience on forum or IRC - 4.41 Ghash/s @ 08.23.11
+info_2: PPS payout (pool website) - 3.66 Ghash/s @ 09.09.11
 
 
 [bithasher]
