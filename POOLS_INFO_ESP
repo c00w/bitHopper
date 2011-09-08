@@ -8,12 +8,16 @@
 #      saltalas a tu riesgo.
 #######################################
 
-[asspenny]
-#http://asspennypool.com/register.php
-info_1: Nueva mina en el barrio, sistema prop. , porfavor reporta tu experiencia - 3.1 Ghash/s @ 09.05.11
 
 
 ####################################### 
+
+
+[asspenny]
+#http://asspennypool.com/register.php
+info_1: Nueva mina en el barrio, sistema prop. , porfavor reporta tu experiencia - 3.1 Ghash/s @ 09.05.11
+info_2: La mina mas "gafe" que haya existido pero posiblemente te puedes hacer con unos centimos - 10.1 Ghash/s @ 09.08.11
+
 
 [bclc]
 #http://www.bitcoins.lc
