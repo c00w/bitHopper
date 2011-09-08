@@ -227,8 +227,7 @@ class SimpleSliceScheduler(Scheduler):
             pass
 
     def reset(self,):
-        for server in self.bitHopper.pool.get_servers():
-            self.sliceinfo[server] = -1
+        self.select_best_server()
 
     def select_best_server(self,):
         #self.bitHopper.log_dbg('select_best_server', cat='scheduler-default')
