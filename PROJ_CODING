@@ -1,0 +1,58 @@
+Bithopper Coding Style
+
+INDENTS
+4 spaces per indent. Don't use tab characters. Don't use 3 spaces.
+
+COMMENTS
+Comments are really nice. Docstrings are also nice. We don't have enough of either.
+
+ADDING A NEW FEATURE
+I prefer new features be added as new files and modules. If they can't reasonably be
+done like that or fit within a current module use that. If in doubt ask.
+
+WHY DOES POOL.PY DO EVERYTHING?
+Because I haven't had time to split it and clean it up.
+
+bH could support scraping after logging in with mechanize (http://wwwsearch.sourceforge.net/mechanize/)
+Small script example included
+
+---------------------------------------------------------------------------------------
+
+Bug-issues list:
+
+
+ajax updates move scroll                     (https://github.com/c00w/bitHopper/issues/69)
+
+problem switching between roles              (https://github.com/c00w/bitHopper/issues/332)
+
+BH unstable since 2.4.5 - Getwork flooding   (https://github.com/c00w/bitHopper/issues/343)
+
+---------------------------------------------------------------------------------------
+
+Future to-do list:
+
+
+suggestion: pool worker and add. scheduler   (https://github.com/c00w/bitHopper/issues/103)
+
+Requests by EskimoBob                        (https://github.com/c00w/bitHopper/issues/121)
+
+manually trigger mine_deepbit pools          (https://github.com/c00w/bitHopper/issues/177)
+
+new mine: suggestion aswell as btcmp.com fix (https://github.com/c00w/bitHopper/issues/178)
+
+Hide 'users' on Stats page if not seen in 'x' hours
+                                             (https://github.com/c00w/bitHopper/issues/214)
+
+LP Calls and new block announces dumped to text file automatically
+                                             (https://github.com/c00w/bitHopper/issues/244)
+
+New role backup_slice                        (https://github.com/c00w/bitHopper/issues/288)
+
+Calculate the profitability before switching to altern. coin
+                                             (https://github.com/c00w/bitHopper/issues/322)
+
+SimpleSlicer & Lesser pool shares            (https://github.com/c00w/bitHopper/issues/342)
+
+small stats request                          (https://github.com/c00w/bitHopper/issues/347)
+
+Proposal: Logging enhancements               (https://github.com/c00w/bitHopper/issues/351)
