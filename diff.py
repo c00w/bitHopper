@@ -66,7 +66,7 @@ class Difficulty():
                 
                 self.updater("Bitcoin", 'http://blockexplorer.com/q/getdifficulty', 'difficulty')
                 self.updater("Namecoin", 'http://namebit.org/', 'nmc_difficulty', '<td id="difficulty">([.0-9]+)</td>')
-                self.updater("SolidCoin", 'http://solidcoin.whmcr.co.uk/chain/SolidCoin?count=1', 'scc_difficulty', '<td>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}</td><td>\d{1,}</td><td>[.0-9]+</td><td>([.0-9]+)</td>')
+                self.updater("SolidCoin", 'http://allchains.info', 'scc_difficulty', '<td> sc </td><td align=\'right\'> ([0-9]+)')
                 self.updater("IXcoin", 'http://allchains.info', 'ixc_difficulty', "ixc </td><td align='right'> ([0-9]+) </td><td align='right'>   [.0-9]+ </td>")
                 self.updater("I0coin", 'http://allchains.info', 'i0c_difficulty', "i0c </td><td align='right'> ([0-9]+) </td><td align='right'>   [.0-9]+ </td>")
             eventlet.sleep(60*60*6)
