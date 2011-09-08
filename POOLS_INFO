@@ -39,12 +39,6 @@ info_1: Handle with care, possible anti-hopper measures in place
 info_2: Their new servers work like clocks with zero stales, safe to mine with them - 276.20 Ghash/s @ 08.23.11
 
 
-[bitfarms]
-#http://bitfarms.ca/
-info_1: Please report experience on forum or IRC - 4.41 Ghash/s @ 08.23.11
-info_2: PPS payout (pool website) - 3.66 Ghash/s @ 09.09.11
-
-
 [bithasher]
 #http://bithasher.com/index.php/register/
 info_1: Please report experience on forum or IRC - 7.12 Ghash/s @ 08.23.11
@@ -197,6 +191,12 @@ info_2: Changed to SMPPS system (IRC)
 info_1: Small pool, pls report experience on forum - 2.94 GHash/s @ 08.23.11
 info_2: Alternate PPS payout available for use as backup if wanted - 4.60 GHash/s @ 08.31.11
 info_3: Op decides to have FIFO PPS implemented (pool thread on BC forum - page 4) -  11.36 GHash/s @ 09.09.11
+
+
+[bitfarms]
+#http://bitfarms.ca/
+info_1: Please report experience on forum or IRC - 4.41 Ghash/s @ 08.23.11
+info_2: PPS payout (pool website) - 3.66 Ghash/s @ 09.09.11
 
 
 ######################################
