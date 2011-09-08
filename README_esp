@@ -7,13 +7,25 @@ Basado en trabajo hecho en github.com
 
 # Instalar en Ubuntu
 
-Para poder ejecutar bitHopper necesitas instalar el modulo greenlet sobre Python 2.7+ (busca la version
-de tu instalacion de Python con "python -V"):
+Para poder ejecutar bitHopper necesitas tener instalado Python en el sistema. La version 2.7 es la recomendada
+aunque funciona correctamente con la version previa, Python 2.6. Para averiguar que version tienes instalada
+teclea en una consola "python -V".
+
+Si no tienes Python instalado puedes hacerlo con el siguiente comando:
+
+sudo apt-get install python
+
+Despues de comprobar haber instalado Python sigue con los paquetes extra que bitHopper necesita para funcionar
+correctamente:
 
 sudo apt-get install python-dev python-setuptools
 sudo easy_install greenlet
+sudo easy_install importlib
 
-Probado y funciona en Ubuntu 11.04, 10.10 and 10.04 LTS
+Si quieres hacer funcionar el minero poclbm incluido instala lo siguiente
+sudo easy_install numpy
+
+Probado y funciona en Ubuntu 11.04, 10.10 y 10.04 LTS
 
 
 # Instrucciones para usuarios Windows
@@ -53,7 +65,8 @@ adecuada automaticamente.
 BitHopper pagina de Stats: http://localhost:8337/stats
 
 Copia y pega el archivo "user.cfg.default" a un nuevo archivo llamado "user.cfg" despues modifica este
-archivo para que incluya tus nombres y contraseñas de mineros (worker). Ejecuta "python bitHopper.py"
+archivo para que incluya tus nombres y contrasenas de mineros (worker). Repite el proceso con el archivo
+"bh.cfg.default" y comprueba que los reglajes por defecto te sirven. Ejecuta "python bitHopper.py"
 en *nix (Ubuntu) o haz doble click en "run-bithopper.bat" si estas en Windows. Despues de actualizarse
 comprueba que las minas estan configuradas correctamente a la pagina de Stats.
 
@@ -61,46 +74,53 @@ Si alguna mina se cambia en rojo seguro que te faltan datos por configurar en "u
 
 Por si no quieres utilizar alguna mina puedes borrarla de "user.cfg" o ir en la pagina de Stats y cambiar
 su rol a "disable". BitHopper escucha conexiones en la interfaz de loopback asi que debes redireccionar
-tu minero a localhost:8337 con cualquier usuario y contraseña (ne dejes en blanco).
+tu minero a localhost:8337 con cualquier usuario y contrasena (ne dejes en blanco).
 
 
 # Parametros
 
-Puedes lanzar bH con los siguientes parametros:
+Puedes lanzar bH con los siguientes parametros (prevalecen los que ajustas en el archivo "bh.cfg"):
 
-	--ip                  = IP donde escuchar
-	--port                = Puerto del proxy
-	--auth                = Pide usuario y contraseña para pagina stats (--auth usuario,contraseña)
-	--listschedulers      = Muestra los modos programados
-	--scheduler           = Selecciona otro modo programado
-	--threshold           = Sobrescribe dificultad de base (default 0.43)
-	--p2pLP               = Inicia el bot IRC para poder validar mucho mejor los saltos LP
-	--debug               = Visiona la salida de twisted
-	--trace               = Informacion extra para debugging
+   --ip                  = IP donde escuchar
+   --port                = Puerto del proxy
+   --auth                = Pide usuario y contrasena para pagina stats (--auth usuario,contrasena)
+   --config              = Selecciona otro archivo de configuracion que no sea "bh.cfg"
+   --listschedulers      = Muestra los modos programados
+   --scheduler           = Selecciona otro modo programado
+   --threshold           = Sobrescribe dificultad de base (default 0.43)
+   --p2pLP               = Inicia el bot IRC para poder validar mucho mejor los saltos LP
+   --debug               = Visiona la salida de twisted
+   --trace               = Informacion extra para debugging
+   --logconnections      = Muestra el registro de conexiones
+   --simple_logging      = Salida de consola sin peticiones RPC
 
 
 # Schedulers (programadores) disponibles:
 
-   OldDefaultScheduler
+   DefaultScheduler
 
 El antiguo programador que no utiliza trozos para minar. Podria ser el mejor programador que existe.
 
-   DefaultScheduler
+   SimpleSliceScheduler
 
-Programador de base basado en tiempo. Todo lo que hace este programador es pasar un tiempo igual en cada mina disponible. No muy efficiente pero depurado a maximo y estable.
+Programador de base basado en tiempo. Todo lo que hace este programador es pasar un tiempo igual en
+cada mina disponible. No muy efficiente pero depurado a maximo y estable.
 
    AltSliceScheduler
 
-Intenta un cambiar de un modo mas agresivo cuendo se llega a los limites preestablecidos (threshold). Se puede utilizar con los parametros --altslicesize=xxx --altminslicesize=xxx (donde reemplazas x con un numero para tamaño y trozo minimo). Tambien puedes utilizar --altslicejitter=xx  para variar el tamaño de trozo de modo dinamico (aleatorio). De momento tiene problemas para recalcular los trozos bastante a menudo.
+Intenta un cambiar de un modo mas agresivo cuendo se llega a los limites preestablecidos (threshold).
+Se puede utilizar con los parametros --altslicesize=xxx --altminslicesize=xxx (donde reemplazas x con un numero
+para tamano y trozo minimo). Tambien puedes utilizar --altslicejitter=xx  para variar el tamano de trozo
+de modo dinamico (aleatorio). De momento tiene problemas para recalcular los trozos bastante a menudo.
 
 Parametros especificos:
 
-	--altslicesize            = Sobrescribe trozo para el modo AltSliceScheduler, tamaño trozo base es 900
-	--altminslicesize         = Sobrescribe tamaño minimo de trozo, base 60 (AltSliceScheduler solo)
-	--altslicejitter          = Añade variacion en el tamaño de trozo, deshabilitado por defecto (AltSliceScheduler solo)
-	--altsliceroundtimebias   = Moldea los trozos en funcion del tiempo de ronda con respecto al tiempo preestablecido (desactivado)
-	--altsliceroundtimetarget = Establece tiempo de ronda basado en velocidad de mina (GHash/s - establ. en 1000 Ghash/s)
-	--altsliceroundtimemagic  = Numero magico de tiempo de ronda, incrementa to moldear hacia shares de final de ronda.
+   --altslicesize            = Sobrescribe trozo para el modo AltSliceScheduler, tamano trozo base es 900
+   --altminslicesize         = Sobrescribe tamano minimo de trozo, base 60 (AltSliceScheduler solo)
+   --altslicejitter          = Anade variacion en el tamano de trozo, deshabilitado por defecto (AltSliceScheduler solo)
+   --altsliceroundtimebias   = Moldea los trozos en funcion del tiempo de ronda con respecto al tiempo preestablecido (desactivado)
+   --altsliceroundtimetarget = Establece tiempo de ronda basado en velocidad de mina (GHash/s - establ. en 1000 Ghash/s)
+   --altsliceroundtimemagic  = Numero magico de tiempo de ronda, incrementa to moldear hacia shares de final de ronda.
 
 
    RoundTimeScheduler
@@ -114,14 +134,16 @@ En desuso actualmente.
 
 # Temas
 
-Puedes cambiar el tema de colores que utiliza la pagina de statisticas. Los temas y su previsualizacion estan en la carpeta "StatSkin".
-Para cambier de tema solo tienes que reemplazar el archivo "index.html" del directorio raiz con el de la carpeta de tema deseada y despues dando refrescar en el navegador, ne se necesita reiniciar el bH.
+Puedes cambiar el tema de colores para la pagina de Stats. Temas y su previsualizacion .jpg estan en la carpeta StatSkin.
+Solo renombra tu tema preferido a "index.html" y copia el archivo en la carpeta principal para cambiar (la version actual necesita
+que reinicies el bH). Probado y funciona en los siguientes navegadores: Firefox 6 (Win 7; Android); Chrome 13 (Win 7)
+Pequenos problemas de compatibilidad con los siguientes: WebKit (Android 2.3.4); Internet Explorer 9 (Win 7)
 
 
 # Mas ayuda
 
 Puedes visitar el siguiente enlace https://github.com/c00w/bitHopper/wiki y empezar a leer sobre bitHopper o bien pregunta en el foro oficial en espanol
-siguiendo el link https://bitcointalk.org/index.php?topic=39539 (2 foro en español http://foros.3dgames.com.ar/bitcoin.396/704386.bithopper.html)
+siguiendo el link https://bitcointalk.org/index.php?topic=39539 (2 foro en espanol http://foros.3dgames.com.ar/bitcoin.396/704386.bithopper.html)
 
 
 # Donativos

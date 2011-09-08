@@ -20,7 +20,7 @@
 # Los "role" (roles) validos son:
 #
 # mine = mina como esta mandado, normal (dificultad*0.43)
-# mine_slush = en esta se queda hasta dificultad.*0.10
+# mine_slush = en esta se queda hasta dificultad.*0.147
 # mine_deepbit = monitorea y prueba suerte minar en
 #   esta mina sin utilizar la api
 # mine_nmc = indica que es una mina minecoin
@@ -50,6 +50,8 @@
 #  percent:       continua enviando shares aqui, valor proc. calculado sobre el
 #                 total de tus shares (1% = 1 share cada 100)
 #  refresh_limit: intervalo para refrescar la api de mina en segundos
+#  user_agent:    identificacion de navegador HTTP de bH para minas, sobrescribe
+#                 el reglaje general que se encuentra en bh.cfg
 #  user:          nombre del trabajador que se tiene que utilizar
 #  pass:          contrasena del trabajador (no se necesita para todas las minas)
 #
@@ -124,6 +126,7 @@ pass: x
 [deepbit]
 #https://deepbit.net/
 #CAMBIA A CONTINUACION
+lp_penalty: 0
 role: mine_deepbit
 user: nombre_minero
 pass: contrasena_minero
@@ -131,13 +134,15 @@ pass: contrasena_minero
 [btcg]
 #https://www.btcguild.com/
 #CAMBIA A CONTINUACION (si quieres)
+lp_penalty: 0
 role: info
 btcguild_user_apikey: 81a9081f4d5f32db7dbbed407cb5f686
 user: c00w_test
 pass: 1234
 
 [itzod]
-#CHANGE THIS (if you want)
+# https://pool.itzod.ru
+#CAMBIA A CONTINUACION (si quieres)
 role: info
 user: nombre_minero
 pass: contrasena_minero
@@ -171,6 +176,7 @@ user: FSkyvM
 pass: xndzEU
 
 [kiwipool]
+#http://www.kiwipool.me/
 #CAMBIA A CONTINUACION (si quieres)
 role: info
 user: nombre_minero
@@ -218,6 +224,14 @@ pass: feliz
 role: disable
 user: c00w_test
 pass: x
+
+[asspenny]
+#http://asspennypool.com/register.php
+#CAMBIA A CONTINUACION (si quieres)
+role: info
+asspenny_user_apikey: xxxxxx
+user: nombre_minero
+pass: contrasena_minero
 
 ######################################
 # Minas de respaldo (backup) para
@@ -279,8 +293,15 @@ pass:x
 #CAMBIA A CONTINUACION
 role: info
 nofeemining_user_apikey: 4140cbc6405f4425cf91ca74e1450b66
-user: dah4k0r@gmail.com_test
+user: 1Q4B1LdoKHtMbj6tBLhj1cyuMWTDYFJ9Y7
 pass: x
+
+[btcservpps]
+#http://btcserv.net/
+#CAMBIA A CONTINUACION
+role: disable
+user: nombre_minero
+pass: contrasena_minero
 
 ######################################
 # Minas Namecoin u otro tipo. Salta
@@ -293,9 +314,10 @@ pass: x
 #http://bitparking.com/
 #CAMBIA A CONTINUACION (si quieres)
 role: info
+# el nombre de minero es la direccion de pago
 user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
-pass: x
 #las contrasenas no importan en BitParking
+pass: x
 
 [nmcbit]
 #http://nmcbit.com/
@@ -407,7 +429,7 @@ pass: contrasena_minero
 [bmunion]
 #http://www.bitminersunion.org/
 #CAMBIA A CONTINUACION
-role: info
+role: disable
 user: nombre_minero
 pass: contrasena_minero
 

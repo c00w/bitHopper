@@ -4,7 +4,10 @@
 #Based on a work at github.com.
 
 import eventlet
-from eventlet.green import threading, time
+from eventlet.green import threading, time, socket
+
+# Global timeout for sockets in case something leaks
+socket.setdefaulttimeout(900)
 
 class Data():
     def __init__(self,bitHopper):
@@ -36,7 +39,7 @@ class Data():
         with self.lock:
             users = {}
             for item in self.users:
-                if self.users[item]['shares'] >0:
+                if self.users[item]['shares'] > 0:
                     users[item] = self.users[item]
             return users
 
@@ -70,7 +73,7 @@ class Data():
             if data != []:
                 self.speed.add_shares(1)
                 self.db.update_shares(server, 1, user, password)
-                self.pool.get_servers()[server]['user_shares'] +=1
+                self.pool.get_servers()[server]['user_shares'] += 1
                 self.pool.get_servers()[server]['expected_payout'] += 1.0/self.difficulty.get_difficulty() * 50.0
                 self.user_share_add(user, password, 1, server)
 

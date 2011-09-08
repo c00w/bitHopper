@@ -5,7 +5,10 @@
 
 import eventlet
 from eventlet.green import threading
-from eventlet.green import time
+from eventlet.green import time, socket
+
+# Global timeout for sockets in case something leaks
+socket.setdefaulttimeout(900)
 
 class Getwork_store:
     

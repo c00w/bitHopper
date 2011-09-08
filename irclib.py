@@ -69,6 +69,9 @@ import string
 import time
 import types
 
+# Global timeout for sockets in case something leaks
+socket.setdefaulttimeout(900)
+
 VERSION = 0, 4, 8
 DEBUG = 0
 
