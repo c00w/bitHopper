@@ -70,13 +70,6 @@ info_2: Pool went offline after supposedly finding a block (08.29.11)
 info_3: Online and running fine (08.30.11)
 
 
-[btcserv]
-#http://btcserv.net/
-info_1: Small pool, pls report experience on forum - 2.94 GHash/s @ 08.23.11
-info_2: Alternate PPS payout available for use as backup if wanted - 4.60 GHash/s @ 08.31.11
-info_3: Op decides is best to have only PPS payout (pool thread on BC forum - page 4)
-
-
 [btcworld]
 #http://btcworld.de/signup
 info_1: Nice small pool - 14.05 Ghash/s @ 08.23.11
@@ -193,6 +186,13 @@ info_3: Changed payout to rsmpps (page 195)
 # https://pool.itzod.ru
 info_1: Score based payout, hop using mine_slush if you want (page 154) - 74.61 Ghash/s @ 08.23.11
 info_2: Changed to SMPPS system (IRC)
+
+
+[btcserv]
+#http://btcserv.net/
+info_1: Small pool, pls report experience on forum - 2.94 GHash/s @ 08.23.11
+info_2: Alternate PPS payout available for use as backup if wanted - 4.60 GHash/s @ 08.31.11
+info_3: Op decides is best to have only PPS payout (pool thread on BC forum - page 4)
 
 
 ######################################
