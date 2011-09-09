@@ -238,11 +238,12 @@ info_1: Nmc pool (mine_nmc) - 47 Mhash/s @ 08.23.11
 [i0g]
 #http://i0.btcguild.com/register.php
 info_1: i0coins pool, use mine_i0c - Offline @ 08.23.11
+info_2: Closed permanently (pool thread on BC forum - page 10)
 
 
 [i0parking]
 #http://i0pool.bitparking.com/pool
-info_1: i0coins pool, use mine_i0c - 0 hash/s @ 08.28.11
+info_1: i0coins pool, use mine_i0c - 6.82 Ghash/s @ 09.09.11
 
 
 [digi0c]
