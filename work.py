@@ -185,7 +185,7 @@ class Work():
 
         to_delete = []
         for header in server_headers:
-            if header.lower() not in ['x-roll-ntime']:
+            if header.lower() not in ['x-roll-ntime','x-reject-reason']:
                 to_delete.append(header)
         for item in to_delete:
             del server_headers[item]  
