@@ -103,7 +103,7 @@ info_2: Stats solved - 60.5 GHash/s @ 08.23.11
 
 
 [p2pool]
-#https://en.bitcoin.it/wiki/P2Pool
+#https://bitcointalk.org/index.php?topic=18313
 info_1: Decentralized pool with support for btc, nmc and others - 1.89 Ghash/s @ 08.23.11
 info_2: Pool software needs to be installed on local pc
 
@@ -238,16 +238,17 @@ info_1: Nmc pool (mine_nmc) - 47 Mhash/s @ 08.23.11
 [i0g]
 #http://i0.btcguild.com/register.php
 info_1: i0coins pool, use mine_i0c - Offline @ 08.23.11
+info_2: Closed permanently (pool thread on BC forum - page 10)
 
 
 [i0parking]
 #http://i0pool.bitparking.com/pool
-info_1: i0coins pool, use mine_i0c - 0 hash/s @ 08.28.11
+info_1: i0coins pool, use mine_i0c - 6.82 Ghash/s @ 09.09.11
 
 
 [digi0c]
 #http://i0.digbtc.net
-info_1: Delays statistics and distrust of its legitimacy (i0coin.org forum) - 0 hash/s @ 08.28.11
+info_1: Delays statistics and distrust of its legitimacy (i0coin.org forum) - 1.5 Ghash/s @ 09.09.11
 
 
 #scc pools
