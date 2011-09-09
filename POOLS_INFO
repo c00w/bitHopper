@@ -42,7 +42,7 @@ info_2: Their new servers work like clocks with zero stales, safe to mine with t
 [bithasher]
 #http://bithasher.com/index.php/register/
 info_1: Please report experience on forum or IRC - 7.12 Ghash/s @ 08.23.11
-info_1: Having troubles finding a block, 28 days atm - 1.19 Ghash/s @ 09.09.11
+info_2: Having troubles finding a block, 28 days atm - 1.19 Ghash/s @ 09.09.11
 
 
 [bloodys]
