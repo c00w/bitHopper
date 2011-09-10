@@ -23,36 +23,29 @@ Bug-issues list:
 
 ajax updates move scroll                     (https://github.com/c00w/bitHopper/issues/69)
 
-problem switching between roles              (https://github.com/c00w/bitHopper/issues/332)
+WSGI server tries to finish closed connections
+                                             (https://github.com/c00w/bitHopper/issues/262)
 
-BH unstable since 2.4.5 - Getwork flooding   (https://github.com/c00w/bitHopper/issues/343)
+CGMINER w/ BH unstable                       (https://github.com/c00w/bitHopper/issues/343)
 
 ---------------------------------------------------------------------------------------
 
 Future to-do list:
 
 
-suggestion: pool worker and add. scheduler   (https://github.com/c00w/bitHopper/issues/103)
+Work based slicing                           (https://github.com/c00w/bitHopper/issues/103)
 
-Requests by EskimoBob                        (https://github.com/c00w/bitHopper/issues/121)
+Be able to force LP mining                   (https://github.com/c00w/bitHopper/issues/178)
 
-manually trigger mine_deepbit pools          (https://github.com/c00w/bitHopper/issues/177)
+Hide Inactive and Old users                  (https://github.com/c00w/bitHopper/issues/214)
 
-new mine: suggestion aswell as btcmp.com fix (https://github.com/c00w/bitHopper/issues/178)
+Dump LP Calls and blocks to file             (https://github.com/c00w/bitHopper/issues/244)
 
-Hide 'users' on Stats page if not seen in 'x' hours
-                                             (https://github.com/c00w/bitHopper/issues/214)
+Switch Coins based on profitability          (https://github.com/c00w/bitHopper/issues/322)
 
-LP Calls and new block announces dumped to text file automatically
-                                             (https://github.com/c00w/bitHopper/issues/244)
+Sum of total recieved and expected           (https://github.com/c00w/bitHopper/issues/347)
 
-New role backup_slice                        (https://github.com/c00w/bitHopper/issues/288)
+Fancy Logging Plugin                         (https://github.com/c00w/bitHopper/issues/351)
 
-Calculate the profitability before switching to altern. coin
-                                             (https://github.com/c00w/bitHopper/issues/322)
+Backup Pool Hopping                          (https://github.com/c00w/bitHopper/issues/358)
 
-SimpleSlicer & Lesser pool shares            (https://github.com/c00w/bitHopper/issues/342)
-
-small stats request                          (https://github.com/c00w/bitHopper/issues/347)
-
-Proposal: Logging enhancements               (https://github.com/c00w/bitHopper/issues/351)
