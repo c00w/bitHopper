@@ -15,6 +15,9 @@ scheduler = DefaultScheduler
 #scheduler = SimpleSliceScheduler
 #scheduler = AltSliceScheduler
 
+# connection timeout for work requests
+work_request_timeout = 2.5
+
 # waiting time for checking pools conectivity
 delag_sleep = 20
 
