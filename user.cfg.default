@@ -302,6 +302,13 @@ role: info
 user: your_username
 pass: your_password
 
+[btcgpps]
+#http://pps.btcguild.com/register.php
+#CHANGE THIS
+role: info
+user: your_username
+pass: your_password
+
 ######################################
 # Namecoin and other type of pools.
 # For hopping use mine_xxx accordingly

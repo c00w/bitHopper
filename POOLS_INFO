@@ -55,6 +55,7 @@ info_2: Hashing away for over a month without luck - 3.48 Ghash/s @ 09.09.11
 #https://www.btcguild.com/
 info_1: Delayed stats (page 87)
 info_2: Try mining here with the mine_deepbit role - 2132.23 Ghash/s @ 08.23.11
+info_3: PPS payout server (beta) available - 1835.25 Ghash/s @ 09.12.11
 
 
 [btcmine]
@@ -199,6 +200,11 @@ info_3: Op decides to have FIFO PPS implemented (pool thread on BC forum - page 
 #http://bitfarms.ca/
 info_1: Please report experience on forum or IRC - 4.41 Ghash/s @ 08.23.11
 info_2: PPS payout (pool website) - 3.66 Ghash/s @ 09.09.11
+
+
+[btcgpps]
+#http://pps.btcguild.com/register.php
+info_1: PPS payout server (beta) launched - 32,85 Mhash/s @ 09.12.11
 
 
 ######################################
