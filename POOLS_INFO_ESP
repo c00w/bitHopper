@@ -55,7 +55,7 @@ info_2: Calculando sin parar desde hace mas de un mes sin suerte - 3.48 Ghash/s 
 #https://www.btcguild.com/
 info_1: Ralentiza stats (pagina 87)
 info_2: Prueba suerte minar con el rol mine_deepbit - 2132.23 Ghash/s @ 08.23.11
-info_3: Servidor (beta) con sistema de pago PPS disponible - 1835.25 Ghash/s @ 09.12.11
+info_3: Servidor con sistema de pago PPS disponible (beta) - 1835.25 Ghash/s @ 09.12.11
 
 
 [btcmine]
@@ -205,7 +205,7 @@ info_2: Sistema de pago PPS (pagina de mina) - 3.66 Ghash/s @ 09.09.11
 
 [btcgpps]
 #http://pps.btcguild.com/register.php
-info_1: Servidor (beta) con sistema de pago PPS en funcionamiento - 32,85 Mhash/s @ 09.12.11
+info_1: Servidor con sistema de pago PPS en funcionamiento (beta) - 32,85 Mhash/s @ 09.12.11
 
 
 ######################################
