@@ -291,8 +291,27 @@ class PoolBlocks:
             print "Block %6d %12s %64s " % ( int(blockNumber), str(block.owner), str(block.hash) )
         
     def lp_announce(self, lpobj, body, server, blockHash):
-        # TODO
-        pass
+        self.log_trace('lp_announce for block ' + str(blockHash))
+        return
+        # untested
+        with self.lock:
+            try:
+                found = False
+                for blockNumber in self.blocks:
+                    if str(self.blocks[blockNumber].hash) == blockHash:
+                        found = True
+                if found == False:
+                    self.log_trace('lp_announce: new block ' + str(blockHash))
+                    # lookup block number
+                    blockNumber = blockexplorer.getBlockNumberByHash(blockHash)
+                    if blockNumber != None:
+                        self.log_dbg('lp_announce: new block ' + str(blockNumber))
+                        self.blocks[blockNumber] = Block()
+                        self.blocks[blockNumber].hash = blockHash
+                    else:
+                        self.log_msg('No block number from blockexplorer for ' + str(blockHash))
+            except Exception, e:
+                traceback.print_exc()
     
 # class for Block       
 class Block:
