@@ -91,3 +91,12 @@ min_votes = 5
 # (0.5 == 50% of votes for a quorum) probably not a good idea to set below 0.5
 vote_threshold = 0.5
 
+[plugin.poolblocks]
+# interval to check pool stats for new blocks
+refreshInterval = 600
+
+# random number to add to refresh interval (from 0 to refreshRandomJitter)
+refreshRandomJitter = 120
+
+# max number of threads to open to blockexplorer
+execpoolsize = 8
