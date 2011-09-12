@@ -184,7 +184,7 @@ def main():
     parser.add_option('--ip', type = str, default='', help='IP to listen on')
     parser.add_option('--auth', type = str, default=None, help='User,Password')
     parser.add_option('--logconnections', default = False, action='store_true', help='show connection log')
-    parser.add_option('--simple_logging', default = False, action='store_true', help='remove RCP logging from output')
+#    parser.add_option('--simple_logging', default = False, action='store_true', help='remove RCP logging from output')
     options = parser.parse_args()[0]
 
     if options.trace == True: options.debug = True

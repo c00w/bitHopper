@@ -223,14 +223,7 @@ class Work():
 
         #Fancy display methods
         hook = plugins.Hook('work.rpc.request')
-        hook.notify(data, server)
-        if not self.bitHopper.options.simple_logging:
-            if self.bitHopper.options.debug:
-                self.bitHopper.log_msg('RPC request ' + str(data) + " submitted to " + server)
-            elif data == []:
-                self.bitHopper.log_msg('RPC request [' + rpc_request['method'] + "] submitted to " + server)
-            else:
-                self.bitHopper.log_msg('RPC request [' + data[0][155:163] + "] submitted to " + server)
+        hook.notify(rpc_request, data, server)
 
         if data != []:
             self.bitHopper.data_callback(server, data, username,password) #request.remote_password)
