@@ -281,7 +281,7 @@ def main():
             socket.setdefaulttimeout(lastDefaultTimeout)
             break
         except Exception, e:
-            bithopper_instance.log_msg("Exception in wsgi server loop, restarting wsgi in 60 seconds\n%s") % (str(e))
+            bithopper_instance.log_msg("Exception in wsgi server loop, restarting wsgi in 60 seconds\n%s" % (str(e)))
             eventlet.sleep(60)
     bithopper_instance.db.close()
 
