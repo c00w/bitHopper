@@ -61,7 +61,7 @@ roundtimemagic = 10
 #    auto - loads everything automatically
 #    manual - specify which plugins you want to load below
 #    disabled - disable plugin loading completely
-mode = auto
+mode = manual
 
 [plugins]
 test = True
@@ -70,6 +70,7 @@ apiangel = True
 poclbm = False
 # Probably need the one below in the future
 lpbot = False
+poolblocks = False
 
 [backdoor]
 port = 3000
