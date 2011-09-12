@@ -18,6 +18,8 @@ eventlet.monkey_patch()
 #from eventlet import debug
 #debug.hub_blocking_detection(True)
 
+from peak.util import plugins
+
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
 
@@ -267,6 +269,9 @@ def main():
         log = None
     else:
         log = open(os.devnull, 'wb')
+
+    hook = plugins.Hook('plugins.bithopper.startup')
+    hook.notify(bithopper_instance, config, options)
         
     while True:
         try:

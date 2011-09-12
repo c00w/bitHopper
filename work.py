@@ -12,6 +12,8 @@ httplib2 = eventlet.import_patched('httplib20_7_1')
 from eventlet import pools
 from eventlet.green import socket
 
+from peak.util import plugins
+
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
 
@@ -220,7 +222,8 @@ class Work():
             self.bitHopper.getwork_store.add(server,merkle_root)
 
         #Fancy display methods
-        
+        hook = plugins.Hook('work.rpc.request')
+        hook.notify(data, server)
         if not self.bitHopper.options.simple_logging:
             if self.bitHopper.options.debug:
                 self.bitHopper.log_msg('RPC request ' + str(data) + " submitted to " + server)
