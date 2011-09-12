@@ -43,7 +43,7 @@ random_ua_list = Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trid
 #username = user
 #password = pass
 
-[defaultscheduler]
+[SimpleSliceScheduler]
 slicesize = 30
 
 # estas opciones todavia no funcionan
