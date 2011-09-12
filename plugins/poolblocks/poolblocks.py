@@ -138,7 +138,7 @@ class PoolBlocks:
             for txid in outputs:
                 found = False
                 for blockNumber in self.blocks:
-                    print txid + '/' + str(self.blocks[blockNumber].txid)
+                    #print txid + '/' + str(self.blocks[blockNumber].txid)
                     if str(txid) == self.blocks[blockNumber].txid:
                         if self.blocks[blockNumber].owner != pool:
                             self.log_trace('[' + pool + '] Found TXID, setting owner to ' + str(pool))
