@@ -131,10 +131,14 @@ class PoolBlocks:
                     self.blocks[blockNumber] = Block()
                     self.blocks[blockNumber].hash = blockHash
                     self.blocks[blockNumber].owner = pool
+                    hook = plugins.Hook('plugins.poolblocks.verified')
+                    hook.notify(blockNumber, blockHash, pool)
                 elif self.blocks[blockNumber].owner != pool:
                     self.log_trace('['+str(pool)+'] Block ' + str(blockNumber) + ' exists but with different owner: ' + str(self.blocks[blockNumber].owner) )
-                    matchCount += 1
                     self.blocks[blockNumber].owner = pool
+                    matchCount += 1
+                    hook = plugins.Hook('plugins.poolblocks.verified')
+                    hook.notify(blockNumber, blockHash, pool)
                 else:
                     self.log_trace('['+str(pool)+'] Block ' + str(blockNumber) + ' exists same owner')
                 count += 1
@@ -176,6 +180,8 @@ class PoolBlocks:
                     if self.blocks[blockNumber].owner != pool:
                         self.log_trace('[' + pool + '] block ' + str(blockNumber) + ' exists, setting owner')
                         self.blocks[blockNumber].owner = pool
+                        hook = plugins.Hook('plugins.poolblocks.verified')
+                        hook.notify(blockNumber, blockHash, pool)
                         matchCount += 1
                     else:
                         self.log_trace('[' + pool + '] block ' + str(blockNumber) + ' exists, owner already set to: ' + self.blocks[blockNumber].owner)
@@ -194,6 +200,8 @@ class PoolBlocks:
                         if self.blocks[blockNumber].owner != pool:
                             self.log_trace('[' + pool + '] Found hash, setting owner to ' + str(pool))
                             self.blocks[blockNumber].owner = pool
+                            hook = plugins.Hook('plugins.poolblocks.verified')
+                            hook.notify(blockNumber, blockHash, pool)
                             matchCount += 1
                         else:
                             self.log_trace('[' + pool + '] block ' + str(blockNumber) + ' exists, owner already set to: ' + self.blocks[blockNumber].owner)
@@ -214,6 +222,8 @@ class PoolBlocks:
                         if self.blocks[blockNumber].owner != pool:
                             self.log_trace('[' + pool + '] Found TXID, setting owner to ' + str(pool))
                             self.blocks[blockNumber].owner = pool
+                            hook = plugins.Hook('plugins.poolblocks.verified')
+                            hook.notify(blockNumber, blockHash, pool)
                             matchCount += 1                                                       
                         else:
                             self.log_trace('[' + pool + '] Found TXID, owner aready set to ' + str(pool))
