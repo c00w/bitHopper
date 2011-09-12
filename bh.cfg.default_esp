@@ -14,6 +14,9 @@ scheduler = DefaultScheduler
 #scheduler = SimpleSliceScheduler
 #scheduler = AltSliceScheduler
 
+# tiempo de espera para las peticiones de trabajo
+work_request_timeout = 2.5
+
 # tiempo de espera para comprobar conectividad con mina
 delag_sleep = 20
 
