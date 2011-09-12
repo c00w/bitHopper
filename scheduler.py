@@ -215,7 +215,7 @@ class SimpleSliceScheduler(Scheduler):
         self.slicesize = 30
         self.lastcalled = time.time()
         self.loadConfig()
-        for server in self.bitHopper.servers:
+        for server in self.bitHopper.pool.servers:
             self.sliceinfo[server] = -1
         self.reset()
     
