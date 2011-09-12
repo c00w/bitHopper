@@ -70,12 +70,15 @@ apiangel = True
 poclbm = False
 # Probably need the one below in the future
 lpbot = False
+
+# set rpcworklog to False to disable RPC work logging
+rpcworklog = True
 poolblocks = False
 
 [backdoor]
 port = 3000
 
-[apiangel]
+[plugin.apiangel]
 # APIAngel will look for api_disable pools and restore them
 #  - Checks every "interval" seconds
 #  - Restores if "last_pulled" + "reincarnateInterval" > now (current time in seconds)

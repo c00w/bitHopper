@@ -22,8 +22,8 @@ class APIAngel():
             
     def parseConfig(self):
         try:
-            self.interval = self.bitHopper.config.getint('apiangel', 'interval')
-            self.reincarnateInterval = self.bitHopper.config.getint('apiangel', 'reincarnateInterval')
+            self.interval = self.bitHopper.config.getint('plugin.apiangel', 'interval')
+            self.reincarnateInterval = self.bitHopper.config.getint('plugin.apiangel', 'reincarnateInterval')
         except:
             traceback.print_exc()
         
