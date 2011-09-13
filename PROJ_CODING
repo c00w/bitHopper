@@ -1,0 +1,53 @@
+Bithopper Coding Style
+
+INDENTS
+4 spaces per indent. Don't use tab characters. Don't use 3 spaces.
+
+COMMENTS
+Comments are really nice. Docstrings are also nice. We don't have enough of either.
+
+ADDING A NEW FEATURE
+I prefer new features be added as new files and modules. If they can't reasonably be
+done like that or fit within a current module use that. If in doubt ask.
+
+WHY DOES POOL.PY DO EVERYTHING?
+Because I haven't had time to split it and clean it up.
+
+bH could support scraping after logging in with mechanize (http://wwwsearch.sourceforge.net/mechanize/)
+Small script example included
+
+---------------------------------------------------------------------------------------
+
+Bug-issues list:
+
+
+ajax updates move scroll                     (https://github.com/c00w/bitHopper/issues/69)
+
+WSGI server tries to finish closed connections
+                                             (https://github.com/c00w/bitHopper/issues/262)
+
+CGMINER w/ BH unstable                       (https://github.com/c00w/bitHopper/issues/343)
+
+---------------------------------------------------------------------------------------
+
+Future to-do list:
+
+
+Work based slicing                           (https://github.com/c00w/bitHopper/issues/103)
+
+Be able to force LP mining                   (https://github.com/c00w/bitHopper/issues/178)
+
+Hide Inactive and Old users                  (https://github.com/c00w/bitHopper/issues/214)
+
+Dump LP Calls and blocks to file             (https://github.com/c00w/bitHopper/issues/244)
+
+Switch Coins based on profitability          (https://github.com/c00w/bitHopper/issues/322)
+
+Sum of total recieved and expected           (https://github.com/c00w/bitHopper/issues/347)
+
+Fancy Logging Plugin                         (https://github.com/c00w/bitHopper/issues/351)
+
+Backup Pool Hopping                          (https://github.com/c00w/bitHopper/issues/358)
+
+Autoupdate pools.cfg                         (https://github.com/c00w/bitHopper/issues/361)
+

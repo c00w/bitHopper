@@ -514,16 +514,16 @@ class Pool():
         return duration
 
     def update_api_server(self,server):
-        if self.servers[server]['role'] not in self.api_pull:
-            return
-        info = self.servers[server]
-        self.bitHopper.scheduler.update_api_server(server)
-        user_agent = None
-        if 'user_agent' in info:
-            user_agent = info['user_agent']
-        value = self.bitHopper.work.get(info['api_address'], user_agent)
         try:
-            self.selectsharesResponse( value, server)
+            if self.servers[server]['role'] not in self.api_pull:
+                return
+            info = self.servers[server]
+            self.bitHopper.scheduler.update_api_server(server)
+            user_agent = None
+            if 'user_agent' in info:
+                user_agent = info['user_agent']
+            value = self.bitHopper.work.get(info['api_address'], user_agent)
+            self.selectsharesResponse(value, server)
         except Exception, e:
             self.errsharesResponse(e, server)
 

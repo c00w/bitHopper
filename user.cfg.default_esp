@@ -303,6 +303,13 @@ role: disable
 user: nombre_minero
 pass: contrasena_minero
 
+[btcgpps]
+#http://pps.btcguild.com/register.php
+#CAMBIA A CONTINUACION
+role: disable
+user: nombre_minero
+pass: contrasena_minero
+
 ######################################
 # Minas Namecoin u otro tipo. Salta
 # usando el modo adecuado (mine_xxx)

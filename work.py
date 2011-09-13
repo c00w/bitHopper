@@ -12,6 +12,8 @@ httplib2 = eventlet.import_patched('httplib20_7_1')
 from eventlet import pools
 from eventlet.green import socket
 
+from peak.util import plugins
+
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
 
@@ -24,7 +26,15 @@ class Work():
         self.connect_pool = {}
         #pools.Pool(min_size = 2, max_size = 10, create = lambda: httplib2.Http(disable_ssl_certificate_validation=True))
 
-    def get_http(self, address, timeout=2.5):
+    def get_http(self, address, timeout=0):
+        try:
+            configured_timeout = self.bitHopper.config.getfloat('main','work_request_timeout')
+        except:
+            configured_timeout = 2.5
+            pass
+        if timeout == 0:
+            timeout = configured_timeout
+        
         if address not in self.connect_pool:
             self.connect_pool[address] =  pools.Pool(min_size = 0, create = lambda: httplib2.Http(disable_ssl_certificate_validation=True, timeout=timeout))
         return self.connect_pool[address].item()
@@ -185,7 +195,7 @@ class Work():
 
         to_delete = []
         for header in server_headers:
-            if header.lower() not in ['x-roll-ntime']:
+            if header.lower() not in ['x-roll-ntime','x-reject-reason']:
                 to_delete.append(header)
         for item in to_delete:
             del server_headers[item]  
@@ -212,7 +222,8 @@ class Work():
             self.bitHopper.getwork_store.add(server,merkle_root)
 
         #Fancy display methods
-        
+        hook = plugins.Hook('work.rpc.request')
+        hook.notify(data, server)
         if not self.bitHopper.options.simple_logging:
             if self.bitHopper.options.debug:
                 self.bitHopper.log_msg('RPC request ' + str(data) + " submitted to " + server)

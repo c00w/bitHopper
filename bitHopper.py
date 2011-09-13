@@ -18,6 +18,8 @@ eventlet.monkey_patch()
 #from eventlet import debug
 #debug.hub_blocking_detection(True)
 
+from peak.util import plugins
+
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
 
@@ -267,6 +269,9 @@ def main():
         log = None
     else:
         log = open(os.devnull, 'wb')
+
+    hook = plugins.Hook('plugins.bithopper.startup')
+    hook.notify(bithopper_instance, config, options)
         
     while True:
         try:
@@ -281,7 +286,7 @@ def main():
             socket.setdefaulttimeout(lastDefaultTimeout)
             break
         except Exception, e:
-            bithopper_instance.log_msg("Exception in wsgi server loop, restarting wsgi in 60 seconds\n%s") % (e)
+            bithopper_instance.log_msg("Exception in wsgi server loop, restarting wsgi in 60 seconds\n%s" % (str(e)))
             eventlet.sleep(60)
     bithopper_instance.db.close()
 
