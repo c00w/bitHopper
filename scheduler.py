@@ -207,6 +207,8 @@ class WaitPenaltyScheduler(Scheduler):
             info = self.bitHopper.pool.get_entry(server)
             if 'wait' not in info:
                 info['wait'] = 0
+            else:
+                info['wait'] = float(info['wait'])
 
     def select_best_server(self,):
         #self.bitHopper.log_dbg('select_best_server', cat='scheduler-waitpenalty')
@@ -217,7 +219,7 @@ class WaitPenaltyScheduler(Scheduler):
         #self.bitHopper.log_dbg('min-shares: ' + str(min_shares), cat='scheduler-waitpenalty')  
         for server in self.bitHopper.pool.get_servers():
             shares,info = self.server_to_btc_shares(server)
-            shares += info['wait'] * difficulty
+            shares += float(info['wait']) * difficulty
             if info['api_lag'] or info['lag']:
                 continue
             if info['role'] not in self.valid_roles:
@@ -249,15 +251,10 @@ class WaitPenaltyScheduler(Scheduler):
         if shares > (difficulty * self.difficultyThreshold):
             return True
 
-        min_shares = info['shares']
-
         for server in self.bitHopper.pool.servers:
-            pool = self.bitHopper.pool.get_entry(server)
-            if pool['shares'] < min_shares:
-                min_shares = pool['shares']
-
-        if min_shares < info['shares']*.90:
-            return True       
+            other_shares = self.server_to_btc_shares(server)
+            if other_shares < shares:
+                return True
 
         return False
 
