@@ -15,25 +15,26 @@ import random
 import time
 import sys
 import re
-import work
-
+import json
+import urllib
+import urllib2
 import operator
 
 from peak.util import plugins
 from ConfigParser import RawConfigParser
+from cookielib import CookieJar
 
 import blockexplorer
 
 class PoolBlocks:
     def __init__(self, bitHopper):
         self.bitHopper = bitHopper
-        self.work = work.Work(self)
         self.refreshInterval = 300
         self.refreshRandomJitter = 90
+        self.execpoolsize = 20
         self.blocks = {}
         self.parseConfig()        
         self.threadpool = greenpool.GreenPool(size=8)
-        self.execpoolsize = 20
         self.execpool = greenpool.GreenPool(size=self.execpoolsize)
         hook = plugins.Hook('plugins.lp.announce')
         hook.register(self.lp_announce)
@@ -44,9 +45,9 @@ class PoolBlocks:
         self.fetchconfig = RawConfigParser()
         self.fetchconfig.read('poolblock.cfg')
         try:
-            self.refreshInterval = self.bitHopper.config.readint('poolblocks', 'refreshInterval')
-            self.refreshRandomJitter = self.bitHopper.config.readint('poolblocks', 'refreshRandomJitter')
-            self.execpoolsize = self.bitHopper.config.readint('poolblocks', 'execpoolsize')
+            self.refreshInterval = self.bitHopper.config.readint('plugin.poolblocks', 'refreshInterval')
+            self.refreshRandomJitter = self.bitHopper.config.readint('plugin.poolblocks', 'refreshRandomJitter')
+            self.execpoolsize = self.bitHopper.config.readint('plugin.poolblocks', 'execpoolsize')
         except:
             pass
                 
@@ -61,7 +62,6 @@ class PoolBlocks:
 
     def run(self):
         while True:
-            # TODO
             try:
                 self.fetchBlocks()
                 self.execpool.waitall()
@@ -79,25 +79,111 @@ class PoolBlocks:
         with self.lock:
             self.log_trace('fetchBlocks')
             for pool in self.fetchconfig.sections():
-                self.log_trace('fetchBlocks: ' + str(pool))
-                url = self.fetchconfig.get(pool, 'url')
-                searchStr = self.fetchconfig.get(pool, 'search')
-                try: mode = self.fetchconfig.get(pool, 'mode')
-                except: mode = 'b'
-                #interval = self.refreshInterval
-                #interval += random.randint(0, self.refreshRandomJitter)
-                #self.log_dbg(pool + ' fetch in ' + str(interval))
-                self.execpool.spawn_n(self.fetchBlocksFromPool, pool, url, searchStr, mode)
-            self.log_trace('waitall()')
+                try:
+                    self.log_trace('fetchBlocks: ' + str(pool))
+                    url = self.fetchconfig.get(pool, 'url')
+                    searchStr = self.fetchconfig.get(pool, 'search')
+                    try: mode = self.fetchconfig.get(pool, 'mode')
+                    except: mode = 'b'
+                    try: type = self.fetchconfig.get(pool, 'type')
+                    except: type = None
+                    self.execpool.spawn_n(self.fetchBlocksFromPool, pool, url, searchStr, mode, type)
+                except Exception, e:
+                    if self.bitHopper.options.debug:
+                        traceback.print_exc()
+                    else:
+                        self.log_msg('ERROR fetchBlocks: ' + str(pool))
+            
             
     
-    def fetchBlocksFromPool(self, pool, url, searchstr, mode='b'):
+    def fetchBlocksFromPool(self, pool, url, searchstr, mode='b', type=None):
         self.log_trace('fetchBlockFromPool ' + str(pool) + ' | ' + str(url) + ' | ' + str(searchstr) + ' | ' + str(mode) )
         searchPattern = re.compile(searchstr)
-        data = self.work.get(url)
-        outputs = searchPattern.findall(data)
         matchCount = 0
-
+        outputs = None
+        
+        if type == 'btcmp':
+            cj = CookieJar()
+            opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
+            opener.addheaders = [('User-agent', 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)'),('Referer', 'http://btcmp.com')]
+            response = opener.open(url, None, 30)
+            # find session id
+            session_id = None
+            for cookie in cj:
+               if cookie.name == 'session_id':
+                  session_id = cookie.value
+                  break
+            
+            values = {'_token': session_id, 'limit':60}
+            data = urllib.urlencode(values)
+            json_url = self.fetchconfig.get(pool, 'json_url')
+            try:
+                response = opener.open(json_url, data, 30)
+                json_data = response.read()
+                data = json.loads(json_data)
+            except Exception, e:
+                self.log_msg('Error ' + str(pool) + ' : ' + str(e))
+                return
+            
+            count = 0
+            for block in data['blockstats']:
+                blockNumber = block['blockno']
+                blockHash = block['blockhash']
+                if blockNumber not in self.blocks:
+                    matchCount += 1
+                    self.log_trace('['+str(pool)+'] Block ' + str(blockNumber) + ' not found, adding new block')
+                    self.blocks[blockNumber] = Block()
+                    self.blocks[blockNumber].hash = blockHash
+                    self.blocks[blockNumber].owner = pool
+                    hook = plugins.Hook('plugins.poolblocks.verified')
+                    hook.notify(blockNumber, blockHash, pool)
+                elif self.blocks[blockNumber].owner != pool:
+                    self.log_trace('['+str(pool)+'] Block ' + str(blockNumber) + ' exists but with different owner: ' + str(self.blocks[blockNumber].owner) )
+                    self.blocks[blockNumber].owner = pool
+                    matchCount += 1
+                    hook = plugins.Hook('plugins.poolblocks.verified')
+                    hook.notify(blockNumber, blockHash, pool)
+                else:
+                    self.log_trace('['+str(pool)+'] Block ' + str(blockNumber) + ' exists same owner')
+                count += 1
+                if count > 25:
+                    break
+            self.log_msg('[{0}] parsed {1} blocks, {2} matches'.format(pool, len(data['blockstats']), matchCount) )
+            return
+                        
+        elif type == 'mmf':
+            cj = CookieJar()
+            opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
+            opener.addheaders = [('User-agent', 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)'),('Referer', 'http://btcmp.com')]
+            auth_url = self.fetchconfig.get(pool, 'auth_url')
+            username = self.fetchconfig.get(pool, 'user')
+            password = self.fetchconfig.get(pool, 'pass')
+            values = {'username':username, 'password':password}
+            data = urllib.urlencode(values)
+            try:
+                response = opener.open(auth_url, data, 30)
+                eventlet.sleep(2)
+                response = opener.open(url, None, 30)
+                outputs = searchPattern.findall(response.read())            
+            except Exception, e:
+                self.log_msg('Error ' + str(pool) + ' : ' + str(e))
+                return
+        
+        else:
+            #data = self.work.get(url)
+            try:
+                opener = urllib2.build_opener()
+                opener.addheaders = [('User-agent', 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)')]
+                response = opener.open(url, None, 30)
+                data = response.read()
+                outputs = searchPattern.findall(data)
+            except Exception, e:
+                self.log_msg('Error ' + str(pool) + ' : ' + str(e))
+                return
+            # limit blocks found
+            if len(outputs) > 25:
+                outputs = outputs[0:25]
+        
         if mode == 'b':
             # pool reports block# solved
             #self.log_trace(str(outputs))
@@ -106,11 +192,20 @@ class PoolBlocks:
                     if self.blocks[blockNumber].owner != pool:
                         self.log_trace('[' + pool + '] block ' + str(blockNumber) + ' exists, setting owner')
                         self.blocks[blockNumber].owner = pool
-                        matchCount += 1                        
+                        blockHash = self.blocks[blockNumber].hash
+                        if blockHash == None:
+                            blockhash = blockexplorer.getBlockHashByNumber(blockNumber)
+                        if blockHash != None:
+                            hook = plugins.Hook('plugins.poolblocks.verified')
+                            hook.notify(blockNumber, blockHash, pool)
+                        else:
+                            self.log_msg('Could not find blockHash for block: ' + str(blockNumber))
+                        matchCount += 1
                     else:
                         self.log_trace('[' + pool + '] block ' + str(blockNumber) + ' exists, owner already set to: ' + self.blocks[blockNumber].owner)
                 else:
                     self.log_trace('[' + pool + '] block ' + str(blockNumber) + ' does not exist, adding')
+                    matchCount += 1
                     self.threadpool.spawn_n(self.fetchBlockFromPool, pool, blockNumber, mode)
                 
         elif mode == 'h':
@@ -123,12 +218,15 @@ class PoolBlocks:
                         if self.blocks[blockNumber].owner != pool:
                             self.log_trace('[' + pool + '] Found hash, setting owner to ' + str(pool))
                             self.blocks[blockNumber].owner = pool
+                            hook = plugins.Hook('plugins.poolblocks.verified')
+                            hook.notify(blockNumber, blockHash, pool)
                             matchCount += 1
                         else:
                             self.log_trace('[' + pool + '] block ' + str(blockNumber) + ' exists, owner already set to: ' + self.blocks[blockNumber].owner)
                         found = True
                         break
                 if found == False:
+                    matchCount += 1
                     self.log_trace('[' + pool + '] Hash not found, looking up block number')
                     self.threadpool.spawn_n(self.fetchBlockFromPool, pool, blockHash, mode)
                     
@@ -138,11 +236,12 @@ class PoolBlocks:
             for txid in outputs:
                 found = False
                 for blockNumber in self.blocks:
-                    #print txid + '/' + str(self.blocks[blockNumber].txid)
                     if str(txid) == self.blocks[blockNumber].txid:
                         if self.blocks[blockNumber].owner != pool:
                             self.log_trace('[' + pool + '] Found TXID, setting owner to ' + str(pool))
                             self.blocks[blockNumber].owner = pool
+                            hook = plugins.Hook('plugins.poolblocks.verified')
+                            hook.notify(blockNumber, blockHash, pool)
                             matchCount += 1                                                       
                         else:
                             self.log_trace('[' + pool + '] Found TXID, owner aready set to ' + str(pool))
@@ -150,9 +249,10 @@ class PoolBlocks:
                         break
                 if found == False:
                     self.log_trace('[' + pool + '] TXID not found, looking up block number and hash')
+                    matchCount += 1
                     self.threadpool.spawn_n(self.fetchBlockFromPool, pool, txid, mode)               
         
-        #print('Infofetch - {0}>>> parsed {1} blocks > {2} matches'.format(self.poolName, len(outputs), matchCount))
+        self.log_msg('[{0}] parsed {1} blocks, {2} matches'.format(pool, len(outputs), matchCount) )
 
     def fetchBlockFromPool(self, pool, blockInfo, mode='b'):
         self.log_trace('fetchBlockFromPool: ' + str(pool) + ' blockInfo ' + str(blockInfo))
@@ -219,8 +319,27 @@ class PoolBlocks:
             print "Block %6d %12s %64s " % ( int(blockNumber), str(block.owner), str(block.hash) )
         
     def lp_announce(self, lpobj, body, server, blockHash):
-        # TODO
-        pass
+        self.log_trace('lp_announce for block ' + str(blockHash))
+        return
+        # untested
+        with self.lock:
+            try:
+                found = False
+                for blockNumber in self.blocks:
+                    if str(self.blocks[blockNumber].hash) == blockHash:
+                        found = True
+                if found == False:
+                    self.log_trace('lp_announce: new block ' + str(blockHash))
+                    # lookup block number
+                    blockNumber = blockexplorer.getBlockNumberByHash(blockHash)
+                    if blockNumber != None:
+                        self.log_dbg('lp_announce: new block ' + str(blockNumber))
+                        self.blocks[blockNumber] = Block()
+                        self.blocks[blockNumber].hash = blockHash
+                    else:
+                        self.log_msg('No block number from blockexplorer for ' + str(blockHash))
+            except Exception, e:
+                traceback.print_exc()
     
 # class for Block       
 class Block:

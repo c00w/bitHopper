@@ -61,7 +61,7 @@ roundtimemagic = 10
 #    auto - loads everything automatically
 #    manual - specify which plugins you want to load below
 #    disabled - disable plugin loading completely
-mode = auto
+mode = manual
 
 [plugins]
 test = True
@@ -71,10 +71,14 @@ poclbm = False
 # Probably need the one below in the future
 lpbot = False
 
+# set rpcworklog to False to disable RPC work logging
+rpcworklog = True
+poolblocks = False
+
 [backdoor]
 port = 3000
 
-[apiangel]
+[plugin.apiangel]
 # APIAngel will look for api_disable pools and restore them
 #  - Checks every "interval" seconds
 #  - Restores if "last_pulled" + "reincarnateInterval" > now (current time in seconds)
@@ -91,3 +95,12 @@ min_votes = 5
 # (0.5 == 50% of votes for a quorum) probably not a good idea to set below 0.5
 vote_threshold = 0.5
 
+[plugin.poolblocks]
+# interval to check pool stats for new blocks
+refreshInterval = 600
+
+# random number to add to refresh interval (from 0 to refreshRandomJitter)
+refreshRandomJitter = 120
+
+# max number of threads to open to blockexplorer
+execpoolsize = 8

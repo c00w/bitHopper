@@ -96,7 +96,7 @@ def getBlockHashAndNumberByTxid(bitHopper, txid, max_attempts=5, timeout=30):
                 return match.group(1), match.group(2)
             else:
                 bitHopper.log_msg('getBlockNumberByTxid: missing match for ' + str(txid), cat='blockexplorer')
-                return None
+                return None, None
         except urllib2.HTTPError, error:
             if error.code == 404:
                 bitHopper.log_dbg('  404 for ' + str(be_url), cat='blockexplorer')
@@ -112,3 +112,4 @@ def getBlockHashAndNumberByTxid(bitHopper, txid, max_attempts=5, timeout=30):
             attempts += 1
             time.sleep(20)
             traceback.print_exc()
+    return None,None
