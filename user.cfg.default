@@ -3,6 +3,7 @@
 # Change the default values and make
 # sure to change the name of this file
 #         to "user.cfg"
+#
 #######################################
 
 ################################################################
@@ -34,6 +35,7 @@
 # info = shows share count for this pool on stat page
 # disable = disables pool completely (you can delete 
 #   pool's entry in this cfg file too)
+#
 # 
 # Pool set-up:
 #
@@ -239,6 +241,7 @@ pass: your_password
 # than expected (can be any pool with
 # hopping proof algorithms, PPS has
 # lowest variance though)
+#
 ######################################
 
 [eligius]
@@ -298,14 +301,14 @@ pass: x
 [btcservpps]
 #http://btcserv.net/
 #CHANGE THIS
-role: info
+role: disable
 user: your_username
 pass: your_password
 
 [btcgpps]
 #http://pps.btcguild.com/register.php
 #CHANGE THIS
-role: info
+role: disable
 user: your_username
 pass: your_password
 
