@@ -10,6 +10,14 @@ ADDING A NEW FEATURE
 I prefer new features be added as new files and modules. If they can't reasonably be
 done like that or fit within a current module use that. If in doubt ask.
 
+As much as possible please leave core modules as they are and extend via "hooks"
+and plugins. To see an example plugin see plugins/hookexample/__init__.py
+
+Convention for adding new plugin configuration to bh.cfg is to prefix with "plugin."
+Convention is to use __init__.py to bootstrap the plugin and the bulk of the logic
+go into a seperate .py file. This makes it easier to work with multiple plugins.
+
+
 WHY DOES POOL.PY DO EVERYTHING?
 Because I haven't had time to split it and clean it up.
 
@@ -51,3 +59,4 @@ Backup Pool Hopping                          (https://github.com/c00w/bitHopper/
 
 Autoupdate pools.cfg                         (https://github.com/c00w/bitHopper/issues/361)
 
+Extend Plugin Framework                      (https://github.com/c00w/bitHopper/issues/368)
