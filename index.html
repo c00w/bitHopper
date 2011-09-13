@@ -214,6 +214,15 @@
 				}
 			}
 
+			function setWait(srvName, value) {
+				var wait = prompt("Set wait for: " + srvName, value);
+				if(wait != null && wait != undefined && wait != "") {
+					var frm = "<form><input type=hidden name='wait-" + srvName + "' value='" + wait + "'></form>";
+					$.post("/stats", $(frm).serialize());
+					update();
+				}
+			}
+
 			function setPenalty(srvName, value) {
 				var penalty = prompt("Set penalty for: " + srvName, value);
 				if(penalty != null && penalty != undefined && penalty != "") {
@@ -310,6 +319,19 @@
 					return parseFloat(srv['slice']).toFixed(0)
 				else
 					return "-"
+			}
+
+			function getWait(payload, srv) {
+				if (payload['wait'] == undefined && srv['wait'] == undefined)
+					 return "-"
+				var wait = 0.0
+				if (srv['wait'] && srv['wait'] > 0) {
+					 wait = parseFloat(srv['wait']);
+				}
+				var wait_html = "<a href='#' onFocus='this.blur();' onClick=\"setWait('"
+				wait_html = wait_html + srvName + "', " + wait + ");\" style='text-decoration:underline;color:" + getColor(payload,srv) + ";'>"
+				wait_html = wait_html + wait.toFixed(2) + "</a>";
+				return wait_html;
 			}
 
 			function getPenalty(payload, srv) {
@@ -533,6 +555,7 @@
 							'Eff.': { 'data':getEfficiency, 'color':getColor, 'align':'center' },
 							'ThrPnlty': { 'data':getPenalty, 'color':getColor, 'align':'center' },
 							'LP-Pnlty': { 'data':getLPPenalty, 'color':getColor, 'align':'center' },
+							'Wait': { 'data':getWait, 'color':getColor, 'align':'center' },
 							'Slice': { 'data':getSlice, 'color':getColor, 'align':'center', 'display':'' },
 							'Round Shares': { 'data':getRoundShares, 'type':'linechart', 'width':'100%' },
 							'Role String' : { 'data':getRoleString, 'display':'none' }
