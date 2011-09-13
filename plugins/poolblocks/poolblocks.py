@@ -117,9 +117,13 @@ class PoolBlocks:
             values = {'_token': session_id, 'limit':60}
             data = urllib.urlencode(values)
             json_url = self.fetchconfig.get(pool, 'json_url')
-            response = opener.open(json_url, data, 30)
-            json_data = response.read()
-            data = json.loads(json_data)
+            try:
+                response = opener.open(json_url, data, 30)
+                json_data = response.read()
+                data = json.loads(json_data)
+            except Exception, e:
+                self.log_msg('Error ' + str(pool) + ' : ' + str(e))
+                return
             
             count = 0
             for block in data['blockstats']:
@@ -156,18 +160,26 @@ class PoolBlocks:
             password = self.fetchconfig.get(pool, 'pass')
             values = {'username':username, 'password':password}
             data = urllib.urlencode(values)
-            response = opener.open(auth_url, data, 30)
-            eventlet.sleep(2)
-            response = opener.open(url, None, 30)
-            outputs = searchPattern.findall(response.read())            
+            try:
+                response = opener.open(auth_url, data, 30)
+                eventlet.sleep(2)
+                response = opener.open(url, None, 30)
+                outputs = searchPattern.findall(response.read())            
+            except Exception, e:
+                self.log_msg('Error ' + str(pool) + ' : ' + str(e))
+                return
         
         else:
             #data = self.work.get(url)
-            opener = urllib2.build_opener()
-            opener.addheaders = [('User-agent', 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)')]
-            response = opener.open(url, None, 30)
-            data = response.read()
-            outputs = searchPattern.findall(data)
+            try:
+                opener = urllib2.build_opener()
+                opener.addheaders = [('User-agent', 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)')]
+                response = opener.open(url, None, 30)
+                data = response.read()
+                outputs = searchPattern.findall(data)
+            except Exception, e:
+                self.log_msg('Error ' + str(pool) + ' : ' + str(e))
+                return
             # limit blocks found
             if len(outputs) > 25:
                 outputs = outputs[0:25]
@@ -180,8 +192,14 @@ class PoolBlocks:
                     if self.blocks[blockNumber].owner != pool:
                         self.log_trace('[' + pool + '] block ' + str(blockNumber) + ' exists, setting owner')
                         self.blocks[blockNumber].owner = pool
-                        hook = plugins.Hook('plugins.poolblocks.verified')
-                        hook.notify(blockNumber, blockHash, pool)
+                        blockHash = self.blocks[blockNumber].hash
+                        if blockHash == None:
+                            blockhash = blockexplorer.getBlockHashByNumber(blockNumber)
+                        if blockHash != None:
+                            hook = plugins.Hook('plugins.poolblocks.verified')
+                            hook.notify(blockNumber, blockHash, pool)
+                        else:
+                            self.log_msg('Could not find blockHash for block: ' + str(blockNumber))
                         matchCount += 1
                     else:
                         self.log_trace('[' + pool + '] block ' + str(blockNumber) + ' exists, owner already set to: ' + self.blocks[blockNumber].owner)
