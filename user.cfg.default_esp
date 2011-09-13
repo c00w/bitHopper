@@ -45,8 +45,8 @@
 #                 numero al comparar con la dificultad (si incrementas este numero
 #                 hace que dejes la mina antes de dificultad*0.43)
 #                 SERVIDORES DE RESPALDO: Ajusta al porcentaje acceptado por el servidor. 
-#                 The penalty/100 is added to the reject rate when calculating 
-#                 which server to use
+#                 Penalidad/100 se anade al ratio de shares descartados cuando bH 
+#                 selectiona la mina para trabajar.
 #  lp_penalty:    normaliza las LP de esta mina con "x" segundos (mayor para
 #                 LP muy rapidos)
 #  percent:       continua enviando shares aqui, valor proc. calculado sobre el
