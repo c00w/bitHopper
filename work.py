@@ -208,8 +208,7 @@ class Work():
             response = json.dumps({"result":None, 'error':{'message':'Cannot get work unit'}, 'id':j_id})
         else:
             response = json.dumps({"result":work, 'error':None, 'id':j_id}) 
-
-        eventlet.spawn_n(self.handle_store, work, server, data, username, password, rpc_request)
+            eventlet.spawn_n(self.handle_store, work, server, data, username, password, rpc_request)
         return [response]       
 
     def handle_store(self, work, server, data, username, password, rpc_request):
