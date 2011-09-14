@@ -9,6 +9,8 @@ import math
 import eventlet
 from eventlet.green import threading, time, socket
 
+from peak.util import plugins
+
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
 
@@ -41,9 +43,9 @@ class Scheduler(object):
     def reset(self):
         pass
 
-    def self.mine_lp_force(self, lp, body, server, block):
+    def mine_lp_force(self, lp, body, server, block):
         for server in self.bitHopper.pool.get_servers():
-            if server['role'] = 'mine_lp_force':
+            if server['role'] == 'mine_lp_force':
                 server['role'] = server['default_role']
 
     def select_charity_server(self):
