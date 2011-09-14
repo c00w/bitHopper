@@ -183,7 +183,7 @@ class LpBot(SimpleIRCClient):
         hook.notify(self, text)
         self.connection.privmsg("#bithopper-lp", text)            
         
-    def announce(self, body, server, last_hash):
+    def announce(self, lp, body, server, last_hash):
         with self.lock:
             hook = plugins.Hook('plugins.lpbot.announce')
             hook.notify(self, server, last_hash)
