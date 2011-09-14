@@ -23,10 +23,14 @@
 # mine_slush = en esta se queda hasta dificultad.*0.147
 # mine_lp = monitorea y prueba suerte minar en
 #   esta mina sin utilizar la api
+# mine_lp_force = mina hasta que reciba senal lp y despues vuelve
+#   al rol anterior (no utilices como rol por defecto para mina)
 # mine_nmc = indica que es una mina minecoin
 # mine_ixc = mina y dificultad ixcoins
 # mine_i0c = mina y dificultad i0coins
 # mine_scc = mina y dificultad solidcoin
+# mine_force = ignora el programador y trabaja solo en esta mina
+#   (no utilices como rol por defecto para mina)
 # backup = viene a minar en esta si no tiene ninguna 
 #   mina Proporcional disponible
 # backup_latehop = prefiere minar en esta como backup si
