@@ -19,7 +19,10 @@ class Scheduler(object):
             self.difficultyThreshold = self.bitHopper.options.threshold
         else:
             self.difficultyThreshold = 0.435
-        self.valid_roles = ['mine', 'mine_nmc', 'mine_deepbit', 'mine_slush', 'mine_ixc', 'mine_i0c', 'mine_scc', 'mine_charity']
+        self.valid_roles = ['mine', 'mine_nmc', 'mine_deepbit', 'mine_slush', 'mine_ixc', 'mine_i0c', 'mine_scc', 'mine_charity', 'mine_force', 'mine_lp_force']
+        hook_announce = plugins.Hook('plugins.lp.announce')
+        hook_announce.notify(self.mine_lp_force)
+
         self.loadConfig()
         eventlet.spawn_n(self.bitHopper_server_update)
 
@@ -37,6 +40,11 @@ class Scheduler(object):
 
     def reset(self):
         pass
+
+    def self.mine_lp_force(self, lp, body, server, block):
+        for server in self.bitHopper.pool.get_servers():
+            if server['role'] = 'mine_lp_force':
+                server['role'] = server['default_role']
 
     def select_charity_server(self):
         server_name = None
@@ -90,6 +98,8 @@ class Scheduler(object):
 
         if info['role'] == 'mine_slush':
             shares = shares * self.difficultyThreshold /  0.147
+        if info['role'] in ['mine_force', 'mine_lp_force']:
+            shares = 0
         # apply penalty
         if 'penalty' in info:
             shares = shares * float(info['penalty'])
