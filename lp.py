@@ -170,8 +170,6 @@ class LongPoll():
                     hook_announce = plugins.Hook('plugins.lp.announce')
                     self.bitHopper.log_dbg('LP Notify')
                     hook_announce.notify(self, body, server, block)
-                    if self.bitHopper.lpBot != None:
-                        self.bitHopper.lpBot.announce(server, block)
         
             hook_start = plugins.Hook('plugins.lp.receive.end')
             hook_start.notify(self, body, server, block)

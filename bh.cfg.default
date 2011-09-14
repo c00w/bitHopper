@@ -68,8 +68,7 @@ test = True
 backdoor = True
 apiangel = True
 poclbm = False
-# Probably need the one below in the future
-lpbot = False
+lpbot = True
 
 # set rpcworklog to False to disable RPC work logging
 rpcworklog = True

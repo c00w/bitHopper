@@ -38,7 +38,6 @@ import lp
 import lp_callback
 import plugin
 
-from lpbot import LpBot
 
 import ConfigParser
 import sys
@@ -49,7 +48,6 @@ class BitHopper():
         self.options = options
         self.config = config
         self.lp_callback = lp_callback.LP_Callback(self)
-        self.lpBot = None
         self.difficulty = diff.Difficulty(self)           
         self.pool = pool.Pool(self)
         self.db = database.Database(self)
@@ -258,10 +256,6 @@ def main():
         bithopper_instance.scheduler = scheduler.DefaultScheduler(bithopper_instance)
 
     bithopper_instance.select_best_server()
-
-    if options.p2pLP:
-        bithopper_instance.log_msg('Starting p2p LP')
-        bithopper_instance.lpBot = LpBot(bithopper_instance)
 
     lastDefaultTimeout = socket.getdefaulttimeout()  
 
