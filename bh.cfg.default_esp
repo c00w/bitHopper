@@ -1,6 +1,7 @@
 # Estos reglajes sobrescriben los parametros de arranque
 # No todas las opciones se pueden recargar sobre la marcha
 # que serian las siguientes:
+#
 #    main/scheduler (modo programado)
 #    main/port (puerto principal)
 #    backdoor/port (puerto secundario consola)
@@ -60,7 +61,7 @@ roundtimemagic = 10
 #    auto - carga automatica de modulos
 #    manual - especifica que modulos se van a cargar
 #    disabled - desactiva la carga de modulos extra
-mode = auto
+mode = manual
 
 [plugins]
 test = True
@@ -70,10 +71,14 @@ poclbm = False
 # Probablemente necesario en el futuro
 lpbot = False
 
+# ajusta "rpcworklog" a False para desactivar el registro de peticiones RPC
+rpcworklog = True
+poolblocks = False
+
 [backdoor]
 port = 3000
 
-[apiangel]
+[plugin.apiangel]
 # APIAngel vigila sobre las minas con api deshabilitada y la vuelve activar
 #  - Comprueba cada invervalo en segundos
 #  - Rehabilita si "last_pulled" + "reincarnateInterval" > ahora (tiempo actual en segundos)
@@ -90,3 +95,12 @@ min_votes = 5
 # (0.5 == 50% of votes for a quorum) probably not a good idea to set below 0.5
 vote_threshold = 0.5
 
+[plugin.poolblocks]
+# tiempo de espera para comprobar las minas sobre bloques nuevos
+refreshInterval = 600
+
+# tope de intervalo para numeros cuyo valor que se añaden al tiempo de busqueda bloques nuevos (desde 0 a refreshRandomJitter)
+refreshRandomJitter = 120
+
+# numero de hilos paralelos abiertos con blockexplorer
+execpoolsize = 8

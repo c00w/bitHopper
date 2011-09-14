@@ -71,7 +71,7 @@ poclbm = False
 # Probably need the one below in the future
 lpbot = False
 
-# set rpcworklog to False to disable RPC work logging
+# set "rpcworklog" to False to disable RPC work logging
 rpcworklog = True
 poolblocks = False
 
