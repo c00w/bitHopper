@@ -9,7 +9,7 @@ Based on a work at github.com
 
 In order to run bitHopper you need to have Python installed in your system. Version 2.7 of Python is suggested
 although it has been tested and appears to work with version 2.6 too. To find out which version of Python your
-system currently has type "python -V" to a shell console.
+system currently has type "python -V" in a shell console.
 
 If you don't have Python installed at all you have to run:
 
