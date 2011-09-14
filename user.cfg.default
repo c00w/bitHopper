@@ -23,10 +23,14 @@
 # mine_slush = mines pool until diff.*0.147
 # mine_lp = monitor and makes educated guess mining
 #   without using the api
+# mine_lp_force = mine untill lp is triggered and then resets
+#   back to previous role (don't use as default role for pool set-up)
 # mine_nmc = setup pool for NMC mining
 # mine_ixc = ixcoins pool and diff.
 # mine_i0c = i0coins pool and diff.
 # mine_scc = solidcoin pool and diff.
+# mine_force = ignores active scheduler and mines only this pool
+#   (don't use as default role for pool set-up)
 # backup = hopps on this when no Prop. pool is available
 # backup_latehop = prefers this for backup if pool has
 #   high share count (full descr. on page 121, bH thread)
