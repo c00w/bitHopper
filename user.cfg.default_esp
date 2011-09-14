@@ -21,7 +21,7 @@
 #
 # mine = mina como esta mandado, normal (dificultad*0.43)
 # mine_slush = en esta se queda hasta dificultad.*0.147
-# mine_deepbit = monitorea y prueba suerte minar en
+# mine_lp = monitorea y prueba suerte minar en
 #   esta mina sin utilizar la api
 # mine_nmc = indica que es una mina minecoin
 # mine_ixc = mina y dificultad ixcoins
@@ -129,7 +129,7 @@ pass: x
 #https://deepbit.net/
 #CAMBIA A CONTINUACION
 lp_penalty: 0
-role: mine_deepbit
+role: mine_lp
 user: nombre_minero
 pass: contrasena_minero
 

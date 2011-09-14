@@ -22,7 +22,7 @@ info_2: The most "unlucky" pool ever made but you could get some pennies though 
 [bclc]
 #http://www.bitcoins.lc
 info_1: Delaying stats and not very civic attitude with occasional miners (page 95)
-info_2: You could try mining here with the mine_deepbit role - 466.02 Ghash/s @ 08.23.11
+info_2: You could try mining here with the mine_lp role - 466.02 Ghash/s @ 08.23.11
 
 
 [bcpool]
@@ -54,7 +54,7 @@ info_2: Hashing away for over a month without luck - 3.48 Ghash/s @ 09.09.11
 [btcg]
 #https://www.btcguild.com/
 info_1: Delayed stats (page 87)
-info_2: Try mining here with the mine_deepbit role - 2132.23 Ghash/s @ 08.23.11
+info_2: Try mining here with the mine_lp role - 2132.23 Ghash/s @ 08.23.11
 info_3: PPS payout server available (beta) - 1835.25 Ghash/s @ 09.12.11
 
 
@@ -315,7 +315,7 @@ info_2: Changed to unknown payout system to prevent occasional mining (pool thre
 #https://polmine.pl
 info_1: Nice polish pool
 info_2: Delays and fakes stats (page 157)
-info_3: You could try mining here with the mine_deepbit role - 137.48 Ghash/s @ 08.23.11
+info_3: You could try mining here with the mine_lp role - 137.48 Ghash/s @ 08.23.11
 info_4: Smaller payouts just for hoppers based on 30btc blocks (page 174 + IRC)
 
 

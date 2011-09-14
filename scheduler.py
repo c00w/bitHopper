@@ -21,7 +21,7 @@ class Scheduler(object):
             self.difficultyThreshold = self.bitHopper.options.threshold
         else:
             self.difficultyThreshold = 0.435
-        self.valid_roles = ['mine', 'mine_nmc', 'mine_deepbit', 'mine_slush', 'mine_ixc', 'mine_i0c', 'mine_scc', 'mine_charity', 'mine_force', 'mine_lp_force']
+        self.valid_roles = ['mine', 'mine_nmc', 'mine_lp', 'mine_slush', 'mine_ixc', 'mine_i0c', 'mine_scc', 'mine_charity', 'mine_force', 'mine_lp_force']
         hook_announce = plugins.Hook('plugins.lp.announce')
         hook_announce.notify(self.mine_lp_force)
 
