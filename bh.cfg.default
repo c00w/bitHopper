@@ -65,7 +65,7 @@ mode = manual
 
 [plugins]
 test = True
-backdoor = True
+backdoor = False
 apiangel = True
 poclbm = False
 lpbot = True
