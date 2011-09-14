@@ -16,7 +16,7 @@
 #
 ##################################################################
 
-#################################################################################
+###########################################################################################
 # Los "role" (roles) validos son:
 #
 # mine = mina como esta mandado, normal (dificultad*0.43)
@@ -41,10 +41,12 @@
 #
 #  role:          indica bH que tipo de mineria se desea en esta mina
 #                 Elije un role valido desde la lista de arriba
-#  penalty:       numero flotante, el numero de shares se
-#                 multiplica con este numero al comparar con la
-#                 dificultad (si incrementas este numero hace
-#                 que dejes la mina antes de dificultad*0.43)
+#  penalty:       numero flotante, el numero de shares se multiplica con este
+#                 numero al comparar con la dificultad (si incrementas este numero
+#                 hace que dejes la mina antes de dificultad*0.43)
+#                 SERVIDORES DE RESPALDO: Ajusta al porcentaje acceptado por el servidor. 
+#                 Penalidad/100 se anade al ratio de shares descartados cuando bH 
+#                 selectiona la mina para trabajar.
 #  lp_penalty:    normaliza las LP de esta mina con "x" segundos (mayor para
 #                 LP muy rapidos)
 #  percent:       continua enviando shares aqui, valor proc. calculado sobre el
@@ -55,13 +57,13 @@
 #  user:          nombre del trabajador que se tiene que utilizar
 #  pass:          contrasena del trabajador (no se necesita para todas las minas)
 #
-#################################################################################
-
+#########################################################################################
 
 [slush]
 #http://mining.bitcoin.cz/accounts/register/
 #CAMBIA A CONTINUACION
 role: mine_slush
+penalty: 1
 user: c00w.testhop
 pass: testhop
 
