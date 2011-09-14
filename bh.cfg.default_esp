@@ -65,11 +65,10 @@ mode = manual
 
 [plugins]
 test = True
-backdoor = True
+backdoor = False
 apiangel = True
 poclbm = False
-# Probablemente necesario en el futuro
-lpbot = False
+lpbot = True
 
 # ajusta "rpcworklog" a False para desactivar el registro de peticiones RPC
 rpcworklog = True
