@@ -72,7 +72,19 @@ lpbot = True
 
 # ajusta "rpcworklog" a False para desactivar el registro de peticiones RPC
 rpcworklog = True
+
+# ajusta como True para activar el panel de control LP
+# podras ver LP de mina ganadora, proprietario comprobado,
+# temporizadores de bloque y sumario de penalidad LP
+lpworkbench = True
+
+# memoriza lista de bloques comprobados de cada mina (via API/html)
+# mira el "poolblock.cfg" para mas informacion
 poolblocks = False
+
+# ajusta como True para monitorear la precision de los senales LP
+# se requiere "poolblocks = True"
+blockaccuracy = False
 
 [backdoor]
 port = 3000

@@ -79,11 +79,11 @@ rpcworklog = True
 lpworkbench = True
 
 # store list of verified blocks from each pool (scraped via API/html)
-# see poolblock.cfg for more information
+# see "poolblock.cfg" for more information
 poolblocks = False
 
 # set to true to track LP guess accuracy against verified blocks
-# requires poolblocks to be enabled
+# requires "poolblocks = True"
 blockaccuracy = False
 
 [backdoor]
