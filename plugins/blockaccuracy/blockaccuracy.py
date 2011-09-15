@@ -37,7 +37,9 @@ class BlockAccuracy:
         else:
             self.log_msg('Bad notify: ' + str(block) + '/' + str(pool))
         
-        if time.time() > self.lastreport + 60:
+        # log a report every 10 minutes or so
+        # TODO make configurable
+        if time.time() > self.lastreport + 600:
             self.lastreport = time.time()
             self.report()
             
@@ -55,7 +57,7 @@ class BlockAccuracy:
             for block in self.bitHopper.lp.blocks:
                 self.log_trace('block: ' + str(block))
                 lp_owner = str(self.bitHopper.lp.blocks[block]['_owner'])
-                print " - lp_owner: " + str(lp_owner)
+                self.log_trace(" - lp_owner: " + str(lp_owner))
                 verified_owner = None
                 if block in self.blocks:
                     verified_owner = str(self.blocks[block]['verified'])
@@ -66,22 +68,26 @@ class BlockAccuracy:
                     pools[lp_owner]['total'] += 1
                 elif verified_owner != None:
                     self.log_trace('mispredict ' + str(lp_owner) + ' was ' + str(verified_owner) + ' for block ' + str(block) )
-                    pools[lp_owner]['miss'] += 1
-                    pools[lp_owner]['total'] += 1
                     pools[verified_owner]['total'] += 1
+                    pools[verified_owner]['miss'] += 1
                 else:
                     self.log_trace('no verified owner for ' + str(block))
+                    pass
                     
             for pool in pools:
                 self.log_trace('/pool/' + str(pool))
                 total = pools[pool]['total']
                 hit = pools[pool]['hit']
                 miss = pools[pool]['miss']
+                # skip slush (realtime stats)
+                if str(pool) == 'slush': continue
+                # skip anything without hit or miss              
+                if hit == 0 and miss == 0: continue
                 if total == 0:
                     pct = float(0)
                 else:
                     pct = (float(hit) / total) * 100
-                msg = '%(pool)16s %(hit)4d hits / %(miss)4d misses / %(total)6d / %(hit_percent)2.1f%% hit' % \
+                msg = '[report] %(pool)16s %(hit)4d hits / %(miss)4d misses / %(total)6d / %(hit_percent)2.1f%% hit' % \
                       {"pool": pool, "hit":hit, "miss":miss, "total":total, "hit_percent":pct}
                 self.log_msg(msg)
                 

@@ -5,6 +5,9 @@
 #
 # Portions based on blockinfo.py by ryouiki and licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #
+# TODO
+#  If too many None responses for a particular block/hash/txid, we should stop trying
+#
 
 import eventlet
 from eventlet.green import os, threading, socket
@@ -35,12 +38,17 @@ class PoolBlocks:
         self.execpoolsize = 20
         self.rate_limit = 100
         self.blocks = {}
+        # TODO blockexplore retry limit / retry delay configuration
+        #self.blockexplorerRetryLimit
+        #self.blockexplorerRetryDelay
         self.parseConfig()        
         self.threadpool = greenpool.GreenPool(size=8)
         self.execpool = greenpool.GreenPool(size=self.execpoolsize)
         self.fetch = urlutil.URLFetchRateLimit(bitHopper, self.rate_limit)
         hook = plugins.Hook('plugins.lp.announce')
         hook.register(self.lp_announce)
+        hookv = plugins.Hook('plugins.poolblocks.verified')
+        hookv.register(self.block_verified)
         self.lock = threading.RLock()
         self.log_msg('Startup')
         self.log_msg(' - refreshInterval: ' + str(self.refreshInterval))
@@ -76,7 +84,8 @@ class PoolBlocks:
                 self.execpool.waitall()
                 self.threadpool.waitall()
                 if self.bitHopper.options.trace:
-                    self.report()
+                    #self.report()
+                    pass
                 interval = self.refreshInterval
                 interval += random.randint(0, self.refreshRandomJitter)
                 self.log_dbg('sleep ' + str(interval))
@@ -183,12 +192,7 @@ class PoolBlocks:
                 return
         
         else:
-            #data = self.work.get(url)
             try:
-                #opener = urllib2.build_opener()
-                #opener.addheaders = [('User-agent', 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)')]
-                #response = opener.open(url, None, 30)
-                #data = response.read()
                 data = self.fetch.retrieve(url)
                 outputs = searchPattern.findall(data)
             except Exception, e:
@@ -226,7 +230,6 @@ class PoolBlocks:
                 
         elif mode == 'h':
             # pool reports block hash solved
-            #self.log_trace(str(outputs))
             for blockHash in outputs:                
                 found = False
                 for blockNumber in self.blocks:
@@ -248,7 +251,6 @@ class PoolBlocks:
                     
         elif mode == 'g':
             # pool uses transaction id
-            #self.log_trace(str(outputs))
             for txid in outputs:
                 found = False
                 for blockNumber in self.blocks:
@@ -324,7 +326,7 @@ class PoolBlocks:
                     hook = plugins.Hook('plugins.poolblocks.verified')
                     hook.notify(blockNumber, blockHash, pool)
             else:
-                self.log_msg('[' + pool + '] ERROR ' + str(blockNumber) + ' and hash ' + str(blockHash))
+                self.log_msg('[' + pool + '] ERROR ' + str(blockNumber) + ' and hash ' + str(blockHash) + ' for ' + str(blockInfo) )
 
     def report(self):
         self.log_trace('report()')
