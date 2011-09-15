@@ -539,7 +539,7 @@
                                                         'Role': { 'data':getRole },
                                                         'LP Penalty': { 'data':getLPPenalty, 'color':getColor, 'align':'center' },
                                                         'Role String' : { 'data':getRoleString, 'display':'none' }
-                                                }, "width:100%"
+                                                },undefined, "width:100%"
                                         );
                                         
                                         buildTable("#lpdata", data['block'], data['block'],
@@ -548,7 +548,7 @@
                                                         'Owner': {'data':getBlockOwner},
                                                         'Verified': {'data':getVerifiedBlockOwner},
                                                         'Timings': {'data':getBlockTimings},
-                                                }, "width: 100%"
+                                                },undefined, "width: 100%"
                                         );
                                         
                                         for (pool in data['block']) {
