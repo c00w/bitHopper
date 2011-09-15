@@ -197,10 +197,10 @@ class Pool():
 
     def UpdateShares(self, server, shares):
         diff_btc = self.bitHopper.difficulty.get_difficulty()
-        diff_nmc = self.bitHopper.difficutly.get_nmc_difficulty()
-        diff_scc = self.bitHopper.difficutly.get_scc_difficulty
-        diff_i0c = self.bitHopper.difficutly.get_i0c_difficulty
-        diff_ixc = self.bitHopper.difficutly.get_ixc_difficulty
+        diff_nmc = self.bitHopper.difficulty.get_nmc_difficulty()
+        diff_scc = self.bitHopper.difficulty.get_scc_difficulty()
+        diff_i0c = self.bitHopper.difficulty.get_i0c_difficulty()
+        diff_ixc = self.bitHopper.difficulty.get_ixc_difficulty()
         self.servers[server]['api_lag'] = False        
         prev_shares = self.servers[server]['shares']
         self.servers[server]['init'] = True
