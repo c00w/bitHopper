@@ -74,6 +74,11 @@ lpbot = False
 # set rpcworklog to False to disable RPC work logging
 rpcworklog = True
 
+# set to True to enable /lpworkbench on the website
+# shows lp_owner, verified owner, block timings per block
+# shows lp_penalty summary below
+lpworkbench = True
+
 # store list of verified blocks from each pool (scraped via API/html)
 # see poolblock.cfg for more information
 poolblocks = False
