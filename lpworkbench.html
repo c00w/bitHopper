@@ -85,6 +85,17 @@
 				return h;
 			}
 			
+			function getVerifiedBlockOwner(payload, block, key) {
+				var h = "";
+				h += "<a href='#' onClick=\"setOwner('" + key + "');\" style='text-decoration:underline;color:white'>";
+				if (block['verified']) {
+					h += block['verified'] + "</a>";
+				} else {
+					h += "N/A";
+				}
+				return h;
+			}
+			
 			function getBlockTimings(payload, block, key) {
 				var h = "";
 				//h = "<button id='b_"+key+"'>Timings</button>";				
@@ -535,6 +546,7 @@
 						{
 							'Block': {'data':getBlock},
 							'Owner': {'data':getBlockOwner},
+							'Verified': {'data':getVerifiedBlockOwner},
 							'Timings': {'data':getBlockTimings},
 						}, "width: 100%"
 					);
