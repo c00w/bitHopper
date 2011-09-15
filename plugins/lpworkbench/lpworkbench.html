@@ -82,6 +82,12 @@
                         return h;
                 }
                 
+                function getBlockTime(payload, block, key) {
+                        var h = "";
+                        h += block['_time']
+                        return h;
+                }
+                
                 function getVerifiedBlockOwner(payload, block, key) {
                         var h = "";
                         h += "<a href='#' onClick=\"setOwner('" + key + "');\" style='text-decoration:underline;color:white'>";
@@ -99,7 +105,7 @@
                         h += "<table class='none;' id='table_"+key+"'>";
                         //h += "<th>Pool</th><th>Timing</th>";
                         for (pool in block) {
-                                if (pool != "_owner") {
+                                if (pool != "_owner" && pool != '_time') {
                                         h += "<th>" + pool + "</th>";                                           
                                 }
                         }
@@ -560,6 +566,7 @@
                                                                 
                         buildTable("#lpdata", data['block'], data['block'],
                             {
+                                'Date/Time': {'data':getBlockTime},
                                 'Block': {'data':getBlock},
                                 'Owner': {'data':getBlockOwner},
                                 'Verified': {'data':getVerifiedBlockOwner},

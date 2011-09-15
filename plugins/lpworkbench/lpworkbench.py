@@ -2,7 +2,9 @@ from eventlet.green import os, socket
 import json
 import sys
 import webob
+import time
 
+from time import strftime
 from peak.util import plugins
 
 # Global timeout for sockets in case something leaks
@@ -79,6 +81,24 @@ class lpWorkbenchDataSite():
             lp = {}
         else:
             lp = self.bitHopper.lp.blocks[lp]
+        
+        # sort blocks by time
+        blocks = self.bitHopper.lp.getBlocks()
+        block_times = []
+        for block in blocks:
+            block_times.append(blocks[block]['_time'])
+        
+        block_times.sort()
+        sorted_blocks = {}
+        for i in block_times:
+            for block in blocks:
+                if blocks[block]['_time'] == i:
+                    sorted_blocks[block] = blocks[block]
+                    del sorted_blocks[block]['_time']
+                    time_str = strftime('%d%b %H:%M:%S', i)
+                    sorted_blocks[block]['_time'] = time_str
+                    break
+                
         response = json.dumps({
             "current":self.bitHopper.pool.get_current(), 
             'mhash':self.bitHopper.speed.get_rate(), 
@@ -87,7 +107,7 @@ class lpWorkbenchDataSite():
             'i0c_difficulty':self.bitHopper.difficulty.get_i0c_difficulty(),
             'nmc_difficulty':self.bitHopper.difficulty.get_nmc_difficulty(),
             'scc_difficulty':self.bitHopper.difficulty.get_scc_difficulty(),
-            'block':self.bitHopper.lp.getBlocks(),
+            'block':sorted_blocks,
             'accuracy':self.poolAccuracy,
             'servers':self.bitHopper.pool.get_servers()})
         return response
