@@ -117,7 +117,10 @@ refreshRandomJitter = 120
 # max number of threads to open to blockexplorer
 execpoolsize = 8
 
-# rate limit (kb/s) for fetch blocks from pools and blockexplorer (except mmf/btcmp)
+# use_ratelimit = True - enable rate limiting for fetch block information
+#
+# ratelimit = int (kb/s) for fetch blocks from pools and blockexplorer (except mmf/btcmp)
 # use a value 80% of the target, e.g. for 100kb/s try 80kb/s, especially for
 # smaller transfers
+use_ratelimit = False
 ratelimit = 50

@@ -38,13 +38,14 @@ class PoolBlocks:
         self.execpoolsize = 20
         self.rate_limit = 100
         self.blocks = {}
+        self.fetch = None
         # TODO blockexplore retry limit / retry delay configuration
         #self.blockexplorerRetryLimit
         #self.blockexplorerRetryDelay
         self.parseConfig()        
         self.threadpool = greenpool.GreenPool(size=8)
         self.execpool = greenpool.GreenPool(size=self.execpoolsize)
-        self.fetch = urlutil.URLFetchRateLimit(bitHopper, self.rate_limit)
+        
         hook = plugins.Hook('plugins.lp.announce')
         hook.register(self.lp_announce)
         hookv = plugins.Hook('plugins.poolblocks.verified')
@@ -55,18 +56,23 @@ class PoolBlocks:
         self.log_msg(' - refreshRandomJitter: ' + str(self.refreshRandomJitter))
         self.log_msg(' - execpoolsize: ' + str(self.execpoolsize))
         self.log_msg(' - rate_limit: ' + str(self.rate_limit))
+        self.cleanup()
         eventlet.spawn_n(self.run)
         
     def parseConfig(self):
         self.fetchconfig = RawConfigParser()
         self.fetchconfig.read('poolblock.cfg')
         try:
-            self.refreshInterval = self.bitHopper.config.readint('plugin.poolblocks', 'refreshInterval')
-            self.refreshRandomJitter = self.bitHopper.config.readint('plugin.poolblocks', 'refreshRandomJitter')
-            self.execpoolsize = self.bitHopper.config.readint('plugin.poolblocks', 'execpoolsize')
-            self.rate_limit = self.bitHopper.config.readint('plugin.poolblocks', 'ratelimit')
+            self.refreshInterval = self.bitHopper.config.getint('plugin.poolblocks', 'refreshInterval')
+            self.refreshRandomJitter = self.bitHopper.config.getint('plugin.poolblocks', 'refreshRandomJitter')
+            self.execpoolsize = self.bitHopper.config.getint('plugin.poolblocks', 'execpoolsize')
+            self.rate_limit = self.bitHopper.config.getint('plugin.poolblocks', 'ratelimit')
+            if self.bitHopper.config.getboolean('plugin.poolblocks', 'use_ratelimit'):
+                self.fetch = urlutil.URLFetchRateLimit(bitHopper, self.rate_limit)
         except:
-            pass
+            self.log_msg('ERROR parsing config, possible missing section')
+            if self.bitHopper.options.debug:
+                traceback.print_exc()
                 
     def log_msg(self,msg):
         self.bitHopper.log_msg(msg, cat='poolblock')
@@ -93,6 +99,14 @@ class PoolBlocks:
             except Exception, e:
                 traceback.print_exc()
                 eventlet.sleep(30)
+    
+    def cleanup(self):
+        try:
+            for file in os.listdir('.'):
+                if file.startswith('tmpretrieve'):
+                    os.remove(file)
+        except Exception, e:
+            traceback.print_exc()
     
     def fetchBlocks(self):
         with self.lock:
@@ -193,7 +207,13 @@ class PoolBlocks:
         
         else:
             try:
-                data = self.fetch.retrieve(url)
+                data = None
+                if self.fetch != None:
+                    data = self.fetch.retrieve(url)
+                else:
+                    req = urllib2.Request(url)
+                    response = urllib2.urlopen(url, None, 30)
+                    data = response.read()
                 outputs = searchPattern.findall(data)
             except Exception, e:
                 self.log_msg('Error ' + str(pool) + ' : ' + str(e))
