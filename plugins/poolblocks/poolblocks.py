@@ -5,6 +5,9 @@
 #
 # Portions based on blockinfo.py by ryouiki and licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #
+# TODO
+#  If too many None responses for a particular block/hash/txid, we should stop trying
+#
 
 import eventlet
 from eventlet.green import os, threading, socket
@@ -23,6 +26,7 @@ import operator
 from peak.util import plugins
 from ConfigParser import RawConfigParser
 from cookielib import CookieJar
+from util import urlutil
 
 import blockexplorer
 
@@ -32,13 +36,25 @@ class PoolBlocks:
         self.refreshInterval = 300
         self.refreshRandomJitter = 90
         self.execpoolsize = 20
+        self.rate_limit = 100
         self.blocks = {}
+        # TODO blockexplore retry limit / retry delay configuration
+        #self.blockexplorerRetryLimit
+        #self.blockexplorerRetryDelay
         self.parseConfig()        
         self.threadpool = greenpool.GreenPool(size=8)
         self.execpool = greenpool.GreenPool(size=self.execpoolsize)
+        self.fetch = urlutil.URLFetchRateLimit(bitHopper, self.rate_limit)
         hook = plugins.Hook('plugins.lp.announce')
         hook.register(self.lp_announce)
+        hookv = plugins.Hook('plugins.poolblocks.verified')
+        hookv.register(self.block_verified)
         self.lock = threading.RLock()
+        self.log_msg('Startup')
+        self.log_msg(' - refreshInterval: ' + str(self.refreshInterval))
+        self.log_msg(' - refreshRandomJitter: ' + str(self.refreshRandomJitter))
+        self.log_msg(' - execpoolsize: ' + str(self.execpoolsize))
+        self.log_msg(' - rate_limit: ' + str(self.rate_limit))
         eventlet.spawn_n(self.run)
         
     def parseConfig(self):
@@ -48,6 +64,7 @@ class PoolBlocks:
             self.refreshInterval = self.bitHopper.config.readint('plugin.poolblocks', 'refreshInterval')
             self.refreshRandomJitter = self.bitHopper.config.readint('plugin.poolblocks', 'refreshRandomJitter')
             self.execpoolsize = self.bitHopper.config.readint('plugin.poolblocks', 'execpoolsize')
+            self.rate_limit = self.bitHopper.config.readint('plugin.poolblocks', 'ratelimit')
         except:
             pass
                 
@@ -67,9 +84,11 @@ class PoolBlocks:
                 self.execpool.waitall()
                 self.threadpool.waitall()
                 if self.bitHopper.options.trace:
-                    self.report()
+                    #self.report()
+                    pass
                 interval = self.refreshInterval
                 interval += random.randint(0, self.refreshRandomJitter)
+                self.log_dbg('sleep ' + str(interval))
                 eventlet.sleep(interval)
             except Exception, e:
                 traceback.print_exc()
@@ -164,21 +183,22 @@ class PoolBlocks:
                 response = opener.open(auth_url, data, 30)
                 eventlet.sleep(2)
                 response = opener.open(url, None, 30)
-                outputs = searchPattern.findall(response.read())            
+                outputs = searchPattern.findall(response.read())
+                if len(outputs) > 25:
+                    outputs = outputs[0:25]
+                self.log_trace('mmf: ' +str(outputs))
             except Exception, e:
                 self.log_msg('Error ' + str(pool) + ' : ' + str(e))
                 return
         
         else:
-            #data = self.work.get(url)
             try:
-                opener = urllib2.build_opener()
-                opener.addheaders = [('User-agent', 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)')]
-                response = opener.open(url, None, 30)
-                data = response.read()
+                data = self.fetch.retrieve(url)
                 outputs = searchPattern.findall(data)
             except Exception, e:
                 self.log_msg('Error ' + str(pool) + ' : ' + str(e))
+                if self.bitHopper.options.trace:
+                    traceback.print_exc()
                 return
             # limit blocks found
             if len(outputs) > 25:
@@ -186,7 +206,6 @@ class PoolBlocks:
         
         if mode == 'b':
             # pool reports block# solved
-            #self.log_trace(str(outputs))
             for blockNumber in outputs:
                 if blockNumber in self.blocks:
                     if self.blocks[blockNumber].owner != pool:
@@ -194,7 +213,7 @@ class PoolBlocks:
                         self.blocks[blockNumber].owner = pool
                         blockHash = self.blocks[blockNumber].hash
                         if blockHash == None:
-                            blockhash = blockexplorer.getBlockHashByNumber(blockNumber)
+                            blockhash = blockexplorer.getBlockHashByNumber(blockNumber, urlfetch=self.fetch)
                         if blockHash != None:
                             hook = plugins.Hook('plugins.poolblocks.verified')
                             hook.notify(blockNumber, blockHash, pool)
@@ -210,7 +229,6 @@ class PoolBlocks:
                 
         elif mode == 'h':
             # pool reports block hash solved
-            #self.log_trace(str(outputs))
             for blockHash in outputs:                
                 found = False
                 for blockNumber in self.blocks:
@@ -232,7 +250,6 @@ class PoolBlocks:
                     
         elif mode == 'g':
             # pool uses transaction id
-            #self.log_trace(str(outputs))
             for txid in outputs:
                 found = False
                 for blockNumber in self.blocks:
@@ -259,7 +276,7 @@ class PoolBlocks:
         if mode == 'b':
             # block number
             blockNumber = blockInfo
-            blockHash = blockexplorer.getBlockHashByNumber(self.bitHopper, blockNumber)
+            blockHash = blockexplorer.getBlockHashByNumber(self.bitHopper, blockNumber, urlfetch=self.fetch)
             if blockHash != None:
                 self.blocks[blockNumber] = Block()
                 self.blocks[blockNumber].owner = pool
@@ -272,7 +289,7 @@ class PoolBlocks:
         elif mode == 'h':
             # block hash
             blockHash = blockInfo
-            blockNumber = blockexplorer.getBlockNumberByHash(self.bitHopper, blockHash)
+            blockNumber = blockexplorer.getBlockNumberByHash(self.bitHopper, blockHash, urlfetch=self.fetch)
             self.log_dbg('[' + pool + '] Block Number ' + str(blockNumber) + ' found for hash ' + blockHash)
             if blockNumber != None:
                 self.log_trace('[' + pool + '] Creating new block: ' + str(blockNumber))
@@ -286,7 +303,7 @@ class PoolBlocks:
 
         elif mode == 'g':
             # txid
-            blockHash, blockNumber = blockexplorer.getBlockHashAndNumberByTxid(self.bitHopper, blockInfo)
+            blockHash, blockNumber = blockexplorer.getBlockHashAndNumberByTxid(self.bitHopper, blockInfo, urlfetch=self.fetch)
             self.log_dbg('[' + pool + '] Block Number ' + str(blockNumber) + ' and hash ' + str(blockHash) + ' found for txid ' + blockInfo)
             if blockNumber != None and blockHash != None:
                 found = False
@@ -308,7 +325,7 @@ class PoolBlocks:
                     hook = plugins.Hook('plugins.poolblocks.verified')
                     hook.notify(blockNumber, blockHash, pool)
             else:
-                self.log_msg('[' + pool + '] ERROR ' + str(blockNumber) + ' and hash ' + str(blockHash))
+                self.log_msg('[' + pool + '] ERROR ' + str(blockNumber) + ' and hash ' + str(blockHash) + ' for ' + str(blockInfo) )
 
     def report(self):
         self.log_trace('report()')
@@ -331,7 +348,7 @@ class PoolBlocks:
                 if found == False:
                     self.log_trace('lp_announce: new block ' + str(blockHash))
                     # lookup block number
-                    blockNumber = blockexplorer.getBlockNumberByHash(blockHash)
+                    blockNumber = blockexplorer.getBlockNumberByHash(blockHash, urlfetch=self.fetch)
                     if blockNumber != None:
                         self.log_dbg('lp_announce: new block ' + str(blockNumber))
                         self.blocks[blockNumber] = Block()
@@ -340,6 +357,11 @@ class PoolBlocks:
                         self.log_msg('No block number from blockexplorer for ' + str(blockHash))
             except Exception, e:
                 traceback.print_exc()
+    
+    def block_verified(self, blockNumber, blockHash, pool):
+        if blockHash in self.bitHopper.lp.blocks:
+            self.log_trace('block exists, add verified owner ' + str(pool) + ' for ' + str(blockHash) )
+            self.bitHopper.lp.blocks[blockHash]['verified'] = pool
     
 # class for Block       
 class Block:
