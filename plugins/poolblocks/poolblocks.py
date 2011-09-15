@@ -214,7 +214,7 @@ class PoolBlocks:
                         self.blocks[blockNumber].owner = pool
                         blockHash = self.blocks[blockNumber].hash
                         if blockHash == None:
-                            blockhash = blockexplorer.getBlockHashByNumber(blockNumber, self.fetch)
+                            blockhash = blockexplorer.getBlockHashByNumber(blockNumber, urlfetch=self.fetch)
                         if blockHash != None:
                             hook = plugins.Hook('plugins.poolblocks.verified')
                             hook.notify(blockNumber, blockHash, pool)
@@ -277,7 +277,7 @@ class PoolBlocks:
         if mode == 'b':
             # block number
             blockNumber = blockInfo
-            blockHash = blockexplorer.getBlockHashByNumber(self.bitHopper, blockNumber, self.fetch)
+            blockHash = blockexplorer.getBlockHashByNumber(self.bitHopper, blockNumber, urlfetch=self.fetch)
             if blockHash != None:
                 self.blocks[blockNumber] = Block()
                 self.blocks[blockNumber].owner = pool
@@ -290,7 +290,7 @@ class PoolBlocks:
         elif mode == 'h':
             # block hash
             blockHash = blockInfo
-            blockNumber = blockexplorer.getBlockNumberByHash(self.bitHopper, blockHash, self.fetch)
+            blockNumber = blockexplorer.getBlockNumberByHash(self.bitHopper, blockHash, urlfetch=self.fetch)
             self.log_dbg('[' + pool + '] Block Number ' + str(blockNumber) + ' found for hash ' + blockHash)
             if blockNumber != None:
                 self.log_trace('[' + pool + '] Creating new block: ' + str(blockNumber))
@@ -304,7 +304,7 @@ class PoolBlocks:
 
         elif mode == 'g':
             # txid
-            blockHash, blockNumber = blockexplorer.getBlockHashAndNumberByTxid(self.bitHopper, blockInfo, self.fetch)
+            blockHash, blockNumber = blockexplorer.getBlockHashAndNumberByTxid(self.bitHopper, blockInfo, urlfetch=self.fetch)
             self.log_dbg('[' + pool + '] Block Number ' + str(blockNumber) + ' and hash ' + str(blockHash) + ' found for txid ' + blockInfo)
             if blockNumber != None and blockHash != None:
                 found = False
@@ -349,7 +349,7 @@ class PoolBlocks:
                 if found == False:
                     self.log_trace('lp_announce: new block ' + str(blockHash))
                     # lookup block number
-                    blockNumber = blockexplorer.getBlockNumberByHash(blockHash, self.fetch)
+                    blockNumber = blockexplorer.getBlockNumberByHash(blockHash, urlfetch=self.fetch)
                     if blockNumber != None:
                         self.log_dbg('lp_announce: new block ' + str(blockNumber))
                         self.blocks[blockNumber] = Block()
