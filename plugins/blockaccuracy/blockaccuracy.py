@@ -73,6 +73,9 @@ class BlockAccuracy:
                 else:
                     self.log_trace('no verified owner for ' + str(block))
                     pass
+            
+            hook = plugins.Hook('plugins.blockaccuracy.report')
+            hook.notify(pools)
                     
             for pool in pools:
                 self.log_trace('/pool/' + str(pool))
@@ -91,7 +94,7 @@ class BlockAccuracy:
                 msg = '[report] %(pool)16s %(hit)4d hits / %(incorrect)4d incorrect / %(total)6d / %(hit_percent)2.1f%% hit %(missed)4d missed blocks' % \
                       {"pool": pool, "hit":hit, "incorrect": incorrect, "missed":missed, "total":total, "hit_percent":pct}
                 self.log_msg(msg)
-                
+            
         except Exception, e:
             if self.bitHopper.options.debug:
                 traceback.print_exc()
