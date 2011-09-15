@@ -91,7 +91,7 @@ class BlockAccuracy:
                     pct = float(0)
                 else:
                     pct = (float(hit) / total) * 100
-                msg = '[report] %(pool)16s %(hit)4d hits / %(incorrect)4d incorrect / %(total)6d / %(hit_percent)2.1f%% hit %(missed)4d missed blocks' % \
+                msg = '[report] %(pool)16s %(hit)4d hits / %(incorrect)4d incorrect / %(total)6d total / %(hit_percent)5.1f%% hit %(missed)4d missed blocks' % \
                       {"pool": pool, "hit":hit, "incorrect": incorrect, "missed":missed, "total":total, "hit_percent":pct}
                 self.log_msg(msg)
             
