@@ -196,7 +196,11 @@ class Pool():
         self.current_server = server
 
     def UpdateShares(self, server, shares):
-        diff = self.bitHopper.difficulty.get_difficulty()
+        diff_btc = self.bitHopper.difficulty.get_difficulty()
+        diff_nmc = self.bitHopper.difficutly.get_nmc_difficulty()
+        diff_scc = self.bitHopper.difficutly.get_scc_difficulty
+        diff_i0c = self.bitHopper.difficutly.get_i0c_difficulty
+        diff_ixc = self.bitHopper.difficutly.get_ixc_difficulty
         self.servers[server]['api_lag'] = False        
         prev_shares = self.servers[server]['shares']
         self.servers[server]['init'] = True
@@ -232,8 +236,18 @@ class Pool():
                 self.bitHopper.log_msg(str(server) +":\t"+ k)
 
         #If the shares indicate we found a block tell LP
-        if shares < prev_shares and shares < 0.10 * diff:
+        coin_type = self.servers[server]['coin']        
+        if coin_type == 'btc' and shares < prev_shares and shares < 0.10 * diff_btc:
             self.bitHopper.lp.set_owner(server)
+        elif coin_type == 'nmc' and shares < prev_shares and shares < 0.10 * diff_nmc:
+            self.bitHopper.lp.set_owner(server)
+        elif coin_type == 'scc' and shares < prev_shares and shares < 0.10 * diff_scc:
+            self.bitHopper.lp.set_owner(server)
+        elif coin_type == 'ixc' and shares < prev_shares and shares < 0.10 * diff_ixc:
+            self.bitHopper.lp.set_owner(server)
+        elif coin_type == 'i0c' and shares < prev_shares and shares < 0.10 * diff_i0c:
+            self.bitHopper.lp.set_owner(server)
+            
         self.servers[server]['shares'] = shares
         self.servers[server]['err_api_count'] = 0
         api_disable_sec = 7200
