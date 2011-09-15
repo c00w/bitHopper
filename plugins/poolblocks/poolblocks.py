@@ -206,7 +206,6 @@ class PoolBlocks:
         
         if mode == 'b':
             # pool reports block# solved
-            self.log_trace('['+str(pool)+'] '+str(outputs))
             for blockNumber in outputs:
                 if blockNumber in self.blocks:
                     if self.blocks[blockNumber].owner != pool:
