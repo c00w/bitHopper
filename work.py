@@ -153,7 +153,7 @@ class Work():
                 server = self.bitHopper.get_new_server(server)
             elif data != [] and tries > 1:
                 self.bitHopper.get_new_server(server)
-            if tries >5:
+            if tries >2:
                 return None, {}, 'No Server'
             tries += 1
             try:
