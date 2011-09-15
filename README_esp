@@ -81,8 +81,7 @@ tu minero a localhost:8337 con cualquier usuario y contrasena (ne dejes en blanc
 Panel de control LP: http://localhost:8337/lpworkbench
 
 Puedes ver:
- Hash bloque, mina ganadora, tiempos LP como delta contra el de la mina ganadora
-
+Hash bloque, mina ganadora, tiempos LP como delta contra el de la mina ganadora.
 Podras ver la lista de minas activas, indicar mina ganadora o cambiar facilmente la penalidad LP
 
 

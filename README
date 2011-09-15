@@ -80,9 +80,8 @@ with any username and password (not blank).
 LP Workbench: http://localhost:8337/lpworkbench
 
 See:
- Block Hash, Owner, LP Timings as deltas against winning "owner"
-
-You can view the list of active pools, override the owner and have easy access to adjust penalties
+ Block Hash, Owner, LP Timings as deltas against winning "owner".
+You can view the list of active pools, override owner and have easy access to adjust LP penalties
 
 
 # Switches
