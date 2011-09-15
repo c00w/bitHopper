@@ -3,6 +3,8 @@ import json
 import sys
 import webob
 
+from peak.util import plugins
+
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
 
@@ -65,6 +67,9 @@ class lpWorkbenchDataSite():
     def __init__(self, bitHopper):
         self.bitHopper = bitHopper
         self.site_names = ['/lpworkbenchdata']
+        hook = plugins.Hook('plugins.blockaccuracy.report')
+        hook.register(self.updateAccuracyData)
+        self.poolAccuracy = None        
 
     def handle(self, env, start_response):
         start_response('200 OK', [('Content-Type', 'text/json')])
@@ -83,5 +88,11 @@ class lpWorkbenchDataSite():
             'nmc_difficulty':self.bitHopper.difficulty.get_nmc_difficulty(),
             'scc_difficulty':self.bitHopper.difficulty.get_scc_difficulty(),
             'block':self.bitHopper.lp.getBlocks(),
+            'accuracy':self.poolAccuracy,
             'servers':self.bitHopper.pool.get_servers()})
         return response
+
+    def updateAccuracyData(self, poolVerifiedData):
+        self.bitHopper.log_trace('updateAccuracyData: ' + str(poolVerifiedData) + ' / ' + str(len(poolVerifiedData)), cat='lpworkbench')
+        self.poolAccuracy = poolVerifiedData
+        
