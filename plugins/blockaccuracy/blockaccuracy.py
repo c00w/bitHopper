@@ -11,12 +11,27 @@ class BlockAccuracy:
     def __init__(self, bitHopper):
         self.bitHopper = bitHopper
         self.blocks = {}
+        self.reportInterval = 600
         #self.announce_threshold = 20
         self.log_dbg('Registering hooks')
         # register plugin hooks        
         hook = plugins.Hook('plugins.poolblocks.verified')
         hook.register(self.block_verified)
+        
+        self.parseConfig()
+        self.log_msg("Init")
+        self.log_msg(" - reportInterval: " + str(self.reportInterval))
         self.lastreport = time.time()
+
+    def parseConfig(self):
+        try:
+            self.reportInterval = self.bitHopper.config.getint('plugins.blockaccuracy', 'reportInterval')
+            
+        except Exception, e:
+            self.log_dbg("ERROR parseConfig, possible missing section or configuration items: " + str(e))
+            if self.bitHopper.options.debug:
+                traceback.print_exc()
+                
 
     def log_msg(self, msg):
         self.bitHopper.log_msg(msg, cat='block-accuracy')
@@ -37,9 +52,7 @@ class BlockAccuracy:
         else:
             self.log_msg('Bad notify: ' + str(block) + '/' + str(pool))
         
-        # log a report every 10 minutes or so
-        # TODO make configurable
-        if time.time() > self.lastreport + 600:
+        if time.time() > self.lastreport + self.reportInterval:
             self.lastreport = time.time()
             self.report()
             

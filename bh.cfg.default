@@ -124,3 +124,13 @@ execpoolsize = 8
 # smaller transfers
 use_ratelimit = False
 ratelimit = 50
+
+# Limit the number of blocks retrieved (default 25)
+block_retrieve_limit = 25
+
+# timeout (default 30) for retrieving solved block lists from each pool
+timeout = 30
+
+[plugins.blockaccuracy]
+# report every 600 seconds or so (whenever a new block is verified by poolblocks plugin)
+reportInterval = 600
