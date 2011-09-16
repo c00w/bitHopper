@@ -117,7 +117,7 @@
                     for (blockHash in block) {
                         h += "<table class='none;' id='table_"+blockHash+"'>";
                         for (pool in block[blockHash]) {
-                            if (pool != "_owner" && pool != '_time') {
+                            if (pool != "_owner" && pool != '_time' && pool != '_verified') {
                                 h += "<th>" + pool + "</th>";                                           
                             }
                         }
