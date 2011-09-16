@@ -68,65 +68,79 @@
                     return 'white';
                 }
                     
-                function getBlock(payload, srv, key) {
-                        var h = ""
-                        h += "<a href='http://pident.artefact2.com/block/"+ key + "' target='_pident'>";
-                        h += key + "</a>";
+                function getBlock(payload, block, key) {
+                        var h = ""                        
+                        for (blockHash in block) {
+                            h += "<a href='http://pident.artefact2.com/block/"+ blockHash + "' target='_pident'>";
+                            h += blockHash + "</a>";
+                            return h;
+                        }                        
                         return h;
                 }
                     
                 function getBlockOwner(payload, block, key) {
                         var h = "";
                         h += "<a href='#' onClick=\"setOwner('" + key + "');\" style='text-decoration:underline;color:white'>";
-                        h += block['_owner'] + "</a>";
+                        //h += block['_owner'] + "</a>";
+                        for (blockHash in block) {
+                            h += block[blockHash]['_owner'];
+                            h += "</a>"
+                            return h;
+                        }
                         return h;
                 }
                 
                 function getBlockTime(payload, block, key) {
                         var h = "";
-                        h += block['_time']
+                        for (blockHash in block) {
+                            h += block[blockHash]['_time'];
+                            return h;
+                        }
                         return h;
                 }
                 
                 function getVerifiedBlockOwner(payload, block, key) {
-                        var h = "";
-                        h += "<a href='#' onClick=\"setOwner('" + key + "');\" style='text-decoration:underline;color:white'>";
-                        if (block['verified']) {
-                                h += block['verified'] + "</a>";
+                    var h = "";
+                    for (blockHash in block) {
+                        h += "<a href='#' onClick=\"setOwner('" + blockHash + "');\" style='text-decoration:underline;color:white'>";
+                        if (block[blockHash]['_verified']) {                            
+                            h += block[blockHash]['_verified'] + "</a>";
                         } else {
-                                h += "N/A";
+                            h += "N/A";
                         }
-                        return h;
+                    }                    
+                    return h;
                 }
                 
                 function getBlockTimings(payload, block, key) {
-                        var h = "";
-                        //h = "<button id='b_"+key+"'>Timings</button>";                                
-                        h += "<table class='none;' id='table_"+key+"'>";
-                        //h += "<th>Pool</th><th>Timing</th>";
-                        for (pool in block) {
-                                if (pool != "_owner" && pool != '_time') {
-                                        h += "<th>" + pool + "</th>";                                           
-                                }
+                    var h = "";
+                    for (blockHash in block) {
+                        h += "<table class='none;' id='table_"+blockHash+"'>";
+                        for (pool in block[blockHash]) {
+                            if (pool != "_owner" && pool != '_time') {
+                                h += "<th>" + pool + "</th>";                                           
+                            }
                         }
                         h += "<tr>";
-                        
                         // find owner
                         var owner = '';
-                        for (pool in block) {
-                                if (pool == "_owner") {
-                                        owner = block[pool];
-                                }
+                        for (pool in block[blockHash]) {
+                            if (pool == "_owner") {
+                                owner = block[blockHash][pool];
+                                break;
+                            }
                         }
-                        var base_timing = parseFloat(block[owner]);                             
-                        for (pool in block) {
-                                if (pool != "_owner") {
-                                        h += "<td>" + (parseFloat(block[pool]) - base_timing).toFixed(4) + "</td>";
-                                }
+                        var base_timing = parseFloat(block[blockHash][owner]);                             
+                        for (pool in block[blockHash]) {
+                            if (pool != "_owner" && pool != "_time" && pool != "_verified") {
+                                var delta = parseFloat(block[blockHash][pool]) - base_timing;
+                                h += "<td>" + (delta).toFixed(4) + "</td>";
+                            }
                         }
                         h += "</tr>";
                         h += "</table>";
                         return h;                       
+                    }                                            
                 }
                     
                 function setBlockTimingTriggers(key) {
@@ -430,7 +444,11 @@
                 function getLPAHitRate(payload, srv) {
                     hits = srv['hit'];
                     total = srv['total'];
-                    return ((parseFloat(hits) / total)*100).toFixed(1) + '%';
+                    if (hits == 0) {
+                        return "0.0%";
+                    } else {
+                        return ((parseFloat(hits) / total)*100).toFixed(1) + '%';
+                    }
                 }
 
                 
@@ -477,7 +495,7 @@
                         html += "       </tr>";
                         
                         var rows = [];
-                        for(row in items) {                             
+                        for(row in items) {
                                 rows.push(row);
                         }
                         if(fnSort != undefined) {
@@ -542,7 +560,7 @@
                     $.getJSON('/lpworkbenchdata', function(data) {
                         //document.title = data["current"] + ' @ '+ parseInt(data["mhash"]) + " MHash - bitHopper";
                         //$("#current").html("<span style='font-weight:bold;color:yellow;'>" + data["current"] + "</span> @" + parseInt(data["mhash"]) + "MHash");
-                          //updateRoundShares(data);
+                        //updateRoundShares(data);
                         
                         buildTable("#table", data['servers'], data,
                             {

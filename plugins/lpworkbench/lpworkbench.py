@@ -89,16 +89,29 @@ class lpWorkbenchDataSite():
             block_times.append(blocks[block]['_time'])
         
         block_times.sort()
-        sorted_blocks = {}
+        sorted_blocks = []
         for i in block_times:
             for block in blocks:
                 if blocks[block]['_time'] == i:
-                    sorted_blocks[block] = blocks[block]
-                    del sorted_blocks[block]['_time']
-                    time_str = strftime('%d%b %H:%M:%S', i)
-                    sorted_blocks[block]['_time'] = time_str
+                    tempblock = blocks[block]
+                    del tempblock['_time']
+                    time_str = strftime('%d-%b %H:%M:%S', i)
+                    tempblock['_time'] = time_str
+                    #sorted_blocks[block]['_time'] = time_str
+                    sorted_blocks.append( {block:tempblock} )
                     break
                 
+        # filter accuracy data
+        filterdAccuracy = {}
+        if self.poolAccuracy != None:
+            for pool in self.poolAccuracy:
+                hits = self.poolAccuracy[pool]['hit']
+                incorrect = self.poolAccuracy[pool]['incorrect']
+                if hits == 0 and incorrect == 0:
+                    continue
+                else:
+                    filterdAccuracy[pool] = self.poolAccuracy[pool]
+        
         response = json.dumps({
             "current":self.bitHopper.pool.get_current(), 
             'mhash':self.bitHopper.speed.get_rate(), 
@@ -108,7 +121,7 @@ class lpWorkbenchDataSite():
             'nmc_difficulty':self.bitHopper.difficulty.get_nmc_difficulty(),
             'scc_difficulty':self.bitHopper.difficulty.get_scc_difficulty(),
             'block':sorted_blocks,
-            'accuracy':self.poolAccuracy,
+            'accuracy':filterdAccuracy,
             'servers':self.bitHopper.pool.get_servers()})
         return response
 
