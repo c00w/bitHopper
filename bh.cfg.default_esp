@@ -124,10 +124,10 @@ use_ratelimit = False
 # especialmente para velocidades pequenas
 ratelimit = 50
 
-# limita el numero de bloques buscados (por defecto 25)
+# limita el numero de bloques buscados (por defecto 25 bloques)
 block_retrieve_limit = 25
 
-# tiempo de espera (por defecto 30) para la busqueda de bloques en las paginas de mina
+# tiempo de espera para la busqueda de bloques en las paginas de mina (por defecto 30 segundos)
 timeout = 30
 
 [plugins.blockaccuracy]
