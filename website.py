@@ -204,7 +204,6 @@ class dataSite():
             'nmc_difficulty':self.bitHopper.difficulty.get_nmc_difficulty(),
             'scc_difficulty':self.bitHopper.difficulty.get_scc_difficulty(),
             'sliceinfo':sliceinfo,
-            'block':self.bitHopper.lp.getBlocks(),
             'servers':self.bitHopper.pool.get_servers(),
             'user':self.bitHopper.data.get_users()})
         return response
