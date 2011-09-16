@@ -127,6 +127,7 @@ class LongPoll():
             hook_start = plugins.Hook('plugins.lp.add_block.start')
             hook_start.notify(self, block, work, server)
             self.blocks[block]={}
+            self.blocks[block]['_time'] = time.localtime()
             self.bitHopper.lp_callback.new_block(work, server)
             self.blocks[block]["_owner"] = None
             self.lastBlock = block
