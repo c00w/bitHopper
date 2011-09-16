@@ -115,3 +115,8 @@ refreshRandomJitter = 120
 
 # numero de hilos paralelos abiertos con blockexplorer
 execpoolsize = 8
+
+# limita velocidad (kb/s) para la recogida de info sobre bloques (exepto mmf/btcmp)
+# utiliza un valor cerca de 80% del limite deseado, ej. para 100kb/s prueba 80kb/s,
+# especialmente para velocidades pequenas
+ratelimit = 50
