@@ -80,7 +80,7 @@ class LongPoll():
             if old_defer:
                 old_defer.release()
             self.bitHopper.log_msg('Setting Block Owner ' + server+ ':' + str(block))
-            if server in self.bitHopper.pool.servers and self.bitHopper.pool.servers[server]['role'] == 'mine_deepbit' and old_owner != server:
+            if server in self.bitHopper.pool.servers and self.bitHopper.pool.servers[server]['role'] == 'mine_lp' and old_owner != server:
                 old_shares = self.bitHopper.pool.servers[server]['shares']
                 self.bitHopper.pool.servers[server]['shares'] = 0
                 self.bitHopper.scheduler.reset()
@@ -102,7 +102,7 @@ class LongPoll():
             
             for server in self.pool.get_servers():
                 info = self.pool.servers[server]
-                if info['role'] not in ['mine','mine_charity','mine_deepbit','backup','backup_latehop']:
+                if info['role'] not in ['mine','mine_charity','mine_lp','backup','backup_latehop']:
                     continue
                 if info['lp_address'] != None:
                     self.pull_lp(info['lp_address'],server)
@@ -151,7 +151,7 @@ class LongPoll():
                     self.errors[server] = 0
                 self.errors[server] += 1
             #timeout? Something bizarre?
-            if self.errors[server] < 3 or info['role'] == 'mine_deepbit':
+            if self.errors[server] < 3 or info['role'] == 'mine_lp':
                 eventlet.sleep(1)
                 eventlet.spawn_after(0,self.pull_lp, self.pool.servers[server]['lp_address'],server, False)
             return
@@ -182,8 +182,6 @@ class LongPoll():
                     hook_announce = plugins.Hook('plugins.lp.announce')
                     self.bitHopper.log_dbg('LP Notify')
                     hook_announce.notify(self, body, server, block)
-                    if self.bitHopper.lpBot != None:
-                        self.bitHopper.lpBot.announce(server, block)
         
             hook_start = plugins.Hook('plugins.lp.receive.end')
             hook_start.notify(self, body, server, block)
@@ -198,7 +196,7 @@ class LongPoll():
             with self.lock:
                 self.errors[server] += 1
             #timeout? Something bizarre?
-            if self.errors[server] > 3 and info['role'] != 'mine_deepbit':
+            if self.errors[server] > 3 and info['role'] != 'mine_lp':
                 return
         eventlet.spawn_n(self.pull_lp, self.pool.servers[server]['lp_address'],server,output)
         

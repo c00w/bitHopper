@@ -38,7 +38,6 @@ import lp
 import lp_callback
 import plugin
 
-from lpbot import LpBot
 
 import ConfigParser
 import sys
@@ -49,7 +48,6 @@ class BitHopper():
         self.options = options
         self.config = config
         self.lp_callback = lp_callback.LP_Callback(self)
-        self.lpBot = None
         self.difficulty = diff.Difficulty(self)           
         self.pool = pool.Pool(self)
         self.db = database.Database(self)
@@ -259,10 +257,6 @@ def main():
 
     bithopper_instance.select_best_server()
 
-    if options.p2pLP:
-        bithopper_instance.log_msg('Starting p2p LP')
-        bithopper_instance.lpBot = LpBot(bithopper_instance)
-
     lastDefaultTimeout = socket.getdefaulttimeout()  
 
     if options.logconnections:
@@ -286,7 +280,7 @@ def main():
             socket.setdefaulttimeout(lastDefaultTimeout)
             break
         except Exception, e:
-            bithopper_instance.log_msg("Exception in wsgi server loop, restarting wsgi in 60 seconds\n%s") % (str(e))
+            bithopper_instance.log_msg("Exception in wsgi server loop, restarting wsgi in 60 seconds\n%s" % (str(e)))
             eventlet.sleep(60)
     bithopper_instance.db.close()
 

@@ -44,7 +44,7 @@ random_ua_list = Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trid
 #username = user
 #password = pass
 
-[defaultscheduler]
+[SimpleSliceScheduler]
 slicesize = 30
 
 # not working yet
@@ -65,13 +65,12 @@ mode = manual
 
 [plugins]
 test = True
-backdoor = True
+backdoor = False
 apiangel = True
 poclbm = False
-# Probably need the one below in the future
-lpbot = False
+lpbot = True
 
-# set rpcworklog to False to disable RPC work logging
+# set "rpcworklog" to False to disable RPC work logging
 rpcworklog = True
 
 # set to True to enable /lpworkbench on the website
@@ -80,11 +79,11 @@ rpcworklog = True
 lpworkbench = True
 
 # store list of verified blocks from each pool (scraped via API/html)
-# see poolblock.cfg for more information
+# see "poolblock.cfg" for more information
 poolblocks = False
 
 # set to true to track LP guess accuracy against verified blocks
-# requires poolblocks to be enabled
+# requires "poolblocks = True"
 blockaccuracy = False
 
 [backdoor]

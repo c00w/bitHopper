@@ -3,6 +3,7 @@
 # Change the default values and make
 # sure to change the name of this file
 #         to "user.cfg"
+#
 #######################################
 
 ################################################################
@@ -20,12 +21,16 @@
 #
 # mine = mines on this pool as usual (diff.*0.43)
 # mine_slush = mines pool until diff.*0.147
-# mine_deepbit = monitor and makes educated guess mining
+# mine_lp = monitor and makes educated guess mining
 #   without using the api
+# mine_lp_force = mine untill lp is triggered and then resets
+#   back to previous role (don't use as default role for pool set-up)
 # mine_nmc = setup pool for NMC mining
 # mine_ixc = ixcoins pool and diff.
 # mine_i0c = i0coins pool and diff.
 # mine_scc = solidcoin pool and diff.
+# mine_force = ignores active scheduler and mines only this pool
+#   (don't use as default role for pool set-up)
 # backup = hopps on this when no Prop. pool is available
 # backup_latehop = prefers this for backup if pool has
 #   high share count (full descr. on page 121, bH thread)
@@ -34,6 +39,7 @@
 # info = shows share count for this pool on stat page
 # disable = disables pool completely (you can delete 
 #   pool's entry in this cfg file too)
+#
 # 
 # Pool set-up:
 #
@@ -127,7 +133,7 @@ pass: x
 #https://deepbit.net/
 #CHANGE THIS
 lp_penalty: 0
-role: mine_deepbit
+role: mine_lp
 user: your_username
 pass: your_password
 
@@ -239,6 +245,7 @@ pass: your_password
 # than expected (can be any pool with
 # hopping proof algorithms, PPS has
 # lowest variance though)
+#
 ######################################
 
 [eligius]
@@ -298,14 +305,14 @@ pass: x
 [btcservpps]
 #http://btcserv.net/
 #CHANGE THIS
-role: info
+role: disable
 user: your_username
 pass: your_password
 
 [btcgpps]
 #http://pps.btcguild.com/register.php
 #CHANGE THIS
-role: info
+role: disable
 user: your_username
 pass: your_password
 

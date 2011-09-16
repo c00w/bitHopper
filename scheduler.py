@@ -9,6 +9,8 @@ import math
 import eventlet
 from eventlet.green import threading, time, socket
 
+from peak.util import plugins
+
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
 
@@ -19,7 +21,10 @@ class Scheduler(object):
             self.difficultyThreshold = self.bitHopper.options.threshold
         else:
             self.difficultyThreshold = 0.435
-        self.valid_roles = ['mine', 'mine_nmc', 'mine_deepbit', 'mine_slush', 'mine_ixc', 'mine_i0c', 'mine_scc', 'mine_charity']
+        self.valid_roles = ['mine', 'mine_nmc', 'mine_lp', 'mine_slush', 'mine_ixc', 'mine_i0c', 'mine_scc', 'mine_charity', 'mine_force', 'mine_lp_force']
+        hook_announce = plugins.Hook('plugins.lp.announce')
+        hook_announce.register(self.mine_lp_force)
+
         self.loadConfig()
         eventlet.spawn_n(self.bitHopper_server_update)
 
@@ -37,6 +42,11 @@ class Scheduler(object):
 
     def reset(self):
         pass
+
+    def mine_lp_force(self, lp, body, server, block):
+        for server_name, server in self.bitHopper.pool.get_servers().get_items():
+            if server['role'] == 'mine_lp_force':
+                server['role'] = server['default_role']
 
     def select_charity_server(self):
         server_name = None
@@ -90,6 +100,8 @@ class Scheduler(object):
 
         if info['role'] == 'mine_slush':
             shares = shares * self.difficultyThreshold /  0.147
+        if info['role'] in ['mine_force', 'mine_lp_force']:
+            shares = 0
         # apply penalty
         if 'penalty' in info:
             shares = shares * float(info['penalty'])
@@ -193,6 +205,71 @@ class DefaultScheduler(Scheduler):
 
         return False
 
+class WaitPenaltyScheduler(Scheduler):
+
+    def __init__(self, bitHopper):
+        Scheduler.__init__(self, bitHopper)
+        self.bitHopper = bitHopper
+        #self.lastcalled = time.time()
+        #self.loadConfig()
+        self.reset()
+        
+    def reset(self,):
+        for server in self.bitHopper.pool.get_servers():
+            info = self.bitHopper.pool.get_entry(server)
+            if 'wait' not in info:
+                info['wait'] = 0
+            else:
+                info['wait'] = float(info['wait'])
+
+    def select_best_server(self,):
+        #self.bitHopper.log_dbg('select_best_server', cat='scheduler-waitpenalty')
+        server_name = None
+        difficulty = self.bitHopper.difficulty.get_difficulty()
+        min_shares = difficulty * self.difficultyThreshold
+
+        #self.bitHopper.log_dbg('min-shares: ' + str(min_shares), cat='scheduler-waitpenalty')  
+        for server in self.bitHopper.pool.get_servers():
+            shares,info = self.server_to_btc_shares(server)
+            shares += float(info['wait']) * difficulty
+            if info['api_lag'] or info['lag']:
+                continue
+            if info['role'] not in self.valid_roles:
+                continue
+            if shares < min_shares:
+                min_shares = shares
+                #self.bitHopper.log_dbg('Selecting pool ' + str(server) + ' with shares ' + str(info['shares']), cat='scheduler-waitpenalty')
+                server_name = server
+         
+        if server_name == None:
+            server_name = self.select_charity_server()
+
+        if server_name == None:     
+            server_name = self.select_backup_server()
+
+        return server_name
+
+    def server_update(self,):
+        current = self.bitHopper.pool.get_current()
+        shares,info = self.server_to_btc_shares(current)
+        difficulty = self.bitHopper.difficulty.get_difficulty()
+
+        if info['role'] not in self.valid_roles:
+            return True
+    
+        if info['api_lag'] or info['lag']:
+            return True
+
+        if shares > (difficulty * self.difficultyThreshold):
+            return True
+
+        for server in self.bitHopper.pool.servers:
+            other_shares = self.server_to_btc_shares(server)
+            if other_shares < shares:
+                return True
+
+        return False
+
 class RoundTimeScheduler(Scheduler):
     def select_best_server(self,):
         return
@@ -215,7 +292,7 @@ class SimpleSliceScheduler(Scheduler):
         self.slicesize = 30
         self.lastcalled = time.time()
         self.loadConfig()
-        for server in self.bitHopper.servers:
+        for server in self.bitHopper.pool.servers:
             self.sliceinfo[server] = -1
         self.reset()
     

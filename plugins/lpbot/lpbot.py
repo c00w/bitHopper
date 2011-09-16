@@ -29,6 +29,9 @@ class LpBot(SimpleIRCClient):
         self.current_block=''
         hook_startup = plugins.Hook('plugins.lpbot.init')
         hook_startup.notify(self)
+        hook_ann = plugins.Hook('plugins.lp.announce')
+        hook_ann.register(self.announce)
+
         eventlet.spawn_n(self.run)
         eventlet.spawn_n(self.process_forever)
         self.lock = threading.RLock()
@@ -180,7 +183,7 @@ class LpBot(SimpleIRCClient):
         hook.notify(self, text)
         self.connection.privmsg("#bithopper-lp", text)            
         
-    def announce(self, server, last_hash):
+    def announce(self, lp, body, server, last_hash):
         with self.lock:
             hook = plugins.Hook('plugins.lpbot.announce')
             hook.notify(self, server, last_hash)

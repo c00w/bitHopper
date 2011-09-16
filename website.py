@@ -76,6 +76,20 @@ class dynamicSite():
                             self.bitHopper.log_msg('Expected payout for ' + str(server) + " modified")
                 except Exception, e:
                     self.bitHopper.log_msg('Incorrect http post request for expected payout: ' + str(e))
+            if "wait" in v:
+                try:
+                    server = v.split('-')[1]
+                    info = self.bitHopper.pool.get_entry(server)
+                    old_wait = 0
+                    if 'wait' in info:
+                        old_wait = info['wait']
+                    new_wait = float(request.POST[v])
+                    self.bitHopper.log_msg('Set ' + server + ' wait value from ' + str(old_wait) + ' to ' + str(new_wait))
+                    info['wait'] = new_wait
+                    self.bitHopper.select_best_server()
+                except Exception, e:
+                    self.bitHopper.log_msg('Incorrect http post request wait: ' + str(v))
+                    self.bitHopper.log_msg(e)
             if "penalty" in v:
                 try:
                     server = v.split('-')[1]

@@ -9,7 +9,7 @@ Based on a work at github.com
 
 In order to run bitHopper you need to have Python installed in your system. Version 2.7 of Python is suggested
 although it has been tested and appears to work with version 2.6 too. To find out which version of Python your
-system currently has type "python -V" to a shell console.
+system currently has type "python -V" in a shell console.
 
 If you don't have Python installed at all you have to run:
 
@@ -80,10 +80,9 @@ with any username and password (not blank).
 LP Workbench: http://localhost:8337/lpworkbench
 
 See:
- Block Hash, Owner, LP Timings as deltas against winning "owner"
+ Block Hash, Owner, LP Timings as deltas against winning "owner".
+You can view the list of active pools, override owner and have easy access to adjust LP penalties
 
-Able to override the owner
-List of pools, role and LP penalties for easy access to adjust penalties
 
 # Switches
 

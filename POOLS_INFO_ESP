@@ -22,7 +22,7 @@ info_2: La mina mas "gafe" que haya existido pero posiblemente te puedes hacer c
 [bclc]
 #http://www.bitcoins.lc
 info_1: Ralentiza stats y no tiene una actitud muy civica con los mineros (pagina 95)
-info_2: Puedes probar minar con el rol mine_deepbit - 466.02 Ghash/s @ 08.23.11
+info_2: Puedes probar minar con el rol mine_lp - 466.02 Ghash/s @ 08.23.11
 
 
 [bcpool]
@@ -54,12 +54,12 @@ info_2: Calculando sin parar desde hace mas de un mes sin suerte - 3.48 Ghash/s 
 [btcg]
 #https://www.btcguild.com/
 info_1: Ralentiza stats (pagina 87)
-info_2: Prueba suerte minar con el rol mine_deepbit - 2132.23 Ghash/s @ 08.23.11
+info_2: Prueba suerte minar con el rol mine_lp - 2132.23 Ghash/s @ 08.23.11
 info_3: Servidor con sistema de pago PPS disponible (beta) - 1835.25 Ghash/s @ 09.12.11
 
 
 [btcmine]
-# https://btcmine.com/user/register/
+#https://btcmine.com/user/register/
 info_1: Sistema de pago por puntuacion, intenta minar con mine_slush (pagina 164) - 356.68 Ghash/s @ 08.23.11
 
 
@@ -315,7 +315,7 @@ info_2: Ha cambiado el sistema de pagos con uno desconocido para prevenir la min
 #https://polmine.pl
 info_1: Mina polaca
 info_2: Ralentiza y truca los stats (pagina 157)
-info_3: Puedes probar minar con el rol mine_deepbit - 137.48 Ghash/s @ 08.23.11
+info_3: Puedes probar minar con el rol mine_lp - 137.48 Ghash/s @ 08.23.11
 info_4: Pagos menores solo para hoppers basados en bloques de 30btc (pagina 174 + IRC)
 
 
