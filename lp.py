@@ -140,6 +140,7 @@ class LongPoll():
         if server in self.polled:
             self.polled[server].release()
         self.bitHopper.log_dbg('received lp from: ' + server)
+        self.bitHopper.log_trace('LP: ' + str(body))
         info = self.bitHopper.pool.servers[server]
         if info['role'] in ['mine_nmc', 'disable', 'mine_ixc', 'mine_i0c', 'mine_scc', 'info']:
             return
