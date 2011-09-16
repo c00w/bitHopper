@@ -73,7 +73,7 @@ class PoolBlocks:
             self.block_retrieve_limit = self.bitHopper.config.getint('plugin.poolblocks', 'block_retrieve_limit')
             self.rate_limit = self.bitHopper.config.getint('plugin.poolblocks', 'ratelimit')
             if self.bitHopper.config.getboolean('plugin.poolblocks', 'use_ratelimit'):
-                self.fetch = urlutil.URLFetchRateLimit(bitHopper, self.rate_limit)
+                self.fetch = urlutil.URLFetchRateLimit(self.bitHopper, self.rate_limit)
         except Exception, e:
             self.log_msg('ERROR parsing config, possible missing section or configuration items: ' + str(e))
             if self.bitHopper.options.debug:
@@ -386,7 +386,7 @@ class PoolBlocks:
     def block_verified(self, blockNumber, blockHash, pool):
         if blockHash in self.bitHopper.lp.blocks:
             self.log_trace('block exists, add verified owner ' + str(pool) + ' for ' + str(blockHash) )
-            self.bitHopper.lp.blocks[blockHash]['verified'] = pool
+            self.bitHopper.lp.blocks[blockHash]['_verified'] = pool
     
 # class for Block       
 class Block:
