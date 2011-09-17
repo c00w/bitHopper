@@ -71,6 +71,14 @@ class BlockAccuracy:
                 self.log_trace('block: ' + str(block))
                 lp_owner = str(self.bitHopper.lp.blocks[block]['_owner'])
                 self.log_trace(" - lp_owner: " + str(lp_owner))
+                
+                #Catch in case lp_owner isn't in our pool list.
+                if lp_owner not in pools:
+                    pools[lp_owner] = {}
+                    pools[lp_owner]['hit'] = 0
+                    pools[lp_owner]['incorrect'] = 0
+                    pools[lp_owner]['total'] = 0
+            
                 verified_owner = None
                 if block in self.blocks:
                     verified_owner = str(self.blocks[block]['verified'])
