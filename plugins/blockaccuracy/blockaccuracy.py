@@ -82,6 +82,11 @@ class BlockAccuracy:
                 elif verified_owner != None:
                     self.log_trace('mispredict ' + str(lp_owner) + ' was ' + str(verified_owner) + ' for block ' + str(block) )
                     pools[lp_owner]['incorrect'] += 1
+                    if verified_owner not in pools:
+                        pools[verified_owner] = {}
+                        pools[verified_owner]['hit'] = 0
+                        pools[verified_owner]['incorrect'] = 0
+                        pools[verified_owner]['total'] = 0
                     pools[verified_owner]['total'] += 1
                 else:
                     self.log_trace('no verified owner for ' + str(block))
