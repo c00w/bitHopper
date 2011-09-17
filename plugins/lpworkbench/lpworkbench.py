@@ -126,6 +126,6 @@ class lpWorkbenchDataSite():
         return response
 
     def updateAccuracyData(self, poolVerifiedData):
-        self.bitHopper.log_trace('updateAccuracyData: ' + str(poolVerifiedData) + ' / ' + str(len(poolVerifiedData)), cat='lpworkbench')
+        #self.bitHopper.log_trace('updateAccuracyData: ' + str(poolVerifiedData) + ' / ' + str(len(poolVerifiedData)), cat='lpworkbench')
         self.poolAccuracy = poolVerifiedData
         
