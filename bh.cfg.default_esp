@@ -116,7 +116,20 @@ refreshRandomJitter = 120
 # numero de hilos paralelos abiertos con blockexplorer
 execpoolsize = 8
 
+# use_ratelimit = True - activa el limite de velocidad para la recogida de informacioon sobre bloques
+use_ratelimit = False
+
 # limita velocidad (kb/s) para la recogida de info sobre bloques (exepto mmf/btcmp)
 # utiliza un valor cerca de 80% del limite deseado, ej. para 100kb/s prueba 80kb/s,
 # especialmente para velocidades pequenas
 ratelimit = 50
+
+# limita el numero de bloques buscados (por defecto 25 bloques)
+block_retrieve_limit = 25
+
+# tiempo de espera para la busqueda de bloques en las paginas de mina (por defecto 30 segundos)
+timeout = 30
+
+[plugins.blockaccuracy]
+# intervalo de informes sobre bloque nuevo verificado (por defecto 600 segundos)
+reportInterval = 600
