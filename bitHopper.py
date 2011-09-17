@@ -126,15 +126,17 @@ class BitHopper():
         if not server_name:
             self.log_msg('FATAL Error, scheduler did not return any pool!')
             os._exit(-1)
+
+        old_server = self.pool.get_current()
             
         if self.pool.get_current() != server_name:
             self.pool.set_current(server_name)
             self.log_msg("Server change to " + str(self.pool.get_current()))
             servers = self.pool.servers
-            if servers[self.pool.get_current()]['coin'] != servers[server_name]['coin']:
+            if servers[server_name]['coin'] != servers[old_server]['coin']:
                 self.log_msg("Change in coin type. Triggering LP")
-                work, server_headers, server  = self.work.jsonrpc_getwork(self.pool.get_current(), [], {}, "", "")
-                self.bitHopper.lp_callback.new_block(work, self.pool.get_current())
+                work, server_headers, server  = self.work.jsonrpc_getwork(server_name, [], {}, "", "")
+                self.bitHopper.lp_callback.new_block(work, server_name)
 
         return
 
