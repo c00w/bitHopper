@@ -112,7 +112,7 @@ class BlockAccuracy:
                 # skip slush (realtime stats)
                 if str(pool) == 'slush': continue
                 # skip anything without hit or miss              
-                if hit == 0 and incorrect == 0: continue
+                if hit == 0 and incorrect == 0 and total == 0: continue
                 if total == 0:
                     pct = float(0)
                 else:
