@@ -192,7 +192,7 @@ class PoolBlocks:
         elif type == 'mmf':
             cj = CookieJar()
             opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
-            opener.addheaders = [('User-agent', 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)'),('Referer', 'http://btcmp.com')]
+            opener.addheaders = [('User-agent', 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)'),('Referer', 'http://mining.mainframe.nl/news')]
             auth_url = self.fetchconfig.get(pool, 'auth_url')
             username = self.fetchconfig.get(pool, 'user')
             password = self.fetchconfig.get(pool, 'pass')
@@ -203,6 +203,12 @@ class PoolBlocks:
                 eventlet.sleep(2)
                 response = opener.open(url, None, self.timeout)
                 outputs = searchPattern.findall(response.read())
+                if len(outputs) < 5:
+                    self.log_msg('mmf is acting up, skip this retrieve')
+                    return
+                if len(outputs) == 2:
+                    self.log_msg('mmf is acting up, got wrong page')
+                    return
                 if len(outputs) > self.block_retrieve_limit:
                     outputs = outputs[0:self.block_retrieve_limit]
                 self.log_trace('mmf: ' +str(outputs))
