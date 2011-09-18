@@ -17,7 +17,6 @@ Convention for adding new plugin configuration to bh.cfg is to prefix with "plug
 Convention is to use __init__.py to bootstrap the plugin and the bulk of the logic
 go into a seperate .py file. This makes it easier to work with multiple plugins.
 
-
 WHY DOES POOL.PY DO EVERYTHING?
 Because I haven't had time to split it and clean it up.
 
