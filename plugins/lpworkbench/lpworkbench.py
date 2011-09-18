@@ -107,7 +107,8 @@ class lpWorkbenchDataSite():
             for pool in self.poolAccuracy:
                 hits = self.poolAccuracy[pool]['hit']
                 incorrect = self.poolAccuracy[pool]['incorrect']
-                if hits == 0 and incorrect == 0:
+                total = self.poolAccuracy[pool]['total']
+                if hits == 0 and incorrect == 0 and total == 0:
                     continue
                 else:
                     filterdAccuracy[pool] = self.poolAccuracy[pool]
@@ -126,6 +127,6 @@ class lpWorkbenchDataSite():
         return response
 
     def updateAccuracyData(self, poolVerifiedData):
-        self.bitHopper.log_trace('updateAccuracyData: ' + str(poolVerifiedData) + ' / ' + str(len(poolVerifiedData)), cat='lpworkbench')
+        #self.bitHopper.log_trace('updateAccuracyData: ' + str(poolVerifiedData) + ' / ' + str(len(poolVerifiedData)), cat='lpworkbench')
         self.poolAccuracy = poolVerifiedData
         
