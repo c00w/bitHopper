@@ -90,6 +90,7 @@ class BlockAccuracy:
                 elif verified_owner != None:
                     self.log_trace('mispredict ' + str(lp_owner) + ' was ' + str(verified_owner) + ' for block ' + str(block) )
                     pools[lp_owner]['incorrect'] += 1
+                    pools[lp_owner]['total'] += 1                    
                     if verified_owner not in pools:
                         pools[verified_owner] = {}
                         pools[verified_owner]['hit'] = 0
@@ -112,7 +113,8 @@ class BlockAccuracy:
                 # skip slush (realtime stats)
                 if str(pool) == 'slush': continue
                 # skip anything without hit or miss              
-                if hit == 0 and incorrect == 0 and total == 0: continue
+                if hit == 0 and incorrect == 0 and total == 0:
+                    continue
                 if total == 0:
                     pct = float(0)
                 else:
