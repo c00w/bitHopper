@@ -163,6 +163,7 @@ info_1: 0% fee PPS pool - 484.4 GHash/s @ 08.23.11
 [bitp]
 #http://bitp.it
 info_1: PPS pool - 27.60 GHash/s @ 08.23.11
+info_2: Pool is down due to DDoS attacks (pools thread on BC forum - page 30)
 
 
 [ninjac]
