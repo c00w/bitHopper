@@ -297,6 +297,11 @@ info_1: Solidcoin pool, use mine_scc - 2.51 Ghash/s @ 08.28.11
 info_1: ixcoins pool, use mine_ixc - 4.99 Ghash/s @ 08.28.11
 
 
+[digixc]
+#http://ix.digbtc.net
+info_1: ixcoins pool, use mine_ixc - 0.5 Ghash/s @ 09.19.11
+
+
 ######################################
 #
 # These Pools are not hopped for a

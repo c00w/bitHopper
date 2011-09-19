@@ -428,12 +428,14 @@ pass: your_password
 
 [ixparking]
 #http://ixpool.bitparking.com/pool
+#CHANGE THIS (if you want)
 role: disable
 user: your_username
 pass: your_password
 
 [digixc]
 #http://ix.digbtc.net
+#CHANGE THIS (if you want)
 role: disable
 user: your_username
 pass: your_password
