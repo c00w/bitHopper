@@ -23,6 +23,7 @@ info_2: La mina mas "gafe" que haya existido pero posiblemente te puedes hacer c
 #http://www.bitcoins.lc
 info_1: Ralentiza stats y no tiene una actitud muy civica con los mineros (pagina 95)
 info_2: Puedes probar minar con el rol mine_lp - 466.02 Ghash/s @ 08.23.11
+info_3: Perdidas de conexion frequentes debido trabajos con el cortafuegos (twitter) - 295.14 Ghash/s @ 09.19.11
 
 
 [bcpool]
@@ -295,6 +296,11 @@ info_1: Mina solidcoin, usa el rol mine_scc - 2.51 Ghash/s @ 08.28.11
 [ixparking]
 #http://ixpool.bitparking.com/pool
 info_1: Mina IXcoins, usa el rol mine_ixc - 4.99 Ghash/s @ 08.28.11
+
+
+[digixc]
+#http://ix.digbtc.net
+info_1: Mina IXcoins, usa el rol mine_ixc - 0.5 Ghash/s @ 09.19.11
 
 
 ######################################

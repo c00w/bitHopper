@@ -428,12 +428,14 @@ pass: contrasena_minero
 
 [ixparking]
 #http://ixpool.bitparking.com/pool
+#CAMBIA A CONTINUACION (si quieres)
 role: disable
 user: nombre_minero
 pass: contrasena_minero
 
 [digixc]
 #http://ix.digbtc.net
+#CAMBIA A CONTINUACION (si quieres)
 role: disable
 user: nombre_minero
 pass: contrasena_minero
