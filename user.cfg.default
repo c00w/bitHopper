@@ -432,6 +432,12 @@ role: disable
 user: your_username
 pass: your_password
 
+[digixc]
+#http://ix.digbtc.net
+role: disable
+user: your_username
+pass: your_password
+
 ######################################
 # These Pools are not hopped for a
 # reason. No need to change their
