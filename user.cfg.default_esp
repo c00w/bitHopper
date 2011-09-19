@@ -432,6 +432,12 @@ role: disable
 user: nombre_minero
 pass: contrasena_minero
 
+[digixc]
+#http://ix.digbtc.net
+role: disable
+user: nombre_minero
+pass: contrasena_minero
+
 ######################################
 # Estas minas no se saltan por una
 # razon. No es necesario que cambies
