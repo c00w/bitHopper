@@ -23,6 +23,7 @@ info_2: The most "unlucky" pool ever made but you could get some pennies though 
 #http://www.bitcoins.lc
 info_1: Delaying stats and not very civic attitude with occasional miners (page 95)
 info_2: You could try mining here with the mine_lp role - 466.02 Ghash/s @ 08.23.11
+info_3: Short disconnects due to scheduled firewall upgrade (twitter) - 295.14 Ghash/s @ 09.19.11
 
 
 [bcpool]
