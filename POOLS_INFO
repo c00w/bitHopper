@@ -140,7 +140,7 @@ info_3: PPLNS pools are hoppable with backup_latehop  - 3.07 GHash/s @ 08.23.11
 #https://rfcpool.com/signup
 info_1: Nice small pool
 info_2: Pool is closed down (page 178 - bH thread on main forum)
-info_3: Pool is online and accepting miners, changed payout to PPLNS (pool page + IRC) - 25.51 GHash/s @ 08.23.11
+info_3: Pool is online and accepting miners, changed payout to PPLNS (pool website) - 25.51 GHash/s @ 08.23.11
 
 
 ######################################
@@ -199,7 +199,7 @@ info_2: Changed to SMPPS system (IRC)
 #http://btcserv.net/
 info_1: Small pool, pls report experience on forum - 2.94 GHash/s @ 08.23.11
 info_2: Alternate PPS payout available for use as backup if wanted - 4.60 GHash/s @ 08.31.11
-info_3: Op decides to have FIFO PPS implemented (pool thread on main forum - page 4) -  11.36 GHash/s @ 09.09.11
+info_3: Op decides to have FIFO PPS implemented (page 4 - pool thread on main forum) -  11.36 GHash/s @ 09.09.11
 
 
 [bitfarms]
