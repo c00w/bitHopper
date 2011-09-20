@@ -102,7 +102,7 @@ info_2: Sistema de pago PPS disponible en caso de utilizar como mina de respaldo
 #https://ozco.in/register.php
 info_1: Congela stats sin razon (pagina 114, foro oficial bH)
 info_2: Stats funcionan - 60.5 GHash/s @ 08.23.11
-info_3: Necesitan un poco de ayuda para resolver este ultimo bloque - 61.2 GHash/s @ 09.18.11
+info_3: Necesitan un poco de ayuda para resolver este ultimo bloque (encontrado) - 61.2 GHash/s @ 09.18.11
 
 
 [p2pool]
