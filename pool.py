@@ -124,7 +124,7 @@ class Pool():
                     self.servers[server]['name'] = server
                 if 'role' not in self.servers[server]:
                     self.servers[server]['role'] = 'disable'
-                if self.servers[server]['role'] in ['mine_slush']
+                if self.servers[server]['role'] in ['mine_slush']:
                     self.servers[server]['role'] = 'mine_c'
                     self.servers[server]['c'] = 300
                 if 'lp_address' not in self.servers[server]:
