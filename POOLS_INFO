@@ -38,7 +38,7 @@ info_4: Pool enforces a 50% penalty system for occasional miners (pool website) 
 #http://bitclockers.com/
 info_1: Handle with care, possible anti-hopper measures in place
 info_2: Their new servers work like clocks with zero stales, safe to mine with them - 276.20 Ghash/s @ 08.23.11
-info_3: Various issues with the load balancers and database 
+info_3: Various issues with the load balancers and database (page 14 - pool thread on main forum) - 249.60 Ghash/s @ 09.20.11
 
 
 [bithasher]
