@@ -21,7 +21,7 @@ class Scheduler(object):
             self.difficultyThreshold = self.bitHopper.options.threshold
         else:
             self.difficultyThreshold = 0.435
-        self.valid_roles = ['mine', 'mine_nmc', 'mine_lp', 'mine_slush', 'mine_ixc', 'mine_i0c', 'mine_scc', 'mine_charity', 'mine_force', 'mine_lp_force']
+        self.valid_roles = ['mine', 'mine_nmc', 'mine_lp', 'mine_c', 'mine_ixc', 'mine_i0c', 'mine_scc', 'mine_charity', 'mine_force', 'mine_lp_force']
         hook_announce = plugins.Hook('plugins.lp.announce')
         hook_announce.register(self.mine_lp_force)
 
@@ -98,8 +98,10 @@ class Scheduler(object):
         else:
             shares = difficulty
 
-        if info['role'] == 'mine_slush':
-            shares = shares * self.difficultyThreshold /  0.147
+        if info['role'] == 'mine_c':
+            c = info['c']
+            hashrate = info['ghash'] * 1000**3
+            shares = self.difficulty * (self.difficultyThreshold - 503131/(1173666 + c*hashrate))
         if info['role'] in ['mine_force', 'mine_lp_force']:
             shares = 0
         # apply penalty
@@ -445,7 +447,7 @@ class AltSliceScheduler(Scheduler):
             if 'penalty' in info:
                 shares = shares * float(info['penalty'])
             # favor slush over other pools if low enough
-            if info['role'] in ['mine_slush'] and shares * 4 < min_shares:
+            if info['role'] in ['mine_c'] and shares * 4 < min_shares:
                 fullinit = True
       
         if self.bitHopper.pool.get_current() == None or allSlicesDone == True:
@@ -663,7 +665,7 @@ class AltSliceScheduler(Scheduler):
             if 'penalty' in info:
                 shares = shares * float(info['penalty'])
             # favor slush over other pools if low enough
-            if info['role'] in ['mine_slush'] and shares * 4 < min_shares:
+            if info['role'] in ['mine_c'] and shares * 4 < min_shares:
                 max_slice = info['slice']
                 server_name = server
                 continue

@@ -24,7 +24,7 @@ class Pool():
     def __init__(self, bitHopper):
         self.bitHopper = bitHopper
         self.servers = {}
-        self.api_pull = ['mine', 'info', 'mine_slush', 'mine_nmc', 'mine_ixc', 'mine_i0c',  'mine_scc', 'mine_charity', 'mine_lp', 'backup', 'backup_latehop']
+        self.api_pull = ['mine', 'info', 'mine_c', 'mine_nmc', 'mine_ixc', 'mine_i0c',  'mine_scc', 'mine_charity', 'mine_lp', 'backup', 'backup_latehop']
         self.initialized = False
         self.lock = threading.RLock()
         self.pool_configs = ['pools.cfg']
@@ -124,6 +124,9 @@ class Pool():
                     self.servers[server]['name'] = server
                 if 'role' not in self.servers[server]:
                     self.servers[server]['role'] = 'disable'
+                if self.servers[server]['role'] in ['mine_slush']
+                    self.servers[server]['role'] = 'mine_c'
+                    self.servers[server]['c'] = 300
                 if 'lp_address' not in self.servers[server]:
                     self.servers[server]['lp_address'] = None
                 self.servers[server]['err_api_count'] = 0
@@ -134,7 +137,7 @@ class Pool():
 
                 #Coin Handling
                 if 'coin' not in self.servers[server]:
-                    if self.servers[server]['role'] in ['mine', 'info', 'backup', 'backup_latehop', 'mine_charity', 'mine_slush']:
+                    if self.servers[server]['role'] in ['mine', 'info', 'backup', 'backup_latehop', 'mine_charity', 'mine_c']:
                         coin_type = 'btc'
                     elif self.servers[server]['role'] in ['mine_nmc']:
                         coin_type = 'nmc'
