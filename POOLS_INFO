@@ -21,16 +21,16 @@ info_2: The most "unlucky" pool ever made but you could get some pennies though 
 
 [bclc]
 #http://www.bitcoins.lc
-info_1: Delaying stats and not very civic attitude with occasional miners (page 95)
+info_1: Delaying stats and not very civic attitude with occasional miners (page 95 - bH thread on main forum)
 info_2: You could try mining here with the mine_lp role - 466.02 Ghash/s @ 08.23.11
 info_3: Short disconnects due to scheduled firewall upgrade (twitter) - 295.14 Ghash/s @ 09.19.11
 
 
 [bcpool]
 #http://bitcoinpool.com
-info_1: Anti-hopping method based on "window of participation" (page 36)
-info_2: Disables anti-hopper measures if you donate (page 111)
-info_3: Fakes json stats so you keep hopping them (page 184) - 88.63 Ghash/s @ 08.23.11
+info_1: Anti-hopping method based on "window of participation" (page 36 - bH thread on main forum)
+info_2: Disables anti-hopper measures if you donate (page 111 - bH thread on main forum)
+info_3: Fakes json stats so you keep hopping them (page 184 - bH thread on main forum) - 88.63 Ghash/s @ 08.23.11
 info_4: Pool enforces a 50% penalty system for occasional miners (pool website) - 68.87 Ghash/s @ 09.06.11
 
 
@@ -38,6 +38,7 @@ info_4: Pool enforces a 50% penalty system for occasional miners (pool website) 
 #http://bitclockers.com/
 info_1: Handle with care, possible anti-hopper measures in place
 info_2: Their new servers work like clocks with zero stales, safe to mine with them - 276.20 Ghash/s @ 08.23.11
+info_3: Various issues with the load balancers and database 
 
 
 [bithasher]
@@ -54,14 +55,14 @@ info_2: Hashing away for over a month without luck - 3.48 Ghash/s @ 09.09.11
 
 [btcg]
 #https://www.btcguild.com/
-info_1: Delayed stats (page 87)
+info_1: Delayed stats (page 87 - bH thread on main forum)
 info_2: Try mining here with the mine_lp role - 2132.23 Ghash/s @ 08.23.11
 info_3: PPS payout server available (beta) - 1835.25 Ghash/s @ 09.12.11
 
 
 [btcmine]
 #https://btcmine.com/user/register/
-info_1: Score based payout, try mining with mine_slush (page 164) - 356.68 Ghash/s @ 08.23.11
+info_1: Score based payout, try mining with mine_slush (page 164 - bH thread on main forum) - 356.68 Ghash/s @ 08.23.11
 
 
 [btcmonkey]
@@ -83,12 +84,12 @@ info_1: Biggest pool around, mining with them should get your variance down - 57
 
 [digbtc]
 #http://www.digbtc.net/register.php
-info_1: Small pool, recommended you change user-agent (page 154) - 5.5 Ghash/s @ 08.23.11
+info_1: Small pool, recommended you change user-agent (page 154 - bH thread on main forum) - 5.5 Ghash/s @ 08.23.11
 
 
 [kiwipool]
 #http://www.kiwipool.me/
-info_1: Switched to PPS (page 154)
+info_1: Switched to PPS (page 154 - bH thread on main forum)
 info_2: Seems like they're Prop. pool (IRC Chan.) - 36 GHash/s @ 08.23.11
 
 
@@ -100,7 +101,7 @@ info_2: Alternate PPS payout available for use as backup if wanted
 
 [ozco]
 #https://ozco.in/register.php
-info_1: Freezing stats for unknown reason (page 114)
+info_1: Freezing stats for unknown reason (page 114 - bH thread on main forum)
 info_2: Stats solved - 60.5 GHash/s @ 08.23.11
 info_3: They need some help solving this long block (found) - 61.2 GHash/s @ 09.18.11
 
@@ -130,15 +131,15 @@ info_2: Use as backup_latehop if you want to help them find the block (Flash Mob
 
 [unitedminers]
 #http://www.unitedminers.com
-info_1: Changed to PPLNS in the middle of a round (page 94)
-info_2: Disables anti-hopper flagging if you donate to pool (page 161)
+info_1: Changed to PPLNS in the middle of a round (page 94 - bH thread on main forum)
+info_2: Disables anti-hopper flagging if you donate to pool (page 161 - bH thread on main forum)
 info_3: PPLNS pools are hoppable with backup_latehop  - 3.07 GHash/s @ 08.23.11
 
 
 [rfc]
 #https://rfcpool.com/signup
 info_1: Nice small pool
-info_2: Pool is closed down (page 178)
+info_2: Pool is closed down (page 178 - bH thread on main forum)
 info_3: Pool is online and accepting miners, changed payout to PPLNS (pool page + IRC) - 25.51 GHash/s @ 08.23.11
 
 
@@ -165,8 +166,8 @@ info_1: 0% fee PPS pool - 484.4 GHash/s @ 08.23.11
 [bitp]
 #http://bitp.it
 info_1: PPS pool - 27.60 GHash/s @ 08.23.11
-info_2: Pool is down due to DDoS attacks (pools thread on BC forum - page 30)
-info_3: Admin team is resolving some hosting issues (pools thread on BC forum - page 31)
+info_2: Pool is down due to DDoS attacks (page 30 - pool thread on main forum)
+info_3: Admin team is resolving some hosting issues (page 31 - pool thread on main forum)
 
 
 [ninjac]
@@ -185,12 +186,12 @@ info_3: Registering temp disabled - 111.9 GHash/s @ 08.23.11
 #https://nofeemining.appspot.com/
 info_1: Nice small pool
 info_2: They moved pool to google appspot - Pool speed unknown @ 08.23.11
-info_3: Changed payout to rsmpps (page 195)
+info_3: Changed payout to rsmpps (page 195 - bH thread on main forum)
 
 
 [itzod]
 # https://pool.itzod.ru
-info_1: Score based payout, hop using mine_slush if you want (page 154) - 74.61 Ghash/s @ 08.23.11
+info_1: Score based payout, hop using mine_slush if you want (page 154 - bH thread on main forum) - 74.61 Ghash/s @ 08.23.11
 info_2: Changed to SMPPS system (IRC)
 
 
@@ -198,7 +199,7 @@ info_2: Changed to SMPPS system (IRC)
 #http://btcserv.net/
 info_1: Small pool, pls report experience on forum - 2.94 GHash/s @ 08.23.11
 info_2: Alternate PPS payout available for use as backup if wanted - 4.60 GHash/s @ 08.31.11
-info_3: Op decides to have FIFO PPS implemented (pool thread on BC forum - page 4) -  11.36 GHash/s @ 09.09.11
+info_3: Op decides to have FIFO PPS implemented (pool thread on main forum - page 4) -  11.36 GHash/s @ 09.09.11
 
 
 [bitfarms]
@@ -249,7 +250,7 @@ info_1: Nmc pool (mine_nmc) - 47 Mhash/s @ 08.23.11
 [i0g]
 #http://i0.btcguild.com/register.php
 info_1: i0coins pool, use mine_i0c - Offline @ 08.23.11
-info_2: Closed permanently (pool thread on BC forum - page 10)
+info_2: Closed permanently (page 10 - pool thread on main forum)
 
 
 [i0parking]
@@ -317,25 +318,25 @@ info_1: ixcoins pool, use mine_ixc - 0.5 Ghash/s @ 09.19.11
 [bmunion]
 #http://www.bitminersunion.org/
 info_1: Small pool good for hopping - 8.6 Ghash/s @ 08.23.11
-info_2: Changed to unknown payout system to prevent occasional mining (pool thread on BC forum - page 11)
+info_2: Changed to unknown payout system to prevent occasional mining (page 11 - pool thread on main forum)
 
 
 [polmine]
 #https://polmine.pl
 info_1: Nice polish pool
-info_2: Delays and fakes stats (page 157)
+info_2: Delays and fakes stats (page 157 - bH thread on main forum)
 info_3: You could try mining here with the mine_lp role - 137.48 Ghash/s @ 08.23.11
-info_4: Smaller payouts just for hoppers based on 30btc blocks (page 174 + IRC)
+info_4: Smaller payouts just for hoppers based on 30btc blocks (page 174 - bH thread on main forum)
 
 
 [btcpool24]
 #http://www.btcpool24.com
-info_1: Changed payout system and delays stats, allot (page 116) - 31.3 Ghash/s @ 08.23.11
+info_1: Changed payout system and delays stats, allot (page 116 - bH thread on main forum) - 31.3 Ghash/s @ 08.23.11
 
 
 [poolmunity]
 #http://poolmunity.com/
-info_1: Obscure payout system and anti-hopping measures (page 55)
+info_1: Obscure payout system and anti-hopping measures (page 55 - bH thread on main forum)
 info_2: Pooles closes in September (http://poolmunity.com/index.php/topic,83.0.html) - 0 hash/s @ 08.23.11
 
 
@@ -346,22 +347,22 @@ info_1: The same mine, and using the same worker user and pass to mine NameCoins
 
 [x8s]
 #http://btc.x8s.de/
-info_1: Pool is closed down (page 48) - Offline @ 08.23.11
+info_1: Pool is closed down (page 48 - bH thread on main forum) - Offline @ 08.23.11
 
 
 [mineco]
 #https://mineco.in
-info_1: Changed to PPLNS (page 94) - 79 Ghash/s @ 08.23.11
+info_1: Changed to PPLNS (page 94 - bH thread on main forum) - 79 Ghash/s @ 08.23.11
 
 
 [eclipsemc]
 #https://eclipsemc.com
-info_1: Changed to a score system (page 16) - 53.51 Ghash/s @ 08.23.11
-info_2: Uses CPS (cheat proof scoring) method (BC forum)
+info_1: Changed to a score system (page 16 - bH thread on main forum) - 53.51 Ghash/s @ 08.23.11
+info_2: Uses CPS (cheat proof scoring) method (main forum)
 
 
 [mmf]
 #http://mining.mainframe.nl
-info_1: They use some "cheat proof scoring" algorithm (page 26)
-info_2: Changed payout system to PPLNS (page 190) - 96.9 Ghash/s @ 08.23.11
+info_1: They use some "cheat proof scoring" algorithm (page 26 - bH thread on main forum)
+info_2: Changed payout system to PPLNS (page 190 - bH thread on main forum) - 96.9 Ghash/s @ 08.23.11
 
