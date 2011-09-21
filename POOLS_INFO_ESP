@@ -9,6 +9,10 @@
 #######################################
 
 
+[guildminers]
+#http://guildminers.com/
+info_1: La retirada BTC disponible de momento es hacia el exchange campbx, minimo 1btc (pagina de mina) - 14.3 GHash/s @ 09.21.11
+
 
 ####################################### 
 
@@ -21,16 +25,16 @@ info_2: La mina mas "gafe" que haya existido pero posiblemente te puedes hacer c
 
 [bclc]
 #http://www.bitcoins.lc
-info_1: Ralentiza stats y no tiene una actitud muy civica con los mineros (pagina 95)
+info_1: Ralentiza stats y no tiene una actitud muy civica con los mineros (pagina 95 - hilo bH en el foro principal)
 info_2: Puedes probar minar con el rol mine_lp - 466.02 Ghash/s @ 08.23.11
 info_3: Perdidas de conexion frequentes debido trabajos con el cortafuegos (twitter) - 295.14 Ghash/s @ 09.19.11
 
 
 [bcpool]
 #http://bitcoinpool.com
-info_1: Medidas anti-hopping basadas en "ventana de participacion" (pagina 36)
-info_2: Desactiva las medidas anti-hopper si donas (pagina 111)
-info_3: Truca los stats json para que te quedes minando con ellos (pagina 184) - 88.63 Ghash/s @ 08.23.11
+info_1: Medidas anti-hopping basadas en "ventana de participacion" (pagina 36 - hilo bH en el foro principal)
+info_2: Desactiva las medidas anti-hopper si donas (pagina 111 - hilo bH en el foro principal)
+info_3: Truca los stats json para que te quedes minando con ellos (pagina 184 - hilo bH en el foro principal) - 88.63 Ghash/s @ 08.23.11
 info_4: La mina impone una penalidad de 50% solo para mineros ocasionales (pagina de mina) - 68.87 Ghash/s @ 09.06.11
 
 
@@ -38,6 +42,7 @@ info_4: La mina impone una penalidad de 50% solo para mineros ocasionales (pagin
 #http://bitclockers.com/
 info_1: Salta esta mina con precaucion, posibles medidas anti-hopper
 info_2: Los nuevos servidores funcionan sin problemas con cero share stale, seguro para minar - 276.20 Ghash/s @ 08.23.11
+info_3: Problemas con los repartidores de carga y la base de datos (pagina 14 - hilo de mina en el foro principal) - 249.60 Ghash/s @ 09.20.11
 
 
 [bithasher]
@@ -54,14 +59,14 @@ info_2: Calculando sin parar desde hace mas de un mes sin suerte - 3.48 Ghash/s 
 
 [btcg]
 #https://www.btcguild.com/
-info_1: Ralentiza stats (pagina 87)
+info_1: Ralentiza stats (pagina 87 - hilo bH en el foro principal)
 info_2: Prueba suerte minar con el rol mine_lp - 2132.23 Ghash/s @ 08.23.11
 info_3: Servidor con sistema de pago PPS disponible (beta) - 1835.25 Ghash/s @ 09.12.11
 
 
 [btcmine]
 #https://btcmine.com/user/register/
-info_1: Sistema de pago por puntuacion, intenta minar con mine_slush (pagina 164) - 356.68 Ghash/s @ 08.23.11
+info_1: Sistema de pago por puntuacion, intenta minar con mine_slush (pagina 164 - hilo bH en el foro principal) - 356.68 Ghash/s @ 08.23.11
 
 
 [btcmonkey]
@@ -83,12 +88,12 @@ info_1: La mina mas grande que hay, minar con ellos te ayudara cobrar regularmen
 
 [digbtc]
 #http://www.digbtc.net/register.php
-info_1: Mina pequena, recomendado que cambies el user-agent (pagina 154) - 5.5 Ghash/s @ 08.23.11
+info_1: Mina pequena, recomendado que cambies el user-agent (pagina 154 - hilo bH en el foro principal) - 5.5 Ghash/s @ 08.23.11
 
 
 [kiwipool]
 #http://www.kiwipool.me/
-info_1: Cambio a sistema PPS (pagina 154)
+info_1: Cambio a sistema PPS (pagina 154 - hilo bH en el foro principal)
 info_2: Se quedaron con el sist. Proporcional (Canal IRC) - 36 GHash/s @ 08.23.11
 
 
@@ -100,9 +105,9 @@ info_2: Sistema de pago PPS disponible en caso de utilizar como mina de respaldo
 
 [ozco]
 #https://ozco.in/register.php
-info_1: Congela stats sin razon (pagina 114, foro oficial bH)
+info_1: Congela stats sin razon (pagina 114 - hilo bH en el foro principal)
 info_2: Stats funcionan - 60.5 GHash/s @ 08.23.11
-info_3: Necesitan un poco de ayuda para resolver este ultimo bloque - 61.2 GHash/s @ 09.18.11
+info_3: Necesitan un poco de ayuda para resolver este ultimo bloque (encontrado) - 61.2 GHash/s @ 09.18.11
 
 
 [p2pool]
@@ -119,7 +124,7 @@ info_1: Buena para saltar hasta 10% de dificultad, utiliza mine_slush - 1872.64 
 [swepool]
 #http://swepool.net/profile
 info_1: Por favor reporta tu experiencia en foro o canal IRC - 2.98 GHash/s @ 08.23.11
-info_2: Esta mina se cierra el 6 oct 2011 (pool website) - 3.68 GHash/s @ 09.09.11
+info_2: Esta mina se cierra el 6 oct 2011 (pagina de mina) - 3.68 GHash/s @ 09.09.11
 
 
 [triple]
@@ -130,16 +135,16 @@ info_2: Usa como backup_latehop si quieres ayudarlos encontrar por fin un bloque
 
 [unitedminers]
 #http://www.unitedminers.com
-info_1: Ha cambiado a sistema PPLNS en medio de una ronda (pagina 94)
-info_2: Desactiva las medidas anti-hopper si donas de tu recompensa (pagina 161)
+info_1: Ha cambiado a sistema PPLNS en medio de una ronda (pagina 94 - hilo bH en el foro principal)
+info_2: Desactiva las medidas anti-hopper si donas de tu recompensa (pagina 161 - hilo bH en el foro principal)
 info_3: Las minas PPLNS se pueden saltar con backup_latehop  - 3.07 GHash/s @ 08.23.11
 
 
 [rfc]
 #https://rfcpool.com/signup
 info_1: Mina pequena y mona
-info_2: Mina cerrada (pagina 178)
-info_3: Mina abierta y acceptando nuevos mineros, ha cambiado a sistema de pago PPLNS (pagina oficial + IRC) - 25.51 GHash/s @ 08.23.11
+info_2: Mina cerrada (pagina 178 - hilo bH en el foro principal)
+info_3: Mina abierta y acceptando nuevos mineros, ha cambiado a sistema de pago PPLNS (pagina de mina) - 25.51 GHash/s @ 08.23.11
 
 
 ######################################
@@ -165,7 +170,8 @@ info_1: 0% tasas, mina PPS - 484.4 GHash/s @ 08.23.11
 [bitp]
 #http://bitp.it
 info_1: Mina PPS - 27.60 GHash/s @ 08.23.11
-info_2: Mina caida debido ataques DDoS (hilo de mina en foro BC - pagina 30)
+info_2: Mina caida debido ataques DDoS (pagina 30 - hilo de mina en el foro principal)
+info_3: El equipo de admins esta resolviendo unos problemas de alojamiento (pagina 31 - hilo de mina en el foro principal)
 
 
 [ninjac]
@@ -184,12 +190,12 @@ info_3: Registro temporalmente deshabilitado - 111.9 GHash/s @ 08.23.11
 #https://nofeemining.appspot.com/
 info_1: Mina pequena y mona
 info_2: Han cambiado el servidor a google appspot - Velocida de mina desconocida @ 08.23.11
-info_3: Cambiaron sistema de pago a rsmpps (pagina 195)
+info_3: Cambiaron sistema de pago a rsmpps (pagina 195 - hilo bH en el foro principal)
 
 
 [itzod]
 # https://pool.itzod.ru
-info_1: Sistema de pago por puntuacion, utiliza mine_slush si quieres saltarla (pagina 154) - 74.61 Ghash/s @ 08.23.11
+info_1: Sistema de pago por puntuacion, utiliza mine_slush si quieres saltarla (pagina 154 - hilo bH en el foro principal) - 74.61 Ghash/s @ 08.23.11
 info_2: Ha cambiado a sistema SMPPS (IRC)
 
 
@@ -197,7 +203,7 @@ info_2: Ha cambiado a sistema SMPPS (IRC)
 #http://btcserv.net/
 info_1: Mina pequena, raportar informacion sobre ella en el foro - 2.94 GHash/s @ 08.23.11
 info_2: Sistema de pago PPS disponible en caso de utilizar como mina de respaldo - 4.60 GHash/s @ 08.31.11
-info_3: El admin decide implementar FIFO PPS (hilo de mina en foro BC - pagina 4) -  11.36 GHash/s @ 09.09.11
+info_3: El admin decide implementar FIFO PPS (pagina 4 - hilo de mina en el foro principal) -  11.36 GHash/s @ 09.09.11
 
 
 [bitfarms]
@@ -248,7 +254,7 @@ info_1: Mina namecoins (mine_nmc) - 47 Mhash/s @ 08.23.11
 [i0g]
 #http://i0.btcguild.com/register.php
 info_1: Mina i0coins, usa el rol mine_i0c - Offline @ 08.23.11
-info_2: Cerrada permanente (hilo ofic en foro BC - pagina 10)
+info_2: Cerrada permanente (pagina 10 - hilo de mina en el foro principal)
 
 
 [i0parking]
@@ -316,25 +322,25 @@ info_1: Mina IXcoins, usa el rol mine_ixc - 0.5 Ghash/s @ 09.19.11
 [bmunion]
 #http://www.bitminersunion.org/
 info_1: Pequena mina buena para saltar - 8.6 Ghash/s @ 08.23.11
-info_2: Ha cambiado el sistema de pagos con uno desconocido para prevenir la mineria ocasional (hilo ofic en foro BC - pagina 11)
+info_2: Ha cambiado el sistema de pagos con uno desconocido para prevenir la mineria ocasional (pagina 11 - hilo de mina en el foro principal)
 
 
 [polmine]
 #https://polmine.pl
 info_1: Mina polaca
-info_2: Ralentiza y truca los stats (pagina 157)
+info_2: Ralentiza y truca los stats (pagina 157 - hilo bH en el foro principal)
 info_3: Puedes probar minar con el rol mine_lp - 137.48 Ghash/s @ 08.23.11
-info_4: Pagos menores solo para hoppers basados en bloques de 30btc (pagina 174 + IRC)
+info_4: Pagos menores solo para hoppers basados en bloques de 30btc (pagina 174 - hilo bH en el foro principal)
 
 
 [btcpool24]
 #http://www.btcpool24.com
-info_1: Ha cambiado el sistema de pagos y ralentiza los stats (pagina 116, foro bH) - 31.3 Ghash/s @ 08.23.11
+info_1: Ha cambiado el sistema de pagos y ralentiza los stats (pagina 116 - hilo bH en el foro principal) - 31.3 Ghash/s @ 08.23.11
 
 
 [poolmunity]
 #http://poolmunity.com/
-info_1: Sistema de pagos desconocido y medidas anti-hopping (pagina 55)
+info_1: Sistema de pagos desconocido y medidas anti-hopping (pagina 55 - hilo bH en el foro principal)
 info_2: Cierra sus puertas en Septiembre (http://poolmunity.com/index.php/topic,83.0.html) - 0 hash/s @ 08.23.11
 
 
@@ -345,22 +351,22 @@ info_1: La misma mina, usando el mismo usuario y contrasena del worker para mina
 
 [x8s]
 #http://btc.x8s.de/
-info_1: Mina cerrada (pagina 48) - Offline @ 08.23.11
+info_1: Mina cerrada (pagina 48 - hilo bH en el foro principal) - Offline @ 08.23.11
 
 
 [mineco]
 #https://mineco.in
-info_1: Ha cambiado sistema de pagos a PPLNS (pagina 94) - 79 Ghash/s @ 08.23.11
+info_1: Ha cambiado sistema de pagos a PPLNS (pagina 94 - hilo bH en el foro principal) - 79 Ghash/s @ 08.23.11
 
 
 [eclipsemc]
 #https://eclipsemc.com
-info_1: Ha cambiado a sistema de pagos a uno por puntuacion (pagina 16) - 53.51 Ghash/s @ 08.23.11
-info_2: Usa el metodo PCT (proteccion contra truco), eng: CPS (BC forum)
+info_1: Ha cambiado a sistema de pagos a uno por puntuacion (pagina 16 - hilo bH en el foro principal) - 53.51 Ghash/s @ 08.23.11
+info_2: Usa el metodo PCT (proteccion contra truco), eng: CPS (foro principal)
 
 
 [mmf]
 #http://mining.mainframe.nl
-info_1: Utilizan algun sistema de pagos "anti truco" (trad. literal) desconocido (pagina 26)
-info_2: Han cambiado sistema de pago a PPLNS (pagina 190) - 96.9 Ghash/s @ 08.23.11
+info_1: Utilizan algun sistema de pagos "anti truco" (trad. literal) desconocido (pagina 26 - hilo bH en el foro principal)
+info_2: Han cambiado sistema de pago a PPLNS (pagina 190 - hilo bH en el foro principal) - 96.9 Ghash/s @ 08.23.11
 

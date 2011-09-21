@@ -12,7 +12,6 @@ import traceback
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
 
-import traceback
 import webob
 
 class dynamicSite():

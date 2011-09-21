@@ -42,8 +42,6 @@ Future to-do list:
 
 Work based slicing                           (https://github.com/c00w/bitHopper/issues/103)
 
-Be able to force LP mining                   (https://github.com/c00w/bitHopper/issues/178)
-
 Hide Inactive and Old users                  (https://github.com/c00w/bitHopper/issues/214)
 
 Dump LP Calls and blocks to file             (https://github.com/c00w/bitHopper/issues/244)

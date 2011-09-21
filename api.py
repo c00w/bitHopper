@@ -5,13 +5,9 @@
 
 import json
 import re
-import ConfigParser
-import sys
-import random
-import traceback
 
 import eventlet
-from eventlet.green import threading, os, time, socket
+from eventlet.green import time, socket
 
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
@@ -21,7 +17,7 @@ class API():
         self.bitHopper = bitHopper
         self.api_lock = {}
         self.pool = self.bitHopper.pool
-        self.api_pull = ['mine', 'info', 'mine_slush', 'mine_c', 'mine_nmc', 'mine_ixc', 'mine_i0c',  'mine_scc', 'mine_charity', 'mine_deepbit', 'backup', 'backup_latehop']
+        self.api_pull = ['mine', 'info', 'mine_c', 'mine_nmc', 'mine_ixc', 'mine_i0c',  'mine_scc', 'mine_charity', 'mine_lp',  'backup', 'backup_latehop']
         self.api_disable_sec = 7200
         try:
             self.api_disable_sec = self.bitHopper.config.getint('main', 'api_disable_sec')
@@ -59,7 +55,7 @@ class API():
         try:
             k =  str('{0:d}'.format(int(shares)))
             if self.pool.servers[server]['ghash'] > 0:
-                k += '\t' + str('{0:.1f}gh/s '.format( self.pool.servers[server]['ghash'] ))
+                k += '\t\t' + str('{0:.1f}gh/s '.format( self.pool.servers[server]['ghash'] ))
             if self.pool.servers[server]['duration'] > 0:
                 k += '\t' + str('{0:d}min.'.format( (self.pool.servers[server]['duration']/60) ))
         except Exception, e:
@@ -119,9 +115,12 @@ class API():
             server['ghash'] = ghash
 
         if 'api_key_duration' in server:
-            dur = json.loads(response)
-            for value in server['api_key_duration'].split(','):
-                dur = dur[value]
+            if 'json' in server['api_method'] and 'api_key_duration' in server:
+                dur = json.loads(response)
+                for value in server['api_key_duration'].split(','):
+                    dur = dur[value]
+            else:
+                dur = response
             duration = self.get_duration(server, str(dur))
             if duration > 0:
                 server['duration'] = duration 
@@ -265,16 +264,16 @@ class API():
             
         if 'api_key_ghashrate' in server:
             output = re.search(server['api_key_ghashrate'], response)
-            return float(output.group(0).replace(' ', ''))
+            return float(output.group(1).replace(' ', ''))
         if 'api_key_mhashrate' in server:
             output = re.search(server['api_key_mhashrate'], response)
-            return float(output.group(0).replace(' ', '')) / 1000.0
+            return float(output.group(1).replace(' ', '')) / 1000.0
         if 'api_key_khashrate' in server:
             output = re.search(server['api_key_khashrate'], response)
-            return float(output.group(0).replace(' ', '')) / 1000000.0
+            return float(output.group(1).replace(' ', '')) / 1000000.0
         if 'api_key_hashrate' in server:
             output = re.search(server['api_key_hashrate'], response)
-            return float(output.group(0).replace(' ', '')) / 1000000000.0
+            return float(output.group(1).replace(' ', '')) / 1000000000.0
             
         return -1
     
