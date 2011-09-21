@@ -115,9 +115,12 @@ class API():
             server['ghash'] = ghash
 
         if 'api_key_duration' in server:
-            dur = json.loads(response)
-            for value in server['api_key_duration'].split(','):
-                dur = dur[value]
+            if 'json' in server['api_method'] and 'api_key_duration' in server:
+                dur = json.loads(response)
+                for value in server['api_key_duration'].split(','):
+                    dur = dur[value]
+            else:
+                dur = response
             duration = self.get_duration(server, str(dur))
             if duration > 0:
                 server['duration'] = duration 
