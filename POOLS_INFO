@@ -14,6 +14,11 @@
 info_1: BTC withdrawal available only to campbx exchange, 1btc minimum (pool website) - 14.3 GHash/s @ 09.21.11
 
 
+[yourbtc]
+#http://yourbtc.net
+info_1: Small pool using Double Geometric Payout Method (pool website) - 4.3 GHash/s @ 09.21.11
+
+
 #######################################
 
 
