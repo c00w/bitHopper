@@ -16,39 +16,47 @@ from eventlet.green import threading, os, time, socket
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
 
-Class API():
+class API():
     def __init__(self, bitHopper):
         self.bitHopper = bitHopper
         self.api_lock = {}
+        self.pool = self.bitHopper.pool
+        self.servers = self.pool.servers
         self.api_pull = ['mine', 'info', 'mine_slush', 'mine_nmc', 'mine_ixc', 'mine_i0c',  'mine_scc', 'mine_charity', 'mine_deepbit', 'backup', 'backup_latehop']
-
-
-    threading.Lock()
-
-def UpdateShares(self, server, shares):
-        diff = self.bitHopper.difficulty.get_difficulty()
-        self.servers[server]['api_lag'] = False        
+        self.api_disable_sec = 7200
+        try:
+            self.api_disable_sec = self.bitHopper.config.getint('main', 'api_disable_sec')
+        except Exception, e:
+            self.bitHopper.log_dbg("Error getting value for api_disablesec")
+            self.bitHopper.log_dbg(e)
+    def UpdateShares(self, server, shares):
+        diff = self.bitHopper.difficulty.get_difficulty()         
         prev_shares = self.servers[server]['shares']
+
+        #Mark it as unlagged
+        self.servers[server]['api_lag'] = False       
         self.servers[server]['init'] = True
+
+        #If we have the same amount of shares query it in a bit.
         if shares == prev_shares:
-            time = .10*self.servers[server]['refresh_time']
             self.servers[server]['refresh_time'] += .10*self.servers[server]['refresh_time']
+            time = .10*self.servers[server]['refresh_time']
         else:
             self.servers[server]['refresh_time'] -= .10*self.servers[server]['refresh_time']
             time = self.servers[server]['refresh_time']
 
         if time <= self.servers[server]['refresh_limit']:
             time = self.servers[server]['refresh_limit']
+
         eventlet.spawn_after(time,self.update_api_server,server)
 
+        #Figure out what we should print
         try:
             k =  str('{0:d}'.format(int(shares)))
-            ghash_duration = '  '
             if self.servers[server]['ghash'] > 0:
-                ghash_duration += str('{0:.1f}gh/s '.format( self.servers[server]['ghash'] ))
+                k += '\t' + str('{0:.1f}gh/s '.format( self.servers[server]['ghash'] ))
             if self.servers[server]['duration'] > 0:
-                ghash_duration += '\t' + str('{0:d}min.'.format( (self.servers[server]['duration']/60) ))
-            k += '\t' + ghash_duration
+                k += '\t' + str('{0:d}min.'.format( (self.servers[server]['duration']/60) ))
         except Exception, e:
             self.bitHopper.log_dbg("Error formatting")
             self.bitHopper.log_dbg(e)
@@ -64,17 +72,13 @@ def UpdateShares(self, server, shares):
         #If the shares indicate we found a block tell LP
         if shares < prev_shares and shares < 0.10 * diff:
             self.bitHopper.lp.set_owner(server)
+
         self.servers[server]['shares'] = shares
         self.servers[server]['err_api_count'] = 0
-        api_disable_sec = 7200
-        try:
-            api_disable_sec = self.bitHopper.config.getint('main', 'api_disable_sec')
-        except:
-            pass
-        if self.servers[server]['refresh_time'] > api_disable_sec and self.servers[server]['role'] not in ['info','backup','backup_latehop']:
+
+        if self.servers[server]['refresh_time'] > self.api_disable_sec and self.servers[server]['role'] not in ['info','backup','backup_latehop']:
             self.bitHopper.log_msg('Disabled due to unchanging api: ' + server)
             self.servers[server]['role'] = 'api_disable'
-            return
 
     def errsharesResponse(self, error, server_name):
         self.bitHopper.log_msg(server_name + ' api error:' + str(error))
