@@ -37,6 +37,7 @@ import data
 import lp
 import lp_callback
 import plugin
+import api
 
 
 import ConfigParser
@@ -51,6 +52,7 @@ class BitHopper():
         self.difficulty = diff.Difficulty(self)           
         self.pool = pool.Pool(self)
         self.db = database.Database(self)
+        self.api = api.API(self)
         self.pool.setup(self)
         self.work = work.Work(self)
         self.speed = speed.Speed(self)
