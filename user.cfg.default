@@ -55,6 +55,9 @@
 #                 LP response pools)
 #  percent:       keep submitting shares to pool, % value from you total output
 #                 (1% = 1 share every 100)
+#  c:             this variable is used in a function that determines how long
+#                 it takes shares to decay in value on score pools (more info
+#                 on page 200, bH thread on main forum)
 #  refresh_limit: pool's api refreshing interval in seconds
 #  user_agent:    HTTP User-Agent header to set when retrieving pool stats
 #                 Overrides the default in bh.cfg
@@ -236,6 +239,13 @@ pass: x
 #CHANGE THIS (if you want)
 role: info
 asspenny_user_apikey: xxxxxx
+user: your_username
+pass: your_password
+
+[guildminers]
+#http://guildminers.com/
+#CHANGE THIS
+role: info
 user: your_username
 pass: your_password
 
