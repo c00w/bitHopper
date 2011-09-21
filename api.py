@@ -21,8 +21,7 @@ class API():
         self.bitHopper = bitHopper
         self.api_lock = {}
         self.pool = self.bitHopper.pool
-        self.servers = self.pool.servers
-        self.api_pull = ['mine', 'info', 'mine_slush', 'mine_nmc', 'mine_ixc', 'mine_i0c',  'mine_scc', 'mine_charity', 'mine_deepbit', 'backup', 'backup_latehop']
+        self.api_pull = ['mine', 'info', 'mine_slush', 'mine_c', 'mine_nmc', 'mine_ixc', 'mine_i0c',  'mine_scc', 'mine_charity', 'mine_deepbit', 'backup', 'backup_latehop']
         self.api_disable_sec = 7200
         try:
             self.api_disable_sec = self.bitHopper.config.getint('main', 'api_disable_sec')
@@ -33,7 +32,7 @@ class API():
     def UpdateShares(self, server, shares):  
 
         #Actual Share Update      
-        prev_shares = self.servers[server]['shares']
+        prev_shares = self.pool.servers[server]['shares']
 
         diff_btc = self.bitHopper.difficulty.get_difficulty()
         diff_nmc = self.bitHopper.difficulty.get_nmc_difficulty()
@@ -42,27 +41,27 @@ class API():
         diff_ixc = self.bitHopper.difficulty.get_ixc_difficulty()
 
         #Mark it as unlagged
-        self.servers[server]['api_lag'] = False       
-        self.servers[server]['init'] = True
+        self.pool.servers[server]['api_lag'] = False       
+        self.pool.servers[server]['init'] = True
 
         #If we have the same amount of shares query it in a bit.
         if shares == prev_shares:
-            self.servers[server]['refresh_time'] += .10*self.servers[server]['refresh_time']
-            update_time = .10*self.servers[server]['refresh_time']
+            self.pool.servers[server]['refresh_time'] += .10*self.pool.servers[server]['refresh_time']
+            update_time = .10*self.pool.servers[server]['refresh_time']
         else:
-            self.servers[server]['refresh_time'] -= .10*self.servers[server]['refresh_time']
-            update_time = self.servers[server]['refresh_time']
+            self.pool.servers[server]['refresh_time'] -= .10*self.pool.servers[server]['refresh_time']
+            update_time = self.pool.servers[server]['refresh_time']
 
-        if update_time <= self.servers[server]['refresh_limit']:
-            update_time = self.servers[server]['refresh_limit']
+        if update_time <= self.pool.servers[server]['refresh_limit']:
+            update_time = self.pool.servers[server]['refresh_limit']
 
         #Figure out what we should print
         try:
             k =  str('{0:d}'.format(int(shares)))
-            if self.servers[server]['ghash'] > 0:
-                k += '\t' + str('{0:.1f}gh/s '.format( self.servers[server]['ghash'] ))
-            if self.servers[server]['duration'] > 0:
-                k += '\t' + str('{0:d}min.'.format( (self.servers[server]['duration']/60) ))
+            if self.pool.servers[server]['ghash'] > 0:
+                k += '\t' + str('{0:.1f}gh/s '.format( self.pool.servers[server]['ghash'] ))
+            if self.pool.servers[server]['duration'] > 0:
+                k += '\t' + str('{0:d}min.'.format( (self.pool.servers[server]['duration']/60) ))
         except Exception, e:
             self.bitHopper.log_dbg("Error formatting")
             self.bitHopper.log_dbg(e)
@@ -76,7 +75,7 @@ class API():
                 self.bitHopper.log_msg(str(server) +":\t"+ k)
 
         #If the shares indicate we found a block tell LP
-        coin_type = self.servers[server]['coin']        
+        coin_type = self.pool.servers[server]['coin']        
         if coin_type == 'btc' and shares < prev_shares and shares < 0.10 * diff_btc:
             self.bitHopper.lp.set_owner(server)
         elif coin_type == 'nmc' and shares < prev_shares and shares < 0.10 * diff_nmc:
@@ -89,29 +88,29 @@ class API():
             self.bitHopper.lp.set_owner(server)
 
         self.pool.servers[server]['shares'] = int(shares)
-        self.servers[server]['err_api_count'] = 0
+        self.pool.servers[server]['err_api_count'] = 0
 
-        if self.servers[server]['refresh_time'] > self.api_disable_sec and self.servers[server]['role'] not in ['info','backup','backup_latehop']:
+        if self.pool.servers[server]['refresh_time'] > self.api_disable_sec and self.pool.servers[server]['role'] not in ['info','backup','backup_latehop']:
             self.bitHopper.log_msg('Disabled due to unchanging api: ' + server)
-            self.servers[server]['role'] = 'api_disable'
+            self.pool.servers[server]['role'] = 'api_disable'
         return update_time
 
     def errsharesResponse(self, error, server_name):
         self.bitHopper.log_msg(server_name + ' api error:' + str(error))
         #traceback.print_exc()
         pool = server_name
-        self.servers[pool]['err_api_count'] += 1
-        self.servers[pool]['init'] = True
-        if self.servers[pool]['err_api_count'] > 1:
-            self.servers[pool]['api_lag'] = True
-        update_time = self.servers[pool]['refresh_time']
-        if update_time < self.servers[pool]['refresh_limit']:
-            update_time = self.servers[pool]['refresh_limit']
+        self.pool.servers[pool]['err_api_count'] += 1
+        self.pool.servers[pool]['init'] = True
+        if self.pool.servers[pool]['err_api_count'] > 1:
+            self.pool.servers[pool]['api_lag'] = True
+        update_time = self.pool.servers[pool]['refresh_time']
+        if update_time < self.pool.servers[pool]['refresh_limit']:
+            update_time = self.pool.servers[pool]['refresh_limit']
         return update_time
 
     def selectsharesResponse(self, response, server_name):
         #self.bitHopper.log_dbg('Calling sharesResponse for '+ args)
-        server = self.servers[server_name]
+        server = self.pool.servers[server_name]
         if server['role'] not in self.api_pull:
             return -1
 
@@ -342,11 +341,11 @@ class API():
         return duration
 
     def update_api_server(self,server):
-        update_time = self.servers[server]['refresh_limit']
+        update_time = self.pool.servers[server]['refresh_limit']
         try:
-            if self.servers[server]['role'] not in self.api_pull:
+            if self.pool.servers[server]['role'] not in self.api_pull:
                 return
-            info = self.servers[server]
+            info = self.pool.servers[server]
             self.bitHopper.scheduler.update_api_server(server)
             user_agent = None
             if 'user_agent' in info:
@@ -360,5 +359,5 @@ class API():
             eventlet.spawn_after(update_time, self.update_api_server, server)
 
     def update_api_servers(self):
-        for server in self.servers:
+        for server in self.pool.servers:
             eventlet.spawn_n(self.update_api_server, server)
