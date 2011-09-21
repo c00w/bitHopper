@@ -67,6 +67,7 @@ info_3: PPS payout server available (beta) - 1835.25 Ghash/s @ 09.12.11
 [btcmine]
 #https://btcmine.com/user/register/
 info_1: Score based payout, try mining with mine_slush (page 164 - bH thread on main forum) - 356.68 Ghash/s @ 08.23.11
+info_2: You can try the new mine_c role available for score pools and setup c: 550 - 223.68 Ghash/s @ 09.21.11
 
 
 [btcmonkey]

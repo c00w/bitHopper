@@ -67,6 +67,7 @@ info_3: Servidor con sistema de pago PPS disponible (beta) - 1835.25 Ghash/s @ 0
 [btcmine]
 #https://btcmine.com/user/register/
 info_1: Sistema de pago por puntuacion, intenta minar con mine_slush (pagina 164 - hilo bH en el foro principal) - 356.68 Ghash/s @ 08.23.11
+info_2: Puedes probar el nuevo rol mine_c disponible para minas con puntuacion y ajustar c: 550 - 223.68 Ghash/s @ 09.21.11
 
 
 [btcmonkey]
