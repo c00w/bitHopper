@@ -59,7 +59,7 @@ class API():
         try:
             k =  str('{0:d}'.format(int(shares)))
             if self.pool.servers[server]['ghash'] > 0:
-                k += '\t' + str('{0:.1f}gh/s '.format( self.pool.servers[server]['ghash'] ))
+                k += '\t\t' + str('{0:.1f}gh/s '.format( self.pool.servers[server]['ghash'] ))
             if self.pool.servers[server]['duration'] > 0:
                 k += '\t' + str('{0:d}min.'.format( (self.pool.servers[server]['duration']/60) ))
         except Exception, e:
