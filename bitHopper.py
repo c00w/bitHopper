@@ -122,7 +122,7 @@ class BitHopper():
         server_name = self.scheduler.select_best_server()
         if not server_name:
             self.log_msg('FATAL Error, scheduler did not return any pool!')
-            os._exit(-1)
+            os._exit(1)
             
         if self.pool.get_current() != server_name:
             self.pool.set_current(server_name)
@@ -200,12 +200,12 @@ def main():
             application_path = os.path.dirname(__file__)
         if not os.path.exists(os.path.join(application_path, options.config)):
             print "Missing " + options.config + " may need to rename bh.cfg.default"
-            os._exit(-1)        
+            os._exit(1)
         config.read(os.path.join(application_path, options.config))
     except:
         if not os.path.exists(options.config):
             print "Missing " + options.config + " may need to rename bh.cfg.default"
-            os._exit(-1)        
+            os._exit(1)
         config.read(options.config)
     
     bithopper_instance = BitHopper(options, config)
