@@ -59,7 +59,7 @@
 #                 total de tus shares (1% = 1 share cada 100)
 #  c:             esta variable se utiliza en conjunto con el rol "mine_c" y determina
 #                 cuanto tiempo tardan los shares para disminuir su valor en minas con
-#                 puntuacion (mas informacion en la pagina 200, hilo bH en foro principal)
+#                 puntuacion (mas informacion en la pagina 200, hilo bH del foro principal)
 #  refresh_limit: intervalo para refrescar la api de mina en segundos
 #  user_agent:    identificacion de navegador HTTP de bH para minas, sobrescribe
 #                 el reglaje general que se encuentra en bh.cfg
