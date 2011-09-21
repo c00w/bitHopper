@@ -29,8 +29,12 @@ class API():
         except Exception, e:
             self.bitHopper.log_dbg("Error getting value for api_disablesec")
             self.bitHopper.log_dbg(e)
-    def UpdateShares(self, server, shares):        
+
+    def UpdateShares(self, server, shares):  
+
+        #Actual Share Update      
         prev_shares = self.servers[server]['shares']
+
         diff_btc = self.bitHopper.difficulty.get_difficulty()
         diff_nmc = self.bitHopper.difficulty.get_nmc_difficulty()
         diff_scc = self.bitHopper.difficulty.get_scc_difficulty()
@@ -44,15 +48,13 @@ class API():
         #If we have the same amount of shares query it in a bit.
         if shares == prev_shares:
             self.servers[server]['refresh_time'] += .10*self.servers[server]['refresh_time']
-            time = .10*self.servers[server]['refresh_time']
+            update_time = .10*self.servers[server]['refresh_time']
         else:
             self.servers[server]['refresh_time'] -= .10*self.servers[server]['refresh_time']
-            time = self.servers[server]['refresh_time']
+            update_time = self.servers[server]['refresh_time']
 
-        if time <= self.servers[server]['refresh_limit']:
-            time = self.servers[server]['refresh_limit']
-
-        eventlet.spawn_after(time,self.update_api_server,server)
+        if update_time <= self.servers[server]['refresh_limit']:
+            update_time = self.servers[server]['refresh_limit']
 
         #Figure out what we should print
         try:
@@ -86,12 +88,13 @@ class API():
         elif coin_type == 'i0c' and shares < prev_shares and shares < 0.10 * diff_i0c:
             self.bitHopper.lp.set_owner(server)
 
-        self.servers[server]['shares'] = shares
+        self.pool.servers[server]['shares'] = int(shares)
         self.servers[server]['err_api_count'] = 0
 
         if self.servers[server]['refresh_time'] > self.api_disable_sec and self.servers[server]['role'] not in ['info','backup','backup_latehop']:
             self.bitHopper.log_msg('Disabled due to unchanging api: ' + server)
             self.servers[server]['role'] = 'api_disable'
+        return update_time
 
     def errsharesResponse(self, error, server_name):
         self.bitHopper.log_msg(server_name + ' api error:' + str(error))
@@ -101,16 +104,16 @@ class API():
         self.servers[pool]['init'] = True
         if self.servers[pool]['err_api_count'] > 1:
             self.servers[pool]['api_lag'] = True
-        time = self.servers[pool]['refresh_time']
-        if time < self.servers[pool]['refresh_limit']:
-            time = self.servers[pool]['refresh_limit']
-        eventlet.spawn_after(time, self.update_api_server, pool)
+        update_time = self.servers[pool]['refresh_time']
+        if update_time < self.servers[pool]['refresh_limit']:
+            update_time = self.servers[pool]['refresh_limit']
+        return update_time
 
     def selectsharesResponse(self, response, server_name):
         #self.bitHopper.log_dbg('Calling sharesResponse for '+ args)
         server = self.servers[server_name]
         if server['role'] not in self.api_pull:
-            return
+            return -1
 
         ghash = self.get_ghash(server, response, server['api_method'])
         if ghash > 0:
@@ -237,8 +240,9 @@ class API():
         else:   
             round_shares = int(info)
                     
-        self.UpdateShares(server_name,round_shares)
+        update_time = self.UpdateShares(server_name, round_shares)
         self.bitHopper.server_update()
+        return update_time
 
     def get_ghash(self, server, response, role):
         if role.find('json') >= 0 :
@@ -338,6 +342,7 @@ class API():
         return duration
 
     def update_api_server(self,server):
+        update_time = self.servers[server]['refresh_limit']
         try:
             if self.servers[server]['role'] not in self.api_pull:
                 return
@@ -347,9 +352,12 @@ class API():
             if 'user_agent' in info:
                 user_agent = info['user_agent']
             value = self.bitHopper.work.get(info['api_address'], user_agent)
-            self.selectsharesResponse(value, server)
+            update_time = self.selectsharesResponse(value, server)
+            
         except Exception, e:
-            self.errsharesResponse(e, server)
+            update_time = self.errsharesResponse(e, server)
+        finally:
+            eventlet.spawn_after(update_time, self.update_api_server, server)
 
     def update_api_servers(self):
         for server in self.servers:
