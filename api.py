@@ -59,7 +59,7 @@ class API():
         try:
             k =  str('{0:d}'.format(int(shares)))
             if self.pool.servers[server]['ghash'] > 0:
-                k += '\t' + str('{0:.1f}gh/s '.format( self.pool.servers[server]['ghash'] ))
+                k += '\t\t' + str('{0:.1f}gh/s '.format( self.pool.servers[server]['ghash'] ))
             if self.pool.servers[server]['duration'] > 0:
                 k += '\t' + str('{0:d}min.'.format( (self.pool.servers[server]['duration']/60) ))
         except Exception, e:
@@ -111,6 +111,7 @@ class API():
     def selectsharesResponse(self, response, server_name):
         #self.bitHopper.log_dbg('Calling sharesResponse for '+ args)
         server = self.pool.servers[server_name]
+        old_duration = server['duration']
         if server['role'] not in self.api_pull:
             return -1
 
@@ -119,9 +120,12 @@ class API():
             server['ghash'] = ghash
 
         if 'api_key_duration' in server:
-            dur = json.loads(response)
-            for value in server['api_key_duration'].split(','):
-                dur = dur[value]
+            if 'json' in server['api_method'] and 'api_key_duration' in server:
+                dur = json.loads(response)
+                for value in server['api_key_duration'].split(','):
+                    dur = dur[value]
+            else:
+                dur = response
             duration = self.get_duration(server, str(dur))
             if duration > 0:
                 server['duration'] = duration 
@@ -174,7 +178,7 @@ class API():
             
             # new round started or initial estimation
             rate = 0.25 * ghash
-            if duration < server['duration'] or server['duration'] < 0: 
+            if duration < old_duration or old_duration < 0: 
                 round_shares = int(rate * duration)
             else:
                 round_shares = server['shares'] + int(rate * diff)

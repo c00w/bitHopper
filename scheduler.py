@@ -102,7 +102,7 @@ class Scheduler(object):
             #Checks if shares are to high and if so sends it through the roof
             #So we don't mine it.
             c = int(info['c'])
-            hashrate = float(info['ghash']) * 1000**3
+            hashrate = float(info['ghash'])
             hopoff = difficulty * (self.difficultyThreshold - 503131/(1173666 + c*hashrate))
             if shares > hopoff:
                 shares = 2*difficulty
