@@ -105,7 +105,7 @@ class Scheduler(object):
             hashrate = float(info['ghash']) * 1000**3
             hopoff = difficulty * (self.difficultyThreshold - 503131/(1173666 + c*hashrate))
             if shares > hopoff:
-                shares = 2*self.difficultyThreshold
+                shares = 2*difficulty
 
         if info['role'] in ['mine_force', 'mine_lp_force']:
             shares = 0
