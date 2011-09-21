@@ -14,7 +14,7 @@ class Difficulty():
     "Stores difficulties and automaticlaly updates them"
     def __init__(self, bitHopper):
         self.bitHopper = bitHopper
-        self.difficulty = 1777774.4820015
+        self.difficulty = 1755425.3203287
         self.nmc_difficulty = 94037.96
         self.ixc_difficulty = 16384
         self.i0c_difficulty = 1372
