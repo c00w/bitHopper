@@ -107,6 +107,7 @@ class API():
     def selectsharesResponse(self, response, server_name):
         #self.bitHopper.log_dbg('Calling sharesResponse for '+ args)
         server = self.pool.servers[server_name]
+        old_duration = server['duration']
         if server['role'] not in self.api_pull:
             return -1
 
@@ -173,7 +174,7 @@ class API():
             
             # new round started or initial estimation
             rate = 0.25 * ghash
-            if duration < server['duration'] or server['duration'] < 0: 
+            if duration < old_duration or old_duration < 0: 
                 round_shares = int(rate * duration)
             else:
                 round_shares = server['shares'] + int(rate * diff)
