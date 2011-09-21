@@ -97,7 +97,7 @@ class Pool():
             for server in self.servers:
                 self.servers[server]['shares'] = int(bitHopper.difficulty.get_difficulty())
                 self.servers[server]['ghash'] = -1
-                self.servers[server]['duration'] = -1
+                self.servers[server]['duration'] = -2
                 self.servers[server]['duration_temporal'] = 0
                 self.servers[server]['isDurationEstimated'] = False
                 self.servers[server]['last_pulled'] = time.time()
