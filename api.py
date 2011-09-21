@@ -21,7 +21,7 @@ class API():
         self.bitHopper = bitHopper
         self.api_lock = {}
         self.pool = self.bitHopper.pool
-        self.api_pull = ['mine', 'info', 'mine_slush', 'mine_c', 'mine_nmc', 'mine_ixc', 'mine_i0c',  'mine_scc', 'mine_charity', 'mine_deepbit', 'backup', 'backup_latehop']
+        self.api_pull = ['mine', 'info', 'mine_c', 'mine_nmc', 'mine_ixc', 'mine_i0c',  'mine_scc', 'mine_charity', 'mine_lp',  'backup', 'backup_latehop']
         self.api_disable_sec = 7200
         try:
             self.api_disable_sec = self.bitHopper.config.getint('main', 'api_disable_sec')
