@@ -265,16 +265,16 @@ class API():
             
         if 'api_key_ghashrate' in server:
             output = re.search(server['api_key_ghashrate'], response)
-            return float(output.group(0).replace(' ', ''))
+            return float(output.group(1).replace(' ', ''))
         if 'api_key_mhashrate' in server:
             output = re.search(server['api_key_mhashrate'], response)
-            return float(output.group(0).replace(' ', '')) / 1000.0
+            return float(output.group(1).replace(' ', '')) / 1000.0
         if 'api_key_khashrate' in server:
             output = re.search(server['api_key_khashrate'], response)
-            return float(output.group(0).replace(' ', '')) / 1000000.0
+            return float(output.group(1).replace(' ', '')) / 1000000.0
         if 'api_key_hashrate' in server:
             output = re.search(server['api_key_hashrate'], response)
-            return float(output.group(0).replace(' ', '')) / 1000000000.0
+            return float(output.group(1).replace(' ', '')) / 1000000000.0
             
         return -1
     
