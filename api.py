@@ -95,7 +95,7 @@ class API():
 
     def errsharesResponse(self, error, server_name):
         self.bitHopper.log_msg(server_name + ' api error:' + str(error))
-        traceback.print_exc()
+        #traceback.print_exc()
         pool = server_name
         self.servers[pool]['err_api_count'] += 1
         self.servers[pool]['init'] = True
