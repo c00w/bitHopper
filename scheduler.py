@@ -99,9 +99,14 @@ class Scheduler(object):
             shares = difficulty
 
         if info['role'] == 'mine_c':
+            #Checks if shares are to high and if so sends it through the roof
+            #So we don't mine it.
             c = int(info['c'])
             hashrate = float(info['ghash']) * 1000**3
-            shares = difficulty * (self.difficultyThreshold - 503131/(1173666 + c*hashrate))
+            hopoff = difficulty * (self.difficultyThreshold - 503131/(1173666 + c*hashrate))
+            if shares > hopoff:
+                shares = 2*difficulty
+
         if info['role'] in ['mine_force', 'mine_lp_force']:
             shares = 0
         # apply penalty
