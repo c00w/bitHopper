@@ -59,7 +59,7 @@
 #                 (1% = 1 share every 100)
 #  c:             this variable is used together with "mine_c" role and
 #                 determines how long it takes shares to decay in value on
-#                 score pools (more info on page 200, bH thread on main forum)
+#                 score pools (more info on page 200, bH thread in main forum)
 #  refresh_limit: pool's api refreshing interval in seconds
 #  user_agent:    HTTP User-Agent header to set when retrieving pool stats
 #                 Overrides the default in bh.cfg
@@ -248,6 +248,13 @@ pass: your_password
 #http://guildminers.com/
 #CHANGE THIS
 role: info
+user: your_username
+pass: your_password
+
+[yourbtc]
+#http://yourbtc.net
+#CHANGE THIS (if you want)
+role: mine
 user: your_username
 pass: your_password
 
