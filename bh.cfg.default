@@ -15,6 +15,9 @@ scheduler = DefaultScheduler
 #scheduler = SimpleSliceScheduler
 #scheduler = AltSliceScheduler
 
+# connection timeout for work requests
+work_request_timeout = 2.5
+
 # waiting time for checking pools conectivity
 delag_sleep = 20
 
@@ -41,7 +44,7 @@ random_ua_list = Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trid
 #username = user
 #password = pass
 
-[defaultscheduler]
+[SimpleSliceScheduler]
 slicesize = 30
 
 # not working yet
@@ -58,20 +61,35 @@ roundtimemagic = 10
 #    auto - loads everything automatically
 #    manual - specify which plugins you want to load below
 #    disabled - disable plugin loading completely
-mode = auto
+mode = manual
 
 [plugins]
 test = True
-backdoor = True
+backdoor = False
 apiangel = True
 poclbm = False
-# Probably need the one below in the future
-lpbot = False
+lpbot = True
+
+# set "rpcworklog" to False to disable RPC work logging
+rpcworklog = True
+
+# set to True to enable /lpworkbench on the website
+# shows lp_owner, verified owner, block timings per block
+# shows lp_penalty summary below
+lpworkbench = True
+
+# store list of verified blocks from each pool (scraped via API/html)
+# see "poolblock.cfg" for more information
+poolblocks = False
+
+# set to true to track LP guess accuracy against verified blocks
+# requires "poolblocks = True"
+blockaccuracy = False
 
 [backdoor]
 port = 3000
 
-[apiangel]
+[plugin.apiangel]
 # APIAngel will look for api_disable pools and restore them
 #  - Checks every "interval" seconds
 #  - Restores if "last_pulled" + "reincarnateInterval" > now (current time in seconds)
@@ -87,4 +105,32 @@ run_interval = 15
 min_votes = 5
 # (0.5 == 50% of votes for a quorum) probably not a good idea to set below 0.5
 vote_threshold = 0.5
+
+[plugin.poolblocks]
+# interval to check pool stats for new blocks
+refreshInterval = 600
+
+# random number to add to refresh interval (from 0 to refreshRandomJitter)
+refreshRandomJitter = 120
+
+# max number of threads to open to blockexplorer
+execpoolsize = 8
+
+# use_ratelimit = True - enable rate limiting for fetch block information
+use_ratelimit = False
+
+# ratelimit = int (kb/s) for fetch blocks from pools and blockexplorer (except mmf/btcmp)
+# use a value 80% of the target, e.g. for 100kb/s try 80kb/s, especially for
+# smaller transfers
+ratelimit = 50
+
+# Limit the number of blocks retrieved (default 25)
+block_retrieve_limit = 25
+
+# timeout for retrieving solved block lists from each pool (default 30)
+timeout = 30
+
+[plugins.blockaccuracy]
+# report interval for new verified blocks by poolblocks plugin (default 600 seconds)
+reportInterval = 600
 

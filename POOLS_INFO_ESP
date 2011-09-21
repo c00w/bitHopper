@@ -3,46 +3,27 @@
 #   sobre la minas conocidas por bH,
 # recogida aqui con fines informativos
 #######################################
-
 #######################################
 #   Minas anadidas recientemente,
 #      saltalas a tu riesgo.
 #######################################
 
 
-[bloodys]
-#http://pool.bloodys.com
-info_1: Por favor reporta tu experiencia en foro o canal IRC - 1.86 Ghash/s @ 08.23.11
+
+####################################### 
 
 
-[bithasher]
-#http://bithasher.com/index.php/register/
-info_1: Por favor reporta tu experiencia en foro o canal IRC - 7.12 Ghash/s @ 08.23.11
-
-
-[swepool]
-#http://swepool.net/profile
-info_1: Por favor reporta tu experiencia en foro o canal IRC - 2.98 GHash/s @ 08.23.11
-
-
-[bitfarms]
-#http://bitfarms.ca/
-info_1: Por favor reporta tu experiencia en foro o canal IRC - 4.41 Ghash/s @ 08.23.11
-
-
-[p2pool]
-#https://en.bitcoin.it/wiki/P2Pool
-info_1: Mina descentralizada con sopote para btc, nmc y otros - 1.89 Ghash/s @ 08.23.11
-info_2: Por favor reporta tu experiencia en foro o canal IRC
-
-
-#######################################
+[asspenny]
+#http://asspennypool.com/register.php
+info_1: Nueva mina en el barrio, sistema prop. , porfavor reporta tu experiencia - 3.1 Ghash/s @ 09.05.11
+info_2: La mina mas "gafe" que haya existido pero posiblemente te puedes hacer con unos centimos - 10.1 Ghash/s @ 09.08.11
 
 
 [bclc]
 #http://www.bitcoins.lc
 info_1: Ralentiza stats y no tiene una actitud muy civica con los mineros (pagina 95)
-info_2: Puedes probar minar con el rol mine_deepbit - 466.02 Ghash/s @ 08.23.11
+info_2: Puedes probar minar con el rol mine_lp - 466.02 Ghash/s @ 08.23.11
+info_3: Perdidas de conexion frequentes debido trabajos con el cortafuegos (twitter) - 295.14 Ghash/s @ 09.19.11
 
 
 [bcpool]
@@ -50,6 +31,7 @@ info_2: Puedes probar minar con el rol mine_deepbit - 466.02 Ghash/s @ 08.23.11
 info_1: Medidas anti-hopping basadas en "ventana de participacion" (pagina 36)
 info_2: Desactiva las medidas anti-hopper si donas (pagina 111)
 info_3: Truca los stats json para que te quedes minando con ellos (pagina 184) - 88.63 Ghash/s @ 08.23.11
+info_4: La mina impone una penalidad de 50% solo para mineros ocasionales (pagina de mina) - 68.87 Ghash/s @ 09.06.11
 
 
 [bitclockers]
@@ -58,14 +40,27 @@ info_1: Salta esta mina con precaucion, posibles medidas anti-hopper
 info_2: Los nuevos servidores funcionan sin problemas con cero share stale, seguro para minar - 276.20 Ghash/s @ 08.23.11
 
 
+[bithasher]
+#http://bithasher.com/index.php/register/
+info_1: Por favor reporta tu experiencia en foro o canal IRC - 7.12 Ghash/s @ 08.23.11
+info_2: Tienen problemas para encontrar un bloque, 28 dias a esta fecha - 1.19 Ghash/s @ 09.09.11
+
+
+[bloodys]
+#http://pool.bloodys.com
+info_1: Por favor reporta tu experiencia en foro o canal IRC - 1.86 Ghash/s @ 08.23.11
+info_2: Calculando sin parar desde hace mas de un mes sin suerte - 3.48 Ghash/s @ 09.09.11
+
+
 [btcg]
 #https://www.btcguild.com/
 info_1: Ralentiza stats (pagina 87)
-info_2: Prueba suerte minar con el rol mine_deepbit - 2132.23 Ghash/s @ 08.23.11
+info_2: Prueba suerte minar con el rol mine_lp - 2132.23 Ghash/s @ 08.23.11
+info_3: Servidor con sistema de pago PPS disponible (beta) - 1835.25 Ghash/s @ 09.12.11
 
 
 [btcmine]
-# https://btcmine.com/user/register/
+#https://btcmine.com/user/register/
 info_1: Sistema de pago por puntuacion, intenta minar con mine_slush (pagina 164) - 356.68 Ghash/s @ 08.23.11
 
 
@@ -74,12 +69,6 @@ info_1: Sistema de pago por puntuacion, intenta minar con mine_slush (pagina 164
 info_1: Mina pequena y mona - 1.917 Ghash/s @ 08.23.11
 info_2: Mina fuera de linea despues de supuestamente encontrar un bloque (08.29.11)
 info_3: Online y funcionando bien (08.30.11)
-
-
-[btcserv]
-#http://btcserv.net/
-info_1: Mina pequena, raportar informacion sobre ella en el foro - 2.94 GHash/s @ 08.23.11
-info_2: Sistema de pago PPS disponible en caso de utilizar como mina de respaldo - 4.60 GHash/s @ 08.31.11
 
 
 [btcworld]
@@ -113,11 +102,24 @@ info_2: Sistema de pago PPS disponible en caso de utilizar como mina de respaldo
 #https://ozco.in/register.php
 info_1: Congela stats sin razon (pagina 114, foro oficial bH)
 info_2: Stats funcionan - 60.5 GHash/s @ 08.23.11
+info_3: Necesitan un poco de ayuda para resolver este ultimo bloque - 61.2 GHash/s @ 09.18.11
+
+
+[p2pool]
+#https://bitcointalk.org/index.php?topic=18313
+info_1: Mina descentralizada con sopote para btc, nmc y otros - 1.89 Ghash/s @ 08.23.11
+info_2: El programa de mina se tiene que instalar previamente en el ordenador local
 
 
 [slush]
 #http://mining.bitcoin.cz/accounts/register/
 info_1: Buena para saltar hasta 10% de dificultad, utiliza mine_slush - 1872.64 GHash/s @ 08.23.11
+
+
+[swepool]
+#http://swepool.net/profile
+info_1: Por favor reporta tu experiencia en foro o canal IRC - 2.98 GHash/s @ 08.23.11
+info_2: Esta mina se cierra el 6 oct 2011 (pool website) - 3.68 GHash/s @ 09.09.11
 
 
 [triple]
@@ -163,6 +165,7 @@ info_1: 0% tasas, mina PPS - 484.4 GHash/s @ 08.23.11
 [bitp]
 #http://bitp.it
 info_1: Mina PPS - 27.60 GHash/s @ 08.23.11
+info_2: Mina caida debido ataques DDoS (hilo de mina en foro BC - pagina 30)
 
 
 [ninjac]
@@ -188,6 +191,24 @@ info_3: Cambiaron sistema de pago a rsmpps (pagina 195)
 # https://pool.itzod.ru
 info_1: Sistema de pago por puntuacion, utiliza mine_slush si quieres saltarla (pagina 154) - 74.61 Ghash/s @ 08.23.11
 info_2: Ha cambiado a sistema SMPPS (IRC)
+
+
+[btcserv]
+#http://btcserv.net/
+info_1: Mina pequena, raportar informacion sobre ella en el foro - 2.94 GHash/s @ 08.23.11
+info_2: Sistema de pago PPS disponible en caso de utilizar como mina de respaldo - 4.60 GHash/s @ 08.31.11
+info_3: El admin decide implementar FIFO PPS (hilo de mina en foro BC - pagina 4) -  11.36 GHash/s @ 09.09.11
+
+
+[bitfarms]
+#http://bitfarms.ca/
+info_1: Por favor reporta tu experiencia en foro o canal IRC - 4.41 Ghash/s @ 08.23.11
+info_2: Sistema de pago PPS (pagina de mina) - 3.66 Ghash/s @ 09.09.11
+
+
+[btcgpps]
+#http://pps.btcguild.com/register.php
+info_1: Servidor con sistema de pago PPS en funcionamiento (beta) - 32,85 Mhash/s @ 09.12.11
 
 
 ######################################
@@ -227,16 +248,17 @@ info_1: Mina namecoins (mine_nmc) - 47 Mhash/s @ 08.23.11
 [i0g]
 #http://i0.btcguild.com/register.php
 info_1: Mina i0coins, usa el rol mine_i0c - Offline @ 08.23.11
+info_2: Cerrada permanente (hilo ofic en foro BC - pagina 10)
 
 
 [i0parking]
 #http://i0pool.bitparking.com/pool
-info_1: Mina i0coins, usa el rol mine_i0c - 0 hash/s @ 08.28.11
+info_1: Mina i0coins, usa el rol mine_i0c - 6.82 Ghash/s @ 09.09.11
 
 
 [digi0c]
 #http://i0.digbtc.net/
-info_1: Ralentiza las estadisticas y sospechan de su legitimidad (foro i0coin.org) - 0 hash/s @ 08.28.11
+info_1: Ralentiza las estadisticas y dudosa legitimidad (foro i0coin.org) - 1.5 Ghash/s @ 09.09.11
 
 
 #Minas scc
@@ -244,6 +266,7 @@ info_1: Ralentiza las estadisticas y sospechan de su legitimidad (foro i0coin.or
 [scguild]
 #http://sc.btcguild.com/
 info_1: Mina solidcoin, usa el rol mine_scc - 325.14 Ghash/s @ 08.28.11
+info_2: Cierran servicio el dia 11 de Septiembre (pagina de mina) - 70.31 Ghash/s @ 08.28.11
 
 
 [sodigbtc]
@@ -255,6 +278,7 @@ info_1: Mina solidcoin, usa el rol mine_scc - 62.3 Ghash/s @ 08.28.11
 [scbitparking]
 #http://scpool.bitparking.com
 info_1: Mina solidcoin, usa el rol mine_scc - 64.06 Ghash/s @ 08.28.11
+info_2: Cerrando puertas debido a cambio de licencia en el programa solidcoins (pagina de mina) - 10.61 Ghash/s @ 09.04.11
 
 
 [squid]
@@ -272,6 +296,11 @@ info_1: Mina solidcoin, usa el rol mine_scc - 2.51 Ghash/s @ 08.28.11
 [ixparking]
 #http://ixpool.bitparking.com/pool
 info_1: Mina IXcoins, usa el rol mine_ixc - 4.99 Ghash/s @ 08.28.11
+
+
+[digixc]
+#http://ix.digbtc.net
+info_1: Mina IXcoins, usa el rol mine_ixc - 0.5 Ghash/s @ 09.19.11
 
 
 ######################################
@@ -294,7 +323,7 @@ info_2: Ha cambiado el sistema de pagos con uno desconocido para prevenir la min
 #https://polmine.pl
 info_1: Mina polaca
 info_2: Ralentiza y truca los stats (pagina 157)
-info_3: Puedes probar minar con el rol mine_deepbit - 137.48 Ghash/s @ 08.23.11
+info_3: Puedes probar minar con el rol mine_lp - 137.48 Ghash/s @ 08.23.11
 info_4: Pagos menores solo para hoppers basados en bloques de 30btc (pagina 174 + IRC)
 
 

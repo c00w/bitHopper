@@ -8,6 +8,8 @@ from eventlet.green import time
 from eventlet.green import threading, socket
 import traceback
 
+from peak.util import plugins
+
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
 
@@ -30,6 +32,8 @@ def wordreverse(in_buf):
 
 class LongPoll():
     def __init__(self, bitHopper):
+        hook_start = plugins.Hook('plugins.lp.init.start')
+        hook_start.notify(self, bitHopper)
         self.bitHopper = bitHopper
         self.bitHopper.log_msg('LP Module Load')
         self.pool = self.bitHopper.pool
@@ -38,10 +42,25 @@ class LongPoll():
         self.errors = {}
         self.polled = {}
         self.lock = threading.RLock()
+        hook_end = plugins.Hook('plugins.lp.init.end')
+        hook_end.notify(self, bitHopper)
         eventlet.spawn_n(self.start_lp)
 
+    # return all blocks data (excluding special "_defer" entry)
+    def getBlocks(self):
+        temp = {};
+        for b in self.blocks:
+            temp[b] = {}
+            for v in self.blocks[b]:
+                if v != "_defer":
+                    temp[b][v] = self.blocks[b][v]
+        return temp
+    
     def set_owner(self, server, block = None):
         with self.lock:
+            hook_start = plugins.Hook('plugins.lp.set_owner.start')
+            hook_start.notify(self, server, block)
+
             if block == None:
                 if self.lastBlock == None:
                     return
@@ -51,6 +70,8 @@ class LongPoll():
             if old_owner and self.pool.servers[server]['coin'] != self.pool.servers[old_owner]['coin']:
                 return
             self.blocks[block]["_owner"] = server
+            if server not in self.blocks[block]:
+                self.blocks[block][server] = 0
             if '_defer' in self.blocks[block]:
                 old_defer = self.blocks[block]['_defer']
             else:
@@ -61,12 +82,14 @@ class LongPoll():
             if old_defer:
                 old_defer.release()
             self.bitHopper.log_msg('Setting Block Owner ' + server+ ':' + str(block))
-            if server in self.bitHopper.pool.servers and self.bitHopper.pool.servers[server]['role'] == 'mine_deepbit' and old_owner != server:
+            if server in self.bitHopper.pool.servers and self.bitHopper.pool.servers[server]['role'] == 'mine_lp' and old_owner != server:
                 old_shares = self.bitHopper.pool.servers[server]['shares']
                 self.bitHopper.pool.servers[server]['shares'] = 0
                 self.bitHopper.scheduler.reset()
                 self.bitHopper.select_best_server()
                 eventlet.spawn_n(self.api_check,server,block,old_shares)
+            hook_end = plugins.Hook('plugins.lp.set_owner.end')
+            hook_end.notify(self, server, block)
 
     def get_owner(self):
         with self.lock:
@@ -81,7 +104,7 @@ class LongPoll():
             
             for server in self.pool.get_servers():
                 info = self.pool.servers[server]
-                if info['role'] not in ['mine','mine_charity','mine_deepbit','backup','backup_latehop']:
+                if info['role'] not in ['mine','mine_charity','mine_lp','backup','backup_latehop']:
                     continue
                 if info['lp_address'] != None:
                     self.pull_lp(info['lp_address'],server)
@@ -103,26 +126,34 @@ class LongPoll():
     def add_block(self, block, work, server):
         """ Adds a new block. server must be the server the work is coming from """
         with self.lock:
+            hook_start = plugins.Hook('plugins.lp.add_block.start')
+            hook_start.notify(self, block, work, server)
             self.blocks[block]={}
+            self.blocks[block]['_time'] = time.localtime()
             self.bitHopper.lp_callback.new_block(work, server)
             self.blocks[block]["_owner"] = None
             self.lastBlock = block
+        hook_end = plugins.Hook('plugins.lp.add_block.end')
+        hook_end.notify(self, block, work, server)
 
     def receive(self, body, server):
+        hook_start = plugins.Hook('plugins.lp.receive.start')
+        hook_start.notify(self, body, server)
         if server in self.polled:
             self.polled[server].release()
         self.bitHopper.log_dbg('received lp from: ' + server)
+        self.bitHopper.log_trace('LP: ' + str(body))
         info = self.bitHopper.pool.servers[server]
         if info['role'] in ['mine_nmc', 'disable', 'mine_ixc', 'mine_i0c', 'mine_scc', 'info']:
             return
         if body == None:
-            self.bitHopper.log_dbg('error in long pool from: ' + server)
+            self.bitHopper.log_dbg('error in long poll from: ' + server)
             with self.lock:
                 if server not in self.errors:
                     self.errors[server] = 0
                 self.errors[server] += 1
             #timeout? Something bizarre?
-            if self.errors[server] < 3 or info['role'] == 'mine_deepbit':
+            if self.errors[server] < 3 or info['role'] == 'mine_lp':
                 eventlet.sleep(1)
                 eventlet.spawn_after(0,self.pull_lp, self.pool.servers[server]['lp_address'],server, False)
             return
@@ -139,8 +170,6 @@ class LongPoll():
 
             with self.lock:
                 if block not in self.blocks:
-                    if bytereverse(block) in self.blocks:
-                        block = bytereverse(block)
                     self.bitHopper.log_msg('New Block: ' + str(block))
                     self.bitHopper.log_msg('Block Owner ' + server)
                     self.add_block(block, work, server)
@@ -152,19 +181,24 @@ class LongPoll():
                 self.bitHopper.log_dbg('EXACT ' + str(server) + ': ' + str(self.blocks[block][server]))
                 if self.blocks[block]['_owner'] == None or self.blocks[block][server] < self.blocks[block][self.blocks[block]['_owner']]:
                     self.set_owner(server,block)
-                    if self.bitHopper.lpBot != None:
-                        self.bitHopper.lpBot.announce(server, block)
+                    hook_announce = plugins.Hook('plugins.lp.announce')
+                    self.bitHopper.log_dbg('LP Notify')
+                    hook_announce.notify(self, body, server, block)
+        
+            hook_start = plugins.Hook('plugins.lp.receive.end')
+            hook_start.notify(self, body, server, block)
 
         except Exception, e:
             output = False
-            self.bitHopper.log_dbg('Error in Long Pool ' + str(server) + str(body))
-            #traceback.print_exc()
+            self.bitHopper.log_dbg('Error in Long Poll ' + str(server) + str(body))
+            if self.bitHopper.options.debug:
+                traceback.print_exc()
             if server not in self.errors:
                 self.errors[server] = 0
             with self.lock:
                 self.errors[server] += 1
             #timeout? Something bizarre?
-            if self.errors[server] > 3 and info['role'] != 'mine_deepbit':
+            if self.errors[server] > 3 and info['role'] != 'mine_lp':
                 return
         eventlet.spawn_n(self.pull_lp, self.pool.servers[server]['lp_address'],server,output)
         

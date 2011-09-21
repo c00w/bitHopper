@@ -76,6 +76,14 @@ Por si no quieres utilizar alguna mina puedes borrarla de "user.cfg" o ir en la 
 su rol a "disable". BitHopper escucha conexiones en la interfaz de loopback asi que debes redireccionar
 tu minero a localhost:8337 con cualquier usuario y contrasena (ne dejes en blanco).
 
+# Ajustes LP / panel de control
+
+Panel de control LP: http://localhost:8337/lpworkbench
+
+Puedes ver:
+Hash bloque, mina ganadora, tiempos LP como delta contra el de la mina ganadora.
+Podras ver la lista de minas activas, indicar mina ganadora o cambiar facilmente la penalidad LP
+
 
 # Parametros
 
@@ -148,12 +156,13 @@ siguiendo el link https://bitcointalk.org/index.php?topic=39539 (2 foro en espan
 
 # Donativos
 
-Si piensas que este es un proyecto valioso y quieres que se siga trabajando y anadiendo mas cosas considera hacer una donacion, todo cuenta ;)
+Si piensas que este es un proyecto valioso y quieres que se le sigan actualizando o anadiendo mas cosas considera hacer un donativo p2p, todo cuenta ;)
+o tener la mina "Donation" activada en la pagina de Stats (ajusta el porcentaje de tu donativo en el archivo "pools.cfg" - predeterminado 1%)
 
  1HEmzeuVEKxBQkEenysV1yM8oAddQ4o2TX - c00w
 
  17wp2zfxZKeycWt6NKiueVYmYyrciiuq2t - ryouiki
- 1CWjg4soWEAQjMD4dCchdPpJ6fWDBRUU5b - ed64
+ 1CWjg4soWEAQjMD4dCchdPpJ6fWDBRUU5b - echiu64
  15iS8iDqVCM2MF5ndaS3exR7Kw4LxFf2ra - hawks5999
  1QEBu4Tr7Qe6BMHdpeTmNDTPJhMqpDDtQ3 - paraipanakos
  13hP5QuFccLUZQDNxPwnfmn6q5RiV48TEn - macboy80
@@ -163,5 +172,5 @@ Si piensas que este es un proyecto valioso y quieres que se siga trabajando y an
 
  flower1024, echiu64 (ed64), graphiclunarkid, elitak, Clipseza, littleant, bb-btc, gnaget, murfshake, Sukrim, gtrrkicw,
  swordv2, bitcoindaddy, rkozola, ryouiki, starlightbreaker, hawks5999, erasmo, pueytan, macboy80, sdogi, joulesbeef,
- Seoulboy1, paraipanakos, Swicher, lucita777
+ Seoulboy1, paraipanakos, Swicher, lucita777, TenthReality, dfc (Douglas Calvert), dadittoz
 

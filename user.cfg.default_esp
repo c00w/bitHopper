@@ -16,17 +16,21 @@
 #
 ##################################################################
 
-#################################################################################
+###########################################################################################
 # Los "role" (roles) validos son:
 #
 # mine = mina como esta mandado, normal (dificultad*0.43)
 # mine_slush = en esta se queda hasta dificultad.*0.147
-# mine_deepbit = monitorea y prueba suerte minar en
+# mine_lp = monitorea y prueba suerte minar en
 #   esta mina sin utilizar la api
+# mine_lp_force = mina hasta que reciba senal lp y despues vuelve
+#   al rol anterior (no utilices como rol por defecto para mina)
 # mine_nmc = indica que es una mina minecoin
 # mine_ixc = mina y dificultad ixcoins
 # mine_i0c = mina y dificultad i0coins
 # mine_scc = mina y dificultad solidcoin
+# mine_force = ignora el programador y trabaja solo en esta mina
+#   (no utilices como rol por defecto para mina)
 # backup = viene a minar en esta si no tiene ninguna 
 #   mina Proporcional disponible
 # backup_latehop = prefiere minar en esta como backup si
@@ -41,10 +45,12 @@
 #
 #  role:          indica bH que tipo de mineria se desea en esta mina
 #                 Elije un role valido desde la lista de arriba
-#  penalty:       numero flotante, el numero de shares se
-#                 multiplica con este numero al comparar con la
-#                 dificultad (si incrementas este numero hace
-#                 que dejes la mina antes de dificultad*0.43)
+#  penalty:       numero flotante, el numero de shares se multiplica con este
+#                 numero al comparar con la dificultad (si incrementas este numero
+#                 hace que dejes la mina antes de dificultad*0.43)
+#                 SERVIDORES DE RESPALDO: Ajusta al porcentaje acceptado por el servidor. 
+#                 Penalidad/100 se anade al ratio de shares descartados cuando bH 
+#                 selectiona la mina para trabajar.
 #  lp_penalty:    normaliza las LP de esta mina con "x" segundos (mayor para
 #                 LP muy rapidos)
 #  percent:       continua enviando shares aqui, valor proc. calculado sobre el
@@ -55,13 +61,13 @@
 #  user:          nombre del trabajador que se tiene que utilizar
 #  pass:          contrasena del trabajador (no se necesita para todas las minas)
 #
-#################################################################################
-
+#########################################################################################
 
 [slush]
 #http://mining.bitcoin.cz/accounts/register/
 #CAMBIA A CONTINUACION
 role: mine_slush
+penalty: 1
 user: c00w.testhop
 pass: testhop
 
@@ -127,7 +133,7 @@ pass: x
 #https://deepbit.net/
 #CAMBIA A CONTINUACION
 lp_penalty: 0
-role: mine_deepbit
+role: mine_lp
 user: nombre_minero
 pass: contrasena_minero
 
@@ -225,6 +231,14 @@ role: disable
 user: c00w_test
 pass: x
 
+[asspenny]
+#http://asspennypool.com/register.php
+#CAMBIA A CONTINUACION (si quieres)
+role: info
+asspenny_user_apikey: xxxxxx
+user: nombre_minero
+pass: contrasena_minero
+
 ######################################
 # Minas de respaldo (backup) para
 # cuando no tienes ninguna mina
@@ -290,6 +304,13 @@ pass: x
 
 [btcservpps]
 #http://btcserv.net/
+#CAMBIA A CONTINUACION
+role: disable
+user: nombre_minero
+pass: contrasena_minero
+
+[btcgpps]
+#http://pps.btcguild.com/register.php
 #CAMBIA A CONTINUACION
 role: disable
 user: nombre_minero
@@ -407,6 +428,14 @@ pass: contrasena_minero
 
 [ixparking]
 #http://ixpool.bitparking.com/pool
+#CAMBIA A CONTINUACION (si quieres)
+role: disable
+user: nombre_minero
+pass: contrasena_minero
+
+[digixc]
+#http://ix.digbtc.net
+#CAMBIA A CONTINUACION (si quieres)
 role: disable
 user: nombre_minero
 pass: contrasena_minero

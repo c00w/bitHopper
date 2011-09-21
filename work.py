@@ -12,6 +12,8 @@ httplib2 = eventlet.import_patched('httplib20_7_1')
 from eventlet import pools
 from eventlet.green import socket
 
+from peak.util import plugins
+
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
 
@@ -24,7 +26,15 @@ class Work():
         self.connect_pool = {}
         #pools.Pool(min_size = 2, max_size = 10, create = lambda: httplib2.Http(disable_ssl_certificate_validation=True))
 
-    def get_http(self, address, timeout=15):
+    def get_http(self, address, timeout=0):
+        try:
+            configured_timeout = self.bitHopper.config.getfloat('main','work_request_timeout')
+        except:
+            configured_timeout = 2.5
+            pass
+        if timeout == 0:
+            timeout = configured_timeout
+        
         if address not in self.connect_pool:
             self.connect_pool[address] =  pools.Pool(min_size = 0, create = lambda: httplib2.Http(disable_ssl_certificate_validation=True, timeout=timeout))
         return self.connect_pool[address].item()
@@ -37,7 +47,7 @@ class Work():
             #Check if we are using {USER} or {PASSWORD}
             if error:
                 return None
-            header = {'Authorization':"Basic " +base64.b64encode(user+ ":" + passw), 'user-agent': 'poclbm/20110709', 'Content-Type': 'application/json', 'connection': 'keep-alive'}
+            header = {'Authorization':"Basic " +base64.b64encode(user+ ":" + passw).replace('\n',''), 'user-agent': 'poclbm/20110709', 'Content-Type': 'application/json', 'connection': 'keep-alive'}
             with self.get_http(url, timeout=15*60) as http:
                 try:
                     resp, content = http.request( url, 'GET', headers=header)#, body=request)[1] # Returns response dict and content str
@@ -94,7 +104,7 @@ class Work():
             
             info = self.bitHopper.pool.get_entry(server)
             user, passw, error = self.user_substitution(server, username, password)
-            header = {'Authorization':"Basic " +base64.b64encode(user + ":" + passw), 'connection': 'keep-alive'}
+            header = {'Authorization':"Basic " +base64.b64encode(user + ":" + passw).replace('\n',''), 'connection': 'keep-alive'}
             header['user-agent'] = 'poclbm/20110709'
             for k,v in client_header.items():
                 #Ugly hack to deal with httplib trying to be smart and supplying its own user agent.
@@ -121,7 +131,8 @@ class Work():
                         break
         except Exception, e:
             self.bitHopper.log_dbg('jsonrpc_call error: ' + str(e))
-            #traceback.print_exc()
+            if self.bitHopper.options.debug:
+                traceback.print_exc()
             return None, None
 
         try:
@@ -142,7 +153,7 @@ class Work():
                 server = self.bitHopper.get_new_server(server)
             elif data != [] and tries > 1:
                 self.bitHopper.get_new_server(server)
-            if tries >5:
+            if tries >2:
                 return None, {}, 'No Server'
             tries += 1
             try:
@@ -184,7 +195,7 @@ class Work():
 
         to_delete = []
         for header in server_headers:
-            if header.lower() not in ['x-roll-ntime']:
+            if header.lower() not in ['x-roll-ntime','x-reject-reason']:
                 to_delete.append(header)
         for item in to_delete:
             del server_headers[item]  
@@ -195,9 +206,12 @@ class Work():
 
         if work == None:
             response = json.dumps({"result":None, 'error':{'message':'Cannot get work unit'}, 'id':j_id})
-            return [response]
         else:
-            response = json.dumps({"result":work, 'error':None, 'id':j_id})        
+            response = json.dumps({"result":work, 'error':None, 'id':j_id}) 
+            eventlet.spawn_n(self.handle_store, work, server, data, username, password, rpc_request)
+        return [response]       
+
+    def handle_store(self, work, server, data, username, password, rpc_request):
 
         #some reject callbacks and merkle root stores
         if str(work).lower() == 'false':
@@ -207,20 +221,11 @@ class Work():
             self.bitHopper.getwork_store.add(server,merkle_root)
 
         #Fancy display methods
-        
-        if not self.bitHopper.options.simple_logging:
-            if self.bitHopper.options.debug:
-                self.bitHopper.log_msg('RPC request ' + str(data) + " submitted to " + server)
-            elif data == []:
-                self.bitHopper.log_msg('RPC request [' + rpc_request['method'] + "] submitted to " + server)
-            else:
-                self.bitHopper.log_msg('RPC request [' + data[0][155:163] + "] submitted to " + server)
+        hook = plugins.Hook('work.rpc.request')
+        hook.notify(rpc_request, data, server)
 
         if data != []:
-            data = env.get('HTTP_AUTHORIZATION').split(None, 1)[1]
-            username, password = data.decode('base64').split(':', 1)
             self.bitHopper.data_callback(server, data, username,password) #request.remote_password)
-        return [response]
 
     def handle_LP(self, env, start_response):
         start_response('200 OK', [('Content-Type', 'text/json')])

@@ -4,6 +4,9 @@
 # Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
+import warnings
+warnings.filterwarnings('ignore','' , UserWarning)
+
 try:
     import eventlet
 except Exception, e:
@@ -14,6 +17,8 @@ from eventlet.green import os, time, socket
 eventlet.monkey_patch()
 #from eventlet import debug
 #debug.hub_blocking_detection(True)
+
+from peak.util import plugins
 
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
@@ -33,7 +38,6 @@ import lp
 import lp_callback
 import plugin
 
-from lpbot import LpBot
 
 import ConfigParser
 import sys
@@ -44,7 +48,6 @@ class BitHopper():
         self.options = options
         self.config = config
         self.lp_callback = lp_callback.LP_Callback(self)
-        self.lpBot = None
         self.difficulty = diff.Difficulty(self)           
         self.pool = pool.Pool(self)
         self.db = database.Database(self)
@@ -123,10 +126,17 @@ class BitHopper():
         if not server_name:
             self.log_msg('FATAL Error, scheduler did not return any pool!')
             os._exit(1)
+
+        old_server = self.pool.get_current()
             
         if self.pool.get_current() != server_name:
             self.pool.set_current(server_name)
             self.log_msg("Server change to " + str(self.pool.get_current()))
+            servers = self.pool.servers
+            if servers[server_name]['coin'] != servers[old_server]['coin']:
+                self.log_msg("Change in coin type. Triggering LP")
+                work, server_headers, server  = self.work.jsonrpc_getwork(server_name, [], {}, "", "")
+                self.bitHopper.lp_callback.new_block(work, server_name)
 
         return
 
@@ -179,7 +189,7 @@ def main():
     parser.add_option('--ip', type = str, default='', help='IP to listen on')
     parser.add_option('--auth', type = str, default=None, help='User,Password')
     parser.add_option('--logconnections', default = False, action='store_true', help='show connection log')
-    parser.add_option('--simple_logging', default = False, action='store_true', help='remove RCP logging from output')
+#    parser.add_option('--simple_logging', default = False, action='store_true', help='remove RCP logging from output')
     options = parser.parse_args()[0]
 
     if options.trace == True: options.debug = True
@@ -254,16 +264,15 @@ def main():
 
     bithopper_instance.select_best_server()
 
-    if options.p2pLP:
-        bithopper_instance.log_msg('Starting p2p LP')
-        bithopper_instance.lpBot = LpBot(bithopper_instance)
-
     lastDefaultTimeout = socket.getdefaulttimeout()  
 
     if options.logconnections:
         log = None
     else:
         log = open(os.devnull, 'wb')
+
+    hook = plugins.Hook('plugins.bithopper.startup')
+    hook.notify(bithopper_instance, config, options)
         
     while True:
         try:
@@ -278,7 +287,7 @@ def main():
             socket.setdefaulttimeout(lastDefaultTimeout)
             break
         except Exception, e:
-            bithopper_instance.log_msg("Exception in wsgi server loop, restarting wsgi in 60 seconds\n%s") % (e)
+            bithopper_instance.log_msg("Exception in wsgi server loop, restarting wsgi in 60 seconds\n%s" % (str(e)))
             eventlet.sleep(60)
     bithopper_instance.db.close()
 

@@ -11,6 +11,8 @@ import eventlet.patcher
 irclib = eventlet.patcher.import_patched('irclib')
 SimpleIRCClient = irclib.SimpleIRCClient
 
+from peak.util import plugins
+
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
 
@@ -25,6 +27,11 @@ class LpBot(SimpleIRCClient):
         self.hashinfo = {'':''}
         self.server=''
         self.current_block=''
+        hook_startup = plugins.Hook('plugins.lpbot.init')
+        hook_startup.notify(self)
+        hook_ann = plugins.Hook('plugins.lp.announce')
+        hook_ann.register(self.announce)
+
         eventlet.spawn_n(self.run)
         eventlet.spawn_n(self.process_forever)
         self.lock = threading.RLock()
@@ -59,13 +66,19 @@ class LpBot(SimpleIRCClient):
     def on_disconnect(self, c, e):
         print "Disconnected..."
         self.chan_list=[]
+        hook = plugins.Hook('plugins.lpbot.on_disconnect')
+        hook.notify(self,c ,e)
         self.connection.execute_delayed(10, self._connect)
 
     def on_connect(self, c, e):
         self.join()
+        hook = plugins.Hook('plugins.lpbot.on_connect')
+        hook.notify(self,c ,e)
 
     def on_pubmsg(self, c, e):
         with self.lock:
+            hook = plugins.Hook('plugins.lpbot.on_pubmsg')
+            hook.notify(self,c ,e)
             bl_match = self.newblock_re.match(e.arguments()[0])
             if bl_match != None:
                 last_hash = bl_match.group('hash')
@@ -130,11 +143,15 @@ class LpBot(SimpleIRCClient):
                         print str(test_votes) + " out of " + str(test_total_votes) + " votes."
                         if float(test_votes) / test_total_votes > self.bitHopper.config.getfloat('lpbot','vote_threshold'):
                             if self.server != test_server:
+                                hook = plugins.Hook('plugins.lpbot.decider.minority')
+                                hook.notify(self, server, block, test_server, test_votes, test_total_votes)
                                 print "In the minority, updating to  " + test_server + ": " + str(test_votes) + "/" + str(test_total_votes)
                                 self.server = test_server
                                 votes = test_votes
                                 total_votes = test_total_votes
                             else:
+                                hook = plugins.Hook('plugins.lpbot.decider.majority')
+                                hook.notify(self, server, block, test_server, test_votes, test_total_votes)
                                 print "In the majority, keeping server"
                         else:
                             print "Not enough votes in one direction to make a decision"
@@ -148,6 +165,8 @@ class LpBot(SimpleIRCClient):
                         total_votes += 1
             
             if self.server != last_server:
+                hook = plugins.Hook('plugins.lpbot.decider.best_guess')
+                hook.notify(self, self.server, votes, total_votes, self.current_block)
                 self.say("Best Guess: {" + self.server + "} with " + str(votes) + " of " + str(total_votes) + " votes - " + self.current_block)
                 self.bitHopper.lp.set_owner(self.server, self.current_block)
 
@@ -160,10 +179,14 @@ class LpBot(SimpleIRCClient):
                     del self.hashinfo[clean_block]
 
     def say(self, text):
+        hook = plugins.Hook('plugins.lpbot.say')
+        hook.notify(self, text)
         self.connection.privmsg("#bithopper-lp", text)            
         
-    def announce(self, server, last_hash):
+    def announce(self, lp, body, server, last_hash):
         with self.lock:
+            hook = plugins.Hook('plugins.lpbot.announce')
+            hook.notify(self, server, last_hash)
             try:
                 if self.is_connected():
                     self.server=''
@@ -180,6 +203,8 @@ class LpBot(SimpleIRCClient):
                 print str(e)
 
     def join(self):
+        hook = plugins.Hook('plugins.lpbot.join')
+        hook.notify(self)
         if '#bithopper-lp' not in self.chan_list:
             self.connection.join('#bithopper-lp')
             self.chan_list.append('#bithopper-lp')

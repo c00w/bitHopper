@@ -24,7 +24,7 @@ class Pool():
     def __init__(self, bitHopper):
         self.bitHopper = bitHopper
         self.servers = {}
-        self.api_pull = ['mine', 'info', 'mine_slush', 'mine_nmc', 'mine_ixc', 'mine_i0c',  'mine_scc', 'mine_charity', 'mine_deepbit', 'backup', 'backup_latehop']
+        self.api_pull = ['mine', 'info', 'mine_c', 'mine_nmc', 'mine_ixc', 'mine_i0c',  'mine_scc', 'mine_charity', 'mine_lp', 'backup', 'backup_latehop']
         self.initialized = False
         self.lock = threading.RLock()
         self.pool_configs = ['pools.cfg']
@@ -124,6 +124,9 @@ class Pool():
                     self.servers[server]['name'] = server
                 if 'role' not in self.servers[server]:
                     self.servers[server]['role'] = 'disable'
+                if self.servers[server]['role'] in ['mine_slush']:
+                    self.servers[server]['role'] = 'mine_c'
+                    self.servers[server]['c'] = 300
                 if 'lp_address' not in self.servers[server]:
                     self.servers[server]['lp_address'] = None
                 self.servers[server]['err_api_count'] = 0
@@ -134,7 +137,7 @@ class Pool():
 
                 #Coin Handling
                 if 'coin' not in self.servers[server]:
-                    if self.servers[server]['role'] in ['mine', 'info', 'backup', 'backup_latehop', 'mine_charity', 'mine_slush']:
+                    if self.servers[server]['role'] in ['mine', 'info', 'backup', 'backup_latehop', 'mine_charity', 'mine_c']:
                         coin_type = 'btc'
                     elif self.servers[server]['role'] in ['mine_nmc']:
                         coin_type = 'nmc'
@@ -142,7 +145,7 @@ class Pool():
                         coin_type = 'ixc'
                     elif self.servers[server]['role'] in ['mine_i0c']:
                         coin_type = 'i0c'
-                    elif self.servers[server]['role'] in ['mine_ssc']:
+                    elif self.servers[server]['role'] in ['mine_scc']:
                         coin_type = 'scc'   
                     else:
                         coin_type = 'btc'
@@ -154,34 +157,30 @@ class Pool():
                 self.started = True
             
     def get_entry(self, server):
-        with self.lock:
-            if server in self.servers:
-                return self.servers[server]
-            else:
-                return None
+        if server in self.servers:
+            return self.servers[server]
+        else:
+            return None
 
     def get_servers(self, ):
-        with self.lock:
-            return self.servers
+        return self.servers
 
     def get_current(self, ):
-        with self.lock:
-            return self.current_server
+        return self.current_server
 
     def get_work_server(self):
         """A function which returns the server to query for work.
            Currently uses the donation server 1/100 times. 
            Can be configured to do trickle through to other servers"""
-        with self.lock:
-            value = random.randint(0,99)
-            if value in self.server_map:
-                result = self.server_map[value]
-                if self.servers[result]['lag'] or self.servers[result]['role'] == 'disable':
-                    return self.get_current()
-                else:
-                    return result
-            else:
+        value = random.randint(0,99)
+        if value in self.server_map:
+            result = self.server_map[value]
+            if self.servers[result]['lag'] or self.servers[result]['role'] == 'disable':
                 return self.get_current()
+            else:
+                return result
+        else:
+            return self.get_current()
                     
     def build_server_map(self):
         possible_servers = {}
@@ -200,68 +199,80 @@ class Pool():
         self.current_server = server
 
     def UpdateShares(self, server, shares):
-        with self.lock:
-            diff = self.bitHopper.difficulty.get_difficulty()
-            self.servers[server]['api_lag'] = False        
-            prev_shares = self.servers[server]['shares']
-            self.servers[server]['init'] = True
-            if shares == prev_shares:
-                time = .10*self.servers[server]['refresh_time']
-                self.servers[server]['refresh_time'] += .10*self.servers[server]['refresh_time']
+        diff_btc = self.bitHopper.difficulty.get_difficulty()
+        diff_nmc = self.bitHopper.difficulty.get_nmc_difficulty()
+        diff_scc = self.bitHopper.difficulty.get_scc_difficulty()
+        diff_i0c = self.bitHopper.difficulty.get_i0c_difficulty()
+        diff_ixc = self.bitHopper.difficulty.get_ixc_difficulty()
+        self.servers[server]['api_lag'] = False        
+        prev_shares = self.servers[server]['shares']
+        self.servers[server]['init'] = True
+        if shares == prev_shares:
+            time = .10*self.servers[server]['refresh_time']
+            self.servers[server]['refresh_time'] += .10*self.servers[server]['refresh_time']
+        else:
+            self.servers[server]['refresh_time'] -= .10*self.servers[server]['refresh_time']
+            time = self.servers[server]['refresh_time']
+
+        if time <= self.servers[server]['refresh_limit']:
+            time = self.servers[server]['refresh_limit']
+        eventlet.spawn_after(time,self.update_api_server,server)
+
+        try:
+            k =  str('{0:d}'.format(int(shares)))
+            ghash_duration = '  '
+            if self.servers[server]['ghash'] > 0:
+                ghash_duration += str('{0:.1f}gh/s '.format( self.servers[server]['ghash'] ))
+            if self.servers[server]['duration'] > 0:
+                ghash_duration += '\t' + str('{0:d}min.'.format( (self.servers[server]['duration']/60) ))
+            k += '\t' + ghash_duration
+        except Exception, e:
+            self.bitHopper.log_dbg("Error formatting")
+            self.bitHopper.log_dbg(e)
+            k =  str(shares)
+
+        #Display output to user when shares change
+        if shares != prev_shares:
+            if len(server) == 12:
+                self.bitHopper.log_msg(str(server) +":"+ k)
             else:
-                self.servers[server]['refresh_time'] -= .10*self.servers[server]['refresh_time']
-                time = self.servers[server]['refresh_time']
+                self.bitHopper.log_msg(str(server) +":\t"+ k)
 
-            if time <= self.servers[server]['refresh_limit']:
-                time = self.servers[server]['refresh_limit']
-            eventlet.spawn_after(time,self.update_api_server,server)
-
-            try:
-                k =  str('{0:d}'.format(int(shares)))
-                ghash_duration = '  '
-                if self.servers[server]['ghash'] > 0:
-                    ghash_duration += str('{0:.1f}gh/s '.format( self.servers[server]['ghash'] ))
-                if self.servers[server]['duration'] > 0:
-                    ghash_duration += '\t' + str('{0:d}min.'.format( (self.servers[server]['duration']/60) ))
-                k += '\t' + ghash_duration
-            except Exception, e:
-                self.bitHopper.log_dbg("Error formatting")
-                self.bitHopper.log_dbg(e)
-                k =  str(shares)
-
-            #Display output to user when shares change
-            if shares != prev_shares:
-                if len(server) == 12:
-                    self.bitHopper.log_msg(str(server) +":"+ k)
-                else:
-                    self.bitHopper.log_msg(str(server) +":\t"+ k)
-
-            #If the shares indicate we found a block tell LP
-            if shares < prev_shares and shares < 0.10 * diff:
-                self.bitHopper.lp.set_owner(server)
-            self.servers[server]['shares'] = shares
-            self.servers[server]['err_api_count'] = 0
-            api_disable_sec = 7200
-            try:
-                api_disable_sec = self.bitHopper.config.getint('main', 'api_disable_sec')
-            except:
-                pass
-            if self.servers[server]['refresh_time'] > api_disable_sec and self.servers[server]['role'] not in ['info','backup','backup_latehop']:
-                self.bitHopper.log_msg('Disabled due to unchanging api: ' + server)
-                self.servers[server]['role'] = 'api_disable'
-                return
+        #If the shares indicate we found a block tell LP
+        coin_type = self.servers[server]['coin']        
+        if coin_type == 'btc' and shares < prev_shares and shares < 0.10 * diff_btc:
+            self.bitHopper.lp.set_owner(server)
+        elif coin_type == 'nmc' and shares < prev_shares and shares < 0.10 * diff_nmc:
+            self.bitHopper.lp.set_owner(server)
+        elif coin_type == 'scc' and shares < prev_shares and shares < 0.10 * diff_scc:
+            self.bitHopper.lp.set_owner(server)
+        elif coin_type == 'ixc' and shares < prev_shares and shares < 0.10 * diff_ixc:
+            self.bitHopper.lp.set_owner(server)
+        elif coin_type == 'i0c' and shares < prev_shares and shares < 0.10 * diff_i0c:
+            self.bitHopper.lp.set_owner(server)
+            
+        self.servers[server]['shares'] = shares
+        self.servers[server]['err_api_count'] = 0
+        api_disable_sec = 7200
+        try:
+            api_disable_sec = self.bitHopper.config.getint('main', 'api_disable_sec')
+        except:
+            pass
+        if self.servers[server]['refresh_time'] > api_disable_sec and self.servers[server]['role'] not in ['info','backup','backup_latehop']:
+            self.bitHopper.log_msg('Disabled due to unchanging api: ' + server)
+            self.servers[server]['role'] = 'api_disable'
+            return
 
     def errsharesResponse(self, error, server_name):
         self.bitHopper.log_msg(server_name + ' api error:' + str(error))
         pool = server_name
-        with self.lock:
-            self.servers[pool]['err_api_count'] += 1
-            self.servers[pool]['init'] = True
-            if self.servers[pool]['err_api_count'] > 1:
-                self.servers[pool]['api_lag'] = True
-            time = self.servers[pool]['refresh_time']
-            if time < self.servers[pool]['refresh_limit']:
-                time = self.servers[pool]['refresh_limit']
+        self.servers[pool]['err_api_count'] += 1
+        self.servers[pool]['init'] = True
+        if self.servers[pool]['err_api_count'] > 1:
+            self.servers[pool]['api_lag'] = True
+        time = self.servers[pool]['refresh_time']
+        if time < self.servers[pool]['refresh_limit']:
+            time = self.servers[pool]['refresh_limit']
         eventlet.spawn_after(time, self.update_api_server, pool)
 
     def selectsharesResponse(self, response, server_name):
@@ -273,9 +284,9 @@ class Pool():
         if server['api_method'] == 'json':
             try:
                 info = json.loads(response)
-            except ValueError:
+            except ValueError, e:
                 self.bitHopper.log_dbg(str(server_name) + " - unable to extract JSON from response")
-                return
+                raise e
             for value in server['api_key'].split(','):
                 info = info[value]
             if 'api_strip' in server:
@@ -302,9 +313,9 @@ class Pool():
         elif server['api_method'] == 'json_ec':
             try:
                 info = json.loads(response[:response.find('}')+1])
-            except ValueError:
+            except ValueError, e:
                 self.bitHopper.log_dbg(str(server_name) + " - unable to extract JSON from response")
-                return
+                raise e
             for value in server['api_key'].split(','):
                 info = info[value]
             round_shares = int(info)
@@ -315,8 +326,7 @@ class Pool():
         elif server['api_method'] == 're':
             output = re.search(server['api_key'],response)
             if output == None:
-                self.bitHopper.log_dbg(str(server_name) + " - unable to extract shares from response using regexp")
-                return
+                raise Exception(str(server_name) + " - unable to extract shares from response using regexp")
             if 'api_group' in server:
                 output = output.group(int(server['api_group']))
             else:
@@ -364,7 +374,18 @@ class Pool():
             server['duration'] = duration
             
             self.UpdateShares(server_name,round_shares)
+        
+        elif server['api_method'] == 're_shareestimate':
+            # get share count based on user shares and user reward estimate
+            output = re.search(server['api_key_shares'],response)
+            shares = output.group(1)                
             
+            output = re.search(server['api_key_estimate'],response)
+            estimate = output.group(1)
+            
+            round_shares = int(50.0 * float(shares) / float(estimate))
+            self.UpdateShares(server_name,round_shares)            
+        
         elif server['api_method'] == 're_rate':
             output = re.search(server['api_key'],response)
             if 'api_group' in server:
@@ -510,16 +531,16 @@ class Pool():
         return duration
 
     def update_api_server(self,server):
-        if self.servers[server]['role'] not in self.api_pull:
-            return
-        info = self.servers[server]
-        self.bitHopper.scheduler.update_api_server(server)
-        user_agent = None
-        if 'user_agent' in info:
-            user_agent = info['user_agent']
-        value = self.bitHopper.work.get(info['api_address'], user_agent)
         try:
-            self.selectsharesResponse( value, server)
+            if self.servers[server]['role'] not in self.api_pull:
+                return
+            info = self.servers[server]
+            self.bitHopper.scheduler.update_api_server(server)
+            user_agent = None
+            if 'user_agent' in info:
+                user_agent = info['user_agent']
+            value = self.bitHopper.work.get(info['api_address'], user_agent)
+            self.selectsharesResponse(value, server)
         except Exception, e:
             self.errsharesResponse(e, server)
 

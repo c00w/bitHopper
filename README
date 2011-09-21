@@ -9,7 +9,7 @@ Based on a work at github.com
 
 In order to run bitHopper you need to have Python installed in your system. Version 2.7 of Python is suggested
 although it has been tested and appears to work with version 2.6 too. To find out which version of Python your
-system currently has type "python -V" to a shell console.
+system currently has type "python -V" in a shell console.
 
 If you don't have Python installed at all you have to run:
 
@@ -74,6 +74,14 @@ If any of the pools turns red or there is something else missing then edit your 
 If you don't want to use a pool delete it from "user.cfg" or go to Stats page and switch its role to
 disable. BitHopper listens on loopback interface so you should direct your miner to localhost:8337
 with any username and password (not blank).
+
+# LP tuning / dashboard
+
+LP Workbench: http://localhost:8337/lpworkbench
+
+See:
+ Block Hash, Owner, LP Timings as deltas against winning "owner".
+You can view the list of active pools, override owner and have easy access to adjust LP penalties
 
 
 # Switches
@@ -148,12 +156,13 @@ at https://bitcointalk.org/index.php?topic=26866. Join us on Freenode (http://we
 
 # Donations
 
-If you think this project is cool and you want more features added consider making a donation, anything counts ;)
+If you think this project is cool and you want features added and bugs hunted down then consider making a p2p donation, anything counts ;)
+or have "Donation" pool enabled in your stats page (setup donation percent in your "pools.cfg" - default 1%)
 
  1HEmzeuVEKxBQkEenysV1yM8oAddQ4o2TX - c00w
 
  17wp2zfxZKeycWt6NKiueVYmYyrciiuq2t - ryouiki
- 1CWjg4soWEAQjMD4dCchdPpJ6fWDBRUU5b - ed64
+ 1CWjg4soWEAQjMD4dCchdPpJ6fWDBRUU5b - echiu64
  15iS8iDqVCM2MF5ndaS3exR7Kw4LxFf2ra - hawks5999
  1QEBu4Tr7Qe6BMHdpeTmNDTPJhMqpDDtQ3 - paraipanakos
  13hP5QuFccLUZQDNxPwnfmn6q5RiV48TEn - macboy80
@@ -163,5 +172,5 @@ If you think this project is cool and you want more features added consider maki
 
  flower1024, echiu64 (ed64), graphiclunarkid, elitak, Clipseza, littleant, bb-btc, gnaget, murfshake, Sukrim, gtrrkicw,
  swordv2, bitcoindaddy, rkozola, ryouiki, starlightbreaker, hawks5999, erasmo, pueytan, macboy80, sdogi, joulesbeef,
- Seoulboy1, paraipanakos, Swicher, lucita777
+ Seoulboy1, paraipanakos, Swicher, lucita777, TenthReality, dfc (Douglas Calvert), dadittoz
 
