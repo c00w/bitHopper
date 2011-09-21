@@ -20,8 +20,8 @@
 # Valid pool roles are:
 #
 # mine = mines on this pool as usual (diff.*0.43)
-# mine_c = mines pool based on (n/shares per unit
-#          time)/c ∝ (n/hashrate)/c = n/(hashrate*c) formula
+# mine_c = mines score pools based on this simple formula
+#          (n/shares per unit time)/c ∝ (n/hashrate)/c = n/(hashrate*c)
 # mine_slush = mine_c with c: 300
 # mine_lp = monitor and makes educated guess mining
 #   without using the api

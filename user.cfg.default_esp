@@ -20,7 +20,7 @@
 # Los "role" (roles) validos son:
 #
 # mine = mina como esta mandado, normal (dificultad*0.43)
-# mine_c = trabaja en esta mina basandose en la formula
+# mine_c = trabaja en las minas con puntuacion basandose en la formula
 #          (n/shares per unit time)/c ∝ (n/hashrate)/c = n/(hashrate*c)
 # mine_slush = mine_c con c: 300
 # mine_lp = monitorea y prueba suerte minar en
