@@ -20,7 +20,8 @@
 # Valid pool roles are:
 #
 # mine = mines on this pool as usual (diff.*0.43)
-# mine_slush = mines pool until diff.*0.147
+# mine_c = alias mine_slush, mines pool based on (n/shares per unit
+#          time)/c ∝ (n/hashrate)/c = n/(hashrate*c) formula
 # mine_lp = monitor and makes educated guess mining
 #   without using the api
 # mine_lp_force = mine untill lp is triggered and then resets
