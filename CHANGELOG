@@ -1,3 +1,29 @@
+#Ver. 0.1.5
+#Ver. 0.1.4
+
+
+#Ver. 0.1.3
+Added python to README en/esp
+Slush pool fix
+Fixed mine_charity to work with schedulers
+LP based hopping implemented
+Few LP fixes and bugfixes
+Kiwipool added
+User.cfg.def clean-up
+Fixed pools.cfg and hashrate for new users
+Some bugs and typos fixed
+
+#Ver. 0.1.2
+Some database fixes not updating user shares
+Added user stats,rejects and last time seen to backend
+Updated stats index.html
+
+#Ver. 0.1.1
+AltSliceScheduler fixes and cleanups
+Added spanish translation of README and cfg's
+Payout fixes and clean-ups in database
+Some Pools updates and bugs fixed
+
 #Ver. 0.1
 New pools added (mtred, bitcoin.lc, eligius and few more)
 Fetch diff form block explorer
