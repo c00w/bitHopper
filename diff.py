@@ -14,16 +14,17 @@ class Difficulty():
     "Stores difficulties and automaticlaly updates them"
     def __init__(self, bitHopper):
         self.bitHopper = bitHopper
-        self.difficulty = 1755425.3203287
+        self.btc_difficulty = 1755425.3203287
         self.nmc_difficulty = 94037.96
         self.ixc_difficulty = 16384
         self.i0c_difficulty = 1372
         self.scc_difficulty = 5354
         self.lock = threading.RLock()
         eventlet.spawn_n(self.update_difficulty)
+        self.diff = {'btc':1755425.3203287, 'nmc':94037.96, 'ixc':16384, 'i0c':1372, 'scc':5354}
 
     def get_difficulty(self):
-        return self.difficulty
+        return self.btc_difficulty
     
     def get_nmc_difficulty(self):
         return self.nmc_difficulty
@@ -52,6 +53,7 @@ class Difficulty():
                 output = re.search(reg_exp, diff_str)
                 output = output.group(1)
             self.__dict__[diff_attr] = float(output)
+            self.diff[diff_attr[0:3]] = float(output)
             self.bitHopper.log_dbg('Retrieved Difficulty: ' + str(self.__dict__[diff_attr]))
         except Exception, e:
             self.bitHopper.log_dbg('Unable to update difficulty for ' + coin + ': ' + str(e))
@@ -64,7 +66,7 @@ class Difficulty():
             "Tries to update difficulty from the internet"
             with self.lock:
                 
-                self.updater("Bitcoin", 'http://blockexplorer.com/q/getdifficulty', 'difficulty')
+                self.updater("Bitcoin", 'http://blockexplorer.com/q/getdifficulty', 'btc_difficulty')
                 self.updater("Namecoin", 'http://namecoinpool.com/', 'nmc_difficulty', "Current difficulty:</td><td>([.0-9]+)</td>")
                 self.updater("SolidCoin", 'http://allchains.info', 'scc_difficulty', "<td> sc </td><td align=\'right\'> ([0-9]+)")
                 self.updater("IXcoin", 'http://allchains.info', 'ixc_difficulty', "ixc </td><td align='right'> ([0-9]+) </td><td align='right'>   [.0-9]+ </td>")
