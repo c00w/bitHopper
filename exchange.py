@@ -51,8 +51,6 @@ class Exchange():
                     continue
                 diff = self.bitHopper.difficulty.diff[coin]
                 self.profitability[coin] = (float(btc_diff)/diff*self.rate[coin])
-        print self.profitability
-                
 
     def update_difficulty(self):
         while True:

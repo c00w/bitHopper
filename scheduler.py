@@ -114,6 +114,18 @@ class Scheduler(object):
             shares = shares * float(info['penalty'])
         return shares, info
 
+    def server_is_valid(self, server):
+        info = self.bitHopper.pool.get_entry(server)
+        if info['lag']:
+            return False
+        if info['role'] not in ['backup', 'backup_latehop'] and info['api_lag']:
+            return False
+        if info['role'] not in self.valid_roles:
+            return False
+        if self.bitHopper.exchange.profitability[info['coin']] < 1.0:
+            return False
+        return True
+
     def select_backup_server(self,):
         server_name = self.select_latehop_server()
         reject_rate = 1      
@@ -140,7 +152,7 @@ class Scheduler(object):
                 shares,info = self.server_to_btc_shares(server)
                 if info['role'] not in self.valid_roles:
                     continue
-                if shares < min_shares and not info['lag']:
+                if shares < min_shares and self.server_is_valid(server):
                     min_shares = shares
                     server_name = server
           
@@ -169,10 +181,8 @@ class DefaultScheduler(Scheduler):
         #self.bitHopper.log_dbg('min-shares: ' + str(min_shares), cat='scheduler-default')  
         for server in self.bitHopper.pool.get_servers():
             shares,info = self.server_to_btc_shares(server)
-            if info['api_lag'] or info['lag']:
-                continue
-            if info['role'] not in self.valid_roles:
-                continue
+            if not self.server_is_valid(server):
+                    continue
             if shares < min_shares:
                 min_shares = shares
                 #self.bitHopper.log_dbg('Selecting pool ' + str(server) + ' with shares ' + str(info['shares']), cat='scheduler-default')
@@ -191,10 +201,7 @@ class DefaultScheduler(Scheduler):
         shares,info = self.server_to_btc_shares(current)
         difficulty = self.bitHopper.difficulty.get_difficulty()
 
-        if info['role'] not in self.valid_roles:
-            return True
-    
-        if info['api_lag'] or info['lag']:
+        if not self.server_is_valid(current):
             return True
 
         if shares > (difficulty * self.difficultyThreshold):
@@ -239,9 +246,7 @@ class WaitPenaltyScheduler(Scheduler):
         for server in self.bitHopper.pool.get_servers():
             shares,info = self.server_to_btc_shares(server)
             shares += float(info['wait']) * difficulty
-            if info['api_lag'] or info['lag']:
-                continue
-            if info['role'] not in self.valid_roles:
+            if not self.server_is_valid(server):
                 continue
             if shares < min_shares:
                 min_shares = shares
@@ -261,10 +266,7 @@ class WaitPenaltyScheduler(Scheduler):
         shares,info = self.server_to_btc_shares(current)
         difficulty = self.bitHopper.difficulty.get_difficulty()
 
-        if info['role'] not in self.valid_roles:
-            return True
-    
-        if info['api_lag'] or info['lag']:
+        if not self.server_is_valid(server):
             return True
 
         if shares > (difficulty * self.difficultyThreshold):
@@ -323,12 +325,8 @@ class SimpleSliceScheduler(Scheduler):
         valid_servers = []
         for server in self.bitHopper.pool.get_servers():
             shares,info = self.server_to_btc_shares(server)
-            if info['role'] not in self.valid_roles:
+            if not self.server_is_valid(server):
                 continue
-
-            if info['lag'] or info['api_lag']:
-                continue
-
             if shares< min_shares:
                 valid_servers.append(server)
          
@@ -353,7 +351,7 @@ class SimpleSliceScheduler(Scheduler):
         server = valid_servers[0]
         for pool in valid_servers:
             info = self.bitHopper.pool.servers[pool]
-            if info['api_lag'] or info['lag']:
+            if not self.server_is_valid(server):
                 continue
             if self.sliceinfo[pool] <= min_slice:
                 min_slice = self.sliceinfo[pool]
@@ -473,9 +471,7 @@ class AltSliceScheduler(Scheduler):
             for server in self.bitHopper.pool.get_servers():
                 shares,info = self.server_to_btc_shares(server)
                 shares += 1
-                if info['role'] not in self.valid_roles:
-                    continue
-                if info['api_lag'] or info['lag']:
+                if not self.server_is_valid(server):
                     continue
                 if shares < min_shares and shares >= 0:               
                     totalshares = totalshares + shares
@@ -487,11 +483,10 @@ class AltSliceScheduler(Scheduler):
             # find total weight
             for server in self.bitHopper.pool.get_servers():
                 info = self.bitHopper.pool.get_entry(server)
-                if info['role'] not in self.valid_roles:
+                if not self.server_is_valid(server):
                     continue
-                if info['api_lag'] or info['lag']:
+                if server not in server_shares:
                     continue
-                if server not in server_shares: continue
                 if server_shares[server] < min_shares and server_shares[server] > 0:
                     totalweight += 1/(float(server_shares[server])/totalshares)
                       
@@ -674,7 +669,7 @@ class AltSliceScheduler(Scheduler):
                 max_slice = info['slice']
                 server_name = server
                 continue
-            if info['role'] in self.valid_roles and info['slice'] > 0 and not info['lag']:
+            if  info['slice'] > 0 and self.server_is_valid(server):
                 if max_slice == -1:
                     max_slice = info['slice']
                     server_name = server

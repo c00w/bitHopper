@@ -51,7 +51,7 @@ class BitHopper():
         self.config = config
         self.lp_callback = lp_callback.LP_Callback(self)
         self.difficulty = diff.Difficulty(self)  
-	    self.exchange = exchange.Exchange(self)         
+        self.exchange = exchange.Exchange(self)         
         self.pool = pool.Pool(self)
         self.db = database.Database(self)
         self.api = api.API(self)
