@@ -39,6 +39,7 @@ class Exchange():
             self.bitHopper.log_dbg('Retrieved Exchange rate for ' +str(coin) + ': ' + output)
         except Exception, e:
             self.bitHopper.log_dbg('Unable to update exchange rate for ' + coin + ': ' + str(e))
+            self.rate[coin] = 0.0
         finally:
             #timeout.cancel()
             pass
