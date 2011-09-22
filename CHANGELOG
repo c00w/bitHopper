@@ -1,14 +1,390 @@
-#Ver. 0.1.5
+
+#Ver. 0.2.5.1
+Change mine_slush to not mess up with a non standard default threshold
+Caught a bug where we didn't store the old_duration
+Fix shortened gh/s output
+Updated difficulty
+Fix re_rateduration
+Updated mine_c to use ghps instead of hash/s
+Fix mine_c role
+Cleanups and consolidations
+Added btcmine hashrate
+Added yourbtc pool
+Updated pools info
+Upd proj_coding
+
+
+#Ver. 0.2.5 (fdea458)
+Default bh.cfg configuration added with comments
+Set default plugin mode to manual
+Updated mine_slush to be mine_c
+Initial implementation of lp_announce listener in poolblocks
+Move RPC work reporting to new plugin
+Added new website for LP penalty tuning (informational for now)
+Initial implementation of blockaccuracy plugin
+Added wait value interface for /stats
+Moved lpbot to be a plugin
+Don't turn on backdoor by default
+Fix a bug in lpbot
+Add mine_force and mine_lp_force roles
+Change mine_deepbit to mine_lp
+Added conventions for extending via plugins
+Blockaccuracy plugin
+Check by coin type (If the shares indicate we found a block tell LP)
+Moved lpworkbench to be a plugin
+LP workbench updates/fixes to support showing LP guess accuracy
+Add hook to notify when accuracy stats are updated
+Fix a bug in simple slice scheduler
+Fix a bug in output printing
+Timeout value for getwork requests configurable in bh.cfg
+Some pools api fix
+New opt to bh.cfg.def en/esp & README + small fixes
+Added btcgpps
+Added ixcoin pool
+namecoin diff source + small fixes
+Changed namebit url to include username
+NoFee role fix
+Lots of bug fixes
+Upd proj_coding
+
+
+#Ver. 0.2.4.9 (4165f46)
+Reset the shares for simple scheduler properly
+Fix a bunch of improper returns
+Pass X-Reject-Reason header to miner
+Fix a bug with not initializing pools
+Disable LP for digbtc.net
+Update bitHopper.py to not crash in bizarre case
+Renamed CODING_STYLE to PROJ_CODING + added todo & bug-issues list to it
+Updated pools info
+Updated contributors list
+
+
+#Ver. 0.2.4.8 (40a58b2)
+Changed the OldDefault to Default and renamed the
+ default scheduler to SimpleSliceScheduler
+Made plugin system fail to auto mode when it can't find anything from bH
+Shell startup script for bithopper with debug logging enabled
+Various minor fixes in LP, added back traceback if debugging enabled
+Adding re_shareestimate api, updating bcpool
+Updated the sort function in index.html for the pools
+Added mechanized pyhon + license
+Added mechanize example
+Fixed auth and website breakage
+Update diff to not use timeouts
+New source for scc diff
+Allow for negative penalties
+Fix AllChains link
+Hide UserWarnings
+Added asspenny pool
+Updated some pool info
+Mtred port fix
+mine_scc fix
+New options to bh.cfg.def esp
+Small fixes
+
+
+#Ver. 0.2.4.7 (839c51c)
+Added system that loads plugins automatically,
+ specify plugins that get loaded manually and disables loading plugins
+Added a 15 minute timeout on LP requests
+Changed hop point to 14.7% for slush
+Reduce miner delay while writing to database
+Worker sorting by username alpha on stats page
+Fixed nmcbit stats page
+Added def lp_penalty to btc pools en/esp
+Moved itzod to backup pools
+
+
+#Ver. 0.2.4.6 (258c26a)
+Only set owner if the pool type is a valid type
+Added coin types
+Enabled persistent connections
+Synch readme, info & cfg en/esp
+Small fixes
+
+
+#Ver. 0.2.4.5 (b4a9468)
+Update skins to include recent changes and features
+Random User-Agent support (via config file)
+Bound bitHopper to 127.0.0.1 instead of all interfaces
+Added {USER} and {PASSWORD} replacement
+Fixed lp not actually extracting the merkle root
+Lots of scheduler fixes, mine_charity works
+Plugin to restore api_disable pools every 2 hours
+Initial poclbm plugin and updated plugin system which actually works
+Make the checking for statuses work with varying versions
+Configurable api_disable time (from default of 7200 or 2 hours)
+Make web interface hide disabled pools by default
+Rename config file to bh.cfg.default
+Initial implementation to reset/modify expected payouts
+*nix install guide in README en/esp
+Added arsbitcoin donation address
+Fix delagging breaking
+Added btcserv pps
+Upd btcserv api
+Upd some pools info
+Upd btcg mine address
+url: for donation pool
+Updated readme to include numpy
+Various small fixes
+
+
+#Ver. 0.2.4.4 (66d23e4)
+Forward miner proxy headers to the server
+Added mine_scc role
+Added header support for noncerange and roll-n-time
+Added 7 pools of alternative currencies and support for SolidCoin
+Don't run donations if the pool is disabled
+Fix database breaking when we restart the pools.cfg
+Fixed website share percent for xxx_coins
+Added percent: to user.cfg.def en/esp
+Added refresh_limit to pool set-up
+Added mtred pps to cfg
+Fix bcpool api issue
+Added contributors to README en/esp
+
+
+#Ver. 0.2.4.3 (b92dc0a)
+Updated work.py to hide some tracebacks
+
+
+#Ver. 0.2.4.2 (12ef707)
+Fixed pools.py to load all valid pools
+
+
+#Ver. 0.2.4.1 (fae380c)
+New mining address for digbtc.net
+Added donation addy for bH contributors
+Server map fix
+More fixes...
+
+
+#Ver. 0.2.4 (83db535)
+Added plugin system
+Added a test plugin
+Added percent option and a donation role which uses the option
+Various small fixes
+
+
+#Ver. 0.2.3.1 (13aed76)
+Changed something to stop servers lagging out
+Update to fix errors in LP
+Change lP to not use json rpc
+Changed user agent
+Update some pools info
+Actual LP fix
+
+
+#Ver. 0.2.3 (4d57309)
+Start of the plugin system
+Added basic pluging config file support
+2nd half of the stats button fix
+Increase the maximum number of connections
+Added backdoor for debugging and changed us to use a greenPool
+Updated p2pLP to have less spew and moved it around a little bit
+Updated README with install instructions
+Added an LP notification to help debug LP errors
+Removed pyopenssl and fixed --auth
+README fixes and pool info updates
+Added pools hashrate to info en/esp + small fixes
+Updated rfc payout system (PPLNS)
+Fixed latehop, run-bithopper.bat
+
+
+#Ver. 0.2.2.4 (cf5e6f2)
+Added a message for installing eventlet
+Moved eventlet license to correct spot
+Added webob license
+Updated README to reflect what you actually need to install
+
+
+#Ver. 0.2.2.3 (7ecc660)
+Don't show incoming connections unless in debug mode
+Fix for speed.py
+
+
+#Ver. 0.2.2.2 (25830b7)
+Workaround for remote_password
+Reenabled basic auth
+Update handle_lp to deal with improper requests to LP properly
+Updated readme
+
+
+#Ver. 0.2.2.1 (9a2baaa)
+Removed unused option --oldConnectionSystem
+Added instructions to Readme for eventlet
+Updated README and fixed --debug
+
+
+#Ver. 0.2.2 (1e9e3f3)
+Added a --OldConnectionSystem flag
+Made getwork store threadsafe
+Implemented LongPolling
+Removed some vestigial twisted hacks
+Changed --debug to not mention twisted
+Created POOLS_INFO and removed comments in user.cfg.def
+Added hash speed to the title bar
+Added feature: Dynamically show/hide disabled pools
+Added feature: Option to hide info pools in web interface
+Feature: Web Interface: Clear user shares / expected earnings for pools
+Throttle share scrapes for info, backup, and backup_latehop
+Make slices column appear in table
+Added ABCPool
+Fixed altslicer
+Yet again fixed user stats
+Minor graphical changes to stats page
+Added eventlet to README
+Updated some pools info
+Pools api fixes
+More cleanups and codefixes
+
+
+#Ver. 0.2.1 (b637dd4)
+Added a potential bugfix for Persistent getwork connections
+
+
+#Ver. 0.2.0 (529f399)
+Added a lot of checks in cases of error
+Added a coding_style document
+Swapped to persistent getwork connections
+Code Cleanup
+Index fixes
+
+
+#Ver. 0.1.9.2 (058af83)
+Fixing Linux bug that caused an exception
+Fixed --listschedulers not returning anymore
+Remove Duplicated Code
+Fix reload config to work properly
+Batch file for windows users
+README small fixes
+More pylint cleanup
+Updated kiwipool info
+
+
+#Ver. 0.1.9.1 (77c4627)
+Made us set lastBlock for every new block which is added
+Fixed something wrong with set_owner
+Found a bug with my checking for block byteswaps
+
+
+#Ver. 0.1.9 (bfc7b49)
+Make slush skip out at 10% instead of 10.75
+Fixes for when lastblock is None
+Major LP cleanups
+p2pLP fixes
+
+
+#Ver. 0.1.8 (7893d57)
+Backend change from twisted
+Rewrote lpbot, much cleaner. Added decision engine
+Lpbot now reconnects if disconnected
+Lp calls will only select a server if the role is mine_deepbit
+Various README updates and pools info
+Fixed a problem with p2plp
+Resetting stats if the new lp server is not mine_deepbit
+Added mine_i*c role to user.cfg.def en/esp
+Ability to reload configuration file at runtime
+Updated the getwork system to be more streamlined
+Fix for --auth and mining
+Fix config reload
+Fix user shares
+Fix pool order
+Fixed hash rate
+Added user rejects
+Changed irc server
+Diff update btc, i0c
+Bug fixes
+
+
+#Ver. 0.1.7.2 (9716729)
+Swapped bitcoin and current pool back
+Index.html fix. @ goes before the bitHopper
+Remove un-needed index files
+added div #headercontainer to stick the currently mined pool
+Modified the looping api check to die when we get a new block
+Updated and refactored scheduler to be much cleaner
+Changed longpolling callbacks for resetting server shares
+Removed altslice.html
+Fix to make --auth truly optional
+Added ixcoins
+Some lp fixes
+Added more error output to lp
+Added some pool.py cleanup and cleaner output
+Skip mine_ixc not mine_nmc
+block is determined by hash, not block num.
+Cleared up penalty
+Added a config option refresh_limit to limit rate of refreshing
+Skins update
+Bugs fixed
+
+
+#Ver. 0.1.7.1 (2351a27)
+Fixes join spam, and removed some debug lines, few other minor fixes
+
+
+#Ver. 0.1.7 (cb81c01)
+Have a sanity check every 30 seconds for 5 minutes with regard to lp
+Implemented the 5 minute looping
+Added p2plp support
+Added lpbot
+Adding irblib.py
+Fixed issue with announce()
+Some work.py cleanups
+Compressed index's down to one html file
+Added a lp_penalty option
+Added a user and password option
+More bugs squashed and auth fixes
+
+
+#Ver. 0.1.6.2 (ac9087e)
+Fixed an edge case where LP wouldn't work
+Rewrote bitHopperLP to make sure it returns the value more explicitly
+Pool speed and pool duration fetch
+Added human readeable last seen output
+Update agent to use timeout if possible
+Added javascript fix. Improper brackets
+fetch speed,duration from more pools log speed,duration
+Changed the title to display pool being mined first
+Fixed typos and some bugs
+Minor Code Cleanups
+
+
+#Ver. 0.1.6.1 (22788b2)
+Switch to persistent connections
+Use default twisted agent
+Only add merkle roots for getworks
+More delag debugging
+Make delagger run every 10 seconds
+Typos fixed
+
+
+#Ver. 0.1.6 (fba057d)
+Let you specify IP and fix the delagger
+
+
+#Ver. 0.1.5.1 (d60e5ac)
+Add request store errback
+Cleanups for speed. And don't call time.sleep()
+Updates to work to not use a dict but instead use a server
+Fix the delagger
+More tweaks
+
+
+#Ver. 0.1.5 (1c99abe)
 Updated startLP to be a looping call
 Changes to pool.py and pools.cfg to allow use of mine_deepbit
 Fix for default scheduler and deepbit
 Made default scheduler not lose slice info for lagged pools
 Use request_store for lp
+Added None re_rate_type
 Made startLP true by default
 Updated pools info and api
 Added irc chan to README
 Added swepool
 Bugs an typos fixed
+
 
 #Ver. 0.1.4 (78baab7)
 Disabled mmf - lagging stats
@@ -21,6 +397,7 @@ Scheduler updates with the new LP system
 MtRed port change
 Few bugfixes with LP sys
 
+
 #Ver. 0.1.3 (5c1987a)
 Added python to README en/esp
 Slush pool fix
@@ -32,16 +409,19 @@ User.cfg.def clean-up
 Fixed pools.cfg and hashrate for new users
 Some bugs and typos fixed
 
+
 #Ver. 0.1.2 (f919c26)
 Some database fixes not updating user shares
 Added user stats,rejects and last time seen to backend
 Updated stats index.html
+
 
 #Ver. 0.1.1 (9abe312)
 AltSliceScheduler fixes and cleanups
 Added spanish translation of README and cfg's
 Payout fixes and clean-ups in database
 Some Pools updates and bugs fixed
+
 
 #Ver. 0.1 (0dd4b33)
 New pools added (mtred, bitcoin.lc, eligius and few more)
@@ -63,4 +443,6 @@ Manual penalty to adjust the hop point added
 Added mine_friendly role, renamed too mine_charity
 Lots of code clean-ups and bug fixes
 
+
 #Commit b6f8794 - Implemented a primitive pool hopper with 1 pool
+
