@@ -1,8 +1,27 @@
 #Ver. 0.1.5
-#Ver. 0.1.4
+Updated startLP to be a looping call
+Changes to pool.py and pools.cfg to allow use of mine_deepbit
+Fix for default scheduler and deepbit
+Made default scheduler not lose slice info for lagged pools
+Use request_store for lp
+Made startLP true by default
+Updated pools info and api
+Added irc chan to README
+Added swepool
+Bugs an typos fixed
 
+#Ver. 0.1.4 (78baab7)
+Disabled mmf - lagging stats
+Update user.cfg.def to not include x8s
+Fixed some LP stuff and deepbit hopping
+Added itzod.ru and updated pools info
+Switches to README en/esp
+Mine_deepbit fully working
+Scheduler updates with the new LP system
+MtRed port change
+Few bugfixes with LP sys
 
-#Ver. 0.1.3
+#Ver. 0.1.3 (5c1987a)
 Added python to README en/esp
 Slush pool fix
 Fixed mine_charity to work with schedulers
@@ -13,18 +32,18 @@ User.cfg.def clean-up
 Fixed pools.cfg and hashrate for new users
 Some bugs and typos fixed
 
-#Ver. 0.1.2
+#Ver. 0.1.2 (f919c26)
 Some database fixes not updating user shares
 Added user stats,rejects and last time seen to backend
 Updated stats index.html
 
-#Ver. 0.1.1
+#Ver. 0.1.1 (9abe312)
 AltSliceScheduler fixes and cleanups
 Added spanish translation of README and cfg's
 Payout fixes and clean-ups in database
 Some Pools updates and bugs fixed
 
-#Ver. 0.1
+#Ver. 0.1 (0dd4b33)
 New pools added (mtred, bitcoin.lc, eligius and few more)
 Fetch diff form block explorer
 LP support added and debugged in depth
