@@ -103,7 +103,7 @@ class Scheduler(object):
             #So we don't mine it.
             c = int(info['c'])
             hashrate = float(info['ghash'])
-            hopoff = difficulty * (self.difficultyThreshold - 503131/(1173666 + c*hashrate))
+            hopoff = difficulty * (0.435 - 503131/(1173666 + c*hashrate))
             if shares > hopoff:
                 shares = 2*difficulty
 
