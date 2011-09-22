@@ -12,7 +12,6 @@ import traceback
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
 
-import traceback
 import webob
 
 class dynamicSite():
@@ -69,11 +68,28 @@ class dynamicSite():
                     for loopServer in self.bitHopper.pool.get_servers():
                         if loopServer == server:
                             info = self.bitHopper.pool.get_entry(loopServer)
-                            info['expected_payout'] = float(request.POST[v])
-                            userShares = info['expected_payout'] * self.bitHopper.difficulty.get_difficulty() / 50
-                            info['user_shares'] = int(userShares)
-                            self.bitHopper.db.get_shares(server)
-                            self.bitHopper.log_msg('Expected payout for ' + str(server) + " modified")
+                            tempExpPayout = float(request.POST[v])
+                            #info['expected_payout'] = float(request.POST[v])
+                            difficulty = self.bitHopper.difficulty.get_difficulty()
+                            tempUserShares = int(tempExpPayout * difficulty / 50)
+                            #info['user_shares'] = int(info['expected_payout'] * difficulty / 50)
+                            self.bitHopper.log_msg('Changing expected payout')
+                            self.bitHopper.log_msg('  Initial shares: ' + str(info['user_shares']))
+                            self.bitHopper.log_msg('  Initial expected payout: ' + str(info['expected_payout']))
+                            (newDbSharesTotal, newDbRejectsTotal, newPayout) = self.bitHopper.db.change_expected_payout(str(server), tempUserShares, tempExpPayout)
+                            if not newDbSharesTotal == -1 and not newPayout == -1:
+                                self.bitHopper.log_msg('Expected payout for ' + str(server) + ' modified!')
+                                self.bitHopper.log_msg('  Specified shares: ' + str(tempUserShares))
+                                self.bitHopper.log_msg('  Set shares: ' + str(newDbSharesTotal))
+                                self.bitHopper.log_msg('  Specified expected payout: ' + str(tempExpPayout))
+                                self.bitHopper.log_msg('  Set expected payout: ' + str(newPayout))
+                                self.bitHopper.log_msg('  Payout difference(precision): ' + str(tempExpPayout - newPayout))
+                                info['expected_payout'] = newPayout
+                                info['user_shares'] = newDbSharesTotal
+                                info['rejects'] = newDbRejectsTotal
+                            else:
+                                self.bitHopper.log_msg('WARNING: No users exist in the database, payout can\'t be modified!')
+
                 except Exception, e:
                     self.bitHopper.log_msg('Incorrect http post request for expected payout: ' + str(e))
             if "wait" in v:
