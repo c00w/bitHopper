@@ -83,7 +83,7 @@ class Scheduler(object):
 
     def server_is_valid(self, server):
         info = self.bitHopper.pool.get_entry(server)
-        return info.is_valid() and info.role in self.valid_roles
+        return info.is_valid() and info['role'] in self.valid_roles
 
     def select_backup_server(self,):
         reject_rate = 1
@@ -115,7 +115,7 @@ class Scheduler(object):
 
         backup_name = []
         for server in backup_servers:
-            backup_name.append(server.index_name)
+            backup_name.append(server['index_name'])
 
         return backup_name
 
