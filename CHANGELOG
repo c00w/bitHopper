@@ -4,7 +4,7 @@ Made scheduler return an array of valid servers and valid backup servers
 which are sorted by preference
 Added automatic Coin Profitability based switching.
 
-#Ver. 0.2.5.1
+#Ver. 0.2.5.1 (d491fa6)
 Change mine_slush to not mess up with a non standard default threshold
 Caught a bug where we didn't store the old_duration
 Fix shortened gh/s output
