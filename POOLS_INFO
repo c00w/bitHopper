@@ -200,7 +200,7 @@ info_3: Changed payout to rsmpps (page 195 - bH thread on main forum)
 
 
 [itzod]
-# https://pool.itzod.ru
+#https://pool.itzod.ru
 info_1: Score based payout, hop using mine_slush if you want (page 154 - bH thread on main forum) - 74.61 Ghash/s @ 08.23.11
 info_2: Changed to SMPPS system (IRC)
 
@@ -253,7 +253,8 @@ info_1: Payouts are automatic and no need to signup - 8.35 Ghash/s @ 08.23.11
 [bitchomp]
 #http://www.bitchomp.info/ncp/register.php
 info_1: Nmc pool (mine_nmc) - 47 Mhash/s @ 08.23.11
-info_2: The production of Namecoins stop until merged mining start in the block 19200. The current payment is made through PPS and when the M.M. start Bitchomp will paid by a SMPPS algorithm (pool website) @ 09.23.11
+info_2: Production at this pool stopped until merged mining @ block 19200
+info_3: Curently pool is PPS, after m.mining is implemented will be SMPPS (pool website) @ 09.23.11
 
 #i0c pools
 
