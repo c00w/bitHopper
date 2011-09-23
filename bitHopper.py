@@ -37,6 +37,8 @@ import data
 import lp
 import lp_callback
 import plugin
+import api
+import exchange
 
 
 import ConfigParser
@@ -48,9 +50,11 @@ class BitHopper():
         self.options = options
         self.config = config
         self.lp_callback = lp_callback.LP_Callback(self)
-        self.difficulty = diff.Difficulty(self)           
+        self.difficulty = diff.Difficulty(self)  
+        self.exchange = exchange.Exchange(self)         
         self.pool = pool.Pool(self)
         self.db = database.Database(self)
+        self.api = api.API(self)
         self.pool.setup(self)
         self.work = work.Work(self)
         self.speed = speed.Speed(self)
@@ -125,11 +129,18 @@ class BitHopper():
         server_name = self.scheduler.select_best_server()
         if not server_name:
             self.log_msg('FATAL Error, scheduler did not return any pool!')
-            os._exit(-1)
+            os._exit(1)
+
+        old_server = self.pool.get_current()
             
         if self.pool.get_current() != server_name:
             self.pool.set_current(server_name)
             self.log_msg("Server change to " + str(self.pool.get_current()))
+            servers = self.pool.servers
+            if servers[server_name]['coin'] != servers[old_server]['coin']:
+                self.log_msg("Change in coin type. Triggering LP")
+                work, server_headers, server  = self.work.jsonrpc_getwork(server_name, [], {}, "", "")
+                self.bitHopper.lp_callback.new_block(work, server_name)
 
         return
 
@@ -203,12 +214,12 @@ def main():
             application_path = os.path.dirname(__file__)
         if not os.path.exists(os.path.join(application_path, options.config)):
             print "Missing " + options.config + " may need to rename bh.cfg.default"
-            os._exit(-1)        
+            os._exit(1)
         config.read(os.path.join(application_path, options.config))
     except:
         if not os.path.exists(options.config):
             print "Missing " + options.config + " may need to rename bh.cfg.default"
-            os._exit(-1)        
+            os._exit(1)
         config.read(options.config)
     
     bithopper_instance = BitHopper(options, config)

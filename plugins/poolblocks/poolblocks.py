@@ -37,14 +37,17 @@ class PoolBlocks:
         self.refreshRandomJitter = 90
         self.execpoolsize = 20
         self.rate_limit = 100
+        self.block_retrieve_limit = 25
+        self.timeout = 30
         self.blocks = {}
+        self.fetch = None
         # TODO blockexplore retry limit / retry delay configuration
         #self.blockexplorerRetryLimit
         #self.blockexplorerRetryDelay
         self.parseConfig()        
         self.threadpool = greenpool.GreenPool(size=8)
         self.execpool = greenpool.GreenPool(size=self.execpoolsize)
-        self.fetch = urlutil.URLFetchRateLimit(bitHopper, self.rate_limit)
+        
         hook = plugins.Hook('plugins.lp.announce')
         hook.register(self.lp_announce)
         hookv = plugins.Hook('plugins.poolblocks.verified')
@@ -55,18 +58,26 @@ class PoolBlocks:
         self.log_msg(' - refreshRandomJitter: ' + str(self.refreshRandomJitter))
         self.log_msg(' - execpoolsize: ' + str(self.execpoolsize))
         self.log_msg(' - rate_limit: ' + str(self.rate_limit))
+        self.log_msg(' - timeout: ' + str(self.timeout))
+        self.log_msg(' - block_retrieve_limit: ' + str(self.block_retrieve_limit))
+        self.cleanup()
         eventlet.spawn_n(self.run)
         
     def parseConfig(self):
         self.fetchconfig = RawConfigParser()
         self.fetchconfig.read('poolblock.cfg')
         try:
-            self.refreshInterval = self.bitHopper.config.readint('plugin.poolblocks', 'refreshInterval')
-            self.refreshRandomJitter = self.bitHopper.config.readint('plugin.poolblocks', 'refreshRandomJitter')
-            self.execpoolsize = self.bitHopper.config.readint('plugin.poolblocks', 'execpoolsize')
-            self.rate_limit = self.bitHopper.config.readint('plugin.poolblocks', 'ratelimit')
-        except:
-            pass
+            self.refreshInterval = self.bitHopper.config.getint('plugin.poolblocks', 'refreshInterval')
+            self.refreshRandomJitter = self.bitHopper.config.getint('plugin.poolblocks', 'refreshRandomJitter')
+            self.execpoolsize = self.bitHopper.config.getint('plugin.poolblocks', 'execpoolsize')
+            self.block_retrieve_limit = self.bitHopper.config.getint('plugin.poolblocks', 'block_retrieve_limit')
+            self.rate_limit = self.bitHopper.config.getint('plugin.poolblocks', 'ratelimit')
+            if self.bitHopper.config.getboolean('plugin.poolblocks', 'use_ratelimit'):
+                self.fetch = urlutil.URLFetchRateLimit(self.bitHopper, self.rate_limit)
+        except Exception, e:
+            self.log_msg('ERROR parsing config, possible missing section or configuration items: ' + str(e))
+            if self.bitHopper.options.debug:
+                traceback.print_exc()
                 
     def log_msg(self,msg):
         self.bitHopper.log_msg(msg, cat='poolblock')
@@ -93,6 +104,14 @@ class PoolBlocks:
             except Exception, e:
                 traceback.print_exc()
                 eventlet.sleep(30)
+    
+    def cleanup(self):
+        try:
+            for file in os.listdir('.'):
+                if file.startswith('tmpretrieve'):
+                    os.remove(file)
+        except Exception, e:
+            traceback.print_exc()
     
     def fetchBlocks(self):
         with self.lock:
@@ -125,7 +144,7 @@ class PoolBlocks:
             cj = CookieJar()
             opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
             opener.addheaders = [('User-agent', 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)'),('Referer', 'http://btcmp.com')]
-            response = opener.open(url, None, 30)
+            response = opener.open(url, None, self.timeout)
             # find session id
             session_id = None
             for cookie in cj:
@@ -137,7 +156,7 @@ class PoolBlocks:
             data = urllib.urlencode(values)
             json_url = self.fetchconfig.get(pool, 'json_url')
             try:
-                response = opener.open(json_url, data, 30)
+                response = opener.open(json_url, data, self.timeout)
                 json_data = response.read()
                 data = json.loads(json_data)
             except Exception, e:
@@ -165,7 +184,7 @@ class PoolBlocks:
                 else:
                     self.log_trace('['+str(pool)+'] Block ' + str(blockNumber) + ' exists same owner')
                 count += 1
-                if count > 25:
+                if count > self.block_retrieve_limit:
                     break
             self.log_msg('[{0}] parsed {1} blocks, {2} matches'.format(pool, len(data['blockstats']), matchCount) )
             return
@@ -173,19 +192,25 @@ class PoolBlocks:
         elif type == 'mmf':
             cj = CookieJar()
             opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
-            opener.addheaders = [('User-agent', 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)'),('Referer', 'http://btcmp.com')]
+            opener.addheaders = [('User-agent', 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)'),('Referer', 'http://mining.mainframe.nl/news')]
             auth_url = self.fetchconfig.get(pool, 'auth_url')
             username = self.fetchconfig.get(pool, 'user')
             password = self.fetchconfig.get(pool, 'pass')
             values = {'username':username, 'password':password}
             data = urllib.urlencode(values)
             try:
-                response = opener.open(auth_url, data, 30)
+                response = opener.open(auth_url, data, self.timeout)
                 eventlet.sleep(2)
-                response = opener.open(url, None, 30)
+                response = opener.open(url, None, self.timeout)
                 outputs = searchPattern.findall(response.read())
-                if len(outputs) > 25:
-                    outputs = outputs[0:25]
+                if len(outputs) < 5:
+                    self.log_msg('mmf is acting up, skip this retrieve')
+                    return
+                if len(outputs) == 2:
+                    self.log_msg('mmf is acting up, got wrong page')
+                    return
+                if len(outputs) > self.block_retrieve_limit:
+                    outputs = outputs[0:self.block_retrieve_limit]
                 self.log_trace('mmf: ' +str(outputs))
             except Exception, e:
                 self.log_msg('Error ' + str(pool) + ' : ' + str(e))
@@ -193,7 +218,13 @@ class PoolBlocks:
         
         else:
             try:
-                data = self.fetch.retrieve(url)
+                data = None
+                if self.fetch != None:
+                    data = self.fetch.retrieve(url)
+                else:
+                    req = urllib2.Request(url)
+                    response = urllib2.urlopen(url, None, self.timeout)
+                    data = response.read()
                 outputs = searchPattern.findall(data)
             except Exception, e:
                 self.log_msg('Error ' + str(pool) + ' : ' + str(e))
@@ -201,8 +232,8 @@ class PoolBlocks:
                     traceback.print_exc()
                 return
             # limit blocks found
-            if len(outputs) > 25:
-                outputs = outputs[0:25]
+            if len(outputs) > self.block_retrieve_limit:
+                outputs = outputs[0:self.block_retrieve_limit]
         
         if mode == 'b':
             # pool reports block# solved
@@ -361,7 +392,7 @@ class PoolBlocks:
     def block_verified(self, blockNumber, blockHash, pool):
         if blockHash in self.bitHopper.lp.blocks:
             self.log_trace('block exists, add verified owner ' + str(pool) + ' for ' + str(blockHash) )
-            self.bitHopper.lp.blocks[blockHash]['verified'] = pool
+            self.bitHopper.lp.blocks[blockHash]['_verified'] = pool
     
 # class for Block       
 class Block:

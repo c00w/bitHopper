@@ -116,7 +116,21 @@ refreshRandomJitter = 120
 # max number of threads to open to blockexplorer
 execpoolsize = 8
 
-# rate limit (kb/s) for fetch blocks from pools and blockexplorer (except mmf/btcmp)
+# use_ratelimit = True - enable rate limiting for fetch block information
+use_ratelimit = False
+
+# ratelimit = int (kb/s) for fetch blocks from pools and blockexplorer (except mmf/btcmp)
 # use a value 80% of the target, e.g. for 100kb/s try 80kb/s, especially for
 # smaller transfers
 ratelimit = 50
+
+# Limit the number of blocks retrieved (default 25)
+block_retrieve_limit = 25
+
+# timeout for retrieving solved block lists from each pool (default 30)
+timeout = 30
+
+[plugins.blockaccuracy]
+# report interval for new verified blocks by poolblocks plugin (default 600 seconds)
+reportInterval = 600
+

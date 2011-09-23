@@ -20,7 +20,9 @@
 # Valid pool roles are:
 #
 # mine = mines on this pool as usual (diff.*0.43)
-# mine_slush = mines pool until diff.*0.147
+# mine_c = mines score pools based on this simple formula
+#          (n/shares per unit time)/c ∝ (n/hashrate)/c = n/(hashrate*c)
+# mine_slush = mine_c with c: 300
 # mine_lp = monitor and makes educated guess mining
 #   without using the api
 # mine_lp_force = mine untill lp is triggered and then resets
@@ -55,6 +57,9 @@
 #                 LP response pools)
 #  percent:       keep submitting shares to pool, % value from you total output
 #                 (1% = 1 share every 100)
+#  c:             this variable is used together with "mine_c" role and
+#                 determines how long it takes shares to decay in value on
+#                 score pools (more info on page 200, bH thread in main forum)
 #  refresh_limit: pool's api refreshing interval in seconds
 #  user_agent:    HTTP User-Agent header to set when retrieving pool stats
 #                 Overrides the default in bh.cfg
@@ -236,6 +241,20 @@ pass: x
 #CHANGE THIS (if you want)
 role: info
 asspenny_user_apikey: xxxxxx
+user: your_username
+pass: your_password
+
+[guildminers]
+#http://guildminers.com/
+#CHANGE THIS
+role: info
+user: your_username
+pass: your_password
+
+[yourbtc]
+#http://yourbtc.net
+#CHANGE THIS (if you want)
+role: mine
 user: your_username
 pass: your_password
 
@@ -428,6 +447,14 @@ pass: your_password
 
 [ixparking]
 #http://ixpool.bitparking.com/pool
+#CHANGE THIS (if you want)
+role: disable
+user: your_username
+pass: your_password
+
+[digixc]
+#http://ix.digbtc.net
+#CHANGE THIS (if you want)
 role: disable
 user: your_username
 pass: your_password

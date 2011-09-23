@@ -20,7 +20,9 @@
 # Los "role" (roles) validos son:
 #
 # mine = mina como esta mandado, normal (dificultad*0.43)
-# mine_slush = en esta se queda hasta dificultad.*0.147
+# mine_c = trabaja en las minas con puntuacion basandose en la formula
+#          (n/shares per unit time)/c ∝ (n/hashrate)/c = n/(hashrate*c)
+# mine_slush = mine_c con c: 300
 # mine_lp = monitorea y prueba suerte minar en
 #   esta mina sin utilizar la api
 # mine_lp_force = mina hasta que reciba senal lp y despues vuelve
@@ -55,6 +57,9 @@
 #                 LP muy rapidos)
 #  percent:       continua enviando shares aqui, valor proc. calculado sobre el
 #                 total de tus shares (1% = 1 share cada 100)
+#  c:             esta variable se utiliza en conjunto con el rol "mine_c" y determina
+#                 cuanto tiempo tardan los shares para disminuir su valor en minas con
+#                 puntuacion (mas informacion en la pagina 200, hilo bH del foro principal)
 #  refresh_limit: intervalo para refrescar la api de mina en segundos
 #  user_agent:    identificacion de navegador HTTP de bH para minas, sobrescribe
 #                 el reglaje general que se encuentra en bh.cfg
@@ -236,6 +241,20 @@ pass: x
 #CAMBIA A CONTINUACION (si quieres)
 role: info
 asspenny_user_apikey: xxxxxx
+user: nombre_minero
+pass: contrasena_minero
+
+[guildminers]
+#http://guildminers.com/
+#CAMBIA A CONTINUACION
+role: info
+user: nombre_minero
+pass: contrasena_minero
+
+[yourbtc]
+#http://yourbtc.net
+#CAMBIA A CONTINUACION
+role: info
 user: nombre_minero
 pass: contrasena_minero
 
@@ -428,6 +447,14 @@ pass: contrasena_minero
 
 [ixparking]
 #http://ixpool.bitparking.com/pool
+#CAMBIA A CONTINUACION (si quieres)
+role: disable
+user: nombre_minero
+pass: contrasena_minero
+
+[digixc]
+#http://ix.digbtc.net
+#CAMBIA A CONTINUACION (si quieres)
 role: disable
 user: nombre_minero
 pass: contrasena_minero
