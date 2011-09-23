@@ -122,6 +122,8 @@ class Scheduler(object):
             return False
         if info['role'] not in self.valid_roles:
             return False
+        if info['coin'] not in self.bitHopper.exchange.profitability:
+            return False
         if self.bitHopper.exchange.profitability[info['coin']] < 1.0:
             return False
         return True
