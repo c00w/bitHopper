@@ -200,7 +200,7 @@ info_3: Changed payout to rsmpps (page 195 - bH thread on main forum)
 
 
 [itzod]
-# https://pool.itzod.ru
+#https://pool.itzod.ru
 info_1: Score based payout, hop using mine_slush if you want (page 154 - bH thread on main forum) - 74.61 Ghash/s @ 08.23.11
 info_2: Changed to SMPPS system (IRC)
 
