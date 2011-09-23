@@ -58,8 +58,15 @@ class Database():
 
     def write_database(self):
         while True:
+            if self.pool == None:
+                eventlet.sleep(60)
+                continue
             with self.lock:
                 self.bitHopper.log_msg('DB: writing to database')
+
+                for server_name in self.pool.get_servers():
+                    sql = "CREATE TABLE IF NOT EXISTS "+server_name +" (diff REAL, shares INTEGER, rejects INTEGER, stored_payout REAL, user TEXT)"
+                    self.curs.execute(sql)
 
                 difficulty = self.bitHopper.difficulty.get_difficulty()
                 for server in self.shares:
@@ -129,12 +136,6 @@ class Database():
             for item in result:
                 sql = "ALTER TABLE " + item[0] + " ADD COLUMN user TEXT"
                 self.curs.execute(sql)
-        self.database.commit()
-
-        for server_name in self.pool.get_servers():
-            sql = "CREATE TABLE IF NOT EXISTS "+server_name +" (diff REAL, shares INTEGER, rejects INTEGER, stored_payout REAL, user TEXT)"
-            self.curs.execute(sql)
-
         self.database.commit()
 
     def get_users(self):

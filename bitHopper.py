@@ -51,10 +51,11 @@ class BitHopper():
         self.config = config
         self.lp_callback = lp_callback.LP_Callback(self)
         self.difficulty = diff.Difficulty(self)  
-        self.exchange = exchange.Exchange(self)         
-        self.pool = pool.Pool(self)
-        self.db = database.Database(self)
-        self.api = api.API(self)
+        self.exchange = exchange.Exchange(self)
+        self.pool = None        
+        self.db = database.Database(self)                       
+        self.pool = pool.Pool_Parse(self)
+        self.api = api.API(self) 
         self.pool.setup(self)
         self.work = work.Work(self)
         self.speed = speed.Speed(self)
@@ -126,15 +127,20 @@ class BitHopper():
         return self.pool.get_current()
 
     def select_best_server(self, ):
-        server_name = self.scheduler.select_best_server()
-        if not server_name:
-            self.log_msg('FATAL Error, scheduler did not return any pool!')
-            os._exit(1)
+        server_list, backup_list = self.scheduler.select_best_server()
 
         old_server = self.pool.get_current()
             
-        if self.pool.get_current() != server_name:
-            self.pool.set_current(server_name)
+        if len(server_list) == 0:
+            server_list = backup_list
+
+        if len(server_list) == 0:
+            self.log_msg('FATAL Error, scheduler did not return any pool!')
+            os._exit(1)
+        server_name = server_list[0]
+
+        if self.pool.get_current() != server_list[0]:
+            self.pool.set_current(server_list[0])
             self.log_msg("Server change to " + str(self.pool.get_current()))
             servers = self.pool.servers
             if servers[server_name]['coin'] != servers[old_server]['coin']:

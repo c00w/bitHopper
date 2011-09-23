@@ -79,95 +79,45 @@ class Scheduler(object):
         return server_name   
 
     def server_to_btc_shares(self,server):
-        difficulty = self.bitHopper.difficulty.get_difficulty()
-        nmc_difficulty = self.bitHopper.difficulty.get_nmc_difficulty()
-        ixc_difficulty = self.bitHopper.difficulty.get_ixc_difficulty()
-        i0c_difficulty = self.bitHopper.difficulty.get_i0c_difficulty()
-        scc_difficulty = self.bitHopper.difficulty.get_scc_difficulty()
-        info = self.bitHopper.pool.get_entry(server)
-        if info['coin'] in ['btc']:
-            shares = info['shares']
-        elif info['coin'] in ['nmc']:
-            shares = info['shares']*difficulty / nmc_difficulty
-        elif info['coin'] in ['ixc']:
-            shares = info['shares']*difficulty / ixc_difficulty
-        elif info['coin'] in ['i0c']:
-            shares = info['shares']*difficulty / i0c_difficulty
-        elif info['coin'] in ['scc']:
-            shares = info['shares']*difficulty / scc_difficulty
-        else:
-            shares = difficulty
-
-        if info['role'] == 'mine_c':
-            #Checks if shares are to high and if so sends it through the roof
-            #So we don't mine it.
-            c = int(info['c'])
-            hashrate = float(info['ghash'])
-            hopoff = difficulty * (0.435 - 503131/(1173666 + c*hashrate))
-            if shares > hopoff:
-                shares = 2*difficulty
-
-        if info['role'] in ['mine_force', 'mine_lp_force']:
-            shares = 0
-        # apply penalty
-        if 'penalty' in info:
-            shares = shares * float(info['penalty'])
-        return shares, info
+        return self.bitHopper.pool.get_entry(server).btc_shares()
 
     def server_is_valid(self, server):
         info = self.bitHopper.pool.get_entry(server)
-        if info['lag']:
-            return False
-        if info['role'] not in ['backup', 'backup_latehop'] and info['api_lag']:
-            return False
-        if info['role'] not in self.valid_roles:
-            return False
-        if info['coin'] not in self.bitHopper.exchange.profitability:
-            return False
-        if self.bitHopper.exchange.profitability[info['coin']] < 1.0:
-            return False
-        return True
+        return info.is_valid() and info.role in self.valid_roles
 
     def select_backup_server(self,):
-        server_name = self.select_latehop_server()
-        reject_rate = 1      
+        reject_rate = 1
 
-        if server_name == None:
+        backup_servers = []
+
+        for server in self.bitHopper.pool.get_servers():
+            info = self.bitHopper.pool.get_entry(server)
+            if info['role'] not in ['backup', 'backup_latehop']:
+                continue
+            if not info.is_valid():
+                continue
+            backup_servers.append(info)
+
+        if len(backup_servers) == 0:
             for server in self.bitHopper.pool.get_servers():
                 info = self.bitHopper.pool.get_entry(server)
-                if info['role'] not in ['backup', 'backup_latehop']:
+                if info.role not in self.valid_roles:
                     continue
-                if info['lag']:
+                if not info.is_valid():
                     continue
-                shares = info['user_shares'] + 1
-                rr_server = float(info['rejects'])/shares
-                if 'penalty' in info:
-                    rr_server += float(info['penalty'])/100
-                if rr_server < reject_rate:
-                    server_name = server
-                    reject_rate = rr_server
+                backup_servers.append(info)
 
-        if server_name == None:
-            #self.bitHopper.log_dbg('Try another backup' + str(server), cat='scheduler-default')
-            min_shares = 10**10
+        if len(backup_servers) == 0:
             for server in self.bitHopper.pool.get_servers():
-                shares,info = self.server_to_btc_shares(server)
-                if info['role'] not in self.valid_roles:
-                    continue
-                if shares < min_shares and self.server_is_valid(server):
-                    min_shares = shares
-                    server_name = server
-          
-        if server_name == None:
-            #self.bitHopper.log_dbg('Try another backup pt2' + str(server), cat='scheduler-default')
-            for server in self.bitHopper.pool.get_servers():
-                info = self.bitHopper.pool.get_entry(server)
-                if info['role'] != 'backup':
-                    continue
-                server_name = server
-                break
+                backup_servers.append(self.bitHopper.pool.get_entry(server))
 
-        return server_name
+        backup_servers.sort()
+
+        backup_name = []
+        for server in backup_servers:
+            backup_name.append(server.index_name)
+
+        return backup_name
 
     def update_api_server(self,server):
         return
@@ -190,13 +140,15 @@ class DefaultScheduler(Scheduler):
                 #self.bitHopper.log_dbg('Selecting pool ' + str(server) + ' with shares ' + str(info['shares']), cat='scheduler-default')
                 server_name = server
          
-        if server_name == None:
+        if server_name == None and self.select_charity_server():
             server_name = self.select_charity_server()
+        
+        if server_name == None:
+            return [], self.select_backup_server()
 
-        if server_name == None:     
-            server_name = self.select_backup_server()
+        return [server_name], self.select_backup_server()
 
-        return server_name
+        return [server_name], self.select_backup_server()
 
     def server_update(self,):
         current = self.bitHopper.pool.get_current()
@@ -255,13 +207,13 @@ class WaitPenaltyScheduler(Scheduler):
                 #self.bitHopper.log_dbg('Selecting pool ' + str(server) + ' with shares ' + str(info['shares']), cat='scheduler-waitpenalty')
                 server_name = server
          
-        if server_name == None:
+        if server_name == None and self.select_charity_server:
             server_name = self.select_charity_server()
 
-        if server_name == None:     
-            server_name = self.select_backup_server()
+        if server_name == None:
+            return [], self.select_backup_server()
 
-        return server_name
+        return [server_name], self.select_backup_server()
 
     def server_update(self,):
         current = self.bitHopper.pool.get_current()
@@ -344,23 +296,9 @@ class SimpleSliceScheduler(Scheduler):
 
         charity_server = self.select_charity_server()
         if valid_servers == [] and charity_server != None: 
-            return charity_server
+            valid_servers.append(charity_server)
 
-        if valid_servers == []: 
-            return self.select_backup_server()
-      
-        min_slice = self.sliceinfo[valid_servers[0]]
-        server = valid_servers[0]
-        for pool in valid_servers:
-            info = self.bitHopper.pool.servers[pool]
-            if not self.server_is_valid(server):
-                continue
-            if self.sliceinfo[pool] <= min_slice:
-                min_slice = self.sliceinfo[pool]
-                server = pool
-    
-        return server
-
+        return valid_servers, self.select_backup_server()
    
     def server_update(self,):
         #self.bitHopper.log_msg(str(self.sliceinfo))
@@ -683,9 +621,10 @@ class AltSliceScheduler(Scheduler):
                    
         #self.bitHopper.log_dbg('server_name: ' + str(server_name), cat=self.name)
         if server_name == None:
-            self.bitHopper.log_msg('No servers to slice, picking a backup...')
-            server_name = self.select_backup_server()
-        return server_name
+            server_list = []
+        else:
+            server_list = [server_name]
+        return server_list, self.select_backup_server()
          
 
     def server_update(self,):
@@ -707,7 +646,8 @@ class AltSliceScheduler(Scheduler):
             return True
           
         # double check role
-        if info['role'] not in self.valid_roles: return True
+        if info['role'] not in self.valid_roles: 
+            return True
           
         # check to see if threshold exceeded
         difficulty = self.bitHopper.difficulty.get_difficulty()

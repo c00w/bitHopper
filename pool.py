@@ -8,7 +8,7 @@ import ConfigParser
 import sys
 import random
 import traceback
-
+import pool_class
 import eventlet
 from eventlet.green import threading, os, time, socket
 
@@ -20,7 +20,7 @@ try:
 except:
     OrderedDict = dict
 
-class Pool():
+class Pool_Parse():
     def __init__(self, bitHopper):
         self.bitHopper = bitHopper
         self.servers = {}
@@ -31,6 +31,7 @@ class Pool():
         self.current_server = None
         with self.lock:
             self.loadConfig()
+        self.bitHopper.db.pool = self
 
     def load_file(self, file_path, parser):
         try:
@@ -62,12 +63,12 @@ class Pool():
                     os._exit(1)
 
         for pool in userpools:
-            self.servers[pool] = dict(parser.items(pool))
+            self.servers[pool] = pool_class.Pool(pool, dict(parser.items(pool)), self.bitHopper)
 
         for pool in parser.sections():
             try:
                 if 'role' in dict(parser.items(pool)) and pool not in self.servers:
-                    self.servers[pool] = dict(parser.items(pool))
+                    self.servers[pool] = pool_class.Pool(pool, dict(parser.items(pool)), self.bitHopper)
             except:
                 continue
 
@@ -82,73 +83,20 @@ class Pool():
         except:
             traceback.print_exc()
 
+
         if self.servers == {}:
             self.bitHopper.log_msg("No pools found in pools.cfg or user.cfg")
 
         if self.current_server is None: 
             self.current_server = pool
-        if self.started == True:
-            self.bitHopper.db.check_database()
-            self.setup(self.bitHopper)
+
+        self.bitHopper.db.check_database()
+        #self.setup(self.bitHopper)
         
     def setup(self, bitHopper):
         with self.lock:
             self.bitHopper = bitHopper
-            for server in self.servers:
-                self.servers[server]['shares'] = int(bitHopper.difficulty.get_difficulty())
-                self.servers[server]['ghash'] = -1
-                self.servers[server]['duration'] = -2
-                self.servers[server]['duration_temporal'] = 0
-                self.servers[server]['isDurationEstimated'] = False
-                self.servers[server]['last_pulled'] = time.time()
-                self.servers[server]['lag'] = False
-                self.servers[server]['api_lag'] = False
                 
-                refresh_limit = self.bitHopper.config.getint('main', 'pool_refreshlimit')
-                if 'refresh_time' not in self.servers[server]:
-                    self.servers[server]['refresh_time'] = refresh_limit
-                else:
-                    self.servers[server]['refresh_time'] = int(self.servers[server]['refresh_time'])
-                if 'refresh_limit' not in self.servers[server]:
-                    self.servers[server]['refresh_limit'] = refresh_limit
-                else:
-                    self.servers[server]['refresh_limit'] = int(self.servers[server]['refresh_limit'])
-                self.servers[server]['rejects'] = self.bitHopper.db.get_rejects(server)
-                self.servers[server]['user_shares'] = self.bitHopper.db.get_shares(server)
-                self.servers[server]['payout'] = self.bitHopper.db.get_payout(server)
-                self.servers[server]['expected_payout'] = self.bitHopper.db.get_expected_payout(server)
-                if 'api_address' not in self.servers[server]:
-                    self.servers[server]['api_address'] = server
-                if 'name' not in self.servers[server]:
-                    self.servers[server]['name'] = server
-                if 'role' not in self.servers[server]:
-                    self.servers[server]['role'] = 'disable'
-                if self.servers[server]['role'] in ['mine_slush']:
-                    self.servers[server]['role'] = 'mine_c'
-                    self.servers[server]['c'] = 300
-                if 'lp_address' not in self.servers[server]:
-                    self.servers[server]['lp_address'] = None
-                self.servers[server]['err_api_count'] = 0
-                self.servers[server]['pool_index'] = server
-                self.servers[server]['default_role'] = self.servers[server]['role']
-                if self.servers[server]['default_role'] in ['info','disable']:
-                    self.servers[server]['default_role'] = 'mine'
-
-                #Coin Handling
-                if 'coin' not in self.servers[server]:
-                    if self.servers[server]['role'] in ['mine', 'info', 'backup', 'backup_latehop', 'mine_charity', 'mine_c']:
-                        coin_type = 'btc'
-                    elif self.servers[server]['role'] in ['mine_nmc']:
-                        coin_type = 'nmc'
-                    elif self.servers[server]['role'] in ['mine_ixc']:
-                        coin_type = 'ixc'
-                    elif self.servers[server]['role'] in ['mine_i0c']:
-                        coin_type = 'i0c'
-                    elif self.servers[server]['role'] in ['mine_scc']:
-                        coin_type = 'scc'   
-                    else:
-                        coin_type = 'btc'
-                    self.servers[server]['coin'] = coin_type
             self.servers = OrderedDict(sorted(self.servers.items(), key=lambda t: t[1]['role'] + t[0]))
             self.build_server_map()
             if not self.started:
