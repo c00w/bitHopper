@@ -243,9 +243,9 @@ class PoolBlocks:
                         self.log_trace('[' + pool + '] block ' + str(blockNumber) + ' exists, setting owner')
                         self.blocks[blockNumber].owner = pool
                         blockHash = self.blocks[blockNumber].hash
-                        if blockHash == None:
-                            blockhash = blockexplorer.getBlockHashByNumber(blockNumber, urlfetch=self.fetch)
-                        if blockHash != None:
+                        if blockHash is None:
+                            self.blocks[blockNumber].hash = blockexplorer.getBlockHashByNumber(blockNumber, urlfetch=self.fetch)
+                        if blockHash is not None:
                             hook = plugins.Hook('plugins.poolblocks.verified')
                             hook.notify(blockNumber, blockHash, pool)
                         else:
