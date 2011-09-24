@@ -47,13 +47,24 @@ random_ua_list = Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trid
 [SimpleSliceScheduler]
 slicesize = 30
 
-# not working yet
-[altslice]
+
+[AltSliceScheduler]
+# Slice size for AltSliceScheduler is the size of the "pie" that slices will be taken from
 slicesize = 600
+
+# This is the minimum size of a slice taken from the pie
 min_slicesize = 60
+
+# Add some random variance to slice size, e.g. value of 5 will add a random number from -5 to 5 to the slice size
 slice_jitter = 0
+
+# Enable round time biasing of slice size. i.e. lower round times will get slight larger slices
 roundtimebias = False
+
+# round time biasing target is based on average time it would take a 1000 mhash/s pool to complete a block
 roundtimetarget = 1000
+
+# Default value is 10, increase to bias more towards round time over shares. 10 creates a slight bias only when share counts are very similar
 roundtimemagic = 10
 
 [pluginmode]
