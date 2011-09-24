@@ -211,6 +211,9 @@ class dataSite():
             lp = {}
         else :
             lp = self.bitHopper.lp.blocks[lp]
+        servers = {}
+        for server in self.bitHopper.pool.get_servers():
+            servers[server] = self.bitHopper.pool.get_entry(server).dict
         response = json.dumps({
             "current":self.bitHopper.pool.get_current(), 
             'mhash':self.bitHopper.speed.get_rate(), 
@@ -220,7 +223,7 @@ class dataSite():
             'nmc_difficulty':self.bitHopper.difficulty.get_nmc_difficulty(),
             'scc_difficulty':self.bitHopper.difficulty.get_scc_difficulty(),
             'sliceinfo':sliceinfo,
-            'servers':self.bitHopper.pool.get_servers(),
+            'servers':servers,
             'user':self.bitHopper.data.get_users()})
         return response
 
