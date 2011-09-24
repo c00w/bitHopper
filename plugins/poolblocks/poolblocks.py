@@ -274,7 +274,7 @@ class PoolBlocks:
                             self.log_trace('[' + pool + '] block ' + str(blockNumber) + ' exists, owner already set to: ' + self.blocks[blockNumber].owner)
                         found = True
                         break
-                if found == False:
+                if not found:
                     matchCount += 1
                     self.log_trace('[' + pool + '] Hash not found, looking up block number')
                     self.threadpool.spawn_n(self.fetchBlockFromPool, pool, blockHash, mode)
@@ -295,7 +295,7 @@ class PoolBlocks:
                             self.log_trace('[' + pool + '] Found TXID, owner aready set to ' + str(pool))
                         found = True
                         break
-                if found == False:
+                if not found:
                     self.log_trace('[' + pool + '] TXID not found, looking up block number and hash')
                     matchCount += 1
                     self.threadpool.spawn_n(self.fetchBlockFromPool, pool, txid, mode)               
@@ -308,7 +308,7 @@ class PoolBlocks:
             # block number
             blockNumber = blockInfo
             blockHash = blockexplorer.getBlockHashByNumber(self.bitHopper, blockNumber, urlfetch=self.fetch)
-            if blockHash != None:
+            if blockHash is not None:
                 self.blocks[blockNumber] = Block()
                 self.blocks[blockNumber].owner = pool
                 self.blocks[blockNumber].hash = blockHash
@@ -322,7 +322,7 @@ class PoolBlocks:
             blockHash = blockInfo
             blockNumber = blockexplorer.getBlockNumberByHash(self.bitHopper, blockHash, urlfetch=self.fetch)
             self.log_dbg('[' + pool + '] Block Number ' + str(blockNumber) + ' found for hash ' + blockHash)
-            if blockNumber != None:
+            if blockNumber is not None:
                 self.log_trace('[' + pool + '] Creating new block: ' + str(blockNumber))
                 self.blocks[blockNumber] = Block()
                 self.blocks[blockNumber].hash = blockHash
@@ -336,7 +336,7 @@ class PoolBlocks:
             # txid
             blockHash, blockNumber = blockexplorer.getBlockHashAndNumberByTxid(self.bitHopper, blockInfo, urlfetch=self.fetch)
             self.log_dbg('[' + pool + '] Block Number ' + str(blockNumber) + ' and hash ' + str(blockHash) + ' found for txid ' + blockInfo)
-            if blockNumber != None and blockHash != None:
+            if blockNumber is not None and blockHash is not None:
                 found = False
                 for bNumber in self.blocks:
                     if str(bNumber) == blockNumber:
@@ -347,7 +347,7 @@ class PoolBlocks:
                         hook = plugins.Hook('plugins.poolblocks.verified')
                         hook.notify(blockNumber, blockHash, pool)
                         
-                if found == False:
+                if not found:
                     self.log_trace('[' + pool + '] Creating new block: ' + str(blockNumber))
                     self.blocks[blockNumber] = Block()
                     self.blocks[blockNumber].hash = blockHash

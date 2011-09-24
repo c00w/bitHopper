@@ -87,7 +87,7 @@ class BlockAccuracy:
                     self.log_trace('hit ' + str(lp_owner) + ' for block ' + str(block) )
                     pools[lp_owner]['hit'] += 1                    
                     pools[lp_owner]['total'] += 1
-                elif verified_owner != None:
+                elif verified_owner is not None:
                     self.log_trace('mispredict ' + str(lp_owner) + ' was ' + str(verified_owner) + ' for block ' + str(block) )
                     pools[lp_owner]['incorrect'] += 1
                     pools[lp_owner]['total'] += 1                    

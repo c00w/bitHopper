@@ -56,7 +56,7 @@ class lpWorkbench():
                     blockhash = v.split('-')[1]
                     block = self.bitHopper.lp.blocks[blockhash]
                     old_owner = None
-                    if block != None and '_owner' in block:
+                    if block is not None and '_owner' in block:
                         old_owner = self.bitHopper.lp.blocks[blockhash]['_owner']
                     new_owner = str(request.POST[v])
                     self.bitHopper.log_msg("Updating Block Owner " + blockhash + " from " + str(old_owner) + ' to ' + str(new_owner))
@@ -77,7 +77,7 @@ class lpWorkbenchDataSite():
         start_response('200 OK', [('Content-Type', 'text/json')])
 
         lp = self.bitHopper.lp.lastBlock
-        if lp == None:
+        if lp is None:
             lp = {}
         else:
             lp = self.bitHopper.lp.blocks[lp]
@@ -103,7 +103,7 @@ class lpWorkbenchDataSite():
                 
         # filter accuracy data
         filterdAccuracy = {}
-        if self.poolAccuracy != None:
+        if self.poolAccuracy is not None:
             for pool in self.poolAccuracy:
                 hits = self.poolAccuracy[pool]['hit']
                 incorrect = self.poolAccuracy[pool]['incorrect']
