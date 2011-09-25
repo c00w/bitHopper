@@ -1,8 +1,9 @@
 
-Updated the pool dictonary to be an array of pool_class objects.
+Updated the pool dictonary to be an array of pool_class objects
 Made scheduler return an array of valid servers and valid backup servers 
-which are sorted by preference
-Added automatic Coin Profitability based switching.
+ which are sorted by preference
+Added automatic Coin Profitability based switching
+Updated pools info
 
 #Ver. 0.2.5.1 (d491fa6)
 Change mine_slush to not mess up with a non standard default threshold
