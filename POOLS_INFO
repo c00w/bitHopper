@@ -316,6 +316,18 @@ info_1: ixcoins pool, use mine_ixc - 4.99 Ghash/s @ 08.28.11
 info_1: ixcoins pool, use mine_ixc - 0.5 Ghash/s @ 09.19.11
 
 
+########################################
+# Other known pools not added to bH
+# config because they aren't transparent
+# by showing stats, use some custom
+# miner software or other reasons.
+########################################
+
+
+Bitcoin-Station
+#https://bitcoin-station.com
+
+
 ######################################
 #
 # These Pools are not hopped for a
