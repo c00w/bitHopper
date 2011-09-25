@@ -112,7 +112,7 @@ class lpWorkbenchDataSite():
                     continue
                 else:
                     filterdAccuracy[pool] = self.poolAccuracy[pool]
-        
+        servers={}
         for server in self.bitHopper.pool.get_servers():
             servers[server] = self.bitHopper.pool.get_entry(server).dict
 
