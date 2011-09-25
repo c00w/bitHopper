@@ -168,7 +168,11 @@ class Work():
     def handle(self, env, start_request):
 
         request = webob.Request(env)
-        rpc_request = json.loads(request.body)
+        try:
+            rpc_request = json.loads(request.body)
+        except:
+            start_request('200 OK', {})
+            return ['Go to /stats']
 
         client_headers = {}
         for header in env:
