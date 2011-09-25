@@ -434,8 +434,7 @@ New pools added (mtred, bitcoin.lc, eligius and few more)
 Fetch diff form block explorer
 LP support added and debugged in depth
 Various miner issues fixed (phoenix, cgmine, diablo)
-Split passwords to a separate file
-Readme updates + donation address
+Moved pools cfg and miner passwords to separate files
 Database system implemented
 Dynamic api polling (drops pools if shares don't update)
 Mhash counter, port option, mine_slush and mine_nmc added
@@ -443,10 +442,10 @@ NMC pools added and support for mining namecoins
 Changed user-agent to sim normal browser
 Info and graphs added to stats page
 Schedulers implemented and working (Default, Slice & Alt)
-Moved pools cfg and miner passwords to separate files
 Stats page enhancements (extra info + themes)
 Manual penalty to adjust the hop point added
 Added mine_friendly role, renamed too mine_charity
+Readme updates + donation address
 Lots of code clean-ups and bug fixes
 
 
