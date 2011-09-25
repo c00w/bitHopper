@@ -2,6 +2,8 @@
 #  Este archivo contiene informacion
 #   sobre la minas conocidas por bH,
 # recogida aqui con fines informativos
+#
+#   Ultima actualizacion: Sep 25, 2011
 #######################################
 #######################################
 #   Minas anadidas recientemente,
@@ -12,11 +14,12 @@
 [guildminers]
 #http://guildminers.com/
 info_1: La retirada BTC disponible de momento es hacia el exchange campbx, minimo 1btc (pagina de mina) - 14.3 GHash/s @ 09.21.11
+info_2: La direccion de mineria podria no ser correcta, requieren un programa minero especial (pagina de mina) - 20.1 GHash/s @ 09.25.11
 
 
 [yourbtc]
 #http://yourbtc.net
-info_1: Pequena mina que utiliza el Sistema de Pago Doble Geometrico (pagina de mina) - 4.3 GHash/s @ 09.21.11
+info_1: Utiliza el Sistema de Pago Doble Geometrico (pagina de mina + pagina 2 - hilo de mina en el foro principal) - 4.3 GHash/s @ 09.21.11
 
 
 ####################################### 
@@ -202,7 +205,7 @@ info_3: Cambiaron sistema de pago a rsmpps (pagina 195 - hilo bH en el foro prin
 [itzod]
 #https://pool.itzod.ru
 info_1: Sistema de pago por puntuacion, utiliza mine_slush si quieres saltarla (pagina 154 - hilo bH en el foro principal) - 74.61 Ghash/s @ 08.23.11
-info_2: Ha cambiado a sistema SMPPS (IRC)
+info_2: Ha cambiado a sistema SMPPS (hilo de mina en el foro principal)
 
 
 [btcserv]
@@ -315,6 +318,18 @@ info_1: Mina IXcoins, usa el rol mine_ixc - 4.99 Ghash/s @ 08.28.11
 [digixc]
 #http://ix.digbtc.net
 info_1: Mina IXcoins, usa el rol mine_ixc - 0.5 Ghash/s @ 09.19.11
+
+
+##############################################
+# Otras minas conocidas que no se han agregado
+# a la configuracion de bH porque no son muy
+# transparentes mostrando sus estatisticas,
+# usan mineros especiales o alguna otra razon
+##############################################
+
+
+Bitcoin-Station
+#https://bitcoin-station.com
 
 
 ######################################

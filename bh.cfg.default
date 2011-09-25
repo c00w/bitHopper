@@ -144,4 +144,3 @@ timeout = 30
 [plugins.blockaccuracy]
 # report interval for new verified blocks by poolblocks plugin (default 600 seconds)
 reportInterval = 600
-

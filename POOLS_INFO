@@ -2,6 +2,8 @@
 # This file contains brief information
 # of pools used for hopping, gathered
 #   here for orientative purposes.
+#
+#     Last update: Sep 25, 2011
 #######################################
 #######################################
 #   These Pools are added recently
@@ -12,11 +14,12 @@
 [guildminers]
 #http://guildminers.com/
 info_1: BTC withdrawal available only to campbx exchange, 1btc minimum (pool website) - 14.3 GHash/s @ 09.21.11
+info_2: Mining address could be wrong, they impose a custom miner software (pool website) - 20.1 GHash/s @ 09.25.11
 
 
 [yourbtc]
 #http://yourbtc.net
-info_1: Small pool that uses Double Geometric Payout Method (pool website) - 4.3 GHash/s @ 09.21.11
+info_1: Small pool that uses Double Geometric Payout Method (pool website + page 2 - pool thread on main forum) - 4.3 GHash/s @ 09.21.11
 
 
 #######################################
@@ -202,7 +205,7 @@ info_3: Changed payout to rsmpps (page 195 - bH thread on main forum)
 [itzod]
 #https://pool.itzod.ru
 info_1: Score based payout, hop using mine_slush if you want (page 154 - bH thread on main forum) - 74.61 Ghash/s @ 08.23.11
-info_2: Changed to SMPPS system (IRC)
+info_2: Changed to SMPPS system (pool thread on main forum)
 
 
 [btcserv]
@@ -314,6 +317,18 @@ info_1: ixcoins pool, use mine_ixc - 4.99 Ghash/s @ 08.28.11
 [digixc]
 #http://ix.digbtc.net
 info_1: ixcoins pool, use mine_ixc - 0.5 Ghash/s @ 09.19.11
+
+
+########################################
+# Other known pools not added to bH
+# config because they aren't transparent
+# by showing stats, use some custom
+# miner software or other reasons.
+########################################
+
+
+Bitcoin-Station
+#https://bitcoin-station.com
 
 
 ######################################
