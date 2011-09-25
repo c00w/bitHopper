@@ -100,7 +100,6 @@ you set-up in "bh.cfg"):
    --debug               = Extra error output. Basically print all caught errors
    --trace               = Extra debugging output
    --logconnections      = Show connection log
-   --simple_logging      = Remove RPC logging from console output
 
 
 # Available Schedulers:
@@ -116,20 +115,8 @@ pools. A little less effective but thoroughly debugged.
 
    AltSliceScheduler
 
-Tries to be more aggressive at switching pools when thresholds are met rather than finishing a slice. Can be
-used with --altslicesize=xxx --altminslicesize=xxx (where you replace x with a number for slice size and min).
-Also slice size can be used with --altslicejitter=xx which adds some random variance to slice size. There can
-be issues with failing to re-slice often enough.
-
-Specific parameters:
-
-   --altslicesize            = Override Default AltSliceScheduler Slice Size of 900
-   --altminslicesize         = Override Default Minimum Pool Slice Size of 60 (AltSliceScheduler only)
-   --altslicejitter          = Add some random variance to slice size, disabled by default (AltSliceScheduler only)
-   --altsliceroundtimebias   = Bias slicing slightly by round time duration with respect to round time target (default false)
-   --altsliceroundtimetarget = Round time target based on GHash/s (default 1000 Ghash/s)
-   --altsliceroundtimemagic  = Round time magic number, increase to bias towards round time over shares
-
+Tries to be more aggressive at switching pools when thresholds are met rather than finishing a slice.
+You can find some more specific parameters to set-up in "bh.cfg.default" file.
 
    RoundTimeScheduler
 
@@ -150,7 +137,7 @@ Known issues with the following browsers: WebKit (Android 2.3.4); Internet Explo
 
 # More help
 
-You can go to https://github.com/c00w/bitHopper/wiki and start reading the bitHopper wiki or ask for help in the oficial forum
+You can go to http://www.bitHopper.org and start reading the bitHopper wiki or ask for help in the oficial forum
 at https://bitcointalk.org/index.php?topic=26866. Join us on Freenode (http://webchat.freenode.net/) #bithopper channel.
 
 
