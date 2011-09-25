@@ -117,18 +117,7 @@ cada mina disponible. No muy efficiente pero depurado a maximo y estable.
    AltSliceScheduler
 
 Intenta un cambiar de un modo mas agresivo cuendo se llega a los limites preestablecidos (threshold).
-Se puede utilizar con los parametros --altslicesize=xxx --altminslicesize=xxx (donde reemplazas x con un numero
-para tamano y trozo minimo). Tambien puedes utilizar --altslicejitter=xx  para variar el tamano de trozo
-de modo dinamico (aleatorio). De momento tiene problemas para recalcular los trozos bastante a menudo.
-
-Parametros especificos:
-
-   --altslicesize            = Sobrescribe trozo para el modo AltSliceScheduler, tamano trozo base es 900
-   --altminslicesize         = Sobrescribe tamano minimo de trozo, base 60 (AltSliceScheduler solo)
-   --altslicejitter          = Anade variacion en el tamano de trozo, deshabilitado por defecto (AltSliceScheduler solo)
-   --altsliceroundtimebias   = Moldea los trozos en funcion del tiempo de ronda con respecto al tiempo preestablecido (desactivado)
-   --altsliceroundtimetarget = Establece tiempo de ronda basado en velocidad de mina (GHash/s - establ. en 1000 Ghash/s)
-   --altsliceroundtimemagic  = Numero magico de tiempo de ronda, incrementa to moldear hacia shares de final de ronda.
+Puedes encontrar algunos parametros especificos para ajustar en el archivo "bh.cfg.default_esp".
 
 
    RoundTimeScheduler
