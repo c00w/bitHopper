@@ -113,6 +113,9 @@ class lpWorkbenchDataSite():
                 else:
                     filterdAccuracy[pool] = self.poolAccuracy[pool]
         
+        for server in self.bitHopper.pool.get_servers():
+            servers[server] = self.bitHopper.pool.get_entry(server).dict
+
         response = json.dumps({
             "current":self.bitHopper.pool.get_current(), 
             'mhash':self.bitHopper.speed.get_rate(), 
@@ -123,7 +126,7 @@ class lpWorkbenchDataSite():
             'scc_difficulty':self.bitHopper.difficulty.get_scc_difficulty(),
             'block':sorted_blocks,
             'accuracy':filterdAccuracy,
-            'servers':self.bitHopper.pool.get_servers()})
+            'servers':servers})
         return response
 
     def updateAccuracyData(self, poolVerifiedData):
