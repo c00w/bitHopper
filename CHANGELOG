@@ -3,6 +3,7 @@ Updated the pool dictonary to be an array of pool_class objects
 Made scheduler return an array of valid servers and valid backup servers 
  which are sorted by preference
 Added automatic Coin Profitability based switching
+AltSliceScheduler update, new options in bh.cfg.default
 Updated pools info
 
 #Ver. 0.2.5.1 (d491fa6)
