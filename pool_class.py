@@ -101,9 +101,12 @@ class Pool():
         if self['role'] == 'mine_c':
             #Checks if shares are to high and if so sends it through the roof
             #So we don't mine it.
-            c = int(self['c'])
+            try:
+                c = float(self['c'])
+            except:
+                c = 300
             hashrate = float(self['ghash'])
-            hopoff = difficulty * (0.435 - 503131/(1173666 + c*hashrate))
+            hopoff = difficulty * (0.435 - 503131./(1173666 + c*hashrate))
             if shares > hopoff:
                 shares = 2*difficulty
 
