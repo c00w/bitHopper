@@ -65,8 +65,7 @@ class Database():
                 self.bitHopper.log_msg('DB: writing to database')
 
                 for server_name in self.pool.get_servers():
-                    sql = "CREATE TABLE IF NOT EXISTS "+server_name +" (diff REAL, shares INTEGER, rejects INTEGER, stored_payout REAL, user TEXT)"
-                    self.curs.execute(sql)
+                    self.make_table(server_name)
 
                 difficulty = self.bitHopper.difficulty.get_difficulty()
                 for server in self.shares:
@@ -481,8 +480,15 @@ class Database():
                 self.rejects[server][user] = 0
             self.rejects[server][user] += shares
 
+    def make_table(self, server_name):
+        sql = "CREATE TABLE IF NOT EXISTS "+server_name +" (diff REAL, shares INTEGER, rejects INTEGER, stored_payout REAL, user TEXT)"
+        self.curs.execute(sql)
+
+
     def get_rejects(self, server):
         with self.lock:
+            self.make_table(server)
+
             sql = 'select rejects from ' + str(server)
             self.curs.execute(sql)
             shares = 0
