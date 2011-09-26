@@ -159,13 +159,6 @@ role: info
 user: nombre_minero
 pass: contrasena_minero
 
-[unitedminers]
-#http://www.unitedminers.com
-#CAMBIA A CONTINUACION (si quieres)
-role: info
-user: dah4k0r@gmail.com_testhop
-pass: testhop
-
 [btcmine]
 # https://btcmine.com/user/register/
 #CAMBIA A CONTINUACION (si quieres)
@@ -458,6 +451,13 @@ pass: contrasena_minero
 # usuario/contrasena solo si quieres
 # saltarlas a tu riesgo.
 ######################################
+
+[unitedminers]
+#http://www.unitedminers.com
+#CAMBIA A CONTINUACION (si quieres)
+role: disable
+user: dah4k0r@gmail.com_testhop
+pass: testhop
 
 [swepool]
 #http://swepool.net/profile

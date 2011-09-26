@@ -159,13 +159,6 @@ role: info
 user: your_username
 pass: your_password
 
-[unitedminers]
-#http://www.unitedminers.com
-#CHANGE THIS (if you want)
-role: info
-user: dah4k0r@gmail.com_testhop
-pass: testhop
-
 [btcmine]
 # https://btcmine.com/user/register/
 #CHANGE THIS (if you want)
@@ -458,6 +451,13 @@ pass: your_password
 # user/pass unless you really want
 # to hop them at your own risk.
 ######################################
+
+[unitedminers]
+#http://www.unitedminers.com
+#CHANGE THIS (if you want)
+role: disable
+user: dah4k0r@gmail.com_testhop
+pass: testhop
 
 [swepool]
 #http://swepool.net/profile
