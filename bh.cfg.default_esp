@@ -88,6 +88,7 @@ rpcworklog = True
 # ajusta como True para activar el panel de control LP
 # podras ver LP de mina ganadora, proprietario comprobado,
 # temporizadores de bloque y sumario de penalidad LP
+# Necesita "blockaccuracy" = True para verificar la informacion sobre bloques
 lpworkbench = True
 
 # memoriza lista de bloques comprobados de cada mina (via API/html)
