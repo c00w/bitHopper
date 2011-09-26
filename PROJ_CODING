@@ -35,8 +35,10 @@ WSGI server tries to finish closed connections
 
 CGMINER w/ BH unstable                       (https://github.com/c00w/bitHopper/issues/343)
 
-Stats.db bugs                                (https://github.com/c00w/bitHopper/issues/402)
+No JSON object could be decoded              (https://github.com/c00w/bitHopper/issues/403)
 
+Blank stats page with latest v0.2.5.2-45-gd7bdc98
+                                             (https://github.com/c00w/bitHopper/issues/407)
 ---------------------------------------------------------------------------------------
 
 Future to-do list:
@@ -48,8 +50,6 @@ Hide Inactive and Old users                  (https://github.com/c00w/bitHopper/
 
 Dump LP Calls and blocks to file             (https://github.com/c00w/bitHopper/issues/244)
 
-Switch Coins based on profitability          (https://github.com/c00w/bitHopper/issues/322)
-
 Sum of total recieved and expected           (https://github.com/c00w/bitHopper/issues/347)
 
 Fancy Logging Plugin                         (https://github.com/c00w/bitHopper/issues/351)
@@ -59,4 +59,11 @@ Backup Pool Hopping                          (https://github.com/c00w/bitHopper/
 Autoupdate pools.cfg                         (https://github.com/c00w/bitHopper/issues/361)
 
 Extend Plugin Framework                      (https://github.com/c00w/bitHopper/issues/368)
+
+Orange thing for mine_force/lp and lp time next to pool
+                                             (https://github.com/c00w/bitHopper/issues/408)
+
+Make coin profitability configurable         (https://github.com/c00w/bitHopper/issues/409)
+
+Select pools based on coin then percent...   (https://github.com/c00w/bitHopper/issues/410)
 
