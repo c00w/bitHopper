@@ -80,6 +80,7 @@ backdoor = False
 apiangel = True
 poclbm = False
 lpbot = True
+payouts = False
 
 # ajusta "rpcworklog" a False para desactivar el registro de peticiones RPC
 rpcworklog = True
@@ -106,6 +107,13 @@ port = 3000
 #  - Rehabilita si "last_pulled" + "reincarnateInterval" > ahora (tiempo actual en segundos)
 interval = 60
 reincarnateInterval = 3600
+
+[plugin.payouts]
+interval = 600
+rpcuser = cut
+rpcpass = 123456
+rpchost = localhost
+rpcport = 8332
 
 [lpbot]
 irc_server = irc.bithopper.org
