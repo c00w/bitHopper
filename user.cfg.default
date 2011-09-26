@@ -65,7 +65,7 @@
 #                 Overrides the default in bh.cfg
 #  user:          worker username you setup for this pool
 #  pass:          password you have for the worker (not needed for all pools)
-#  wallet:        only for Payouts plugin, use a different wallet for each pool
+#  wallet:        only for Payouts plugin, use a different address for each pool
 #
 ###############################################################################
 

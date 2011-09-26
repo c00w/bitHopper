@@ -65,7 +65,7 @@
 #                 el reglaje general que se encuentra en bh.cfg
 #  user:          nombre del trabajador que se tiene que utilizar
 #  pass:          contrasena del trabajador (no se necesita para todas las minas)
-#  wallet:        se utiliza solo para el plugin "Payouts"
+#  wallet:        se utiliza solo para el plugin "Payouts", rellena una direccion btc para cada mina
 #
 #########################################################################################
 
