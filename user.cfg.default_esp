@@ -208,14 +208,6 @@ role: info
 user: nombre_minero
 pass: contrasena_minero
 
-[swepool]
-#http://swepool.net/profile
-#CAMBIA A CONTINUACION (si quieres)
-role: info
-swepool_user_apikey: xxxxxx
-user: nombre_minero
-pass: contrasena_minero
-
 [bitfarms]
 #http://bitfarms.ca/
 #CAMBIA A CONTINUACION (si quieres)
@@ -466,6 +458,14 @@ pass: contrasena_minero
 # usuario/contrasena solo si quieres
 # saltarlas a tu riesgo.
 ######################################
+
+[swepool]
+#http://swepool.net/profile
+#CAMBIA A CONTINUACION (si quieres)
+role: disable
+swepool_user_apikey: xxxxxx
+user: nombre_minero
+pass: contrasena_minero
 
 [bmunion]
 #http://www.bitminersunion.org/
