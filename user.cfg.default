@@ -240,7 +240,7 @@ pass: your_password
 [yourbtc]
 #http://yourbtc.net
 #CHANGE THIS (if you want)
-role: mine
+role: info
 user: your_username
 pass: your_password
 
