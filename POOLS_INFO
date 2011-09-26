@@ -130,12 +130,6 @@ info_2: Pool software needs to be installed on local pc
 info_1: Good for mining until 10% of diff. - use mine_slush - 1872.64 GHash/s @ 08.23.11
 
 
-[swepool]
-#http://swepool.net/profile
-info_1: Please report experience on forum or IRC - 2.98 GHash/s @ 08.23.11
-info_2: Pool is closing down on 6 oct 2011 (pool website) - 3.68 GHash/s @ 09.09.11
-
-
 [triple]
 #https://www.triplemining.com/register
 info_1: Mid-size pool - 43.6 GHash/s @ 08.23.11
@@ -348,6 +342,12 @@ BitMinter
 # Hop them at your own risk
 #
 ######################################
+
+
+[swepool]
+#http://swepool.net/profile
+info_1: Please report experience on forum or IRC - 2.98 GHash/s @ 08.23.11
+info_2: Pool is closing down on 6 oct 2011 (pool website) - 3.68 GHash/s @ 09.09.11
 
 
 [bmunion]
