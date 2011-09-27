@@ -251,6 +251,13 @@ role: info
 user: (una direccion bitcoin)
 pass: pass
 
+[coinotron]
+#http://coinotron.com
+#CAMBIA A CONTINUACION
+role: info
+user: nombre_minero
+pass: contrasena_minero
+
 ######################################
 # Minas de respaldo (backup) para
 # cuando no tienes ninguna mina
