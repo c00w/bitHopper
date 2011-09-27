@@ -189,7 +189,6 @@ def main():
     parser.add_option('--scheduler', type=str, default='DefaultScheduler', help='Select an alternate scheduler')
     parser.add_option('--threshold', type=float, default=None, help='Override difficulty threshold (default 0.43)')
     parser.add_option('--config', type=str, default='bh.cfg', help='Select an alternate main config file from bh.cfg')
-    parser.add_option('--p2pLP', action='store_true', default=False, help='Starts up an IRC bot to validate LP based hopping.')
     parser.add_option('--ip', type = str, default='', help='IP to listen on')
     parser.add_option('--auth', type = str, default=None, help='User,Password')
     parser.add_option('--logconnections', default = False, action='store_true', help='show connection log')

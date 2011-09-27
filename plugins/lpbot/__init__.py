@@ -14,7 +14,6 @@ socket.setdefaulttimeout(900)
 
 def main(bitHopper):
     bot = None
-    if bitHopper.options.p2pLP:
-        bot = lpbot.LpBot(bitHopper)
+    bot = lpbot.LpBot(bitHopper)
     return bot
 
