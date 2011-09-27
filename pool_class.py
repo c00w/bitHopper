@@ -30,6 +30,8 @@ class Pool():
         self['user_shares'] = self.bitHopper.db.get_shares(self['index_name'])
         self['payout'] = self.bitHopper.db.get_payout(self['index_name'])
         self['expected_payout'] = self.bitHopper.db.get_expected_payout(self['index_name'])
+        self['name'] = attribute_dict.get('name', self[
+'index_name'])
         self['wallet'] = attribute_dict.get('wallet', '')
         self['api_address'] = attribute_dict.get('api_address', self['index_name'])
         self['role'] = attribute_dict.get('role', 'disable')
