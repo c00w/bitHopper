@@ -39,6 +39,8 @@ No JSON object could be decoded              (https://github.com/c00w/bitHopper/
 
 Blank stats page with latest v0.2.5.2-45-gd7bdc98
                                              (https://github.com/c00w/bitHopper/issues/407)
+
+Check if p2pool works                        (https://github.com/c00w/bitHopper/issues/419)
 ---------------------------------------------------------------------------------------
 
 Future to-do list:
@@ -66,4 +68,6 @@ Orange thing for mine_force/lp and lp time next to pool
 Make coin profitability configurable         (https://github.com/c00w/bitHopper/issues/409)
 
 Select pools based on coin then percent...   (https://github.com/c00w/bitHopper/issues/410)
+
+Sort lpworkbench servers                     (https://github.com/c00w/bitHopper/issues/418)
 

@@ -251,6 +251,13 @@ role: info
 user: (una direccion bitcoin)
 pass: pass
 
+[coinotron]
+#http://coinotron.com
+#CAMBIA A CONTINUACION
+role: info
+user: nombre_minero
+pass: contrasena_minero
+
 ######################################
 # Minas de respaldo (backup) para
 # cuando no tienes ninguna mina
@@ -304,7 +311,7 @@ pass: contrasena_minero
 role: disable
 mtred_user_apikey:d91c52cfe1609f161f28a1268a2915b8+
 user:scarium
-pass:x 
+pass:x
 
 [nofeemining]
 #https://www.nofeemining.com/ 
