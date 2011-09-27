@@ -70,7 +70,7 @@ class Pool():
 
     def __lt__(self, other):
         #Ordering of backup roles
-        role_order = {'backup_latehop':0,'backup',1}
+        role_order = {'backup_latehop':0,'backup':1}
 
         #If the roles are different use the role_order if it exists
         if self['role'] != other['role']:
