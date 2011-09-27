@@ -45,8 +45,12 @@ class Payouts():
 
                 if info['wallet'] != "":
                     wallet = info['wallet']
-                    getbalance = float(access.getreceivedbyaddress(wallet))
-                    self.log_msg(server + ' ' + str(getbalance) + ' ' + wallet)
-                    self.bitHopper.update_payout(server, float(getbalance))
+                    try:
+                        getbalance = float(access.getreceivedbyaddress(wallet))
+                        self.log_msg(server + ' ' + str(getbalance) + ' ' + wallet)
+                        self.bitHopper.update_payout(server, float(getbalance))
+                    except Exception e:
+                        self.log_dbg("Error getting getreceivedbyaddress")
+                        self.log_dbg(e)
 
             eventlet.sleep(self.interval)
