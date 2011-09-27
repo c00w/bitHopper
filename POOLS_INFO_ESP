@@ -375,6 +375,7 @@ info_1: Pequena mina buena para saltar - 8.6 Ghash/s @ 08.23.11
 info_2: Ha cambiado el sistema de pagos con uno desconocido para prevenir la mineria ocasional (pagina 11 - hilo de mina en el foro principal)
 info_3: La pagina principal redirige a http://www.btcnetwork.com @ 09.23.11
 
+
 [polmine]
 #https://polmine.pl
 info_1: Mina polaca
