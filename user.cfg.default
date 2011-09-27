@@ -244,6 +244,13 @@ role: info
 user: your_username
 pass: your_password
 
+[bitpenny]
+#http://www.bitpenny.com/
+#CHANGE THIS (if you want)
+role: info
+user: (any bitcoin address)
+pass: pass
+
 ######################################
 # Backup pools for when there is
 # no pool where you would earn more

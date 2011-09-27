@@ -22,6 +22,11 @@ info_2: Mining address could be wrong, they impose a custom miner software (pool
 info_1: Small pool that uses Double Geometric Payout Method (pool website + page 2 - pool thread on main forum) - 4.3 GHash/s @ 09.21.11
 
 
+[bitpenny]
+#http://www.bitpenny.com/
+info_1: Small sized pool with delayed PPS payout system and increased difficulty shares (pool website) - 7.5 GHash/s @ 09.27.11
+
+
 #######################################
 
 
@@ -328,11 +333,23 @@ Bitcoin-Station
 
 
 SimpleCoin.us
-#http://simplecoin.us/
+#http://simplecoin.us
 
 
 BitMinter
-#https://bitminter.com/
+#https://bitminter.com
+
+
+BtcPool.ru
+#http://www.btcpool.ru
+
+
+Betcoin.co
+#http://pool.betcoin.co
+
+
+BitlottoPool
+#http://www.bitlottopool.com
 
 
 ######################################

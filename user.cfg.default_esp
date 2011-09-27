@@ -244,6 +244,13 @@ role: info
 user: nombre_minero
 pass: contrasena_minero
 
+[bitpenny]
+#http://www.bitpenny.com/
+#CAMBIA A CONTINUACION
+role: info
+user: (una direccion bitcoin)
+pass: pass
+
 ######################################
 # Minas de respaldo (backup) para
 # cuando no tienes ninguna mina

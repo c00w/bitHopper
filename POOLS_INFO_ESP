@@ -22,6 +22,11 @@ info_2: La direccion de mineria podria no ser correcta, requieren un programa mi
 info_1: Utiliza el Sistema de Pago Doble Geometrico (pagina de mina + pagina 2 - hilo de mina en el foro principal) - 4.3 GHash/s @ 09.21.11
 
 
+[bitpenny]
+#http://www.bitpenny.com/
+info_1: Mina pequena que utiliza sistema de pago PPS retardado y shares de dificultad mayor (pagina de mina) - 7.5 GHash/s @ 09.27.11
+
+
 ####################################### 
 
 
@@ -334,6 +339,10 @@ SimpleCoin.us
 
 BitMinter
 #https://bitminter.com/
+
+
+BtcPool.ru
+#http://www.btcpool.ru/
 
 
 ######################################
