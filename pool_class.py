@@ -67,19 +67,33 @@ class Pool():
         for attr in attribute_dict:
             if attr not in self.dict:
                 self.dict[attr] = attribute_dict[attr]
+
     def __lt__(self, other):
-        if self['role'] in ['backup', 'backup_latehop']:
+        #Ordering of backup roles
+        role_order = {'backup_latehop':0,'backup',1}
+
+        #If the roles are different use the role_order if it exists
+        if self['role'] != other['role']:
+            if self['role'] in role_order and other['role'] in role_order:
+                return role_order[self['role']] < role_order[other['role']]
+            
+        if self['role'] in ['backup',]:
             rr_self = float(self['rejects'])/(self['user_shares']+1)
             rr_self += self.get('penalty', 0.0)
             rr_other = float(other['rejects'])/(other['user_shares']+1)
             rr_other += other.get('penalty', 0.0)
             return rr_self < rr_other
+
+        if self['role'] in [ 'backup_latehop']:
+            return self['shares'] > other['shares']
+
         elif other.role in ['disable']:
             return True
+
         elif self['role'] in ['disable']:
             return False
         else:
-            return self['shares'] < other.shares
+            return self['shares'] < other['shares']
 
     def btc_shares(self,):
         difficulty = self.bitHopper.difficulty.get_difficulty()
