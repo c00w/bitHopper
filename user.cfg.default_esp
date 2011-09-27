@@ -159,13 +159,6 @@ role: info
 user: nombre_minero
 pass: contrasena_minero
 
-[unitedminers]
-#http://www.unitedminers.com
-#CAMBIA A CONTINUACION (si quieres)
-role: info
-user: dah4k0r@gmail.com_testhop
-pass: testhop
-
 [btcmine]
 # https://btcmine.com/user/register/
 #CAMBIA A CONTINUACION (si quieres)
@@ -205,14 +198,6 @@ pass: contrasena_minero
 #http://bithasher.com/index.php/register/
 #CAMBIA A CONTINUACION (si quieres)
 role: info
-user: nombre_minero
-pass: contrasena_minero
-
-[swepool]
-#http://swepool.net/profile
-#CAMBIA A CONTINUACION (si quieres)
-role: info
-swepool_user_apikey: xxxxxx
 user: nombre_minero
 pass: contrasena_minero
 
@@ -258,6 +243,13 @@ pass: contrasena_minero
 role: info
 user: nombre_minero
 pass: contrasena_minero
+
+[bitpenny]
+#http://www.bitpenny.com/
+#CAMBIA A CONTINUACION
+role: info
+user: (una direccion bitcoin)
+pass: pass
 
 ######################################
 # Minas de respaldo (backup) para
@@ -466,6 +458,21 @@ pass: contrasena_minero
 # usuario/contrasena solo si quieres
 # saltarlas a tu riesgo.
 ######################################
+
+[unitedminers]
+#http://www.unitedminers.com
+#CAMBIA A CONTINUACION (si quieres)
+role: disable
+user: dah4k0r@gmail.com_testhop
+pass: testhop
+
+[swepool]
+#http://swepool.net/profile
+#CAMBIA A CONTINUACION (si quieres)
+role: disable
+swepool_user_apikey: xxxxxx
+user: nombre_minero
+pass: contrasena_minero
 
 [bmunion]
 #http://www.bitminersunion.org/

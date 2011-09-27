@@ -3,7 +3,7 @@
 # of pools used for hopping, gathered
 #   here for orientative purposes.
 #
-#     Last update: Sep 25, 2011
+#     Last update: Sep 27, 2011
 #######################################
 #######################################
 #   These Pools are added recently
@@ -20,6 +20,11 @@ info_2: Mining address could be wrong, they impose a custom miner software (pool
 [yourbtc]
 #http://yourbtc.net
 info_1: Small pool that uses Double Geometric Payout Method (pool website + page 2 - pool thread on main forum) - 4.3 GHash/s @ 09.21.11
+
+
+[bitpenny]
+#http://www.bitpenny.com/
+info_1: Small sized pool with delayed PPS payout system and increased difficulty shares (pool website) - 7.5 GHash/s @ 09.27.11
 
 
 #######################################
@@ -104,6 +109,7 @@ info_1: Small pool, recommended you change user-agent (page 154 - bH thread on m
 #http://www.kiwipool.me/
 info_1: Switched to PPS (page 154 - bH thread on main forum)
 info_2: Seems like they're Prop. pool (IRC Chan.) - 36 GHash/s @ 08.23.11
+info_3: Down for few hours, prob ddos'ed - 25 GHash/s @ 09.27.11
 
 
 [mtred]
@@ -130,12 +136,6 @@ info_2: Pool software needs to be installed on local pc
 info_1: Good for mining until 10% of diff. - use mine_slush - 1872.64 GHash/s @ 08.23.11
 
 
-[swepool]
-#http://swepool.net/profile
-info_1: Please report experience on forum or IRC - 2.98 GHash/s @ 08.23.11
-info_2: Pool is closing down on 6 oct 2011 (pool website) - 3.68 GHash/s @ 09.09.11
-
-
 [triple]
 #https://www.triplemining.com/register
 info_1: Mid-size pool - 43.6 GHash/s @ 08.23.11
@@ -147,6 +147,7 @@ info_2: Use as backup_latehop if you want to help them find the block (Flash Mob
 info_1: Changed to PPLNS in the middle of a round (page 94 - bH thread on main forum)
 info_2: Disables anti-hopper flagging if you donate to pool (page 161 - bH thread on main forum)
 info_3: PPLNS pools are hoppable with backup_latehop  - 3.07 GHash/s @ 08.23.11
+info_4: Pool is offline, no reason given @ 09.26.11
 
 
 [rfc]
@@ -332,11 +333,27 @@ Bitcoin-Station
 
 
 SimpleCoin.us
-#http://simplecoin.us/
+#http://simplecoin.us
 
 
 BitMinter
-#https://bitminter.com/
+#https://bitminter.com
+
+
+BtcPool.ru
+#http://www.btcpool.ru
+
+
+Betcoin.co
+#http://pool.betcoin.co
+
+
+BitlottoPool
+#http://www.bitlottopool.com
+
+
+Coinotron
+http://coinotron.com
 
 
 ######################################
@@ -347,6 +364,12 @@ BitMinter
 # Hop them at your own risk
 #
 ######################################
+
+
+[swepool]
+#http://swepool.net/profile
+info_1: Please report experience on forum or IRC - 2.98 GHash/s @ 08.23.11
+info_2: Pool is closing down on 6 oct 2011 (pool website) - 3.68 GHash/s @ 09.09.11
 
 
 [bmunion]

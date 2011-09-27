@@ -159,13 +159,6 @@ role: info
 user: your_username
 pass: your_password
 
-[unitedminers]
-#http://www.unitedminers.com
-#CHANGE THIS (if you want)
-role: info
-user: dah4k0r@gmail.com_testhop
-pass: testhop
-
 [btcmine]
 # https://btcmine.com/user/register/
 #CHANGE THIS (if you want)
@@ -208,14 +201,6 @@ role: info
 user: your_username
 pass: your_password
 
-[swepool]
-#http://swepool.net/profile
-#CHANGE THIS (if you want)
-role: info
-swepool_user_apikey: xxxxxx
-user: your_username
-pass: your_password
-
 [bitfarms]
 #http://bitfarms.ca/
 #CHANGE THIS (if you want)
@@ -255,9 +240,16 @@ pass: your_password
 [yourbtc]
 #http://yourbtc.net
 #CHANGE THIS (if you want)
-role: mine
+role: info
 user: your_username
 pass: your_password
+
+[bitpenny]
+#http://www.bitpenny.com/
+#CHANGE THIS (if you want)
+role: info
+user: (any bitcoin address)
+pass: pass
 
 ######################################
 # Backup pools for when there is
@@ -466,6 +458,21 @@ pass: your_password
 # user/pass unless you really want
 # to hop them at your own risk.
 ######################################
+
+[unitedminers]
+#http://www.unitedminers.com
+#CHANGE THIS (if you want)
+role: disable
+user: dah4k0r@gmail.com_testhop
+pass: testhop
+
+[swepool]
+#http://swepool.net/profile
+#CHANGE THIS (if you want)
+role: disable
+swepool_user_apikey: xxxxxx
+user: your_username
+pass: your_password
 
 [bmunion]
 #http://www.bitminersunion.org/

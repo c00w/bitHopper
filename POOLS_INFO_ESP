@@ -3,7 +3,7 @@
 #   sobre la minas conocidas por bH,
 # recogida aqui con fines informativos
 #
-#   Ultima actualizacion: Sep 25, 2011
+#   Ultima actualizacion: Sep 27, 2011
 #######################################
 #######################################
 #   Minas anadidas recientemente,
@@ -20,6 +20,11 @@ info_2: La direccion de mineria podria no ser correcta, requieren un programa mi
 [yourbtc]
 #http://yourbtc.net
 info_1: Utiliza el Sistema de Pago Doble Geometrico (pagina de mina + pagina 2 - hilo de mina en el foro principal) - 4.3 GHash/s @ 09.21.11
+
+
+[bitpenny]
+#http://www.bitpenny.com/
+info_1: Mina pequena que utiliza sistema de pago PPS retardado y shares de dificultad mayor (pagina de mina) - 7.5 GHash/s @ 09.27.11
 
 
 ####################################### 
@@ -104,6 +109,7 @@ info_1: Mina pequena, recomendado que cambies el user-agent (pagina 154 - hilo b
 #http://www.kiwipool.me/
 info_1: Cambio a sistema PPS (pagina 154 - hilo bH en el foro principal)
 info_2: Se quedaron con el sist. Proporcional (Canal IRC) - 36 GHash/s @ 08.23.11
+info_3: Caida unas horas, probablemente ataque ddos - 25 GHash/s @ 09.27.11
 
 
 [mtred]
@@ -130,12 +136,6 @@ info_2: El programa de mina se tiene que instalar previamente en el ordenador lo
 info_1: Buena para saltar hasta 10% de dificultad, utiliza mine_slush - 1872.64 GHash/s @ 08.23.11
 
 
-[swepool]
-#http://swepool.net/profile
-info_1: Por favor reporta tu experiencia en foro o canal IRC - 2.98 GHash/s @ 08.23.11
-info_2: Esta mina se cierra el 6 oct 2011 (pagina de mina) - 3.68 GHash/s @ 09.09.11
-
-
 [triple]
 #https://www.triplemining.com/register
 info_1: Mina de tamano mediano - 43.6 GHash/s @ 08.23.11
@@ -147,6 +147,7 @@ info_2: Usa como backup_latehop si quieres ayudarlos encontrar por fin un bloque
 info_1: Ha cambiado a sistema PPLNS en medio de una ronda (pagina 94 - hilo bH en el foro principal)
 info_2: Desactiva las medidas anti-hopper si donas de tu recompensa (pagina 161 - hilo bH en el foro principal)
 info_3: Las minas PPLNS se pueden saltar con backup_latehop  - 3.07 GHash/s @ 08.23.11
+info_4: La mina esta fuera de linea, ninguna razon dada @ 09.26.11
 
 
 [rfc]
@@ -333,11 +334,27 @@ Bitcoin-Station
 
 
 SimpleCoin.us
-#http://simplecoin.us/
+#http://simplecoin.us
 
 
 BitMinter
-#https://bitminter.com/
+#https://bitminter.com
+
+
+BtcPool.ru
+#http://www.btcpool.ru
+
+
+Betcoin.co
+#http://pool.betcoin.co
+
+
+BitlottoPool
+#http://www.bitlottopool.com
+
+
+Coinotron
+http://coinotron.com
 
 
 ######################################
@@ -350,11 +367,18 @@ BitMinter
 ######################################
 
 
+[swepool]
+#http://swepool.net/profile
+info_1: Por favor reporta tu experiencia en foro o canal IRC - 2.98 GHash/s @ 08.23.11
+info_2: Esta mina se cierra el 6 oct 2011 (pagina de mina) - 3.68 GHash/s @ 09.09.11
+
+
 [bmunion]
 #http://www.bitminersunion.org/
 info_1: Pequena mina buena para saltar - 8.6 Ghash/s @ 08.23.11
 info_2: Ha cambiado el sistema de pagos con uno desconocido para prevenir la mineria ocasional (pagina 11 - hilo de mina en el foro principal)
 info_3: La pagina principal redirige a http://www.btcnetwork.com @ 09.23.11
+
 
 [polmine]
 #https://polmine.pl

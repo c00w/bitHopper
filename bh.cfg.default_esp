@@ -48,13 +48,13 @@ random_ua_list = Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trid
 slicesize = 30
 
 [AltSliceScheduler]
-# Tamano entero de seccion de donde se repartira en trozos
+# Tamano entero de seccion de donde se repartiran los trozos
 slicesize = 600
 
 # Tamano minimo de trozo
 min_slicesize = 60
 
-# Valor aleatorio que se añade o resta a un trozo
+# Valor aleatorio que se añade o resta de un trozo
 slice_jitter = 0
 
 # Activa el calculo de trozos tomando en cuenta tambien el tiempo de ronda en una mina (tiempo menor = mayor tamaño de trozo)
