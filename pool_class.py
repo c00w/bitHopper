@@ -69,11 +69,11 @@ class Pool():
                 self.dict[attr] = attribute_dict[attr]
     def __lt__(self, other):
         if self['role'] in ['backup', 'backup_latehop']:
-            rr_self = float(self['rejects']/(self['user_shares']+1))
+            rr_self = float(self['rejects'])/(self['user_shares']+1)
             rr_self += self.get('penalty', 0.0)
-            rr_other = float(other['rejects']/(other['user_shares']+1))
+            rr_other = float(other['rejects'])/(other['user_shares']+1)
             rr_other += other.get('penalty', 0.0)
-            return rr_self <= rr_other
+            return rr_self < rr_other
         elif other.role in ['disable']:
             return True
         elif self['role'] in ['disable']:

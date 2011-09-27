@@ -113,6 +113,9 @@ class Scheduler(object):
 
         backup_servers.sort()
 
+        #for i in backup_servers:
+        #    print i['name'] + ":" + str(float(i['rejects']/(i['user_shares']+1)))
+
         backup_name = []
         for server in backup_servers:
             backup_name.append(server['index_name'])
