@@ -87,7 +87,7 @@ class Pool():
 
         #backup latehop sorts purely by shares
         if self['role'] in ['backup_latehop']:
-            return self['shares'] > other['shares']
+            return self['shares'] < other['shares']
 
 
         #disabled pools should never end up in a list

@@ -10,6 +10,10 @@
 # main port for miners
 port = 8337
 
+#Backup Type
+backup_type = rejectrate
+#Other types are latehop and slice
+
 # active scheduler
 scheduler = DefaultScheduler
 #scheduler = SimpleSliceScheduler

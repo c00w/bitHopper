@@ -48,7 +48,8 @@ class BitHopper():
     def __init__(self, options, config):
         """Initializes all of the submodules bitHopper uses"""
         self.options = options
-        self.config = config
+        self.config = config        
+        self.scheduler = None
         self.lp_callback = lp_callback.LP_Callback(self)
         self.difficulty = diff.Difficulty(self)  
         self.exchange = exchange.Exchange(self)
@@ -59,7 +60,6 @@ class BitHopper():
         self.pool.setup(self)
         self.work = work.Work(self)
         self.speed = speed.Speed(self)
-        self.scheduler = None
         self.getwork_store = getwork_store.Getwork_store(self)
         self.data = data.Data(self)       
         self.lp = lp.LongPoll(self)
@@ -127,27 +127,35 @@ class BitHopper():
         return self.pool.get_current()
 
     def select_best_server(self, ):
-        server_list, backup_list = self.scheduler.select_best_server()
+        if self.scheduler == None:
+            server_list = [self.pool.servers.keys()[0]]
+            backup_list = []
+        else:
+            server_list, backup_list = self.scheduler.select_best_server()
 
         old_server = self.pool.get_current()
             
         if len(server_list) == 0:
-            server_list = backup_list
+            try:
+                backup_type = self.config.getboolean('main', 'backup_type')
+            except:
+                backup_type = 'rejectrate'
+
+            if backup_type == 'slice':
+                server_list = backup_list
+
+            elif backup_type == 'rejectrate':
+                server_list = [backup_list[0]]
+
+            elif backup_type == 'latehop':
+                server_list = [backup_list[len(backup_list)-1]]
 
         if len(server_list) == 0:
             self.log_msg('FATAL Error, scheduler did not return any pool!')
             os._exit(1)
-        server_name = server_list[0]
 
-        if self.pool.get_current() != server_list[0]:
-            self.pool.set_current(server_list[0])
-            self.log_msg("Server change to " + str(self.pool.get_current()))
-            servers = self.pool.servers
-            if servers[server_name]['coin'] != servers[old_server]['coin']:
-                self.log_msg("Change in coin type. Triggering LP")
-                work, server_headers, server  = self.work.jsonrpc_getwork(server_name, [], {}, "", "")
-                self.bitHopper.lp_callback.new_block(work, server_name)
-
+        self.pool.current_list = server_list
+        self.pool.build_server_map()
         return
 
     def get_new_server(self, server):
