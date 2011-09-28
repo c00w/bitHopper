@@ -147,8 +147,13 @@ class BitHopper():
             elif backup_type == 'rejectrate':
                 server_list = [backup_list[0]]
 
+            elif backup_type == 'earlyhop':
+                backup_list = backup_list.sort(key=lambda pool:pool['shares'])
+                server_list = [backup_list[0]]
+
             elif backup_type == 'latehop':
-                server_list = [backup_list[len(backup_list)-1]]
+                backup_list = backup_list.sort(key=lambda pool: -1*pool['shares'])
+                server_list = [backup_list[0]]
 
         if len(server_list) == 0:
             self.log_msg('FATAL Error, scheduler did not return any pool!')

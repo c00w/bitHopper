@@ -12,7 +12,7 @@ port = 8337
 
 #Backup Type
 backup_type = rejectrate
-#Other types are latehop and slice
+#Other types are latehop slice and earlyhop
 
 # active scheduler
 scheduler = DefaultScheduler
