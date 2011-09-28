@@ -148,7 +148,12 @@ class Pool():
             return False
         if self['role'] not in ['backup', 'backup_latehop'] and self['api_lag']:
             return False
-        if self.bitHopper.exchange.profitability.get(self['coin'],0) < 1.0:
+
+        try:
+            coin_proff = float(self.config.getboolean('main', 'min_coin_proff'))
+        except:
+            coin_proff = 1.0
+        if self.bitHopper.exchange.profitability.get(self['coin'],0) < coin_proff and self.coin != 'btc':
             return False
         return True
 

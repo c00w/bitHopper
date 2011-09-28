@@ -14,6 +14,9 @@ port = 8337
 backup_type = rejectrate
 #Other types are latehop slice and earlyhop
 
+#Minimum coin profitability
+min_coin_proff = 1.0
+
 # active scheduler
 scheduler = DefaultScheduler
 #scheduler = SimpleSliceScheduler

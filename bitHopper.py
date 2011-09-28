@@ -137,7 +137,7 @@ class BitHopper():
             
         if len(server_list) == 0:
             try:
-                backup_type = self.config.getboolean('main', 'backup_type')
+                backup_type = self.config.get('main', 'backup_type')
             except:
                 backup_type = 'rejectrate'
 
