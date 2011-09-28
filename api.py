@@ -67,6 +67,8 @@ class API():
         if shares != prev_shares:
             if len(server) == 12:
                 self.bitHopper.log_msg(str(server) +":"+ k)
+            elif len(server) <= 3:
+                self.bitHopper.log_msg(str(server) +":\t\t"+ k)
             else:
                 self.bitHopper.log_msg(str(server) +":\t"+ k)
 
