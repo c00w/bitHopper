@@ -10,27 +10,38 @@
 # puerto principal para mineros
 port = 8337
 
-# modo programado
+# Modo de respaldo
+backup_type = rejectrate
+# Modos disponibles:
+# latehop    = elije la mina de respaldo con los shares mas altos
+# earlyhop   = el opuesto del modo anterior
+# rejectrate = selection el mejor respaldo basandose en shares denegados
+# slice      = trocea shares entre las minas de respaldo
+
+# Ganancia minima cuando se trabaja con varias monedas
+min_coin_proff = 1.0
+
+# Modo programado
 scheduler = DefaultScheduler
 #scheduler = SimpleSliceScheduler
 #scheduler = AltSliceScheduler
 
-# tiempo de espera para las peticiones de trabajo
+# Tiempo de espera para las peticiones de trabajo
 work_request_timeout = 2.5
 
-# tiempo de espera para comprobar conectividad con mina
+# Tiempo de espera para comprobar conectividad con mina
 delag_sleep = 20
 
-# tiempo en segundos para refrescar stats de mina
+# Tiempo en segundos para refrescar stats de mina
 pool_refreshlimit = 120
 
-# limite de mineria en cada mina
+# Limite de mineria en cada mina
 threshold = 0.435
 
-# segundos que hay que esperar para desactivar API de mina si los stats no se actualizan (7200 == 2 horas)
+# Segundos que hay que esperar para desactivar API de mina si los stats no se actualizan (7200 == 2 horas)
 api_disable_sec = 7200
 
-# identificacion de navegador bH
+# Identificacion de navegador bH
 work_user_agent = Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)
 
 # si esta puesto en 'True', bH coge aleatoriamente identificaciones al arrancar o recargar la configuracion
