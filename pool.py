@@ -28,7 +28,9 @@ class Pool_Parse():
         self.lock = threading.RLock()
         self.pool_configs = ['pools.cfg']
         self.started = False
-        self.current_server = None
+        self.current_list = []
+        self.server_map = {}
+        self.i = 0
         with self.lock:
             self.loadConfig()
         self.bitHopper.db.pool = self
@@ -87,8 +89,8 @@ class Pool_Parse():
         if self.servers == {}:
             self.bitHopper.log_msg("No pools found in pools.cfg or user.cfg")
 
-        if self.current_server is None: 
-            self.current_server = pool
+        if len(self.current_list) == 0: 
+            self.current_list = [pool]
 
         self.bitHopper.db.check_database()
         #self.setup(self.bitHopper)
@@ -98,7 +100,7 @@ class Pool_Parse():
             self.bitHopper = bitHopper
                 
             self.servers = OrderedDict(sorted(self.servers.items(), key=lambda t: t[1]['role'] + t[0]))
-            self.build_server_map()
+            self.bitHopper.select_best_server()
             if not self.started:
                 self.bitHopper.api.update_api_servers()
                 self.started = True
@@ -113,21 +115,21 @@ class Pool_Parse():
         return self.servers
 
     def get_current(self, ):
-        return self.current_server
+        return self.get_work_server()
 
     def get_work_server(self):
         """A function which returns the server to query for work.
-           Currently uses the donation server 1/100 times. 
-           Can be configured to do trickle through to other servers"""
-        value = random.randint(0,99)
+           Take the server map and cycles through it"""
+        value = self.i
+        self.i = (self.i +1) % 100
         if value in self.server_map:
             result = self.server_map[value]
             if self.servers[result]['lag'] or self.servers[result]['role'] == 'disable':
-                return self.get_current()
+                return self.current_list[0]
             else:
                 return result
         else:
-            return self.get_current()
+            return self.current_list[0]
                     
     def build_server_map(self):
         possible_servers = {}
@@ -140,6 +142,9 @@ class Pool_Parse():
             for _ in xrange(v):
                 server_map[i] = k
                 i += 1
+        while i <= 99:
+            server_map[i] = self.current_list[i%len(self.current_list)]
+            i += 1
         self.server_map = server_map
 
     def set_current(self, server):
