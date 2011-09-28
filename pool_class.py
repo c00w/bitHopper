@@ -78,7 +78,7 @@ class Pool():
                 return role_order[self['role']] < role_order[other['role']]
             
         #backup sorts by reject rate
-        if self['role'] in ['backup',]:
+        if self['role'] in ['backup']:
             rr_self = float(self['rejects'])/(self['user_shares']+1)
             rr_self += self.get('penalty', 0.0)
             rr_other = float(other['rejects'])/(other['user_shares']+1)
@@ -86,7 +86,7 @@ class Pool():
             return rr_self < rr_other
 
         #backup latehop sorts purely by shares
-        if self['role'] in [ 'backup_latehop']:
+        if self['role'] in ['backup_latehop']:
             return self['shares'] > other['shares']
 
 
@@ -105,7 +105,7 @@ class Pool():
                 other_proff = self.bitHopper.exchange.profitability.get(other['coin'],0)
                 return self_proff < other_proff
 
-    def btc_shares(self,):
+    def btc_shares(self):
         difficulty = self.bitHopper.difficulty.get_difficulty()
         nmc_difficulty = self.bitHopper.difficulty.get_nmc_difficulty()
         ixc_difficulty = self.bitHopper.difficulty.get_ixc_difficulty()
