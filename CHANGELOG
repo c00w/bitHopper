@@ -1,17 +1,16 @@
 
-Made pools sort by coin type then shares.
+Made pools sort by coin type then shares
 Made backup_latehop work how it is supposed to.
-Fixed an output bug with rfc.
-Wallet scraping
+Fixed an output bug with rfc
+Added Payouts jsonrpc plugin
 
 
-#Ver .2.5.2
+#Ver 0.2.5.2 (34fe254)
 Updated the pool dictonary to be an array of pool_class objects
 Made scheduler return an array of valid servers and valid backup servers 
  which are sorted by preference
 Added automatic Coin Profitability based switching
 Removed the p2plp option and made it be purely config based
-Added Payouts jsonrpc plugin
 AltSliceScheduler update, new options in bh.cfg.default
 Updated pools info
 
