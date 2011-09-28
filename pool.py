@@ -29,6 +29,7 @@ class Pool_Parse():
         self.pool_configs = ['pools.cfg']
         self.started = False
         self.current_server = None
+        self.i = 0
         with self.lock:
             self.loadConfig()
         self.bitHopper.db.pool = self
@@ -119,7 +120,8 @@ class Pool_Parse():
         """A function which returns the server to query for work.
            Currently uses the donation server 1/100 times. 
            Can be configured to do trickle through to other servers"""
-        value = random.randint(0,99)
+        value = self.i
+        self.i = (self.i +1) % 100
         if value in self.server_map:
             result = self.server_map[value]
             if self.servers[result]['lag'] or self.servers[result]['role'] == 'disable':
