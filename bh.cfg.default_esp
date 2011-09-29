@@ -10,6 +10,11 @@
 # puerto principal para mineros
 port = 8337
 
+# Modo programado
+scheduler = DefaultScheduler
+#scheduler = SimpleSliceScheduler
+#scheduler = AltSliceScheduler
+
 # Modo de respaldo
 backup_type = rejectrate
 # Modos disponibles:
@@ -21,10 +26,8 @@ backup_type = rejectrate
 # Ganancia minima cuando se trabaja con varias monedas
 min_coin_proff = 1.0
 
-# Modo programado
-scheduler = DefaultScheduler
-#scheduler = SimpleSliceScheduler
-#scheduler = AltSliceScheduler
+# Tiempo de muestra trabajadores parados en pagina de stats
+user_drop_time = 60*60
 
 # Tiempo de espera para las peticiones de trabajo
 work_request_timeout = 2.5
