@@ -7,34 +7,38 @@
 #    backdoor/port
 
 [main]
-# main port for miners
+# Main port for miners
 port = 8337
 
-#Backup Type
+# Backup Type
 backup_type = rejectrate
-#Other types are latehop slice and earlyhop
+# Available types are:
+# latehop    = always chose biggest sharecount backup pool
+# earlyhop   = opposite of previous type
+# rejectrate = select best backup pool based on rejected shares
+# slice      = slices shares between backup pools 
 
-#Minimum coin profitability
+# Minimum coin profitability
 min_coin_proff = 1.0
 
-# active scheduler
+# Active scheduler
 scheduler = DefaultScheduler
 #scheduler = SimpleSliceScheduler
 #scheduler = AltSliceScheduler
 
-# connection timeout for work requests
+# Connection timeout for work requests
 work_request_timeout = 2.5
 
-# waiting time for checking pools conectivity
+# Waiting time for checking pools conectivity
 delag_sleep = 20
 
-# default time in seconds to refresh pool stats (can be overriden in user.cfg on a per pool basis)
+# Default time in seconds to refresh pool stats (can be overriden in user.cfg on a per pool basis)
 pool_refreshlimit = 120
 
-# upper mining limit on pools
+# Upper mining limit on pools
 threshold = 0.435
 
-# number of seconds to wait for the shares to change before disabling the API (7200 == 2 hours)
+# Number of seconds to wait for the shares to change before disabling the API (7200 == 2 hours)
 api_disable_sec = 7200
 
 # bH browser ident
