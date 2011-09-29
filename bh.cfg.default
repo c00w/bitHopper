@@ -10,6 +10,11 @@
 # Main port for miners
 port = 8337
 
+# Active scheduler
+scheduler = DefaultScheduler
+#scheduler = SimpleSliceScheduler
+#scheduler = AltSliceScheduler
+
 # Backup Type
 backup_type = rejectrate
 # Available types are:
@@ -21,14 +26,8 @@ backup_type = rejectrate
 # Minimum coin profitability
 min_coin_proff = 1.0
 
-#User Share Drop Time
+# Time limit after which we no longer display workers on the stats page
 user_drop_time = 60*60
-#Time limit after which we no longer display users on the website
-
-# Active scheduler
-scheduler = DefaultScheduler
-#scheduler = SimpleSliceScheduler
-#scheduler = AltSliceScheduler
 
 # Connection timeout for work requests
 work_request_timeout = 2.5
