@@ -27,6 +27,7 @@ Fixes to payouts jsonrpc plugin
 Made scheduler return an array of valid servers and valid backup servers 
  which are sorted by preference
 Added automatic Coin Profitability based switching
+Removed the p2plp option and made it be purely config based
 Added Payouts jsonrpc plugin
 AltSliceScheduler update, new options in bh.cfg.default
 Pool indent fix
