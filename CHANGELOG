@@ -1,4 +1,8 @@
 
+#Ver 0.2.5.3
+Backup pools can now be sliced diced and sorted a variety of ways
+Old users are now dropped from the website
+Coin profitability cutoff is now configurable
 Made pools sort by coin type then shares
 Made backup_latehop work how it is supposed to.
 Fixed an output bug with rfc
