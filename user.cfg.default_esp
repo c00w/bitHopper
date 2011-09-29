@@ -63,8 +63,10 @@
 #  refresh_limit: intervalo para refrescar la api de mina en segundos
 #  user_agent:    identificacion de navegador HTTP de bH para minas, sobrescribe
 #                 el reglaje general que se encuentra en bh.cfg
-#  user:          nombre del trabajador que se tiene que utilizar
+#  user:          nombre del trabajador que se tiene que emplear, utiliza {}
+#                 para que bH trabaje en cuentas de minero distintas ej. usuario_{minerobH}
 #  pass:          contrasena del trabajador (no se necesita para todas las minas)
+#                 usa {} tambien para contrasena del trabajador , ej. contrasena_{passminerobH}
 #  wallet:        se utiliza solo para el plugin "Payouts", rellena una direccion btc para cada mina
 #
 #########################################################################################
