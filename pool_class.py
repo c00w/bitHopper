@@ -153,7 +153,7 @@ class Pool():
             coin_proff = float(self.config.getboolean('main', 'min_coin_proff'))
         except:
             coin_proff = 1.0
-        if self.bitHopper.exchange.profitability.get(self['coin'],0) < coin_proff and self.coin != 'btc':
+        if self.bitHopper.exchange.profitability.get(self['coin'],0) < coin_proff and self['coin'] != 'btc':
             return False
         return True
 
