@@ -18,6 +18,10 @@ class Data():
         self.speed = self.bitHopper.speed
         self.difficulty = self.bitHopper.difficulty
         self.lock = threading.RLock()
+        try:
+            self.user_drop_time = self.config.get('main', 'user_drop_time')
+        except:
+            self.user_drop_time = 60*60
         with self.lock:
             users = self.db.get_users()
 
@@ -40,7 +44,9 @@ class Data():
             users = {}
             for item in self.users:
                 if self.users[item]['shares'] > 0:
-                    users[item] = self.users[item]
+                    shares_time = self.users[item]['shares_time']
+                    if len(shares_time) > 0 and time.time()-max(shares_time) < 60*60:
+                        users[item] = self.users[item]
             return users
 
     def user_share_add(self,user,password,shares,server):

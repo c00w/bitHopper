@@ -21,6 +21,10 @@ backup_type = rejectrate
 # Minimum coin profitability
 min_coin_proff = 1.0
 
+#User Share Drop Time
+user_drop_time = 60*60
+#Time limit after which we no longer display users on the website
+
 # Active scheduler
 scheduler = DefaultScheduler
 #scheduler = SimpleSliceScheduler
