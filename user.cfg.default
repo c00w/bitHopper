@@ -33,9 +33,8 @@
 # mine_scc = solidcoin pool and diff.
 # mine_force = ignores active scheduler and mines only this pool
 #   (don't use as default role for pool set-up)
-# backup = hopps on this when no Prop. pool is available
-# backup_latehop = prefers this for backup if pool has
-#   high share count (full descr. on page 121, bH thread)
+# backup = point bH this pool has a good payout system that can use to
+#   maintain achieved efficiency (see bh.cfg for more backup options)
 # mine_charity = usually mines the pool when they hit
 #   and increased diff block (bad luck) + normal mining
 # info = shows share count for this pool on stat page
