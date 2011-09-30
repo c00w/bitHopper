@@ -46,17 +46,11 @@ Check if p2pool works                        (https://github.com/c00w/bitHopper/
 Future to-do list:
 
 
-Work based slicing                           (https://github.com/c00w/bitHopper/issues/103)
-
-Hide Inactive and Old users                  (https://github.com/c00w/bitHopper/issues/214)
-
 Dump LP Calls and blocks to file             (https://github.com/c00w/bitHopper/issues/244)
 
 Sum of total recieved and expected           (https://github.com/c00w/bitHopper/issues/347)
 
 Fancy Logging Plugin                         (https://github.com/c00w/bitHopper/issues/351)
-
-Backup Pool Hopping                          (https://github.com/c00w/bitHopper/issues/358)
 
 Autoupdate pools.cfg                         (https://github.com/c00w/bitHopper/issues/361)
 
@@ -65,9 +59,10 @@ Extend Plugin Framework                      (https://github.com/c00w/bitHopper/
 Orange thing for mine_force/lp and lp time next to pool
                                              (https://github.com/c00w/bitHopper/issues/408)
 
-Make coin profitability configurable         (https://github.com/c00w/bitHopper/issues/409)
-
-Select pools based on coin then percent...   (https://github.com/c00w/bitHopper/issues/410)
-
 Sort lpworkbench servers                     (https://github.com/c00w/bitHopper/issues/418)
+
+Store the duration in the db                 (https://github.com/c00w/bitHopper/issues/420)
+
+Display Time since last LP on /stats# page next to round duration
+                                             (https://github.com/c00w/bitHopper/issues/422)
 

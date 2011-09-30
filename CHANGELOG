@@ -1,5 +1,24 @@
 
-#Ver 0.2.5.3
+
+#Ver 0.2.5.4 (fb7fbe0)
+Stop errors from happening on startup when the table doesn't exist
+AltSliceScheduler options to config and minor poolblock fix
+Start of baseplugin class to be used in the future
+Added new opt to bh.cfg.def + small fixes
+Update bh.cfg.default instructions
+Add earlyhop and make latehop actually work
+Backup Slicing and redone normal slicing
+Implement coin then share based pool sorting
+Add another tab when servers have really short names
+Minor style cleanups
+Make coin_proff configurable
+Make workers dissapear after a certain time
+README update
+Updated proj_coding
+Updated pools info
+Updated changelog
+
+#Ver 0.2.5.3 (0c97cf2)
 Backup pools can now be sliced diced and sorted a variety of ways
 Old users are now dropped from the website
 Coin profitability cutoff is now configurable
@@ -7,15 +26,18 @@ Made pools sort by coin type then shares
 Made backup_latehop work how it is supposed to.
 Fixed an output bug with rfc
 Added Payouts jsonrpc plugin
-
+Updated the pool dictonary to be an array of pool_class objects
+Fixes to payouts jsonrpc plugin
 
 #Ver 0.2.5.2 (34fe254)
-Updated the pool dictonary to be an array of pool_class objects
 Made scheduler return an array of valid servers and valid backup servers 
  which are sorted by preference
 Added automatic Coin Profitability based switching
 Removed the p2plp option and made it be purely config based
+Added Payouts jsonrpc plugin
 AltSliceScheduler update, new options in bh.cfg.default
+Pool indent fix
+Changelog added
 Updated pools info
 
 

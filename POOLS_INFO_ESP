@@ -3,7 +3,7 @@
 #   sobre la minas conocidas por bH,
 # recogida aqui con fines informativos
 #
-#   Ultima actualizacion: Sep 28, 2011
+#   Ultima actualizacion: Sep 29, 2011
 #######################################
 #######################################
 #   Minas anadidas recientemente,
@@ -277,6 +277,7 @@ info_2: Cerrada permanente (pagina 10 - hilo de mina en el foro principal)
 [i0parking]
 #http://i0pool.bitparking.com/pool
 info_1: Mina i0coins, usa el rol mine_i0c - 6.82 Ghash/s @ 09.09.11
+info_2: Esta mina cierra sus puertas el 30 Septiembre 2011 12:00 UTC (pagina de mina) - 10.21 Ghash/s @ 09.29.11
 
 
 [digi0c]

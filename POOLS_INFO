@@ -3,7 +3,7 @@
 # of pools used for hopping, gathered
 #   here for orientative purposes.
 #
-#     Last update: Sep 28, 2011
+#     Last update: Sep 29, 2011
 #######################################
 #######################################
 #   These Pools are added recently
@@ -276,6 +276,7 @@ info_2: Closed permanently (page 10 - pool thread on main forum)
 [i0parking]
 #http://i0pool.bitparking.com/pool
 info_1: i0coins pool, use mine_i0c - 6.82 Ghash/s @ 09.09.11
+info_2: Pool will be closing down on 30 September 2011 12:00 UTC (pool website) - 10.21 Ghash/s @ 09.29.11
 
 
 [digi0c]
