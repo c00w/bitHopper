@@ -148,11 +148,11 @@ class BitHopper():
                 server_list = [backup_list[0]]
 
             elif backup_type == 'earlyhop':
-                backup_list = backup_list.sort(key=lambda pool:pool['shares'])
+                backup_list.sort(key=lambda pool:self.pool.servers[pool]['shares'])
                 server_list = [backup_list[0]]
 
             elif backup_type == 'latehop':
-                backup_list = backup_list.sort(key=lambda pool: -1*pool['shares'])
+                backup_list.sort(key=lambda pool: -1*self.pool.servers[pool]['shares'])
                 server_list = [backup_list[0]]
 
         if len(server_list) == 0:
