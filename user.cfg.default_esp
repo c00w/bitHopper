@@ -33,10 +33,9 @@
 # mine_scc = mina y dificultad solidcoin
 # mine_force = ignora el programador y trabaja solo en esta mina
 #   (no utilices como rol por defecto para mina)
-# backup = viene a minar en esta si no tiene ninguna 
-#   mina Proporcional disponible
-# backup_latehop = prefiere minar en esta como backup si
-#    el numero de shares es muy alto (pag 121, hilo bH oficial)
+# backup = indica bH que esta mina tiene un sistema de recompensas
+#   que puede utilizar para mantener la eficiencia alcanzada
+#   (mira bh.cfg para mas opciones de tipos de backup)
 # mine_charity = hace mineria de caridad en un mina
 #   proporcional que tiene numero de shares muy alto + "mine"
 # info = solo muestra informacion sobre esta mina en stats
