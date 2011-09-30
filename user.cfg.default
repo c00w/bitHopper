@@ -63,8 +63,10 @@
 #  refresh_limit: pool's api refreshing interval in seconds
 #  user_agent:    HTTP User-Agent header to set when retrieving pool stats
 #                 Overrides the default in bh.cfg
-#  user:          worker username you setup for this pool
-#  pass:          password you have for the worker (not needed for all pools)
+#  user:          worker username you setup for this pool, u can use {}
+#                 to have bH mine different worker accounts ex. user_{bHworker}
+#  pass:          password you have for the worker (not needed for all pools),
+#                 use {} for password too, ex. password_{bHworkerpass}
 #  wallet:        only for Payouts plugin, use a different address for each pool
 #
 ###############################################################################
