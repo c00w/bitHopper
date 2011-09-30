@@ -49,7 +49,7 @@ class Payouts():
                         getbalance = float(access.getreceivedbyaddress(wallet))
                         self.log_msg(server + ' ' + str(getbalance) + ' ' + wallet)
                         self.bitHopper.update_payout(server, float(getbalance))
-                    except Exception e:
+                    except Exception, e:
                         self.log_dbg("Error getting getreceivedbyaddress")
                         self.log_dbg(e)
 
