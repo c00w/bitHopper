@@ -130,6 +130,7 @@ info_2: Alternate PPS payout available for use as backup if wanted
 info_1: Freezing stats for unknown reason (page 114 - bH thread on main forum)
 info_2: Stats solved - 60.5 GHash/s @ 08.23.11
 info_3: They need some help solving this long block (found) - 61.2 GHash/s @ 09.18.11
+info_4: 10% bonus on next 10 rounds (pool website) - 53.85 GHash/s @ 10.03.11
 
 
 [p2pool]
