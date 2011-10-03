@@ -3,7 +3,7 @@
 # of pools used for hopping, gathered
 #   here for orientative purposes.
 #
-#     Last update: Sep 29, 2011
+#     Last update: Oct 03, 2011
 #######################################
 #######################################
 #   These Pools are added recently
@@ -12,7 +12,7 @@
 
 
 [guildminers]
-#http://guildminers.com/
+#http://guildminers.com
 info_1: BTC withdrawal available only to campbx exchange, 1btc minimum (pool website) - 14.3 GHash/s @ 09.21.11
 info_2: Mining address could be wrong, they impose a custom miner software (pool website) - 20.1 GHash/s @ 09.25.11
 
@@ -23,7 +23,7 @@ info_1: Small pool that uses Double Geometric Payout Method (pool website + page
 
 
 [bitpenny]
-#http://www.bitpenny.com/
+#http://www.bitpenny.com
 info_1: Small sized pool with delayed PPS payout system and increased difficulty shares (pool website) - 7.5 GHash/s @ 09.27.11
 
 
@@ -39,6 +39,7 @@ info_1: Score prop. pool, use mine_c role and (test setting c: 6), multiple coin
 #http://asspennypool.com/register.php
 info_1: New pool on the "block", prop. payouts, please report experience - 3.1 Ghash/s @ 09.05.11
 info_2: The most "unlucky" pool ever made but you could get some pennies though - 10.1 Ghash/s @ 09.08.11
+info_3: Op is testing polling for work from bitcoind serv. placed in various countries (pool thread on main forum) - 3.1 Ghash/s @ 10.03.11
 
 
 [bclc]

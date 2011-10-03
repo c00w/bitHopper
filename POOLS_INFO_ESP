@@ -3,7 +3,7 @@
 #   sobre la minas conocidas por bH,
 # recogida aqui con fines informativos
 #
-#   Ultima actualizacion: Sep 29, 2011
+#   Ultima actualizacion: Oct 03, 2011
 #######################################
 #######################################
 #   Minas anadidas recientemente,
@@ -12,7 +12,7 @@
 
 
 [guildminers]
-#http://guildminers.com/
+#http://guildminers.com
 info_1: La retirada BTC disponible de momento es hacia el exchange campbx, minimo 1btc (pagina de mina) - 14.3 GHash/s @ 09.21.11
 info_2: La direccion de mineria podria no ser correcta, requieren un programa minero especial (pagina de mina) - 20.1 GHash/s @ 09.25.11
 
@@ -23,7 +23,7 @@ info_1: Utiliza el Sistema de Pago Doble Geometrico (pagina de mina + pagina 2 -
 
 
 [bitpenny]
-#http://www.bitpenny.com/
+#http://www.bitpenny.com
 info_1: Mina pequena que utiliza sistema de pago PPS retardado y shares de dificultad mayor (pagina de mina) - 7.5 GHash/s @ 09.27.11
 
 
@@ -39,6 +39,7 @@ info_1: Mina con sistema por puntuacion proporcional, usa el rol mine_c (prueba 
 #http://asspennypool.com/register.php
 info_1: Nueva mina en el barrio, sistema prop. , porfavor reporta tu experiencia - 3.1 Ghash/s @ 09.05.11
 info_2: La mina mas "gafe" que haya existido pero posiblemente te puedes hacer con unos centimos - 10.1 Ghash/s @ 09.08.11
+info_3: El OP esta probando utilizar basar su mina en varios servidores bitcoind de distintos paises (hilo de mina) - 3.1 Ghash/s @ 10.03.11
 
 
 [bclc]
