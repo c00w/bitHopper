@@ -39,7 +39,7 @@ info_1: Mina con sistema por puntuacion proporcional, usa el rol mine_c (prueba 
 #http://asspennypool.com/register.php
 info_1: Nueva mina en el barrio, sistema prop. , porfavor reporta tu experiencia - 3.1 Ghash/s @ 09.05.11
 info_2: La mina mas "gafe" que haya existido pero posiblemente te puedes hacer con unos centimos - 10.1 Ghash/s @ 09.08.11
-info_3: El OP esta probando utilizar basar su mina en varios servidores bitcoind de distintos paises (hilo de mina) - 3.1 Ghash/s @ 10.03.11
+info_3: El OP esta probando enviar trabajo de servidores bitcoind situados en distintos paises (hilo de mina) - 3.1 Ghash/s @ 10.03.11
 
 
 [bclc]
