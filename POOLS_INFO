@@ -3,7 +3,7 @@
 # of pools used for hopping, gathered
 #   here for orientative purposes.
 #
-#     Last update: Sep 29, 2011
+#     Last update: Oct 03, 2011
 #######################################
 #######################################
 #   These Pools are added recently
@@ -12,7 +12,7 @@
 
 
 [guildminers]
-#http://guildminers.com/
+#http://guildminers.com
 info_1: BTC withdrawal available only to campbx exchange, 1btc minimum (pool website) - 14.3 GHash/s @ 09.21.11
 info_2: Mining address could be wrong, they impose a custom miner software (pool website) - 20.1 GHash/s @ 09.25.11
 
@@ -23,7 +23,7 @@ info_1: Small pool that uses Double Geometric Payout Method (pool website + page
 
 
 [bitpenny]
-#http://www.bitpenny.com/
+#http://www.bitpenny.com
 info_1: Small sized pool with delayed PPS payout system and increased difficulty shares (pool website) - 7.5 GHash/s @ 09.27.11
 
 
@@ -39,6 +39,7 @@ info_1: Score prop. pool, use mine_c role and (test setting c: 6), multiple coin
 #http://asspennypool.com/register.php
 info_1: New pool on the "block", prop. payouts, please report experience - 3.1 Ghash/s @ 09.05.11
 info_2: The most "unlucky" pool ever made but you could get some pennies though - 10.1 Ghash/s @ 09.08.11
+info_3: Op is testing polling for work from bitcoind serv. placed in various countries (pool thread on main forum) - 3.1 Ghash/s @ 10.03.11
 
 
 [bclc]
@@ -80,6 +81,7 @@ info_2: Hashing away for over a month without luck - 3.48 Ghash/s @ 09.09.11
 info_1: Delayed stats (page 87 - bH thread on main forum)
 info_2: Try mining here with the mine_lp role - 2132.23 Ghash/s @ 08.23.11
 info_3: PPS payout server available (beta) - 1835.25 Ghash/s @ 09.12.11
+info_4: Worker stats and API are now pulled live (page 153 - pool thread on main forum) - 1796.03 Ghash/s @ 10.03.11
 
 
 [btcmine]
@@ -180,6 +182,7 @@ info_1: 0% fee SMPPS pool - 504.69 GHash/s @ 08.23.11
 [arsbitcoin]
 #https://arsbitcoin.com/register.php
 info_1: 0% fee PPS pool - 484.4 GHash/s @ 08.23.11
+info_2: Small issues processing payouts, fixed (page 30 - pool thread on main forum) - 969.10 GHash/s @ 10.03.11
 
 
 [bitp]
@@ -264,6 +267,7 @@ info_1: Payouts are automatic and no need to signup - 8.35 Ghash/s @ 08.23.11
 info_1: Nmc pool (mine_nmc) - 47 Mhash/s @ 08.23.11
 info_2: Production at this pool stopped until merged mining @ block 19200
 info_3: Curently pool is PPS, after m.mining is implemented will be SMPPS (pool website) @ 09.23.11
+
 
 #i0c pools
 

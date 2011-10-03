@@ -3,7 +3,7 @@
 #   sobre la minas conocidas por bH,
 # recogida aqui con fines informativos
 #
-#   Ultima actualizacion: Sep 29, 2011
+#   Ultima actualizacion: Oct 03, 2011
 #######################################
 #######################################
 #   Minas anadidas recientemente,
@@ -12,7 +12,7 @@
 
 
 [guildminers]
-#http://guildminers.com/
+#http://guildminers.com
 info_1: La retirada BTC disponible de momento es hacia el exchange campbx, minimo 1btc (pagina de mina) - 14.3 GHash/s @ 09.21.11
 info_2: La direccion de mineria podria no ser correcta, requieren un programa minero especial (pagina de mina) - 20.1 GHash/s @ 09.25.11
 
@@ -23,7 +23,7 @@ info_1: Utiliza el Sistema de Pago Doble Geometrico (pagina de mina + pagina 2 -
 
 
 [bitpenny]
-#http://www.bitpenny.com/
+#http://www.bitpenny.com
 info_1: Mina pequena que utiliza sistema de pago PPS retardado y shares de dificultad mayor (pagina de mina) - 7.5 GHash/s @ 09.27.11
 
 
@@ -39,6 +39,7 @@ info_1: Mina con sistema por puntuacion proporcional, usa el rol mine_c (prueba 
 #http://asspennypool.com/register.php
 info_1: Nueva mina en el barrio, sistema prop. , porfavor reporta tu experiencia - 3.1 Ghash/s @ 09.05.11
 info_2: La mina mas "gafe" que haya existido pero posiblemente te puedes hacer con unos centimos - 10.1 Ghash/s @ 09.08.11
+info_3: El OP esta probando utilizar basar su mina en varios servidores bitcoind de distintos paises (hilo de mina) - 3.1 Ghash/s @ 10.03.11
 
 
 [bclc]
@@ -80,6 +81,7 @@ info_2: Calculando sin parar desde hace mas de un mes sin suerte - 3.48 Ghash/s 
 info_1: Ralentiza stats (pagina 87 - hilo bH en el foro principal)
 info_2: Prueba suerte minar con el rol mine_lp - 2132.23 Ghash/s @ 08.23.11
 info_3: Servidor con sistema de pago PPS disponible (beta) - 1835.25 Ghash/s @ 09.12.11
+info_4: Las estatisticas y API ahora se actualizan en tiempo real (page 153 - pool thread on main forum) - 1796.03 Ghash/s @ 10.03.11
 
 
 [btcmine]
@@ -180,6 +182,7 @@ info_1: 0% tasas, mina SMPPS - 504.69 GHash/s @ 08.23.11
 [arsbitcoin]
 #https://arsbitcoin.com/register.php
 info_1: 0% tasas, mina PPS - 484.4 GHash/s @ 08.23.11
+info_2: Pequenos problemas con los pagos, resuelto (page 30 - pool thread on main forum) - 969.10 GHash/s @ 10.03.11
 
 
 [bitp]

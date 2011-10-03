@@ -118,7 +118,6 @@ cada mina disponible. No muy efficiente pero depurado a maximo y estable.
 Intenta un cambiar de un modo mas agresivo cuendo se llega a los limites preestablecidos (threshold).
 Puedes encontrar algunos parametros especificos para ajustar en el archivo "bh.cfg.default_esp".
 
-
    RoundTimeScheduler
 
 En desuso actualmente.
