@@ -3,7 +3,7 @@
 #   sobre la minas conocidas por bH,
 # recogida aqui con fines informativos
 #
-#   Ultima actualizacion: Oct 03, 2011
+#   Ultima actualizacion: Oct 04, 2011
 #######################################
 #######################################
 #   Minas anadidas recientemente,
@@ -39,7 +39,7 @@ info_1: Mina con sistema por puntuacion proporcional, usa el rol mine_c (prueba 
 #http://asspennypool.com/register.php
 info_1: Nueva mina en el barrio, sistema prop. , porfavor reporta tu experiencia - 3.1 Ghash/s @ 09.05.11
 info_2: La mina mas "gafe" que haya existido pero posiblemente te puedes hacer con unos centimos - 10.1 Ghash/s @ 09.08.11
-info_3: El OP esta probando utilizar basar su mina en varios servidores bitcoind de distintos paises (hilo de mina) - 3.1 Ghash/s @ 10.03.11
+info_3: El OP esta probando enviar trabajo de servidores bitcoind situados en distintos paises (hilo de mina) - 3.1 Ghash/s @ 10.03.11
 
 
 [bclc]
@@ -130,6 +130,7 @@ info_2: Sistema de pago PPS disponible en caso de utilizar como mina de respaldo
 info_1: Congela stats sin razon (pagina 114 - hilo bH en el foro principal)
 info_2: Stats funcionan - 60.5 GHash/s @ 08.23.11
 info_3: Necesitan un poco de ayuda para resolver este ultimo bloque (encontrado) - 61.2 GHash/s @ 09.18.11
+info_4: 10% bonus en las siguientes 10 rondas (pagina de mina) - 53.85 GHash/s @ 10.03.11
 
 
 [p2pool]
@@ -141,6 +142,7 @@ info_2: El programa de mina se tiene que instalar previamente en el ordenador lo
 [slush]
 #http://mining.bitcoin.cz/accounts/register/
 info_1: Buena para saltar hasta 10% de dificultad, utiliza mine_slush - 1872.64 GHash/s @ 08.23.11
+info_2: La mina ya tiene soporte para LP, algunos problemas con el minero Phoenix - 1356.30 GHash/s @ 10.03.11
 
 
 [triple]
@@ -202,6 +204,7 @@ info_1: Mina PPS - 25.2 GHash/s @ 08.23.11
 info_1: Mina PPS, 0% comisiones, paga shares "stale"
 info_2: Invalidos muy altos con poclbm, mejor utilizar phoenix 1.5+
 info_3: Registro temporalmente deshabilitado - 111.9 GHash/s @ 08.23.11
+info_4: La creacion de cuentas esta habilitada de nuevo - 143 GHash/s @ 10.03.11
 
 
 [nofeemining]

@@ -3,7 +3,7 @@
 # of pools used for hopping, gathered
 #   here for orientative purposes.
 #
-#     Last update: Oct 03, 2011
+#     Last update: Oct 04, 2011
 #######################################
 #######################################
 #   These Pools are added recently
@@ -130,6 +130,7 @@ info_2: Alternate PPS payout available for use as backup if wanted
 info_1: Freezing stats for unknown reason (page 114 - bH thread on main forum)
 info_2: Stats solved - 60.5 GHash/s @ 08.23.11
 info_3: They need some help solving this long block (found) - 61.2 GHash/s @ 09.18.11
+info_4: 10% bonus on next 10 rounds (pool website) - 53.85 GHash/s @ 10.03.11
 
 
 [p2pool]
@@ -140,7 +141,8 @@ info_2: Pool software needs to be installed on local pc
 
 [slush]
 #http://mining.bitcoin.cz/accounts/register/
-info_1: Good for mining until 10% of diff. - use mine_slush - 1872.64 GHash/s @ 08.23.11
+info_1: Good for mining until 10% of diff, use mine_slush - 1872.64 GHash/s @ 08.23.11
+info_2: Pool has full LP support implemented, still some issues with Phoenix miner - 1356.30 GHash/s @ 10.03.11
 
 
 [triple]
@@ -202,6 +204,7 @@ info_1: PPS pool - 25.2 GHash/s @ 08.23.11
 info_1: PPS, intro. 0% fee, pays stales
 info_2: High invalids on poclbm, site better supports phoenix 1.5+
 info_3: Registering temp disabled - 111.9 GHash/s @ 08.23.11
+info_4: Sign-up is now open - 143 GHash/s @ 10.03.11
 
 
 [nofeemining]
