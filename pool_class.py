@@ -46,7 +46,7 @@ class Pool():
             self['default_role'] = 'mine'
 
         #Coin Handling
-        coin_roles = {'mine': 'btc', 'info': 'btc', 'backup': 'btc', 'backup_latehop': 'btc', 'mine_charity': 'btc', 'mine_c', 'mine_nmc': 'nmc', 'mine_ixc': 'ixc', 'mine_i0c': 'i0c', 'mine_scc': 'scc'}
+        coin_roles = {'mine': 'btc', 'info': 'btc', 'backup': 'btc', 'backup_latehop': 'btc', 'mine_charity': 'btc', 'mine_c':'btc', 'mine_nmc': 'nmc', 'mine_ixc': 'ixc', 'mine_i0c': 'i0c', 'mine_scc': 'scc'}
         if 'coin' not in attribute_dict:
             try: coin_type = coin_roles[self['role']]
             except KeyError: coin_type = 'btc'
