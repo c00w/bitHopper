@@ -87,7 +87,7 @@ class Scheduler(object):
         if len(backup_servers) == 0:
             for server in self.bitHopper.pool.get_servers():
                 info = self.bitHopper.pool.get_entry(server)
-                if info.role not in self.valid_roles:
+                if info['role'] not in self.valid_roles:
                     continue
                 if not info.is_valid():
                     continue
