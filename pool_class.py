@@ -116,7 +116,7 @@ class Pool():
             except:
                 c = 300
             hashrate = float(self['ghash'])
-            hopoff = difficulty * (self.bitHopper.options.threshold - 503131./(1173666 + c*hashrate))
+            hopoff = difficulty * (0.435 - 503131./(1173666 + c*hashrate))
             if shares > hopoff:
                 shares = 2*difficulty
 
