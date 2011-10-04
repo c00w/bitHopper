@@ -46,19 +46,10 @@ class Pool():
             self['default_role'] = 'mine'
 
         #Coin Handling
+        coin_roles = {'mine': 'btc', 'info': 'btc', 'backup': 'btc', 'backup_latehop': 'btc', 'mine_charity': 'btc', 'mine_c', 'mine_nmc': 'nmc', 'mine_ixc': 'ixc', 'mine_i0c': 'i0c', 'mine_scc': 'scc'}
         if 'coin' not in attribute_dict:
-            if self['role'] in ['mine', 'info', 'backup', 'backup_latehop', 'mine_charity', 'mine_c']:
-                coin_type = 'btc'
-            elif self['role'] in ['mine_nmc']:
-                coin_type = 'nmc'
-            elif self['role'] in ['mine_ixc']:
-                coin_type = 'ixc'
-            elif self['role'] in ['mine_i0c']:
-                coin_type = 'i0c'
-            elif self['role'] in ['mine_scc']:
-                coin_type = 'scc'   
-            else:
-                coin_type = 'btc'
+            try: coin_type = coin_roles[self['role']]
+            except KeyError: coin_type = 'btc'
             self['coin'] = coin_type
         else:
             self['coin'] = attribute_dict['coin']
@@ -106,24 +97,16 @@ class Pool():
                 return self_proff < other_proff
 
     def btc_shares(self):
-        difficulty = self.bitHopper.difficulty.get_difficulty()
-        nmc_difficulty = self.bitHopper.difficulty.get_nmc_difficulty()
-        ixc_difficulty = self.bitHopper.difficulty.get_ixc_difficulty()
-        i0c_difficulty = self.bitHopper.difficulty.get_i0c_difficulty()
-        scc_difficulty = self.bitHopper.difficulty.get_scc_difficulty()
+        coin_diffs = {'btc': self.bitHopper.difficulty.get_difficulty(),
+        'nmc': self.bitHopper.difficulty.get_nmc_difficulty(),
+        'ixc': self.bitHopper.difficulty.get_ixc_difficulty(),
+        'i0c': self.bitHopper.difficulty.get_i0c_difficulty(),
+        'scc': self.bitHopper.difficulty.get_scc_difficulty()}
         
         if self['coin'] in ['btc']:
             shares = self['shares']
-        elif self['coin'] in ['nmc']:
-            shares = self['shares']*difficulty / nmc_difficulty
-        elif self['coin'] in ['ixc']:
-            shares = self['shares']*difficulty / ixc_difficulty
-        elif self['coin'] in ['i0c']:
-            shares = self['shares']*difficulty / i0c_difficulty
-        elif self['coin'] in ['scc']:
-            shares = self['shares']*difficulty / scc_difficulty
-        else:
-            shares = difficulty
+        try: shares = self['shares'] * coin_diffs['btc'] / coin_diffs[self['coin']]
+        except KeyError: shares = difficulty
 
         if self['role'] == 'mine_c':
             #Checks if shares are to high and if so sends it through the roof
@@ -133,7 +116,7 @@ class Pool():
             except:
                 c = 300
             hashrate = float(self['ghash'])
-            hopoff = difficulty * (0.435 - 503131./(1173666 + c*hashrate))
+            hopoff = difficulty * (self.bitHopper.options.threshold - 503131./(1173666 + c*hashrate))
             if shares > hopoff:
                 shares = 2*difficulty
 
