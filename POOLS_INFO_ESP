@@ -142,6 +142,7 @@ info_2: El programa de mina se tiene que instalar previamente en el ordenador lo
 [slush]
 #http://mining.bitcoin.cz/accounts/register/
 info_1: Buena para saltar hasta 10% de dificultad, utiliza mine_slush - 1872.64 GHash/s @ 08.23.11
+info_2: La mina ya tiene soporte para LP, algunos problemas con el minero Phoenix - 1356.30 GHash/s @ 10.03.11
 
 
 [triple]
