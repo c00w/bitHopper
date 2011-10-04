@@ -116,9 +116,9 @@ class Pool():
             except:
                 c = 300
             hashrate = float(self['ghash'])
-            hopoff = difficulty * (0.435 - 503131./(1173666 + c*hashrate))
+            hopoff = coin_diffs['btc'] * (0.435 - 503131./(1173666 + c*hashrate))
             if shares > hopoff:
-                shares = 2*difficulty
+                shares = 2*coin_diffs['btc']
 
         if self['role'] in ['mine_force', 'mine_lp_force']:
             shares = 0
