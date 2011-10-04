@@ -88,6 +88,11 @@ class LongPoll():
                 self.bitHopper.scheduler.reset()
                 self.bitHopper.select_best_server()
                 eventlet.spawn_n(self.api_check,server,block,old_shares)
+
+            #If We change servers trigger a LP.
+            if old_owner !=server:
+                work = self.bitHopper.work.jsonrpc_getwork(server, [])
+                self.bitHopper.lp_callback.new_block(work, server)  
             hook_end = plugins.Hook('plugins.lp.set_owner.end')
             hook_end.notify(self, server, block)
 
