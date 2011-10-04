@@ -106,7 +106,7 @@ class Pool():
         if self['coin'] in ['btc']:
             shares = self['shares']
         try: shares = self['shares'] * coin_diffs['btc'] / coin_diffs[self['coin']]
-        except KeyError: shares = difficulty
+        except KeyError: shares = coin_diffs['btc']
 
         if self['role'] == 'mine_c':
             #Checks if shares are to high and if so sends it through the roof
