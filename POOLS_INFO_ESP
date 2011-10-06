@@ -3,7 +3,7 @@
 #   sobre la minas conocidas por bH,
 # recogida aqui con fines informativos
 #
-#   Ultima actualizacion: Oct 04, 2011
+#   Ultima actualizacion: Oct 06, 2011
 #######################################
 #######################################
 #   Minas anadidas recientemente,
@@ -27,9 +27,9 @@ info_1: Utiliza el Sistema de Pago Doble Geometrico (pagina de mina + pagina 2 -
 info_1: Mina pequena que utiliza sistema de pago PPS retardado y shares de dificultad mayor (pagina de mina) - 7.5 GHash/s @ 09.27.11
 
 
-[coinotron]
-#http://coinotron.com
-info_1: Mina con sistema por puntuacion proporcional, usa el rol mine_c (prueba ajustando c: 6), mina de multiples monedas - 52.94 GHash/s @ 09.28.11
+[simplecoin]
+#http://simplecoin.us
+info_1: Pequena mina proporcional que tambien dispone de sistemas de pago y monedas alternativas (pagina de mina) - 8.67 Ghash/s @ 10.06.11
 
 
 ####################################### 
@@ -100,6 +100,11 @@ info_3: Online y funcionando bien (08.30.11)
 [btcworld]
 #http://btcworld.de/signup
 info_1: Mina pequena y mona- 14.05 Ghash/s @ 08.23.11
+
+
+[coinotron]
+#http://coinotron.com
+info_1: Mina con sistema por puntuacion proporcional, usa el rol mine_c (prueba ajustando c: 6), mina de multiples monedas - 52.94 GHash/s @ 09.28.11
 
 
 [deepbit]
@@ -343,10 +348,6 @@ info_1: Mina IXcoins, usa el rol mine_ixc - 0.5 Ghash/s @ 09.19.11
 
 Bitcoin-Station
 #https://bitcoin-station.com
-
-
-SimpleCoin.us
-#http://simplecoin.us
 
 
 BitMinter

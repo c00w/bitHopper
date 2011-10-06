@@ -20,8 +20,8 @@ go into a seperate .py file. This makes it easier to work with multiple plugins.
 WHY DOES POOL.PY DO EVERYTHING?
 Because I haven't had time to split it and clean it up.
 
-bH could support scraping after logging in with mechanize (http://wwwsearch.sourceforge.net/mechanize/)
-Small script example included
+bH could support scraping after logging in with mechanize. Small script example included
+(http://wwwsearch.sourceforge.net/mechanize/)
 
 ---------------------------------------------------------------------------------------
 
@@ -66,3 +66,4 @@ Store the duration in the db                 (https://github.com/c00w/bitHopper/
 Display Time since last LP on /stats# page next to round duration
                                              (https://github.com/c00w/bitHopper/issues/422)
 
+Add role: mine_fhop                          (https://github.com/c00w/bitHopper/issues/431)
