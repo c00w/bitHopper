@@ -27,11 +27,6 @@ info_1: Utiliza el Sistema de Pago Doble Geometrico (pagina de mina + pagina 2 -
 info_1: Mina pequena que utiliza sistema de pago PPS retardado y shares de dificultad mayor (pagina de mina) - 7.5 GHash/s @ 09.27.11
 
 
-[simplecoin]
-#http://simplecoin.us
-info_1: Pequena mina proporcional que tambien dispone de sistemas de pago y monedas alternativas (pagina de mina) - 8.67 Ghash/s @ 10.06.11
-
-
 ####################################### 
 
 
@@ -255,6 +250,12 @@ info_1: Servidor con sistema de pago PPS en funcionamiento (beta) - 32,85 Mhash/
 #https://masterpool.eu/signup
 info_1: Actualmente estan probando la mineria unida (en: http://dot-bit.org/Merged_Mining) - 3.12 Ghash/s @ 08.23.11
 info_2: La mineria unida esta activa desde el bloque 19200 y funciona sin problemas, actualiza tu cliente NMC - 10 Ghash/s @ 10.08.11
+
+
+[simplecoin]
+#http://simplecoin.us
+info_1: Pequena mina proporcional que tambien dispone de sistemas de pago y monedas alternativas (pagina de mina) - 8.67 Ghash/s @ 10.06.11
+info_2: Mineria unida esta implementada para cada tipo de pago BTC disponible (foro simplecoin) - 21.70 Ghash/s @ 10.08.11
 
 
 #Minas nmc
