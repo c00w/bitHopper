@@ -248,8 +248,8 @@ info_1: PPS payout server launched (beta) - 32,85 Mhash/s @ 09.12.11
 # For hopping use mine_xxx accordingly
 ######################################
 
-#BTC + NMC pools (merged mining)
 
+#BTC + NMC pools (merged mining)
 
 [masterpool]
 #https://masterpool.eu/signup
