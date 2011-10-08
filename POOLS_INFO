@@ -269,6 +269,7 @@ info_2: This pool has merged mining working, payout system PPS (pool website) - 
 [bitparking]
 #http://bitparking.com/
 info_1: Nmc pool (mine_nmc) - 20.2 GHash/s @ 08.23.11
+info_2: Pool was closed down on October 5, 2011
 
 
 [namebit]
