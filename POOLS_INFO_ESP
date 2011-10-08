@@ -258,16 +258,17 @@ info_1: Pequena mina proporcional que tambien dispone de sistemas de pago y mone
 info_2: Mineria unida esta implementada para cada tipo de pago BTC disponible (foro simplecoin) - 21.70 Ghash/s @ 10.08.11
 
 
+[nmcbit]
+#http://nmcbit.com/
+info_1: Mina namecoins (mine_nmc) - 9.94 Ghash/s @ 08.23.11
+info_2: Esta mina tambien tiene la mineria unida funcionando, sistema de pago PPS (pagina de mina) - 16.21 Ghash/s @ 10.08.11
+
+
 #Minas nmc
 
 [bitparking]
 #http://bitparking.com/
 info_1: Mina namecoins (mine_nmc) - 20.2 GHash/s @ 08.23.11
-
-
-[nmcbit]
-#http://nmcbit.com/
-info_1: Mina namecoins (mine_nmc) - 9.94 Ghash/s @ 08.23.11
 
 
 [namebit]
