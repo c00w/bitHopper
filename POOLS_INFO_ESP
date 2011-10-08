@@ -3,7 +3,7 @@
 #   sobre la minas conocidas por bH,
 # recogida aqui con fines informativos
 #
-#   Ultima actualizacion: Oct 06, 2011
+#   Ultima actualizacion: Oct 08, 2011
 #######################################
 #######################################
 #   Minas anadidas recientemente,
@@ -248,6 +248,15 @@ info_1: Servidor con sistema de pago PPS en funcionamiento (beta) - 32,85 Mhash/
 # usando el modo adecuado (mine_xxx)
 ######################################
 
+
+#Minas BTC + NMC (mineria unida)
+
+[masterpool]
+#https://masterpool.eu/signup
+info_1: Actualmente estan probando la mineria unida (en: http://dot-bit.org/Merged_Mining) - 3.12 Ghash/s @ 08.23.11
+info_2: La mineria unida esta activa desde el bloque 19200 y funciona sin problemas, actualiza tu cliente NMC - 10 Ghash/s @ 10.08.11
+
+
 #Minas nmc
 
 [bitparking]
@@ -258,11 +267,6 @@ info_1: Mina namecoins (mine_nmc) - 20.2 GHash/s @ 08.23.11
 [nmcbit]
 #http://nmcbit.com/
 info_1: Mina namecoins (mine_nmc) - 9.94 Ghash/s @ 08.23.11
-
-
-[masterpool]
-#https://masterpool.eu/signup
-info_1: Actualmente estan probando la mineria unida (en: http://dot-bit.org/Merged_Mining) - 3.12 Ghash/s @ 08.23.11
 
 
 [namebit]

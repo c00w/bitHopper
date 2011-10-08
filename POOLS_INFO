@@ -3,7 +3,7 @@
 # of pools used for hopping, gathered
 #   here for orientative purposes.
 #
-#     Last update: Oct 06, 2011
+#     Last update: Oct 08, 2011
 #######################################
 #######################################
 #   These Pools are added recently
@@ -248,6 +248,15 @@ info_1: PPS payout server launched (beta) - 32,85 Mhash/s @ 09.12.11
 # For hopping use mine_xxx accordingly
 ######################################
 
+
+#BTC + NMC pools (merged mining)
+
+[masterpool]
+#https://masterpool.eu/signup
+info_1: Currently testing merged mining (http://dot-bit.org/Merged_Mining) - 3.12 Ghash/s @ 08.23.11
+info_2: Merged mining active and working nice from block 19200, update your NMC client - 10 Ghash/s @ 10.08.11
+
+
 #Nmc pools
 
 [bitparking]
@@ -258,11 +267,6 @@ info_1: Nmc pool (mine_nmc) - 20.2 GHash/s @ 08.23.11
 [nmcbit]
 #http://nmcbit.com/
 info_1: Nmc pool (mine_nmc) - 9.94 Ghash/s @ 08.23.11
-
-
-[masterpool]
-#https://masterpool.eu/signup
-info_1: Currently testing merged mining (http://dot-bit.org/Merged_Mining) - 3.12 Ghash/s @ 08.23.11
 
 
 [namebit]
