@@ -166,6 +166,15 @@ info_2: Mina cerrada (pagina 178 - hilo bH en el foro principal)
 info_3: Mina abierta y acceptando nuevos mineros, ha cambiado a sistema de pago PPLNS (pagina de mina) - 25.51 GHash/s @ 08.23.11
 
 
+[polmine]
+#https://polmine.pl
+info_1: Mina polaca
+info_2: Ralentiza y truca los stats (pagina 157 - hilo bH en el foro principal)
+info_3: Puedes probar minar con el rol mine_lp - 137.48 Ghash/s @ 08.23.11
+info_4: Pagos menores solo para hoppers basados en bloques de 30btc (pagina 174 - hilo bH en el foro principal)
+info_5: La mina solo retarda stats como medida anti-hopper, blos bloques se reparten 100% entre todos los mineros - 96.89 Ghash/s @ 10.09.11
+
+
 ######################################
 # Minas de respaldo (backup) para
 # cuando no tienes ninguna mina
@@ -394,14 +403,6 @@ info_2: Esta mina se cierra el 6 oct 2011 (pagina de mina) - 3.68 GHash/s @ 09.0
 info_1: Pequena mina buena para saltar - 8.6 Ghash/s @ 08.23.11
 info_2: Ha cambiado el sistema de pagos con uno desconocido para prevenir la mineria ocasional (pagina 11 - hilo de mina en el foro principal)
 info_3: La pagina principal redirige a http://www.btcnetwork.com @ 09.23.11
-
-
-[polmine]
-#https://polmine.pl
-info_1: Mina polaca
-info_2: Ralentiza y truca los stats (pagina 157 - hilo bH en el foro principal)
-info_3: Puedes probar minar con el rol mine_lp - 137.48 Ghash/s @ 08.23.11
-info_4: Pagos menores solo para hoppers basados en bloques de 30btc (pagina 174 - hilo bH en el foro principal)
 
 
 [btcpool24]

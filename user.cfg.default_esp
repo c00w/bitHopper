@@ -259,7 +259,12 @@ role: info
 user: nombre_minero
 pass: contrasena_minero
 
-
+[polmine]
+#https://polmine.pl
+#CAMBIA A CONTINUACION
+role: disable
+user: c00w1456testhop
+pass: x
 
 ######################################
 # Minas de respaldo (backup) para
@@ -501,13 +506,6 @@ pass: contrasena_minero
 role: disable
 user: nombre_minero
 pass: contrasena_minero
-
-[polmine]
-#https://polmine.pl
-#CAMBIA A CONTINUACION
-role: disable
-user: c00w1456testhop
-pass: x
 
 [oldpolmine]
 # El metodo antiguo para conseguir los stats

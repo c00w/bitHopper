@@ -259,6 +259,13 @@ role: info
 user: your_username
 pass: your_password
 
+[polmine]
+#https://polmine.pl
+#CHANGE THIS
+role: disable
+user: c00w1456testhop
+pass: x
+
 ######################################
 # Backup pools for when there is
 # no pool where you would earn more
@@ -498,13 +505,6 @@ pass: your_password
 #CHANGE THIS
 role: disable
 user: x
-pass: x
-
-[polmine]
-#https://polmine.pl
-#CHANGE THIS
-role: disable
-user: c00w1456testhop
 pass: x
 
 [oldpolmine]
