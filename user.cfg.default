@@ -259,13 +259,6 @@ role: info
 user: your_username
 pass: your_password
 
-[simplecoin]
-#http://simplecoin.us
-#CHANGE THIS (if you want)
-role: info
-user: your_username
-pass: your_password
-
 ######################################
 # Backup pools for when there is
 # no pool where you would earn more
@@ -348,6 +341,31 @@ pass: your_password
 # For hopping use mine_xxx accordingly
 ######################################
 
+
+#BTC + NMC pools (merged mining)
+
+[masterpool]
+#https://masterpool.eu/signup
+#CHANGE THIS (if you want)
+role: info
+user: your_username
+pass: your_password
+
+[simplecoin]
+#http://simplecoin.us
+#CHANGE THIS (if you want)
+role: info
+user: your_username
+pass: your_password
+
+[nmcbit]
+#http://nmcbit.com/
+#CHANGE THIS (if you want)
+role: info
+user: your_username
+pass: your_password
+
+
 #Nmc pools
 
 [bitparking]
@@ -358,20 +376,6 @@ role: info
 user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
 #passwords can be anything on bitparking
 pass: x
-
-[nmcbit]
-#http://nmcbit.com/
-#CHANGE THIS (if you want)
-role: info
-user: your_username
-pass: your_password
-
-[masterpool]
-#https://masterpool.eu/signup
-#CHANGE THIS (if you want)
-role: info
-user: your_username
-pass: your_password
 
 [namebit]
 #http://www.namebit.org/
