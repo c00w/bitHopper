@@ -41,6 +41,10 @@ Blank stats page with latest v0.2.5.2-45-gd7bdc98
                                              (https://github.com/c00w/bitHopper/issues/407)
 
 Check if p2pool works                        (https://github.com/c00w/bitHopper/issues/419)
+
+Web Reset Shares                             (https://github.com/c00w/bitHopper/issues/440)
+
+re_rateduration in apy.py                    (https://github.com/c00w/bitHopper/issues/443)
 ---------------------------------------------------------------------------------------
 
 Future to-do list:
@@ -67,3 +71,4 @@ Display Time since last LP on /stats# page next to round duration
                                              (https://github.com/c00w/bitHopper/issues/422)
 
 Add role: mine_fhop                          (https://github.com/c00w/bitHopper/issues/431)
+
