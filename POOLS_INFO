@@ -3,7 +3,7 @@
 # of pools used for hopping, gathered
 #   here for orientative purposes.
 #
-#     Last update: Oct 08, 2011
+#     Last update: Oct 09, 2011
 #######################################
 #######################################
 #   These Pools are added recently
@@ -166,6 +166,15 @@ info_2: Pool is closed down (page 178 - bH thread on main forum)
 info_3: Pool is online and accepting miners, changed payout to PPLNS (pool website) - 25.51 GHash/s @ 08.23.11
 
 
+[polmine]
+#https://polmine.pl
+info_1: Nice polish pool
+info_2: Delays and fakes stats (page 157 - bH thread on main forum)
+info_3: You could try mining here with the mine_lp role - 137.48 Ghash/s @ 08.23.11
+info_4: Smaller payouts just for hoppers based on 30btc blocks (page 174 - bH thread on main forum)
+info_5: Pool only delays stats as anti-hopper measure, blocks are shared 100% between all miners - 96.89 Ghash/s @ 10.09.11
+
+
 ######################################
 # Backup pools for when there is
 # no pool where you would earn more
@@ -261,7 +270,7 @@ info_2: Merged mining implemented for every BTC payout available (simplecoin for
 [nmcbit]
 #http://nmcbit.com/
 info_1: Nmc pool (mine_nmc) - 9.94 Ghash/s @ 08.23.11
-info_2: This pool has merged mining working, payout system PPS (pool website) - 16.21 Ghash/s @ 10.08.11
+info_2: This pool has merged mining working, payout system PPS, use role "mine" (pool website) - 16.21 Ghash/s @ 10.08.11
 
 
 #Nmc pools
@@ -394,14 +403,6 @@ info_2: Pool is closing down on 6 oct 2011 (pool website) - 3.68 GHash/s @ 09.09
 info_1: Small pool good for hopping - 8.6 Ghash/s @ 08.23.11
 info_2: Changed to unknown payout system to prevent occasional mining (page 11 - pool thread on main forum)
 info_3: The home page redirects to http://www.btcnetwork.com @ 09.23.11
-
-
-[polmine]
-#https://polmine.pl
-info_1: Nice polish pool
-info_2: Delays and fakes stats (page 157 - bH thread on main forum)
-info_3: You could try mining here with the mine_lp role - 137.48 Ghash/s @ 08.23.11
-info_4: Smaller payouts just for hoppers based on 30btc blocks (page 174 - bH thread on main forum)
 
 
 [btcpool24]

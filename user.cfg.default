@@ -259,12 +259,12 @@ role: info
 user: your_username
 pass: your_password
 
-[simplecoin]
-#http://simplecoin.us
-#CHANGE THIS (if you want)
-role: info
-user: your_username
-pass: your_password
+[polmine]
+#https://polmine.pl
+#CHANGE THIS
+role: disable
+user: c00w1456testhop
+pass: x
 
 ######################################
 # Backup pools for when there is
@@ -348,6 +348,31 @@ pass: your_password
 # For hopping use mine_xxx accordingly
 ######################################
 
+
+#BTC + NMC pools (merged mining)
+
+[masterpool]
+#https://masterpool.eu/signup
+#CHANGE THIS (if you want)
+role: info
+user: your_username
+pass: your_password
+
+[simplecoin]
+#http://simplecoin.us
+#CHANGE THIS (if you want)
+role: info
+user: your_username
+pass: your_password
+
+[nmcbit]
+#http://nmcbit.com/
+#CHANGE THIS (if you want)
+role: info
+user: your_username
+pass: your_password
+
+
 #Nmc pools
 
 [bitparking]
@@ -358,20 +383,6 @@ role: info
 user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
 #passwords can be anything on bitparking
 pass: x
-
-[nmcbit]
-#http://nmcbit.com/
-#CHANGE THIS (if you want)
-role: info
-user: your_username
-pass: your_password
-
-[masterpool]
-#https://masterpool.eu/signup
-#CHANGE THIS (if you want)
-role: info
-user: your_username
-pass: your_password
 
 [namebit]
 #http://www.namebit.org/
@@ -494,13 +505,6 @@ pass: your_password
 #CHANGE THIS
 role: disable
 user: x
-pass: x
-
-[polmine]
-#https://polmine.pl
-#CHANGE THIS
-role: disable
-user: c00w1456testhop
 pass: x
 
 [oldpolmine]

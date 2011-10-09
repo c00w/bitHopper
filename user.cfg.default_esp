@@ -259,12 +259,12 @@ role: info
 user: nombre_minero
 pass: contrasena_minero
 
-[simplecoin]
-#http://simplecoin.us
+[polmine]
+#https://polmine.pl
 #CAMBIA A CONTINUACION
-role: info
-user: nombre_minero
-pass: contrasena_minero
+role: disable
+user: c00w1456testhop
+pass: x
 
 ######################################
 # Minas de respaldo (backup) para
@@ -348,6 +348,31 @@ pass: contrasena_minero
 # usando el modo adecuado (mine_xxx)
 ######################################
 
+
+#Minas BTC + NMC (mineria unida)
+
+[masterpool]
+#https://masterpool.eu/signup
+#CAMBIA A CONTINUACION (si quieres)
+role: info
+user: nombre_minero
+pass: contrasena_minero
+
+[simplecoin]
+#http://simplecoin.us
+#CAMBIA A CONTINUACION
+role: info
+user: nombre_minero
+pass: contrasena_minero
+
+[nmcbit]
+#http://nmcbit.com/
+#CAMBIA A CONTINUACION (si quieres)
+role: info
+user: nombre_minero
+pass: contrasena_minero
+
+
 #Minas nmc
 
 [bitparking]
@@ -358,20 +383,6 @@ role: info
 user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
 #las contrasenas no importan en BitParking
 pass: x
-
-[nmcbit]
-#http://nmcbit.com/
-#CAMBIA A CONTINUACION (si quieres)
-role: info
-user: nombre_minero
-pass: contrasena_minero
-
-[masterpool]
-#https://masterpool.eu/signup
-#CAMBIA A CONTINUACION (si quieres)
-role: info
-user: nombre_minero
-pass: contrasena_minero
 
 [namebit]
 #http://www.namebit.org/
@@ -495,13 +506,6 @@ pass: contrasena_minero
 role: disable
 user: nombre_minero
 pass: contrasena_minero
-
-[polmine]
-#https://polmine.pl
-#CAMBIA A CONTINUACION
-role: disable
-user: c00w1456testhop
-pass: x
 
 [oldpolmine]
 # El metodo antiguo para conseguir los stats
