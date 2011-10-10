@@ -26,6 +26,9 @@ backup_type = rejectrate
 # Ganancia minima cuando se trabaja con varias monedas
 min_coin_proff = 1.0
 
+# Indica si el programa minara las monedas mas provechosas o si se mina unicamente en base a la cantidad de shares de cada pool.
+calculate_profit = True
+
 # Tiempo de muestra trabajadores parados en pagina de stats
 user_drop_time = 60*60
 
