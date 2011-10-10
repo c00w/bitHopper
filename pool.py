@@ -26,7 +26,7 @@ class Pool_Parse():
         self.servers = {}
         self.initialized = False
         self.lock = threading.RLock()
-        self.pool_configs = ['pools.cfg']
+        self.pool_configs = ['pools.cfg', 'pools-custom.cfg']
         self.started = False
         self.current_list = []
         self.server_map = {}
