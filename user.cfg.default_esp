@@ -394,11 +394,11 @@ user: nmcaddress
 pass: none
 
 [bitchomp]
-#http://www.bitchomp.info/ncp/register.php
+#http://www.bitchomp.info/
 #CAMBIA A CONTINUACION (si quieres)
 role: info
-user: nombre_minero
-pass: contrasena_minero
+user: su_nombre_de_usuario.cualquier_cosa o direccion_BTC.direccion_NMC
+pass: cualquiera
 
 
 #Minas i0c
