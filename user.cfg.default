@@ -394,12 +394,11 @@ user: nmcaddress
 pass: none
 
 [bitchomp]
-#http://www.bitchomp.info/ncp/register.php
+#http://www.bitchomp.info
 #CHANGE THIS (if you want)
 role: info
-user: your_username
-pass: your_password
-
+user: your_username.SomeWorkerName or BTC_Address.NMC_Address
+pass: Anything
 
 #i0c pools
 
