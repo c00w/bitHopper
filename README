@@ -75,10 +75,10 @@ If you don't want to use a pool delete it from "user.cfg" or go to Stats page an
 disable. BitHopper listens on loopback interface so you should direct your miner to localhost:8337
 with any username and password (not blank).
 
-If you would like to use custom settings for pools you can check pools.cfg for examples and put
-settings you would like to overwrite in the same format to pools-custom.cfg. This way you always
-have latest pools.cfg but you can also experiment with new pools or scrape data for existing
-pools from different sources.
+If you would like to use custom settings with some pools check out "pools.cfg" for examples and then
+put your settings into "pools-custom.cfg". This way you can always update to latest "pools.cfg"
+and also experiment with new pools or use different api sources for shares scraping.
+
 
 # LP tuning / dashboard
 

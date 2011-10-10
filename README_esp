@@ -76,6 +76,11 @@ Por si no quieres utilizar alguna mina puedes borrarla de "user.cfg" o ir en la 
 su rol a "disable". BitHopper escucha conexiones en la interfaz de loopback asi que debes redireccionar
 tu minero a localhost:8337 con cualquier usuario y contrasena (ne dejes en blanco).
 
+Si quieres tener ajustes personalizados para algunas minas puedes comprobar el archivo "pools.cfg" para
+ejemplos y luego pon tus ajustes en un archivo llamado "pools-custom.cfg". De este modo siempre vas a tener
+el archivo "pools.cfg" actualizado y podras experimentar anadiendo nuevas minas o api para actualizar shares.
+
+
 # Ajustes LP / panel de control
 
 Panel de control LP: http://localhost:8337/lpworkbench
