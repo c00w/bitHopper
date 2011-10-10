@@ -57,12 +57,16 @@ class Pool_Parse():
 
         userpools = parser.sections()
 
+        read_items = 0
         for file_name in self.pool_configs:
             read = self.load_file(file_name, parser)
+            read_items += len(read)
             if len(read) == 0:
                 self.bitHopper.log_msg(file_name + " not found.")
-                if self.initialized == False: 
-                    os._exit(1)
+                
+        if self.initialized == False: 
+            if read_items == 0:
+                os._exit(1)
 
         for pool in userpools:
             self.servers[pool] = pool_class.Pool(pool, dict(parser.items(pool)), self.bitHopper)
