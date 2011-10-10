@@ -3,7 +3,7 @@
 # of pools used for hopping, gathered
 #   here for orientative purposes.
 #
-#     Last update: Oct 09, 2011
+#     Last update: Oct 10, 2011
 #######################################
 #######################################
 #   These Pools are added recently
@@ -123,6 +123,7 @@ info_3: Down for few hours, prob ddos'ed - 25 GHash/s @ 09.27.11
 #https://mtred.com/user/registration.html
 info_1: Good for hopping, fast pool for hopper-starters - 176.52 GHash/s @ 08.23.11
 info_2: Alternate PPS payout available for use as backup if wanted 
+info_3: After the current block will be offering PPS payout only, 2-6 weeks test (reddit.com) - 210.50 GHash/s @ 10.10.11
 
 
 [ozco]
@@ -291,7 +292,8 @@ info_1: Payouts are automatic and no need to signup - 8.35 Ghash/s @ 08.23.11
 info_1: Nmc pool (mine_nmc) - 47 Mhash/s @ 08.23.11
 info_2: Production at this pool stopped until merged mining @ block 19200
 info_3: Curently pool is PPS, after m.mining is implemented will be SMPPS (pool website) @ 09.23.11
-info_4: Operational merged Mining with the SMPPS payment system. Optionally can be mine without registering (pool website) - 7.56 Gh/s @ 10.10.11
+info_4: Merged mining operational with SMPPS payment system. Optionally can be mined without registering (pool website) - 7.56 Gh/s @ 10.10.11
+
 
 #i0c pools
 
@@ -340,7 +342,8 @@ info_1: Solidcoin pool, use mine_scc - 23.64 Ghash/s @ 08.28.11
 [mine4us]
 #http://solid.mine-for.us
 info_1: Solidcoin pool, use mine_scc - 2.51 Ghash/s @ 08.28.11
-info_2: Currently they are mining Namecoins until it is fixed the vulnerability of %51 of SolidCoin (pool website). Use the mine_nmc role - 1.98 GH/s @ 10.10.11
+info_2: Currently mining NMC until SolidCoin vulnerability it's fixed, use mine_nmc (pool website) - 1.98 GH/s @ 10.10.11
+
 
 #ixc pools
 
@@ -348,6 +351,7 @@ info_2: Currently they are mining Namecoins until it is fixed the vulnerability 
 #http://ixpool.bitparking.com/pool
 info_1: ixcoins pool, use mine_ixc - 4.99 Ghash/s @ 08.28.11
 info_2: Pool was closed on 30 September 2011 12:00 UTC (pool website) - 0 Ghash/s @ 10.10.11
+
 
 [digixc]
 #http://ix.digbtc.net
