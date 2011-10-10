@@ -394,7 +394,7 @@ user: nmcaddress
 pass: none
 
 [bitchomp]
-#http://www.bitchomp.info/
+#http://www.bitchomp.info
 #CAMBIA A CONTINUACION (si quieres)
 role: info
 user: su_nombre_de_usuario.cualquier_cosa o direccion_BTC.direccion_NMC
@@ -417,7 +417,7 @@ user: nombre_minero
 pass: contrasena_minero
 
 [digi0c]
-#http://i0.digbtc.net/
+#http://i0.digbtc.net
 role: disable
 user: nombre_minero
 pass: contrasena_minero
