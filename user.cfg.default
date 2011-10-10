@@ -400,6 +400,7 @@ role: info
 user: your_username.SomeWorkerName or BTC_Address.NMC_Address
 pass: Anything
 
+
 #i0c pools
 
 [i0g]
