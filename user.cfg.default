@@ -73,7 +73,8 @@
 [slush]
 #http://mining.bitcoin.cz (merged mining NMC)
 #---Edit after this line if mined---
-role: mine_slush
+role: mine_c
+c: 300
 penalty: 1
 user: c00w.testhop
 pass: testhop
