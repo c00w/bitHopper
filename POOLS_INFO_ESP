@@ -19,7 +19,7 @@ info_2: La direccion de mineria podria no ser correcta, requieren un programa mi
 
 [yourbtc]
 #http://yourbtc.net
-info_1: Utiliza el Sistema de Pago Doble Geometrico (pagina de mina + pagina 2 - hilo de mina en el foro principal) - 4.3 GHash/s @ 09.21.11
+info_1: Utiliza el Sistema de Pago Doble Geometrico (pagina de mina + pagina 2 - hilo de mina en foro principal) - 4.3 GHash/s @ 09.21.11
 
 
 [bitpenny]
@@ -56,7 +56,7 @@ info_4: La mina impone una penalidad de 50% solo para mineros ocasionales (pagin
 #http://bitclockers.com
 info_1: Salta esta mina con precaucion, posibles medidas anti-hopper
 info_2: Los nuevos servidores funcionan sin problemas con cero share stale, seguro para minar - 276.20 Ghash/s @ 08.23.11
-info_3: Problemas con los repartidores de carga y la base de datos (pagina 14 - hilo de mina en el foro principal) - 249.60 Ghash/s @ 09.20.11
+info_3: Problemas con los repartidores de carga y la base de datos (pagina 14 - hilo de mina en foro principal) - 249.60 Ghash/s @ 09.20.11
 
 
 [bithasher]
@@ -150,6 +150,7 @@ info_2: El programa de mina se tiene que instalar previamente en el ordenador lo
 #http://mining.bitcoin.cz/accounts/register
 info_1: Buena para saltar hasta 10% de dificultad, utiliza mine_slush - 1872.64 GHash/s @ 08.23.11
 info_2: La mina ya tiene soporte para LP, algunos problemas con el minero Phoenix - 1356.30 GHash/s @ 10.03.11
+info_3: La mina ya soporta mineria unida (pagina 184 - hilo de mina en foro principal) - 1306.41 GHash/s @ 10.11.11
 
 
 [triple]
@@ -212,8 +213,8 @@ info_2: Pequenos problemas con los pagos, resuelto (page 30 - pool thread on mai
 [bitp]
 #http://bitp.it
 info_1: Mina PPS - 27.60 GHash/s @ 08.23.11
-info_2: Mina caida debido ataques DDoS (pagina 30 - hilo de mina en el foro principal)
-info_3: El equipo de admins esta resolviendo unos problemas de alojamiento (pagina 31 - hilo de mina en el foro principal)
+info_2: Mina caida debido ataques DDoS (pagina 30 - hilo de mina en foro principal)
+info_3: El equipo de admins esta resolviendo unos problemas de alojamiento (pagina 31 - hilo de mina en foro principal)
 
 
 [ninjac]
@@ -239,14 +240,14 @@ info_3: Cambiaron sistema de pago a rsmpps (pagina 195 - hilo bH en el foro prin
 [itzod]
 #https://pool.itzod.ru
 info_1: Sistema de pago por puntuacion, utiliza mine_slush si quieres saltarla (pagina 154 - hilo bH en el foro principal) - 74.61 Ghash/s @ 08.23.11
-info_2: Ha cambiado a sistema SMPPS (hilo de mina en el foro principal)
+info_2: Ha cambiado a sistema SMPPS (hilo de mina en foro principal)
 
 
 [btcserv]
 #http://btcserv.net
 info_1: Mina pequena, raportar informacion sobre ella en el foro - 2.94 GHash/s @ 08.23.11
 info_2: Sistema de pago PPS disponible en caso de utilizar como mina de respaldo - 4.60 GHash/s @ 08.31.11
-info_3: El admin decide implementar FIFO PPS (pagina 4 - hilo de mina en el foro principal) -  11.36 GHash/s @ 09.09.11
+info_3: El admin decide implementar FIFO PPS (pagina 4 - hilo de mina en foro principal) -  11.36 GHash/s @ 09.09.11
 
 
 [bitfarms]
@@ -298,7 +299,7 @@ info_1: Pagos automaticos sin necesidad de registrarse - 8.35 Ghash/s @ 08.23.11
 [i0g]
 #http://i0.btcguild.com/register.php
 info_1: Mina i0coins, usa el rol mine_i0c - Offline @ 08.23.11
-info_2: Cerrada permanente (pagina 10 - hilo de mina en el foro principal)
+info_2: Cerrada permanente (pagina 10 - hilo de mina en foro principal)
 
 
 [i0parking]
@@ -403,7 +404,7 @@ info_2: Esta mina se cierra el 6 oct 2011 (pagina de mina) - 3.68 GHash/s @ 09.0
 [bmunion]
 #http://www.bitminersunion.org
 info_1: Pequena mina buena para saltar - 8.6 Ghash/s @ 08.23.11
-info_2: Ha cambiado el sistema de pagos con uno desconocido para prevenir la mineria ocasional (pagina 11 - hilo de mina en el foro principal)
+info_2: Ha cambiado el sistema de pagos con uno desconocido para prevenir la mineria ocasional (pagina 11 - hilo de mina en foro principal)
 info_3: La pagina principal redirige a http://www.btcnetwork.com @ 09.23.11
 
 

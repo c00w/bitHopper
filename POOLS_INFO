@@ -150,6 +150,7 @@ info_2: Pool software needs to be installed on local pc
 #http://mining.bitcoin.cz/accounts/register
 info_1: Good for mining until 10% of diff, use mine_slush - 1872.64 GHash/s @ 08.23.11
 info_2: Pool has full LP support implemented, still some issues with Phoenix miner - 1356.30 GHash/s @ 10.03.11
+info_3: Pool now supports merged mining (page 184 - pool thread on main forum) - 1306.41 GHash/s @ 10.11.11
 
 
 [triple]
