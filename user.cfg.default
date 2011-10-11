@@ -397,7 +397,7 @@ pass: none
 #http://www.bitchomp.info
 #CHANGE THIS (if you want)
 role: info
-user: your_username.SomeWorkerName or BTC_Address.NMC_Address
+user: your_username.WorkerName or BTC_Address.NMC_Address
 pass: Anything
 
 

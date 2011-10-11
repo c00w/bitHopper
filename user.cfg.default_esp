@@ -397,7 +397,7 @@ pass: none
 #http://www.bitchomp.info
 #CAMBIA A CONTINUACION (si quieres)
 role: info
-user: su_nombre_de_usuario.cualquier_cosa o direccion_BTC.direccion_NMC
+user: su_nombre_de_usuario.nombre_minero o direccion_BTC.direccion_NMC
 pass: cualquiera
 
 

@@ -67,8 +67,8 @@ class Difficulty():
             with self.lock:
                 
                 self.updater("Bitcoin", 'http://blockexplorer.com/q/getdifficulty', 'btc_difficulty')
-                self.updater("Namecoin", 'http://namecoinpool.com/', 'nmc_difficulty', "Current difficulty:</td><td>([.0-9]+)</td>")
-                self.updater("SolidCoin", 'http://allchains.info', 'scc_difficulty', "<td> sc </td><td align=\'right\'> ([0-9]+)")
-                self.updater("IXcoin", 'http://allchains.info', 'ixc_difficulty', "ixc </td><td align='right'> ([0-9]+) </td><td align='right'>   [.0-9]+ </td>")
-                self.updater("I0coin", 'http://allchains.info', 'i0c_difficulty', "i0c </td><td align='right'> ([0-9]+) </td><td align='right'>   [.0-9]+ </td>")
+                self.updater("Namecoin", 'http://dot-bit.org/tools/namecoinCalculator.php', 'nmc_difficulty', "Current difficulty : ([0-9.]+)<br>")
+                self.updater("SolidCoin", 'http://allchains.info', 'scc_difficulty', "<td> sc </td><td align=\'right\'> ([0-9.]+)")
+                self.updater("IXcoin", 'http://allchains.info', 'ixc_difficulty', "ixc </td><td align='right'> ([0-9.]+) </td><td align='right'>   [.0-9]+ </td>")
+                self.updater("I0coin", 'http://allchains.info', 'i0c_difficulty', "i0c </td><td align='right'> ([0-9.]+) </td><td align='right'>   [.0-9]+ </td>")
             eventlet.sleep(60*10)
