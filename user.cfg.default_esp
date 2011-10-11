@@ -391,6 +391,12 @@ user: nmcaddress
 #pasword must be "none"
 pass: none
 
+[bitchomp]
+#http://www.bitchomp.info
+#CAMBIA A CONTINUACION (si quieres)
+role: info
+user: su_nombre_de_usuario.nombre_minero o direccion_BTC.direccion_NMC
+pass: cualquiera
 
 #Minas i0c
 

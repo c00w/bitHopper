@@ -392,6 +392,13 @@ user: nmcaddress
 #pasword must be "none"
 pass: none
 
+[bitchomp]
+#http://www.bitchomp.info
+#CHANGE THIS (if you want)
+role: info
+user: your_username.WorkerName or BTC_Address.NMC_Address
+pass: Anything
+
 
 #i0c pools
 
