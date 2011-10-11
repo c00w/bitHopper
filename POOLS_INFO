@@ -3,7 +3,7 @@
 # of pools used for hopping, gathered
 #   here for orientative purposes.
 #
-#     Last update: Oct 10, 2011
+#     Last update: Oct 11, 2011
 #######################################
 #######################################
 #   These Pools are added recently
@@ -53,14 +53,14 @@ info_4: Pool enforces a 50% penalty system for occasional miners (pool website) 
 
 
 [bitclockers]
-#http://bitclockers.com/
+#http://bitclockers.com
 info_1: Handle with care, possible anti-hopper measures in place
 info_2: Their new servers work like clocks with zero stales, safe to mine with them - 276.20 Ghash/s @ 08.23.11
 info_3: Various issues with the load balancers and database (page 14 - pool thread on main forum) - 249.60 Ghash/s @ 09.20.11
 
 
 [bithasher]
-#http://bithasher.com/index.php/register/
+#http://bithasher.com/index.php/register
 info_1: Please report experience on forum or IRC - 7.12 Ghash/s @ 08.23.11
 info_2: Having troubles finding a block, 28 days atm - 1.19 Ghash/s @ 09.09.11
 
@@ -72,7 +72,7 @@ info_2: Hashing away for over a month without luck - 3.48 Ghash/s @ 09.09.11
 
 
 [btcg]
-#https://www.btcguild.com/
+#https://www.btcguild.com
 info_1: Delayed stats (page 87 - bH thread on main forum)
 info_2: Try mining here with the mine_lp role - 2132.23 Ghash/s @ 08.23.11
 info_3: PPS payout server available (beta) - 1835.25 Ghash/s @ 09.12.11
@@ -80,13 +80,13 @@ info_4: Worker stats and API are now pulled live (page 153 - pool thread on main
 
 
 [btcmine]
-#https://btcmine.com/user/register/
+#https://btcmine.com/user/register
 info_1: Score based payout, try mining with mine_slush (page 164 - bH thread on main forum) - 356.68 Ghash/s @ 08.23.11
 info_2: You can try the new mine_c role available for score pools and setup c: 550 - 223.68 Ghash/s @ 09.21.11
 
 
 [btcmonkey]
-#http://bitcoinmonkey.com/
+#http://bitcoinmonkey.com
 info_1: Nice small pool - 1.917 Ghash/s @ 08.23.11
 info_2: Pool went offline after supposedly finding a block (08.29.11)
 info_3: Online and running fine (08.30.11)
@@ -103,7 +103,7 @@ info_1: Score prop. pool, use mine_c role and (test setting c: 6), multiple coin
 
 
 [deepbit]
-#https://deepbit.net/
+#https://deepbit.net
 info_1: Biggest pool around, mining with them should get your variance down - 5723 Ghash/s @ 08.23.11
 
 
@@ -113,10 +113,16 @@ info_1: Small pool, recommended you change user-agent (page 154 - bH thread on m
 
 
 [kiwipool]
-#http://www.kiwipool.me/
+#http://www.kiwipool.me
 info_1: Switched to PPS (page 154 - bH thread on main forum)
 info_2: Seems like they're Prop. pool (IRC Chan.) - 36 GHash/s @ 08.23.11
 info_3: Down for few hours, prob ddos'ed - 25 GHash/s @ 09.27.11
+
+
+[masterpool]
+#https://masterpool.eu/signup
+info_1: Currently testing merged mining (http://dot-bit.org/Merged_Mining) - 3.12 Ghash/s @ 08.23.11
+info_2: Merged mining active and working nice from block 19200, update your NMC client - 10 Ghash/s @ 10.08.11
 
 
 [mtred]
@@ -141,7 +147,7 @@ info_2: Pool software needs to be installed on local pc
 
 
 [slush]
-#http://mining.bitcoin.cz/accounts/register/
+#http://mining.bitcoin.cz/accounts/register
 info_1: Good for mining until 10% of diff, use mine_slush - 1872.64 GHash/s @ 08.23.11
 info_2: Pool has full LP support implemented, still some issues with Phoenix miner - 1356.30 GHash/s @ 10.03.11
 
@@ -174,6 +180,12 @@ info_2: Delays and fakes stats (page 157 - bH thread on main forum)
 info_3: You could try mining here with the mine_lp role - 137.48 Ghash/s @ 08.23.11
 info_4: Smaller payouts just for hoppers based on 30btc blocks (page 174 - bH thread on main forum)
 info_5: Pool only delays stats as anti-hopper measure, blocks are shared 100% between all miners - 96.89 Ghash/s @ 10.09.11
+
+
+[simplecoin]
+#http://simplecoin.us
+info_1: Small Prop pool with alternative payouts and coins available (pool website) - 8.67 Ghash/s @ 10.06.11
+info_2: Merged mining implemented for every BTC payout available (simplecoin forum) - 21.70 Ghash/s @ 10.08.11
 
 
 ######################################
@@ -210,7 +222,7 @@ info_1: PPS pool - 25.2 GHash/s @ 08.23.11
 
 
 [abc]
-#http://www.abcpool.co/
+#http://www.abcpool.co
 info_1: PPS, intro. 0% fee, pays stales
 info_2: High invalids on poclbm, site better supports phoenix 1.5+
 info_3: Registering temp disabled - 111.9 GHash/s @ 08.23.11
@@ -231,14 +243,14 @@ info_2: Changed to SMPPS system (pool thread on main forum)
 
 
 [btcserv]
-#http://btcserv.net/
+#http://btcserv.net
 info_1: Small pool, pls report experience on forum - 2.94 GHash/s @ 08.23.11
 info_2: Alternate PPS payout available for use as backup if wanted - 4.60 GHash/s @ 08.31.11
 info_3: Op decides to have FIFO PPS implemented (page 4 - pool thread on main forum) -  11.36 GHash/s @ 09.09.11
 
 
 [bitfarms]
-#http://bitfarms.ca/
+#http://bitfarms.ca
 info_1: Please report experience on forum or IRC - 4.41 Ghash/s @ 08.23.11
 info_2: PPS payout (pool website) - 3.66 Ghash/s @ 09.09.11
 
@@ -254,37 +266,12 @@ info_1: PPS payout server launched (beta) - 32,85 Mhash/s @ 09.12.11
 ######################################
 
 
-#BTC + NMC pools (merged mining)
-
-[masterpool]
-#https://masterpool.eu/signup
-info_1: Currently testing merged mining (http://dot-bit.org/Merged_Mining) - 3.12 Ghash/s @ 08.23.11
-info_2: Merged mining active and working nice from block 19200, update your NMC client - 10 Ghash/s @ 10.08.11
-
-
-[simplecoin]
-#http://simplecoin.us
-info_1: Small Prop pool with alternative payouts and coins available (pool website) - 8.67 Ghash/s @ 10.06.11
-info_2: Merged mining implemented for every BTC payout available (simplecoin forum) - 21.70 Ghash/s @ 10.08.11
-
-
-[nmcbit]
-#http://nmcbit.com/
-info_1: Nmc pool (mine_nmc) - 9.94 Ghash/s @ 08.23.11
-info_2: This pool has merged mining working, payout system PPS, use role "mine" (pool website) - 16.21 Ghash/s @ 10.08.11
-
-
 #Nmc pools
 
-[bitparking]
-#http://bitparking.com/
-info_1: Nmc pool (mine_nmc) - 20.2 GHash/s @ 08.23.11
-info_2: Pool was closed down on October 5, 2011
-
-
-[namebit]
-#http://www.namebit.org/
-info_1: Payouts are automatic and no need to signup - 8.35 Ghash/s @ 08.23.11
+[nmcbit]
+#http://nmcbit.com
+info_1: Nmc pool (mine_nmc) - 9.94 Ghash/s @ 08.23.11
+info_2: Pool has merged mining working with payout system PPS, use "mine" role (pool website) - 16.21 Ghash/s @ 10.08.11
 
 
 [bitchomp]
@@ -292,7 +279,18 @@ info_1: Payouts are automatic and no need to signup - 8.35 Ghash/s @ 08.23.11
 info_1: Nmc pool (mine_nmc) - 47 Mhash/s @ 08.23.11
 info_2: Production at this pool stopped until merged mining @ block 19200
 info_3: Curently pool is PPS, after m.mining is implemented will be SMPPS (pool website) @ 09.23.11
-info_4: Merged mining operational with SMPPS payment system. Optionally can be mined without registering (pool website) - 7.56 Gh/s @ 10.10.11
+info_4: Merged mining operational with SMPPS payment system. Can be mined without registering (pool website) - 7.56 Gh/s @ 10.10.11
+
+
+[bitparking]
+#http://bitparking.com
+info_1: Nmc pool (mine_nmc) - 20.2 GHash/s @ 08.23.11
+info_2: Pool was closed down on October 5, 2011
+
+
+[namebit]
+#http://www.namebit.org
+info_1: Payouts are automatic and no need to signup - 8.35 Ghash/s @ 08.23.11
 
 
 #i0c pools
@@ -317,7 +315,7 @@ info_1: Delays statistics and distrust of its legitimacy (i0coin.org forum) - 1.
 #scc pools
 
 [scguild]
-#http://sc.btcguild.com/
+#http://sc.btcguild.com
 info_1: Solidcoin pool, use mine_scc - 325.14 Ghash/s @ 08.28.11
 info_2: Pool closes September 11th (pool website) - 70.31 Ghash/s @ 08.28.11
 
@@ -403,7 +401,7 @@ info_2: Pool is closing down on 6 oct 2011 (pool website) - 3.68 GHash/s @ 09.09
 
 
 [bmunion]
-#http://www.bitminersunion.org/
+#http://www.bitminersunion.org
 info_1: Small pool good for hopping - 8.6 Ghash/s @ 08.23.11
 info_2: Changed to unknown payout system to prevent occasional mining (page 11 - pool thread on main forum)
 info_3: The home page redirects to http://www.btcnetwork.com @ 09.23.11
@@ -415,18 +413,18 @@ info_1: Changed payout system and delays stats, allot (page 116 - bH thread on m
 
 
 [poolmunity]
-#http://poolmunity.com/
+#http://poolmunity.com
 info_1: Obscure payout system and anti-hopping measures (page 55 - bH thread on main forum)
 info_2: Pooles closes in September (http://poolmunity.com/index.php/topic,83.0.html) - 0 hash/s @ 08.23.11
 
 
 [poolmunitynmc]
-#http://poolmunity.com/
+#http://poolmunity.com
 info_1: The same mine, and using the same worker user and pass to mine NameCoins (mine_nmc)
 
 
 [x8s]
-#http://btc.x8s.de/
+#http://btc.x8s.de
 info_1: Pool is closed down (page 48 - bH thread on main forum) - Offline @ 08.23.11
 
 

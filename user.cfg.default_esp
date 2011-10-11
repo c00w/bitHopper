@@ -71,7 +71,7 @@
 #########################################################################################
 
 [slush]
-#http://mining.bitcoin.cz/accounts/register/
+#http://mining.bitcoin.cz (mineria unida NMC)
 #CAMBIA A CONTINUACION
 role: mine_slush
 penalty: 1
@@ -139,7 +139,7 @@ pass: contrasena_minero
 
 [btcg]
 #https://www.btcguild.com/
-#CAMBIA A CONTINUACION (si quieres)
+#CAMBIA A CONTINUACION
 lp_penalty: 0
 role: info
 btcguild_user_apikey: 81a9081f4d5f32db7dbbed407cb5f686
@@ -148,56 +148,56 @@ pass: 1234
 
 [itzod]
 # https://pool.itzod.ru
-#CAMBIA A CONTINUACION (si quieres)
+#CAMBIA A CONTINUACION
 role: info
 user: nombre_minero
 pass: contrasena_minero
 
 [btcmine]
 # https://btcmine.com/user/register/
-#CAMBIA A CONTINUACION (si quieres)
+#CAMBIA A CONTINUACION
 role: info
 user: nombre_minero
 pass: contrasena_minero
 
 [digbtc]
 #http://www.digbtc.net/register.php
-#CAMBIA A CONTINUACION (si quieres)
+#CAMBIA A CONTINUACION
 role: info
 user: nombre_minero
 pass: contrasena_minero
 
 [bclc]
 #http://www.bitcoins.lc
-#CAMBIA A CONTINUACION (si quieres)
+#CAMBIA A CONTINUACION
 role: info
 user: FSkyvM
 pass: xndzEU
 
 [kiwipool]
 #http://www.kiwipool.me/
-#CAMBIA A CONTINUACION (si quieres)
+#CAMBIA A CONTINUACION
 role: info
 user: nombre_minero
 pass: contrasena_minero
 
 [bloodys]
 #http://pool.bloodys.com
-#CAMBIA A CONTINUACION (si quieres)
+#CAMBIA A CONTINUACION
 role: info
 user: nombre_minero
 pass: contrasena_minero
 
 [bithasher]
 #http://bithasher.com/index.php/register/
-#CAMBIA A CONTINUACION (si quieres)
+#CAMBIA A CONTINUACION
 role: info
 user: nombre_minero
 pass: contrasena_minero
 
 [bitfarms]
 #http://bitfarms.ca/
-#CAMBIA A CONTINUACION (si quieres)
+#CAMBIA A CONTINUACION
 role: info
 user: nombre_minero
 pass: contrasena_minero
@@ -218,7 +218,7 @@ pass: x
 
 [asspenny]
 #http://asspennypool.com/register.php
-#CAMBIA A CONTINUACION (si quieres)
+#CAMBIA A CONTINUACION
 role: info
 asspenny_user_apikey: xxxxxx
 user: nombre_minero
@@ -258,6 +258,20 @@ pass: contrasena_minero
 role: disable
 user: c00w1456testhop
 pass: x
+
+[masterpool]
+#https://masterpool.eu (mineria unida NMC)
+#CAMBIA A CONTINUACION
+role: info
+user: nombre_minero
+pass: contrasena_minero
+
+[simplecoin]
+#http://simplecoin.us (mineria unida NMC)
+#CAMBIA A CONTINUACION
+role: info
+user: nombre_minero
+pass: contrasena_minero
 
 ######################################
 # Minas de respaldo (backup) para
@@ -342,35 +356,25 @@ pass: contrasena_minero
 ######################################
 
 
-#Minas BTC + NMC (mineria unida)
+#Minas nmc
 
-[masterpool]
-#https://masterpool.eu/signup
-#CAMBIA A CONTINUACION (si quieres)
-role: info
-user: nombre_minero
-pass: contrasena_minero
-
-[simplecoin]
-#http://simplecoin.us
+[nmcbit]
+#http://nmcbit.com (mineria unida BTC)
 #CAMBIA A CONTINUACION
 role: info
 user: nombre_minero
 pass: contrasena_minero
 
-[nmcbit]
-#http://nmcbit.com/
-#CAMBIA A CONTINUACION (si quieres)
+[bitchomp]
+#http://www.bitchomp.info (mineria unida BTC)
+#CAMBIA A CONTINUACION
 role: info
-user: nombre_minero
-pass: contrasena_minero
-
-
-#Minas nmc
+user: su_nombre_de_usuario.cualquier_cosa o direccion_BTC.direccion_NMC
+pass: cualquiera
 
 [bitparking]
-#http://bitparking.com/
-#CAMBIA A CONTINUACION (si quieres)
+#http://bitparking.com
+#CAMBIA A CONTINUACION
 role: info
 # el nombre de minero es la direccion de pago
 user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
@@ -378,27 +382,20 @@ user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
 pass: x
 
 [namebit]
-#http://www.namebit.org/
-#CAMBIA A CONTINUACION (si quieres)
+#http://www.namebit.org
+#CAMBIA A CONTINUACION
 role: info
 #user is namecoin address
 user: nmcaddress
 #pasword must be "none"
 pass: none
 
-[bitchomp]
-#http://www.bitchomp.info
-#CAMBIA A CONTINUACION (si quieres)
-role: info
-user: su_nombre_de_usuario.cualquier_cosa o direccion_BTC.direccion_NMC
-pass: cualquiera
-
 
 #Minas i0c
 
 [i0g]
 #http://i0.btcguild.com/register.php
-#CAMBIA A CONTINUACION (si quieres)
+#CAMBIA A CONTINUACION
 role: disable
 user: nombre_minero
 pass: contrasena_minero
@@ -420,7 +417,7 @@ pass: contrasena_minero
 
 [scguild]
 #http://sc.btcguild.com/
-#CAMBIA A CONTINUACION (si quieres)
+#CAMBIA A CONTINUACION
 role: disable
 user: nombre_minero
 pass: contrasena_minero
@@ -428,28 +425,28 @@ pass: contrasena_minero
 [sodigbtc]
 #http://sobtc.digbtc.net
 #http://sc.digbtc.net
-#CAMBIA A CONTINUACION (si quieres)
+#CAMBIA A CONTINUACION
 role: disable
 user: nombre_minero
 pass: contrasena_minero
 
 [scbitparking]
 #http://scpool.bitparking.com
-#CAMBIA A CONTINUACION (si quieres)
+#CAMBIA A CONTINUACION
 role: disable
 user: nombre_minero
 pass: contrasena_minero
 
 [squid]
 #http://pool.squidnet.org
-#CAMBIA A CONTINUACION (si quieres)
+#CAMBIA A CONTINUACION
 role: disable
 user: nombre_minero
 pass: contrasena_minero
 
 [mine4us]
 #http://solid.mine-for.us
-#CAMBIA A CONTINUACION (si quieres)
+#CAMBIA A CONTINUACION
 role: disable
 user: nombre_minero
 pass: contrasena_minero
@@ -459,14 +456,14 @@ pass: contrasena_minero
 
 [ixparking]
 #http://ixpool.bitparking.com/pool
-#CAMBIA A CONTINUACION (si quieres)
+#CAMBIA A CONTINUACION
 role: disable
 user: nombre_minero
 pass: contrasena_minero
 
 [digixc]
 #http://ix.digbtc.net
-#CAMBIA A CONTINUACION (si quieres)
+#CAMBIA A CONTINUACION
 role: disable
 user: nombre_minero
 pass: contrasena_minero
@@ -480,14 +477,14 @@ pass: contrasena_minero
 
 [unitedminers]
 #http://www.unitedminers.com
-#CAMBIA A CONTINUACION (si quieres)
+#CAMBIA A CONTINUACION
 role: disable
 user: dah4k0r@gmail.com_testhop
 pass: testhop
 
 [swepool]
 #http://swepool.net/profile
-#CAMBIA A CONTINUACION (si quieres)
+#CAMBIA A CONTINUACION
 role: disable
 swepool_user_apikey: xxxxxx
 user: nombre_minero
@@ -510,35 +507,35 @@ pass: x
 
 [btcpool24]
 #http://www.btcpool24.com
-#CAMBIA A CONTINUACION (si quieres)
+#CAMBIA A CONTINUACION
 role: disable
 user: Sukrim.hopper
 pass: 1234
 
 [poolmunity]
 #http://poolmunity.com/
-#CAMBIA A CONTINUACION (si quieres)
+#CAMBIA A CONTINUACION
 role: disable
 user: c00w.testhop
 pass: testhop
 
 [x8s]
 #http://btc.x8s.de/
-#CAMBIA A CONTINUACION (si quieres)
+#CAMBIA A CONTINUACION
 role: disable
 user: testhop
 pass: x 
 
 [mineco]
 #https://mineco.in
-#CAMBIA A CONTINUACION (si quieres)
+#CAMBIA A CONTINUACION
 role: disable
 user: c00w.test
 pass: x
 
 [eclipsemc]
 #https://eclipsemc.com
-#CAMBIA A CONTINUACION (si quieres)
+#CAMBIA A CONTINUACION
 role: disable
 eclipsemc_apikey: bd0eded7e35b1b5fc48f8d10214d98
 user: c00w_worker
@@ -546,7 +543,7 @@ pass: x
 
 [mmf]
 #http://mining.mainframe.nl
-#CAMBIA A CONTINUACION (si quieres)
+#CAMBIA A CONTINUACION
 role: disable
 user: c00w.1
 pass: x
