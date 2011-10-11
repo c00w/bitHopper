@@ -122,13 +122,6 @@ bitclockers_user_apikey: 965469e512aa0de5a37b83ccfd5e849e
 user: flargle
 pass: x
 
-[btcserv]
-#http://btcserv.net/
-#CHANGE THIS
-role: info
-user: your_username
-pass: your_password
-
 [bcpool]
 #http://bitcoinpool.com
 #CHANGE THIS
@@ -329,7 +322,7 @@ nofeemining_user_apikey: 4140cbc6405f4425cf91ca74e1450b66
 user: 1Q4B1LdoKHtMbj6tBLhj1cyuMWTDYFJ9Y7
 pass: x
 
-[btcservpps]
+[btcserv]
 #http://btcserv.net/
 #CHANGE THIS
 role: disable
