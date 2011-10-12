@@ -202,12 +202,14 @@ info_2: Mineria unida esta implementada para cada tipo de pago BTC disponible (f
 [eligius]
 #http://eligius.st/wiki/index.php/Getting_Started
 info_1: 0% tasas, mina SMPPS - 504.69 GHash/s @ 08.23.11
+info_2: Ya soportan la mineria unida @ 10.12.11
+info_3: Registra una direccion NMC para recibir namecoins gratuitos (pagina 20 - hilo de mina en foro principal) - 446.09 GHash/s @ 10.12.11
 
 
 [arsbitcoin]
 #https://arsbitcoin.com/register.php
 info_1: 0% tasas, mina PPS - 484.4 GHash/s @ 08.23.11
-info_2: Pequenos problemas con los pagos, resuelto (page 30 - pool thread on main forum) - 969.10 GHash/s @ 10.03.11
+info_2: Pequenos problemas con los pagos, resuelto (pagina 30 - hilo de mina en foro principal) - 969.10 GHash/s @ 10.03.11
 
 
 [bitp]
@@ -383,6 +385,10 @@ Betcoin.co
 
 BitlottoPool
 #http://www.bitlottopool.com
+
+
+TheFrenchPool
+#https://frenchpool.fr
 
 
 ######################################
