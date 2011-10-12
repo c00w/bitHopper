@@ -44,7 +44,12 @@ Check if p2pool works                        (https://github.com/c00w/bitHopper/
 
 Web Reset Shares                             (https://github.com/c00w/bitHopper/issues/440)
 
+mine_lp_force bug                            (https://github.com/c00w/bitHopper/issues/441)
+
 re_rateduration in apy.py                    (https://github.com/c00w/bitHopper/issues/443)
+
+Firefox windows 7 7.0.0 64bit, stats page stops refreshing after a bit.
+                                             (https://github.com/c00w/bitHopper/issues/453)
 ---------------------------------------------------------------------------------------
 
 Future to-do list:
@@ -69,6 +74,8 @@ Store the duration in the db                 (https://github.com/c00w/bitHopper/
 
 Display Time since last LP on /stats# page next to round duration
                                              (https://github.com/c00w/bitHopper/issues/422)
+
+Add support for GG                           (https://github.com/c00w/bitHopper/issues/429)
 
 Add role: mine_fhop                          (https://github.com/c00w/bitHopper/issues/431)
 
