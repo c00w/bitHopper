@@ -82,7 +82,7 @@ class Pool():
 
 
         #disabled pools should never end up in a list
-        elif other.role in ['disable']:
+        elif other['role'] in ['disable']:
             return True
 
         elif self['role'] in ['disable']:
