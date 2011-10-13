@@ -159,14 +159,6 @@ info_1: Mid-size pool - 43.6 GHash/s @ 08.23.11
 info_2: Use as backup_latehop if you want to help them find the block (Flash Mob Mining Event - 08.21.11)
 
 
-[unitedminers]
-#http://www.unitedminers.com
-info_1: Changed to PPLNS in the middle of a round (page 94 - bH thread on main forum)
-info_2: Disables anti-hopper flagging if you donate to pool (page 161 - bH thread on main forum)
-info_3: PPLNS pools are hoppable with backup_latehop  - 3.07 GHash/s @ 08.23.11
-info_4: Pool is offline, no reason given @ 09.26.11
-
-
 [rfc]
 #https://rfcpool.com/signup
 info_1: Nice small pool
@@ -400,6 +392,14 @@ TheFrenchPool
 # Hop them at your own risk
 #
 ######################################
+
+
+[unitedminers]
+#http://www.unitedminers.com
+info_1: Changed to PPLNS in the middle of a round (page 94 - bH thread on main forum)
+info_2: Disables anti-hopper flagging if you donate to pool (page 161 - bH thread on main forum)
+info_3: PPLNS pools are hoppable with backup_latehop  - 3.07 GHash/s @ 08.23.11
+info_4: Pool is offline, no reason given @ 09.26.11
 
 
 [swepool]
