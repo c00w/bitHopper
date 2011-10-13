@@ -1,6 +1,6 @@
 
 
-#Ver ...
+#Ver 0.2.5.5 (6900c30)
 Trigger a LP when we change block owners due to new api info
 Fix for early and latehop backup methods
 Removed backup_latehop from user.cfg.def + rewrote backup descr

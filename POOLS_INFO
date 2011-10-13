@@ -202,6 +202,8 @@ info_2: Merged mining implemented for every BTC payout available (simplecoin for
 [eligius]
 #http://eligius.st/wiki/index.php/Getting_Started
 info_1: 0% fee SMPPS pool - 504.69 GHash/s @ 08.23.11
+info_2: Merge mining now supported @ 10.12.11
+info_3: Register a NMC addy to get some free namecoins (page 20 - pool thread on main forum) - 446.09 GHash/s @ 10.12.11
 
 
 [arsbitcoin]
@@ -383,6 +385,10 @@ Betcoin.co
 
 BitlottoPool
 #http://www.bitlottopool.com
+
+
+TheFrenchPool
+#https://frenchpool.fr
 
 
 ######################################
