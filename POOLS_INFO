@@ -3,29 +3,12 @@
 # of pools used for hopping, gathered
 #   here for orientative purposes.
 #
-#     Last update: Oct 13, 2011
+#     Last update: Oct 14, 2011
 #######################################
 #######################################
 #   These Pools are added recently
 #      hop them at your risk
 #######################################
-
-
-[guildminers]
-#http://guildminers.com
-info_1: BTC withdrawal available only to campbx exchange, 1btc minimum (pool website) - 14.3 GHash/s @ 09.21.11
-info_2: Mining address could be wrong, they impose a custom miner software (pool website) - 20.1 GHash/s @ 09.25.11
-
-
-[yourbtc]
-#http://yourbtc.net
-info_1: Small pool that uses Double Geometric Payout Method (pool website + page 2 - pool thread on main forum) - 4.3 GHash/s @ 09.21.11
-
-
-[bitpenny]
-#http://www.bitpenny.com
-info_1: Small sized pool with delayed PPS payout system and increased difficulty shares (pool website) - 7.5 GHash/s @ 09.27.11
-
 
 #######################################
 
@@ -112,6 +95,12 @@ info_1: Biggest pool around, mining with them should get your variance down - 57
 info_1: Small pool, recommended you change user-agent (page 154 - bH thread on main forum) - 5.5 Ghash/s @ 08.23.11
 
 
+[guildminers]
+#http://guildminers.com
+info_1: BTC withdrawal available only to campbx exchange, 1btc minimum (pool website) - 14.3 GHash/s @ 09.21.11
+info_2: Mining address could be wrong, they impose a custom miner software (pool website) - 20.1 GHash/s @ 09.25.11
+
+
 [kiwipool]
 #http://www.kiwipool.me
 info_1: Switched to PPS (page 154 - bH thread on main forum)
@@ -146,26 +135,6 @@ info_1: Decentralized pool with support for btc, nmc and others - 1.89 Ghash/s @
 info_2: Pool software needs to be installed on local pc
 
 
-[slush]
-#http://mining.bitcoin.cz/accounts/register
-info_1: Good for mining until 10% of diff, use mine_slush - 1872.64 GHash/s @ 08.23.11
-info_2: Pool has full LP support implemented, still some issues with Phoenix miner - 1356.30 GHash/s @ 10.03.11
-info_3: Pool now supports merged mining (page 184 - pool thread on main forum) - 1306.41 GHash/s @ 10.11.11
-
-
-[triple]
-#https://www.triplemining.com/register
-info_1: Mid-size pool - 43.6 GHash/s @ 08.23.11
-info_2: Use as backup_latehop if you want to help them find the block (Flash Mob Mining Event - 08.21.11)
-
-
-[rfc]
-#https://rfcpool.com/signup
-info_1: Nice small pool
-info_2: Pool is closed down (page 178 - bH thread on main forum)
-info_3: Pool is online and accepting miners, changed payout to PPLNS (pool website) - 25.51 GHash/s @ 08.23.11
-
-
 [polmine]
 #https://polmine.pl
 info_1: Nice polish pool
@@ -179,6 +148,19 @@ info_5: Pool only delays stats as anti-hopper measure, blocks are shared 100% be
 #http://simplecoin.us
 info_1: Small Prop pool with alternative payouts and coins available (pool website) - 8.67 Ghash/s @ 10.06.11
 info_2: Merged mining implemented for every BTC payout available (simplecoin forum) - 21.70 Ghash/s @ 10.08.11
+
+
+[slush]
+#http://mining.bitcoin.cz/accounts/register
+info_1: Good for mining until 10% of diff, use mine_slush - 1872.64 GHash/s @ 08.23.11
+info_2: Pool has full LP support implemented, still some issues with Phoenix miner - 1356.30 GHash/s @ 10.03.11
+info_3: Pool now supports merged mining (page 184 - pool thread on main forum) - 1306.41 GHash/s @ 10.11.11
+
+
+[triple]
+#https://www.triplemining.com/register
+info_1: Mid-size pool - 43.6 GHash/s @ 08.23.11
+info_2: Use as backup_latehop if you want to help them find the block (Flash Mob Mining Event - 08.21.11)
 
 
 ######################################
@@ -253,6 +235,23 @@ info_2: PPS payout (pool website) - 3.66 Ghash/s @ 09.09.11
 [btcgpps]
 #http://pps.btcguild.com/register.php
 info_1: PPS payout server launched (beta) - 32,85 Mhash/s @ 09.12.11
+
+
+[bitpenny]
+#http://www.bitpenny.com
+info_1: Small sized pool with delayed PPS payout system and increased difficulty shares (pool website) - 7.5 GHash/s @ 09.27.11
+
+
+[rfc]
+#https://rfcpool.com/signup
+info_1: Nice small pool
+info_2: Pool is closed down (page 178 - bH thread on main forum)
+info_3: Pool is online and accepting miners, changed payout to PPLNS (pool website) - 25.51 GHash/s @ 08.23.11
+
+
+[yourbtc]
+#http://yourbtc.net
+info_1: Small pool that uses Double Geometric Payout Method (pool website + page 2 - pool thread on main forum) - 4.3 GHash/s @ 09.21.11
 
 
 ######################################
