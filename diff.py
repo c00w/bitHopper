@@ -6,6 +6,7 @@
 import re
 import eventlet
 from eventlet.green import threading, socket, urllib2
+import ConfigParser
 
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
@@ -19,9 +20,14 @@ class Difficulty():
         self.ixc_difficulty = 16384
         self.i0c_difficulty = 1372
         self.scc_difficulty = 5354
+        cfg = ConfigParser.ConfigParser()
+        cfg.read(["diffwebs.cfg"])
+        self.diff_sites = []
+        for site in cfg.sections():
+             self.diff_sites.append(dict(cfg.items(site)))
         self.lock = threading.RLock()
         eventlet.spawn_n(self.update_difficulty)
-        self.diff = {'btc':1755425.3203287, 'nmc':94037.96, 'ixc':16384, 'i0c':1372, 'scc':5354}
+        self.diff = {'btc': self.btc_difficulty, 'nmc': self.nmc_difficulty, 'ixc': self.ixc_difficulty, 'i0c': self.i0c_difficulty, 'scc': self.scc_difficulty}
 
     def get_difficulty(self):
         return self.btc_difficulty
@@ -38,37 +44,42 @@ class Difficulty():
     def get_scc_difficulty(self):
         return self.scc_difficulty
 
-    def updater(self, coin, url_diff, diff_attr, reg_exp = None):
+    def updater(self, coin, short_coin):
         # Generic method to update the difficulty of a given currency
         self.bitHopper.log_msg('Updating Difficulty of ' + coin)
-        try:
-            #timeout = eventlet.timeout.Timeout(5, Exception(''))
-            useragent = {'User-Agent': self.bitHopper.config.get('main', 'work_user_agent')}
-            req = urllib2.Request(url_diff, headers = useragent)
-            response = urllib2.urlopen(req)
-            if reg_exp == None: 
-                output = response.read()
-            else:
-                diff_str = response.read()
-                output = re.search(reg_exp, diff_str)
-                output = output.group(1)
-            self.__dict__[diff_attr] = float(output)
-            self.diff[diff_attr[0:3]] = float(output)
-            self.bitHopper.log_dbg('Retrieved Difficulty: ' + str(self.__dict__[diff_attr]))
-        except Exception, e:
-            self.bitHopper.log_dbg('Unable to update difficulty for ' + coin + ': ' + str(e))
-        finally:
-            #timeout.cancel()
-            pass
+        config_diffcoin = [site for site in self.diff_sites if site['coin'] == short_coin]
+        #timeout = eventlet.timeout.Timeout(5, Exception(''))
+        useragent = {'User-Agent': self.bitHopper.config.get('main', 'work_user_agent')}
+        for site in config_diffcoin:
+            try:
+                req = urllib2.Request(site['url'], headers = useragent)
+                response = urllib2.urlopen(req)
+                if site['get_method'] == 'direct': 
+                    output = response.read()
+                elif site['get_method'] == 'regexp':
+                    diff_str = response.read()
+                    output = re.search(site['pattern'], diff_str)
+                    output = output.group(1)
+                elif site['get_method'] == 'json':
+                    pass
+                self.__dict__[short_coin + '_difficulty'] = float(output)
+                self.diff[short_coin] = float(output)
+                self.bitHopper.log_dbg('Retrieved Difficulty: ' + str(self.__dict__[short_coin + '_difficulty']))
+                break
+            except Exception, e:
+                self.bitHopper.log_dbg('Unable to update difficulty for ' + coin + ' from ' + site['url'] + ' : ' + str(e))
+            finally:
+                #timeout.cancel()
+                pass
 
     def update_difficulty(self):
         while True:
             "Tries to update difficulty from the internet"
             with self.lock:
                 
-                self.updater("Bitcoin", 'http://blockexplorer.com/q/getdifficulty', 'btc_difficulty')
-                self.updater("Namecoin", 'http://dot-bit.org/tools/namecoinCalculator.php', 'nmc_difficulty', "Current difficulty : ([0-9.]+)<br>")
-                self.updater("SolidCoin", 'http://allchains.info', 'scc_difficulty', "<td> sc </td><td align=\'right\'> ([0-9.]+)")
-                self.updater("IXcoin", 'http://allchains.info', 'ixc_difficulty', "ixc </td><td align='right'> ([0-9.]+) </td><td align='right'>   [.0-9]+ </td>")
-                self.updater("I0coin", 'http://allchains.info', 'i0c_difficulty', "i0c </td><td align='right'> ([0-9.]+) </td><td align='right'>   [.0-9]+ </td>")
+                self.updater("Bitcoin", 'btc')
+                self.updater("Namecoin", 'nmc')
+                self.updater("SolidCoin", 'scc')
+                self.updater("IXcoin", 'ixc')
+                self.updater("I0coin", 'i0c')
             eventlet.sleep(60*10)
