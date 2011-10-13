@@ -19,7 +19,7 @@ class Data():
         self.difficulty = self.bitHopper.difficulty
         self.lock = threading.RLock()
         try:
-            self.user_drop_time = self.config.get('main', 'user_drop_time')
+            self.user_drop_time = self.bitHopper.config.get('main', 'user_drop_time')
         except:
             self.user_drop_time = 60*60
         with self.lock:
@@ -45,7 +45,7 @@ class Data():
             for item in self.users:
                 if self.users[item]['shares'] > 0:
                     shares_time = self.users[item]['shares_time']
-                    if len(shares_time) > 0 and time.time()-max(shares_time) < 60*60:
+                    if len(shares_time) > 0 and time.time()-max(shares_time) < int(self.user_drop_time):
                         users[item] = self.users[item]
             return users
 
