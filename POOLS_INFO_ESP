@@ -3,7 +3,7 @@
 #   sobre la minas conocidas por bH,
 # recogida aqui con fines informativos
 #
-#   Ultima actualizacion: Oct 11, 2011
+#   Ultima actualizacion: Oct 13, 2011
 #######################################
 #######################################
 #   Minas anadidas recientemente,
@@ -283,6 +283,7 @@ info_1: Mina namecoins (mine_nmc) - 47 Mhash/s @ 08.23.11
 info_2: La produccion se detiene hasta que la mineria unida comience a funcionar @ bloque 19200
 info_3: Sistema de pago actual es PPS, cuando la m. unida empiece sera SMPPS (pagina de mina) @ 09.23.11
 info_4: Mineria unida funcionando con sistema SMPPS. Se puede minar sin registrarse (pagina de mina) - 7.56 Gh/s @ 10.10.11
+info_5: Esta mina se cierra debido a fallos encontrados en el sistema de pagos (pagina de mina) - 0 Gh/s @ 10.13.11
 
 
 [bitparking]

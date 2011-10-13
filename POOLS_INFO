@@ -3,7 +3,7 @@
 # of pools used for hopping, gathered
 #   here for orientative purposes.
 #
-#     Last update: Oct 11, 2011
+#     Last update: Oct 13, 2011
 #######################################
 #######################################
 #   These Pools are added recently
@@ -283,6 +283,7 @@ info_1: Nmc pool (mine_nmc) - 47 Mhash/s @ 08.23.11
 info_2: Production at this pool stopped until merged mining @ block 19200
 info_3: Curently pool is PPS, after m.mining is implemented will be SMPPS (pool website) @ 09.23.11
 info_4: Merged mining operational with SMPPS payment system. Can be mined without registering (pool website) - 7.56 Gh/s @ 10.10.11
+info_5: Pool will be closing down due too bugs in the payout system (pool website) - 0 Gh/s @ 10.13.11
 
 
 [bitparking]

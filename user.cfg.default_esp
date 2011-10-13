@@ -284,7 +284,7 @@ pass: contrasena_minero
 ######################################
 
 [eligius]
-#http://eligius.st/wiki/index.php/Getting_Started
+#http://eligius.st (mineria unida NMC)
 #---Modifica despues de esta linea si vas a minar---
 role: backup
 user: 1AofHmwVef5QkamCW6KqiD4cRqEcq5U7hZ
