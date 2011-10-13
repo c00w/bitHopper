@@ -269,7 +269,7 @@ user: your_username
 pass: your_password
 
 [simplecoin]
-#http://simplecoin.us  (merged mining NMC)
+#http://simplecoin.us (merged mining NMC)
 #---Edit after this line if mined---
 role: info
 user: your_username
@@ -285,7 +285,7 @@ pass: your_password
 ######################################
 
 [eligius]
-#http://eligius.st/wiki/index.php/Getting_Started
+#http://eligius.st (merged mining NMC)
 #---Edit after this line if mined---
 role: backup
 user: 1AofHmwVef5QkamCW6KqiD4cRqEcq5U7hZ

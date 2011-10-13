@@ -3,29 +3,12 @@
 #   sobre la minas conocidas por bH,
 # recogida aqui con fines informativos
 #
-#   Ultima actualizacion: Oct 11, 2011
+#   Ultima actualizacion: Oct 13, 2011
 #######################################
 #######################################
 #   Minas anadidas recientemente,
 #      saltalas a tu riesgo.
 #######################################
-
-
-[guildminers]
-#http://guildminers.com
-info_1: La retirada BTC disponible de momento es hacia el exchange campbx, minimo 1btc (pagina de mina) - 14.3 GHash/s @ 09.21.11
-info_2: La direccion de mineria podria no ser correcta, requieren un programa minero especial (pagina de mina) - 20.1 GHash/s @ 09.25.11
-
-
-[yourbtc]
-#http://yourbtc.net
-info_1: Utiliza el Sistema de Pago Doble Geometrico (pagina de mina + pagina 2 - hilo de mina en foro principal) - 4.3 GHash/s @ 09.21.11
-
-
-[bitpenny]
-#http://www.bitpenny.com
-info_1: Mina pequena que utiliza sistema de pago PPS retardado y shares de dificultad mayor (pagina de mina) - 7.5 GHash/s @ 09.27.11
-
 
 ####################################### 
 
@@ -112,6 +95,12 @@ info_1: La mina mas grande que hay, minar con ellos te ayudara cobrar regularmen
 info_1: Mina pequena, recomendado que cambies el user-agent (pagina 154 - hilo bH en el foro principal) - 5.5 Ghash/s @ 08.23.11
 
 
+[guildminers]
+#http://guildminers.com
+info_1: La retirada BTC disponible de momento es hacia el exchange campbx, minimo 1btc (pagina de mina) - 14.3 GHash/s @ 09.21.11
+info_2: La direccion de mineria podria no ser correcta, requieren un programa minero especial (pagina de mina) - 20.1 GHash/s @ 09.25.11
+
+
 [kiwipool]
 #http://www.kiwipool.me
 info_1: Cambio a sistema PPS (pagina 154 - hilo bH en el foro principal)
@@ -146,34 +135,6 @@ info_1: Mina descentralizada con sopote para btc, nmc y otros - 1.89 Ghash/s @ 0
 info_2: El programa de mina se tiene que instalar previamente en el ordenador local
 
 
-[slush]
-#http://mining.bitcoin.cz/accounts/register
-info_1: Buena para saltar hasta 10% de dificultad, utiliza mine_slush - 1872.64 GHash/s @ 08.23.11
-info_2: La mina ya tiene soporte para LP, algunos problemas con el minero Phoenix - 1356.30 GHash/s @ 10.03.11
-info_3: La mina ya soporta mineria unida (pagina 184 - hilo de mina en foro principal) - 1306.41 GHash/s @ 10.11.11
-
-
-[triple]
-#https://www.triplemining.com/register
-info_1: Mina de tamano mediano - 43.6 GHash/s @ 08.23.11
-info_2: Usa como backup_latehop si quieres ayudarlos encontrar por fin un bloque (Flash Mob Mining Event - 08.21.11)
-
-
-[unitedminers]
-#http://www.unitedminers.com
-info_1: Ha cambiado a sistema PPLNS en medio de una ronda (pagina 94 - hilo bH en el foro principal)
-info_2: Desactiva las medidas anti-hopper si donas de tu recompensa (pagina 161 - hilo bH en el foro principal)
-info_3: Las minas PPLNS se pueden saltar con backup_latehop  - 3.07 GHash/s @ 08.23.11
-info_4: La mina esta fuera de linea, ninguna razon dada @ 09.26.11
-
-
-[rfc]
-#https://rfcpool.com/signup
-info_1: Mina pequena y mona
-info_2: Mina cerrada (pagina 178 - hilo bH en el foro principal)
-info_3: Mina abierta y acceptando nuevos mineros, ha cambiado a sistema de pago PPLNS (pagina de mina) - 25.51 GHash/s @ 08.23.11
-
-
 [polmine]
 #https://polmine.pl
 info_1: Mina polaca
@@ -187,6 +148,19 @@ info_5: La mina solo retarda stats como medida anti-hopper, los bloques se repar
 #http://simplecoin.us
 info_1: Pequena mina proporcional que tambien dispone de sistemas de pago y monedas alternativas (pagina de mina) - 8.67 Ghash/s @ 10.06.11
 info_2: Mineria unida esta implementada para cada tipo de pago BTC disponible (foro simplecoin) - 21.70 Ghash/s @ 10.08.11
+
+
+[slush]
+#http://mining.bitcoin.cz/accounts/register
+info_1: Buena para saltar hasta 10% de dificultad, utiliza mine_slush - 1872.64 GHash/s @ 08.23.11
+info_2: La mina ya tiene soporte para LP, algunos problemas con el minero Phoenix - 1356.30 GHash/s @ 10.03.11
+info_3: La mina ya soporta mineria unida (pagina 184 - hilo de mina en foro principal) - 1306.41 GHash/s @ 10.11.11
+
+
+[triple]
+#https://www.triplemining.com/register
+info_1: Mina de tamano mediano - 43.6 GHash/s @ 08.23.11
+info_2: Usa como backup_latehop si quieres ayudarlos encontrar por fin un bloque (Flash Mob Mining Event - 08.21.11)
 
 
 ######################################
@@ -263,6 +237,23 @@ info_2: Sistema de pago PPS (pagina de mina) - 3.66 Ghash/s @ 09.09.11
 info_1: Servidor con sistema de pago PPS en funcionamiento (beta) - 32,85 Mhash/s @ 09.12.11
 
 
+[bitpenny]
+#http://www.bitpenny.com
+info_1: Mina pequena que utiliza sistema de pago PPS retardado y shares de dificultad mayor (pagina de mina) - 7.5 GHash/s @ 09.27.11
+
+
+[rfc]
+#https://rfcpool.com/signup
+info_1: Mina pequena y mona
+info_2: Mina cerrada (pagina 178 - hilo bH en el foro principal)
+info_3: Mina abierta y acceptando nuevos mineros, ha cambiado a sistema de pago PPLNS (pagina de mina) - 25.51 GHash/s @ 08.23.11
+
+
+[yourbtc]
+#http://yourbtc.net
+info_1: Utiliza el Sistema de Pago Doble Geometrico (pagina de mina + pagina 2 - hilo de mina en foro principal) - 4.3 GHash/s @ 09.21.11
+
+
 ######################################
 # Minas Namecoin u otro tipo. Salta
 # usando el modo adecuado (mine_xxx)
@@ -283,6 +274,7 @@ info_1: Mina namecoins (mine_nmc) - 47 Mhash/s @ 08.23.11
 info_2: La produccion se detiene hasta que la mineria unida comience a funcionar @ bloque 19200
 info_3: Sistema de pago actual es PPS, cuando la m. unida empiece sera SMPPS (pagina de mina) @ 09.23.11
 info_4: Mineria unida funcionando con sistema SMPPS. Se puede minar sin registrarse (pagina de mina) - 7.56 Gh/s @ 10.10.11
+info_5: Esta mina se cierra debido a fallos encontrados en el sistema de pagos (pagina de mina) - 0 Gh/s @ 10.13.11
 
 
 [bitparking]
@@ -399,6 +391,14 @@ TheFrenchPool
 # usuario/contrasena solo si quieres
 # saltarlas a tu riesgo.
 ######################################
+
+
+[unitedminers]
+#http://www.unitedminers.com
+info_1: Ha cambiado a sistema PPLNS en medio de una ronda (pagina 94 - hilo bH en el foro principal)
+info_2: Desactiva las medidas anti-hopper si donas de tu recompensa (pagina 161 - hilo bH en el foro principal)
+info_3: Las minas PPLNS se pueden saltar con backup_latehop  - 3.07 GHash/s @ 08.23.11
+info_4: La mina esta fuera de linea, ninguna razon dada @ 09.26.11
 
 
 [swepool]
