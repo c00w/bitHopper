@@ -139,13 +139,6 @@ btcguild_user_apikey: 81a9081f4d5f32db7dbbed407cb5f686
 user: c00w_test
 pass: 1234
 
-[itzod]
-# https://pool.itzod.ru
-#---Modifica despues de esta linea si vas a minar---
-role: info
-user: nombre_minero
-pass: contrasena_minero
-
 [btcmine]
 # https://btcmine.com/user/register/
 #---Modifica despues de esta linea si vas a minar---
@@ -188,13 +181,6 @@ role: info
 user: nombre_minero
 pass: contrasena_minero
 
-[bitfarms]
-#http://bitfarms.ca/
-#---Modifica despues de esta linea si vas a minar---
-role: info
-user: nombre_minero
-pass: contrasena_minero
-
 [p2pool]
 #https://en.bitcoin.it/wiki/P2Pool
 #---Modifica despues de esta linea si vas a minar---
@@ -202,13 +188,6 @@ role: disable
 user: minero
 #las contrasenas y el usuario no importan en p2pool
 pass: feliz
-
-[rfc]
-#https://rfcpool.com/signup
-#---Modifica despues de esta linea si vas a minar---
-role: disable
-user: c00w_test
-pass: x
 
 [asspenny]
 #http://asspennypool.com/register.php
@@ -224,20 +203,6 @@ pass: contrasena_minero
 role: info
 user: nombre_minero
 pass: contrasena_minero
-
-[yourbtc]
-#http://yourbtc.net
-#---Modifica despues de esta linea si vas a minar---
-role: info
-user: nombre_minero
-pass: contrasena_minero
-
-[bitpenny]
-#http://www.bitpenny.com/
-#---Modifica despues de esta linea si vas a minar---
-role: info
-user: (una direccion bitcoin)
-pass: pass
 
 [coinotron]
 #http://coinotron.com
@@ -330,6 +295,13 @@ nofeemining_user_apikey: 4140cbc6405f4425cf91ca74e1450b66
 user: 1Q4B1LdoKHtMbj6tBLhj1cyuMWTDYFJ9Y7
 pass: x
 
+[itzod]
+# https://pool.itzod.ru
+#---Modifica despues de esta linea si vas a minar---
+role: info
+user: nombre_minero
+pass: contrasena_minero
+
 [btcserv]
 #http://btcserv.net/
 #---Modifica despues de esta linea si vas a minar---
@@ -337,10 +309,38 @@ role: disable
 user: nombre_minero
 pass: contrasena_minero
 
+[bitfarms]
+#http://bitfarms.ca/
+#---Modifica despues de esta linea si vas a minar---
+role: info
+user: nombre_minero
+pass: contrasena_minero
+
 [btcgpps]
 #http://pps.btcguild.com/register.php
 #---Modifica despues de esta linea si vas a minar---
 role: disable
+user: nombre_minero
+pass: contrasena_minero
+
+[bitpenny]
+#http://www.bitpenny.com/
+#---Modifica despues de esta linea si vas a minar---
+role: info
+user: (una direccion bitcoin)
+pass: pass
+
+[rfc]
+#https://rfcpool.com/signup
+#---Modifica despues de esta linea si vas a minar---
+role: disable
+user: c00w_test
+pass: x
+
+[yourbtc]
+#http://yourbtc.net
+#---Modifica despues de esta linea si vas a minar---
+role: info
 user: nombre_minero
 pass: contrasena_minero
 

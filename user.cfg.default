@@ -140,13 +140,6 @@ btcguild_user_apikey: 81a9081f4d5f32db7dbbed407cb5f686
 user: c00w_test
 pass: 1234
 
-[itzod]
-# https://pool.itzod.ru
-#---Edit after this line if mined---
-role: info
-user: your_username
-pass: your_password
-
 [btcmine]
 # https://btcmine.com/user/register/
 #---Edit after this line if mined---
@@ -189,13 +182,6 @@ role: info
 user: your_username
 pass: your_password
 
-[bitfarms]
-#http://bitfarms.ca/
-#---Edit after this line if mined---
-role: info
-user: your_username
-pass: your_password
-
 [p2pool]
 #https://en.bitcoin.it/wiki/P2Pool
 #---Edit after this line if mined---
@@ -203,13 +189,6 @@ role: disable
 user: happy
 #password and user can be anything p2pool
 pass: miner
-
-[rfc]
-#https://rfcpool.com/signup
-#---Edit after this line if mined---
-role: disable
-user: c00w_test
-pass: x
 
 [asspenny]
 #http://asspennypool.com/register.php
@@ -225,20 +204,6 @@ pass: your_password
 role: info
 user: your_username
 pass: your_password
-
-[yourbtc]
-#http://yourbtc.net
-#---Edit after this line if mined---
-role: info
-user: your_username
-pass: your_password
-
-[bitpenny]
-#http://www.bitpenny.com/
-#---Edit after this line if mined---
-role: info
-user: (any bitcoin address)
-pass: pass
 
 [coinotron]
 #http://coinotron.com
@@ -331,6 +296,13 @@ nofeemining_user_apikey: 4140cbc6405f4425cf91ca74e1450b66
 user: 1Q4B1LdoKHtMbj6tBLhj1cyuMWTDYFJ9Y7
 pass: x
 
+[itzod]
+# https://pool.itzod.ru
+#---Edit after this line if mined---
+role: info
+user: your_username
+pass: your_password
+
 [btcserv]
 #http://btcserv.net/
 #---Edit after this line if mined---
@@ -338,10 +310,38 @@ role: disable
 user: your_username
 pass: your_password
 
+[bitfarms]
+#http://bitfarms.ca/
+#---Edit after this line if mined---
+role: info
+user: your_username
+pass: your_password
+
 [btcgpps]
 #http://pps.btcguild.com/register.php
 #---Edit after this line if mined---
 role: disable
+user: your_username
+pass: your_password
+
+[bitpenny]
+#http://www.bitpenny.com/
+#---Edit after this line if mined---
+role: info
+user: (any bitcoin address)
+pass: pass
+
+[rfc]
+#https://rfcpool.com/signup
+#---Edit after this line if mined---
+role: disable
+user: c00w_test
+pass: x
+
+[yourbtc]
+#http://yourbtc.net
+#---Edit after this line if mined---
+role: info
 user: your_username
 pass: your_password
 
