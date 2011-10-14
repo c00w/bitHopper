@@ -68,13 +68,6 @@ info_1: Score based payout, try mining with mine_slush (page 164 - bH thread on 
 info_2: You can try the new mine_c role available for score pools and setup c: 550 - 223.68 Ghash/s @ 09.21.11
 
 
-[btcmonkey]
-#http://bitcoinmonkey.com
-info_1: Nice small pool - 1.917 Ghash/s @ 08.23.11
-info_2: Pool went offline after supposedly finding a block (08.29.11)
-info_3: Online and running fine (08.30.11)
-
-
 [btcworld]
 #http://btcworld.de/signup
 info_1: Nice small pool - 14.05 Ghash/s @ 08.23.11
@@ -391,6 +384,14 @@ TheFrenchPool
 # Hop them at your own risk
 #
 ######################################
+
+
+[btcmonkey]
+#http://bitcoinmonkey.com
+info_1: Nice small pool - 1.917 Ghash/s @ 08.23.11
+info_2: Pool went offline after supposedly finding a block @ 08.29.11
+info_3: Online and running fine @ 08.30.11
+info_4: Abandoned pool - 0 Ghash/s @ 10.14.11
 
 
 [unitedminers]
