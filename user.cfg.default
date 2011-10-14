@@ -370,10 +370,6 @@ user: nmcaddress
 pass: none
 
 
-#i0c pools
-
-
-
 #scc pools
 
 [squid]

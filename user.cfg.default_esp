@@ -369,10 +369,6 @@ user: nmcaddress
 pass: none
 
 
-#Minas i0c
-
-
-
 #Minas scc
 
 [squid]
