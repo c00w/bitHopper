@@ -3,7 +3,7 @@
 #   sobre la minas conocidas por bH,
 # recogida aqui con fines informativos
 #
-#   Ultima actualizacion: Oct 13, 2011
+#   Ultima actualizacion: Oct 14, 2011
 #######################################
 #######################################
 #   Minas anadidas recientemente,
@@ -14,7 +14,7 @@
 
 
 [asspenny]
-#http://asspennypool.com/register.php
+#http://asspennypool.com
 info_1: Nueva mina en el barrio, sistema prop. , porfavor reporta tu experiencia - 3.1 Ghash/s @ 09.05.11
 info_2: La mina mas "gafe" que haya existido pero posiblemente te puedes hacer con unos centimos - 10.1 Ghash/s @ 09.08.11
 info_3: El OP esta probando enviar trabajo de servidores bitcoind situados en distintos paises (hilo de mina) - 3.1 Ghash/s @ 10.03.11
@@ -43,7 +43,7 @@ info_3: Problemas con los repartidores de carga y la base de datos (pagina 14 - 
 
 
 [bithasher]
-#http://bithasher.com/index.php/register
+#http://bithasher.com
 info_1: Por favor reporta tu experiencia en foro o canal IRC - 7.12 Ghash/s @ 08.23.11
 info_2: Tienen problemas para encontrar un bloque, 28 dias a esta fecha - 1.19 Ghash/s @ 09.09.11
 
@@ -63,20 +63,13 @@ info_4: Las estatisticas y API ahora se actualizan en tiempo real (page 153 - po
 
 
 [btcmine]
-#https://btcmine.com/user/register
+#https://btcmine.com
 info_1: Sistema de pago por puntuacion, intenta minar con mine_slush (pagina 164 - hilo bH en el foro principal) - 356.68 Ghash/s @ 08.23.11
 info_2: Puedes probar el nuevo rol mine_c disponible para minas con puntuacion y ajustar c: 550 - 223.68 Ghash/s @ 09.21.11
 
 
-[btcmonkey]
-#http://bitcoinmonkey.com
-info_1: Mina pequena y mona - 1.917 Ghash/s @ 08.23.11
-info_2: Mina fuera de linea despues de supuestamente encontrar un bloque (08.29.11)
-info_3: Online y funcionando bien (08.30.11)
-
-
 [btcworld]
-#http://btcworld.de/signup
+#http://btcworld.de
 info_1: Mina pequena y mona- 14.05 Ghash/s @ 08.23.11
 
 
@@ -88,10 +81,11 @@ info_1: Mina con sistema por puntuacion proporcional, usa el rol mine_c (prueba 
 [deepbit]
 #https://deepbit.net
 info_1: La mina mas grande que hay, minar con ellos te ayudara cobrar regularmente - 5723 Ghash/s @ 08.23.11
+info_2: Tipo de paga PPS disponible con una comision de 10% - 3061 Ghash/s @ 10.14.11
 
 
 [digbtc]
-#http://www.digbtc.net/register.php
+#http://www.digbtc.net
 info_1: Mina pequena, recomendado que cambies el user-agent (pagina 154 - hilo bH en el foro principal) - 5.5 Ghash/s @ 08.23.11
 
 
@@ -109,30 +103,24 @@ info_3: Caida unas horas, probablemente ataque ddos - 25 GHash/s @ 09.27.11
 
 
 [masterpool]
-#https://masterpool.eu/signup
+#https://masterpool.eu
 info_1: Actualmente estan probando la mineria unida (en: http://dot-bit.org/Merged_Mining) - 3.12 Ghash/s @ 08.23.11
 info_2: La mineria unida esta activa desde el bloque 19200 y funciona sin problemas, actualiza tu cliente NMC - 10 Ghash/s @ 10.08.11
 
 
 [mtred]
-#https://mtred.com/user/registration.html
+#https://mtred.com
 info_1: Buena para saltar, mina rapida para principiantes - 176.52 GHash/s @ 08.23.11
 info_2: Sistema de pago PPS disponible en caso de utilizar como mina de respaldo
 info_3: Despues del bloque actual van a tener solo tipo de pago PPS, en pruebas por 2-6 semanas (reddit.com) - 210.50 GHash/s @ 10.10.11
 
 
 [ozco]
-#https://ozco.in/register.php
+#https://ozco.in
 info_1: Congela stats sin razon (pagina 114 - hilo bH en el foro principal)
 info_2: Stats funcionan - 60.5 GHash/s @ 08.23.11
 info_3: Necesitan un poco de ayuda para resolver este ultimo bloque (encontrado) - 61.2 GHash/s @ 09.18.11
 info_4: 10% bonus en las siguientes 10 rondas (pagina de mina) - 53.85 GHash/s @ 10.03.11
-
-
-[p2pool]
-#https://bitcointalk.org/index.php?topic=18313
-info_1: Mina descentralizada con sopote para btc, nmc y otros - 1.89 Ghash/s @ 08.23.11
-info_2: El programa de mina se tiene que instalar previamente en el ordenador local
 
 
 [polmine]
@@ -151,14 +139,14 @@ info_2: Mineria unida esta implementada para cada tipo de pago BTC disponible (f
 
 
 [slush]
-#http://mining.bitcoin.cz/accounts/register
+#http://mining.bitcoin.cz
 info_1: Buena para saltar hasta 10% de dificultad, utiliza mine_slush - 1872.64 GHash/s @ 08.23.11
 info_2: La mina ya tiene soporte para LP, algunos problemas con el minero Phoenix - 1356.30 GHash/s @ 10.03.11
 info_3: La mina ya soporta mineria unida (pagina 184 - hilo de mina en foro principal) - 1306.41 GHash/s @ 10.11.11
 
 
 [triple]
-#https://www.triplemining.com/register
+#https://www.triplemining.com
 info_1: Mina de tamano mediano - 43.6 GHash/s @ 08.23.11
 info_2: Usa como backup_latehop si quieres ayudarlos encontrar por fin un bloque (Flash Mob Mining Event - 08.21.11)
 
@@ -174,14 +162,14 @@ info_2: Usa como backup_latehop si quieres ayudarlos encontrar por fin un bloque
 
 
 [eligius]
-#http://eligius.st/wiki/index.php/Getting_Started
+#http://eligius.st
 info_1: 0% tasas, mina SMPPS - 504.69 GHash/s @ 08.23.11
 info_2: Ya soportan la mineria unida @ 10.12.11
 info_3: Registra una direccion NMC para recibir namecoins gratuitos (pagina 20 - hilo de mina en foro principal) - 446.09 GHash/s @ 10.12.11
 
 
 [arsbitcoin]
-#https://arsbitcoin.com/register.php
+#https://arsbitcoin.com
 info_1: 0% tasas, mina PPS - 484.4 GHash/s @ 08.23.11
 info_2: Pequenos problemas con los pagos, resuelto (pagina 30 - hilo de mina en foro principal) - 969.10 GHash/s @ 10.03.11
 
@@ -194,7 +182,7 @@ info_3: El equipo de admins esta resolviendo unos problemas de alojamiento (pagi
 
 
 [ninjac]
-#https://www.ninjacoin.com/index.php
+#https://www.ninjacoin.com
 info_1: Mina PPS - 25.2 GHash/s @ 08.23.11
 
 
@@ -233,7 +221,7 @@ info_2: Sistema de pago PPS (pagina de mina) - 3.66 Ghash/s @ 09.09.11
 
 
 [btcgpps]
-#http://pps.btcguild.com/register.php
+#http://pps.btcguild.com
 info_1: Servidor con sistema de pago PPS en funcionamiento (beta) - 32,85 Mhash/s @ 09.12.11
 
 
@@ -243,7 +231,7 @@ info_1: Mina pequena que utiliza sistema de pago PPS retardado y shares de dific
 
 
 [rfc]
-#https://rfcpool.com/signup
+#https://rfcpool.com
 info_1: Mina pequena y mona
 info_2: Mina cerrada (pagina 178 - hilo bH en el foro principal)
 info_3: Mina abierta y acceptando nuevos mineros, ha cambiado a sistema de pago PPLNS (pagina de mina) - 25.51 GHash/s @ 08.23.11
@@ -251,7 +239,13 @@ info_3: Mina abierta y acceptando nuevos mineros, ha cambiado a sistema de pago 
 
 [yourbtc]
 #http://yourbtc.net
-info_1: Utiliza el Sistema de Pago Doble Geometrico (pagina de mina + pagina 2 - hilo de mina en foro principal) - 4.3 GHash/s @ 09.21.11
+info_1: Utiliza el Sistema de Pago Doble Geometrico, DGPM (pagina de mina + pagina 2 - hilo de mina en foro principal) - 4.3 GHash/s @ 09.21.11
+
+
+[p2pool]
+#https://bitcointalk.org/index.php?topic=18313
+info_1: Mina descentralizada con sopote para btc, nmc y otros - 1.89 Ghash/s @ 08.23.11
+info_2: El programa de mina se tiene que instalar previamente en el ordenador local
 
 
 ######################################
@@ -265,22 +259,7 @@ info_1: Utiliza el Sistema de Pago Doble Geometrico (pagina de mina + pagina 2 -
 [nmcbit]
 #http://nmcbit.com
 info_1: Mina namecoins (mine_nmc) - 9.94 Ghash/s @ 08.23.11
-info_2: Tiene la mineria unida funcionando con sistema de pago PPS, utiliza el rol "mine" (pagina de mina) - 16.21 Ghash/s @ 10.08.11
-
-
-[bitchomp]
-#http://www.bitchomp.info/ncp/register.php
-info_1: Mina namecoins (mine_nmc) - 47 Mhash/s @ 08.23.11
-info_2: La produccion se detiene hasta que la mineria unida comience a funcionar @ bloque 19200
-info_3: Sistema de pago actual es PPS, cuando la m. unida empiece sera SMPPS (pagina de mina) @ 09.23.11
-info_4: Mineria unida funcionando con sistema SMPPS. Se puede minar sin registrarse (pagina de mina) - 7.56 Gh/s @ 10.10.11
-info_5: Esta mina se cierra debido a fallos encontrados en el sistema de pagos (pagina de mina) - 0 Gh/s @ 10.13.11
-
-
-[bitparking]
-#http://bitparking.com
-info_1: Mina namecoins (mine_nmc) - 20.2 GHash/s @ 08.23.11
-info_2: La mina ha sido cerrada el 5 de Octubre, 2011
+info_2: Tiene la mineria unida funcionando con sistema de pago PPS (pagina de mina) - 16.21 Ghash/s @ 10.08.11
 
 
 [namebit]
@@ -288,44 +267,7 @@ info_2: La mina ha sido cerrada el 5 de Octubre, 2011
 info_1: Pagos automaticos sin necesidad de registrarse - 8.35 Ghash/s @ 08.23.11
 
 
-#Minas i0c
-
-[i0g]
-#http://i0.btcguild.com/register.php
-info_1: Mina i0coins, usa el rol mine_i0c - Offline @ 08.23.11
-info_2: Cerrada permanente (pagina 10 - hilo de mina en foro principal)
-
-
-[i0parking]
-#http://i0pool.bitparking.com/pool
-info_1: Mina i0coins, usa el rol mine_i0c - 6.82 Ghash/s @ 09.09.11
-info_2: Esta mina cierra sus puertas el 30 Septiembre 2011 12:00 UTC (pagina de mina) - 10.21 Ghash/s @ 09.29.11
-
-
-[digi0c]
-#http://i0.digbtc.net
-info_1: Ralentiza las estadisticas y dudosa legitimidad (foro i0coin.org) - 1.5 Ghash/s @ 09.09.11
-
-
 #Minas scc
-
-[scguild]
-#http://sc.btcguild.com
-info_1: Mina solidcoin, usa el rol mine_scc - 325.14 Ghash/s @ 08.28.11
-info_2: Cierran servicio el dia 11 de Septiembre (pagina de mina) - 70.31 Ghash/s @ 08.28.11
-
-
-[sodigbtc]
-#http://sobtc.digbtc.net
-#http://sc.digbtc.net
-info_1: Mina solidcoin, usa el rol mine_scc - 62.3 Ghash/s @ 08.28.11
-
-
-[scbitparking]
-#http://scpool.bitparking.com
-info_1: Mina solidcoin, usa el rol mine_scc - 64.06 Ghash/s @ 08.28.11
-info_2: Cerrando puertas debido a cambio de licencia en el programa solidcoins (pagina de mina) - 10.61 Ghash/s @ 09.04.11
-
 
 [squid]
 #http://pool.squidnet.org
@@ -339,12 +281,6 @@ info_2: Estan minando NMC hasta que se arregle la vulnerabilidad SolidCoin, usa 
 
 
 #Minas ixc
-
-[ixparking]
-#http://ixpool.bitparking.com/pool
-info_1: Mina IXcoins, usa el rol mine_ixc - 4.99 Ghash/s @ 08.28.11
-info_2: La mina se cerro el 30 Septiembre 2011 12:00 UTC (pagina de mina) - 0 Ghash/s @ 10.10.11
-
 
 [digixc]
 #http://ix.digbtc.net
@@ -391,6 +327,72 @@ TheFrenchPool
 # usuario/contrasena solo si quieres
 # saltarlas a tu riesgo.
 ######################################
+
+
+[ixparking]
+#http://ixpool.bitparking.com/pool
+info_1: Mina IXcoins, usa el rol mine_ixc - 4.99 Ghash/s @ 08.28.11
+info_2: La mina se cerro el 30 Septiembre 2011 12:00 UTC (pagina de mina) - 0 Ghash/s @ 10.10.11
+
+
+[scguild]
+#http://sc.btcguild.com
+info_1: Mina solidcoin, usa el rol mine_scc - 325.14 Ghash/s @ 08.28.11
+info_2: Cierran servicio el dia 11 de Septiembre (pagina de mina) - 70.31 Ghash/s @ 08.28.11
+
+
+[sodigbtc]
+#http://sobtc.digbtc.net
+#http://sc.digbtc.net
+info_1: Mina solidcoin, usa el rol mine_scc - 62.3 Ghash/s @ 08.28.11
+info_2: Mina abandonada - 0 Ghash/s @ 10.14.11
+
+
+[scbitparking]
+#http://scpool.bitparking.com
+info_1: Mina solidcoin, usa el rol mine_scc - 64.06 Ghash/s @ 08.28.11
+info_2: Cerrando puertas debido a cambio de licencia en el programa solidcoins (pagina de mina) - 10.61 Ghash/s @ 09.04.11
+
+
+[i0g]
+#http://i0.btcguild.com/register.php
+info_1: Mina i0coins, usa el rol mine_i0c - Offline @ 08.23.11
+info_2: Cerrada permanente (pagina 10 - hilo de mina en foro principal)
+
+
+[i0parking]
+#http://i0pool.bitparking.com/pool
+info_1: Mina i0coins, usa el rol mine_i0c - 6.82 Ghash/s @ 09.09.11
+info_2: Esta mina cierra sus puertas el 30 Septiembre 2011 12:00 UTC (pagina de mina) - 10.21 Ghash/s @ 09.29.11
+
+
+[digi0c]
+#http://i0.digbtc.net
+info_1: Ralentiza las estadisticas y dudosa legitimidad (foro i0coin.org) - 1.5 Ghash/s @ 09.09.11
+info_2: Mina fuera de linea @ 10.14.11
+
+
+[bitparking]
+#http://bitparking.com
+info_1: Mina namecoins (mine_nmc) - 20.2 GHash/s @ 08.23.11
+info_2: La mina ha sido cerrada el 5 de Octubre, 2011
+
+
+[bitchomp]
+#http://www.bitchomp.info/ncp/register.php
+info_1: Mina namecoins (mine_nmc) - 47 Mhash/s @ 08.23.11
+info_2: La produccion se detiene hasta que la mineria unida comience a funcionar @ bloque 19200
+info_3: Sistema de pago actual es PPS, cuando la m. unida empiece sera SMPPS (pagina de mina) @ 09.23.11
+info_4: Mineria unida funcionando con sistema SMPPS. Se puede minar sin registrarse (pagina de mina) - 7.56 Gh/s @ 10.10.11
+info_5: Esta mina se cierra debido a fallos encontrados en el sistema de pagos (pagina de mina) - 0 Gh/s @ 10.13.11
+
+
+[btcmonkey]
+#http://bitcoinmonkey.com
+info_1: Mina pequena y mona - 1.917 Ghash/s @ 08.23.11
+info_2: Mina fuera de linea despues de supuestamente encontrar un bloque (08.29.11)
+info_3: Online y funcionando bien (08.30.11)
+info_4: Mina abandonada - 0 Ghash/s @ 10.14.11
 
 
 [unitedminers]
