@@ -1,4 +1,4 @@
-#!/usr/bin/python
+  #!/usr/bin/python
 #License#
 #bitHopper by Colin Rice is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
@@ -21,7 +21,7 @@ class Data():
         try:
             self.user_drop_time = self.bitHopper.config.get('main', 'user_drop_time')
         except:
-            self.user_drop_time = 60*60
+            self.user_drop_time = 3600
         with self.lock:
             users = self.db.get_users()
 

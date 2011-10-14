@@ -30,7 +30,7 @@ min_coin_proff = 1.0
 calculate_profit = True
 
 # Time limit after which we no longer display workers on the stats page
-user_drop_time = 60*60
+user_drop_time = 3600
 
 # Connection timeout for work requests
 work_request_timeout = 2.5
