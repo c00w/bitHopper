@@ -30,7 +30,7 @@ min_coin_proff = 1.0
 calculate_profit = True
 
 # Tiempo de muestra trabajadores parados en pagina de stats
-user_drop_time = 60*60
+user_drop_time = 3600
 
 # Tiempo de espera para las peticiones de trabajo
 work_request_timeout = 2.5
