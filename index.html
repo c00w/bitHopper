@@ -137,13 +137,13 @@
 			function getUserShareRejects(payload, srv) {
 				var pp = 0;
 				if(srv["rejects"] > 0) {
-					pp = parseFloat(parseFloat(srv["rejects"])) / parseFloat(srv["user_shares"]) * 100;
+					pp = parseFloat(srv["rejects"]) / parseFloat(srv["user_shares"]) * 100;
 				}
 				return srv["user_shares"]
 					+ "&nbsp;/&nbsp;"
 					+ srv["rejects"]
 					+ "<br>"
-					+ fixLength("" + pp.toFixed(2), 5) + "%";
+					+ fixLength(pp.toFixed(2), 5) + "%";
 			}
 
 			function getUserTime(payload, user, key){
@@ -174,7 +174,7 @@
 			}
 
 			function getUserShareAverage(payload, user, key) {
-				var x = (((user["shares"] / shareTotal)*100).toFixed(2)) + '%';
+				var x = (((user["shares"] / userSharesTotal)*100).toFixed(2)) + '%';
 
 				if(x.toLowerCase().indexOf('nan') > -1 || x.toLowerCase().indexOf('infinity') > -1)
 				{
@@ -185,7 +185,7 @@
 			}
 
 			function getUserRejectAverage(payload, user, key) {
-				var x =  (((user["rejects"] / rejectTotal)*100).toFixed(2)) + '%';
+				var x =  (((user["rejects"] / userRejectsTotal)*100).toFixed(2)) + '%';
 
 				if(x.toLowerCase().indexOf('nan') > -1 || x.toLowerCase().indexOf('infinity') > -1)
 				{
@@ -395,31 +395,47 @@
 			}
 
 			var srvhist = {};
-			var shareTotal = 0;
-			var rejectTotal = 0;
-			function updateRoundShares(data) {
-				shareTotal = 0;
-				rejectTotal = 0;
+			var userSharesTotal = 0;
+			var userRejectsTotal = 0;
+
+			// Required because userShareTotal won't appear when user hasn't been seen this session
+			var serverUserSharesTotal = 0;
+			var serverUserRejectsTotal = 0;
+
+			var serverPayoutTotal = 0;
+			var serverExpPayoutTotal = 0;
+
+			function updateData(data) {
+				userSharesTotal = 0;
+				userRejectsTotal = 0;
+				serverUserSharesTotal = 0;
+				serverUserRejectsTotal = 0;
+				serverPayoutTotal = 0;
+				serverExpPayoutTotal = 0;
+
 				for(v in data["servers"]) {
 
-					var d = data["servers"][v]["shares"];
+					var serverRoundShares = data["servers"][v]["shares"];
 
+					serverUserSharesTotal += data["servers"][v]["user_shares"];
+					serverUserRejectsTotal += data["servers"][v]["rejects"];
+					serverPayoutTotal += data["servers"][v]["payout"];
+					serverExpPayoutTotal += data["servers"][v]["expected_payout"];
 
 					if(srvhist[data["servers"][v]['name']] == undefined) {
-						srvhist[data["servers"][v]['name']] = [ d ];
-
+						srvhist[data["servers"][v]['name']] = [ serverRoundShares ];
 					} else {
-						srvhist[data["servers"][v]['name']].push(d);
+						srvhist[data["servers"][v]['name']].push(serverRoundShares);
 					}
+
 				}
 
 				for(v in data["user"])
 				{
-					shareTotal += data["user"][v]["shares"];
-					rejectTotal += data["user"][v]["rejects"];
+					userSharesTotal += data["user"][v]["shares"];
+					userRejectsTotal += data["user"][v]["rejects"];
 				}
 			}
-
 
 			function buildTable(id, items, payload, columns, fnSort, tableCss) {
 				var showDisabledPools = document.getElementById('show_role_disabled').checked ;
@@ -521,6 +537,21 @@
 					html += "</tr>";
 				}
 
+				if (id == "#table") {
+					var rejectsPercent = 0;
+					if(serverUserRejectsTotal > 0) {
+						rejectsPercent = parseFloat(serverUserRejectsTotal) / parseFloat(serverUserSharesTotal) * 100;
+					}
+					var efficiency = parseFloat((serverPayoutTotal / serverExpPayoutTotal) * 100).toFixed(1);
+					html += "<tr><td colspan='3' align='left'>Total</td>";
+					html += "<td style='color:white;' align='center'>" + serverUserSharesTotal + "&nbsp;/&nbsp;" + serverUserRejectsTotal + "<br>&nbsp;" + fixLength(rejectsPercent.toFixed(2), 5) + "%</td>";
+					html += "<td colspan='2' align='center'>&nbsp;</td>";
+					html += "<td style='color:white;' align='right'>" + serverPayoutTotal.toFixed(8) + "<br />Exp: " + serverExpPayoutTotal.toFixed(8) + "</td>";
+					html += "<td style='color:white;' align='left'>" + efficiency + "%</td>";
+					html += "<td colspan='6' style='color:white;' align='right'>&nbsp;</td>";
+					html += "</tr>";
+				}
+
 				html += "</table>";
 				$(id).html(html);
 
@@ -541,7 +572,7 @@
 					document.title = data["current"] + ' @ '+ parseInt(data["mhash"]) + " MHash - bitHopper";
 					$("#current").html("<span style='font-weight:bold;color:yellow;'>" + data["current"] + "</span> @" + parseInt(data["mhash"]) + "MHash");
 
-					updateRoundShares(data);
+					updateData(data);
 
 					buildTable("#table", data['servers'], data,
 						{
@@ -558,7 +589,7 @@
 							'Wait': { 'data':getWait, 'color':getColor, 'align':'center' },
 							'Slice': { 'data':getSlice, 'color':getColor, 'align':'center', 'display':'' },
 							'Round Shares': { 'data':getRoundShares, 'type':'linechart', 'width':'100%' },
-							'Role String' : { 'data':getRoleString, 'display':'none' }
+							'Role String': { 'data':getRoleString, 'display':'none' }
 						},
 						function(a, b) {
 							a_role = data["servers"][a]["role"].toString().trim();
