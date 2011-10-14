@@ -93,13 +93,6 @@ mtred_user_apikey:d91c52cfe1609f161f28a1268a2915b8+
 user:scarium
 pass:x 
 
-[btcmonkey]
-#http://bitcoinmonkey.com/
-#---Modifica despues de esta linea si vas a minar---
-role: mine
-user: dah4k0r.testhop
-pass: x
-
 [btcworld]
 #http://btcworld.de/signup
 #---Modifica despues de esta linea si vas a minar---
@@ -483,6 +476,13 @@ pass: contrasena_minero
 # usuario/contrasena solo si quieres
 # saltarlas a tu riesgo.
 ######################################
+
+[btcmonkey]
+#http://bitcoinmonkey.com/
+#---Modifica despues de esta linea si vas a minar---
+role: mine
+user: dah4k0r.testhop
+pass: x
 
 [unitedminers]
 #http://www.unitedminers.com

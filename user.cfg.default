@@ -94,13 +94,6 @@ mtred_user_apikey:d91c52cfe1609f161f28a1268a2915b8+
 user:scarium
 pass:x 
 
-[btcmonkey]
-#http://bitcoinmonkey.com/
-#---Edit after this line if mined---
-role: mine
-user: dah4k0r.testhop
-pass: x
-
 [btcworld]
 #http://btcworld.de/signup
 #---Edit after this line if mined---
@@ -483,6 +476,13 @@ pass: your_password
 # user/pass unless you really want
 # to hop them at your own risk.
 ######################################
+
+[btcmonkey]
+#http://bitcoinmonkey.com/
+#---Edit after this line if mined---
+role: mine
+user: dah4k0r.testhop
+pass: x
 
 [unitedminers]
 #http://www.unitedminers.com
