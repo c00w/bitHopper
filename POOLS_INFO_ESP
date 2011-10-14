@@ -3,7 +3,7 @@
 #   sobre la minas conocidas por bH,
 # recogida aqui con fines informativos
 #
-#   Ultima actualizacion: Oct 13, 2011
+#   Ultima actualizacion: Oct 14, 2011
 #######################################
 #######################################
 #   Minas anadidas recientemente,
@@ -265,10 +265,6 @@ info_2: Tiene la mineria unida funcionando con sistema de pago PPS (pagina de mi
 [namebit]
 #http://www.namebit.org
 info_1: Pagos automaticos sin necesidad de registrarse - 8.35 Ghash/s @ 08.23.11
-
-
-#Minas i0c
-
 
 
 #Minas scc

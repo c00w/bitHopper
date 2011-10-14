@@ -14,7 +14,7 @@
 
 
 [asspenny]
-#http://asspennypool.com/register.php
+#http://asspennypool.com
 info_1: New pool on the "block", prop. payouts, please report experience - 3.1 Ghash/s @ 09.05.11
 info_2: The most "unlucky" pool ever made but you could get some pennies though - 10.1 Ghash/s @ 09.08.11
 info_3: Op is testing polling for work from bitcoind serv. placed in various countries (pool thread on main forum) - 3.1 Ghash/s @ 10.03.11
@@ -43,7 +43,7 @@ info_3: Various issues with the load balancers and database (page 14 - pool thre
 
 
 [bithasher]
-#http://bithasher.com/index.php/register
+#http://bithasher.com
 info_1: Please report experience on forum or IRC - 7.12 Ghash/s @ 08.23.11
 info_2: Having troubles finding a block, 28 days atm - 1.19 Ghash/s @ 09.09.11
 
@@ -63,13 +63,13 @@ info_4: Worker stats and API are now pulled live (page 153 - pool thread on main
 
 
 [btcmine]
-#https://btcmine.com/user/register
+#https://btcmine.com
 info_1: Score based payout, try mining with mine_slush (page 164 - bH thread on main forum) - 356.68 Ghash/s @ 08.23.11
 info_2: You can try the new mine_c role available for score pools and setup c: 550 - 223.68 Ghash/s @ 09.21.11
 
 
 [btcworld]
-#http://btcworld.de/signup
+#http://btcworld.de
 info_1: Nice small pool - 14.05 Ghash/s @ 08.23.11
 
 
@@ -85,7 +85,7 @@ info_2: PPS payout available with a 10% fee - 3061 Ghash/s @ 10.14.11
 
 
 [digbtc]
-#http://www.digbtc.net/register.php
+#http://www.digbtc.net
 info_1: Small pool, recommended you change user-agent (page 154 - bH thread on main forum) - 5.5 Ghash/s @ 08.23.11
 
 
@@ -103,20 +103,20 @@ info_3: Down for few hours, prob ddos'ed - 25 GHash/s @ 09.27.11
 
 
 [masterpool]
-#https://masterpool.eu/signup
+#https://masterpool.eu
 info_1: Currently testing merged mining (http://dot-bit.org/Merged_Mining) - 3.12 Ghash/s @ 08.23.11
 info_2: Merged mining active and working nice from block 19200, update your NMC client - 10 Ghash/s @ 10.08.11
 
 
 [mtred]
-#https://mtred.com/user/registration.html
+#https://mtred.com
 info_1: Good for hopping, fast pool for hopper-starters - 176.52 GHash/s @ 08.23.11
 info_2: Alternate PPS payout available for use as backup if wanted 
 info_3: After the current block will be offering PPS payout only, 2-6 weeks test (reddit.com) - 210.50 GHash/s @ 10.10.11
 
 
 [ozco]
-#https://ozco.in/register.php
+#https://ozco.in
 info_1: Freezing stats for unknown reason (page 114 - bH thread on main forum)
 info_2: Stats solved - 60.5 GHash/s @ 08.23.11
 info_3: They need some help solving this long block (found) - 61.2 GHash/s @ 09.18.11
@@ -139,14 +139,14 @@ info_2: Merged mining implemented for every BTC payout available (simplecoin for
 
 
 [slush]
-#http://mining.bitcoin.cz/accounts/register
+#http://mining.bitcoin.cz
 info_1: Good for mining until 10% of diff, use mine_slush - 1872.64 GHash/s @ 08.23.11
 info_2: Pool has full LP support implemented, still some issues with Phoenix miner - 1356.30 GHash/s @ 10.03.11
 info_3: Pool now supports merged mining (page 184 - pool thread on main forum) - 1306.41 GHash/s @ 10.11.11
 
 
 [triple]
-#https://www.triplemining.com/register
+#https://www.triplemining.com
 info_1: Mid-size pool - 43.6 GHash/s @ 08.23.11
 info_2: Use as backup_latehop if you want to help them find the block (Flash Mob Mining Event - 08.21.11)
 
@@ -162,14 +162,14 @@ info_2: Use as backup_latehop if you want to help them find the block (Flash Mob
 
 
 [eligius]
-#http://eligius.st/wiki/index.php/Getting_Started
+#http://eligius.st
 info_1: 0% fee SMPPS pool - 504.69 GHash/s @ 08.23.11
 info_2: Merge mining now supported @ 10.12.11
 info_3: Register a NMC addy to get some free namecoins (page 20 - pool thread on main forum) - 446.09 GHash/s @ 10.12.11
 
 
 [arsbitcoin]
-#https://arsbitcoin.com/register.php
+#https://arsbitcoin.com
 info_1: 0% fee PPS pool - 484.4 GHash/s @ 08.23.11
 info_2: Small issues processing payouts, fixed (page 30 - pool thread on main forum) - 969.10 GHash/s @ 10.03.11
 
@@ -182,7 +182,7 @@ info_3: Admin team is resolving some hosting issues (page 31 - pool thread on ma
 
 
 [ninjac]
-#https://www.ninjacoin.com/index.php
+#https://www.ninjacoin.com
 info_1: PPS pool - 25.2 GHash/s @ 08.23.11
 
 
@@ -195,7 +195,7 @@ info_4: Sign-up is now open - 143 GHash/s @ 10.03.11
 
 
 [nofeemining]
-#https://nofeemining.appspot.com/
+#https://nofeemining.appspot.com
 info_1: Nice small pool
 info_2: They moved pool to google appspot - Pool speed unknown @ 08.23.11
 info_3: Changed payout to rsmpps (page 195 - bH thread on main forum)
@@ -221,7 +221,7 @@ info_2: PPS payout (pool website) - 3.66 Ghash/s @ 09.09.11
 
 
 [btcgpps]
-#http://pps.btcguild.com/register.php
+#http://pps.btcguild.com
 info_1: PPS payout server launched (beta) - 32,85 Mhash/s @ 09.12.11
 
 
@@ -231,7 +231,7 @@ info_1: Small sized pool with delayed PPS payout system and increased difficulty
 
 
 [rfc]
-#https://rfcpool.com/signup
+#https://rfcpool.com
 info_1: Nice small pool
 info_2: Pool is closed down (page 178 - bH thread on main forum)
 info_3: Pool is online and accepting miners, changed payout to PPLNS (pool website) - 25.51 GHash/s @ 08.23.11
@@ -265,10 +265,6 @@ info_2: Pool has merged mining working with PPS payout system (pool website) - 1
 [namebit]
 #http://www.namebit.org
 info_1: Payouts are automatic and no need to signup - 8.35 Ghash/s @ 08.23.11
-
-
-#i0c pools
-
 
 
 #scc pools
