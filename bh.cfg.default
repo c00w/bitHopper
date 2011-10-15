@@ -92,11 +92,11 @@ roundtimemagic = 10
 mode = manual
 
 [plugins]
-test = True
+test = False
 backdoor = False
 apiangel = True
 poclbm = False
-lpbot = True
+lpbot = False
 payouts = False
 
 # set "rpcworklog" to False to disable RPC work logging
@@ -154,7 +154,7 @@ refreshRandomJitter = 120
 execpoolsize = 8
 
 # use_ratelimit = True - enable rate limiting for fetch block information
-use_ratelimit = False
+use_ratelimit = True
 
 # ratelimit = int (kb/s) for fetch blocks from pools and blockexplorer (except mmf/btcmp)
 # use a value 80% of the target, e.g. for 100kb/s try 80kb/s, especially for
