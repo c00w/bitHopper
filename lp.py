@@ -97,7 +97,7 @@ class LongPoll():
 
                 #Figure out which server to source work from
                 source_server = self.bitHopper.pool.get_work_server()
-                work, _, _ = self.bitHopper.work.jsonrpc_getwork(source_server, [])
+                work, _, source_server = self.bitHopper.work.jsonrpc_getwork(source_server, [])
 
                 #Trigger the LP Callback with the new work.
                 self.bitHopper.lp_callback.new_block(work, source_server) 
