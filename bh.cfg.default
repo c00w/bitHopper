@@ -96,7 +96,7 @@ test = True
 backdoor = False
 apiangel = True
 poclbm = False
-lpbot = True
+lpbot = False
 payouts = False
 
 # set "rpcworklog" to False to disable RPC work logging
