@@ -91,9 +91,17 @@ class LongPoll():
 
             #If We change servers trigger a LP.
             if old_owner !=server:
+
+                #Update list of valid server
                 self.bitHopper.server_update()
-                work, _, _ = self.bitHopper.work.jsonrpc_getwork(self.bitHopper.pool.get_work_server(), [])
-                self.bitHopper.lp_callback.new_block(work, server) 
+
+                #Figure out which server to source work from
+                source_server = self.bitHopper.pool.get_work_server()
+                work, _, _ = self.bitHopper.work.jsonrpc_getwork(source_server, [])
+
+                #Trigger the LP Callback with the new work.
+                self.bitHopper.lp_callback.new_block(work, source_server) 
+
             hook_end = plugins.Hook('plugins.lp.set_owner.end')
             hook_end.notify(self, server, block)
 
