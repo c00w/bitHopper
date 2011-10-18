@@ -292,14 +292,13 @@
 			}
 
 			function getEfficiency(payload, srv) {
-				var payout = srv["payout"]
-				var expect = (parseFloat(srv["user_shares"])*50)/payload["difficulty"];
-				expect  = parseFloat((parseFloat(payout)/expect) * 100).toFixed(1);
-				var pay_str = expect +  "%";
-				if (isNaN(expect)) {
-					pay_str = "-";
+				var payout = srv["payout"];
+				var expected = srv["expected_payout"];
+				var efficiency = parseFloat(payout/expected * 100).toFixed(1);
+				if (isNaN(efficiency)) {
+					return "-";
 				}
-				return pay_str;
+				return efficiency + "%";
 			}
 
 			function getRoundShares(payload, srv) {
