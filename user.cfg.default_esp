@@ -368,6 +368,13 @@ user: nmcaddress
 #pasword must be "none"
 pass: none
 
+[masterpoolnmc]
+#https://masterpool.eu (Prop, mineria unida NMC)
+#---Modifica despues de esta linea si vas a minar---
+role: info
+user: nombre_minero
+pass: contrasena_minero
+
 
 #Minas i0c
 
