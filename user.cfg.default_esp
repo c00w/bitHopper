@@ -59,6 +59,8 @@
 #  c:             esta variable se utiliza en conjunto con el rol "mine_c" y determina
 #                 cuanto tiempo tardan los shares para disminuir su valor en minas con
 #                 puntuacion (mas informacion en la pagina 200, hilo bH del foro principal)
+#  priority:      utiliza este ajuste para cada mina si quieres que bH trabaje segun
+#                 tu preferencia personal de las mismas (0 = prio mas alta, 1 = menos, etc.)
 #  refresh_limit: intervalo para refrescar la api de mina en segundos
 #  user_agent:    identificacion de navegador HTTP de bH para minas, sobrescribe
 #                 el reglaje general que se encuentra en bh.cfg
