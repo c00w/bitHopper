@@ -135,6 +135,17 @@ class BitHopper():
 
         old_server = self.pool.get_current()
             
+        #Find the server with highest priority
+        max_priority = 0;
+        for server in server_list:
+            info = self.pool.get_entry(server)
+            if info['priority'] > max_priority:
+                max_priority = info['priority']
+
+        #Return all servers with this priority
+        server_list = [server for server in server_list 
+                       if lambda x:self.pool.get_entry(x)['priority'] >= max_priority]
+
         if len(server_list) == 0:
             try:
                 backup_type = self.config.get('main', 'backup_type')

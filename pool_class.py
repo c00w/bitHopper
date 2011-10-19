@@ -45,6 +45,9 @@ class Pool():
         if self['default_role'] in ['info','disable']:
             self['default_role'] = 'mine'
 
+        #Pools are now grouped by priority
+        self['priority'] = attribute_dict.get('priority', 0)
+
         #Coin Handling
         coin_roles = {'mine': 'btc', 'info': 'btc', 'backup': 'btc', 'backup_latehop': 'btc', 'mine_charity': 'btc', 'mine_c':'btc', 'mine_nmc': 'nmc', 'mine_ixc': 'ixc', 'mine_i0c': 'i0c', 'mine_scc': 'scc'}
         if 'coin' not in attribute_dict:
