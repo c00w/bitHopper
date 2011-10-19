@@ -377,10 +377,6 @@ user: your_username
 pass: your_password
 
 
-#i0c pools
-
-
-
 #scc pools
 
 [squid]

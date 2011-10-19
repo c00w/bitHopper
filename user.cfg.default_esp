@@ -376,10 +376,6 @@ user: nombre_minero
 pass: contrasena_minero
 
 
-#Minas i0c
-
-
-
 #Minas scc
 
 [squid]
