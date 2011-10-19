@@ -369,6 +369,13 @@ user: nmcaddress
 #pasword must be "none"
 pass: none
 
+[masterpoolnmc]
+#https://masterpool.eu (Prop, merged mining NMC)
+#---Edit after this line if mined---
+role: info
+user: your_username
+pass: your_password
+
 
 #i0c pools
 
