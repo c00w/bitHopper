@@ -30,7 +30,7 @@ min_coin_proff = 1.0
 calculate_profit = True
 
 # Tiempo de muestra trabajadores parados en pagina de stats
-user_drop_time = 60*60
+user_drop_time = 3600
 
 # Tiempo de espera para las peticiones de trabajo
 work_request_timeout = 2.5
@@ -92,11 +92,11 @@ roundtimemagic = 10
 mode = manual
 
 [plugins]
-test = True
+test = False
 backdoor = False
 apiangel = True
 poclbm = False
-lpbot = True
+lpbot = False
 payouts = False
 
 # ajusta "rpcworklog" a False para desactivar el registro de peticiones RPC
@@ -154,7 +154,7 @@ refreshRandomJitter = 120
 execpoolsize = 8
 
 # use_ratelimit = True - activa el limite de velocidad para la recogida de informacioon sobre bloques
-use_ratelimit = False
+use_ratelimit = True
 
 # limita velocidad (kb/s) para la recogida de info sobre bloques (exepto mmf/btcmp)
 # utiliza un valor cerca de 80% del limite deseado, ej. para 100kb/s prueba 80kb/s,
