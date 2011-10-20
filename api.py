@@ -17,7 +17,8 @@ class API():
         self.bitHopper = bitHopper
         self.api_lock = {}
         self.pool = self.bitHopper.pool
-        self.api_pull = ['mine', 'info', 'mine_c', 'mine_nmc', 'mine_ixc', 'mine_i0c',  'mine_scc', 'mine_charity', 'mine_lp',  'backup', 'backup_latehop']
+        self.api_pull = ['mine', 'info', 'mine_c', 'mine_charity', 'mine_lp',  'backup', 'backup_latehop']
+        self.api_pull.extend(['mine_' + coin for coin, diff in self.bitHopper.difficulty.diff.iteritems() if coin != 'btc'])
         self.api_disable_sec = 7200
         try:
             self.api_disable_sec = self.bitHopper.config.getint('main', 'api_disable_sec')
@@ -29,12 +30,6 @@ class API():
 
         #Actual Share Update      
         prev_shares = self.pool.servers[server]['shares']
-
-        diff_btc = self.bitHopper.difficulty.get_difficulty()
-        diff_nmc = self.bitHopper.difficulty.get_nmc_difficulty()
-        diff_scc = self.bitHopper.difficulty.get_scc_difficulty()
-        diff_i0c = self.bitHopper.difficulty.get_i0c_difficulty()
-        diff_ixc = self.bitHopper.difficulty.get_ixc_difficulty()
 
         #Mark it as unlagged
         self.pool.servers[server]['api_lag'] = False       
@@ -74,16 +69,10 @@ class API():
 
         #If the shares indicate we found a block tell LP
         coin_type = self.pool.servers[server]['coin']        
-        if coin_type == 'btc' and shares < prev_shares and shares < 0.10 * diff_btc:
-            self.bitHopper.lp.set_owner(server)
-        elif coin_type == 'nmc' and shares < prev_shares and shares < 0.10 * diff_nmc:
-            self.bitHopper.lp.set_owner(server)
-        elif coin_type == 'scc' and shares < prev_shares and shares < 0.10 * diff_scc:
-            self.bitHopper.lp.set_owner(server)
-        elif coin_type == 'ixc' and shares < prev_shares and shares < 0.10 * diff_ixc:
-            self.bitHopper.lp.set_owner(server)
-        elif coin_type == 'i0c' and shares < prev_shares and shares < 0.10 * diff_i0c:
-            self.bitHopper.lp.set_owner(server)
+        for title, attr_coin in self.bitHopper.altercoins.iteritems():
+            if coin_type == attr_coin['short_name'] and shares < prev_shares and shares < 0.10 * self.bitHopper.difficulty[coin_type]:
+                self.bitHopper.lp.set_owner(server)
+                break
 
         self.pool.servers[server]['shares'] = int(shares)
         self.pool.servers[server]['err_api_count'] = 0
@@ -237,7 +226,7 @@ class API():
                 info = info.replace(strip_char,'')
             
         if info == None:
-            round_shares = int(self.bitHopper.difficulty.get_difficulty())
+            round_shares = int(self.bitHopper.difficulty['btc'])
         else:   
             round_shares = int(info)
                     

@@ -7,19 +7,22 @@ import re
 import eventlet
 from eventlet.green import threading, socket, urllib2
 import ConfigParser
+import functools
 
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
 
 class Difficulty():
-    "Stores difficulties and automaticlaly updates them"
+    """
+    Stores difficulties and automatically updates them
+    The are stored in difficulty.diff but using difficulty[] also works.
+    """
     def __init__(self, bitHopper):
+    
+        self.diff = {}
+        for title, attr_coin in bitHopper.altercoins.iteritems():
+            self.diff[attr_coin['short_name']] = attr_coin['recent_difficulty']
         self.bitHopper = bitHopper
-        self.btc_difficulty = 1755425.3203287
-        self.nmc_difficulty = 94037.96
-        self.ixc_difficulty = 16384
-        self.i0c_difficulty = 1372
-        self.scc_difficulty = 5354
         cfg = ConfigParser.ConfigParser()
         cfg.read(["diffwebs.cfg"])
         self.diff_sites = []
@@ -27,27 +30,16 @@ class Difficulty():
              self.diff_sites.append(dict(cfg.items(site)))
         self.lock = threading.RLock()
         eventlet.spawn_n(self.update_difficulty)
-        self.diff = {'btc': self.btc_difficulty, 'nmc': self.nmc_difficulty, 'ixc': self.ixc_difficulty, 'i0c': self.i0c_difficulty, 'scc': self.scc_difficulty}
 
-    def get_difficulty(self):
-        return self.btc_difficulty
-    
-    def get_nmc_difficulty(self):
-        return self.nmc_difficulty
-
-    def get_ixc_difficulty(self):
-        return self.ixc_difficulty
-    
-    def get_i0c_difficulty(self):
-        return self.i0c_difficulty
-    
-    def get_scc_difficulty(self):
-        return self.scc_difficulty
+    def __getitem__(self, key):
+        return self.diff[key]
 
     def updater(self, coin, short_coin):
+
         # Generic method to update the difficulty of a given currency
         self.bitHopper.log_msg('Updating Difficulty of ' + coin)
         config_diffcoin = [site for site in self.diff_sites if site['coin'] == short_coin]
+
         #timeout = eventlet.timeout.Timeout(5, Exception(''))
         useragent = {'User-Agent': self.bitHopper.config.get('main', 'work_user_agent')}
         for site in config_diffcoin:
@@ -62,9 +54,8 @@ class Difficulty():
                     output = output.group(1)
                 elif site['get_method'] == 'json':
                     pass
-                self.__dict__[short_coin + '_difficulty'] = float(output)
                 self.diff[short_coin] = float(output)
-                self.bitHopper.log_dbg('Retrieved Difficulty: ' + str(self.__dict__[short_coin + '_difficulty']))
+                self.bitHopper.log_dbg('Retrieved Difficulty: ' + str(self[short_coin]))
                 break
             except Exception, e:
                 self.bitHopper.log_dbg('Unable to update difficulty for ' + coin + ' from ' + site['url'] + ' : ' + str(e))
@@ -76,10 +67,12 @@ class Difficulty():
         while True:
             "Tries to update difficulty from the internet"
             with self.lock:
-                
-                self.updater("Bitcoin", 'btc')
-                self.updater("Namecoin", 'nmc')
-                self.updater("SolidCoin", 'scc')
-                self.updater("IXcoin", 'ixc')
-                self.updater("I0coin", 'i0c')
+                output_diffs = ConfigParser.ConfigParser()
+                output_diffs.read("whatevercoin.cfg")   
+                for generic_title, attr_coin in self.bitHopper.altercoins.iteritems():
+                    self.updater(attr_coin['long_name'], attr_coin['short_name'])
+                    output_diffs.set(generic_title, 'recent_difficulty', self.diff[attr_coin['short_name']])
+                output = open("whatevercoin.cfg", 'wb')
+                output_diffs.write(output)
+                output.close()
             eventlet.sleep(60*10)

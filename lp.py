@@ -158,7 +158,7 @@ class LongPoll():
         self.bitHopper.log_dbg('received lp from: ' + server)
         self.bitHopper.log_trace('LP: ' + str(body))
         info = self.bitHopper.pool.servers[server]
-        if info['role'] in ['mine_nmc', 'disable', 'mine_ixc', 'mine_i0c', 'mine_scc', 'info']:
+        if info['role'] in ['disable', 'info'] + ['mine_' + coin for coin, diff in self.bitHopper.difficulty.iteritems() if coin != 'btc']:
             return
         if body == None:
             self.bitHopper.log_dbg('error in long poll from: ' + server)
