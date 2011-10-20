@@ -70,7 +70,7 @@ class API():
         #If the shares indicate we found a block tell LP
         coin_type = self.pool.servers[server]['coin']        
         for title, attr_coin in self.bitHopper.altercoins.iteritems():
-            if coin_type == attr_coin['short_name'] and shares < prev_shares and shares < 0.10 * self.bitHopper.difficulty.__dict__[coin_type + '_difficulty']:
+            if coin_type == attr_coin['short_name'] and shares < prev_shares and shares < 0.10 * self.bitHopper.difficulty[coin_type]:
                 self.bitHopper.lp.set_owner(server)
                 break
 
@@ -226,7 +226,7 @@ class API():
                 info = info.replace(strip_char,'')
             
         if info == None:
-            round_shares = int(self.bitHopper.difficulty.btc_difficulty)
+            round_shares = int(self.bitHopper.difficulty['btc'])
         else:   
             round_shares = int(info)
                     
