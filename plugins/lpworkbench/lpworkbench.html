@@ -162,14 +162,8 @@
                                 return "N/A";
                         }
                         
-                        switch (srv['role'])
-                        {
-                                case 'mine_ixc': diff = payload['ixc_difficulty']; break;
-                                case 'mine_i0c': diff = payload['i0c_difficulty']; break;
-                                case 'mine_nmc': diff = payload['nmc_difficulty']; break;
-                                case 'mine_scc': diff = payload['scc_difficulty']; break;
-                                default: diff = payload['difficulty']; break;
-                        }
+                        diff = payload["diffs"][srv["role"].substring(5,8)];
+                        if (diff == undefined) { diff = payload["diffs"]["btc"]; }
                         
                         return shares
                                 + "<br>"
@@ -340,7 +334,7 @@
                     
                 function getEfficiency(payload, srv) {
                         var payout = srv["payout"]
-                        var expect = (parseFloat(srv["user_shares"])*50)/payload["difficulty"];
+                        var expect = (parseFloat(srv["user_shares"])*50) / payload["diffs"]["btc"];
                         expect  = parseFloat((parseFloat(payout)/expect) * 100).toFixed(1);
                         var pay_str = expect +  "%";
                         if (isNaN(expect)) {

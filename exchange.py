@@ -63,12 +63,10 @@ class Exchange():
         while True:
             "Tries to update profit from the internet"
             with self.lock:
+                for generic_title, market in self.bitHopper.altercoins.iteritems():
+                    if market.has_key('site_exchange') and market.has_key('pattern_site_exchange'):
+                        self.updater(market['long_name'], market['site_exchange'], market['pattern_site_exchange'])
                 
-                self.updater("ixc", 'http://ixchange.bitparking.com:8080/api/ticker', '\"average\":([0-9.]+)')
-                self.updater("nmc", 'https://exchange.bitparking.com/main', "<th>Low:</th><td class=\"coin\">([0-9.]+)</td>")
-                self.updater("scc", 'https://btc-e.com/sc_exchanger',  "Highest Bid Price<p><b><span id='max_price'>([0-9.]+)")
-                self.updater("i0c", 'http://i0exchange.bitparking.com:8080/api/ticker', '\"average\":([0-9.]+)')
-                self.updater("gg", 'https://btc-e.com/exchange/gg_btc', "Highest Bid Price<p><b><span id='max_price'>([.0-9]+)")
                 self.calc_profit()
 
     

@@ -49,6 +49,12 @@ class BitHopper():
         """Initializes all of the submodules bitHopper uses"""
         self.options = options
         self.config = config        
+        altercoins = ConfigParser.ConfigParser()
+        altercoins.read(os.path.join(sys.path[0], "whatevercoin.cfg"))
+        self.altercoins = {}
+        for coin in altercoins.sections():
+            self.altercoins[coin] = dict(altercoins.items(coin))
+            self.altercoins[coin]['recent_difficulty'] = float(self.altercoins[coin]['recent_difficulty'])
         self.scheduler = None
         self.lp_callback = lp_callback.LP_Callback(self)
         self.difficulty = diff.Difficulty(self)  

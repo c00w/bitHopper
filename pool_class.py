@@ -13,7 +13,7 @@ class Pool():
         self._parse(attribute_dict)
 
     def _parse(self, attribute_dict):
-        self['shares'] = int(self.bitHopper.difficulty.get_difficulty())
+        self['shares'] = int(self.bitHopper.difficulty.btc_difficulty)
         self['ghash'] = -1
         self['duration'] = -2
         self['duration_temporal'] = 0
@@ -49,7 +49,10 @@ class Pool():
         self['priority'] = int(attribute_dict.get('priority', 0))
 
         #Coin Handling
-        coin_roles = {'mine': 'btc', 'info': 'btc', 'backup': 'btc', 'backup_latehop': 'btc', 'mine_charity': 'btc', 'mine_c':'btc', 'mine_nmc': 'nmc', 'mine_ixc': 'ixc', 'mine_i0c': 'i0c', 'mine_scc': 'scc'}
+        coin_roles = {'mine': 'btc', 'info': 'btc', 'backup': 'btc', 'backup_latehop': 'btc', 'mine_charity': 'btc', 'mine_c':'btc'}
+        for title, coin in self.bitHopper.altercoins.iteritems():
+            if coin['short_name'] != 'btc':
+                coin_roles[coin['short_name']] = 'mine_' + coin['short_name']
         if 'coin' not in attribute_dict:
             try: coin_type = coin_roles[self['role']]
             except KeyError: coin_type = 'btc'
@@ -100,11 +103,9 @@ class Pool():
                 return self_proff < other_proff
 
     def btc_shares(self):
-        coin_diffs = {'btc': self.bitHopper.difficulty.get_difficulty(),
-        'nmc': self.bitHopper.difficulty.get_nmc_difficulty(),
-        'ixc': self.bitHopper.difficulty.get_ixc_difficulty(),
-        'i0c': self.bitHopper.difficulty.get_i0c_difficulty(),
-        'scc': self.bitHopper.difficulty.get_scc_difficulty()}
+        coin_diffs = {}
+        for title, attr_coin in self.bitHopper.altercoins.iteritems():
+            coin_diffs[attr_coin['short_name']] = self.bitHopper.difficulty.__dict__[attr_coin['short_name'] + '_difficulty']
         
         if self['coin'] in ['btc']:
             shares = self['shares']

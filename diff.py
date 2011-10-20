@@ -14,13 +14,11 @@ socket.setdefaulttimeout(900)
 class Difficulty():
     "Stores difficulties and automaticlaly updates them"
     def __init__(self, bitHopper):
+        self.diff = {}
+        for title, attr_coin in bitHopper.altercoins.iteritems():
+            self.__dict__[attr_coin['short_name'] + '_difficulty'] = self.diff[attr_coin['short_name']] = attr_coin['recent_difficulty']
+            #setattr(self, 'get_%s_difficulty' % attr_coin['short_name'], lambda: self.__dict__[attr_coin['short_name'] + '_difficulty'])
         self.bitHopper = bitHopper
-        self.btc_difficulty = 1755425.3203287
-        self.nmc_difficulty = 94037.96
-        self.ixc_difficulty = 16384
-        self.i0c_difficulty = 1372
-        self.scc_difficulty = 5354
-        self.gg_difficulty = 30
         cfg = ConfigParser.ConfigParser()
         cfg.read(["diffwebs.cfg"])
         self.diff_sites = []
@@ -28,22 +26,6 @@ class Difficulty():
              self.diff_sites.append(dict(cfg.items(site)))
         self.lock = threading.RLock()
         eventlet.spawn_n(self.update_difficulty)
-        self.diff = {'btc': self.btc_difficulty, 'nmc': self.nmc_difficulty, 'ixc': self.ixc_difficulty, 'i0c': self.i0c_difficulty, 'scc': self.scc_difficulty, 'gg': self.gg_difficulty}
-
-    def get_difficulty(self):
-        return self.btc_difficulty
-    
-    def get_nmc_difficulty(self):
-        return self.nmc_difficulty
-
-    def get_ixc_difficulty(self):
-        return self.ixc_difficulty
-    
-    def get_i0c_difficulty(self):
-        return self.i0c_difficulty
-    
-    def get_scc_difficulty(self):
-        return self.scc_difficulty
 
     def updater(self, coin, short_coin):
         # Generic method to update the difficulty of a given currency
@@ -77,10 +59,12 @@ class Difficulty():
         while True:
             "Tries to update difficulty from the internet"
             with self.lock:
-                
-                self.updater("Bitcoin", 'btc')
-                self.updater("Namecoin", 'nmc')
-                self.updater("SolidCoin", 'scc')
-                self.updater("IXcoin", 'ixc')
-                self.updater("I0coin", 'i0c')
+                output_diffs = ConfigParser.ConfigParser()
+                output_diffs.read("whatevercoin.cfg")   
+                for generic_title, attr_coin in self.bitHopper.altercoins.iteritems():
+                    self.updater(attr_coin['long_name'], attr_coin['short_name'])
+                    output_diffs.set(generic_title, 'recent_difficulty', self.diff[attr_coin['short_name']])
+                output = open("whatevercoin.cfg", 'wb')
+                output_diffs.write(output)
+                output.close()
             eventlet.sleep(60*10)

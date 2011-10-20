@@ -119,11 +119,7 @@ class lpWorkbenchDataSite():
         response = json.dumps({
             "current":self.bitHopper.pool.get_current(), 
             'mhash':self.bitHopper.speed.get_rate(), 
-            'difficulty':self.bitHopper.difficulty.get_difficulty(),
-            'ixc_difficulty':self.bitHopper.difficulty.get_ixc_difficulty(),
-            'i0c_difficulty':self.bitHopper.difficulty.get_i0c_difficulty(),
-            'nmc_difficulty':self.bitHopper.difficulty.get_nmc_difficulty(),
-            'scc_difficulty':self.bitHopper.difficulty.get_scc_difficulty(),
+            'diffs': self.bitHopper.difficulty.diff,
             'block':sorted_blocks,
             'accuracy':filterdAccuracy,
             'servers':servers})
