@@ -70,7 +70,7 @@ class dynamicSite():
                             info = self.bitHopper.pool.get_entry(loopServer)
                             tempExpPayout = float(request.POST[v])
                             #info['expected_payout'] = float(request.POST[v])
-                            difficulty = self.bitHopper.difficulty.btc_difficulty
+                            difficulty = self.bitHopper.difficulty['btc']
                             tempUserShares = int(tempExpPayout * difficulty / 50)
                             #info['user_shares'] = int(info['expected_payout'] * difficulty / 50)
                             self.bitHopper.log_msg('Changing expected payout')
@@ -133,7 +133,7 @@ class dynamicSite():
                 try:
                     for server in self.bitHopper.pool.get_servers():
                         info = self.bitHopper.pool.get_entry(server)
-                        info['shares'] = self.bitHopper.difficulty.btc_difficulty
+                        info['shares'] = self.bitHopper.difficulty['btc']
                 except Exception,e:
                     self.bitHopper.log_msg('Incorrect http post resetshares: ' + str(e))
             if "reloadconfig" in v:
