@@ -144,6 +144,7 @@ info_2: Mineria unida esta implementada para cada tipo de pago BTC disponible (f
 info_1: Buena para saltar hasta 10% de dificultad, utiliza mine_slush - 1872.64 GHash/s @ 08.23.11
 info_2: La mina ya tiene soporte para LP, algunos problemas con el minero Phoenix - 1356.30 GHash/s @ 10.03.11
 info_3: La mina ya soporta mineria unida (pagina 184 - hilo de mina en foro principal) - 1306.41 GHash/s @ 10.11.11
+info_4: Cerrada temp. mientra busca otro servicio de alojamiento (pagina 203 - hilo de mina en foro principal) - 0 GHash/s @ 10.20.11
 
 
 [triple]
