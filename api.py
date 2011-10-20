@@ -226,7 +226,7 @@ class API():
                 info = info.replace(strip_char,'')
             
         if info == None:
-            round_shares = int(self.bitHopper.difficulty.get_difficulty())
+            round_shares = int(self.bitHopper.difficulty.btc_difficulty)
         else:   
             round_shares = int(info)
                     

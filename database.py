@@ -41,14 +41,14 @@ class Database():
 
     def sql_insert(self, server, shares=0, rejects=0, payout=0, user='', diff=None):
         if diff == None:
-            difficulty = self.bitHopper.difficulty.get_difficulty()
+            difficulty = self.bitHopper.difficulty.btc_difficulty
         else:
             difficulty = diff
         sql = 'INSERT INTO ' + server + ' VALUES ( ' + str(difficulty) + ',' + str(shares) + ',' + str(rejects) + ',' + str(payout) + ',\'' + user + '\')'
         return sql
 
     def sql_update_add(self, server, value, amount, user):
-        difficulty = self.bitHopper.difficulty.get_difficulty()
+        difficulty = self.bitHopper.difficulty.btc_difficulty
         sql = 'UPDATE ' + str(server) + ' SET ' + value + ' = ' + value + ' + ' + str(amount) + ' WHERE diff = ' + str(difficulty) + ' and user = \'' + user + "\'"
         return sql
 
@@ -67,7 +67,7 @@ class Database():
                 for server_name in self.pool.get_servers():
                     self.make_table(server_name)
 
-                difficulty = self.bitHopper.difficulty.get_difficulty()
+                difficulty = self.bitHopper.difficulty.btc_difficulty
                 for server in self.shares:
                     for user in self.shares[server]:
                         if self.shares[server][user] == 0:
