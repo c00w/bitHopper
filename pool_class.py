@@ -13,7 +13,7 @@ class Pool():
         self._parse(attribute_dict)
 
     def _parse(self, attribute_dict):
-        self['shares'] = int(self.bitHopper.difficulty.btc_difficulty)
+        self['shares'] = int(self.bitHopper.difficulty['btc'])
         self['ghash'] = -1
         self['duration'] = -2
         self['duration_temporal'] = 0
@@ -105,7 +105,7 @@ class Pool():
     def btc_shares(self):
         coin_diffs = {}
         for title, attr_coin in self.bitHopper.altercoins.iteritems():
-            coin_diffs[attr_coin['short_name']] = self.bitHopper.difficulty.__dict__[attr_coin['short_name'] + '_difficulty']
+            coin_diffs[attr_coin['short_name']] = self.bitHopper.difficulty[attr_coin['short_name']]
         
         if self['coin'] in ['btc']:
             shares = self['shares']

@@ -7,17 +7,21 @@ import re
 import eventlet
 from eventlet.green import threading, socket, urllib2
 import ConfigParser
+import functools
 
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
 
 class Difficulty():
-    "Stores difficulties and automaticlaly updates them"
+    """
+    Stores difficulties and automatically updates them
+    The are stored in difficulty.diff but using difficulty[] also works.
+    """
     def __init__(self, bitHopper):
+    
         self.diff = {}
         for title, attr_coin in bitHopper.altercoins.iteritems():
-            self.__dict__[attr_coin['short_name'] + '_difficulty'] = self.diff[attr_coin['short_name']] = attr_coin['recent_difficulty']
-            #setattr(self, 'get_%s_difficulty' % attr_coin['short_name'], lambda: self.__dict__[attr_coin['short_name'] + '_difficulty'])
+            self.diff[attr_coin['short_name']] = attr_coin['recent_difficulty']
         self.bitHopper = bitHopper
         cfg = ConfigParser.ConfigParser()
         cfg.read(["diffwebs.cfg"])
@@ -27,10 +31,15 @@ class Difficulty():
         self.lock = threading.RLock()
         eventlet.spawn_n(self.update_difficulty)
 
+    def __getitem__(self, key):
+        return self.diff[key]
+
     def updater(self, coin, short_coin):
+
         # Generic method to update the difficulty of a given currency
         self.bitHopper.log_msg('Updating Difficulty of ' + coin)
         config_diffcoin = [site for site in self.diff_sites if site['coin'] == short_coin]
+
         #timeout = eventlet.timeout.Timeout(5, Exception(''))
         useragent = {'User-Agent': self.bitHopper.config.get('main', 'work_user_agent')}
         for site in config_diffcoin:
@@ -45,9 +54,8 @@ class Difficulty():
                     output = output.group(1)
                 elif site['get_method'] == 'json':
                     pass
-                self.__dict__[short_coin + '_difficulty'] = float(output)
                 self.diff[short_coin] = float(output)
-                self.bitHopper.log_dbg('Retrieved Difficulty: ' + str(self.__dict__[short_coin + '_difficulty']))
+                self.bitHopper.log_dbg('Retrieved Difficulty: ' + str(self[short_coin]))
                 break
             except Exception, e:
                 self.bitHopper.log_dbg('Unable to update difficulty for ' + coin + ' from ' + site['url'] + ' : ' + str(e))

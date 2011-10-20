@@ -51,7 +51,7 @@ class Scheduler(object):
 
     def select_charity_server(self):
         server_name = None
-        most_shares = self.bitHopper.difficulty.btc_difficulty * 2
+        most_shares = self.bitHopper.difficulty['btc'] * 2
         for server in self.bitHopper.pool.get_servers():
             info = self.bitHopper.pool.get_entry(server)
             if info['role'] != 'mine_charity':
@@ -117,7 +117,7 @@ class DefaultScheduler(Scheduler):
     def select_best_server(self,):
         #self.bitHopper.log_dbg('select_best_server', cat='scheduler-default')
         server_name = None
-        difficulty = self.bitHopper.difficulty.btc_difficulty
+        difficulty = self.bitHopper.difficulty['btc']
         min_shares = difficulty * self.difficultyThreshold
 
         #self.bitHopper.log_dbg('min-shares: ' + str(min_shares), cat='scheduler-default')  
@@ -143,7 +143,7 @@ class DefaultScheduler(Scheduler):
     def server_update(self,):
         current = self.bitHopper.pool.get_current()
         shares,info = self.server_to_btc_shares(current)
-        difficulty = self.bitHopper.difficulty.btc_difficulty
+        difficulty = self.bitHopper.difficulty['btc']
 
         if not self.server_is_valid(current):
             return True
@@ -183,7 +183,7 @@ class WaitPenaltyScheduler(Scheduler):
     def select_best_server(self,):
         #self.bitHopper.log_dbg('select_best_server', cat='scheduler-waitpenalty')
         server_name = None
-        difficulty = self.bitHopper.difficulty.btc_difficulty
+        difficulty = self.bitHopper.difficulty['btc']
         min_shares = difficulty * self.difficultyThreshold
 
         #self.bitHopper.log_dbg('min-shares: ' + str(min_shares), cat='scheduler-waitpenalty')  
@@ -208,7 +208,7 @@ class WaitPenaltyScheduler(Scheduler):
     def server_update(self,):
         current = self.bitHopper.pool.get_current()
         shares,info = self.server_to_btc_shares(current)
-        difficulty = self.bitHopper.difficulty.btc_difficulty
+        difficulty = self.bitHopper.difficulty['btc']
 
         if not self.server_is_valid(server):
             return True
@@ -263,7 +263,7 @@ class SimpleSliceScheduler(Scheduler):
 
     def select_best_server(self,):
         #self.bitHopper.log_dbg('select_best_server', cat='scheduler-default')
-        difficulty = self.bitHopper.difficulty.btc_difficulty
+        difficulty = self.bitHopper.difficulty['btc']
         min_shares = difficulty * self.difficultyThreshold
 
         valid_servers = []
@@ -315,7 +315,7 @@ class SimpleSliceScheduler(Scheduler):
             if current - self.sliceinfo[server] > 30:
                 return True
 
-        difficulty = self.bitHopper.difficulty.btc_difficulty
+        difficulty = self.bitHopper.difficulty['btc']
         min_shares = difficulty * self.difficultyThreshold
 
         shares = self.server_to_btc_shares(self.bitHopper.pool.get_current())[0]
@@ -381,7 +381,7 @@ class AltSliceScheduler(Scheduler):
             if 'init' not in info:
                 info['init'] = False
         if self.roundtimebias:
-            difficulty = self.bitHopper.difficulty.btc_difficulty
+            difficulty = self.bitHopper.difficulty['btc']
             one_ghash = 1000000 * 1000
             target_ghash = one_ghash * int(self.target_ghash) * (1+self.difficultyThreshold)
             self.bitHopper.log_msg(' - Target Round Time Bias GHash/s (derived): ' + str(float(target_ghash/one_ghash)), cat=self.name)
@@ -391,7 +391,7 @@ class AltSliceScheduler(Scheduler):
     def select_best_server(self,):
         self.bitHopper.log_trace('select_best_server', cat=self.name)
         server_name = None
-        difficulty = self.bitHopper.difficulty.btc_difficulty
+        difficulty = self.bitHopper.difficulty['btc']
         min_shares = difficulty * self.difficultyThreshold
 
         current_server = self.bitHopper.pool.get_current()
@@ -672,7 +672,7 @@ class AltSliceScheduler(Scheduler):
             return True
           
         # check to see if threshold exceeded
-        difficulty = self.bitHopper.difficulty.btc_difficulty
+        difficulty = self.bitHopper.difficulty['btc']
         min_shares = difficulty * self.difficultyThreshold
     
         if shares > min_shares:
