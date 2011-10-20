@@ -1,16 +1,16 @@
-#######################################
-# This file contains brief information
-# of pools used for hopping, gathered
-#   here for orientative purposes.
-#
-#     Last update: Oct 14, 2011
-#######################################
-#######################################
-#   These Pools are added recently
-#      hop them at your risk
-#######################################
+######################################
+ This file contains brief information
+ of pools used for hopping, gathered
+   here for orientative purposes.
 
-#######################################
+     Last update: Oct 19, 2011
+######################################
+######################################
+   These Pools are added recently
+      hop them at your risk
+######################################
+
+######################################
 
 
 [asspenny]
@@ -144,6 +144,7 @@ info_2: Merged mining implemented for every BTC payout available (simplecoin for
 info_1: Good for mining until 10% of diff, use mine_slush - 1872.64 GHash/s @ 08.23.11
 info_2: Pool has full LP support implemented, still some issues with Phoenix miner - 1356.30 GHash/s @ 10.03.11
 info_3: Pool now supports merged mining (page 184 - pool thread on main forum) - 1306.41 GHash/s @ 10.11.11
+info_4: Temp. closed while searching for another hosting service (page 203 - pool thread on main forum) - 0 GHash/s @ 10.20.11
 
 
 [triple]
@@ -152,14 +153,14 @@ info_1: Mid-size pool - 43.6 GHash/s @ 08.23.11
 info_2: Use as backup_latehop if you want to help them find the block (Flash Mob Mining Event - 08.21.11)
 
 
-######################################
-# Backup pools for when there is
-# no pool where you would earn more
-# than expected (can be any pool with
-# hopping proof algorithms, PPS has
-# lowest variance though)
-#
-######################################
+
+#####################################
+ Backup pools for when there is
+ no pool where you would earn more
+ than expected (can be any pool with
+ hopping proof algorithms, PPS has
+ lowest variance though)
+#####################################
 
 
 [eligius]
@@ -249,10 +250,11 @@ info_1: Decentralized pool with support for btc, nmc and others - 1.89 Ghash/s @
 info_2: Pool software needs to be installed on local pc
 
 
-######################################
-# Namecoin and other type of pools.
-# For hopping use mine_xxx accordingly
-######################################
+
+#####################################
+ Namecoin and other type of pools.
+ For hopping use mine_xxx accordingly
+#####################################
 
 
 #Nmc pools
@@ -288,12 +290,13 @@ info_2: Currently mining NMC until SolidCoin vulnerability it's fixed, use mine_
 info_1: ixcoins pool, use mine_ixc - 0.5 Ghash/s @ 09.19.11
 
 
-########################################
-# Other known pools not added to bH
-# config because they aren't transparent
-# by showing stats, use some custom
-# miner software or other reasons.
-########################################
+
+#######################################
+ Other known pools not added to bH
+ config because they aren't transparent
+ by showing stats, use some custom
+ miner software or other reasons.
+#######################################
 
 
 Bitcoin-Station
@@ -320,13 +323,16 @@ TheFrenchPool
 #https://frenchpool.fr
 
 
-######################################
-#
-# These Pools are not hopped for a
-# reason. Page of the BitHopper
-# thread annotated in parentheses.
-# Hop them at your own risk
-#
+AlaskaMiningPool
+#http://akpool.org/
+
+
+
+#####################################
+ These Pools are not hopped for a
+ reason. Page of the BitHopper
+ thread annotated in parentheses.
+ Hop them at your own risk
 ######################################
 
 
