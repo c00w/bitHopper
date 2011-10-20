@@ -27,7 +27,7 @@ backup_type = rejectrate
 min_coin_proff = 1.0
 
 # Indicates if the program would mine the coins more profitable or if only mine based on the number of shares of each pool.
-calculate_profit = True
+calculate_profit = False
 
 # Time limit after which we no longer display workers on the stats page
 user_drop_time = 3600
