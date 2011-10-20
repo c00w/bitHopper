@@ -60,7 +60,7 @@
 #                 determines how long it takes shares to decay in value on
 #                 score pools (more info on page 200, bH thread in main forum)
 #  priority:      use this setting for every pool if you want bH mine by your
-#                 personal preference of them (0 = highest prio, 1 = lower, etc.)
+#                 personal preference of them (0 = lowest prio, 1 = higher, etc.)
 #  refresh_limit: pool's api refreshing interval in seconds
 #  user_agent:    HTTP User-Agent header to set when retrieving pool stats
 #                 Overrides the default in bh.cfg
