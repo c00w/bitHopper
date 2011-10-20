@@ -68,7 +68,7 @@ class Exchange():
                 self.updater("nmc", 'https://exchange.bitparking.com/main', "<th>Low:</th><td class=\"coin\">([0-9.]+)</td>")
                 self.updater("scc", 'https://btc-e.com/sc_exchanger',  "Highest Bid Price<p><b><span id='max_price'>([0-9.]+)")
                 self.updater("i0c", 'http://i0exchange.bitparking.com:8080/api/ticker', '\"average\":([0-9.]+)')
-
+                self.updater("gg", 'https://btc-e.com/exchange/gg_btc', "Highest Bid Price<p><b><span id='max_price'>([.0-9]+)")
                 self.calc_profit()
 
     
