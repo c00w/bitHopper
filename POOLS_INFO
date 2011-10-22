@@ -145,6 +145,7 @@ info_1: Good for mining until 10% of diff, use mine_slush - 1872.64 GHash/s @ 08
 info_2: Pool has full LP support implemented, still some issues with Phoenix miner - 1356.30 GHash/s @ 10.03.11
 info_3: Pool now supports merged mining (page 184 - pool thread on main forum) - 1306.41 GHash/s @ 10.11.11
 info_4: Temp. closed while searching for another hosting service (page 203 - pool thread on main forum) - 0 GHash/s @ 10.20.11
+info_5: Back in business, hope botnets leave them alone (page 205 - pool thread on main forum) - 683.54 GHash/s @ 10.20.11
 
 
 [triple]
@@ -325,6 +326,10 @@ TheFrenchPool
 
 AlaskaMiningPool
 #http://akpool.org/
+
+
+Phiral Research bitcoin mining pool
+http://pool.phiral.com/
 
 
 
