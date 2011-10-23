@@ -132,15 +132,6 @@ role: mine_lp
 user: nombre_minero
 pass: contrasena_minero
 
-[btcg]
-#https://www.btcguild.com (Prop)
-#---Modifica despues de esta linea si vas a minar---
-lp_penalty: 0
-role: info
-btcguild_user_apikey: 81a9081f4d5f32db7dbbed407cb5f686
-user: c00w_test
-pass: 1234
-
 [btcmine]
 # https://btcmine.com (Puntuacion)
 #---Modifica despues de esta linea si vas a minar---
@@ -309,6 +300,15 @@ pass: contrasena_minero
 role: info
 user: nombre_minero
 pass: contrasena_minero
+
+[btcg]
+#https://www.btcguild.com (PPS)
+#---Modifica despues de esta linea si vas a minar---
+lp_penalty: 0
+role: info
+btcguild_user_apikey: 81a9081f4d5f32db7dbbed407cb5f686
+user: c00w_test
+pass: 1234
 
 [btcgpps]
 #http://pps.btcguild.com (PPS)
