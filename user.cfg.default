@@ -133,15 +133,6 @@ role: mine_lp
 user: your_username
 pass: your_password
 
-[btcg]
-#https://www.btcguild.com (Prop)
-#---Edit after this line if mined---
-lp_penalty: 0
-role: info
-btcguild_user_apikey: 81a9081f4d5f32db7dbbed407cb5f686
-user: c00w_test
-pass: 1234
-
 [btcmine]
 # https://btcmine.com (Score)
 #---Edit after this line if mined---
@@ -310,6 +301,15 @@ pass: your_password
 role: info
 user: your_username
 pass: your_password
+
+[btcg]
+#https://www.btcguild.com (PPS)
+#---Edit after this line if mined---
+lp_penalty: 0
+role: info
+btcguild_user_apikey: 81a9081f4d5f32db7dbbed407cb5f686
+user: c00w_test
+pass: 1234
 
 [btcgpps]
 #http://pps.btcguild.com (PPS)
