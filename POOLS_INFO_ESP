@@ -3,7 +3,7 @@
    sobre la minas conocidas por bH,
  recogida aqui con fines informativos
 
-   Ultima actualizacion: Oct 20, 2011
+   Ultima actualizacion: Oct 23, 2011
 ######################################
 ######################################
    Minas anadidas recientemente,
@@ -147,6 +147,7 @@ info_2: La mina ya tiene soporte para LP, algunos problemas con el minero Phoeni
 info_3: La mina ya soporta mineria unida (pagina 184 - hilo de mina en foro principal) - 1306.41 GHash/s @ 10.11.11
 info_4: Cerrada temp. mientra busca otro servicio de alojamiento (pagina 203 - hilo de mina en foro principal) - 0 GHash/s @ 10.20.11
 info_5: Vuelta a la normalidad, esperemos que las botnets los dejan en paz (pagina 205 - hilo de mina en foro principal) - 683.54 GHash/s @ 10.20.11
+info_6: Mineria sobre TOR disponible en lcir2ce5utha5xoo.onion puerto 8332 (pagina 208 - hilo de mina en foro principal) - 1088.30 GHash/s @ 10.23.11
 
 
 [triple]

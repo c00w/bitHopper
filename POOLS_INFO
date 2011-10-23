@@ -3,7 +3,7 @@
  of pools used for hopping, gathered
    here for orientative purposes.
 
-     Last update: Oct 20, 2011
+     Last update: Oct 23, 2011
 ######################################
 ######################################
    These Pools are added recently
@@ -147,6 +147,7 @@ info_2: Pool has full LP support implemented, still some issues with Phoenix min
 info_3: Pool now supports merged mining (page 184 - pool thread on main forum) - 1306.41 GHash/s @ 10.11.11
 info_4: Temp. closed while searching for another hosting service (page 203 - pool thread on main forum) - 0 GHash/s @ 10.20.11
 info_5: Back in business, hope botnets leave them alone (page 205 - pool thread on main forum) - 683.54 GHash/s @ 10.20.11
+info_6: Mining over TOR available at lcir2ce5utha5xoo.onion port 8332 (page 208 - pool thread on main forum) - 1088.30 GHash/s @ 10.23.11
 
 
 [triple]
