@@ -203,7 +203,7 @@ user: nombre_minero
 pass: contrasena_minero
 
 [simplecoin]
-#http://simplecoin.us (Prop, mineria unida NMC)
+#http://simplecoin.us (Prop, SMPPS, PPLNS, mineria unida NMC)
 #---Modifica despues de esta linea si vas a minar---
 role: info
 user: nombre_minero
@@ -234,7 +234,7 @@ user: c00w.default
 pass: fire
 
 [bitp]
-#http://bitp.it (PPS)
+#http://bitp.it (ESMPPS)
 #---Modifica despues de esta linea si vas a minar---
 role: backup
 bitp_user_apikey: 80c5dbea750563eb24e5310f94a56b38bad14dc35efb41e9ca421c92f31563ed
@@ -265,7 +265,7 @@ user:scarium
 pass:x
 
 [nofeemining]
-#https://www.nofeemining.com (PPS)
+#https://www.nofeemining.com (RSMPPS)
 #---Modifica despues de esta linea si vas a minar---
 role: info
 nofeemining_user_apikey: 4140cbc6405f4425cf91ca74e1450b66
@@ -273,7 +273,7 @@ user: 1Q4B1LdoKHtMbj6tBLhj1cyuMWTDYFJ9Y7
 pass: x
 
 [itzod]
-# https://pool.itzod.ru (PPS)
+# https://pool.itzod.ru (SMPPS)
 #---Modifica despues de esta linea si vas a minar---
 role: info
 user: nombre_minero
