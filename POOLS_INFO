@@ -3,7 +3,7 @@
  of pools used for hopping, gathered
    here for orientative purposes.
 
-     Last update: Oct 23, 2011
+     Last update: Oct 25, 2011
 ######################################
 ######################################
    These Pools are added recently
@@ -73,6 +73,7 @@ info_2: You can try the new mine_c role available for score pools and setup c: 5
 [btcworld]
 #http://btcworld.de
 info_1: Nice small pool - 14.05 Ghash/s @ 08.23.11
+info_2: Working hard to find a block, last found on Sep 21st - 0.83 Ghash/s @ 10.25.11
 
 
 [coinotron]
@@ -115,6 +116,7 @@ info_2: Merged mining active and working nice from block 19200, update your NMC 
 info_1: Good for hopping, fast pool for hopper-starters - 176.52 GHash/s @ 08.23.11
 info_2: Alternate PPS payout available for use as backup if wanted 
 info_3: After the current block will be offering PPS payout only, 2-6 weeks test (reddit.com) - 210.50 GHash/s @ 10.10.11
+info_4: Merged mining now available, Prop. payouts for NMC (page 8 - pool thread on main forum) - 68.10 GHash/s @ 10.25.11
 
 
 [ozco]
