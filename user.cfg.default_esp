@@ -81,7 +81,7 @@ user: c00w.testhop
 pass: testhop
 
 [ozco]
-#https://ozco.in/register.php (Prop)
+#https://ozco.in (Prop)
 #---Modifica despues de esta linea si vas a minar---
 role: mine
 user:c00w.1
@@ -265,7 +265,7 @@ user:scarium
 pass:x
 
 [nofeemining]
-#https://www.nofeemining.com (RSMPPS)
+#https://nofeemining.appspot.com (RSMPPS)
 #---Modifica despues de esta linea si vas a minar---
 role: info
 nofeemining_user_apikey: 4140cbc6405f4425cf91ca74e1450b66
