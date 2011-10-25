@@ -3,7 +3,7 @@
  of pools used for hopping, gathered
    here for orientative purposes.
 
-     Last update: Oct 23, 2011
+     Last update: Oct 25, 2011
 ######################################
 ######################################
    These Pools are added recently
@@ -73,6 +73,7 @@ info_2: You can try the new mine_c role available for score pools and setup c: 5
 [btcworld]
 #http://btcworld.de
 info_1: Nice small pool - 14.05 Ghash/s @ 08.23.11
+info_2: Working hard to find a block, last found on Sep 21st - 0.83 Ghash/s @ 10.25.11
 
 
 [coinotron]

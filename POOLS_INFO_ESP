@@ -3,7 +3,7 @@
    sobre la minas conocidas por bH,
  recogida aqui con fines informativos
 
-   Ultima actualizacion: Oct 23, 2011
+   Ultima actualizacion: Oct 25, 2011
 ######################################
 ######################################
    Minas anadidas recientemente,
@@ -73,6 +73,7 @@ info_2: Puedes probar el nuevo rol mine_c disponible para minas con puntuacion y
 [btcworld]
 #http://btcworld.de
 info_1: Mina pequena y mona- 14.05 Ghash/s @ 08.23.11
+info_2: Trabajando duro para encontrar un bloque, ultimo encontrado el 21 de Sept. - 0.83 Ghash/s @ 10.25.11
 
 
 [coinotron]
