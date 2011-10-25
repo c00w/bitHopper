@@ -168,7 +168,7 @@ user: your_username
 pass: your_password
 
 [asspenny]
-#http://asspennypool.com (Prop)
+#http://asspennypool.com (Prop, merged mining NMC)
 #---Edit after this line if mined---
 role: info
 asspenny_user_apikey: xxxxxx

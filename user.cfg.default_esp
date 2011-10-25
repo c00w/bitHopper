@@ -167,7 +167,7 @@ user: nombre_minero
 pass: contrasena_minero
 
 [asspenny]
-#http://asspennypool.com (Prop)
+#http://asspennypool.com (Prop, mineria unida NMC)
 #---Modifica despues de esta linea si vas a minar---
 role: info
 asspenny_user_apikey: xxxxxx
