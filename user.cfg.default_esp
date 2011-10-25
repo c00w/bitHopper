@@ -87,14 +87,6 @@ role: mine
 user:c00w.1
 pass:1234
 
-[mtred]
-#https://mtred.com (Prop, PPS)
-#---Modifica despues de esta linea si vas a minar---
-role: mine
-mtred_user_apikey:d91c52cfe1609f161f28a1268a2915b8+
-user:scarium
-pass:x 
-
 [btcworld]
 #http://btcworld.de (Prop)
 #---Modifica despues de esta linea si vas a minar---
@@ -264,8 +256,8 @@ abc_user_apikey:
 user: nombre_minero
 pass: contrasena_minero
 
-[mtredpps]
-#https://mtred.com (PPS)
+[mtred]
+#https://mtred.com (PPS, mineria unida NMC)
 #---Modifica despues de esta linea si vas a minar---
 role: disable
 mtred_user_apikey:d91c52cfe1609f161f28a1268a2915b8+

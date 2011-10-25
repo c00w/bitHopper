@@ -88,14 +88,6 @@ role: mine
 user:c00w.1
 pass:1234
 
-[mtred]
-#https://mtred.com (Prop, PPS)
-#---Edit after this line if mined---
-role: mine
-mtred_user_apikey:d91c52cfe1609f161f28a1268a2915b8+
-user:scarium
-pass:x 
-
 [btcworld]
 #http://btcworld.de (Prop)
 #---Edit after this line if mined---
@@ -265,8 +257,8 @@ abc_user_apikey:
 user: your_username
 pass: your_password
 
-[mtredpps]
-#https://mtred.com (PPS)
+[mtred]
+#https://mtred.com (PPS, merged mining NMC)
 #---Edit after this line if mined---
 role: disable
 mtred_user_apikey:d91c52cfe1609f161f28a1268a2915b8+
