@@ -3,7 +3,7 @@
  of pools used for hopping, gathered
    here for orientative purposes.
 
-     Last update: Oct 25, 2011
+     Last update: Oct 26, 2011
 ######################################
 ######################################
    These Pools are added recently
@@ -53,15 +53,6 @@ info_2: Having troubles finding a block, 28 days atm - 1.19 Ghash/s @ 09.09.11
 #http://pool.bloodys.com
 info_1: Please report experience on forum or IRC - 1.86 Ghash/s @ 08.23.11
 info_2: Hashing away for over a month without luck - 3.48 Ghash/s @ 09.09.11
-
-
-[btcg]
-#https://www.btcguild.com
-info_1: Delayed stats (page 87 - bH thread on main forum)
-info_2: Try mining here with the mine_lp role - 2132.23 Ghash/s @ 08.23.11
-info_3: PPS payout server available (beta) - 1835.25 Ghash/s @ 09.12.11
-info_4: Worker stats and API are now pulled live (page 153 - pool thread on main forum) - 1796.03 Ghash/s @ 10.03.11
-info_5: Changed payout to pure PPS (pool website) - 1003.45 Ghash/s @ 10.23.11
 
 
 [btcmine]
@@ -225,6 +216,15 @@ info_3: Op decides to have FIFO PPS implemented (page 4 - pool thread on main fo
 #http://bitfarms.ca
 info_1: Please report experience on forum or IRC - 4.41 Ghash/s @ 08.23.11
 info_2: PPS payout (pool website) - 3.66 Ghash/s @ 09.09.11
+
+
+[btcg]
+#https://www.btcguild.com
+info_1: Delayed stats (page 87 - bH thread on main forum)
+info_2: Try mining here with the mine_lp role - 2132.23 Ghash/s @ 08.23.11
+info_3: PPS payout server available (beta) - 1835.25 Ghash/s @ 09.12.11
+info_4: Worker stats and API are now pulled live (page 153 - pool thread on main forum) - 1796.03 Ghash/s @ 10.03.11
+info_5: Changed payout to pure PPS (pool website) - 1003.45 Ghash/s @ 10.23.11
 
 
 [btcgpps]

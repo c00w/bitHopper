@@ -3,7 +3,7 @@
    sobre la minas conocidas por bH,
  recogida aqui con fines informativos
 
-   Ultima actualizacion: Oct 25, 2011
+   Ultima actualizacion: Oct 26, 2011
 ######################################
 ######################################
    Minas anadidas recientemente,
@@ -53,15 +53,6 @@ info_2: Tienen problemas para encontrar un bloque, 28 dias a esta fecha - 1.19 G
 #http://pool.bloodys.com
 info_1: Por favor reporta tu experiencia en foro o canal IRC - 1.86 Ghash/s @ 08.23.11
 info_2: Calculando sin parar desde hace mas de un mes sin suerte - 3.48 Ghash/s @ 09.09.11
-
-
-[btcg]
-#https://www.btcguild.com
-info_1: Ralentiza stats (pagina 87 - hilo bH en el foro principal)
-info_2: Prueba suerte minar con el rol mine_lp - 2132.23 Ghash/s @ 08.23.11
-info_3: Servidor con sistema de pago PPS disponible (beta) - 1835.25 Ghash/s @ 09.12.11
-info_4: Las estatisticas y API ahora se actualizan en tiempo real (page 153 - pool thread on main forum) - 1796.03 Ghash/s @ 10.03.11
-info_5: Ha cambiado a sistema puro PPS (pagina de mina) - 1003.45 Ghash/s @ 10.23.11
 
 
 [btcmine]
@@ -226,6 +217,15 @@ info_3: El admin decide implementar FIFO PPS (pagina 4 - hilo de mina en foro pr
 #http://bitfarms.ca
 info_1: Por favor reporta tu experiencia en foro o canal IRC - 4.41 Ghash/s @ 08.23.11
 info_2: Sistema de pago PPS (pagina de mina) - 3.66 Ghash/s @ 09.09.11
+
+
+[btcg]
+#https://www.btcguild.com
+info_1: Ralentiza stats (pagina 87 - hilo bH en el foro principal)
+info_2: Prueba suerte minar con el rol mine_lp - 2132.23 Ghash/s @ 08.23.11
+info_3: Servidor con sistema de pago PPS disponible (beta) - 1835.25 Ghash/s @ 09.12.11
+info_4: Las estatisticas y API ahora se actualizan en tiempo real (page 153 - pool thread on main forum) - 1796.03 Ghash/s @ 10.03.11
+info_5: Ha cambiado a sistema puro PPS (pagina de mina) - 1003.45 Ghash/s @ 10.23.11
 
 
 [btcgpps]
