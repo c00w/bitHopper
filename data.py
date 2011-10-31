@@ -34,9 +34,10 @@ class Data():
             with self.lock:
                 for user in self.users:
                     for share_time in self.users[user]['shares_time']:
-                        if time.time() - share_time > 60 * 5:
-                            self.users[user]['shares_time'].remove(share_time)
-                    self.users[user]['hash_rate'] = (len(self.users[user]['shares_time']) * 2**32) / (60 * 5 * 1000000)
+                        if time.time() - share_time > 60 * 15:
+                            if len(self.users[user]['shares_time']) > 1:
+                                self.users[user]['shares_time'].remove(share_time)
+                    self.users[user]['hash_rate'] = (len(self.users[user]['shares_time']) * 2**32) / (60 * 15 * 1000000)
             eventlet.sleep(30)
     
     def get_users(self):
@@ -56,7 +57,7 @@ class Data():
             self.users[user]['last'] = int(time.time())
             self.users[user]['shares'] += shares
             self.users[user]['shares_time'].append(int(time.time()))
-            self.users[user]['hash_rate'] = (len(self.users[user]['shares_time']) * 2**32) / (60 * 5 * 1000000)
+            self.users[user]['hash_rate'] = (len(self.users[user]['shares_time']) * 2**32) / (60 * 15 * 1000000)
 
     def user_reject_add(self,user,password,rejects,server):
         with self.lock:
