@@ -81,19 +81,11 @@ user: c00w.testhop
 pass: testhop
 
 [ozco]
-#https://ozco.in/register.php (Prop)
+#https://ozco.in (Prop)
 #---Modifica despues de esta linea si vas a minar---
 role: mine
 user:c00w.1
 pass:1234
-
-[mtred]
-#https://mtred.com (Prop, PPS)
-#---Modifica despues de esta linea si vas a minar---
-role: mine
-mtred_user_apikey:d91c52cfe1609f161f28a1268a2915b8+
-user:scarium
-pass:x 
 
 [btcworld]
 #http://btcworld.de (Prop)
@@ -131,15 +123,6 @@ lp_penalty: 0
 role: mine_lp
 user: nombre_minero
 pass: contrasena_minero
-
-[btcg]
-#https://www.btcguild.com (Prop)
-#---Modifica despues de esta linea si vas a minar---
-lp_penalty: 0
-role: info
-btcguild_user_apikey: 81a9081f4d5f32db7dbbed407cb5f686
-user: c00w_test
-pass: 1234
 
 [btcmine]
 # https://btcmine.com (Puntuacion)
@@ -184,7 +167,7 @@ user: nombre_minero
 pass: contrasena_minero
 
 [asspenny]
-#http://asspennypool.com (Prop)
+#http://asspennypool.com (Prop, mineria unida NMC)
 #---Modifica despues de esta linea si vas a minar---
 role: info
 asspenny_user_apikey: xxxxxx
@@ -220,7 +203,7 @@ user: nombre_minero
 pass: contrasena_minero
 
 [simplecoin]
-#http://simplecoin.us (Prop, mineria unida NMC)
+#http://simplecoin.us (Prop, SMPPS, PPLNS, mineria unida NMC)
 #---Modifica despues de esta linea si vas a minar---
 role: info
 user: nombre_minero
@@ -251,7 +234,7 @@ user: c00w.default
 pass: fire
 
 [bitp]
-#http://bitp.it (PPS)
+#http://bitp.it (ESMPPS)
 #---Modifica despues de esta linea si vas a minar---
 role: backup
 bitp_user_apikey: 80c5dbea750563eb24e5310f94a56b38bad14dc35efb41e9ca421c92f31563ed
@@ -273,8 +256,8 @@ abc_user_apikey:
 user: nombre_minero
 pass: contrasena_minero
 
-[mtredpps]
-#https://mtred.com (PPS)
+[mtred]
+#https://mtred.com (PPS, mineria unida NMC)
 #---Modifica despues de esta linea si vas a minar---
 role: disable
 mtred_user_apikey:d91c52cfe1609f161f28a1268a2915b8+
@@ -282,7 +265,7 @@ user:scarium
 pass:x
 
 [nofeemining]
-#https://www.nofeemining.com (PPS)
+#https://nofeemining.appspot.com (RSMPPS)
 #---Modifica despues de esta linea si vas a minar---
 role: info
 nofeemining_user_apikey: 4140cbc6405f4425cf91ca74e1450b66
@@ -290,7 +273,7 @@ user: 1Q4B1LdoKHtMbj6tBLhj1cyuMWTDYFJ9Y7
 pass: x
 
 [itzod]
-# https://pool.itzod.ru (PPS)
+# https://pool.itzod.ru (SMPPS)
 #---Modifica despues de esta linea si vas a minar---
 role: info
 user: nombre_minero
@@ -309,6 +292,15 @@ pass: contrasena_minero
 role: info
 user: nombre_minero
 pass: contrasena_minero
+
+[btcg]
+#https://www.btcguild.com (PPS)
+#---Modifica despues de esta linea si vas a minar---
+lp_penalty: 0
+role: info
+btcguild_user_apikey: 81a9081f4d5f32db7dbbed407cb5f686
+user: c00w_test
+pass: 1234
 
 [btcgpps]
 #http://pps.btcguild.com (PPS)

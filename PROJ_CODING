@@ -75,7 +75,5 @@ Store the duration in the db                 (https://github.com/c00w/bitHopper/
 Display Time since last LP on /stats# page next to round duration
                                              (https://github.com/c00w/bitHopper/issues/422)
 
-Add support for GG                           (https://github.com/c00w/bitHopper/issues/429)
-
 Add role: mine_fhop                          (https://github.com/c00w/bitHopper/issues/431)
 

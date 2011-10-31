@@ -3,7 +3,7 @@
  of pools used for hopping, gathered
    here for orientative purposes.
 
-     Last update: Oct 20, 2011
+     Last update: Oct 26, 2011
 ######################################
 ######################################
    These Pools are added recently
@@ -55,14 +55,6 @@ info_1: Please report experience on forum or IRC - 1.86 Ghash/s @ 08.23.11
 info_2: Hashing away for over a month without luck - 3.48 Ghash/s @ 09.09.11
 
 
-[btcg]
-#https://www.btcguild.com
-info_1: Delayed stats (page 87 - bH thread on main forum)
-info_2: Try mining here with the mine_lp role - 2132.23 Ghash/s @ 08.23.11
-info_3: PPS payout server available (beta) - 1835.25 Ghash/s @ 09.12.11
-info_4: Worker stats and API are now pulled live (page 153 - pool thread on main forum) - 1796.03 Ghash/s @ 10.03.11
-
-
 [btcmine]
 #https://btcmine.com
 info_1: Score based payout, try mining with mine_slush (page 164 - bH thread on main forum) - 356.68 Ghash/s @ 08.23.11
@@ -72,6 +64,7 @@ info_2: You can try the new mine_c role available for score pools and setup c: 5
 [btcworld]
 #http://btcworld.de
 info_1: Nice small pool - 14.05 Ghash/s @ 08.23.11
+info_2: Working hard to find a block, last found on Sep 21st - 0.83 Ghash/s @ 10.25.11
 
 
 [coinotron]
@@ -114,6 +107,7 @@ info_2: Merged mining active and working nice from block 19200, update your NMC 
 info_1: Good for hopping, fast pool for hopper-starters - 176.52 GHash/s @ 08.23.11
 info_2: Alternate PPS payout available for use as backup if wanted 
 info_3: After the current block will be offering PPS payout only, 2-6 weeks test (reddit.com) - 210.50 GHash/s @ 10.10.11
+info_4: Merged mining now available, Prop. payouts for NMC (page 8 - pool thread on main forum) - 68.10 GHash/s @ 10.25.11
 
 
 [ozco]
@@ -146,6 +140,7 @@ info_2: Pool has full LP support implemented, still some issues with Phoenix min
 info_3: Pool now supports merged mining (page 184 - pool thread on main forum) - 1306.41 GHash/s @ 10.11.11
 info_4: Temp. closed while searching for another hosting service (page 203 - pool thread on main forum) - 0 GHash/s @ 10.20.11
 info_5: Back in business, hope botnets leave them alone (page 205 - pool thread on main forum) - 683.54 GHash/s @ 10.20.11
+info_6: Mining over TOR available at lcir2ce5utha5xoo.onion port 8332 (page 208 - pool thread on main forum) - 1088.30 GHash/s @ 10.23.11
 
 
 [triple]
@@ -221,6 +216,15 @@ info_3: Op decides to have FIFO PPS implemented (page 4 - pool thread on main fo
 #http://bitfarms.ca
 info_1: Please report experience on forum or IRC - 4.41 Ghash/s @ 08.23.11
 info_2: PPS payout (pool website) - 3.66 Ghash/s @ 09.09.11
+
+
+[btcg]
+#https://www.btcguild.com
+info_1: Delayed stats (page 87 - bH thread on main forum)
+info_2: Try mining here with the mine_lp role - 2132.23 Ghash/s @ 08.23.11
+info_3: PPS payout server available (beta) - 1835.25 Ghash/s @ 09.12.11
+info_4: Worker stats and API are now pulled live (page 153 - pool thread on main forum) - 1796.03 Ghash/s @ 10.03.11
+info_5: Changed payout to pure PPS (pool website) - 1003.45 Ghash/s @ 10.23.11
 
 
 [btcgpps]
@@ -458,10 +462,12 @@ info_1: Changed to PPLNS (page 94 - bH thread on main forum) - 79 Ghash/s @ 08.2
 #https://eclipsemc.com
 info_1: Changed to a score system (page 16 - bH thread on main forum) - 53.51 Ghash/s @ 08.23.11
 info_2: Uses CPS (cheat proof scoring) method (main forum)
+info_3: Uses DGS (https://bitcointalk.org/index.php?topic=12920.msg590888#msg590888)
 
 
 [mmf]
 #http://mining.mainframe.nl
 info_1: They use some "cheat proof scoring" algorithm (page 26 - bH thread on main forum)
 info_2: Changed payout system to PPLNS (page 190 - bH thread on main forum) - 96.9 Ghash/s @ 08.23.11
+info_3: Pool closed (pool thread) @ 10.23.11
 
