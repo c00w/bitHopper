@@ -98,6 +98,7 @@ apiangel = True
 poclbm = False
 lpbot = False
 payouts = False
+lpdump = False
 
 # ajusta "rpcworklog" a False para desactivar el registro de peticiones RPC
 rpcworklog = True
@@ -170,3 +171,7 @@ timeout = 30
 [plugins.blockaccuracy]
 # intervalo de informes sobre bloque nuevo verificado (por defecto 600 segundos)
 reportInterval = 600
+
+[plugins.lpdump]
+# guarda en un archivo los resultados LP que se ven en "lpworkbench"
+file=lpdump.out
