@@ -370,6 +370,12 @@ role: info
 user: your_username
 pass: your_password
 
+[mtrednmc]
+#https://mtred.com (Prop, merged mining NMC)
+#---Edit after this line if mined---
+role: info
+user: your_username
+pass: your_password
 
 #scc pools
 
