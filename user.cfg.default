@@ -261,7 +261,6 @@ pass: your_password
 #https://mtred.com (PPS, merged mining NMC)
 #---Edit after this line if mined---
 role: disable
-mtred_user_apikey:d91c52cfe1609f161f28a1268a2915b8+
 user:scarium
 pass:x
 
