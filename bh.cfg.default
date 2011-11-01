@@ -173,4 +173,5 @@ timeout = 30
 reportInterval = 600
 
 [plugins.lpdump]
+# dumps to a file LP results you see on the lpworkbench
 file=lpdump.out
