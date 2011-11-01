@@ -21,7 +21,6 @@ info_3: El OP esta probando enviar trabajo de servidores bitcoind situados en di
 info_4: La mineria unida esta implementada, op esta resolviendo pequenos errores (hilo de mina en foro principal) - 30 Ghash/s @ 10.19.11
 
 
-
 [bclc]
 #http://www.bitcoins.lc
 info_1: Ralentiza stats y no tiene una actitud muy civica con los mineros (pagina 95 - hilo bH en el foro principal)
