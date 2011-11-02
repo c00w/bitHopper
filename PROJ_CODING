@@ -37,27 +37,17 @@ CGMINER w/ BH unstable                       (https://github.com/c00w/bitHopper/
 
 No JSON object could be decoded              (https://github.com/c00w/bitHopper/issues/403)
 
-Blank stats page with latest v0.2.5.2-45-gd7bdc98
-                                             (https://github.com/c00w/bitHopper/issues/407)
-
 Check if p2pool works                        (https://github.com/c00w/bitHopper/issues/419)
 
 Web Reset Shares                             (https://github.com/c00w/bitHopper/issues/440)
 
 mine_lp_force bug                            (https://github.com/c00w/bitHopper/issues/441)
 
-re_rateduration in apy.py                    (https://github.com/c00w/bitHopper/issues/443)
-
-Firefox windows 7 7.0.0 64bit, stats page stops refreshing after a bit.
-                                             (https://github.com/c00w/bitHopper/issues/453)
+LP Workbench data not displaying             (https://github.com/c00w/bitHopper/issues/493)
 ---------------------------------------------------------------------------------------
 
 Future to-do list:
 
-
-Dump LP Calls and blocks to file             (https://github.com/c00w/bitHopper/issues/244)
-
-Sum of total recieved and expected           (https://github.com/c00w/bitHopper/issues/347)
 
 Fancy Logging Plugin                         (https://github.com/c00w/bitHopper/issues/351)
 
