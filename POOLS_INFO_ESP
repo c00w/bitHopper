@@ -3,7 +3,7 @@
    sobre la minas conocidas por bH,
  recogida aqui con fines informativos
 
-   Ultima actualizacion: Oct 26, 2011
+   Ultima actualizacion: Nov 01, 2011
 ######################################
 ######################################
    Minas anadidas recientemente,
@@ -183,6 +183,7 @@ info_3: El equipo de admins esta resolviendo unos problemas de alojamiento (pagi
 [ninjac]
 #https://www.ninjacoin.com
 info_1: Mina PPS - 25.2 GHash/s @ 08.23.11
+info_2: Siguen en la fase Beta (pruebas) - 3.9 Gh/s @ 11.01.11
 
 
 [abc]
@@ -330,11 +331,11 @@ TheFrenchPool
 
 
 AlaskaMiningPool
-#http://akpool.org/
+#http://akpool.org
 
 
 Phiral Research bitcoin mining pool
-http://pool.phiral.com/
+#http://pool.phiral.com
 
 
 

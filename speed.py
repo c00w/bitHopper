@@ -10,10 +10,13 @@ from eventlet.green import threading, time, socket
 socket.setdefaulttimeout(900)
 
 class Speed():
+    """
+    This class keeps track of the number of shares and
+    tracks a running rate in self.rate
+    """
     def __init__(self, bitHopper):
         self.bitHopper = bitHopper
         self.shares = 0
-        self.lock = threading.RLock()
         eventlet.spawn_n(self.update_rate)
         self.rate = 0
 
@@ -26,11 +29,11 @@ class Speed():
             now = time.time()
             diff = now -self.old_time
             if diff <=0:
-                diff = 1
+                diff = 1e-10
             self.old_time = now
             self.rate = int((float(self.shares) * (2**32)) / (diff * 1000000))
             self.shares = 0
             eventlet.sleep(60)
 
     def get_rate(self):
-        return int(self.rate)
+        return self.rate

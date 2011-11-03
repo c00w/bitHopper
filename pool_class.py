@@ -77,9 +77,9 @@ class Pool():
         #backup sorts by reject rate
         if self['role'] in ['backup']:
             rr_self = float(self['rejects'])/(self['user_shares']+1)
-            rr_self += self.get('penalty', 0.0)
+            rr_self += float(self.get('penalty', 0.0)) / 100
             rr_other = float(other['rejects'])/(other['user_shares']+1)
-            rr_other += other.get('penalty', 0.0)
+            rr_other += float(other.get('penalty', 0.0)) / 100
             return rr_self < rr_other
 
         #backup latehop sorts purely by shares

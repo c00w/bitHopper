@@ -260,7 +260,6 @@ pass: contrasena_minero
 #https://mtred.com (PPS, mineria unida NMC)
 #---Modifica despues de esta linea si vas a minar---
 role: disable
-mtred_user_apikey:d91c52cfe1609f161f28a1268a2915b8+
 user:scarium
 pass:x
 
@@ -369,6 +368,12 @@ role: info
 user: nombre_minero
 pass: contrasena_minero
 
+[mtrednmc]
+#https://mtred.com (Prop, mineria unida NMC)
+#---Modifica despues de esta linea si vas a minar---
+role: info
+user: nombre_minero
+pass: contrasena_minero
 
 #Minas scc
 

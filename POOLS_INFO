@@ -3,7 +3,7 @@
  of pools used for hopping, gathered
    here for orientative purposes.
 
-     Last update: Oct 26, 2011
+     Last update: Nov 01 , 2011
 ######################################
 ######################################
    These Pools are added recently
@@ -182,6 +182,7 @@ info_3: Admin team is resolving some hosting issues (page 31 - pool thread on ma
 [ninjac]
 #https://www.ninjacoin.com
 info_1: PPS pool - 25.2 GHash/s @ 08.23.11
+info_2: Still in Beta stage - 3.9 Gh/s @ 11.01.11
 
 
 [abc]
@@ -329,11 +330,11 @@ TheFrenchPool
 
 
 AlaskaMiningPool
-#http://akpool.org/
+#http://akpool.org
 
 
 Phiral Research bitcoin mining pool
-http://pool.phiral.com/
+#http://pool.phiral.com
 
 
 

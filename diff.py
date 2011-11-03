@@ -15,19 +15,32 @@ socket.setdefaulttimeout(900)
 class Difficulty():
     """
     Stores difficulties and automatically updates them
-    The are stored in difficulty.diff but using difficulty[] also works.
+    Access difficulties by using this item as a dictionary
     """
+
     def __init__(self, bitHopper):
-    
+        """
+        Sets up coin difficulties and reads in old difficulties
+        from file.
+        """
+
+        #Add Coins
         self.diff = {}
         for title, attr_coin in bitHopper.altercoins.iteritems():
             self.diff[attr_coin['short_name']] = attr_coin['recent_difficulty']
+
+        #Store bitHopper for logging
         self.bitHopper = bitHopper
+
+        #Read in old diffs
         cfg = ConfigParser.ConfigParser()
         cfg.read(["diffwebs.cfg"])
+
+        #Add diff_sites
         self.diff_sites = []
         for site in cfg.sections():
              self.diff_sites.append(dict(cfg.items(site)))
+
         self.lock = threading.RLock()
         eventlet.spawn_n(self.update_difficulty)
 
