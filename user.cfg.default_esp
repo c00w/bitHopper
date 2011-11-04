@@ -209,6 +209,13 @@ role: info
 user: nombre_minero
 pass: contrasena_minero
 
+[nmcbitbtc]
+#http://nmcbit.com/ (Prop, mineria unida NMC)
+#---Modifica despues de esta linea si vas a minar---
+role: info
+user: nombre_minero
+pass: contrasena_minero
+
 ######################################
 # Minas de respaldo (backup) para
 # cuando no tienes ninguna mina
@@ -553,4 +560,3 @@ pass: x
 role: disable
 user: c00w.1
 pass: x
-
