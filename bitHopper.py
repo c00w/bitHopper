@@ -14,7 +14,9 @@ except Exception, e:
     raise e
 from eventlet import wsgi, greenpool
 from eventlet.green import os, time, socket
-eventlet.monkey_patch()
+
+#Not patching thread so we can spin of db file ops.
+eventlet.monkey_patch(os=True, select=True, socket=True, thread=False, time=True, psycopg=True)
 #from eventlet import debug
 #debug.hub_blocking_detection(True)
 
@@ -83,13 +85,13 @@ class BitHopper():
             self.pool.loadConfig()
         
     def reject_callback(self, server, data, user, password):
-        self.data.reject_callback(server, data, user, password)
+        eventlet.spawn_n(self.data.reject_callback, server, data, user, password)
 
     def data_callback(self, server, data, user, password):
-        self.data.data_callback(server, data, user, password)
+        eventlet.spawn_n(self.data.data_callback, server, data, user, password)
 
     def update_payout(self, server, payout):
-        self.db.set_payout(server, float(payout))
+        eventlet.spawn_n(self.db.set_payout, server, float(payout))
         self.pool.servers[server]['payout'] = float(payout)
 
     def get_options(self):
@@ -315,9 +317,11 @@ def main():
             except ConfigParser.Error:
                 bithopper_instance.log_dbg("Unable to load main listening port from config file")
                 pass
-            #socket.setdefaulttimeout(None)
-            wsgi.server(eventlet.listen((options.ip,listen_port)),bithopper_instance.website.handle_start, log=log)
-            #socket.setdefaulttimeout(lastDefaultTimeout)
+
+            #This ugly wrapper is required so wsgi server doesn't die
+            socket.setdefaulttimeout(None)
+            wsgi.server(eventlet.listen((options.ip,listen_port), backlog=500),bithopper_instance.website.handle_start, log=log, max_size = 8000)
+            socket.setdefaulttimeout(lastDefaultTimeout)
             break
         except Exception, e:
             bithopper_instance.log_msg("Exception in wsgi server loop, restarting wsgi in 60 seconds\n%s" % (str(e)))

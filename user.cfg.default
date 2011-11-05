@@ -210,6 +210,13 @@ role: info
 user: your_username
 pass: your_password
 
+[nmcbitbtc]
+#http://nmcbit.com/ (Prop, merged mining NMC)
+#---Edit after this line if mined--- (if you want)
+role: info
+user: your_username
+pass: your_password
+
 ######################################
 # Backup pools for when there is
 # no pool where you would earn more
@@ -392,7 +399,6 @@ role: disable
 user: your_username
 pass: your_password
 
-
 #ixc pools
 
 [digixc]
@@ -552,4 +558,3 @@ pass: x
 role: disable
 user: c00w.1
 pass: x
-
