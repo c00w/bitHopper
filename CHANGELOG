@@ -1,5 +1,20 @@
-Coin Profit based mining is disabled by default.
-Priority for pools is added.
+
+#Ver  ()
+Coin Profit based mining is disabled by default
+New way to update the difficulty from various sites
+Totals for shares submitted to pools, payouts, expected payouts and eff
+Set lpbot to be disabled by default
+Added lpdump and updated the config files
+Upd bh.cfg + descr
+Updated Mt.Red's API Address and Keys
+Display hash rate for lots of pools
+Moved btcg to backup pools
+Change to backup donation pool
+Added GeistGeld coin
+Added priority for pools
+Update pools info
+Upd PROJ_COODING
+
 
 #Ver 0.2.5.5 (6900c30)
 Trigger a LP when we change block owners due to new api info
