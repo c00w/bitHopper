@@ -14,7 +14,9 @@ except Exception, e:
     raise e
 from eventlet import wsgi, greenpool
 from eventlet.green import os, time, socket
-eventlet.monkey_patch()
+
+#Not patching thread so we can spin of db file ops.
+eventlet.monkey_patch(os=True, select=True, socket=True, thread=False, time=True, psycopg=True)
 #from eventlet import debug
 #debug.hub_blocking_detection(True)
 
