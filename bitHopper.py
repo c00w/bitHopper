@@ -85,13 +85,13 @@ class BitHopper():
             self.pool.loadConfig()
         
     def reject_callback(self, server, data, user, password):
-        self.data.reject_callback(server, data, user, password)
+        eventlet.spawn_n(self.data.reject_callback, server, data, user, password)
 
     def data_callback(self, server, data, user, password):
-        self.data.data_callback(server, data, user, password)
+        eventlet.spawn_n(self.data.data_callback, server, data, user, password)
 
     def update_payout(self, server, payout):
-        self.db.set_payout(server, float(payout))
+        eventlet.spawn_n(self.db.set_payout, server, float(payout))
         self.pool.servers[server]['payout'] = float(payout)
 
     def get_options(self):
