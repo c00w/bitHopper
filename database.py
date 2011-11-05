@@ -34,7 +34,8 @@ class Database():
         self.rejects = {}
         self.payout = {}
         self.lock = threading.RLock()
-        threading.Thread(target=self.write_database)
+        thread = threading.Thread(target=self.write_database)
+        thread.start()
 
     def close(self):
         self.curs.close()
