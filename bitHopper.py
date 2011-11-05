@@ -316,7 +316,7 @@ def main():
                 bithopper_instance.log_dbg("Unable to load main listening port from config file")
                 pass
             #socket.setdefaulttimeout(None)
-            wsgi.server(eventlet.listen((options.ip,listen_port)),bithopper_instance.website.handle_start, log=log)
+            wsgi.server(eventlet.listen((options.ip,listen_port), backlog=500),bithopper_instance.website.handle_start, log=log, max_size = 8000)
             #socket.setdefaulttimeout(lastDefaultTimeout)
             break
         except Exception, e:
