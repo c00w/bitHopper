@@ -45,7 +45,8 @@ class Scheduler(object):
         pass
 
     def mine_lp_force(self, lp, body, server, block):
-        for server_name, server in self.bitHopper.pool.get_servers().items():
+        for server_name in self.bitHopper.pool.get_servers():
+            server = self.bitHopper.pool.get_entry(server_name)
             if server['role'] == 'mine_lp_force':
                 server['role'] = server['default_role']
 
