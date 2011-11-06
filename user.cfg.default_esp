@@ -353,7 +353,7 @@ pass: feliz
 #Minas nmc
 
 [nmcbit]
-#http://nmcbit.com (PPS, mineria unida BTC)
+#http://nmcbit.com (PPS, mineria unida NMC)
 #---Modifica despues de esta linea si vas a minar---
 role: info
 user: nombre_minero
@@ -381,6 +381,7 @@ pass: contrasena_minero
 role: info
 user: nombre_minero
 pass: contrasena_minero
+
 
 #Minas scc
 

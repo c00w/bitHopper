@@ -354,7 +354,7 @@ pass: miner
 #Nmc pools
 
 [nmcbit]
-#http://nmcbit.com (PPS, merged mining BTC)
+#http://nmcbit.com (PPS, merged mining NMC)
 #---Edit after this line if mined---
 role: info
 user: your_username
@@ -383,6 +383,7 @@ role: info
 user: your_username
 pass: your_password
 
+
 #scc pools
 
 [squid]
@@ -398,6 +399,7 @@ pass: your_password
 role: disable
 user: your_username
 pass: your_password
+
 
 #ixc pools
 
