@@ -107,7 +107,7 @@ rpcworklog = True
 # podras ver LP de mina ganadora, proprietario comprobado,
 # temporizadores de bloque y sumario de penalidad LP
 # Necesita "blockaccuracy" = True para verificar la informacion sobre bloques
-lpworkbench = True
+lpworkbench = False
 
 # memoriza lista de bloques comprobados de cada mina (via API/html)
 # mira el "poolblock.cfg" para mas informacion
