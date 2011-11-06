@@ -50,8 +50,10 @@ class dynamicSite():
                     server = v.split('-')[1]
                     self.bitHopper.pool.get_entry(server)['role'] = request.POST[v]
                     self.bitHopper.pool.get_entry(server)['refresh_time'] = 60
-                    if request.POST[v] in ['mine','info']:
+                    if request.POST[v] in ['mine','info', 'mine_force']:
                         self.bitHopper.api.update_api_server(server)
+
+                    self.bitHopper.select_best_server()
 
                 except Exception, e:
                     self.bitHopper.log_msg('Incorrect http post request role')

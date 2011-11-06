@@ -49,7 +49,7 @@ class Pool():
         self['priority'] = int(attribute_dict.get('priority', 0))
 
         #Coin Handling
-        coin_roles = {'mine': 'btc', 'info': 'btc', 'backup': 'btc', 'backup_latehop': 'btc', 'mine_charity': 'btc', 'mine_c':'btc'}
+        coin_roles = {'mine': 'btc', 'info': 'btc', 'backup': 'btc', 'backup_latehop': 'btc', 'mine_charity': 'btc', 'mine_c':'btc', 'mine_force':'btc'}
         for title, coin in self.bitHopper.altercoins.iteritems():
             if coin['short_name'] != 'btc':
                 coin_roles[coin['short_name']] = 'mine_' + coin['short_name']
@@ -126,6 +126,7 @@ class Pool():
 
         if self['role'] in ['mine_force', 'mine_lp_force']:
             shares = 0
+
         # apply penalty
         shares = shares * float(self.get('penalty', 1))
         return shares, self
