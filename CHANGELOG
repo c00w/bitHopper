@@ -1,5 +1,20 @@
 
-#Ver  ()
+#Ver   0.2.6 (9fab596)
+Update default cfg to have lpworkbench disabled by def.
+Fixed database thread. Thread didn't get started
+
+
+#Ver 0.2.5.7 (326918f)
+Display hash rate for kiwipool
+Added NMCBit Proportional BTC
+Added hash rate display for a few pools
+Update user.cfg.default en/esp
+Some optimizations
+Small bug fixes
+Update pools info
+
+
+#Ver 0.2.5.6 (ab5b2f1)
 Coin Profit based mining is disabled by default
 New way to update the difficulty from various sites
 Totals for shares submitted to pools, payouts, expected payouts and eff
