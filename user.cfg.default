@@ -345,6 +345,13 @@ user: happy
 #password and user can be anything p2pool
 pass: miner
 
+[mkalinin]
+#http://pool.mkalinin.ru (PPLNS)
+#---Edit after this line if mined---
+role: info
+user: your_username
+pass: your_password
+
 ######################################
 # Namecoin and other type of pools.
 # For hopping use mine_xxx accordingly
