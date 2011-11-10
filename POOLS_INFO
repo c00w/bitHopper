@@ -53,6 +53,7 @@ info_3: Various issues with the load balancers and database (page 14 - pool thre
 #http://bithasher.com
 info_1: Please report experience on forum or IRC - 7.12 Ghash/s @ 08.23.11
 info_2: Having troubles finding a block, 28 days atm - 1.19 Ghash/s @ 09.09.11
+info_3: 16 blocks found untill nowadays - 2.13 Ghash/s @ 11.10.11
 
 
 [bloodys]
