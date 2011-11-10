@@ -3,12 +3,18 @@
  of pools used for hopping, gathered
    here for orientative purposes.
 
-     Last update: Nov 09 , 2011
+     Last update: Nov 10 , 2011
 ######################################
 ######################################
    These Pools are added recently
       hop them at your risk
 ######################################
+
+
+[mkalinin]
+#http://pool.mkalinin.ru
+info_1: Nice small pool, PPLNS payout (pool website) - 3.8 GHash/s @ 11.9.11
+
 
 ######################################
 
@@ -255,9 +261,6 @@ info_1: Small pool that uses Double Geometric Payout Method, DGPM (pool website 
 info_1: Decentralized pool with support for btc, nmc and others - 1.89 Ghash/s @ 08.23.11
 info_2: Pool software needs to be installed on local pc
 
-[mkalinin]
-#http://pool.mkalinin.ru
-info_1: Nice small pool, PPLNS payout (pool website) - 3.8 GHash/s @ 11.9.11
 
 #####################################
  Namecoin and other type of pools.
