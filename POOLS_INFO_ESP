@@ -3,12 +3,18 @@
    sobre la minas conocidas por bH,
  recogida aqui con fines informativos
 
-   Ultima actualizacion: Nov 01, 2011
+   Ultima actualizacion: Nov 10, 2011
 ######################################
 ######################################
    Minas anadidas recientemente,
       saltalas a tu riesgo.
 ######################################
+
+
+[mkalinin]
+#http://pool.mkalinin.ru
+info_1: Mina pequena, pago PPLNS (pagina de mina) - 3.8 GHash/s @ 11.9.11
+
 
 ###################################### 
 
@@ -47,6 +53,7 @@ info_3: Problemas con los repartidores de carga y la base de datos (pagina 14 - 
 #http://bithasher.com
 info_1: Por favor reporta tu experiencia en foro o canal IRC - 7.12 Ghash/s @ 08.23.11
 info_2: Tienen problemas para encontrar un bloque, 28 dias a esta fecha - 1.19 Ghash/s @ 09.09.11
+info_3: 16 bloques encontrados hasta la fecha de hoy - 2.13 Ghash/s @ 11.10.11
 
 
 [bloodys]
@@ -255,7 +262,6 @@ info_1: Utiliza el Sistema de Pago Doble Geometrico, DGPM (pagina de mina + pagi
 #https://bitcointalk.org/index.php?topic=18313
 info_1: Mina descentralizada con sopote para btc, nmc y otros - 1.89 Ghash/s @ 08.23.11
 info_2: El programa de mina se tiene que instalar previamente en el ordenador local
-
 
 
 #####################################

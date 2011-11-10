@@ -344,6 +344,13 @@ user: minero
 #las contrasenas y el usuario no importan en p2pool
 pass: feliz
 
+[mkalinin]
+#http://pool.mkalinin.ru (PPLNS)
+#---Modifica despues de esta linea si vas a minar---
+role: info
+user: your_username
+pass: your_password
+
 ######################################
 # Minas Namecoin u otro tipo. Salta
 # usando el modo adecuado (mine_xxx)
