@@ -41,7 +41,7 @@ python2 setup.py install
 Then download and run bitHopper
 
 I know its weird but the pip version of greenlet causes segfaults in 
-archlinux. So you have to install from the repo.
+archlinux. So you have to install from the oficial repo on bitbucket.
 
 # Instructions for Windows users
 NOTE: IF YOU ARE RUNNING LOTS OF MINERS USE LINUX.
