@@ -25,8 +25,23 @@ sudo easy_install importlib
 If you would like to use the poclbm miner plugin do
 sudo easy_install numpy
 
+Then download and run bitHopper
+
 Tested and working in Ubuntu 11.04, 10.10 and 10.04 LTS
 
+
+#Archlinux installation
+
+pacman -Sy python2-pip mercurial
+pip2 install eventlet
+hg clone https://bitbucket.org/ambroff/greenlet
+cd greenlet
+python2 setup.py install
+
+Then download and run bitHopper
+
+I know its weird but the pip version of greenlet causes segfaults in 
+archlinux. So you have to install from the repo.
 
 # Instructions for Windows users
 NOTE: IF YOU ARE RUNNING LOTS OF MINERS USE LINUX.
