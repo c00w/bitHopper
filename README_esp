@@ -29,6 +29,7 @@ Probado y funciona en Ubuntu 11.04, 10.10 y 10.04 LTS
 
 
 # Instrucciones para usuarios Windows
+NOTA: SI TIENES MUCHOS MINEROS MEJOR UTILIZA LINUX.
 
 ActiveState Python(recomendado, usa version 32 bit aunque tengas un sistema de 64 bit, funcionara igual)
 http://downloads.activestate.com/ActivePython/releases/2.7.2.5/ActivePython-2.7.2.5-win32-x86.msi
