@@ -309,13 +309,6 @@ btcguild_user_apikey: 81a9081f4d5f32db7dbbed407cb5f686
 user: c00w_test
 pass: 1234
 
-[btcgpps]
-#http://pps.btcguild.com (PPS)
-#---Edit after this line if mined---
-role: disable
-user: your_username
-pass: your_password
-
 [bitpenny]
 #http://www.bitpenny.com (PPS)
 #---Edit after this line if mined---
