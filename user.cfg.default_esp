@@ -308,13 +308,6 @@ btcguild_user_apikey: 81a9081f4d5f32db7dbbed407cb5f686
 user: c00w_test
 pass: 1234
 
-[btcgpps]
-#http://pps.btcguild.com (PPS)
-#---Modifica despues de esta linea si vas a minar---
-role: disable
-user: nombre_minero
-pass: contrasena_minero
-
 [bitpenny]
 #http://www.bitpenny.com (PPS)
 #---Modifica despues de esta linea si vas a minar---

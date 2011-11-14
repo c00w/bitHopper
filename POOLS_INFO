@@ -3,7 +3,7 @@
  of pools used for hopping, gathered
    here for orientative purposes.
 
-     Last update: Nov 10 , 2011
+     Last update: Nov 13, 2011
 ######################################
 ######################################
    These Pools are added recently
@@ -235,11 +235,6 @@ info_4: Worker stats and API are now pulled live (page 153 - pool thread on main
 info_5: Changed payout to pure PPS (pool website) - 1003.45 Ghash/s @ 10.23.11
 
 
-[btcgpps]
-#http://pps.btcguild.com
-info_1: PPS payout server launched (beta) - 32,85 Mhash/s @ 09.12.11
-
-
 [bitpenny]
 #http://www.bitpenny.com
 info_1: Small sized pool with delayed PPS payout system and increased difficulty shares (pool website) - 7.5 GHash/s @ 09.27.11
@@ -357,6 +352,12 @@ Pool-X
  thread annotated in parentheses.
  Hop them at your own risk
 ######################################
+
+
+[btcgpps]
+#http://pps.btcguild.com
+info_1: PPS payout server launched (beta) - 32,85 Mhash/s @ 09.12.11
+info_2: Server is down due to payout change of the main pool to PPS (pool thread on main forum) @ 11.13.11
 
 
 [ixparking]
