@@ -85,11 +85,6 @@ info_1: La mina mas grande que hay, minar con ellos te ayudara cobrar regularmen
 info_2: Tipo de paga PPS disponible con una comision de 10% - 3061 Ghash/s @ 10.14.11
 
 
-[digbtc]
-#http://www.digbtc.net
-info_1: Mina pequena, recomendado que cambies el user-agent (pagina 154 - hilo bH en el foro principal) - 5.5 Ghash/s @ 08.23.11
-
-
 [guildminers]
 #http://guildminers.com
 info_1: La retirada BTC disponible de momento es hacia el exchange campbx, minimo 1btc (pagina de mina) - 14.3 GHash/s @ 09.21.11
@@ -356,6 +351,12 @@ Pool-X
  usuario/contrasena solo si quieres
  saltarlas a tu riesgo.
 #####################################
+
+
+[digbtc]
+#http://www.digbtc.net
+info_1: Mina pequena, recomendado que cambies el user-agent (pagina 154 - hilo bH en el foro principal) - 5.5 Ghash/s @ 08.23.11
+info_2: Abandonada - 0 Ghash/s @ 11.16.11
 
 
 [btcgpps]

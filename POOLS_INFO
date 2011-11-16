@@ -85,11 +85,6 @@ info_1: Biggest pool around, mining with them should get your variance down - 57
 info_2: PPS payout available with a 10% fee - 3061 Ghash/s @ 10.14.11
 
 
-[digbtc]
-#http://www.digbtc.net
-info_1: Small pool, recommended you change user-agent (page 154 - bH thread on main forum) - 5.5 Ghash/s @ 08.23.11
-
-
 [guildminers]
 #http://guildminers.com
 info_1: BTC withdrawal available only to campbx exchange, 1btc minimum (pool website) - 14.3 GHash/s @ 09.21.11
@@ -353,6 +348,12 @@ Pool-X
  thread annotated in parentheses.
  Hop them at your own risk
 ######################################
+
+
+[digbtc]
+#http://www.digbtc.net
+info_1: Small pool, recommended you change user-agent (page 154 - bH thread on main forum) - 5.5 Ghash/s @ 08.23.11
+info_2: Abandoned pool - 0 Ghash/s @ 11.16.11
 
 
 [btcgpps]
