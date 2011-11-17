@@ -1,4 +1,16 @@
 
+
+#Ver   0.2.6.1 (5bbad43)
+Fixed a bug with mine_lp_force which was causing it to not work
+Added Round Time for various pools
+Added Mkalinin.ru
+Added windows warning to README
+Added archlinux installation instructions
+Removed btcgpps - obsolete + upd info
+Fix coinotron api
+Update pools info
+
+
 #Ver   0.2.6 (9fab596)
 Update default cfg to have lpworkbench disabled by def.
 Fixed database thread. Thread didn't get started

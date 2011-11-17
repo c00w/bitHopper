@@ -3,7 +3,7 @@
    sobre la minas conocidas por bH,
  recogida aqui con fines informativos
 
-   Ultima actualizacion: Nov 13, 2011
+   Ultima actualizacion: Nov 16, 2011
 ######################################
 ######################################
    Minas anadidas recientemente,
@@ -85,11 +85,6 @@ info_1: La mina mas grande que hay, minar con ellos te ayudara cobrar regularmen
 info_2: Tipo de paga PPS disponible con una comision de 10% - 3061 Ghash/s @ 10.14.11
 
 
-[digbtc]
-#http://www.digbtc.net
-info_1: Mina pequena, recomendado que cambies el user-agent (pagina 154 - hilo bH en el foro principal) - 5.5 Ghash/s @ 08.23.11
-
-
 [guildminers]
 #http://guildminers.com
 info_1: La retirada BTC disponible de momento es hacia el exchange campbx, minimo 1btc (pagina de mina) - 14.3 GHash/s @ 09.21.11
@@ -107,6 +102,7 @@ info_3: Caida unas horas, probablemente ataque ddos - 25 GHash/s @ 09.27.11
 #https://masterpool.eu
 info_1: Actualmente estan probando la mineria unida (en: http://dot-bit.org/Merged_Mining) - 3.12 Ghash/s @ 08.23.11
 info_2: La mineria unida esta activa desde el bloque 19200 y funciona sin problemas, actualiza tu cliente NMC - 10 Ghash/s @ 10.08.11
+info_3: Van a cambiar el sistema de pago a PPLNS el 26 de Nov. 2011 00:00 UTC (e-mail a miembros) - 16.53 Ghash/s @ 11.16.11
 
 
 [mtred]
@@ -355,6 +351,12 @@ Pool-X
  usuario/contrasena solo si quieres
  saltarlas a tu riesgo.
 #####################################
+
+
+[digbtc]
+#http://www.digbtc.net
+info_1: Mina pequena, recomendado que cambies el user-agent (pagina 154 - hilo bH en el foro principal) - 5.5 Ghash/s @ 08.23.11
+info_2: Abandonada - 0 Ghash/s @ 11.16.11
 
 
 [btcgpps]

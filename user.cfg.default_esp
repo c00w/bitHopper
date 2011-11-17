@@ -131,13 +131,6 @@ role: info
 user: nombre_minero
 pass: contrasena_minero
 
-[digbtc]
-#http://www.digbtc.net (Prop)
-#---Modifica despues de esta linea si vas a minar---
-role: info
-user: nombre_minero
-pass: contrasena_minero
-
 [bclc]
 #http://www.bitcoins.lc (Prop)
 #---Modifica despues de esta linea si vas a minar---
@@ -415,6 +408,13 @@ pass: contrasena_minero
 # usuario/contrasena solo si quieres
 # saltarlas a tu riesgo.
 ######################################
+
+[digbtc]
+#http://www.digbtc.net (Prop)
+#---Modifica despues de esta linea si vas a minar---
+role: info
+user: nombre_minero
+pass: contrasena_minero
 
 [ixparking]
 #http://ixpool.bitparking.com/pool

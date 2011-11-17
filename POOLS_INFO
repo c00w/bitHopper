@@ -3,7 +3,7 @@
  of pools used for hopping, gathered
    here for orientative purposes.
 
-     Last update: Nov 13, 2011
+     Last update: Nov 16, 2011
 ######################################
 ######################################
    These Pools are added recently
@@ -85,11 +85,6 @@ info_1: Biggest pool around, mining with them should get your variance down - 57
 info_2: PPS payout available with a 10% fee - 3061 Ghash/s @ 10.14.11
 
 
-[digbtc]
-#http://www.digbtc.net
-info_1: Small pool, recommended you change user-agent (page 154 - bH thread on main forum) - 5.5 Ghash/s @ 08.23.11
-
-
 [guildminers]
 #http://guildminers.com
 info_1: BTC withdrawal available only to campbx exchange, 1btc minimum (pool website) - 14.3 GHash/s @ 09.21.11
@@ -107,6 +102,7 @@ info_3: Down for few hours, prob ddos'ed - 25 GHash/s @ 09.27.11
 #https://masterpool.eu
 info_1: Currently testing merged mining (http://dot-bit.org/Merged_Mining) - 3.12 Ghash/s @ 08.23.11
 info_2: Merged mining active and working nice from block 19200, update your NMC client - 10 Ghash/s @ 10.08.11
+info_3: Will change their reward system to PPLNS on 26 Nov. 2011 00:00 UTC (e-mail to members) - 16.53 Ghash/s @ 11.16.11
 
 
 [mtred]
@@ -352,6 +348,12 @@ Pool-X
  thread annotated in parentheses.
  Hop them at your own risk
 ######################################
+
+
+[digbtc]
+#http://www.digbtc.net
+info_1: Small pool, recommended you change user-agent (page 154 - bH thread on main forum) - 5.5 Ghash/s @ 08.23.11
+info_2: Abandoned pool - 0 Ghash/s @ 11.16.11
 
 
 [btcgpps]

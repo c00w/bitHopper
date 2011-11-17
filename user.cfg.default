@@ -132,13 +132,6 @@ role: info
 user: your_username
 pass: your_password
 
-[digbtc]
-#http://www.digbtc.net (Prop)
-#---Edit after this line if mined---
-role: info
-user: your_username
-pass: your_password
-
 [bclc]
 #http://www.bitcoins.lc (Prop)
 #---Edit after this line if mined---
@@ -416,6 +409,13 @@ pass: your_password
 # user/pass unless you really want
 # to hop them at your own risk.
 ######################################
+
+[digbtc]
+#http://www.digbtc.net (Prop)
+#---Edit after this line if mined---
+role: info
+user: your_username
+pass: your_password
 
 [ixparking]
 #http://ixpool.bitparking.com/pool
