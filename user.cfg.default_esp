@@ -189,7 +189,7 @@ user: c00w1456testhop
 pass: x
 
 [masterpool]
-#https://masterpool.eu (Prop, mineria unida NMC)
+#https://masterpool.eu (PPLNS, mineria unida NMC)
 #---Modifica despues de esta linea si vas a minar---
 role: info
 user: nombre_minero

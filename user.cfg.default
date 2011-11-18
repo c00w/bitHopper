@@ -190,7 +190,7 @@ user: c00w1456testhop
 pass: x
 
 [masterpool]
-#https://masterpool.eu (Prop, merged mining NMC)
+#https://masterpool.eu (PPLNS, merged mining NMC)
 #---Edit after this line if mined---
 role: info
 user: your_username

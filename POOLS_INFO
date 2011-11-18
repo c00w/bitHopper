@@ -133,13 +133,11 @@ info_5: Back in business, hope botnets leave them alone (page 205 - pool thread 
 info_6: Mining over TOR available at lcir2ce5utha5xoo.onion port 8332 (page 208 - pool thread on main forum) - 1088.30 GHash/s @ 10.23.11
 
 
-#####################################
- Backup pools for when there is
- no pool where you would earn more
- than expected (can be any pool with
- hopping proof algorithms, PPS has
- lowest variance though)
-#####################################
+##################################
+ Backup pools, that help maintain
+ efficiency, for when there is
+ no Prop. pool available
+##################################
 
 
 [eligius]
@@ -217,9 +215,9 @@ info_1: Small sized pool with delayed PPS payout system and increased difficulty
 
 
 ###############################
- PPLNS, DGM or other payout
- system seen as fairer by
- pool ops and miners
+ Pools that use PPLNS, DGM or
+ other payout system seen as
+ fairer by admins and miners
 ###############################
 
 

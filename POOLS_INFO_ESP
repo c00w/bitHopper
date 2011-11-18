@@ -133,14 +133,11 @@ info_5: Vuelta a la normalidad, esperemos que las botnets los dejan en paz (pagi
 info_6: Mineria sobre TOR disponible en lcir2ce5utha5xoo.onion puerto 8332 (pagina 208 - hilo de mina en foro principal) - 1088.30 GHash/s @ 10.23.11
 
 
-#####################################
- Minas de respaldo (backup) para
- cuando no tienes ninguna mina
- proporcional disponible.
- (puede ser cualquier mina con medidas
- anti-hopping, las minas PPS tienen
- la menor variancia desde luego.
-#####################################
+#######################################
+ Minas de respaldo, que ayudan mantener
+ la eficiencia, para cuando no hay
+ ninguna mina Prop. disponible
+#######################################
 
 
 [eligius]
@@ -217,11 +214,11 @@ info_5: Ha cambiado a sistema puro PPS (pagina de mina) - 1003.45 Ghash/s @ 10.2
 info_1: Mina pequena que utiliza sistema de pago PPS retardado y shares de dificultad mayor (pagina de mina) - 7.5 GHash/s @ 09.27.11
 
 
-###############################
- PPLNS, DGM u otro sistema de
- pago visto como mas justo
- por admins y mineros
-###############################
+################################
+ Minas que usan PPLNS, DGM u
+ otro sistema de pago visto como
+ mas justo por admins y mineros
+################################
 
 
 [eclipsemc]
