@@ -229,6 +229,13 @@ info_5: Changed payout to pure PPS (pool website) - 1003.45 Ghash/s @ 10.23.11
 info_1: Small sized pool with delayed PPS payout system and increased difficulty shares (pool website) - 7.5 GHash/s @ 09.27.11
 
 
+###############################
+ PPLNS, DGM or other payout
+ system seen as fairer by
+ pool ops and miners
+###############################
+
+
 [rfc]
 #https://rfcpool.com
 info_1: Nice small pool
@@ -245,13 +252,6 @@ info_1: Small pool that uses Double Geometric Payout Method, DGPM (pool website 
 #https://bitcointalk.org/index.php?topic=18313
 info_1: Decentralized pool with support for btc, nmc and others - 1.89 Ghash/s @ 08.23.11
 info_2: Pool software needs to be installed on local pc
-
-
-###############################
- PPLNS, DGM or other payout
- system seen as fairer by
- pool ops and miners
-###############################
 
 
 [triple]
