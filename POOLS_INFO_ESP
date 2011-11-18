@@ -146,13 +146,6 @@ info_5: Vuelta a la normalidad, esperemos que las botnets los dejan en paz (pagi
 info_6: Mineria sobre TOR disponible en lcir2ce5utha5xoo.onion puerto 8332 (pagina 208 - hilo de mina en foro principal) - 1088.30 GHash/s @ 10.23.11
 
 
-[triple]
-#https://www.triplemining.com
-info_1: Mina de tamano mediano - 43.6 GHash/s @ 08.23.11
-info_2: Usa como backup_latehop si quieres ayudarlos encontrar por fin un bloque (Flash Mob Mining Event - 08.21.11)
-
-
-
 #####################################
  Minas de respaldo (backup) para
  cuando no tienes ninguna mina
@@ -253,6 +246,20 @@ info_1: Utiliza el Sistema de Pago Doble Geometrico, DGPM (pagina de mina + pagi
 #https://bitcointalk.org/index.php?topic=18313
 info_1: Mina descentralizada con sopote para btc, nmc y otros - 1.89 Ghash/s @ 08.23.11
 info_2: El programa de mina se tiene que instalar previamente en el ordenador local
+
+
+###############################
+ PPLNS, DGM u otro sistema de
+ pago visto como mas justo
+ por admins y mineros
+###############################
+
+
+[triple]
+#https://www.triplemining.com
+info_1: Mina de tamano mediano - 43.6 GHash/s @ 08.23.11
+info_2: Usa como backup_latehop si quieres ayudarlos encontrar por fin un bloque (Flash Mob Mining Event - 08.21.11)
+info_3: Cambio a sistema PPLNS (pagina de mina) - 18.9 GHash/s @ 11.19.11
 
 
 #####################################

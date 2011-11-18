@@ -95,7 +95,7 @@ user: testhop
 pass: x
 
 [triple]
-#https://www.triplemining.com (Prop)
+#https://www.triplemining.com (PPLNS)
 #---Modifica despues de esta linea si vas a minar---
 role: mine
 user: c00w_test
