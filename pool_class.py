@@ -50,7 +50,7 @@ class Pool():
 
         #Coin Handling
         coin_roles = {'mine': 'btc', 'info': 'btc', 'backup': 'btc', 'backup_latehop': 'btc', 'mine_charity': 'btc', 'mine_c':'btc', 'mine_force':'btc'}
-        for title, coin in self.bitHopper.altercoins.iteritems():
+        for coin in self.bitHopper.altercoins.itervalues():
             if coin['short_name'] != 'btc':
                 coin_roles[coin['short_name']] = 'mine_' + coin['short_name']
         if 'coin' not in attribute_dict:
@@ -104,7 +104,7 @@ class Pool():
 
     def btc_shares(self):
         coin_diffs = {}
-        for title, attr_coin in self.bitHopper.altercoins.iteritems():
+        for attr_coin in self.bitHopper.altercoins.itervalues():
             coin_diffs[attr_coin['short_name']] = self.bitHopper.difficulty[attr_coin['short_name']]
         
         if self['coin'] in ['btc']:
