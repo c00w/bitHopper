@@ -26,7 +26,7 @@ class Difficulty():
 
         #Add Coins
         self.diff = {}
-        for title, attr_coin in bitHopper.altercoins.iteritems():
+        for attr_coin in bitHopper.altercoins.itervalues():
             self.diff[attr_coin['short_name']] = attr_coin['recent_difficulty']
 
         #Store bitHopper for logging
