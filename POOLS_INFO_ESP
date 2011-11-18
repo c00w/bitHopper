@@ -224,11 +224,23 @@ info_1: Mina pequena que utiliza sistema de pago PPS retardado y shares de dific
 ###############################
 
 
+[eclipsemc]
+#https://eclipsemc.com
+info_1: Ha cambiado a sistema de pagos a uno por puntuacion (pagina 16 - hilo bH en el foro principal) - 53.51 Ghash/s @ 08.23.11
+info_2: Usa el metodo PCT (proteccion contra truco), eng: CPS (foro principal)
+info_3: Usa DGS (https://bitcointalk.org/index.php?topic=12920.msg590888#msg590888)
+
+
 [masterpool]
 #https://masterpool.eu
 info_1: Actualmente estan probando la mineria unida (en: http://dot-bit.org/Merged_Mining) - 3.12 Ghash/s @ 08.23.11
 info_2: La mineria unida esta activa desde el bloque 19200 y funciona sin problemas, actualiza tu cliente NMC - 10 Ghash/s @ 10.08.11
 info_3: Van a cambiar el sistema de pago a PPLNS el 26 de Nov. 2011 00:00 UTC (e-mail a miembros) - 16.53 Ghash/s @ 11.16.11
+
+
+[mineco]
+#https://mineco.in
+info_1: Ha cambiado sistema de pagos a PPLNS (pagina 94 - hilo bH en el foro principal) - 79 Ghash/s @ 08.23.11
 
 
 [mkalinin]
@@ -258,7 +270,7 @@ info_3: Cambio a sistema PPLNS (pagina de mina) - 18.9 GHash/s @ 11.19.11
 
 [yourbtc]
 #http://yourbtc.net
-info_1: Utiliza el Sistema de Pago Doble Geometrico, DGPM (pagina de mina + pagina 2 - hilo de mina en foro principal) - 4.3 GHash/s @ 09.21.11
+info_1: Utiliza el sistema DGM (pagina de mina + pagina 2 - hilo de mina en foro principal) - 4.3 GHash/s @ 09.21.11
 
 
 #####################################
@@ -477,18 +489,6 @@ info_1: La misma mina, usando el mismo usuario y contrasena del worker para mina
 [x8s]
 #http://btc.x8s.de
 info_1: Mina cerrada (pagina 48 - hilo bH en el foro principal) - Offline @ 08.23.11
-
-
-[mineco]
-#https://mineco.in
-info_1: Ha cambiado sistema de pagos a PPLNS (pagina 94 - hilo bH en el foro principal) - 79 Ghash/s @ 08.23.11
-
-
-[eclipsemc]
-#https://eclipsemc.com
-info_1: Ha cambiado a sistema de pagos a uno por puntuacion (pagina 16 - hilo bH en el foro principal) - 53.51 Ghash/s @ 08.23.11
-info_2: Usa el metodo PCT (proteccion contra truco), eng: CPS (foro principal)
-info_3: Usa DGS (https://bitcointalk.org/index.php?topic=12920.msg590888#msg590888)
 
 
 [mmf]
