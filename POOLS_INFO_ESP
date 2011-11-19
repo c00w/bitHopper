@@ -92,14 +92,6 @@ info_2: Se quedaron con el sist. Proporcional (Canal IRC) - 36 GHash/s @ 08.23.1
 info_3: Caida unas horas, probablemente ataque ddos - 25 GHash/s @ 09.27.11
 
 
-[mtred]
-#https://mtred.com
-info_1: Buena para saltar, mina rapida para principiantes - 176.52 GHash/s @ 08.23.11
-info_2: Sistema de pago PPS disponible en caso de utilizar como mina de respaldo
-info_3: Despues del bloque actual van a tener solo tipo de pago PPS, en pruebas por 2-6 semanas (reddit.com) - 210.50 GHash/s @ 10.10.11
-info_4: Mineria unida disponible, sistema de pago Prop. para NMC (pagina 8 - hilo de mina en foro principal) - 68.10 GHash/s @ 10.25.11
-
-
 [ozco]
 #https://ozco.in
 info_1: Congela stats sin razon (pagina 114 - hilo bH en el foro principal)
@@ -212,6 +204,14 @@ info_5: Ha cambiado a sistema puro PPS (pagina de mina) - 1003.45 Ghash/s @ 10.2
 [bitpenny]
 #http://www.bitpenny.com
 info_1: Mina pequena que utiliza sistema de pago PPS retardado y shares de dificultad mayor (pagina de mina) - 7.5 GHash/s @ 09.27.11
+
+
+[mtred]
+#https://mtred.com
+info_1: Buena para saltar, mina rapida para principiantes - 176.52 GHash/s @ 08.23.11
+info_2: Sistema de pago PPS disponible en caso de utilizar como mina de respaldo
+info_3: Despues del bloque actual van a tener solo tipo de pago PPS, en pruebas por 2-6 semanas (reddit.com) - 210.50 GHash/s @ 10.10.11
+info_4: Mineria unida disponible, sistema de pago Prop. para NMC (pagina 8 - hilo de mina en foro principal) - 68.10 GHash/s @ 10.25.11
 
 
 ################################
