@@ -225,7 +225,7 @@ info_1: Small sized pool with delayed PPS payout system and increased difficulty
 #https://eclipsemc.com
 info_1: Changed to a score system (page 16 - bH thread on main forum) - 53.51 Ghash/s @ 08.23.11
 info_2: Uses CPS (cheat proof scoring) method (main forum)
-info_3: Uses DGM (https://bitcointalk.org/index.php?topic=12920.msg590888#msg590888)
+info_3: Uses DGM (https://bitcointalk.org/index.php?topic=39497.0)
 
 
 [masterpool]
