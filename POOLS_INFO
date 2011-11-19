@@ -166,6 +166,14 @@ info_3: Registering temp disabled - 111.9 GHash/s @ 08.23.11
 info_4: Sign-up is now open - 143 GHash/s @ 10.03.11
 
 
+[mtred]
+#https://mtred.com
+info_1: Good for hopping, fast pool for hopper-starters - 176.52 GHash/s @ 08.23.11
+info_2: Alternate PPS payout available for use as backup if wanted 
+info_3: After the current block will be offering PPS payout only, 2-6 weeks test (reddit.com) - 210.50 GHash/s @ 10.10.11
+info_4: Merged mining now available, Prop. payouts for NMC (page 8 - pool thread on main forum) - 68.10 GHash/s @ 10.25.11
+
+
 [nofeemining]
 #https://nofeemining.appspot.com
 info_1: Nice small pool
@@ -206,14 +214,6 @@ info_5: Changed payout to pure PPS (pool website) - 1003.45 Ghash/s @ 10.23.11
 info_1: Small sized pool with delayed PPS payout system and increased difficulty shares (pool website) - 7.5 GHash/s @ 09.27.11
 
 
-[mtred]
-#https://mtred.com
-info_1: Good for hopping, fast pool for hopper-starters - 176.52 GHash/s @ 08.23.11
-info_2: Alternate PPS payout available for use as backup if wanted 
-info_3: After the current block will be offering PPS payout only, 2-6 weeks test (reddit.com) - 210.50 GHash/s @ 10.10.11
-info_4: Merged mining now available, Prop. payouts for NMC (page 8 - pool thread on main forum) - 68.10 GHash/s @ 10.25.11
-
-
 ###############################
  Pools that use PPLNS, DGM or
  other payout system seen as
@@ -225,7 +225,7 @@ info_4: Merged mining now available, Prop. payouts for NMC (page 8 - pool thread
 #https://eclipsemc.com
 info_1: Changed to a score system (page 16 - bH thread on main forum) - 53.51 Ghash/s @ 08.23.11
 info_2: Uses CPS (cheat proof scoring) method (main forum)
-info_3: Uses DGS (https://bitcointalk.org/index.php?topic=12920.msg590888#msg590888)
+info_3: Uses DGM (https://bitcointalk.org/index.php?topic=12920.msg590888#msg590888)
 
 
 [masterpool]
@@ -233,12 +233,7 @@ info_3: Uses DGS (https://bitcointalk.org/index.php?topic=12920.msg590888#msg590
 info_1: Currently testing merged mining (http://dot-bit.org/Merged_Mining) - 3.12 Ghash/s @ 08.23.11
 info_2: Merged mining active and working nice from block 19200, update your NMC client - 10 Ghash/s @ 10.08.11
 info_3: Will change their reward system to PPLNS on 26 Nov. 2011 00:00 UTC (e-mail to members) - 16.53 Ghash/s @ 11.16.11ç
-[mtred]
-#https://mtred.com
-info_1: Good for hopping, fast pool for hopper-starters - 176.52 GHash/s @ 08.23.11
-info_2: Alternate PPS payout available for use as backup if wanted 
-info_3: After the current block will be offering PPS payout only, 2-6 weeks test (reddit.com) - 210.50 GHash/s @ 10.10.11
-info_4: Merged mining now available, Prop. payouts for NMC (page 8 - pool thread on main forum) - 68.10 GHash/s @ 10.25.11
+
 
 [mineco]
 #https://mineco.in

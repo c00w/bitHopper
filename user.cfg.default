@@ -95,13 +95,6 @@ role: info
 user: testhop
 pass: x
 
-[triple]
-#https://www.triplemining.com (PPLNS)
-#---Edit after this line if mined---
-role: mine
-user: c00w_test
-pass: x
-
 [bitclockers]
 #http://bitclockers.com (Prop)
 #---Edit after this line if mined---
@@ -189,13 +182,6 @@ role: disable
 user: c00w1456testhop
 pass: x
 
-[masterpool]
-#https://masterpool.eu (PPLNS, merged mining NMC)
-#---Edit after this line if mined---
-role: info
-user: your_username
-pass: your_password
-
 [simplecoin]
 #http://simplecoin.us (Prop, SMPPS, PPLNS, merged mining NMC)
 #---Edit after this line if mined---
@@ -210,14 +196,11 @@ role: info
 user: your_username
 pass: your_password
 
-######################################
-# Backup pools for when there is
-# no pool where you would earn more
-# than expected (can be any pool with
-# hopping proof algorithms, PPS has
-# lowest variance though)
-#
-######################################
+##################################
+ Backup pools, that help maintain
+ efficiency, for when there is
+ no Prop. pool available
+##################################
 
 [eligius]
 #http://eligius.st (SMPPS, merged mining NMC)
@@ -309,15 +292,37 @@ role: info
 user: (any bitcoin address)
 pass: pass
 
-[rfc]
-#https://rfcpool.com (PPLNS)
+
+###############################
+ Pools that use PPLNS, DGM or
+ other payout system seen as
+ fairer by admins and miners
+###############################
+
+[eclipsemc]
+#https://eclipsemc.com (DGM)
 #---Edit after this line if mined---
 role: disable
-user: c00w_test
+eclipsemc_apikey: bd0eded7e35b1b5fc48f8d10214d98
+user: c00w_worker
 pass: x
 
-[yourbtc]
-#http://yourbtc.net (DGPM)
+[masterpool]
+#https://masterpool.eu (PPLNS, merged mining NMC)
+#---Edit after this line if mined---
+role: info
+user: your_username
+pass: your_password
+
+[mineco]
+#https://mineco.in (PPLNS)
+#---Edit after this line if mined---
+role: disable
+user: c00w.test
+pass: x
+
+[mkalinin]
+#http://pool.mkalinin.ru (PPLNS)
 #---Edit after this line if mined---
 role: info
 user: your_username
@@ -331,8 +336,22 @@ user: happy
 #password and user can be anything p2pool
 pass: miner
 
-[mkalinin]
-#http://pool.mkalinin.ru (PPLNS)
+[rfc]
+#https://rfcpool.com (PPLNS)
+#---Edit after this line if mined---
+role: disable
+user: c00w_test
+pass: x
+
+[triple]
+#https://www.triplemining.com (PPLNS)
+#---Edit after this line if mined---
+role: mine
+user: c00w_test
+pass: x
+
+[yourbtc]
+#http://yourbtc.net (DGM)
 #---Edit after this line if mined---
 role: info
 user: your_username
@@ -455,12 +474,14 @@ pass: your_password
 
 [i0parking]
 #http://i0pool.bitparking.com
+#---Edit after this line if mined---
 role: disable
 user: your_username
 pass: your_password
 
 [digi0c]
 #http://i0.digbtc.net
+#---Edit after this line if mined---
 role: disable
 user: your_username
 pass: your_password
@@ -538,21 +559,6 @@ pass: testhop
 role: disable
 user: testhop
 pass: x 
-
-[mineco]
-#https://mineco.in
-#---Edit after this line if mined---
-role: disable
-user: c00w.test
-pass: x
-
-[eclipsemc]
-#https://eclipsemc.com
-#---Edit after this line if mined---
-role: disable
-eclipsemc_apikey: bd0eded7e35b1b5fc48f8d10214d98
-user: c00w_worker
-pass: x
 
 [mmf]
 #http://mining.mainframe.nl
