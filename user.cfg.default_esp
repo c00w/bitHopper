@@ -94,13 +94,6 @@ role: info
 user: testhop
 pass: x
 
-[triple]
-#https://www.triplemining.com (Prop)
-#---Modifica despues de esta linea si vas a minar---
-role: mine
-user: c00w_test
-pass: x
-
 [bitclockers]
 #http://bitclockers.com (Prop)
 #---Modifica despues de esta linea si vas a minar---
@@ -188,13 +181,6 @@ role: disable
 user: c00w1456testhop
 pass: x
 
-[masterpool]
-#https://masterpool.eu (Prop, mineria unida NMC)
-#---Modifica despues de esta linea si vas a minar---
-role: info
-user: nombre_minero
-pass: contrasena_minero
-
 [simplecoin]
 #http://simplecoin.us (Prop, SMPPS, PPLNS, mineria unida NMC)
 #---Modifica despues de esta linea si vas a minar---
@@ -209,14 +195,11 @@ role: info
 user: nombre_minero
 pass: contrasena_minero
 
-######################################
-# Minas de respaldo (backup) para
-# cuando no tienes ninguna mina
-# proporcional disponible.
-# (puede ser cualquier mina con medidas
-# anti-hopping, las minas PPS tienen
-# la menor variancia desde luego.
-######################################
+#######################################
+ Minas de respaldo, que ayudan mantener
+ la eficiencia, para cuando no hay
+ ninguna mina Prop. disponible
+#######################################
 
 [eligius]
 #http://eligius.st (SMPPS, mineria unida NMC)
@@ -308,19 +291,40 @@ role: info
 user: (una direccion bitcoin)
 pass: pass
 
-[rfc]
-#https://rfcpool.com (PPLNS)
+################################
+ Minas que usan PPLNS, DGM u
+ otro sistema de pago visto como
+ mas justo por admins y mineros
+################################
+
+[eclipsemc]
+#https://eclipsemc.com (DGM)
 #---Modifica despues de esta linea si vas a minar---
 role: disable
-user: c00w_test
+eclipsemc_apikey: bd0eded7e35b1b5fc48f8d10214d98
+user: c00w_worker
 pass: x
 
-[yourbtc]
-#http://yourbtc.net (DGPM)
+[masterpool]
+#https://masterpool.eu (PPLNS, mineria unida NMC)
 #---Modifica despues de esta linea si vas a minar---
 role: info
 user: nombre_minero
 pass: contrasena_minero
+
+[mineco]
+#https://mineco.in (PPLNS)
+#---Modifica despues de esta linea si vas a minar---
+role: disable
+user: c00w.test
+pass: x
+
+[mkalinin]
+#http://pool.mkalinin.ru (PPLNS)
+#---Modifica despues de esta linea si vas a minar---
+role: info
+user: your_username
+pass: your_password
 
 [p2pool]
 #https://en.bitcoin.it/wiki/P2Pool (PPLNS)
@@ -330,12 +334,26 @@ user: minero
 #las contrasenas y el usuario no importan en p2pool
 pass: feliz
 
-[mkalinin]
-#http://pool.mkalinin.ru (PPLNS)
+[rfc]
+#https://rfcpool.com (PPLNS)
+#---Modifica despues de esta linea si vas a minar---
+role: disable
+user: c00w_test
+pass: x
+
+[triple]
+#https://www.triplemining.com (PPLNS)
+#---Modifica despues de esta linea si vas a minar---
+role: mine
+user: c00w_test
+pass: x
+
+[yourbtc]
+#http://yourbtc.net (DGM)
 #---Modifica despues de esta linea si vas a minar---
 role: info
-user: your_username
-pass: your_password
+user: nombre_minero
+pass: contrasena_minero
 
 ######################################
 # Minas Namecoin u otro tipo. Salta
@@ -539,21 +557,6 @@ pass: testhop
 role: disable
 user: testhop
 pass: x 
-
-[mineco]
-#https://mineco.in
-#---Modifica despues de esta linea si vas a minar---
-role: disable
-user: c00w.test
-pass: x
-
-[eclipsemc]
-#https://eclipsemc.com
-#---Modifica despues de esta linea si vas a minar---
-role: disable
-eclipsemc_apikey: bd0eded7e35b1b5fc48f8d10214d98
-user: c00w_worker
-pass: x
 
 [mmf]
 #http://mining.mainframe.nl
