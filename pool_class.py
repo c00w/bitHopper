@@ -120,7 +120,7 @@ class Pool():
             except:
                 c = 300
             hashrate = float(self['ghash'])
-            hopoff = coin_diffs['btc'] * (0.435 - 503131./(1173666 + c*hashrate))
+            hopoff = coin_diffs['btc'] * (0.0164293 + 1.14254 / (1.8747 * (coin_diffs['btc'] / (c * hashrate)) + 2.71828))
             if shares > hopoff:
                 shares = 2*coin_diffs['btc']
 
