@@ -25,10 +25,10 @@ class Exchange():
 
     def updater(self, coin, url_diff, reg_exp = None):
         # Generic method to update the exchange rate of a given currency
-        self.bitHopper.log_msg('Updating Exchange Rate of ' + coin)
         if self.calculate_profit == True:
             try:
                 #timeout = eventlet.timeout.Timeout(5, Exception(''))
+                self.bitHopper.log_msg('Updating Exchange Rate of ' + coin)
                 useragent = {'User-Agent': self.bitHopper.config.get('main', 'work_user_agent')}
                 req = urllib2.Request(url_diff, headers = useragent)
                 response = urllib2.urlopen(req)
@@ -63,7 +63,7 @@ class Exchange():
         while True:
             "Tries to update profit from the internet"
             with self.lock:
-                for generic_title, market in self.bitHopper.altercoins.iteritems():
+                for market in self.bitHopper.altercoins.itervalues():
                     if market.has_key('site_exchange') and market.has_key('pattern_site_exchange'):
                         self.updater(market['long_name'], market['site_exchange'], market['pattern_site_exchange'])
                 

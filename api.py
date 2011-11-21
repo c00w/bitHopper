@@ -18,7 +18,7 @@ class API():
         self.api_lock = {}
         self.pool = self.bitHopper.pool
         self.api_pull = ['mine', 'info', 'mine_c', 'mine_charity', 'mine_lp',  'backup', 'backup_latehop']
-        self.api_pull.extend(['mine_' + coin for coin, diff in self.bitHopper.difficulty.diff.iteritems() if coin != 'btc'])
+        self.api_pull.extend(['mine_' + coin["short_name"] for coin in self.bitHopper.altercoins.itervalues() if coin["short_name"] != 'btc'])
         self.api_disable_sec = 7200
         try:
             self.api_disable_sec = self.bitHopper.config.getint('main', 'api_disable_sec')
@@ -69,7 +69,7 @@ class API():
 
         #If the shares indicate we found a block tell LP
         coin_type = self.pool.servers[server]['coin']        
-        for title, attr_coin in self.bitHopper.altercoins.iteritems():
+        for attr_coin in self.bitHopper.altercoins.itervalues():
             if coin_type == attr_coin['short_name'] and shares < prev_shares and shares < 0.10 * self.bitHopper.difficulty[coin_type]:
                 self.bitHopper.lp.set_owner(server)
                 break

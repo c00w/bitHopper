@@ -22,7 +22,7 @@ class Scheduler(object):
         else:
             self.difficultyThreshold = 0.435
         self.valid_roles = ['mine', 'mine_lp', 'mine_c', 'mine_charity', 'mine_force', 'mine_lp_force']
-        self.valid_roles.extend(['mine_' + coin for coin, diff in self.bitHopper.difficulty.diff.iteritems() if coin != 'btc'])
+        self.valid_roles.extend(['mine_' + coin["short_name"] for coin in self.bitHopper.altercoins.itervalues() if coin["short_name"] != 'btc'])
         hook_announce = plugins.Hook('plugins.lp.announce')
         hook_announce.register(self.mine_lp_force)
 

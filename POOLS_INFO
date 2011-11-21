@@ -1,20 +1,14 @@
 ######################################
  This file contains brief information
  of pools used for hopping, gathered
-   here for orientative purposes.
+   here for orientation purposes.
 
-     Last update: Nov 13, 2011
+     Last update: Nov 19, 2011
 ######################################
 ######################################
    These Pools are added recently
       hop them at your risk
 ######################################
-
-
-[mkalinin]
-#http://pool.mkalinin.ru
-info_1: Nice small pool, PPLNS payout (pool website) - 3.8 GHash/s @ 11.9.11
-
 
 ######################################
 
@@ -85,11 +79,6 @@ info_1: Biggest pool around, mining with them should get your variance down - 57
 info_2: PPS payout available with a 10% fee - 3061 Ghash/s @ 10.14.11
 
 
-[digbtc]
-#http://www.digbtc.net
-info_1: Small pool, recommended you change user-agent (page 154 - bH thread on main forum) - 5.5 Ghash/s @ 08.23.11
-
-
 [guildminers]
 #http://guildminers.com
 info_1: BTC withdrawal available only to campbx exchange, 1btc minimum (pool website) - 14.3 GHash/s @ 09.21.11
@@ -101,20 +90,6 @@ info_2: Mining address could be wrong, they impose a custom miner software (pool
 info_1: Switched to PPS (page 154 - bH thread on main forum)
 info_2: Seems like they're Prop. pool (IRC Chan.) - 36 GHash/s @ 08.23.11
 info_3: Down for few hours, prob ddos'ed - 25 GHash/s @ 09.27.11
-
-
-[masterpool]
-#https://masterpool.eu
-info_1: Currently testing merged mining (http://dot-bit.org/Merged_Mining) - 3.12 Ghash/s @ 08.23.11
-info_2: Merged mining active and working nice from block 19200, update your NMC client - 10 Ghash/s @ 10.08.11
-
-
-[mtred]
-#https://mtred.com
-info_1: Good for hopping, fast pool for hopper-starters - 176.52 GHash/s @ 08.23.11
-info_2: Alternate PPS payout available for use as backup if wanted 
-info_3: After the current block will be offering PPS payout only, 2-6 weeks test (reddit.com) - 210.50 GHash/s @ 10.10.11
-info_4: Merged mining now available, Prop. payouts for NMC (page 8 - pool thread on main forum) - 68.10 GHash/s @ 10.25.11
 
 
 [ozco]
@@ -150,20 +125,11 @@ info_5: Back in business, hope botnets leave them alone (page 205 - pool thread 
 info_6: Mining over TOR available at lcir2ce5utha5xoo.onion port 8332 (page 208 - pool thread on main forum) - 1088.30 GHash/s @ 10.23.11
 
 
-[triple]
-#https://www.triplemining.com
-info_1: Mid-size pool - 43.6 GHash/s @ 08.23.11
-info_2: Use as backup_latehop if you want to help them find the block (Flash Mob Mining Event - 08.21.11)
-
-
-
-#####################################
- Backup pools for when there is
- no pool where you would earn more
- than expected (can be any pool with
- hopping proof algorithms, PPS has
- lowest variance though)
-#####################################
+##################################
+ Backup pools, that help maintain
+ efficiency, for when there is
+ no Prop. pool available
+##################################
 
 
 [eligius]
@@ -198,6 +164,14 @@ info_1: PPS, intro. 0% fee, pays stales
 info_2: High invalids on poclbm, site better supports phoenix 1.5+
 info_3: Registering temp disabled - 111.9 GHash/s @ 08.23.11
 info_4: Sign-up is now open - 143 GHash/s @ 10.03.11
+
+
+[mtred]
+#https://mtred.com
+info_1: Good for hopping, fast pool for hopper-starters - 176.52 GHash/s @ 08.23.11
+info_2: Alternate PPS payout available for use as backup if wanted 
+info_3: After the current block will be offering PPS payout only, 2-6 weeks test (reddit.com) - 210.50 GHash/s @ 10.10.11
+info_4: Merged mining now available, Prop. payouts for NMC (page 8 - pool thread on main forum) - 68.10 GHash/s @ 10.25.11
 
 
 [nofeemining]
@@ -240,6 +214,43 @@ info_5: Changed payout to pure PPS (pool website) - 1003.45 Ghash/s @ 10.23.11
 info_1: Small sized pool with delayed PPS payout system and increased difficulty shares (pool website) - 7.5 GHash/s @ 09.27.11
 
 
+###############################
+ Pools that use PPLNS, DGM or
+ other payout system seen as
+ fairer by admins and miners
+###############################
+
+
+[eclipsemc]
+#https://eclipsemc.com
+info_1: Changed to a score system (page 16 - bH thread on main forum) - 53.51 Ghash/s @ 08.23.11
+info_2: Uses CPS (cheat proof scoring) method (main forum)
+info_3: Uses DGM (https://bitcointalk.org/index.php?topic=39497.0)
+
+
+[masterpool]
+#https://masterpool.eu
+info_1: Currently testing merged mining (http://dot-bit.org/Merged_Mining) - 3.12 Ghash/s @ 08.23.11
+info_2: Merged mining active and working nice from block 19200, update your NMC client - 10 Ghash/s @ 10.08.11
+info_3: Will change their reward system to PPLNS on 26 Nov. 2011 00:00 UTC (e-mail to members) - 16.53 Ghash/s @ 11.16.11ç
+
+
+[mineco]
+#https://mineco.in
+info_1: Changed to PPLNS (page 94 - bH thread on main forum) - 79 Ghash/s @ 08.23.11
+
+
+[mkalinin]
+#http://pool.mkalinin.ru
+info_1: Nice small pool, PPLNS payout (pool website) - 3.8 GHash/s @ 11.9.11
+
+
+[p2pool]
+#https://bitcointalk.org/index.php?topic=18313
+info_1: Decentralized pool with support for btc, nmc and others - 1.89 Ghash/s @ 08.23.11
+info_2: Pool software needs to be installed on local pc
+
+
 [rfc]
 #https://rfcpool.com
 info_1: Nice small pool
@@ -247,15 +258,16 @@ info_2: Pool is closed down (page 178 - bH thread on main forum)
 info_3: Pool is online and accepting miners, changed payout to PPLNS (pool website) - 25.51 GHash/s @ 08.23.11
 
 
+[triple]
+#https://www.triplemining.com
+info_1: Mid-size pool - 43.6 GHash/s @ 08.23.11
+info_2: Use as backup_latehop if you want to help them find the block (Flash Mob Mining Event - 08.21.11)
+info_3: Changed payout to PPLNS (pool website) - 18.9 GHash/s @ 11.19.11
+
+
 [yourbtc]
 #http://yourbtc.net
-info_1: Small pool that uses Double Geometric Payout Method, DGPM (pool website + page 2 - pool thread on main forum) - 4.3 GHash/s @ 09.21.11
-
-
-[p2pool]
-#https://bitcointalk.org/index.php?topic=18313
-info_1: Decentralized pool with support for btc, nmc and others - 1.89 Ghash/s @ 08.23.11
-info_2: Pool software needs to be installed on local pc
+info_1: Small pool that uses DGM (pool website + page 2 - pool thread on main forum) - 4.3 GHash/s @ 09.21.11
 
 
 #####################################
@@ -350,8 +362,13 @@ Pool-X
  These Pools are not hopped for a
  reason. Page of the BitHopper
  thread annotated in parentheses.
- Hop them at your own risk
 ######################################
+
+
+[digbtc]
+#http://www.digbtc.net
+info_1: Small pool, recommended you change user-agent (page 154 - bH thread on main forum) - 5.5 Ghash/s @ 08.23.11
+info_2: Abandoned pool - 0 Ghash/s @ 11.16.11
 
 
 [btcgpps]
@@ -466,18 +483,6 @@ info_1: The same mine, and using the same worker user and pass to mine NameCoins
 [x8s]
 #http://btc.x8s.de
 info_1: Pool is closed down (page 48 - bH thread on main forum) - Offline @ 08.23.11
-
-
-[mineco]
-#https://mineco.in
-info_1: Changed to PPLNS (page 94 - bH thread on main forum) - 79 Ghash/s @ 08.23.11
-
-
-[eclipsemc]
-#https://eclipsemc.com
-info_1: Changed to a score system (page 16 - bH thread on main forum) - 53.51 Ghash/s @ 08.23.11
-info_2: Uses CPS (cheat proof scoring) method (main forum)
-info_3: Uses DGS (https://bitcointalk.org/index.php?topic=12920.msg590888#msg590888)
 
 
 [mmf]

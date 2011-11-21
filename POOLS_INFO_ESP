@@ -3,18 +3,12 @@
    sobre la minas conocidas por bH,
  recogida aqui con fines informativos
 
-   Ultima actualizacion: Nov 13, 2011
+   Ultima actualizacion: Nov 19, 2011
 ######################################
 ######################################
    Minas anadidas recientemente,
       saltalas a tu riesgo.
 ######################################
-
-
-[mkalinin]
-#http://pool.mkalinin.ru
-info_1: Mina pequena, pago PPLNS (pagina de mina) - 3.8 GHash/s @ 11.9.11
-
 
 ###################################### 
 
@@ -85,11 +79,6 @@ info_1: La mina mas grande que hay, minar con ellos te ayudara cobrar regularmen
 info_2: Tipo de paga PPS disponible con una comision de 10% - 3061 Ghash/s @ 10.14.11
 
 
-[digbtc]
-#http://www.digbtc.net
-info_1: Mina pequena, recomendado que cambies el user-agent (pagina 154 - hilo bH en el foro principal) - 5.5 Ghash/s @ 08.23.11
-
-
 [guildminers]
 #http://guildminers.com
 info_1: La retirada BTC disponible de momento es hacia el exchange campbx, minimo 1btc (pagina de mina) - 14.3 GHash/s @ 09.21.11
@@ -101,20 +90,6 @@ info_2: La direccion de mineria podria no ser correcta, requieren un programa mi
 info_1: Cambio a sistema PPS (pagina 154 - hilo bH en el foro principal)
 info_2: Se quedaron con el sist. Proporcional (Canal IRC) - 36 GHash/s @ 08.23.11
 info_3: Caida unas horas, probablemente ataque ddos - 25 GHash/s @ 09.27.11
-
-
-[masterpool]
-#https://masterpool.eu
-info_1: Actualmente estan probando la mineria unida (en: http://dot-bit.org/Merged_Mining) - 3.12 Ghash/s @ 08.23.11
-info_2: La mineria unida esta activa desde el bloque 19200 y funciona sin problemas, actualiza tu cliente NMC - 10 Ghash/s @ 10.08.11
-
-
-[mtred]
-#https://mtred.com
-info_1: Buena para saltar, mina rapida para principiantes - 176.52 GHash/s @ 08.23.11
-info_2: Sistema de pago PPS disponible en caso de utilizar como mina de respaldo
-info_3: Despues del bloque actual van a tener solo tipo de pago PPS, en pruebas por 2-6 semanas (reddit.com) - 210.50 GHash/s @ 10.10.11
-info_4: Mineria unida disponible, sistema de pago Prop. para NMC (pagina 8 - hilo de mina en foro principal) - 68.10 GHash/s @ 10.25.11
 
 
 [ozco]
@@ -150,21 +125,11 @@ info_5: Vuelta a la normalidad, esperemos que las botnets los dejan en paz (pagi
 info_6: Mineria sobre TOR disponible en lcir2ce5utha5xoo.onion puerto 8332 (pagina 208 - hilo de mina en foro principal) - 1088.30 GHash/s @ 10.23.11
 
 
-[triple]
-#https://www.triplemining.com
-info_1: Mina de tamano mediano - 43.6 GHash/s @ 08.23.11
-info_2: Usa como backup_latehop si quieres ayudarlos encontrar por fin un bloque (Flash Mob Mining Event - 08.21.11)
-
-
-
-#####################################
- Minas de respaldo (backup) para
- cuando no tienes ninguna mina
- proporcional disponible.
- (puede ser cualquier mina con medidas
- anti-hopping, las minas PPS tienen
- la menor variancia desde luego.
-#####################################
+#######################################
+ Minas de respaldo, que ayudan mantener
+ la eficiencia, para cuando no hay
+ ninguna mina Prop. disponible
+#######################################
 
 
 [eligius]
@@ -199,6 +164,14 @@ info_1: Mina PPS, 0% comisiones, paga shares "stale"
 info_2: Invalidos muy altos con poclbm, mejor utilizar phoenix 1.5+
 info_3: Registro temporalmente deshabilitado - 111.9 GHash/s @ 08.23.11
 info_4: La creacion de cuentas esta habilitada de nuevo - 143 GHash/s @ 10.03.11
+
+
+[mtred]
+#https://mtred.com
+info_1: Buena para saltar, mina rapida para principiantes - 176.52 GHash/s @ 08.23.11
+info_2: Sistema de pago PPS disponible en caso de utilizar como mina de respaldo
+info_3: Despues del bloque actual van a tener solo tipo de pago PPS, en pruebas por 2-6 semanas (reddit.com) - 210.50 GHash/s @ 10.10.11
+info_4: Mineria unida disponible, sistema de pago Prop. para NMC (pagina 8 - hilo de mina en foro principal) - 68.10 GHash/s @ 10.25.11
 
 
 [nofeemining]
@@ -241,6 +214,43 @@ info_5: Ha cambiado a sistema puro PPS (pagina de mina) - 1003.45 Ghash/s @ 10.2
 info_1: Mina pequena que utiliza sistema de pago PPS retardado y shares de dificultad mayor (pagina de mina) - 7.5 GHash/s @ 09.27.11
 
 
+################################
+ Minas que usan PPLNS, DGM u
+ otro sistema de pago visto como
+ mas justo por admins y mineros
+################################
+
+
+[eclipsemc]
+#https://eclipsemc.com
+info_1: Ha cambiado a sistema de pagos a uno por puntuacion (pagina 16 - hilo bH en el foro principal) - 53.51 Ghash/s @ 08.23.11
+info_2: Usa el metodo PCT (proteccion contra truco), eng: CPS (foro principal)
+info_3: Usa DGS (https://bitcointalk.org/index.php?topic=39497.0)
+
+
+[masterpool]
+#https://masterpool.eu
+info_1: Actualmente estan probando la mineria unida (en: http://dot-bit.org/Merged_Mining) - 3.12 Ghash/s @ 08.23.11
+info_2: La mineria unida esta activa desde el bloque 19200 y funciona sin problemas, actualiza tu cliente NMC - 10 Ghash/s @ 10.08.11
+info_3: Van a cambiar el sistema de pago a PPLNS el 26 de Nov. 2011 00:00 UTC (e-mail a miembros) - 16.53 Ghash/s @ 11.16.11
+
+
+[mineco]
+#https://mineco.in
+info_1: Ha cambiado sistema de pagos a PPLNS (pagina 94 - hilo bH en el foro principal) - 79 Ghash/s @ 08.23.11
+
+
+[mkalinin]
+#http://pool.mkalinin.ru
+info_1: Mina pequena, pago PPLNS (pagina de mina) - 3.8 GHash/s @ 11.9.11
+
+
+[p2pool]
+#https://bitcointalk.org/index.php?topic=18313
+info_1: Mina descentralizada con sopote para btc, nmc y otros - 1.89 Ghash/s @ 08.23.11
+info_2: El programa de mina se tiene que instalar previamente en el ordenador local
+
+
 [rfc]
 #https://rfcpool.com
 info_1: Mina pequena y mona
@@ -248,15 +258,16 @@ info_2: Mina cerrada (pagina 178 - hilo bH en el foro principal)
 info_3: Mina abierta y acceptando nuevos mineros, ha cambiado a sistema de pago PPLNS (pagina de mina) - 25.51 GHash/s @ 08.23.11
 
 
+[triple]
+#https://www.triplemining.com
+info_1: Mina de tamano mediano - 43.6 GHash/s @ 08.23.11
+info_2: Usa como backup_latehop si quieres ayudarlos encontrar por fin un bloque (Flash Mob Mining Event - 08.21.11)
+info_3: Cambio a sistema PPLNS (pagina de mina) - 18.9 GHash/s @ 11.19.11
+
+
 [yourbtc]
 #http://yourbtc.net
-info_1: Utiliza el Sistema de Pago Doble Geometrico, DGPM (pagina de mina + pagina 2 - hilo de mina en foro principal) - 4.3 GHash/s @ 09.21.11
-
-
-[p2pool]
-#https://bitcointalk.org/index.php?topic=18313
-info_1: Mina descentralizada con sopote para btc, nmc y otros - 1.89 Ghash/s @ 08.23.11
-info_2: El programa de mina se tiene que instalar previamente en el ordenador local
+info_1: Utiliza el sistema DGM (pagina de mina + pagina 2 - hilo de mina en foro principal) - 4.3 GHash/s @ 09.21.11
 
 
 #####################################
@@ -351,10 +362,13 @@ Pool-X
  Estas minas no se saltan por una
  razon. La pagina del hilo oficial
  viene entre parentesis.
- No es necesario que cambies
- usuario/contrasena solo si quieres
- saltarlas a tu riesgo.
 #####################################
+
+
+[digbtc]
+#http://www.digbtc.net
+info_1: Mina pequena, recomendado que cambies el user-agent (pagina 154 - hilo bH en el foro principal) - 5.5 Ghash/s @ 08.23.11
+info_2: Abandonada - 0 Ghash/s @ 11.16.11
 
 
 [btcgpps]
@@ -469,18 +483,6 @@ info_1: La misma mina, usando el mismo usuario y contrasena del worker para mina
 [x8s]
 #http://btc.x8s.de
 info_1: Mina cerrada (pagina 48 - hilo bH en el foro principal) - Offline @ 08.23.11
-
-
-[mineco]
-#https://mineco.in
-info_1: Ha cambiado sistema de pagos a PPLNS (pagina 94 - hilo bH en el foro principal) - 79 Ghash/s @ 08.23.11
-
-
-[eclipsemc]
-#https://eclipsemc.com
-info_1: Ha cambiado a sistema de pagos a uno por puntuacion (pagina 16 - hilo bH en el foro principal) - 53.51 Ghash/s @ 08.23.11
-info_2: Usa el metodo PCT (proteccion contra truco), eng: CPS (foro principal)
-info_3: Usa DGS (https://bitcointalk.org/index.php?topic=12920.msg590888#msg590888)
 
 
 [mmf]
