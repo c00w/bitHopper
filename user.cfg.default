@@ -217,14 +217,6 @@ role: backup
 user: c00w.default
 pass: fire
 
-[bitp]
-#http://bitp.it (ESMPPS)
-#---Edit after this line if mined---
-role: backup
-bitp_user_apikey: 80c5dbea750563eb24e5310f94a56b38bad14dc35efb41e9ca421c92f31563ed
-user: 4bjibc3R1RGF9
-pass: u5cpmndZq4Jvp
-
 [ninjac]
 #https://www.ninjacoin.com (PPS)
 #---Edit after this line if mined---
@@ -429,10 +421,18 @@ pass: your_password
 # to hop them at your own risk.
 ######################################
 
+[bitp]
+#http://bitp.it (ESMPPS)
+#---Edit after this line if mined---
+role: disable
+bitp_user_apikey: 80c5dbea750563eb24e5310f94a56b38bad14dc35efb41e9ca421c92f31563ed
+user: 4bjibc3R1RGF9
+pass: u5cpmndZq4Jvp
+
 [digbtc]
 #http://www.digbtc.net (Prop)
 #---Edit after this line if mined---
-role: info
+role: disable
 user: your_username
 pass: your_password
 
