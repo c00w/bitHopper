@@ -174,13 +174,6 @@ info_3: Despues del bloque actual van a tener solo tipo de pago PPS, en pruebas 
 info_4: Mineria unida disponible, sistema de pago Prop. para NMC (pagina 8 - hilo de mina en foro principal) - 68.10 GHash/s @ 10.25.11
 
 
-[nofeemining]
-#https://nofeemining.appspot.com
-info_1: Mina pequena y mona
-info_2: Han cambiado el servidor a google appspot - Velocida de mina desconocida @ 08.23.11
-info_3: Cambiaron sistema de pago a rsmpps (pagina 195 - hilo bH en el foro principal)
-
-
 [itzod]
 #https://pool.itzod.ru
 info_1: Sistema de pago por puntuacion, utiliza mine_slush si quieres saltarla (pagina 154 - hilo bH en el foro principal) - 74.61 Ghash/s @ 08.23.11
@@ -363,6 +356,14 @@ Pool-X
  razon. La pagina del hilo oficial
  viene entre parentesis.
 #####################################
+
+
+[nofeemining]
+#https://nofeemining.appspot.com
+info_1: Mina pequena y mona
+info_2: Han cambiado el servidor a google appspot - Velocida de mina desconocida @ 08.23.11
+info_3: Cambiaron sistema de pago a rsmpps (pagina 195 - hilo bH en el foro principal)
+info_4: Cerrada indefinidamente (pagina de mina)
 
 
 [digbtc]

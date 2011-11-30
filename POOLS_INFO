@@ -174,13 +174,6 @@ info_3: After the current block will be offering PPS payout only, 2-6 weeks test
 info_4: Merged mining now available, Prop. payouts for NMC (page 8 - pool thread on main forum) - 68.10 GHash/s @ 10.25.11
 
 
-[nofeemining]
-#https://nofeemining.appspot.com
-info_1: Nice small pool
-info_2: They moved pool to google appspot - Pool speed unknown @ 08.23.11
-info_3: Changed payout to rsmpps (page 195 - bH thread on main forum)
-
-
 [itzod]
 #https://pool.itzod.ru
 info_1: Score based payout, hop using mine_slush if you want (page 154 - bH thread on main forum) - 74.61 Ghash/s @ 08.23.11
@@ -363,6 +356,14 @@ Pool-X
  reason. Page of the BitHopper
  thread annotated in parentheses.
 ######################################
+
+
+[nofeemining]
+#https://nofeemining.appspot.com
+info_1: Nice small pool
+info_2: They moved pool to google appspot - Pool speed unknown @ 08.23.11
+info_3: Changed payout to rsmpps (page 195 - bH thread on main forum)
+info_4: Closed down indefinitely (pool website)
 
 
 [digbtc]
