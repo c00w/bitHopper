@@ -216,14 +216,6 @@ role: backup
 user: c00w.default
 pass: fire
 
-[bitp]
-#http://bitp.it (ESMPPS)
-#---Modifica despues de esta linea si vas a minar---
-role: backup
-bitp_user_apikey: 80c5dbea750563eb24e5310f94a56b38bad14dc35efb41e9ca421c92f31563ed
-user: 4bjibc3R1RGF9
-pass: u5cpmndZq4Jvp
-
 [ninjac]
 #https://www.ninjacoin.com (PPS)
 #---Modifica despues de esta linea si vas a minar---
@@ -249,7 +241,7 @@ pass:x
 [nofeemining]
 #https://nofeemining.appspot.com (RSMPPS)
 #---Modifica despues de esta linea si vas a minar---
-role: info
+role: disable
 nofeemining_user_apikey: 4140cbc6405f4425cf91ca74e1450b66
 user: 1Q4B1LdoKHtMbj6tBLhj1cyuMWTDYFJ9Y7
 pass: x
@@ -265,13 +257,6 @@ pass: contrasena_minero
 #http://btcserv.net (PPS)
 #---Modifica despues de esta linea si vas a minar---
 role: disable
-user: nombre_minero
-pass: contrasena_minero
-
-[bitfarms]
-#http://bitfarms.ca (PPS)
-#---Modifica despues de esta linea si vas a minar---
-role: info
 user: nombre_minero
 pass: contrasena_minero
 
@@ -427,10 +412,25 @@ pass: contrasena_minero
 # saltarlas a tu riesgo.
 ######################################
 
+[bitfarms]
+#http://bitfarms.ca (PPS)
+#---Modifica despues de esta linea si vas a minar---
+role: disable
+user: nombre_minero
+pass: contrasena_minero
+
+[bitp]
+#http://bitp.it (ESMPPS)
+#---Modifica despues de esta linea si vas a minar---
+role: disable
+bitp_user_apikey: 80c5dbea750563eb24e5310f94a56b38bad14dc35efb41e9ca421c92f31563ed
+user: 4bjibc3R1RGF9
+pass: u5cpmndZq4Jvp
+
 [digbtc]
 #http://www.digbtc.net (Prop)
 #---Modifica despues de esta linea si vas a minar---
-role: info
+role: disable
 user: nombre_minero
 pass: contrasena_minero
 

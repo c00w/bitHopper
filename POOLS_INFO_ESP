@@ -3,7 +3,7 @@
    sobre la minas conocidas por bH,
  recogida aqui con fines informativos
 
-   Ultima actualizacion: Nov 19, 2011
+   Ultima actualizacion: Nov 30, 2011
 ######################################
 ######################################
    Minas anadidas recientemente,
@@ -145,13 +145,6 @@ info_1: 0% tasas, mina PPS - 484.4 GHash/s @ 08.23.11
 info_2: Pequenos problemas con los pagos, resuelto (pagina 30 - hilo de mina en foro principal) - 969.10 GHash/s @ 10.03.11
 
 
-[bitp]
-#http://bitp.it
-info_1: Mina PPS - 27.60 GHash/s @ 08.23.11
-info_2: Mina caida debido ataques DDoS (pagina 30 - hilo de mina en foro principal)
-info_3: El equipo de admins esta resolviendo unos problemas de alojamiento (pagina 31 - hilo de mina en foro principal)
-
-
 [ninjac]
 #https://www.ninjacoin.com
 info_1: Mina PPS - 25.2 GHash/s @ 08.23.11
@@ -174,13 +167,6 @@ info_3: Despues del bloque actual van a tener solo tipo de pago PPS, en pruebas 
 info_4: Mineria unida disponible, sistema de pago Prop. para NMC (pagina 8 - hilo de mina en foro principal) - 68.10 GHash/s @ 10.25.11
 
 
-[nofeemining]
-#https://nofeemining.appspot.com
-info_1: Mina pequena y mona
-info_2: Han cambiado el servidor a google appspot - Velocida de mina desconocida @ 08.23.11
-info_3: Cambiaron sistema de pago a rsmpps (pagina 195 - hilo bH en el foro principal)
-
-
 [itzod]
 #https://pool.itzod.ru
 info_1: Sistema de pago por puntuacion, utiliza mine_slush si quieres saltarla (pagina 154 - hilo bH en el foro principal) - 74.61 Ghash/s @ 08.23.11
@@ -192,12 +178,6 @@ info_2: Ha cambiado a sistema SMPPS (hilo de mina en foro principal)
 info_1: Mina pequena, raportar informacion sobre ella en el foro - 2.94 GHash/s @ 08.23.11
 info_2: Sistema de pago PPS disponible en caso de utilizar como mina de respaldo - 4.60 GHash/s @ 08.31.11
 info_3: El admin decide implementar FIFO PPS (pagina 4 - hilo de mina en foro principal) -  11.36 GHash/s @ 09.09.11
-
-
-[bitfarms]
-#http://bitfarms.ca
-info_1: Por favor reporta tu experiencia en foro o canal IRC - 4.41 Ghash/s @ 08.23.11
-info_2: Sistema de pago PPS (pagina de mina) - 3.66 Ghash/s @ 09.09.11
 
 
 [btcg]
@@ -232,7 +212,7 @@ info_3: Usa DGS (https://bitcointalk.org/index.php?topic=39497.0)
 #https://masterpool.eu
 info_1: Actualmente estan probando la mineria unida (en: http://dot-bit.org/Merged_Mining) - 3.12 Ghash/s @ 08.23.11
 info_2: La mineria unida esta activa desde el bloque 19200 y funciona sin problemas, actualiza tu cliente NMC - 10 Ghash/s @ 10.08.11
-info_3: Van a cambiar el sistema de pago a PPLNS el 26 de Nov. 2011 00:00 UTC (e-mail a miembros) - 16.53 Ghash/s @ 11.16.11
+info_3: Han cambiaado el sistema de pago a PPLNS el 26 de Nov. 2011 00:00 UTC (e-mail a miembros) - 16.53 Ghash/s @ 11.16.11
 
 
 [mineco]
@@ -358,11 +338,38 @@ Pool-X
 #http://pool-x.eu
 
 
+GPUTECH Bitcoin Mining Pool
+#https://gputech.net/
+
+
 #####################################
  Estas minas no se saltan por una
  razon. La pagina del hilo oficial
  viene entre parentesis.
 #####################################
+
+
+[bitfarms]
+#http://bitfarms.ca
+info_1: Por favor reporta tu experiencia en foro o canal IRC - 4.41 Ghash/s @ 08.23.11
+info_2: Sistema de pago PPS (pagina de mina) - 3.66 Ghash/s @ 09.09.11
+info_3: Mina caida, sin razon alguna - 11.30.11
+
+
+[bitp]
+#http://bitp.it
+info_1: Mina PPS - 27.60 GHash/s @ 08.23.11
+info_2: Mina caida debido ataques DDoS (pagina 30 - hilo de mina en foro principal)
+info_3: El equipo de admins esta resolviendo unos problemas de alojamiento (pagina 31 - hilo de mina en foro principal)
+info_4: Caida si razon alguna - 11.30.11
+
+
+[nofeemining]
+#https://nofeemining.appspot.com
+info_1: Mina pequena y mona
+info_2: Han cambiado el servidor a google appspot - Velocida de mina desconocida @ 08.23.11
+info_3: Cambiaron sistema de pago a rsmpps (pagina 195 - hilo bH en el foro principal)
+info_4: Cerrada indefinidamente (pagina de mina)
 
 
 [digbtc]

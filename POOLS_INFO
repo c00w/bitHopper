@@ -3,7 +3,7 @@
  of pools used for hopping, gathered
    here for orientation purposes.
 
-     Last update: Nov 19, 2011
+     Last update: Nov 30, 2011
 ######################################
 ######################################
    These Pools are added recently
@@ -145,13 +145,6 @@ info_1: 0% fee PPS pool - 484.4 GHash/s @ 08.23.11
 info_2: Small issues processing payouts, fixed (page 30 - pool thread on main forum) - 969.10 GHash/s @ 10.03.11
 
 
-[bitp]
-#http://bitp.it
-info_1: PPS pool - 27.60 GHash/s @ 08.23.11
-info_2: Pool is down due to DDoS attacks (page 30 - pool thread on main forum)
-info_3: Admin team is resolving some hosting issues (page 31 - pool thread on main forum)
-
-
 [ninjac]
 #https://www.ninjacoin.com
 info_1: PPS pool - 25.2 GHash/s @ 08.23.11
@@ -174,13 +167,6 @@ info_3: After the current block will be offering PPS payout only, 2-6 weeks test
 info_4: Merged mining now available, Prop. payouts for NMC (page 8 - pool thread on main forum) - 68.10 GHash/s @ 10.25.11
 
 
-[nofeemining]
-#https://nofeemining.appspot.com
-info_1: Nice small pool
-info_2: They moved pool to google appspot - Pool speed unknown @ 08.23.11
-info_3: Changed payout to rsmpps (page 195 - bH thread on main forum)
-
-
 [itzod]
 #https://pool.itzod.ru
 info_1: Score based payout, hop using mine_slush if you want (page 154 - bH thread on main forum) - 74.61 Ghash/s @ 08.23.11
@@ -192,12 +178,6 @@ info_2: Changed to SMPPS system (pool thread on main forum)
 info_1: Small pool, pls report experience on forum - 2.94 GHash/s @ 08.23.11
 info_2: Alternate PPS payout available for use as backup if wanted - 4.60 GHash/s @ 08.31.11
 info_3: Op decides to have FIFO PPS implemented (page 4 - pool thread on main forum) -  11.36 GHash/s @ 09.09.11
-
-
-[bitfarms]
-#http://bitfarms.ca
-info_1: Please report experience on forum or IRC - 4.41 Ghash/s @ 08.23.11
-info_2: PPS payout (pool website) - 3.66 Ghash/s @ 09.09.11
 
 
 [btcg]
@@ -232,7 +212,7 @@ info_3: Uses DGM (https://bitcointalk.org/index.php?topic=39497.0)
 #https://masterpool.eu
 info_1: Currently testing merged mining (http://dot-bit.org/Merged_Mining) - 3.12 Ghash/s @ 08.23.11
 info_2: Merged mining active and working nice from block 19200, update your NMC client - 10 Ghash/s @ 10.08.11
-info_3: Will change their reward system to PPLNS on 26 Nov. 2011 00:00 UTC (e-mail to members) - 16.53 Ghash/s @ 11.16.11ç
+info_3: Changed their reward system to PPLNS on 26 Nov. 2011 00:00 UTC (e-mail to members) - 16.53 Ghash/s @ 11.16.11
 
 
 [mineco]
@@ -358,11 +338,38 @@ Pool-X
 #http://pool-x.eu
 
 
+GPUTECH Bitcoin Mining Pool
+#https://gputech.net/
+
+
 #####################################
  These Pools are not hopped for a
  reason. Page of the BitHopper
  thread annotated in parentheses.
 ######################################
+
+
+[bitfarms]
+#http://bitfarms.ca
+info_1: Please report experience on forum or IRC - 4.41 Ghash/s @ 08.23.11
+info_2: PPS payout (pool website) - 3.66 Ghash/s @ 09.09.11
+info_3: Pool is down, no reason given - 11.30.11
+
+
+[bitp]
+#http://bitp.it
+info_1: PPS pool - 27.60 GHash/s @ 08.23.11
+info_2: Pool is down due to DDoS attacks (page 30 - pool thread on main forum)
+info_3: Admin team is resolving some hosting issues (page 31 - pool thread on main forum)
+info_4: Down for unknown reasons - 11.30.11
+
+
+[nofeemining]
+#https://nofeemining.appspot.com
+info_1: Nice small pool
+info_2: They moved pool to google appspot - Pool speed unknown @ 08.23.11
+info_3: Changed payout to rsmpps (page 195 - bH thread on main forum)
+info_4: Closed down indefinitely (pool website)
 
 
 [digbtc]
