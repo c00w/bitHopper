@@ -212,7 +212,7 @@ info_3: Uses DGM (https://bitcointalk.org/index.php?topic=39497.0)
 #https://masterpool.eu
 info_1: Currently testing merged mining (http://dot-bit.org/Merged_Mining) - 3.12 Ghash/s @ 08.23.11
 info_2: Merged mining active and working nice from block 19200, update your NMC client - 10 Ghash/s @ 10.08.11
-info_3: Will change their reward system to PPLNS on 26 Nov. 2011 00:00 UTC (e-mail to members) - 16.53 Ghash/s @ 11.16.11
+info_3: Changed their reward system to PPLNS on 26 Nov. 2011 00:00 UTC (e-mail to members) - 16.53 Ghash/s @ 11.16.11
 
 
 [mineco]
