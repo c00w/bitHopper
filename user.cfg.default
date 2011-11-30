@@ -261,13 +261,6 @@ role: disable
 user: your_username
 pass: your_password
 
-[bitfarms]
-#http://bitfarms.ca (PPS)
-#---Edit after this line if mined---
-role: info
-user: your_username
-pass: your_password
-
 [btcg]
 #https://www.btcguild.com (PPS)
 #---Edit after this line if mined---
@@ -420,6 +413,13 @@ pass: your_password
 # user/pass unless you really want
 # to hop them at your own risk.
 ######################################
+
+[bitfarms]
+#http://bitfarms.ca (PPS)
+#---Edit after this line if mined---
+role: disable
+user: your_username
+pass: your_password
 
 [bitp]
 #http://bitp.it (ESMPPS)

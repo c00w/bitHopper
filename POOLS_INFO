@@ -180,12 +180,6 @@ info_2: Alternate PPS payout available for use as backup if wanted - 4.60 GHash/
 info_3: Op decides to have FIFO PPS implemented (page 4 - pool thread on main forum) -  11.36 GHash/s @ 09.09.11
 
 
-[bitfarms]
-#http://bitfarms.ca
-info_1: Please report experience on forum or IRC - 4.41 Ghash/s @ 08.23.11
-info_2: PPS payout (pool website) - 3.66 Ghash/s @ 09.09.11
-
-
 [btcg]
 #https://www.btcguild.com
 info_1: Delayed stats (page 87 - bH thread on main forum)
@@ -245,13 +239,6 @@ info_3: Pool is online and accepting miners, changed payout to PPLNS (pool websi
 
 
 [triple]
-
-[bitp]
-#http://bitp.it
-info_1: PPS pool - 27.60 GHash/s @ 08.23.11
-info_2: Pool is down due to DDoS attacks (page 30 - pool thread on main forum)
-info_3: Admin team is resolving some hosting issues (page 31 - pool thread on main forum)
-info_4: Down for unknown reasons - 11.30.11
 #https://www.triplemining.com
 info_1: Mid-size pool - 43.6 GHash/s @ 08.23.11
 info_2: Use as backup_latehop if you want to help them find the block (Flash Mob Mining Event - 08.21.11)
@@ -356,6 +343,13 @@ Pool-X
  reason. Page of the BitHopper
  thread annotated in parentheses.
 ######################################
+
+
+[bitfarms]
+#http://bitfarms.ca
+info_1: Please report experience on forum or IRC - 4.41 Ghash/s @ 08.23.11
+info_2: PPS payout (pool website) - 3.66 Ghash/s @ 09.09.11
+info_3: Pool is down, no reason given - 11.30.11
 
 
 [bitp]

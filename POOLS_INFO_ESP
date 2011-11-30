@@ -180,12 +180,6 @@ info_2: Sistema de pago PPS disponible en caso de utilizar como mina de respaldo
 info_3: El admin decide implementar FIFO PPS (pagina 4 - hilo de mina en foro principal) -  11.36 GHash/s @ 09.09.11
 
 
-[bitfarms]
-#http://bitfarms.ca
-info_1: Por favor reporta tu experiencia en foro o canal IRC - 4.41 Ghash/s @ 08.23.11
-info_2: Sistema de pago PPS (pagina de mina) - 3.66 Ghash/s @ 09.09.11
-
-
 [btcg]
 #https://www.btcguild.com
 info_1: Ralentiza stats (pagina 87 - hilo bH en el foro principal)
@@ -349,6 +343,13 @@ Pool-X
  razon. La pagina del hilo oficial
  viene entre parentesis.
 #####################################
+
+
+[bitfarms]
+#http://bitfarms.ca
+info_1: Por favor reporta tu experiencia en foro o canal IRC - 4.41 Ghash/s @ 08.23.11
+info_2: Sistema de pago PPS (pagina de mina) - 3.66 Ghash/s @ 09.09.11
+info_3: Mina caida, sin razon alguna - 11.30.11
 
 
 [bitp]

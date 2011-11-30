@@ -260,13 +260,6 @@ role: disable
 user: nombre_minero
 pass: contrasena_minero
 
-[bitfarms]
-#http://bitfarms.ca (PPS)
-#---Modifica despues de esta linea si vas a minar---
-role: info
-user: nombre_minero
-pass: contrasena_minero
-
 [btcg]
 #https://www.btcguild.com (PPS)
 #---Modifica despues de esta linea si vas a minar---
@@ -418,6 +411,13 @@ pass: contrasena_minero
 # usuario/contrasena solo si quieres
 # saltarlas a tu riesgo.
 ######################################
+
+[bitfarms]
+#http://bitfarms.ca (PPS)
+#---Modifica despues de esta linea si vas a minar---
+role: disable
+user: nombre_minero
+pass: contrasena_minero
 
 [bitp]
 #http://bitp.it (ESMPPS)
