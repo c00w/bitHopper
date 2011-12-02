@@ -30,20 +30,9 @@ Bug-issues list:
 
 ajax updates move scroll                     (https://github.com/c00w/bitHopper/issues/69)
 
-WSGI server tries to finish closed connections
-                                             (https://github.com/c00w/bitHopper/issues/262)
-
-CGMINER w/ BH unstable                       (https://github.com/c00w/bitHopper/issues/343)
-
-No JSON object could be decoded              (https://github.com/c00w/bitHopper/issues/403)
-
-Check if p2pool works                        (https://github.com/c00w/bitHopper/issues/419)
-
-Web Reset Shares                             (https://github.com/c00w/bitHopper/issues/440)
-
-mine_lp_force bug                            (https://github.com/c00w/bitHopper/issues/441)
-
 LP Workbench data not displaying             (https://github.com/c00w/bitHopper/issues/493)
+
+Can't get {user} to work - user: in user.cfg (https://github.com/c00w/bitHopper/issues/502)
 ---------------------------------------------------------------------------------------
 
 Future to-do list:
