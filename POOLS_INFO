@@ -231,13 +231,6 @@ info_1: Decentralized pool with support for btc, nmc and others - 1.89 Ghash/s @
 info_2: Pool software needs to be installed on local pc
 
 
-[rfc]
-#https://rfcpool.com
-info_1: Nice small pool
-info_2: Pool is closed down (page 178 - bH thread on main forum)
-info_3: Pool is online and accepting miners, changed payout to PPLNS (pool website) - 25.51 GHash/s @ 08.23.11
-
-
 [triple]
 #https://www.triplemining.com
 info_1: Mid-size pool - 43.6 GHash/s @ 08.23.11
@@ -347,6 +340,14 @@ GPUTECH Bitcoin Mining Pool
  reason. Page of the BitHopper
  thread annotated in parentheses.
 ######################################
+
+
+[rfc]
+#https://rfcpool.com
+info_1: Nice small pool
+info_2: Pool is closed down (page 178 - bH thread on main forum)
+info_3: Pool is online and accepting miners, changed payout to PPLNS (pool website) - 25.51 GHash/s @ 08.23.11
+info_4: Pool closed without warning (pool website) - 11.01.11
 
 
 [bitfarms]

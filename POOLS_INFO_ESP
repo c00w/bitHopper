@@ -231,13 +231,6 @@ info_1: Mina descentralizada con sopote para btc, nmc y otros - 1.89 Ghash/s @ 0
 info_2: El programa de mina se tiene que instalar previamente en el ordenador local
 
 
-[rfc]
-#https://rfcpool.com
-info_1: Mina pequena y mona
-info_2: Mina cerrada (pagina 178 - hilo bH en el foro principal)
-info_3: Mina abierta y acceptando nuevos mineros, ha cambiado a sistema de pago PPLNS (pagina de mina) - 25.51 GHash/s @ 08.23.11
-
-
 [triple]
 #https://www.triplemining.com
 info_1: Mina de tamano mediano - 43.6 GHash/s @ 08.23.11
@@ -347,6 +340,14 @@ GPUTECH Bitcoin Mining Pool
  razon. La pagina del hilo oficial
  viene entre parentesis.
 #####################################
+
+
+[rfc]
+#https://rfcpool.com
+info_1: Mina pequena y mona
+info_2: Mina cerrada (pagina 178 - hilo bH en el foro principal)
+info_3: Mina abierta y acceptando nuevos mineros, ha cambiado a sistema de pago PPLNS (pagina de mina) - 25.51 GHash/s @ 08.23.11
+info_4: Mina cerrada sin previo aviso (pagina de mina) - 11.01.11
 
 
 [bitfarms]

@@ -321,13 +321,6 @@ user: happy
 #password and user can be anything p2pool
 pass: miner
 
-[rfc]
-#https://rfcpool.com (PPLNS)
-#---Edit after this line if mined---
-role: disable
-user: c00w_test
-pass: x
-
 [triple]
 #https://www.triplemining.com (PPLNS)
 #---Edit after this line if mined---
@@ -413,6 +406,13 @@ pass: your_password
 # user/pass unless you really want
 # to hop them at your own risk.
 ######################################
+
+[rfc]
+#https://rfcpool.com (PPLNS)
+#---Edit after this line if mined---
+role: disable
+user: c00w_test
+pass: x
 
 [bitfarms]
 #http://bitfarms.ca (PPS)

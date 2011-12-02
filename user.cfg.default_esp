@@ -319,13 +319,6 @@ user: minero
 #las contrasenas y el usuario no importan en p2pool
 pass: feliz
 
-[rfc]
-#https://rfcpool.com (PPLNS)
-#---Modifica despues de esta linea si vas a minar---
-role: disable
-user: c00w_test
-pass: x
-
 [triple]
 #https://www.triplemining.com (PPLNS)
 #---Modifica despues de esta linea si vas a minar---
@@ -411,6 +404,13 @@ pass: contrasena_minero
 # usuario/contrasena solo si quieres
 # saltarlas a tu riesgo.
 ######################################
+
+[rfc]
+#https://rfcpool.com (PPLNS)
+#---Modifica despues de esta linea si vas a minar---
+role: disable
+user: c00w_test
+pass: x
 
 [bitfarms]
 #http://bitfarms.ca (PPS)
