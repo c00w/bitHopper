@@ -3,7 +3,7 @@
  of pools used for hopping, gathered
    here for orientation purposes.
 
-     Last update: Nov 30, 2011
+     Last update: Dic 3, 2011
 ######################################
 ######################################
    These Pools are added recently
@@ -343,7 +343,7 @@ GPUTECH Bitcoin Mining Pool
 
 
 [rfc]
-#https://rfcpool.com
+#http://rfcpool.com
 info_1: Nice small pool
 info_2: Pool is closed down (page 178 - bH thread on main forum)
 info_3: Pool is online and accepting miners, changed payout to PPLNS (pool website) - 25.51 GHash/s @ 08.23.11
