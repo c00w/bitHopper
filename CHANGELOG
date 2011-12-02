@@ -1,5 +1,14 @@
 
 
+#Ver   0.2.6.2 (a03b1e1)
+Fix "mine_c" for diff. changes 
+Fixed abcpool hashrate
+Minor code corrections
+New mining address for yourbtc.net
+Added gputech to known pools
+Update pools info
+
+
 #Ver   0.2.6.1 (5bbad43)
 Fixed a bug with mine_lp_force which was causing it to not work
 Added Round Time for various pools
