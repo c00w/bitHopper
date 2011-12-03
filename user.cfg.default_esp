@@ -174,13 +174,6 @@ role: info
 user: nombre_minero
 pass: contrasena_minero
 
-[polmine]
-#https://polmine.pl (Prop)
-#---Modifica despues de esta linea si vas a minar---
-role: disable
-user: c00w1456testhop
-pass: x
-
 [simplecoin]
 #http://simplecoin.us (Prop, SMPPS, PPLNS, mineria unida NMC)
 #---Modifica despues de esta linea si vas a minar---
@@ -275,6 +268,13 @@ pass: 1234
 role: info
 user: (una direccion bitcoin)
 pass: pass
+
+[polmine]
+#https://polmine.pl (PPS)
+#---Modifica despues de esta linea si vas a minar---
+role: disable
+user: c00w1456testhop
+pass: x
 
 ################################
  Minas que usan PPLNS, DGM u

@@ -100,15 +100,6 @@ info_3: Necesitan un poco de ayuda para resolver este ultimo bloque (encontrado)
 info_4: 10% bonus en las siguientes 10 rondas (pagina de mina) - 53.85 GHash/s @ 10.03.11
 
 
-[polmine]
-#https://polmine.pl
-info_1: Mina polaca
-info_2: Ralentiza y truca los stats (pagina 157 - hilo bH en el foro principal)
-info_3: Puedes probar minar con el rol mine_lp - 137.48 Ghash/s @ 08.23.11
-info_4: Pagos menores solo para hoppers basados en bloques de 30btc (pagina 174 - hilo bH en el foro principal)
-info_5: La mina solo retarda stats como medida anti-hopper, los bloques se reparten 100% entre todos los mineros - 96.89 Ghash/s @ 10.09.11
-
-
 [simplecoin]
 #http://simplecoin.us
 info_1: Pequena mina proporcional que tambien dispone de sistemas de pago y monedas alternativas (pagina de mina) - 8.67 Ghash/s @ 10.06.11
@@ -192,6 +183,16 @@ info_5: Ha cambiado a sistema puro PPS (pagina de mina) - 1003.45 Ghash/s @ 10.2
 [bitpenny]
 #http://www.bitpenny.com
 info_1: Mina pequena que utiliza sistema de pago PPS retardado y shares de dificultad mayor (pagina de mina) - 7.5 GHash/s @ 09.27.11
+
+
+[polmine]
+#https://polmine.pl
+info_1: Mina polaca
+info_2: Ralentiza y truca los stats (pagina 157 - hilo bH en el foro principal)
+info_3: Puedes probar minar con el rol mine_lp - 137.48 Ghash/s @ 08.23.11
+info_4: Pagos menores solo para hoppers basados en bloques de 30btc (pagina 174 - hilo bH en el foro principal)
+info_5: La mina solo retarda stats como medida anti-hopper, los bloques se reparten 100% entre todos los mineros - 96.89 Ghash/s @ 10.09.11
+info_6: Cambiaron de forma retroactiva el sistema de pago a PPS (http://forum.polmine.pl/index.php?topic=756.15) - 34.94 Ghash/s @ 12.03.11
 
 
 ################################

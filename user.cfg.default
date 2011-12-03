@@ -175,13 +175,6 @@ role: info
 user: your_username
 pass: your_password
 
-[polmine]
-#https://polmine.pl (Prop)
-#---Edit after this line if mined---
-role: disable
-user: c00w1456testhop
-pass: x
-
 [simplecoin]
 #http://simplecoin.us (Prop, SMPPS, PPLNS, merged mining NMC)
 #---Edit after this line if mined---
@@ -277,6 +270,12 @@ role: info
 user: (any bitcoin address)
 pass: pass
 
+[polmine]
+#https://polmine.pl (PPS)
+#---Edit after this line if mined---
+role: disable
+user: c00w1456testhop
+pass: x
 
 ###############################
  Pools that use PPLNS, DGM or
