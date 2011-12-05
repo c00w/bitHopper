@@ -3,7 +3,7 @@
    sobre la minas conocidas por bH,
  recogida aqui con fines informativos
 
-   Ultima actualizacion: Nov 30, 2011
+   Ultima actualizacion: Dic 3, 2011
 ######################################
 ######################################
    Minas anadidas recientemente,
@@ -100,15 +100,6 @@ info_3: Necesitan un poco de ayuda para resolver este ultimo bloque (encontrado)
 info_4: 10% bonus en las siguientes 10 rondas (pagina de mina) - 53.85 GHash/s @ 10.03.11
 
 
-[polmine]
-#https://polmine.pl
-info_1: Mina polaca
-info_2: Ralentiza y truca los stats (pagina 157 - hilo bH en el foro principal)
-info_3: Puedes probar minar con el rol mine_lp - 137.48 Ghash/s @ 08.23.11
-info_4: Pagos menores solo para hoppers basados en bloques de 30btc (pagina 174 - hilo bH en el foro principal)
-info_5: La mina solo retarda stats como medida anti-hopper, los bloques se reparten 100% entre todos los mineros - 96.89 Ghash/s @ 10.09.11
-
-
 [simplecoin]
 #http://simplecoin.us
 info_1: Pequena mina proporcional que tambien dispone de sistemas de pago y monedas alternativas (pagina de mina) - 8.67 Ghash/s @ 10.06.11
@@ -194,6 +185,16 @@ info_5: Ha cambiado a sistema puro PPS (pagina de mina) - 1003.45 Ghash/s @ 10.2
 info_1: Mina pequena que utiliza sistema de pago PPS retardado y shares de dificultad mayor (pagina de mina) - 7.5 GHash/s @ 09.27.11
 
 
+[polmine]
+#https://polmine.pl
+info_1: Mina polaca
+info_2: Ralentiza y truca los stats (pagina 157 - hilo bH en el foro principal)
+info_3: Puedes probar minar con el rol mine_lp - 137.48 Ghash/s @ 08.23.11
+info_4: Pagos menores solo para hoppers basados en bloques de 30btc (pagina 174 - hilo bH en el foro principal)
+info_5: La mina solo retarda stats como medida anti-hopper, los bloques se reparten 100% entre todos los mineros - 96.89 Ghash/s @ 10.09.11
+info_6: Cambiaron de forma retroactiva el sistema de pago a PPS (http://forum.polmine.pl/index.php?topic=756.15) - 34.94 Ghash/s @ 12.03.11
+
+
 ################################
  Minas que usan PPLNS, DGM u
  otro sistema de pago visto como
@@ -229,13 +230,6 @@ info_1: Mina pequena, pago PPLNS (pagina de mina) - 3.8 GHash/s @ 11.9.11
 #https://bitcointalk.org/index.php?topic=18313
 info_1: Mina descentralizada con sopote para btc, nmc y otros - 1.89 Ghash/s @ 08.23.11
 info_2: El programa de mina se tiene que instalar previamente en el ordenador local
-
-
-[rfc]
-#https://rfcpool.com
-info_1: Mina pequena y mona
-info_2: Mina cerrada (pagina 178 - hilo bH en el foro principal)
-info_3: Mina abierta y acceptando nuevos mineros, ha cambiado a sistema de pago PPLNS (pagina de mina) - 25.51 GHash/s @ 08.23.11
 
 
 [triple]
@@ -347,6 +341,14 @@ GPUTECH Bitcoin Mining Pool
  razon. La pagina del hilo oficial
  viene entre parentesis.
 #####################################
+
+
+[rfc]
+#http://rfcpool.com
+info_1: Mina pequena y mona
+info_2: Mina cerrada (pagina 178 - hilo bH en el foro principal)
+info_3: Mina abierta y acceptando nuevos mineros, ha cambiado a sistema de pago PPLNS (pagina de mina) - 25.51 GHash/s @ 08.23.11
+info_4: Mina cerrada sin previo aviso (pagina de mina) - 11.01.11
 
 
 [bitfarms]

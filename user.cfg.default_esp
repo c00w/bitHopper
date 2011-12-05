@@ -174,13 +174,6 @@ role: info
 user: nombre_minero
 pass: contrasena_minero
 
-[polmine]
-#https://polmine.pl (Prop)
-#---Modifica despues de esta linea si vas a minar---
-role: disable
-user: c00w1456testhop
-pass: x
-
 [simplecoin]
 #http://simplecoin.us (Prop, SMPPS, PPLNS, mineria unida NMC)
 #---Modifica despues de esta linea si vas a minar---
@@ -276,6 +269,13 @@ role: info
 user: (una direccion bitcoin)
 pass: pass
 
+[polmine]
+#https://polmine.pl (PPS)
+#---Modifica despues de esta linea si vas a minar---
+role: disable
+user: c00w1456testhop
+pass: x
+
 ################################
  Minas que usan PPLNS, DGM u
  otro sistema de pago visto como
@@ -318,13 +318,6 @@ role: disable
 user: minero
 #las contrasenas y el usuario no importan en p2pool
 pass: feliz
-
-[rfc]
-#https://rfcpool.com (PPLNS)
-#---Modifica despues de esta linea si vas a minar---
-role: disable
-user: c00w_test
-pass: x
 
 [triple]
 #https://www.triplemining.com (PPLNS)
@@ -411,6 +404,13 @@ pass: contrasena_minero
 # usuario/contrasena solo si quieres
 # saltarlas a tu riesgo.
 ######################################
+
+[rfc]
+#https://rfcpool.com (PPLNS)
+#---Modifica despues de esta linea si vas a minar---
+role: disable
+user: c00w_test
+pass: x
 
 [bitfarms]
 #http://bitfarms.ca (PPS)

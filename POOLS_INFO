@@ -3,7 +3,7 @@
  of pools used for hopping, gathered
    here for orientation purposes.
 
-     Last update: Nov 30, 2011
+     Last update: Dic 3, 2011
 ######################################
 ######################################
    These Pools are added recently
@@ -100,15 +100,6 @@ info_3: They need some help solving this long block (found) - 61.2 GHash/s @ 09.
 info_4: 10% bonus on next 10 rounds (pool website) - 53.85 GHash/s @ 10.03.11
 
 
-[polmine]
-#https://polmine.pl
-info_1: Nice polish pool
-info_2: Delays and fakes stats (page 157 - bH thread on main forum)
-info_3: You could try mining here with the mine_lp role - 137.48 Ghash/s @ 08.23.11
-info_4: Smaller payouts just for hoppers based on 30btc blocks (page 174 - bH thread on main forum)
-info_5: Pool only delays stats as anti-hopper measure, blocks are shared 100% between all miners - 96.89 Ghash/s @ 10.09.11
-
-
 [simplecoin]
 #http://simplecoin.us
 info_1: Small Prop pool with alternative payouts and coins available (pool website) - 8.67 Ghash/s @ 10.06.11
@@ -194,6 +185,16 @@ info_5: Changed payout to pure PPS (pool website) - 1003.45 Ghash/s @ 10.23.11
 info_1: Small sized pool with delayed PPS payout system and increased difficulty shares (pool website) - 7.5 GHash/s @ 09.27.11
 
 
+[polmine]
+#https://polmine.pl
+info_1: Nice polish pool
+info_2: Delays and fakes stats (page 157 - bH thread on main forum)
+info_3: You could try mining here with the mine_lp role - 137.48 Ghash/s @ 08.23.11
+info_4: Smaller payouts just for hoppers based on 30btc blocks (page 174 - bH thread on main forum)
+info_5: Pool only delays stats as anti-hopper measure, blocks are shared 100% between all miners - 96.89 Ghash/s @ 10.09.11
+info_6: Changed payout to PPS retroactively (http://forum.polmine.pl/index.php?topic=756.15) - 34.94 Ghash/s @ 12.03.11
+
+
 ###############################
  Pools that use PPLNS, DGM or
  other payout system seen as
@@ -229,13 +230,6 @@ info_1: Nice small pool, PPLNS payout (pool website) - 3.8 GHash/s @ 11.9.11
 #https://bitcointalk.org/index.php?topic=18313
 info_1: Decentralized pool with support for btc, nmc and others - 1.89 Ghash/s @ 08.23.11
 info_2: Pool software needs to be installed on local pc
-
-
-[rfc]
-#https://rfcpool.com
-info_1: Nice small pool
-info_2: Pool is closed down (page 178 - bH thread on main forum)
-info_3: Pool is online and accepting miners, changed payout to PPLNS (pool website) - 25.51 GHash/s @ 08.23.11
 
 
 [triple]
@@ -347,6 +341,14 @@ GPUTECH Bitcoin Mining Pool
  reason. Page of the BitHopper
  thread annotated in parentheses.
 ######################################
+
+
+[rfc]
+#http://rfcpool.com
+info_1: Nice small pool
+info_2: Pool is closed down (page 178 - bH thread on main forum)
+info_3: Pool is online and accepting miners, changed payout to PPLNS (pool website) - 25.51 GHash/s @ 08.23.11
+info_4: Pool closed without warning (pool website) - 11.01.11
 
 
 [bitfarms]
