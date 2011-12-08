@@ -3,7 +3,7 @@
  of pools used for hopping, gathered
    here for orientation purposes.
 
-     Last update: Dec 3, 2011
+     Last update: Dec 8, 2011
 ######################################
 ######################################
    These Pools are added recently
@@ -134,6 +134,7 @@ info_3: Register a NMC addy to get some free namecoins (page 20 - pool thread on
 #https://arsbitcoin.com
 info_1: 0% fee PPS pool - 484.4 GHash/s @ 08.23.11
 info_2: Small issues processing payouts, fixed (page 30 - pool thread on main forum) - 969.10 GHash/s @ 10.03.11
+info_3: Intermitent issues with their servers, admin claims personal problems (page 40 - pool thread on main forum) - 394.3 GHash/s @ 12.08.11
 
 
 [ninjac]
