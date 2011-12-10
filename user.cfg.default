@@ -81,13 +81,6 @@ penalty: 1
 user: c00w.testhop
 pass: testhop
 
-[ozco]
-#https://ozco.in (Prop)
-#---Edit after this line if mined---
-role: mine
-user:c00w.1
-pass:1234
-
 [btcworld]
 #http://btcworld.de (Prop)
 #---Edit after this line if mined---
@@ -311,6 +304,13 @@ pass: x
 role: info
 user: your_username
 pass: your_password
+
+[ozco]
+#https://ozco.in (DGM)
+#---Edit after this line if mined---
+role: mine
+user:c00w.1
+pass:1234
 
 [p2pool]
 #https://en.bitcoin.it/wiki/P2Pool (PPLNS)
