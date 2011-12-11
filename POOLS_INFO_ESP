@@ -92,14 +92,6 @@ info_2: Se quedaron con el sist. Proporcional (Canal IRC) - 36 GHash/s @ 08.23.1
 info_3: Caida unas horas, probablemente ataque ddos - 25 GHash/s @ 09.27.11
 
 
-[ozco]
-#https://ozco.in
-info_1: Congela stats sin razon (pagina 114 - hilo bH en el foro principal)
-info_2: Stats funcionan - 60.5 GHash/s @ 08.23.11
-info_3: Necesitan un poco de ayuda para resolver este ultimo bloque (encontrado) - 61.2 GHash/s @ 09.18.11
-info_4: 10% bonus en las siguientes 10 rondas (pagina de mina) - 53.85 GHash/s @ 10.03.11
-
-
 [simplecoin]
 #http://simplecoin.us
 info_1: Pequena mina proporcional que tambien dispone de sistemas de pago y monedas alternativas (pagina de mina) - 8.67 Ghash/s @ 10.06.11
@@ -225,6 +217,15 @@ info_1: Ha cambiado sistema de pagos a PPLNS (pagina 94 - hilo bH en el foro pri
 [mkalinin]
 #http://pool.mkalinin.ru
 info_1: Mina pequena, pago PPLNS (pagina de mina) - 3.8 GHash/s @ 11.9.11
+
+
+[ozco]
+#https://ozco.in
+info_1: Congela stats sin razon (pagina 114 - hilo bH en el foro principal)
+info_2: Stats funcionan - 60.5 GHash/s @ 08.23.11
+info_3: Necesitan un poco de ayuda para resolver este ultimo bloque (encontrado) - 61.2 GHash/s @ 09.18.11
+info_4: 10% bonus en las siguientes 10 rondas (pagina de mina) - 53.85 GHash/s @ 10.03.11
+info_5: Cambiaran a sistema de pago DGM desde el siguiente bloque (pagina 1 - hilo de mina en el foro principal) - 18.92 GHash/s @ 12.10.11
 
 
 [p2pool]
