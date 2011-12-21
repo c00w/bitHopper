@@ -110,14 +110,14 @@ class Database():
             eventlet.sleep(60)
 
     def check_database(self):
-        self.bitHopper.log_msg('DB: Checking Database')
+        self.bitHopper.log_msg('Checking Database')
         if os.path.exists(DB_FN):
             try:
                 versionfd = open(VERSION_FN, 'rb')
                 version = versionfd.read()
                 self.bitHopper.log_dbg("DB: Version " + version)
                 if version == "0.1":
-                    self.bitHopper.log_msg('DB: Old Database')
+                    self.bitHopper.log_msg('Old Database')
                 versionfd.close()
             except:
                 os.remove(DB_FN)
@@ -344,7 +344,7 @@ class Database():
                         users = self.get_users()
                         dbRowCount = 0
 
-                        self.bitHopper.log_dbg('DB: Making new user table for ' + str(server))
+                        self.bitHopper.log_dbg('Making new user table for ' + str(server))
 
                         sql = 'DELETE FROM ' + str(server)
                         self.curs.execute(sql)

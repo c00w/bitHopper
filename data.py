@@ -5,7 +5,7 @@
 
 import eventlet
 from eventlet.green import threading, time, socket
-
+import logging
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
 
@@ -13,7 +13,7 @@ class Data():
     def __init__(self,bitHopper):
         self.users = {}
         self.bitHopper = bitHopper
-        self.log_dbg = self.bitHopper.log_dbg
+        self.log_dbg = logging.debug
         self.pool = self.bitHopper.pool
         self.db = self.bitHopper.db
         self.speed = self.bitHopper.speed

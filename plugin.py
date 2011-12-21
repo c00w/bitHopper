@@ -59,14 +59,14 @@ class Plugin():
                         if config.getboolean('plugins', item):
                             pluginEnabled = True
                     except Exception, e:
-                        self.bitHopper.log_msg("Plugin: " + item + " failed reading main config file: " + str(e))
+                        self.bitHopper.log_msg("" + item + " failed reading main config file: " + str(e))
                         pass
                 if pluginEnabled:
                     try:
                         module = importlib.import_module('plugins.' + str(item))
                         bithop_attr = getattr(self.bitHopper, item, None)
                         if bithop_attr is not None:
-                            self.bitHopper.log_msg('Plugin: name conflict: ' + str(item))
+                            self.bitHopper.log_msg('name conflict: ' + str(item))
                             continue
                         
                         #Actually call module and store it in bitHopper
@@ -75,9 +75,9 @@ class Plugin():
                             setattr(self.bitHopper, item, module)
                         else:
                             setattr(self.bitHopper, item, return_value)
-                        self.bitHopper.log_msg("Plugin: " + item + " loaded")
+                        self.bitHopper.log_msg("" + item + " loaded")
                     except Exception, e:
-                        self.bitHopper.log_msg("Plugin: ERROR LOADING PLUGIN: " + item)
+                        self.bitHopper.log_msg("ERROR LOADING PLUGIN: " + item)
                         self.bitHopper.log_msg(e)
                 else:
-                    self.bitHopper.log_msg("Plugin: " + item + " has been disabled")
+                    self.bitHopper.log_msg("" + item + " has been disabled")

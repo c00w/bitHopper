@@ -22,6 +22,8 @@ eventlet.monkey_patch(os=True, select=True, socket=True, thread=False, time=True
 
 from peak.util import plugins
 
+import logging
+
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
 
@@ -46,9 +48,19 @@ import exchange
 import ConfigParser
 import sys
 
+
+
 class BitHopper():
     def __init__(self, options, config):
         """Initializes all of the submodules bitHopper uses"""
+        
+        #Logging
+        self.log_dbg = logging.debug
+        self.log_msg = logging.info
+        self.log_trace = logging.warning
+        
+        logging.basicConfig(stream=sys.stdout, format="%(asctime)s %(module)s: %(message)s", datefmt="%Y-%m-%d %H:%M:%S", level = logging.INFO)
+        
         self.options = options
         self.config = config        
         altercoins = ConfigParser.ConfigParser()
@@ -96,40 +108,6 @@ class BitHopper():
 
     def get_options(self):
         return self.options
-
-    def log_msg(self, msg, **kwargs):
-        if kwargs and kwargs.get("cat"):
-            print time.strftime("[%H:%M:%S] ") + "[" + kwargs.get("cat") + "] " + str(msg)
-        elif self.get_options() == None:
-            print time.strftime("[%H:%M:%S] ") + str(msg)
-            sys.stdout.flush()
-        elif self.get_options().debug == True:
-            print time.strftime("[%H:%M:%S] ") + str(msg)
-            sys.stdout.flush()
-        else: 
-            print time.strftime("[%H:%M:%S] ") + str(msg)
-            sys.stdout.flush()
-
-    def log_dbg(self, msg, **kwargs):
-        if self.get_options().debug == True and kwargs and kwargs.get("cat"):
-            self.log_msg("DEBUG: " + "[" + kwargs.get("cat") + "] " + str(msg))
-            #sys.stderr.flush()
-        elif self.get_options() == None:
-            pass
-        elif self.get_options().debug == True:
-            self.log_msg("DEBUG: " + str(msg))
-            #sys.stderr.flush()
-        return
-
-    def log_trace(self, msg, **kwargs):
-        if self.get_options().trace == True and kwargs and kwargs.get("cat"):
-            self.log_msg("TRACE: " + "[" + kwargs.get("cat") + "] " + str(msg))
-            #sys.stderr.flush()
-        elif self.get_options().trace == True:
-            self.log_msg("TRACE: " + str(msg))
-            #sys.stderr.flush()
-        return
-
 
     def get_server(self, ):
         return self.pool.get_current()

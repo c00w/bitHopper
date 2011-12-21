@@ -28,10 +28,10 @@ class APIAngel():
             traceback.print_exc()
         
     def log_msg(self, msg, **kwargs):
-        self.bitHopper.log_msg(msg, cat='apiangel')
+        self.bitHopper.log_msg(msg)
         
     def log_dbg(self, msg, **kwargs):
-        self.bitHopper.log_dbg(msg, cat='apiangel')
+        self.bitHopper.log_dbg(msg)
         
     def run(self):
         while True:
