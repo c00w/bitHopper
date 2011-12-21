@@ -2,11 +2,8 @@
 #bitHopper by Colin Rice is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-import json
-import eventlet
-from eventlet.green import time
-from eventlet.green import threading, socket
-import traceback
+import json, eventlet, traceback, logging
+from eventlet.green import time, threading, socket
 
 from peak.util import plugins
 
@@ -35,7 +32,7 @@ class LongPoll():
         hook_start = plugins.Hook('plugins.lp.init.start')
         hook_start.notify(self, bitHopper)
         self.bitHopper = bitHopper
-        self.bitHopper.log_msg('LP Module Load')
+        logging.info('LP Module Load')
         self.pool = self.bitHopper.pool
         self.blocks = {}
         self.lastBlock = None
@@ -81,7 +78,7 @@ class LongPoll():
             self.blocks[block]['_defer'] = new_defer
             if old_defer:
                 old_defer.release()
-            self.bitHopper.log_msg('Setting Block Owner ' + server+ ':' + str(block))
+            logging.info('Setting Block Owner ' + server+ ':' + str(block))
             if server in self.bitHopper.pool.servers and self.bitHopper.pool.servers[server]['role'] == 'mine_lp' and old_owner != server:
                 old_shares = self.bitHopper.pool.servers[server]['shares']
                 self.bitHopper.pool.servers[server]['shares'] = 0
@@ -155,13 +152,13 @@ class LongPoll():
         hook_start.notify(self, body, server)
         if server in self.polled:
             self.polled[server].release()
-        self.bitHopper.log_dbg('received lp from: ' + server)
+        logging.debug('received lp from: ' + server)
         self.bitHopper.log_trace('LP: ' + str(body))
         info = self.bitHopper.pool.servers[server]
         if info['role'] in ['disable', 'info']:
             return
         if body == None:
-            self.bitHopper.log_dbg('error in long poll from: ' + server)
+            logging.debug('error in long poll from: ' + server)
             with self.lock:
                 if server not in self.errors:
                     self.errors[server] = 0
@@ -184,19 +181,19 @@ class LongPoll():
 
             with self.lock:
                 if block not in self.blocks:
-                    self.bitHopper.log_msg('New Block: ' + str(block))
-                    self.bitHopper.log_msg('Block Owner ' + server)
+                    logging.info('New Block: ' + str(block))
+                    logging.info('Block Owner ' + server)
                     self.add_block(block, work, server)
 
             #Add the lp_penalty if it exists.
             with self.lock:
                 offset = self.pool.servers[server].get('lp_penalty','0')
                 self.blocks[block][server] = time.time() + float(offset)
-                self.bitHopper.log_dbg('EXACT ' + str(server) + ': ' + str(self.blocks[block][server]))
+                logging.debug('EXACT ' + str(server) + ': ' + str(self.blocks[block][server]))
                 if self.blocks[block]['_owner'] == None or self.blocks[block][server] < self.blocks[block][self.blocks[block]['_owner']]:
                     self.set_owner(server,block)
                     hook_announce = plugins.Hook('plugins.lp.announce')
-                    self.bitHopper.log_dbg('LP Notify')
+                    logging.debug('LP Notify')
                     hook_announce.notify(self, body, server, block)
         
             hook_start = plugins.Hook('plugins.lp.receive.end')
@@ -204,7 +201,7 @@ class LongPoll():
 
         except Exception, e:
             output = False
-            self.bitHopper.log_dbg('Error in Long Poll ' + str(server) + str(body))
+            logging.debug('Error in Long Poll ' + str(server) + str(body))
             if self.bitHopper.options.debug:
                 traceback.print_exc()
             if server not in self.errors:
@@ -223,7 +220,7 @@ class LongPoll():
         return self.pool.get_entry(server)['lp_address']  == None
 
     def set_lp(self,url,server):
-        #self.bitHopper.log_msg('set_lp ' + url + ' ' + server)
+        #logging.info('set_lp ' + url + ' ' + server)
         try:
             info = self.bitHopper.pool.get_entry(server)
             info['lp_address'] = url
@@ -231,11 +228,11 @@ class LongPoll():
                 self.polled[server] = threading.Lock()
             eventlet.spawn_n(self.pull_lp, url,server)
         except Exception, e:
-            self.bitHopper.log_msg('set_lp error')
-            self.bitHopper.log_msg(e)
+            logging.info('set_lp error')
+            logging.info(e)
 
     def pull_lp(self,url,server, output = True):
-        #self.bitHopper.log_msg('pull_lp ' + url + ' ' + server)
+        #logging.info('pull_lp ' + url + ' ' + server)
         if url == None or server not in self.pool.servers:
             return
         pool = self.pool.servers[server]
@@ -248,10 +245,10 @@ class LongPoll():
         try:
             if self.polled[server].acquire(False):
                 if output or self.bitHopper.options.debug:
-                    self.bitHopper.log_msg("Long Poll Call " + lp_address)
+                    logging.info("Long Poll Call " + lp_address)
                 else:
-                    self.bitHopper.log_dbg("Long Poll Call " + lp_address)
+                    logging.debug("Long Poll Call " + lp_address)
                 self.bitHopper.work.jsonrpc_lpcall(server, lp_address, self)
         except Exception, e :
-            self.bitHopper.log_dbg('pull_lp error')
-            self.bitHopper.log_dbg(e)
+            logging.debug('pull_lp error')
+            logging.debug(e)
