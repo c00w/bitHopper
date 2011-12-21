@@ -56,7 +56,7 @@ class BitHopper():
         
         #Logging
         
-        logging.basicConfig(stream=sys.stdout, format="%(asctime)s %(module)s: %(message)s", datefmt="%Y-%m-%d %H:%M:%S", level = logging.INFO)
+        logging.basicConfig(stream=sys.stdout, format="%(asctime)s %(module)s\t%(message)s", datefmt="%Y-%m-%d %H:%M:%S", level = logging.INFO)
         
         self.options = options
         self.config = config        
