@@ -2,12 +2,7 @@
 #bitHopper by Colin Rice is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-import json
-import re
-import ConfigParser
-import sys
-import random
-import traceback
+import json, re, ConfigParser, sys, random, traceback, logging
 import pool_class
 import eventlet
 from eventlet.green import threading, os, time, socket
@@ -52,7 +47,7 @@ class Pool_Parse():
 
         read = self.load_file('user.cfg', parser)
         if len(read) == 0:
-            self.bitHopper.log_msg("user.cfg not found. You may need to move it from user.cfg.default")
+            logging.info("user.cfg not found. You may need to move it from user.cfg.default")
             os._exit(1)
 
         userpools = parser.sections()
@@ -62,7 +57,7 @@ class Pool_Parse():
             read = self.load_file(file_name, parser)
             read_items += len(read)
             if len(read) == 0:
-                self.bitHopper.log_msg(file_name + " not found.")
+                logging.info(file_name + " not found.")
                 
         if self.initialized == False: 
             if read_items == 0:
@@ -91,7 +86,7 @@ class Pool_Parse():
 
 
         if self.servers == {}:
-            self.bitHopper.log_msg("No pools found in pools.cfg or user.cfg")
+            logging.info("No pools found in pools.cfg or user.cfg")
 
         if len(self.current_list) == 0: 
             self.current_list = [pool]
