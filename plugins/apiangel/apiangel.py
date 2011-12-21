@@ -13,8 +13,8 @@ class APIAngel():
         self.interval = 60
         self.reincarnateInterval = 7200
         self.parseConfig()
-        self.log_msg(" - Check interval: " + str(self.interval))
-        self.log_msg(" - Re-Incarnate interval: " + str(self.reincarnateInterval))
+        self.log_msg("Check interval: " + str(self.interval))
+        self.log_msg("Re-Incarnate interval: " + str(self.reincarnateInterval))
         eventlet.spawn_n(self.run)
         self.lock = threading.RLock()
             

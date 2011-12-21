@@ -17,7 +17,7 @@ class Payouts():
         self.bitHopper = bitHopper
         self.interval = 600
         self.parseConfig()
-        self.log_msg(" - Payouts interval: " + str(self.interval))
+        self.log_msg("Payouts interval: " + str(self.interval))
         eventlet.spawn_n(self.run)
         self.lock = threading.RLock()
             
