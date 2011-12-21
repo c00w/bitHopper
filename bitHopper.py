@@ -55,9 +55,6 @@ class BitHopper():
         """Initializes all of the submodules bitHopper uses"""
         
         #Logging
-        self.log_dbg = logging.debug
-        self.log_msg = logging.info
-        self.log_trace = logging.warning
         
         logging.basicConfig(stream=sys.stdout, format="%(asctime)s %(module)s: %(message)s", datefmt="%Y-%m-%d %H:%M:%S", level = logging.INFO)
         
@@ -153,7 +150,7 @@ class BitHopper():
                 server_list = [backup_list[0]]
 
         if len(server_list) == 0:
-            self.log_msg('FATAL Error, scheduler did not return any pool!')
+            logging.info('FATAL Error, scheduler did not return any pool!')
             os._exit(1)
 
         self.pool.current_list = server_list
@@ -164,7 +161,7 @@ class BitHopper():
         if server not in self.pool.servers:
             return self.pool.get_current()
         self.pool.servers[server]['lag'] = True
-        self.log_msg('Lagging. :' + server)
+        logging.info('Lagging. :' + server)
         self.select_best_server()
         return self.pool.get_current()
 
@@ -176,17 +173,17 @@ class BitHopper():
         while True:
             #Delags servers which have been marked as lag.
             #If this function breaks bitHopper dies a long slow death.
-            self.log_dbg('Running Delager')
+            logging.debug('Running Delager')
             for server in self.pool.get_servers():
                 info = self.pool.servers[server]
                 if info['lag'] == True:
                     data, headers = self.work.jsonrpc_call(server, [])
-                    self.log_dbg('Got' + server + ":" + str(data))
+                    logging.debug('Got' + server + ":" + str(data))
                     if data != None:
                         info['lag'] = False
-                        self.log_dbg('Delagging')
+                        logging.debug('Delagging')
                     else:
-                        self.log_dbg('Not delagging')
+                        logging.debug('Not delagging')
             sleeptime = self.config.getint('main', 'delag_sleep')
             eventlet.sleep(sleeptime)
 
@@ -265,7 +262,7 @@ def main():
         pass
     
     if override_scheduler:
-        bithopper_instance.log_msg("Selecting scheduler: " + scheduler_name)
+        logging.info("Selecting scheduler: " + scheduler_name)
         foundScheduler = False
         for s in scheduler.Scheduler.__subclasses__():
             if s.__name__ == scheduler_name:
@@ -273,10 +270,10 @@ def main():
                 foundScheduler = True
                 break
         if not foundScheduler:            
-            bithopper_instance.log_msg("Error couldn't find: " + scheduler_name + ". Using default scheduler.")
+            logging.info("Error couldn't find: " + scheduler_name + ". Using default scheduler.")
             bithopper_instance.scheduler = scheduler.DefaultScheduler(bithopper_instance)
     else:
-        bithopper_instance.log_msg("Using default scheduler.")
+        logging.info("Using default scheduler.")
         bithopper_instance.scheduler = scheduler.DefaultScheduler(bithopper_instance)
 
     bithopper_instance.select_best_server()
@@ -297,7 +294,7 @@ def main():
             try:
                 listen_port = config.getint('main', 'port')
             except ConfigParser.Error:
-                bithopper_instance.log_dbg("Unable to load main listening port from config file")
+                logging.debug("Unable to load main listening port from config file")
                 pass
 
             #This ugly wrapper is required so wsgi server doesn't die
@@ -306,7 +303,7 @@ def main():
             socket.setdefaulttimeout(lastDefaultTimeout)
             break
         except Exception, e:
-            bithopper_instance.log_msg("Exception in wsgi server loop, restarting wsgi in 60 seconds\n%s" % (str(e)))
+            logging.info("Exception in wsgi server loop, restarting wsgi in 60 seconds\n%s" % (str(e)))
             eventlet.sleep(60)
     bithopper_instance.db.close()
 

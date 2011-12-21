@@ -6,10 +6,10 @@
 # Usage: Add a unique wallet:xxxxx option for each pool to user.cfg
 #        this will overwrite any previous manually set payout value
 
-import traceback
+import traceback, logging
 from jsonrpc import ServiceProxy
 
-import eventlet
+import eventlet, logging
 from eventlet.green import time, threading
 
 class Payouts():
@@ -32,10 +32,10 @@ class Payouts():
             traceback.print_exc()
         
     def log_msg(self, msg, **kwargs):
-        self.bitHopper.log_msg(msg, cat='payouts')
+        logging.info(msg)
         
     def log_dbg(self, msg, **kwargs):
-        self.bitHopper.log_dbg(msg, cat='payouts')
+        logging.debug(msg)
         
     def run(self):
         access = ServiceProxy('http://' + self.rpcuser + ':' + self.rpcpass + '@' + self.rpchost + ':' + self.rpcport)

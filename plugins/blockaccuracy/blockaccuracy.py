@@ -1,8 +1,6 @@
 # tracks accuracy of block predictions as noted in lp.blocks['_owner']
 # required pident plugin to work
-import time
-import eventlet
-import traceback
+import time, logging, eventlet, traceback
 
 from eventlet.green import time, threading
 from peak.util import plugins
@@ -34,10 +32,10 @@ class BlockAccuracy:
                 
 
     def log_msg(self, msg):
-        self.bitHopper.log_msg(msg, cat='block-accuracy')
+        logging.info(msg)
     
     def log_dbg(self, msg):
-        self.bitHopper.log_dbg(msg, cat='block-accuracy')
+        logging.debug(msg)
         
     def log_trace(self, msg):
         self.bitHopper.log_trace(msg, cat='block-accuracy')

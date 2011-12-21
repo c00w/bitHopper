@@ -3,9 +3,7 @@
 #bitHopper by Colin Rice is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-import traceback
-
-import time
+import traceback, logging
 import eventlet
 from eventlet.green import time, threading
 
@@ -28,10 +26,10 @@ class APIAngel():
             traceback.print_exc()
         
     def log_msg(self, msg, **kwargs):
-        self.bitHopper.log_msg(msg)
+        logging.info(msg)
         
     def log_dbg(self, msg, **kwargs):
-        self.bitHopper.log_dbg(msg)
+        logging.debug(msg)
         
     def run(self):
         while True:
