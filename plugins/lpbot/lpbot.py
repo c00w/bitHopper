@@ -48,7 +48,7 @@ class LpBot(SimpleIRCClient):
                 else:
                         self.chan_list = []
                         self._connect()
-                        print "Connect returned"
+                        logging.info("Connect returned")
                 eventlet.sleep(self.bitHopper.config.getint('lpbot', 'run_interval'))
     
     def _connect(self):
