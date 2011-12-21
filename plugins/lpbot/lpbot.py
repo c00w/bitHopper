@@ -3,7 +3,7 @@
 #bitHopper by Colin Rice is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-import random
+import random, re, logging
 import re
 import eventlet
 from eventlet.green import time, threading, socket
@@ -145,7 +145,7 @@ class LpBot(SimpleIRCClient):
                             if self.server != test_server:
                                 hook = plugins.Hook('plugins.lpbot.decider.minority')
                                 hook.notify(self, server, block, test_server, test_votes, test_total_votes)
-                                logging.info( "In the minority, updating) to  " + test_server + ": " + str(test_votes) + "/" + str(test_total_votes)
+                                logging.info( "In the minority, updating to  " + test_server + ": " + str(test_votes) + "/" + str(test_total_votes))
                                 self.server = test_server
                                 votes = test_votes
                                 total_votes = test_total_votes
