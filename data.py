@@ -13,6 +13,7 @@ class Data():
     def __init__(self,bitHopper):
         self.users = {}
         self.bitHopper = bitHopper
+        self.log_dbg = self.bitHopper.log_dbg
         self.pool = self.bitHopper.pool
         self.db = self.bitHopper.db
         self.speed = self.bitHopper.speed
@@ -71,8 +72,8 @@ class Data():
             self.pool.get_servers()[server]['rejects'] += 1
             self.user_reject_add(user, password, 1, server)
         except Exception, e:
-            self.bitHopper.log_dbg('reject_callback_error')
-            self.bitHopper.log_dbg(str(e))
+            self.log_dbg('reject_callback_error')
+            self.log_dbg(str(e))
             return
 
     def data_callback(self,server,data, user, password):
@@ -85,6 +86,6 @@ class Data():
                 self.user_share_add(user, password, 1, server)
 
         except Exception, e:
-            self.bitHopper.log_dbg('data_callback_error')
-            self.bitHopper.log_dbg(str(e))
+            self.log_dbg('data_callback_error')
+            self.log_dbg(str(e))
     

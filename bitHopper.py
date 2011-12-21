@@ -67,7 +67,7 @@ class BitHopper():
         self.api = api.API(self) 
         self.pool.setup(self)
         self.work = work.Work(self)
-        self.speed = speed.Speed(self)
+        self.speed = speed.Speed()
         self.getwork_store = getwork_store.Getwork_store(self)
         self.data = data.Data(self)       
         self.lp = lp.LongPoll(self)

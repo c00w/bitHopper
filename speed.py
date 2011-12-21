@@ -14,8 +14,7 @@ class Speed():
     This class keeps track of the number of shares and
     tracks a running rate in self.rate
     """
-    def __init__(self, bitHopper):
-        self.bitHopper = bitHopper
+    def __init__(self):
         self.shares = 0
         eventlet.spawn_n(self.update_rate)
         self.rate = 0
