@@ -3,11 +3,8 @@
 # Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-import re
-import eventlet
+import re, eventlet, logging, ConfigParser
 from eventlet.green import threading, socket, urllib2
-import ConfigParser
-import functools
 
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
@@ -50,7 +47,7 @@ class Difficulty():
     def updater(self, coin, short_coin):
 
         # Generic method to update the difficulty of a given currency
-        self.bitHopper.log_msg('Updating Difficulty of ' + coin)
+        logging.info('Updating Difficulty of ' + coin)
         config_diffcoin = [site for site in self.diff_sites if site['coin'] == short_coin]
 
         #timeout = eventlet.timeout.Timeout(5, Exception(''))
@@ -68,10 +65,10 @@ class Difficulty():
                 elif site['get_method'] == 'json':
                     pass
                 self.diff[short_coin] = float(output)
-                self.bitHopper.log_dbg('Retrieved Difficulty: ' + str(self[short_coin]))
+                logging.debug('Retrieved Difficulty: ' + str(self[short_coin]))
                 break
             except Exception, e:
-                self.bitHopper.log_dbg('Unable to update difficulty for ' + coin + ' from ' + site['url'] + ' : ' + str(e))
+                logging.debug('Unable to update difficulty for ' + coin + ' from ' + site['url'] + ' : ' + str(e))
             finally:
                 #timeout.cancel()
                 pass
