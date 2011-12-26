@@ -1,0 +1,8 @@
+Short Term:
+Clean up LP Module
+Fix modules to have explicit dependencies.
+General code cleanup. Specifically comments, docstrings.
+
+Long Term:
+Testing suite,
+Python 3.
