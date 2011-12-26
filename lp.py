@@ -153,7 +153,7 @@ class LongPoll():
         if server in self.polled:
             self.polled[server].release()
         logging.debug('received lp from: ' + server)
-        logging.debug('LP: ' + str(body))
+        logging.log(0, 'LP: ' + str(body))
         info = self.bitHopper.pool.servers[server]
         if info['role'] in ['disable', 'info']:
             return

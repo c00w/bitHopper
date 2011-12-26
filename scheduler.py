@@ -388,7 +388,7 @@ class AltSliceScheduler(Scheduler):
             logging.info(" - Target duration: " + str(int(self.target_duration)) + "(s) or " + str(int(self.target_duration/60)) + " minutes", cat=self.name)
             
     def select_best_server(self,):
-        self.bitHopper.log_trace('select_best_server', cat=self.name)
+        logging.log(0, 'select_best_server', cat=self.name)
         server_name = None
         difficulty = self.bitHopper.difficulty['btc']
         min_shares = difficulty * self.difficultyThreshold
@@ -404,7 +404,7 @@ class AltSliceScheduler(Scheduler):
                 reslice = False
                 allSlicesDone = False
             if 'init' in info and info['init'] == False and info['role'] in self.valid_roles:
-                self.bitHopper.log_trace(server + " not yet initialized", cat=self.name)
+                logging.log(0, server + " not yet initialized", cat=self.name)
                 fullinit = False
             if 'init' not in info:
                 fullinit = False
@@ -440,7 +440,7 @@ class AltSliceScheduler(Scheduler):
                     info['slicedShares'] = shares
                     server_shares[server] = shares
                 else:
-                    self.bitHopper.log_trace(server + ' skipped ' + str(shares))
+                    logging.log(0, server + ' skipped ' + str(shares))
                     continue
             # find total weight
             for server in self.bitHopper.pool.get_servers():
@@ -472,7 +472,7 @@ class AltSliceScheduler(Scheduler):
                         continue
                     tb_delta[server] = self.target_duration - info['duration'] + 1
                     tb_log_delta[server] = math.log(abs(tb_delta[server]))
-                    self.bitHopper.log_trace('  ' + server + " delta: " + str(tb_delta[server]) + " log_delta: " + str(tb_log_delta[server]), cat=self.name)            
+                    logging.log(0, '  ' + server + " delta: " + str(tb_delta[server]) + " log_delta: " + str(tb_log_delta[server]), cat=self.name)            
 
                 # pos/neg_total
                 pos_total = 0
@@ -487,7 +487,7 @@ class AltSliceScheduler(Scheduler):
                         continue
                     if tb_delta[server] >= 0: pos_total += tb_log_delta[server]
                     if tb_delta[server]  < 0: neg_total += tb_log_delta[server]
-                self.bitHopper.log_trace("pos_total: " + str(pos_total) + " / neg_total: " + str(neg_total), cat=self.name)   
+                logging.log(0, "pos_total: " + str(pos_total) + " / neg_total: " + str(neg_total), cat=self.name)   
                 
                 # preslice            
                 for server in self.bitHopper.pool.get_servers():
@@ -498,10 +498,10 @@ class AltSliceScheduler(Scheduler):
                         else:
                             if tb_delta[server] >= 0:
                                 pos_weight[server] = tb_log_delta[server] / pos_total
-                                self.bitHopper.log_trace(server + " pos_weight: " + str(pos_weight[server]), cat=self.name)
+                                logging.log(0, server + " pos_weight: " + str(pos_weight[server]), cat=self.name)
                             elif tb_delta[server] < 0:
                                 neg_weight[server] = tb_log_delta[server] / neg_total
-                                self.bitHopper.log_trace(server + " neg_weight: " + str(neg_weight[server]), cat=self.name)
+                                logging.log(0, server + " neg_weight: " + str(neg_weight[server]), cat=self.name)
                                                     
 
             # allocate slices         
@@ -516,7 +516,7 @@ class AltSliceScheduler(Scheduler):
                     continue                    
                 if shares < min_shares and shares > 0:
                     weight = 0
-                    self.bitHopper.log_trace('tb_delta: ' + str(len(tb_delta)) + ' / server_shares: ' + str(len(server_shares)), cat=self.name)
+                    logging.log(0, 'tb_delta: ' + str(len(tb_delta)) + ' / server_shares: ' + str(len(server_shares)), cat=self.name)
                     if self.roundtimebias:
                         if len(tb_delta) == 1 and len(server_shares) == 1:
                             # only 1 server to slice (zzz)
@@ -553,18 +553,18 @@ class AltSliceScheduler(Scheduler):
                 logging.info('>>> Apply Round Time Bias === ', cat=self.name)
                 ns_total = 0
                 adj_factor = self.roundtimemagic
-                self.bitHopper.log_trace('     server: ' + str(server), cat=self.name)
+                logging.log(0, '     server: ' + str(server), cat=self.name)
                 for server in self.bitHopper.pool.get_servers():
                     info = self.bitHopper.pool.get_entry(server)
                     if server not in tb_log_delta: continue # no servers to adjust
-                    self.bitHopper.log_trace('     server(tld): ' + server, cat=self.name)
+                    logging.log(0, '     server(tld): ' + server, cat=self.name)
                     if server in pos_weight:
                         adj_slice[server] = info['slice'] + adj_factor * pos_weight[server]
-                        self.bitHopper.log_trace('     server (pos): ' + str(adj_slice[server]), cat=self.name)
+                        logging.log(0, '     server (pos): ' + str(adj_slice[server]), cat=self.name)
                         ns_total += adj_slice[server]            
                     elif server in neg_weight:                  
                         adj_slice[server] = info['slice'] - adj_factor * neg_weight[server]
-                        self.bitHopper.log_trace('     server (neg): ' + str(adj_slice[server]), cat=self.name)
+                        logging.log(0, '     server (neg): ' + str(adj_slice[server]), cat=self.name)
                         ns_total += adj_slice[server]
                 # re-slice the slices
                 ad_totalslice = 0
