@@ -1,4 +1,4 @@
-import traceback
+import traceback, logging
 
 class BasePlugin():
     def __init__(self, bitHopper):
@@ -15,10 +15,10 @@ class BasePlugin():
         pass
 
     def log_msg(self, msg):
-        self.bitHopper.log_msg(msg, cat=self.name)
+        logging.info(msg, cat=self.name)
 
     def log_dbg(self, msg):
-        self.bitHopper.log_dbg(msg, cat=self.name)
+        logging.debug(msg, cat=self.name)
 
     def log_trace(self, msg):
-        self.bitHopper.log_trace(msg, cat=self.name)
+        logging.warning(msg, cat=self.name)
