@@ -13,7 +13,7 @@ import eventlet
 from eventlet.green import os, threading, socket
 from eventlet import greenpool
 
-import traceback
+import traceback, logging
 import random
 import time
 import sys
