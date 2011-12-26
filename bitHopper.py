@@ -202,8 +202,10 @@ def main():
 #    parser.add_option('--simple_logging', default = False, action='store_true', help='remove RCP logging from output')
     options = parser.parse_args()[0]
 
-    if options.trace or options.debug:
+    if options.debug:
         logging.getLogger().setLevel(logging.DEBUG)
+    elif options.trace:
+        logging.getLogger().setLevel(0)
     else:
         logging.getLogger().setLevel(logging.INFO)    
     
