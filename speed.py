@@ -13,6 +13,16 @@ class Speed():
     """
     This class keeps track of the number of shares and
     tracks a running rate in self.rate
+    
+    Add shares with
+    a = Speed()
+    a.add_shares(1)
+    
+    Get the rate with 
+    a.get_rate()
+    
+    Note rates are tallied once per minute.
+    
     """
     def __init__(self):
         self.shares = 0
