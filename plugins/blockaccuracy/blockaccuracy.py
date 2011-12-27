@@ -38,7 +38,7 @@ class BlockAccuracy:
         logging.debug(msg)
         
     def log_trace(self, msg):
-        self.bitHopper.log_trace(msg, cat='block-accuracy')
+        logging.log(0, msg)
         
     def block_verified(self, blockNumber, blockHash, pool):
         block = blockHash
