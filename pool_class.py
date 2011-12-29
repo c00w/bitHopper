@@ -4,7 +4,7 @@
 # Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-import time
+import time, logging
 
 class Pool():
     def __init__(self, name, attribute_dict, bitHopper):

@@ -1,5 +1,5 @@
 from eventlet.green import os, socket
-import json
+import json, logging
 import sys
 import webob
 import time
@@ -59,10 +59,10 @@ class lpWorkbench():
                     if block is not None and '_owner' in block:
                         old_owner = self.bitHopper.lp.blocks[blockhash]['_owner']
                     new_owner = str(request.POST[v])
-                    self.bitHopper.log_msg("Updating Block Owner " + blockhash + " from " + str(old_owner) + ' to ' + str(new_owner))
+                    logging.info("Updating Block Owner " + blockhash + " from " + str(old_owner) + ' to ' + str(new_owner))
                     self.bitHopper.lp.set_owner(new_owner, blockhash)
                 except Exception, e:
-                    self.bitHopper.log_dbg('Incorrect http post request setOwner: ' + str(v))
+                    logging.debug('Incorrect http post request setOwner: ' + str(v))
                     traceback.print_exc()
 
 class lpWorkbenchDataSite():

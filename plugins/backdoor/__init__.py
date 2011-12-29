@@ -4,6 +4,8 @@ try:
 except Exception, e:
     print "You need to install greenlet. See the readme."
     raise e
+import logging 
+   
 from eventlet import wsgi, greenpool, backdoor
 from eventlet.green import os, time, socket
 eventlet.monkey_patch()
@@ -19,5 +21,5 @@ def main(bitHopper):
         bitHopper.pile.spawn(backdoor.backdoor_server, eventlet.listen(('127.0.0.1', backdoor_port)), locals={'bh':bitHopper})
         socket.setdefaulttimeout(lastDefaultTimeout)
     except Exception, e:
-        bitHopper.log_msg("Unable to start up backdoor: %s") % (e)
+        logging.info("Unable to start up backdoor: %s") % (e)
 

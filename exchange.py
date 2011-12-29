@@ -3,8 +3,7 @@
 # Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-import re
-import eventlet
+import re, eventlet, logging
 from eventlet.green import threading, socket, urllib2
 from ConfigParser import NoOptionError
 
@@ -28,7 +27,7 @@ class Exchange():
         if self.calculate_profit == True:
             try:
                 #timeout = eventlet.timeout.Timeout(5, Exception(''))
-                self.bitHopper.log_msg('Updating Exchange Rate of ' + coin)
+                logging.info('Updating Exchange Rate of ' + coin)
                 useragent = {'User-Agent': self.bitHopper.config.get('main', 'work_user_agent')}
                 req = urllib2.Request(url_diff, headers = useragent)
                 response = urllib2.urlopen(req)
@@ -39,9 +38,9 @@ class Exchange():
                     output = re.search(reg_exp, diff_str)
                     output = output.group(1)
                 self.rate[coin] = float(output)
-                self.bitHopper.log_dbg('Retrieved Exchange rate for ' +str(coin) + ': ' + output)
+                logging.debug('Retrieved Exchange rate for ' +str(coin) + ': ' + output)
             except Exception, e:
-                self.bitHopper.log_dbg('Unable to update exchange rate for ' + coin + ': ' + str(e))
+                logging.debug('Unable to update exchange rate for ' + coin + ': ' + str(e))
                 self.rate[coin] = 0.0
             finally:
                 #timeout.cancel()

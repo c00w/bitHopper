@@ -1,4 +1,4 @@
-import traceback
+import traceback, logging
 import lpworkbench
 
 def main(bitHopper):
@@ -10,7 +10,7 @@ def main(bitHopper):
         bitHopper.website.sites.append(lpWorkbenchDataSite_instance)
         
     except Exception, e:
-        bitHopper.log_msg('Error logging lpworkbench plugin: ' + str(e))
+        logging.warning('Error logging lpworkbench plugin: ' + str(e))
         if bitHopper.options.debug:
             traceback.print_exc()
             

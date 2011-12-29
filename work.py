@@ -3,9 +3,7 @@
 # Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-import json
-import base64
-import traceback
+import json, base64, traceback, logging
 
 import eventlet
 httplib2 = eventlet.import_patched('httplib20_7_1')
@@ -52,14 +50,14 @@ class Work():
                 try:
                     resp, content = http.request( url, 'GET', headers=header)#, body=request)[1] # Returns response dict and content str
                 except Exception, e:
-                    self.bitHopper.log_dbg('Error with a jsonrpc_lpcall http request')
-                    self.bitHopper.log_dbg(e)
+                    logging.debug('Error with a jsonrpc_lpcall http request')
+                    logging.debug(e)
                     content = None
             lp.receive(content, server)
             return None
         except Exception, e:
-            self.bitHopper.log_dbg('Error in lpcall work.py')
-            self.bitHopper.log_dbg(e)
+            logging.debug('Error in lpcall work.py')
+            logging.debug(e)
             lp.receive(None, server)
             return None
 
@@ -71,13 +69,13 @@ class Work():
             except:
                 useragent = 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)'
                 pass
-        #self.bitHopper.log_dbg('user-agent: ' + useragent + ' for ' + str(url) )
+        #logging.debug('user-agent: ' + useragent + ' for ' + str(url) )
         header = {'user-agent':useragent}
         with self.get_http(url) as http:
             try:
                 content = http.request( url, 'GET', headers=header)[1] # Returns response dict and content str
             except Exception, e:
-                self.bitHopper.log_dbg('Error with a work.get() http request: ' + str(e))
+                logging.debug('Error with a work.get() http request: ' + str(e))
                 content = ""
         return content
 
@@ -118,7 +116,7 @@ class Work():
                 try:
                     resp, content = http.request( url, 'POST', headers=header, body=request)
                 except Exception, e:
-                    self.bitHopper.log_dbg('jsonrpc_call http error: ' + str(e))
+                    logging.debug('jsonrpc_call http error: ' + str(e))
                     return None, None
 
             #Check for long polling header
@@ -130,7 +128,7 @@ class Work():
                         lp.set_lp(v,server)
                         break
         except Exception, e:
-            self.bitHopper.log_dbg('jsonrpc_call error: ' + str(e))
+            logging.debug('jsonrpc_call error: ' + str(e))
             if self.bitHopper.options.debug:
                 traceback.print_exc()
             return None, None
@@ -140,9 +138,9 @@ class Work():
             value =  message['result']
             return value, resp
         except Exception, e:
-            self.bitHopper.log_dbg( "Error in json decoding, Server probably down")
-            self.bitHopper.log_dbg(server)
-            self.bitHopper.log_dbg(content)
+            logging.debug( "Error in json decoding, Server probably down")
+            logging.debug(server)
+            logging.debug(content)
             return None, None
 
     def jsonrpc_getwork(self, server, data,  headers={}, username = None, password = None):
@@ -159,9 +157,9 @@ class Work():
             try:
                 work, server_headers = self.jsonrpc_call(server, data, headers, username, password)
             except Exception, e:
-                self.bitHopper.log_dbg( 'caught, inner jsonrpc_call loop')
-                self.bitHopper.log_dbg(server)
-                self.bitHopper.log_dbg(e)
+                logging.debug( 'caught, inner jsonrpc_call loop')
+                logging.debug(server)
+                logging.debug(e)
                 work = None
         return work, server_headers, server
 
@@ -241,8 +239,8 @@ class Work():
             j_id = rpc_request['id']
 
         except Exception, e:
-            self.bitHopper.log_dbg('Error in json handle_LP')
-            self.bitHopper.log_dbg(e)
+            logging.debug('Error in json handle_LP')
+            logging.debug(e)
             if not j_id:
                 j_id = 1
         
@@ -254,7 +252,7 @@ class Work():
         except Exception,e:
             username = ''
 
-        self.bitHopper.log_msg('LP Callback for miner: '+ username)
+        logging.info('LP Callback for miner: '+ username)
 
         response = json.dumps({"result":value, 'error':None, 'id':j_id})
 

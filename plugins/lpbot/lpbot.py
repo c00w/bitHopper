@@ -3,7 +3,7 @@
 #bitHopper by Colin Rice is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-import random
+import random, re, logging
 import re
 import eventlet
 from eventlet.green import time, threading, socket
@@ -48,23 +48,23 @@ class LpBot(SimpleIRCClient):
                 else:
                         self.chan_list = []
                         self._connect()
-                        print "Connect returned"
+                        logging.info("Connect returned")
                 eventlet.sleep(self.bitHopper.config.getint('lpbot', 'run_interval'))
     
     def _connect(self):
-        print "Connecting..."
+        logging.info( "Connecting...")
         try:
             irc_server = self.bitHopper.config.get('lpbot', 'irc_server')
             irc_port = self.bitHopper.config.getint('lpbot', 'irc_port')
             self.connect(irc_server, irc_port, self.nick)
         except Exception, e:
-            print e
+            logging.info( e)
 
     def is_connected(self):
         return self.connection.is_connected();
 
     def on_disconnect(self, c, e):
-        print "Disconnected..."
+        logging.info( "Disconnected...")
         self.chan_list=[]
         hook = plugins.Hook('plugins.lpbot.on_disconnect')
         hook.notify(self,c ,e)
@@ -97,20 +97,20 @@ class LpBot(SimpleIRCClient):
 
             if block not in self.hashes:
                 ### New block I know nothing about
-                print "New Block: {" + str(server) + "} - " + block
+                logging.info( "New Block: {" + str(server) + "} - " + block)
                 self.hashes.append(block)
                 if len(self.hashes) > 50:
                     del self.hashes[0];
                 self.hashinfo[block] = [server]
                 # Am I working on this now?
                 if self.current_block == block:
-                    print "Server selected: " + server
+                    logging.info( "Server selected: " + server)
                     self.server = server
                     votes = 1
                     total_votes = 1
                 else:
                     # Info added, I have nothing else to do
-                    #print "Unknown work - " + block
+                    #logging.info( "Unknown work - " + block)
                     return
             else:
                 # Add a vote
@@ -123,10 +123,10 @@ class LpBot(SimpleIRCClient):
                 
                 # If I haven't received the new work yet, I don't want to decide anything, just store it
                 if self.current_block != block:
-                    #print "Old  work - " + block
+                    #logging.info( "Old  work - " + block
                     return
 
-                print "Total Votes: " + str(total_votes)
+                logging.info( "Total Votes: " + str(total_votes))
                 # Enough votes for a quarum?
                 if total_votes > self.bitHopper.config.getint('lpbot','min_votes'):
                     # Enought compelling evidence to switch?
@@ -134,27 +134,27 @@ class LpBot(SimpleIRCClient):
                     for test_server in set(self.hashinfo[block]):
                         test_votes = 0
                         test_total_votes = 0
-                        print "Tallying votes for " + test_server
+                        logging.info( "Tallying votes for " + test_server)
                         ## Talley up the votes for that server
                         for test_vote in self.hashinfo[block]:
                             test_total_votes += 1
                             if test_vote == test_server:
                                 test_votes += 1
-                        print str(test_votes) + " out of " + str(test_total_votes) + " votes."
+                        logging.info( str(test_votes) + " out of " + str(test_total_votes) + " votes.")
                         if float(test_votes) / test_total_votes > self.bitHopper.config.getfloat('lpbot','vote_threshold'):
                             if self.server != test_server:
                                 hook = plugins.Hook('plugins.lpbot.decider.minority')
                                 hook.notify(self, server, block, test_server, test_votes, test_total_votes)
-                                print "In the minority, updating to  " + test_server + ": " + str(test_votes) + "/" + str(test_total_votes)
+                                logging.info( "In the minority, updating to  " + test_server + ": " + str(test_votes) + "/" + str(test_total_votes))
                                 self.server = test_server
                                 votes = test_votes
                                 total_votes = test_total_votes
                             else:
                                 hook = plugins.Hook('plugins.lpbot.decider.majority')
                                 hook.notify(self, server, block, test_server, test_votes, test_total_votes)
-                                print "In the majority, keeping server"
+                                logging.info( "In the majority, keeping server")
                         else:
-                            print "Not enough votes in one direction to make a decision"
+                            logging.info( "Not enough votes in one direction to make a decision")
                 else: # Not enough for quarum, select first
                     self.server = self.hashinfo[block][0]
                     votes = 0
@@ -172,10 +172,10 @@ class LpBot(SimpleIRCClient):
 
             # Cleanup
             # Delete any orbaned blocks out of blockinfo
-            print "Clean Up..."
+            logging.info( "Clean Up...")
             for clean_block, clean_val in self.hashinfo.items():
                 if clean_block not in self.hashes:
-                    print "Deleting old work... " + clean_block
+                    logging.info( "Deleting old work... " + clean_block)
                     del self.hashinfo[clean_block]
 
     def say(self, text):
@@ -191,16 +191,16 @@ class LpBot(SimpleIRCClient):
                 if self.is_connected():
                     self.server=''
                     self.current_block = last_hash
-                    print "Announcing: *** New Block {" + str(server) + "} - " + last_hash
+                    logging.info( "Announcing: *** New Block {" + str(server) + "} - " + last_hash)
                     self.say("*** New Block {" + str(server) + "} - " + last_hash)
                     self.decider(server, last_hash)
                 else:
-                    print "Not connected to IRC..."
+                    logging.info( "Not connected to IRC...")
             except Exception, e:
-                print "********************************"
-                print "*****  ERROR IN ANNOUCE  *******"
-                print "********************************"
-                print str(e)
+                logging.info( "********************************")
+                logging.info( "*****  ERROR IN ANNOUCE  *******")
+                logging.info( "********************************")
+                logging.info( str(e))
 
     def join(self):
         hook = plugins.Hook('plugins.lpbot.join')

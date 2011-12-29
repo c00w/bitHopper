@@ -3,10 +3,8 @@
 #Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-import eventlet
+import eventlet, importlib, logging
 from eventlet.green import os
-
-import importlib
 
 class Plugin():
     """Class which loads plugins from folders in the plugins folder."""
@@ -18,7 +16,7 @@ class Plugin():
 
     def load_cfg(self):
         """Load all config files from plugin directory"""
-        self.bitHopper.log_msg('Loading Config Files')
+        logging.info('Loading Config Files')
         pool_configs = []
         for dirpath, dirnames, filenames in os.walk('plugins'):
             for name in filenames:
@@ -26,7 +24,7 @@ class Plugin():
                     if name.split('.')[-1] == 'cfg':
                         pool_configs.append(os.path.join(dirpath, name))
                 except Exception, e:
-                    self.bitHopper.log_msg("Unable to load config file for:\n%s \n\n%s") % (dirpath, e)
+                    logging.info("Unable to load config file for:\n%s \n\n%s") % (dirpath, e)
         self.bitHopper.pool.pool_configs += pool_configs
         self.bitHopper.pool.loadConfig()
 
@@ -37,17 +35,17 @@ class Plugin():
             if config.get('pluginmode', 'mode').find('disabled') == -1:
                 if config.get('pluginmode', 'mode').find('auto') > -1:
                     autoMode = True
-                    self.bitHopper.log_msg("Plugin loading mode: auto")
+                    logging.info("Plugin loading mode: auto")
                 else:
                     autoMode = False
-                    self.bitHopper.log_msg("Plugin loading mode: manual")
+                    logging.info("Plugin loading mode: manual")
             else:
-                self.bitHopper.log_msg("Plugin loading mode: disabled")
+                logging.info("Plugin loading mode: disabled")
                 return
         except:
-            self.bitHopper.log_dbg('Unable to find [pluginmode] section from bh.cfg, running with auto plugin loading mode')
+            logging.debug('Unable to find [pluginmode] section from bh.cfg, running with auto plugin loading mode')
             autoMode = True
-        self.bitHopper.log_msg('Loading Plugins')
+        logging.info('Loading Plugins')
         possible_plugins = os.listdir('plugins')
         for item in possible_plugins:
             if os.path.isdir(os.path.join('plugins', item)):
@@ -59,14 +57,14 @@ class Plugin():
                         if config.getboolean('plugins', item):
                             pluginEnabled = True
                     except Exception, e:
-                        self.bitHopper.log_msg("Plugin: " + item + " failed reading main config file: " + str(e))
+                        logging.info("" + item + " failed reading main config file: " + str(e))
                         pass
                 if pluginEnabled:
                     try:
                         module = importlib.import_module('plugins.' + str(item))
                         bithop_attr = getattr(self.bitHopper, item, None)
                         if bithop_attr is not None:
-                            self.bitHopper.log_msg('Plugin: name conflict: ' + str(item))
+                            logging.info('name conflict: ' + str(item))
                             continue
                         
                         #Actually call module and store it in bitHopper
@@ -75,9 +73,9 @@ class Plugin():
                             setattr(self.bitHopper, item, module)
                         else:
                             setattr(self.bitHopper, item, return_value)
-                        self.bitHopper.log_msg("Plugin: " + item + " loaded")
+                        logging.info("" + item + " loaded")
                     except Exception, e:
-                        self.bitHopper.log_msg("Plugin: ERROR LOADING PLUGIN: " + item)
-                        self.bitHopper.log_msg(e)
+                        logging.info("ERROR LOADING PLUGIN: " + item)
+                        logging.info(e)
                 else:
-                    self.bitHopper.log_msg("Plugin: " + item + " has been disabled")
+                    logging.info("" + item + " has been disabled")

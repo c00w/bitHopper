@@ -5,6 +5,7 @@
 
 import eventlet
 from eventlet.green import threading, time, socket
+import logging
 
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
@@ -13,6 +14,7 @@ class Data():
     def __init__(self,bitHopper):
         self.users = {}
         self.bitHopper = bitHopper
+        logging.debug = logging.debug
         self.pool = self.bitHopper.pool
         self.db = self.bitHopper.db
         self.speed = self.bitHopper.speed
@@ -71,8 +73,8 @@ class Data():
             self.pool.get_servers()[server]['rejects'] += 1
             self.user_reject_add(user, password, 1, server)
         except Exception, e:
-            self.bitHopper.log_dbg('reject_callback_error')
-            self.bitHopper.log_dbg(str(e))
+            logging.debug('reject_callback_error')
+            logging.debug(str(e))
             return
 
     def data_callback(self,server,data, user, password):
@@ -85,6 +87,6 @@ class Data():
                 self.user_share_add(user, password, 1, server)
 
         except Exception, e:
-            self.bitHopper.log_dbg('data_callback_error')
-            self.bitHopper.log_dbg(str(e))
+            logging.debug('data_callback_error')
+            logging.debug(str(e))
     

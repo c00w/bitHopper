@@ -13,7 +13,7 @@ import eventlet
 from eventlet.green import os, threading, socket
 from eventlet import greenpool
 
-import traceback
+import traceback, logging
 import random
 import time
 import sys
@@ -80,13 +80,13 @@ class PoolBlocks:
                 traceback.print_exc()
                 
     def log_msg(self,msg):
-        self.bitHopper.log_msg(msg, cat='poolblock')
+        logging.info(msg)
         
     def log_dbg(self,msg):
-        self.bitHopper.log_dbg(msg, cat='poolblock')
+        logging.debug(msg)
         
     def log_trace(self,msg):
-        self.bitHopper.log_trace(msg, cat='poolblock')
+        logging.warn(msg)
 
     def run(self):
         while True:

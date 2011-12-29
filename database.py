@@ -6,8 +6,7 @@ import eventlet
 from eventlet.green import os, threading, socket
 import eventlet.patcher
 #sqlite3 = eventlet.patcher.import_patched("sqlite3")
-import sqlite3
-import sys
+import sqlite3, logging, sys
 
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
@@ -20,6 +19,7 @@ try:
         DB_DIR = os.path.dirname(os.path.abspath(__file__))
 except:
     DB_DIR = os.curdir
+    
 
 VERSION_FN = os.path.join(DB_DIR, 'db-version')
 DB_FN = os.path.join(DB_DIR, 'stats.db')
@@ -63,7 +63,7 @@ class Database():
                 eventlet.sleep(60)
                 continue
             with self.lock:
-                self.bitHopper.log_msg('DB: writing to database')
+                logging.info('DB: writing to database')
 
                 for server_name in self.pool.get_servers():
                     self.make_table(server_name)
@@ -110,14 +110,14 @@ class Database():
             eventlet.sleep(60)
 
     def check_database(self):
-        self.bitHopper.log_msg('DB: Checking Database')
+        logging.info('Checking Database')
         if os.path.exists(DB_FN):
             try:
                 versionfd = open(VERSION_FN, 'rb')
                 version = versionfd.read()
-                self.bitHopper.log_dbg("DB: Version " + version)
+                logging.debug("DB: Version " + version)
                 if version == "0.1":
-                    self.bitHopper.log_msg('DB: Old Database')
+                    logging.info('Old Database')
                 versionfd.close()
             except:
                 os.remove(DB_FN)
@@ -315,13 +315,13 @@ class Database():
                 newExpPayoutTotal = 0.0
 
                 if requiredSharesTotal == 0:
-                    self.bitHopper.log_dbg('Setting expected payout for ' + str(server) + ' to 0')
+                    logging.debug('Setting expected payout for ' + str(server) + ' to 0')
                     sql = 'UPDATE ' + str(server) + ' SET shares = 0'
                     self.curs.execute(sql)
                     sql = 'UPDATE ' + str(server) + ' SET rejects = 0'
                     self.curs.execute(sql)
                 else:
-                    self.bitHopper.log_dbg('Starting to increase/decrease existing payouts for all users')
+                    logging.debug('Starting to increase/decrease existing payouts for all users')
 
                     dbSharesTotal = 0
                     sql = 'select shares from ' + str(server)
@@ -344,7 +344,7 @@ class Database():
                         users = self.get_users()
                         dbRowCount = 0
 
-                        self.bitHopper.log_dbg('DB: Making new user table for ' + str(server))
+                        logging.debug('Making new user table for ' + str(server))
 
                         sql = 'DELETE FROM ' + str(server)
                         self.curs.execute(sql)
@@ -362,13 +362,13 @@ class Database():
                                 newPayoutPercent = requiredSharesTotal / float(dbSharesTotal)
                             else:
                                 newPayoutPercent = requiredSharesTotal / float(dbRowCount)
-                            self.bitHopper.log_dbg('DB: New user table for ' + str(server) + ' generated')
+                            logging.debug('DB: New user table for ' + str(server) + ' generated')
                         else:
                             # If no users exist at all then return because
                             # changing expected payout is not possible
                             return -1, -1
 
-                    self.bitHopper.log_dbg('New total payout\'s percent: ' + str(newPayoutPercent))
+                    logging.debug('New total payout\'s percent: ' + str(newPayoutPercent))
 
                     sql = 'select user, shares, rejects, diff from ' + str(server)
                     self.curs.execute(sql)
@@ -415,15 +415,15 @@ class Database():
                             singleShareValuesTotal += 1 / float(diff) * 50
 
                     payoutDifference = expectedPayout - newExpPayoutTotal
-                    self.bitHopper.log_dbg('Initial payout difference caused by percentage multiplication: ' + str(payoutDifference))
+                    logging.debug('Initial payout difference caused by percentage multiplication: ' + str(payoutDifference))
 
                     if payoutDifference > 0:
                         addShares = True # Add shares to make expected payout as close as possible
-                        self.bitHopper.log_dbg('  Payout difference is positive, going to add some shares')
+                        logging.debug('  Payout difference is positive, going to add some shares')
                     else:
                         addShares = False # Subtract shares to make expected payout as close as possible
                         payoutDifference = payoutDifference * -1
-                        self.bitHopper.log_dbg('  Payout difference is negative, going to subtract some shares')
+                        logging.debug('  Payout difference is negative, going to subtract some shares')
 
                     # This measures if one loop through all the shares
                     # in sharesDict with +1 share addition can cover the payout difference.
@@ -434,7 +434,7 @@ class Database():
                         loopsRequired = int(payoutDifference / singleShareValuesTotal + 1)
                     else:
                         loopsRequired = 1
-                    self.bitHopper.log_dbg('  Loops to cover difference: ' + str(loopsRequired))
+                    logging.debug('  Loops to cover difference: ' + str(loopsRequired))
 
                     # This sorts all shares by numbers after decimal point to find out
                     # which users should get accumulated leftover shares first. Should be
@@ -455,11 +455,11 @@ class Database():
                     for rejects in rejectsDict:
                         newDbRejectsTotal += self.expected_payout_sql_updater(server, rejectsDict, rejects, rejectsMode=True)
 
-                self.bitHopper.log_dbg('DB: Commiting changes to the database')
+                logging.debug('DB: Commiting changes to the database')
                 self.database.commit()
                 return newDbSharesTotal, newDbRejectsTotal, newExpPayoutTotal
             except Exception, e:
-                self.bitHopper.log_msg('Exception caught in bitHopper.database.change_expected_payout: ' + str(e))
+                logging.info('Exception caught in bitHopper.database.change_expected_payout: ' + str(e))
 
     def get_expected_payout(self, server):
         with self.lock:
