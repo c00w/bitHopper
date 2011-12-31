@@ -62,12 +62,6 @@ info_1: Score based payout, try mining with mine_slush (page 164 - bH thread on 
 info_2: You can try the new mine_c role available for score pools and setup c: 550 - 223.68 Ghash/s @ 09.21.11
 
 
-[btcworld]
-#http://btcworld.de
-info_1: Nice small pool - 14.05 Ghash/s @ 08.23.11
-info_2: Working hard to find a block, last found on Sep 21st - 0.83 Ghash/s @ 10.25.11
-
-
 [coinotron]
 #http://coinotron.com
 info_1: Score prop. pool, use mine_c role and (test setting c: 6), multiple coin pool - 52.94 GHash/s @ 09.28.11
@@ -343,6 +337,13 @@ GPUTECH Bitcoin Mining Pool
  reason. Page of the BitHopper
  thread annotated in parentheses.
 ######################################
+
+
+[btcworld]
+#http://btcworld.de
+info_1: Nice small pool - 14.05 Ghash/s @ 08.23.11
+info_2: Working hard to find a block, last found on Sep 21st - 0.83 Ghash/s @ 10.25.11
+info_3: Offline, domain is redirecting to another service - @ 12.31.11
 
 
 [rfc]
