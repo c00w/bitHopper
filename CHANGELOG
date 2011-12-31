@@ -1,5 +1,34 @@
 
 
+#Ver   0.2.6.5 (605e585)
+Added unittest framework and actually wrote some tests
+Updated lpbot to not do manual patching of irclib
+Docstring cleanup and blockexplorer fix
+Fixed a bug in lp caling trace
+Fix some lingering bugs from logging updates
+Fixed kiwipool's api address
+More bugfixes
+Added TODO
+
+
+#Ver   0.2.6.4 (a8943a0)
+Updated poolblocks again
+Fixed rpcworklog
+More logging fixes
+
+
+#Ver   0.2.6.3 (9bacc69)
+Update apiangel and payouts to be more beautiful
+New logging methond implemented and customized modules to use it
+Speed is decoupled from bitHopper
+Fix coinotron api_method
+Update donation address to use btcproxy.net
+Upd polmine info + cfg
+Upd rfc pool info + cfg
+Update PROJ_CODING, CHANGELOG
+Updated pool info
+
+
 #Ver   0.2.6.2 (a03b1e1)
 Fix "mine_c" for diff. changes 
 Fixed abcpool hashrate
