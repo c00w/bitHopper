@@ -8,7 +8,7 @@ import re
 import eventlet
 from eventlet.green import time, threading, socket
 import eventlet.patcher
-irclib = eventlet.patcher.import_patched('irclib')
+import irclib
 SimpleIRCClient = irclib.SimpleIRCClient
 
 from peak.util import plugins
