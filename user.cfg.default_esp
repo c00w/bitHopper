@@ -401,7 +401,7 @@ pass: contrasena_minero
 [btcworld]
 #http://btcworld.de (Prop)
 #---Modifica despues de esta linea si vas a minar---
-role: info
+role: disable
 user: testhop
 pass: x
 
