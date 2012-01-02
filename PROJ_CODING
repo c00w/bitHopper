@@ -30,15 +30,22 @@ Bug-issues list:
 
 ajax updates move scroll                     (https://github.com/c00w/bitHopper/issues/69)
 
+UPSTREAM: WSGI server tries to finish closed connections
+                                             (https://github.com/c00w/bitHopper/issues/262)
+
+UPSTREAM: CGMINER w/ Multiple Coins Crashes  (https://github.com/c00w/bitHopper/issues/343)
+
 LP Workbench data not displaying             (https://github.com/c00w/bitHopper/issues/493)
 
 Can't get {user} to work - user: in user.cfg (https://github.com/c00w/bitHopper/issues/502)
+
+bitHopper stalled                            (https://github.com/c00w/bitHopper/issues/535)
+
+nmcbit.com duration calculation bad          (https://github.com/c00w/bitHopper/issues/539)
 ---------------------------------------------------------------------------------------
 
 Future to-do list:
 
-
-Fancy Logging Plugin                         (https://github.com/c00w/bitHopper/issues/351)
 
 Autoupdate pools.cfg                         (https://github.com/c00w/bitHopper/issues/361)
 

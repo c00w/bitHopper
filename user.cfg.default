@@ -81,13 +81,6 @@ penalty: 1
 user: c00w.testhop
 pass: testhop
 
-[btcworld]
-#http://btcworld.de (Prop)
-#---Edit after this line if mined---
-role: info
-user: testhop
-pass: x
-
 [bitclockers]
 #http://bitclockers.com (Prop)
 #---Edit after this line if mined---
@@ -405,6 +398,13 @@ pass: your_password
 # user/pass unless you really want
 # to hop them at your own risk.
 ######################################
+
+[btcworld]
+#http://btcworld.de (Prop)
+#---Edit after this line if mined---
+role: disable
+user: testhop
+pass: x
 
 [rfc]
 #https://rfcpool.com (PPLNS)

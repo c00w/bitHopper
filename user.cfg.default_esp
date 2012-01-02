@@ -80,13 +80,6 @@ penalty: 1
 user: c00w.testhop
 pass: testhop
 
-[btcworld]
-#http://btcworld.de (Prop)
-#---Modifica despues de esta linea si vas a minar---
-role: info
-user: testhop
-pass: x
-
 [bitclockers]
 #http://bitclockers.com (Prop)
 #---Modifica despues de esta linea si vas a minar---
@@ -404,6 +397,13 @@ pass: contrasena_minero
 # usuario/contrasena solo si quieres
 # saltarlas a tu riesgo.
 ######################################
+
+[btcworld]
+#http://btcworld.de (Prop)
+#---Modifica despues de esta linea si vas a minar---
+role: disable
+user: testhop
+pass: x
 
 [rfc]
 #https://rfcpool.com (PPLNS)

@@ -3,7 +3,7 @@
    sobre la minas conocidas por bH,
  recogida aqui con fines informativos
 
-   Ultima actualizacion: Dic 8, 2011
+   Ultima actualizacion: Dic 31, 2011
 ######################################
 ######################################
    Minas anadidas recientemente,
@@ -60,12 +60,6 @@ info_2: Calculando sin parar desde hace mas de un mes sin suerte - 3.48 Ghash/s 
 #https://btcmine.com
 info_1: Sistema de pago por puntuacion, intenta minar con mine_slush (pagina 164 - hilo bH en el foro principal) - 356.68 Ghash/s @ 08.23.11
 info_2: Puedes probar el nuevo rol mine_c disponible para minas con puntuacion y ajustar c: 550 - 223.68 Ghash/s @ 09.21.11
-
-
-[btcworld]
-#http://btcworld.de
-info_1: Mina pequena y mona- 14.05 Ghash/s @ 08.23.11
-info_2: Trabajando duro para encontrar un bloque, ultimo encontrado el 21 de Sept. - 0.83 Ghash/s @ 10.25.11
 
 
 [coinotron]
@@ -343,6 +337,13 @@ GPUTECH Bitcoin Mining Pool
  razon. La pagina del hilo oficial
  viene entre parentesis.
 #####################################
+
+
+[btcworld]
+#http://btcworld.de
+info_1: Mina pequena y mona- 14.05 Ghash/s @ 08.23.11
+info_2: Trabajando duro para encontrar un bloque, ultimo encontrado el 21 de Sept. - 0.83 Ghash/s @ 10.25.11
+info_3: Fuera de linea, el dominio apunta hacia otro servicio - @ 12.31.11
 
 
 [rfc]
