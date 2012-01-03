@@ -188,6 +188,13 @@ info_5: La mina solo retarda stats como medida anti-hopper, los bloques se repar
 info_6: Cambiaron de forma retroactiva el sistema de pago a PPS (http://forum.polmine.pl/index.php?topic=756.15) - 34.94 Ghash/s @ 12.03.11
 
 
+[bitparking]
+#http://bitparking.com
+info_1: Mina namecoins (mine_nmc) - 20.2 GHash/s @ 08.23.11
+info_2: La mina ha sido cerrada el 5 de Octubre, 2011
+info_3: Fusionó la minería ya está disponible, es de pago PPS pura (sitio web de la piscina) - 56.37 Ghash/s @ 01.03.12
+
+
 ################################
  Minas que usan PPLNS, DGM u
  otro sistema de pago visto como
@@ -429,12 +436,6 @@ info_2: Esta mina cierra sus puertas el 30 Septiembre 2011 12:00 UTC (pagina de 
 #http://i0.digbtc.net
 info_1: Ralentiza las estadisticas y dudosa legitimidad (foro i0coin.org) - 1.5 Ghash/s @ 09.09.11
 info_2: Mina fuera de linea @ 10.14.11
-
-
-[bitparking]
-#http://bitparking.com
-info_1: Mina namecoins (mine_nmc) - 20.2 GHash/s @ 08.23.11
-info_2: La mina ha sido cerrada el 5 de Octubre, 2011
 
 
 [bitchomp]
