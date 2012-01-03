@@ -270,6 +270,14 @@ role: disable
 user: c00w1456testhop
 pass: x
 
+[bitparking]
+#http://mmpool.bitparking.com (PPS)
+#---Edit after this line if mined---
+role: backup
+user: your_username
+#passwords can be anything on bitparking
+pass: your_password
+
 ###############################
  Pools that use PPLNS, DGM or
  other payout system seen as
@@ -484,15 +492,6 @@ pass: your_password
 role: disable
 user: your_username
 pass: your_password
-
-[bitparking]
-#http://bitparking.com
-#---Edit after this line if mined---
-role: disable
-#user is name coin address
-user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
-#passwords can be anything on bitparking
-pass: x
 
 [bitchomp]
 #http://www.bitchomp.info (SMPPS, merged mining BTC)
