@@ -188,6 +188,13 @@ info_5: Pool only delays stats as anti-hopper measure, blocks are shared 100% be
 info_6: Changed payout to PPS retroactively (http://forum.polmine.pl/index.php?topic=756.15) - 34.94 Ghash/s @ 12.03.11
 
 
+[bitparking]
+#http://bitparking.com
+info_1: Nmc pool (mine_nmc) - 20.2 GHash/s @ 08.23.11
+info_2: Pool was closed down on October 5, 2011
+info_3: Merged mining now available, payout is pure PPS (pool website) - 56.37 Ghash/s @ 01.03.12
+
+
 ###############################
  Pools that use PPLNS, DGM or
  other payout system seen as
@@ -429,12 +436,6 @@ info_2: Pool will be closing down on 30 September 2011 12:00 UTC (pool website) 
 #http://i0.digbtc.net
 info_1: Delays statistics and distrust of its legitimacy (i0coin.org forum) - 1.5 Ghash/s @ 09.09.11
 info_2: Pool is offline @ 10.14.11
-
-
-[bitparking]
-#http://bitparking.com
-info_1: Nmc pool (mine_nmc) - 20.2 GHash/s @ 08.23.11
-info_2: Pool was closed down on October 5, 2011
 
 
 [bitchomp]
