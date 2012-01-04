@@ -183,10 +183,10 @@ info_6: Cambiaron de forma retroactiva el sistema de pago a PPS (http://forum.po
 
 
 [bitparking]
-#http://bitparking.com
+#http://mmpool.bitparking.com
 info_1: Mina namecoins (mine_nmc) - 20.2 GHash/s @ 08.23.11
 info_2: La mina ha sido cerrada el 5 de Octubre, 2011
-info_3: Fusionó la minería ya está disponible, es de pago PPS pura (sitio web de la piscina) - 56.37 Ghash/s @ 01.03.12
+info_3: Vuelve abrir con la mineria unida habilitada, tipo de pago PPS (pagina de mina) - 56.37 Ghash/s @ 01.03.12
 
 
 ################################
