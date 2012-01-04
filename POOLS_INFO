@@ -186,7 +186,7 @@ info_6: Changed payout to PPS retroactively (http://forum.polmine.pl/index.php?t
 #http://mmpool.bitparking.com
 info_1: Nmc pool (mine_nmc) - 20.2 GHash/s @ 08.23.11
 info_2: Pool was closed down on October 5, 2011
-info_3: Pool is open again having merged mining enabled, payout is pure PPS (pool website) - 56.37 Ghash/s @ 01.03.12
+info_3: Pool is open again with merged mining enabled, payout is pure PPS (pool website) - 56.37 Ghash/s @ 01.03.12
 
 
 ###############################
