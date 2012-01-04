@@ -262,6 +262,14 @@ role: disable
 user: c00w1456testhop
 pass: x
 
+[bitparking]
+#http://mmpool.bitparking.com (PPS)
+#---Modifica despues de esta linea si vas a minar---
+role: backup
+user: nombre_minero
+#las contrasenas no importan en bitparking
+pass: contrasena_minero
+
 ################################
  Minas que usan PPLNS, DGM u
  otro sistema de pago visto como
@@ -483,15 +491,6 @@ pass: contrasena_minero
 role: disable
 user: nombre_minero
 pass: contrasena_minero
-
-[bitparking]
-#http://bitparking.com
-#---Modifica despues de esta linea si vas a minar---
-role: disable
-# el nombre de minero es la direccion de pago
-user: NJERCMdHz8gEBmdr9pkfUZ2LQuJr17gnFZ
-#las contrasenas no importan en BitParking
-pass: x
 
 [bitchomp]
 #http://www.bitchomp.info (SMPPS, mineria unida BTC)
