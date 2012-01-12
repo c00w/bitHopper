@@ -462,16 +462,16 @@ class Database():
                 logging.info('Exception caught in bitHopper.database.change_expected_payout: ' + str(e))
 
     def get_expected_payout(self, server):
-        with self.lock:
-            sql = 'select shares, diff from ' + str(server)
-            self.curs.execute(sql)
-            result = self.curs.fetchall()
-            expected = 0
-            for item in result:
-                shares = item[0]
-                difficulty = item[1]
-                expected += float(shares)/difficulty * 50
-            return expected
+    	with self.lock:
+			sql = 'select shares, diff, rejects from ' + str(server)
+			self.curs.execute(sql)
+			result = self.curs.fetchall()
+			expected = 0
+			for item in result:
+				shares = item[0] - item[2]
+				difficulty = item[1]
+				expected += float(shares)/difficulty * 50
+			return expected
 
     def update_rejects(self, server, shares, user, password):
         with self.lock:
