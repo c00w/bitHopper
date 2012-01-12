@@ -463,15 +463,15 @@ class Database():
 
     def get_expected_payout(self, server):
     	with self.lock:
-			sql = 'select shares, diff, rejects from ' + str(server)
-			self.curs.execute(sql)
-			result = self.curs.fetchall()
-			expected = 0
-			for item in result:
-				shares = item[0] - item[2]
-				difficulty = item[1]
-				expected += float(shares)/difficulty * 50
-			return expected
+	    sql = 'select shares, diff, rejects from ' + str(server)
+	    self.curs.execute(sql)
+	    result = self.curs.fetchall()
+       	    expected = 0
+	    for item in result:
+		shares = item[0] - item[2]
+		difficulty = item[1]
+		expected += float(shares)/difficulty * 50
+ 	    return expected
 
     def update_rejects(self, server, shares, user, password):
         with self.lock:
