@@ -3,7 +3,7 @@
  of pools used for hopping, gathered
    here for orientation purposes.
 
-     Last update: Jan 03, 2012
+     Last update: Jan 16, 2012
 ######################################
 ######################################
    These Pools are added recently
@@ -135,6 +135,7 @@ info_1: PPS, intro. 0% fee, pays stales
 info_2: High invalids on poclbm, site better supports phoenix 1.5+
 info_3: Registering temp disabled - 111.9 GHash/s @ 08.23.11
 info_4: Sign-up is now open - 143 GHash/s @ 10.03.11
+info_5: Pool switched to 4% fee - 500.3 GHash/s @ 01.16.12
 
 
 [mtred]
