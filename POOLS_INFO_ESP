@@ -3,7 +3,7 @@
    sobre la minas conocidas por bH,
  recogida aqui con fines informativos
 
-   Ultima actualizacion: Jan 03, 2012
+   Ultima actualizacion: Jan 16, 2012
 ######################################
 ######################################
    Minas anadidas recientemente,
@@ -135,6 +135,7 @@ info_1: Mina PPS, 0% comisiones, paga shares "stale"
 info_2: Invalidos muy altos con poclbm, mejor utilizar phoenix 1.5+
 info_3: Registro temporalmente deshabilitado - 111.9 GHash/s @ 08.23.11
 info_4: La creacion de cuentas esta habilitada de nuevo - 143 GHash/s @ 10.03.11
+info_5: La pasa en cobrar un 4%de comision - 500.3 GHash/s @ 01.16.12
 
 
 [mtred]
