@@ -63,7 +63,9 @@ class Difficulty():
                     output = re.search(site['pattern'], diff_str)
                     output = output.group(1)
                 elif site['get_method'] == 'json':
-                    pass
+                    diff_str = response.read()
+                    output = json.loads(diff_str)
+                    output = output[site['key']]
                 self.diff[short_coin] = float(output)
                 logging.debug('Retrieved Difficulty: ' + str(self[short_coin]))
                 break
