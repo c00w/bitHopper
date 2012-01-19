@@ -3,7 +3,7 @@
  of pools used for hopping, gathered
    here for orientation purposes.
 
-     Last update: Jan 03, 2012
+     Last update: Jan 19, 2012
 ######################################
 ######################################
    These Pools are added recently
@@ -11,6 +11,16 @@
 ######################################
 
 ######################################
+
+
+[a1]
+#http://www.a1bitcoinpool.com
+info_1: Formaly TNTmining (closed without notice,) working on first block, prop. payouts, please report experience - 15.2 Ghash/s @ 01.19.12
+
+
+[alex]
+#https://pool.schaetter.us
+info_1: Small Prop pool, please report experience - 2.7 Ghash/s @ 01.19.12
 
 
 [asspenny]
