@@ -175,6 +175,20 @@ role: info
 user: your_username
 pass: your_password
 
+[a1]
+#http://www.a1bitcoinpool.com/gettingstarted.php
+#---Edit after this line if mined--- (if you want)
+role: info
+user: your_username
+pass: your_password
+
+[alex]
+#http://pool.schaetter.us/gettingstarted.php
+#---Edit after this line if mined--- (if you want)
+role: info
+user: your_username
+pass: your_password
+
 ##################################
  Backup pools, that help maintain
  efficiency, for when there is
