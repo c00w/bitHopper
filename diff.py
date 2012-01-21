@@ -50,10 +50,12 @@ class Difficulty():
         logging.info('Updating Difficulty of ' + coin)
         config_diffcoin = [site for site in self.diff_sites if site['coin'] == short_coin]
 
-        #timeout = eventlet.timeout.Timeout(5, Exception(''))
         useragent = {'User-Agent': self.bitHopper.config.get('main', 'work_user_agent')}
         for site in config_diffcoin:
+            #Timeout in case stuff goes wrong
+            timeout = eventlet.timeout.Timeout(5, Exception(''))
             try:
+                #Really should use httplib2, but eh.
                 req = urllib2.Request(site['url'], headers = useragent)
                 response = urllib2.urlopen(req)
                 if site['get_method'] == 'direct': 
@@ -63,15 +65,16 @@ class Difficulty():
                     output = re.search(site['pattern'], diff_str)
                     output = output.group(1)
                 elif site['get_method'] == 'json':
-                    pass
+                    diff_str = response.read()
+                    output = json.loads(diff_str)
+                    output = output[site['key']]
                 self.diff[short_coin] = float(output)
                 logging.debug('Retrieved Difficulty: ' + str(self[short_coin]))
                 break
             except Exception, e:
                 logging.debug('Unable to update difficulty for ' + coin + ' from ' + site['url'] + ' : ' + str(e))
             finally:
-                #timeout.cancel()
-                pass
+                timeout.cancel()
 
     def update_difficulty(self):
         while True:
