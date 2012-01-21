@@ -43,8 +43,6 @@ class Difficulty():
 
     def __getitem__(self, key):
         return self.diff[key]
-        
-    def pull_site(self, site, 
 
     def updater(self, coin, short_coin):
 
