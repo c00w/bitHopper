@@ -43,6 +43,8 @@ class Difficulty():
 
     def __getitem__(self, key):
         return self.diff[key]
+        
+    def pull_site(self, site, 
 
     def updater(self, coin, short_coin):
 
@@ -50,10 +52,12 @@ class Difficulty():
         logging.info('Updating Difficulty of ' + coin)
         config_diffcoin = [site for site in self.diff_sites if site['coin'] == short_coin]
 
-        #timeout = eventlet.timeout.Timeout(5, Exception(''))
         useragent = {'User-Agent': self.bitHopper.config.get('main', 'work_user_agent')}
         for site in config_diffcoin:
+            #Timeout in case stuff goes wrong
+            timeout = eventlet.timeout.Timeout(5, Exception(''))
             try:
+                #Really should use httplib2, but eh.
                 req = urllib2.Request(site['url'], headers = useragent)
                 response = urllib2.urlopen(req)
                 if site['get_method'] == 'direct': 
@@ -72,8 +76,7 @@ class Difficulty():
             except Exception, e:
                 logging.debug('Unable to update difficulty for ' + coin + ' from ' + site['url'] + ' : ' + str(e))
             finally:
-                #timeout.cancel()
-                pass
+                timeout.cancel()
 
     def update_difficulty(self):
         while True:
