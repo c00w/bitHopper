@@ -3,14 +3,24 @@
    sobre la minas conocidas por bH,
  recogida aqui con fines informativos
 
-   Ultima actualizacion: Jan 16, 2012
+   Ultima actualizacion: Jan 19, 2012
 ######################################
 ######################################
    Minas anadidas recientemente,
       saltalas a tu riesgo.
 ######################################
 
-###################################### 
+######################################
+
+
+[a1]
+#http://www.a1bitcoinpool.com
+info_1: Anterior TNTmining (cerrada sin aviso), trabajando al primer bloque, pagos prop., reporta tu opinion - 15.2 Ghash/s @ 01.19.12
+
+
+[alex]
+#https://pool.schaetter.us
+info_1: Pequena mina prop., reporta tu impresion - 2.7 Ghash/s @ 01.19.12
 
 
 [asspenny]
