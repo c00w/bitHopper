@@ -1,0 +1,3 @@
+[submodule "btcnet_info"]
+	path = btcnet_info
+	url = git://github.com/c00w/btcnet_info.git
