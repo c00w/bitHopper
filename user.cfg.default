@@ -73,7 +73,7 @@
 ###############################################################################
 
 [slush]
-#http://mining.bitcoin.cz (Score, merged mining NMC)
+#http://mining.bitcoin.cz (MergeM-Score)
 #---Edit after this line if mined---
 role: mine_c
 c: 300
@@ -140,7 +140,7 @@ user: your_username
 pass: your_password
 
 [asspenny]
-#http://asspennypool.com (Prop, merged mining NMC)
+#http://asspennypool.com (MergeM-Prop)
 #---Edit after this line if mined---
 role: info
 asspenny_user_apikey: xxxxxx
@@ -162,14 +162,14 @@ user: your_username
 pass: your_password
 
 [simplecoin]
-#http://simplecoin.us (Prop, SMPPS, PPLNS, merged mining NMC)
+#http://simplecoin.us (MergeM-Prop, SMPPS, PPLNS)
 #---Edit after this line if mined---
 role: info
 user: your_username
 pass: your_password
 
 [nmcbitbtc]
-#http://nmcbit.com/ (Prop, merged mining NMC)
+#http://nmcbit.com/ (MergeM-Prop)
 #---Edit after this line if mined--- (if you want)
 role: info
 user: your_username
@@ -196,7 +196,7 @@ pass: your_password
 ##################################
 
 [eligius]
-#http://eligius.st (SMPPS, merged mining NMC)
+#http://eligius.st (MergeM-SMPPS)
 #---Edit after this line if mined---
 role: backup
 user: 1AofHmwVef5QkamCW6KqiD4cRqEcq5U7hZ
@@ -226,14 +226,14 @@ user: your_username
 pass: your_password
 
 [mtred]
-#https://mtred.com (PPS, merged mining NMC)
+#https://mtred.com (MergeM-PPS)
 #---Edit after this line if mined---
 role: disable
 user:scarium
 pass:x
 
 [nofeemining]
-#https://nofeemining.appspot.com (RSMPPS)
+#https://nofeemining.appspot.com (SMPPS)
 #---Edit after this line if mined---
 role: disable
 nofeemining_user_apikey: 4140cbc6405f4425cf91ca74e1450b66
@@ -255,7 +255,7 @@ user: your_username
 pass: your_password
 
 [btcg]
-#https://www.btcguild.com (PPS)
+#https://www.btcguild.com (MergeM-PPS)
 #---Edit after this line if mined---
 lp_penalty: 0
 role: info
@@ -300,7 +300,7 @@ user: c00w_worker
 pass: x
 
 [masterpool]
-#https://masterpool.eu (PPLNS, merged mining NMC)
+#https://masterpool.eu (MergeM-PPLNS)
 #---Edit after this line if mined---
 role: info
 user: your_username
@@ -358,7 +358,7 @@ pass: your_password
 #Nmc pools
 
 [nmcbit]
-#http://nmcbit.com (PPS, merged mining NMC)
+#http://nmcbit.com (MergeM-PPS)
 #---Edit after this line if mined---
 role: info
 user: your_username
@@ -374,14 +374,14 @@ user: nmcaddress
 pass: none
 
 [masterpoolnmc]
-#https://masterpool.eu (Prop, merged mining NMC)
+#https://masterpool.eu (MergeM-Prop)
 #---Edit after this line if mined---
 role: info
 user: your_username
 pass: your_password
 
 [mtrednmc]
-#https://mtred.com (Prop, merged mining NMC)
+#https://mtred.com (MergeM-Prop)
 #---Edit after this line if mined---
 role: info
 user: your_username
@@ -443,7 +443,7 @@ user: your_username
 pass: your_password
 
 [bitp]
-#http://bitp.it (ESMPPS)
+#http://bitp.it (SMPPS)
 #---Edit after this line if mined---
 role: disable
 bitp_user_apikey: 80c5dbea750563eb24e5310f94a56b38bad14dc35efb41e9ca421c92f31563ed
@@ -508,7 +508,7 @@ user: your_username
 pass: your_password
 
 [bitchomp]
-#http://www.bitchomp.info (SMPPS, merged mining BTC)
+#http://www.bitchomp.info (MergeM-SMPPS)
 #---Edit after this line if mined---
 role: disable
 user: your_username.SomeWorkerName or BTC_Address.NMC_Address
