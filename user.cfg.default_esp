@@ -111,7 +111,7 @@ user: nombre_minero
 pass: contrasena_minero
 
 [bclc]
-#http://www.bitcoins.lc (Prop)
+#https://www.bitlc.net (Prop)
 #---Modifica despues de esta linea si vas a minar---
 role: info
 user: FSkyvM

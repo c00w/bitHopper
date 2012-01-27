@@ -112,7 +112,7 @@ user: your_username
 pass: your_password
 
 [bclc]
-#http://www.bitcoins.lc (Prop)
+#https://www.bitlc.net (Prop)
 #---Edit after this line if mined---
 role: info
 user: FSkyvM
