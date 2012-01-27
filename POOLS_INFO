@@ -3,7 +3,7 @@
  of pools used for hopping, gathered
    here for orientation purposes.
 
-     Last update: Jan 19, 2012
+     Last update: Jan 27, 2012
 ######################################
 ######################################
    These Pools are added recently
@@ -36,6 +36,7 @@ info_4: Merged mining implemented, some issues are being fixed atm (pool thread 
 info_1: Delaying stats and not very civic attitude with occasional miners (page 95 - bH thread on main forum)
 info_2: You could try mining here with the mine_lp role - 466.02 Ghash/s @ 08.23.11
 info_3: Short disconnects due to scheduled firewall upgrade (twitter) - 295.14 Ghash/s @ 09.19.11
+info_4: Bitlc.net is now validated with DNSSEC for extra security (twitter) - 282.64 Ghash/s @ 01.27.12
 
 
 [bcpool]
