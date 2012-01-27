@@ -44,11 +44,8 @@ import plugin
 import api
 import exchange
 
-
 import ConfigParser
 import sys
-
-
 
 class BitHopper():
     def __init__(self, options, config):
@@ -150,7 +147,7 @@ class BitHopper():
                 server_list = [backup_list[0]]
 
         if len(server_list) == 0:
-            logging.info('FATAL Error, scheduler did not return any pool!')
+            logging.error('FATAL Error, scheduler did not return any pool!')
             os._exit(1)
 
         self.pool.current_list = server_list
