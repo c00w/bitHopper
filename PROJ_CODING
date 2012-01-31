@@ -19,6 +19,8 @@ go into a seperate .py file. This makes it easier to work with multiple plugins.
 
 WHY DOES POOL.PY DO EVERYTHING?
 Because I haven't had time to split it and clean it up.
+1/30/2012: clr: It actually is slowly being killed. All of the info is being
+spun off to btcnet_info. And then we can replace it in one sweet move.
 
 bH could support scraping after logging in with mechanize. Small script example included
 (http://wwwsearch.sourceforge.net/mechanize/)
