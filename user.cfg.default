@@ -467,13 +467,6 @@ role: disable
 user: your_username
 pass: your_password
 
-[scbitparking]
-#http://scpool.bitparking.com
-#---Edit after this line if mined---
-role: disable
-user: your_username
-pass: your_password
-
 [i0parking]
 #http://i0pool.bitparking.com
 #---Edit after this line if mined---
