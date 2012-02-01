@@ -521,14 +521,6 @@ role: disable
 user: dah4k0r@gmail.com_testhop
 pass: testhop
 
-[swepool]
-#http://swepool.net/profile
-#---Edit after this line if mined---
-role: disable
-swepool_user_apikey: xxxxxx
-user: your_username
-pass: your_password
-
 [bmunion]
 #http://www.bitminersunion.org/
 #---Edit after this line if mined---

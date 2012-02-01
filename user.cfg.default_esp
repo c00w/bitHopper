@@ -520,14 +520,6 @@ role: disable
 user: dah4k0r@gmail.com_testhop
 pass: testhop
 
-[swepool]
-#http://swepool.net/profile
-#---Modifica despues de esta linea si vas a minar---
-role: disable
-swepool_user_apikey: xxxxxx
-user: nombre_minero
-pass: contrasena_minero
-
 [bmunion]
 #http://www.bitminersunion.org/
 #---Modifica despues de esta linea si vas a minar---
