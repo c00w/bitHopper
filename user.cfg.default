@@ -161,12 +161,6 @@ role: info
 user: your_username
 pass: your_password
 
-[simplecoin]
-#http://simplecoin.us (MergeM-Prop, SMPPS, PPLNS)
-#---Edit after this line if mined---
-role: info
-user: your_username
-pass: your_password
 
 [nmcbitbtc]
 #http://nmcbit.com/ (MergeM-Prop)
@@ -420,6 +414,17 @@ pass: your_password
 # user/pass unless you really want
 # to hop them at your own risk.
 ######################################
+
+
+[simplecoin]
+#http://simplecoin.us (SMPPS, PPLNS)
+#---Edit after this line if mined---
+#---discontinued prop on feb 1st 2012
+role: info
+user: your_username
+pass: your_password
+
+
 
 [btcworld]
 #http://btcworld.de (Prop)
