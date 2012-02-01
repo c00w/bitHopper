@@ -101,6 +101,7 @@ info_3: Down for few hours, prob ddos'ed - 25 GHash/s @ 09.27.11
 #http://simplecoin.us
 info_1: Small Prop pool with alternative payouts and coins available (pool website) - 8.67 Ghash/s @ 10.06.11
 info_2: Merged mining implemented for every BTC payout available (simplecoin forum) - 21.70 Ghash/s @ 10.08.11
+info_3: Discontinued prop payouts for all coins but LTC (pool website) - 29.70 Ghash/s @ 02.01.12
 
 
 [slush]
