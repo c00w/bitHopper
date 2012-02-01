@@ -427,13 +427,6 @@ role: disable
 user: testhop
 pass: x
 
-[rfc]
-#https://rfcpool.com (PPLNS)
-#---Modifica despues de esta linea si vas a minar---
-role: disable
-user: c00w_test
-pass: x
-
 [bitfarms]
 #http://bitfarms.ca (PPS)
 #---Modifica despues de esta linea si vas a minar---
