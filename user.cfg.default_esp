@@ -420,13 +420,6 @@ pass: contrasena_minero
 # saltarlas a tu riesgo.
 ######################################
 
-[btcworld]
-#http://btcworld.de (Prop)
-#---Modifica despues de esta linea si vas a minar---
-role: disable
-user: testhop
-pass: x
-
 [bitfarms]
 #http://bitfarms.ca (PPS)
 #---Modifica despues de esta linea si vas a minar---

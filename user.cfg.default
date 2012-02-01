@@ -421,13 +421,6 @@ pass: your_password
 # to hop them at your own risk.
 ######################################
 
-[btcworld]
-#http://btcworld.de (Prop)
-#---Edit after this line if mined---
-role: disable
-user: testhop
-pass: x
-
 [bitfarms]
 #http://bitfarms.ca (PPS)
 #---Edit after this line if mined---
