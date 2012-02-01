@@ -471,13 +471,6 @@ role: disable
 user: nombre_minero
 pass: contrasena_minero
 
-[i0g]
-#http://i0.btcguild.com/register.php
-#---Modifica despues de esta linea si vas a minar---
-role: disable
-user: nombre_minero
-pass: contrasena_minero
-
 [i0parking]
 #http://i0pool.bitparking.com/pool
 #---Modifica despues de esta linea si vas a minar---
