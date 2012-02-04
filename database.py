@@ -2,11 +2,8 @@
 #bitHopper by Colin Rice is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-import eventlet
-from eventlet.green import os, threading, socket
-import eventlet.patcher
-#sqlite3 = eventlet.patcher.import_patched("sqlite3")
-import sqlite3, logging, sys
+import os, threading, socket
+import sqlite3, logging, sys, time
 
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
@@ -26,16 +23,20 @@ DB_FN = os.path.join(DB_DIR, 'stats.db')
 
 class Database():
     def __init__(self, bitHopper):
-        self.curs = None
         self.bitHopper = bitHopper
+        self.curs = None
         self.pool = bitHopper.pool
-        self.check_database()
         self.shares = {}
         self.rejects = {}
         self.payout = {}
         self.lock = threading.RLock()
-        thread = threading.Thread(target=self.write_database)
+        thread = threading.Thread(target=self.__thread_init)
         thread.start()
+        
+    def __thread_init(self):
+        self.check_database()
+        self.write_database()
+        
 
     def close(self):
         self.curs.close()
@@ -62,7 +63,7 @@ class Database():
         while True:
             count +=1
             if self.pool == None:
-                eventlet.sleep(60)
+                time.sleep(60)
                 continue
             with self.lock:
             
@@ -119,7 +120,7 @@ class Database():
             self.curs.execute('COMMIT')
 
             self.database.commit()
-            eventlet.sleep(60)
+            time.sleep(60)
 
     def check_database(self):
         logging.info('Checking Database')

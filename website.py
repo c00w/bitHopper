@@ -4,7 +4,7 @@
 #Based on a work at github.com.
 
 
-from eventlet.green import os, socket
+import os, socket
 import json, logging, sys, traceback
 
 # Global timeout for sockets in case something leaks

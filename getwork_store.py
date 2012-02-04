@@ -3,9 +3,8 @@
 # Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-import eventlet
-from eventlet.green import threading
-from eventlet.green import time, socket
+import gevent
+import threading, time, socket
 
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
@@ -16,7 +15,7 @@ class Getwork_store:
         self.data = {}
         self.bitHopper = bitHopper
         self.lock = threading.RLock()
-        eventlet.spawn_n(self.prune)
+        gevent.spawn(self.prune)
 
     def add(self, server, merkle_root):
         with self.lock:
@@ -34,4 +33,4 @@ class Getwork_store:
                 for key, work in self.data.items():
                     if work[1] < (time.time() - (60*5)):
                         del self.data[key]
-            eventlet.sleep(60)
+            gevent.sleep(60)

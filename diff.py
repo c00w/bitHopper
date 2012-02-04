@@ -3,8 +3,8 @@
 # Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-import re, eventlet, logging, ConfigParser
-from eventlet.green import threading, socket, urllib2
+import re, gevent, logging, ConfigParser
+import threading, socket, urllib2
 
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
@@ -39,7 +39,7 @@ class Difficulty():
              self.diff_sites.append(dict(cfg.items(site)))
 
         self.lock = threading.RLock()
-        eventlet.spawn_n(self.update_difficulty)
+        gevent.spawn(self.update_difficulty)
 
     def __getitem__(self, key):
         return self.diff[key]
@@ -53,7 +53,7 @@ class Difficulty():
         useragent = {'User-Agent': self.bitHopper.config.get('main', 'work_user_agent')}
         for site in config_diffcoin:
             #Timeout in case stuff goes wrong
-            timeout = eventlet.timeout.Timeout(5, Exception(''))
+            timeout = gevent.timeout.Timeout(5, Exception(''))
             try:
                 #Really should use httplib2, but eh.
                 req = urllib2.Request(site['url'], headers = useragent)
@@ -88,4 +88,4 @@ class Difficulty():
                 output = open("whatevercoin.cfg", 'wb')
                 output_diffs.write(output)
                 output.close()
-            eventlet.sleep(60*10)
+            gevent.sleep(60*10)

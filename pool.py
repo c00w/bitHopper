@@ -4,8 +4,8 @@
 
 import json, re, ConfigParser, sys, random, traceback, logging
 import pool_class
-import eventlet
-from eventlet.green import threading, os, time, socket
+import gevent
+import threading, os, time, socket
 
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)

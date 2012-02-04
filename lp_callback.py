@@ -5,8 +5,8 @@
 #Based on a work at github.com.
 
 import time
-from eventlet import event
-from eventlet.green import threading, socket
+from gevent import event
+import threading, socket
 
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)

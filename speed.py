@@ -3,8 +3,8 @@
 # Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-import eventlet
-from eventlet.green import threading, time, socket
+import gevent
+import threading, time, socket
 
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
@@ -26,7 +26,7 @@ class Speed():
     """
     def __init__(self):
         self.shares = 0
-        eventlet.spawn_n(self.update_rate)
+        gevent.spawn(self.update_rate)
         self.rate = 0
 
     def add_shares(self, share):
@@ -44,7 +44,7 @@ class Speed():
             self.shares = 0
             
             if loop:
-                eventlet.sleep(60)
+                gevent.sleep(60)
             else:
                 return
             
@@ -56,7 +56,8 @@ import unittest
 class TestSpeed(unittest.TestCase):
 
     def setUp(self):
-        eventlet.monkey_patch(os=True, select=True, socket=True, thread=False, time=True, psycopg=True)
+        import gevent.monkey
+        gevent.monkey.patch_all(os=True, select=True, socket=True, thread=False, time=True)
         self.speed = Speed()
 
     def test_shares_add(self):

@@ -5,8 +5,8 @@
 #Based on a work at github.com.
 
 import random, math, logging
-import eventlet
-from eventlet.green import threading, time, socket
+import gevent
+import threading, time, socket
 
 from peak.util import plugins
 
@@ -26,7 +26,7 @@ class Scheduler(object):
         hook_announce.register(self.mine_lp_force)
 
         self.loadConfig()
-        eventlet.spawn_n(self.bitHopper_server_update)
+        gevent.spawn(self.bitHopper_server_update)
 
     def loadConfig(self):
         try:
@@ -37,7 +37,7 @@ class Scheduler(object):
     def bitHopper_server_update(self):
         while True:
             self.bitHopper.server_update()
-            eventlet.sleep(20)
+            gevent.sleep(20)
 
     def reset(self):
         pass

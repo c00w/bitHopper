@@ -5,10 +5,10 @@
 
 import json, base64, traceback, logging
 
-import eventlet
-httplib2 = eventlet.import_patched('httplib20_7_1')
-from eventlet import pools
-from eventlet.green import socket
+import gevent
+import httplib20_7_1 as httplib2
+from gevent import pool
+import socket
 
 from peak.util import plugins
 
@@ -22,7 +22,6 @@ class Work():
         self.bitHopper = bitHopper
         self.i = 0
         self.connect_pool = {}
-        #pools.Pool(min_size = 2, max_size = 10, create = lambda: httplib2.Http(disable_ssl_certificate_validation=True))
 
     def get_http(self, address, timeout=0):
         try:
@@ -34,8 +33,8 @@ class Work():
             timeout = configured_timeout
         
         if address not in self.connect_pool:
-            self.connect_pool[address] =  pools.Pool(min_size = 0, create = lambda: httplib2.Http(disable_ssl_certificate_validation=True, timeout=timeout))
-        return self.connect_pool[address].item()
+            self.connect_pool[address] =  httplib2.Http(disable_ssl_certificate_validation=True, timeout=timeout)
+        return self.connect_pool[address]
 
     def jsonrpc_lpcall(self, server, url, lp):
         try:
@@ -46,13 +45,13 @@ class Work():
             if error:
                 return None
             header = {'Authorization':"Basic " +base64.b64encode(user+ ":" + passw).replace('\n',''), 'user-agent': 'poclbm/20110709', 'Content-Type': 'application/json', 'connection': 'keep-alive'}
-            with self.get_http(url, timeout=15*60) as http:
-                try:
-                    resp, content = http.request( url, 'GET', headers=header)#, body=request)[1] # Returns response dict and content str
-                except Exception, e:
-                    logging.debug('Error with a jsonrpc_lpcall http request')
-                    logging.debug(e)
-                    content = None
+            http = self.get_http(url, timeout=15*60)
+            try:
+                resp, content = http.request( url, 'GET', headers=header)#, body=request)[1] # Returns response dict and content str
+            except Exception, e:
+                logging.debug('Error with a jsonrpc_lpcall http request')
+                logging.debug(e)
+                content = None
             lp.receive(content, server)
             return None
         except Exception, e:
@@ -71,12 +70,12 @@ class Work():
                 pass
         #logging.debug('user-agent: ' + useragent + ' for ' + str(url) )
         header = {'user-agent':useragent}
-        with self.get_http(url) as http:
-            try:
-                content = http.request( url, 'GET', headers=header)[1] # Returns response dict and content str
-            except Exception, e:
-                logging.debug('Error with a work.get() http request: ' + str(e))
-                content = ""
+        http = self.get_http(url)
+        try:
+            content = http.request( url, 'GET', headers=header)[1] # Returns response dict and content str
+        except Exception, e:
+            logging.debug('Error with a work.get() http request: ' + str(e))
+            content = ""
         return content
 
     def user_substitution(self, server, username, password):
@@ -112,12 +111,12 @@ class Work():
                     header[k] = v
 
             url = "http://" + info['mine_address']
-            with self.get_http(url) as http:
-                try:
-                    resp, content = http.request( url, 'POST', headers=header, body=request)
-                except Exception, e:
-                    logging.debug('jsonrpc_call http error: ' + str(e))
-                    return None, None
+            http = self.get_http(url)
+            try:
+                resp, content = http.request( url, 'POST', headers=header, body=request)
+            except Exception, e:
+                logging.debug('jsonrpc_call http error: ' + str(e))
+                return None, None
 
             #Check for long polling header
             lp = self.bitHopper.lp
@@ -210,7 +209,7 @@ class Work():
             response = json.dumps({"result":None, 'error':{'message':'Cannot get work unit'}, 'id':j_id})
         else:
             response = json.dumps({"result":work, 'error':None, 'id':j_id}) 
-            eventlet.spawn_n(self.handle_store, work, server, data, username, password, rpc_request)
+            gevent.spawn(self.handle_store, work, server, data, username, password, rpc_request)
         return [response]       
 
     def handle_store(self, work, server, data, username, password, rpc_request):

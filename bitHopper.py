@@ -8,21 +8,19 @@ import warnings
 warnings.filterwarnings('ignore','' , UserWarning)
 
 try:
-    import eventlet
+    import gevent
 except Exception, e:
-    print "You need to install greenlet. See the readme."
+    print "You need to install greenlet and gevent. See the readme."
     raise e
-from eventlet import wsgi, greenpool
-from eventlet.green import os, time, socket
+import gevent.monkey
+import gevent.wsgi
 
 #Not patching thread so we can spin of db file ops.
-eventlet.monkey_patch(os=True, select=True, socket=True, thread=False, time=True, psycopg=True)
-#from eventlet import debug
-#debug.hub_blocking_detection(True)
+gevent.monkey.patch_all(thread=False, time=False)
+
+import os, time, socket, logging
 
 from peak.util import plugins
-
-import logging
 
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
@@ -80,9 +78,8 @@ class BitHopper():
         self.auth = None
         
         self.website = website.bitSite(self)
-        self.pile = greenpool.GreenPool()
         self.plugin = plugin.Plugin(self)
-        self.pile.spawn_n(self.delag_server)
+        gevent.spawn(self.delag_server)
 
     def reloadConfig(self):
         self.config = ConfigParser.ConfigParser()
@@ -91,13 +88,13 @@ class BitHopper():
             self.pool.loadConfig()
         
     def reject_callback(self, server, data, user, password):
-        eventlet.spawn_n(self.data.reject_callback, server, data, user, password)
+        gevent.spawn(self.data.reject_callback, server, data, user, password)
 
     def data_callback(self, server, data, user, password):
-        eventlet.spawn_n(self.data.data_callback, server, data, user, password)
+        gevent.spawn(self.data.data_callback, server, data, user, password)
 
     def update_payout(self, server, payout):
-        eventlet.spawn_n(self.db.set_payout, server, float(payout))
+        gevent.spawn(self.db.set_payout, server, float(payout))
         self.pool.servers[server]['payout'] = float(payout)
 
     def get_options(self):
@@ -182,7 +179,7 @@ class BitHopper():
                     else:
                         logging.debug('Not delagging')
             sleeptime = self.config.getint('main', 'delag_sleep')
-            eventlet.sleep(sleeptime)
+            gevent.sleep(sleeptime)
 
 def main():
     parser = optparse.OptionParser(description='bitHopper')
@@ -298,12 +295,14 @@ def main():
 
             #This ugly wrapper is required so wsgi server doesn't die
             socket.setdefaulttimeout(None)
-            wsgi.server(eventlet.listen((options.ip,listen_port), backlog=500),bithopper_instance.website.handle_start, log=log, max_size = 8000)
+            gevent.wsgi.WSGIServer((options.ip, listen_port),
+                bithopper_instance.website.handle_start, 
+                backlog=512,  log=log).serve_forever()
             socket.setdefaulttimeout(lastDefaultTimeout)
             break
         except Exception, e:
             logging.info("Exception in wsgi server loop, restarting wsgi in 60 seconds\n%s" % (str(e)))
-            eventlet.sleep(60)
+            gevent.sleep(60)
     bithopper_instance.db.close()
 
 if __name__ == "__main__":

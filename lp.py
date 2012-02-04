@@ -2,8 +2,8 @@
 #bitHopper by Colin Rice is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-import json, eventlet, traceback, logging
-from eventlet.green import time, threading, socket
+import json, gevent, traceback, logging
+import time, threading, socket
 
 from peak.util import plugins
 
@@ -41,7 +41,7 @@ class LongPoll():
         self.lock = threading.RLock()
         hook_end = plugins.Hook('plugins.lp.init.end')
         hook_end.notify(self, bitHopper)
-        eventlet.spawn_n(self.start_lp)
+        gevent.spawn(self.start_lp)
 
     # return all blocks data (excluding special "_defer" entry)
     def getBlocks(self):
@@ -84,7 +84,7 @@ class LongPoll():
                 self.bitHopper.pool.servers[server]['shares'] = 0
                 self.bitHopper.scheduler.reset()
                 self.bitHopper.select_best_server()
-                eventlet.spawn_n(self.api_check,server,block,old_shares)
+                gevent.spawn(self.api_check,server,block,old_shares)
 
             #If We change servers trigger a LP.
             if old_owner !=server:
@@ -120,8 +120,8 @@ class LongPoll():
                 if info['lp_address'] != None:
                     self.pull_lp(info['lp_address'],server)
                 else:
-                    eventlet.spawn_n(self.pull_server, server)
-            eventlet.sleep(60*60)
+                    gevent.spawn(self.pull_server, server)
+            gevent.sleep(60*60)
                 
                 
     def pull_server(self, server):
@@ -165,8 +165,8 @@ class LongPoll():
                 self.errors[server] += 1
             #timeout? Something bizarre?
             if self.errors[server] < 3 or info['role'] == 'mine_lp':
-                eventlet.sleep(1)
-                eventlet.spawn_after(0,self.pull_lp, self.pool.servers[server]['lp_address'],server, False)
+                gevent.sleep(1)
+                gevent.spawn(self.pull_lp, self.pool.servers[server]['lp_address'],server, False)
             return
         try:
             output = True
@@ -211,7 +211,7 @@ class LongPoll():
             #timeout? Something bizarre?
             if self.errors[server] > 3 and info['role'] != 'mine_lp':
                 return
-        eventlet.spawn_n(self.pull_lp, self.pool.servers[server]['lp_address'],server,output)
+        gevent.spawn(self.pull_lp, self.pool.servers[server]['lp_address'],server,output)
         
     def clear_lp(self,):
         pass
@@ -226,7 +226,7 @@ class LongPoll():
             info['lp_address'] = url
             if server not in self.polled:
                 self.polled[server] = threading.Lock()
-            eventlet.spawn_n(self.pull_lp, url,server)
+            gevent.spawn(self.pull_lp, url,server)
         except Exception, e:
             logging.info('set_lp error')
             logging.info(e)

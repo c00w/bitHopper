@@ -3,8 +3,8 @@
 # Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-import re, eventlet, logging
-from eventlet.green import threading, socket, urllib2
+import re, gevent, logging
+import threading, socket, urllib2
 from ConfigParser import NoOptionError
 
 # Global timeout for sockets in case something leaks
@@ -17,7 +17,7 @@ class Exchange():
         try: self.calculate_profit = bitHopper.config.getboolean('main', 'calculate_profit')
         except NoOptionError: self.calculate_profit = True
         self.lock = threading.RLock()
-        eventlet.spawn_n(self.update_profitability)
+        gevent.spawn(self.update_profitability)
         self.rate = {'btc':1.0}
         self.profitability = {'btc':1.0}
     
@@ -26,7 +26,7 @@ class Exchange():
         # Generic method to update the exchange rate of a given currency
         if self.calculate_profit == True:
             try:
-                #timeout = eventlet.timeout.Timeout(5, Exception(''))
+                timeout = gevent.timeout.Timeout(5, Exception(''))
                 logging.info('Updating Exchange Rate of ' + coin)
                 useragent = {'User-Agent': self.bitHopper.config.get('main', 'work_user_agent')}
                 req = urllib2.Request(url_diff, headers = useragent)
@@ -69,4 +69,4 @@ class Exchange():
                 self.calc_profit()
 
     
-            eventlet.sleep(60*5)
+            gevent.sleep(60*5)
