@@ -58,11 +58,19 @@ class Database():
         return sql
 
     def write_database(self):
+        count = 0
         while True:
+            count +=1
             if self.pool == None:
                 eventlet.sleep(60)
                 continue
             with self.lock:
+            
+                #Vacuum once per hour to help deal with
+                #Sqlite performance issues.
+                if count > 60:
+                    self.curs.execute('VACUUM')
+                    count = 0
                 logging.info('DB: writing to database')
 
                 for server_name in self.pool.get_servers():
