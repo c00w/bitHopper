@@ -73,6 +73,8 @@ class Database():
                     count = 0
                 logging.info('DB: writing to database')
 
+                self.curs.execute('BEGIN TRANSACTION')
+
                 for server_name in self.pool.get_servers():
                     self.make_table(server_name)
 
@@ -113,6 +115,8 @@ class Database():
                         sql = self.sql_insert(server,payout=payout,diff=1)
                         self.curs.execute(sql)
                     self.payout[server] = None
+                    
+            self.curs.execute('COMMIT')
 
             self.database.commit()
             eventlet.sleep(60)
