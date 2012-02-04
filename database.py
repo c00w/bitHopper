@@ -31,7 +31,9 @@ class Database():
         self.payout = {}
         self.lock = threading.RLock()
         thread = threading.Thread(target=self.__thread_init)
+        thread.daemon = True
         thread.start()
+        self.alive = True
         
     def __thread_init(self):
         self.check_database()
@@ -60,7 +62,7 @@ class Database():
 
     def write_database(self):
         count = 0
-        while True:
+        while self.alive:
             count +=1
             if self.pool == None:
                 time.sleep(60)
@@ -92,7 +94,6 @@ class Database():
                             self.curs.execute(sql)
                         self.shares[server][user] = 0
 
-            with self.lock:
                 for server in self.rejects:
                     for user in self.rejects[server]:
                         if self.rejects[server][user] == 0:
@@ -105,7 +106,6 @@ class Database():
                             self.curs.execute(sql)
                         self.rejects[server][user] = 0
 
-            with self.lock:
                 for server in self.payout:
                     if self.payout[server] == None:
                         continue
@@ -139,7 +139,7 @@ class Database():
         version.write("0.2")
         version.close()
 
-        self.database = sqlite3.connect(DB_FN)
+        self.database = sqlite3.connect(DB_FN, check_same_thread = False)
         self.curs = self.database.cursor()
         self.curs.execute("VACUUM")
 

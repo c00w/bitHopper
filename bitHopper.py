@@ -283,7 +283,7 @@ def main():
 
     hook = plugins.Hook('plugins.bithopper.startup')
     hook.notify(bithopper_instance, config, options)
-        
+    
     while True:
         try:
             listen_port = options.port            
@@ -303,7 +303,9 @@ def main():
         except Exception, e:
             logging.info("Exception in wsgi server loop, restarting wsgi in 60 seconds\n%s" % (str(e)))
             gevent.sleep(60)
-    bithopper_instance.db.close()
+        except (KeyboardInterrupt, SystemExit):
+            bithopper_instance.db.close()
+            sys.exit()
 
 if __name__ == "__main__":
     main()
