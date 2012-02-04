@@ -128,6 +128,7 @@ class Database():
 
         self.database = sqlite3.connect(DB_FN)
         self.curs = self.database.cursor()
+        self.curs.execute("VACUUM")
 
         if version == "0.1":
             sql = "SELECT name FROM sqlite_master WHERE type='table'"
