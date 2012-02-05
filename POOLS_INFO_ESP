@@ -239,6 +239,7 @@ info_2: Stats funcionan - 60.5 GHash/s @ 08.23.11
 info_3: Necesitan un poco de ayuda para resolver este ultimo bloque (encontrado) - 61.2 GHash/s @ 09.18.11
 info_4: 10% bonus en las siguientes 10 rondas (pagina de mina) - 53.85 GHash/s @ 10.03.11
 info_5: Cambiaran a sistema de pago DGM desde el siguiente bloque (pagina 1 - hilo de mina en el foro principal) - 18.92 GHash/s @ 12.10.11
+info_6: Los fondos han sido comprometidos por un ataque, estan trabajando para arreglarlo (hilo de mina en el foro principal) - 307.70 GHash/s @ 02.05.12
 
 
 [p2pool]
