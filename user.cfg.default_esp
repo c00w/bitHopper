@@ -75,7 +75,8 @@
 [slush]
 #http://mining.bitcoin.cz (MUnida-Puntuacion)
 #---Modifica despues de esta linea si vas a minar---
-role: mine_slush
+role: mine_c
+c: 300
 penalty: 1
 user: c00w.testhop
 pass: testhop
@@ -155,13 +156,6 @@ pass: contrasena_minero
 
 [coinotron]
 #http://coinotron.com (Puntuacion)
-#---Modifica despues de esta linea si vas a minar---
-role: info
-user: nombre_minero
-pass: contrasena_minero
-
-[simplecoin]
-#http://simplecoin.us (MUnida-Prop, SMPPS, PPLNS)
 #---Modifica despues de esta linea si vas a minar---
 role: info
 user: nombre_minero
@@ -322,7 +316,7 @@ pass: your_password
 [ozco]
 #https://ozco.in (DGM)
 #---Modifica despues de esta linea si vas a minar---
-role: mine
+role: info
 user:c00w.1
 pass:1234
 
@@ -337,12 +331,19 @@ pass: feliz
 [triple]
 #https://www.triplemining.com (PPLNS)
 #---Modifica despues de esta linea si vas a minar---
-role: mine
+role: info
 user: c00w_test
 pass: x
 
 [yourbtc]
 #http://yourbtc.net (DGM)
+#---Modifica despues de esta linea si vas a minar---
+role: info
+user: nombre_minero
+pass: contrasena_minero
+
+[simplecoin]
+#http://simplecoin.us (SMPPS, PPLNS)
 #---Modifica despues de esta linea si vas a minar---
 role: info
 user: nombre_minero

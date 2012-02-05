@@ -3,7 +3,7 @@
    sobre la minas conocidas por bH,
  recogida aqui con fines informativos
 
-   Ultima actualizacion: Jan 27, 2012
+   Ultima actualizacion: Feb 5, 2012
 ######################################
 ######################################
    Minas anadidas recientemente,
@@ -95,12 +95,6 @@ info_2: La direccion de mineria podria no ser correcta, requieren un programa mi
 info_1: Cambio a sistema PPS (pagina 154 - hilo bH en el foro principal)
 info_2: Se quedaron con el sist. Proporcional (Canal IRC) - 36 GHash/s @ 08.23.11
 info_3: Caida unas horas, probablemente ataque ddos - 25 GHash/s @ 09.27.11
-
-
-[simplecoin]
-#http://simplecoin.us
-info_1: Pequena mina proporcional que tambien dispone de sistemas de pago y monedas alternativas (pagina de mina) - 8.67 Ghash/s @ 10.06.11
-info_2: Mineria unida esta implementada para cada tipo de pago BTC disponible (foro simplecoin) - 21.70 Ghash/s @ 10.08.11
 
 
 [slush]
@@ -239,6 +233,7 @@ info_2: Stats funcionan - 60.5 GHash/s @ 08.23.11
 info_3: Necesitan un poco de ayuda para resolver este ultimo bloque (encontrado) - 61.2 GHash/s @ 09.18.11
 info_4: 10% bonus en las siguientes 10 rondas (pagina de mina) - 53.85 GHash/s @ 10.03.11
 info_5: Cambiaran a sistema de pago DGM desde el siguiente bloque (pagina 1 - hilo de mina en el foro principal) - 18.92 GHash/s @ 12.10.11
+info_6: Los fondos han sido comprometidos por un ataque, estan trabajando para arreglarlo (hilo de mina en el foro principal) - 307.70 GHash/s @ 02.05.12
 
 
 [p2pool]
@@ -257,6 +252,13 @@ info_3: Cambio a sistema PPLNS (pagina de mina) - 18.9 GHash/s @ 11.19.11
 [yourbtc]
 #http://yourbtc.net
 info_1: Utiliza el sistema DGM (pagina de mina + pagina 2 - hilo de mina en foro principal) - 4.3 GHash/s @ 09.21.11
+
+
+[simplecoin]
+#http://simplecoin.us
+info_1: Pequena mina proporcional que tambien dispone de sistemas de pago y monedas alternativas (pagina de mina) - 8.67 Ghash/s @ 10.06.11
+info_2: Mineria unida esta implementada para cada tipo de pago BTC disponible (foro simplecoin) - 21.70 Ghash/s @ 10.08.11
+info_3: Han eliminado los pagos prop para todas la monedas menos LTC (pagina de mina) - 29.70 Ghash/s @ 02.01.12
 
 
 #####################################
