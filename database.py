@@ -116,7 +116,7 @@ class Database():
                     self.payout[server] = None
                 
             self.database.commit()
-            time.sleep(20)
+            time.sleep(60)
 
     def check_database(self):
         logging.info('Checking Database')
