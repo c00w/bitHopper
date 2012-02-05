@@ -117,8 +117,11 @@ class Database():
                         self.curs.execute(sql)
                     self.payout[server] = None
                     
-            self.curs.execute('COMMIT')
-
+            try:
+                self.curs.execute('COMMIT')
+            except OperationalError:
+                pass
+                
             self.database.commit()
             time.sleep(60)
 
