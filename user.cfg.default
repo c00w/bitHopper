@@ -161,7 +161,6 @@ role: info
 user: your_username
 pass: your_password
 
-
 [nmcbitbtc]
 #http://nmcbit.com/ (MergeM-Prop)
 #---Edit after this line if mined--- (if you want)
@@ -317,7 +316,7 @@ pass: your_password
 [ozco]
 #https://ozco.in (DGM)
 #---Edit after this line if mined---
-role: mine
+role: info
 user:c00w.1
 pass:1234
 
@@ -332,12 +331,19 @@ pass: miner
 [triple]
 #https://www.triplemining.com (PPLNS)
 #---Edit after this line if mined---
-role: mine
+role: info
 user: c00w_test
 pass: x
 
 [yourbtc]
 #http://yourbtc.net (DGM)
+#---Edit after this line if mined---
+role: info
+user: your_username
+pass: your_password
+
+[simplecoin]
+#http://simplecoin.us (SMPPS, PPLNS)
 #---Edit after this line if mined---
 role: info
 user: your_username
@@ -414,14 +420,6 @@ pass: your_password
 # user/pass unless you really want
 # to hop them at your own risk.
 ######################################
-
-[simplecoin]
-#http://simplecoin.us (SMPPS, PPLNS)
-#---Edit after this line if mined---
-#---discontinued prop on feb 1st 2012
-role: info
-user: your_username
-pass: your_password
 
 [bitfarms]
 #http://bitfarms.ca (PPS)

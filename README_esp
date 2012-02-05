@@ -6,10 +6,11 @@ Basado en trabajo hecho en github.com
 
 
 # Instalar en Ubuntu
-
-Para poder ejecutar bitHopper necesitas tener instalado Python en el sistema. La version 2.7 es la recomendada
-aunque funciona correctamente con la version previa, Python 2.6. Para averiguar que version tienes instalada
-teclea en una consola "python -V".
+---------------------------------------------------------------------
+Para poder ejecutar bitHopper necesitas tener instalado Python en el
+sistema. La version 2.7 es la recomendada aunque funciona correctamente
+con la version previa, Python 2.6. Para averiguar que version tienes
+instalada teclea en una consola "python -V".
 
 Si no tienes Python instalado puedes hacerlo con el siguiente comando:
 
@@ -19,11 +20,11 @@ Despues de comprobar haber instalado Python sigue con los paquetes extra que bit
 correctamente:
 
 sudo apt-get install python-dev python-setuptools
-sudo easy_install greenlet
-sudo easy_install importlib
+sudo pip install gevent
+sudo pip install importlib
 
 Si quieres hacer funcionar el minero poclbm incluido instala lo siguiente
-sudo easy_install numpy
+sudo pip install numpy
 
 Y despues baja e instala bitHopper
 
@@ -38,12 +39,15 @@ hg clone https://bitbucket.org/ambroff/greenlet
 cd greenlet
 python2 setup.py install
 
+pip install gevent
+
 Y despues baja e instala bitHopper
 
 Es un poco raro pero la version de greenlet que se baja pip causa errores de segmentacion en
 archlinux. Asi que tendras que instalarlo desde el repositorio oficial de bitbucket.
 
 # Instrucciones para usuarios Windows
+-----------------------------------------------------------------
 NOTA: SI TIENES MUCHOS MINEROS MEJOR UTILIZA LINUX.
 
 ActiveState Python(recomendado, usa version 32 bit aunque tengas un sistema de 64 bit, funcionara igual)
@@ -64,6 +68,11 @@ Se abrira una consola donde tienes que teclear:
 
 pypm install greenlet
 
+Y despues baja y ejecuta:
+
+http://code.google.com/p/gevent/downloads/detail?name=gevent-1.0a3.win32-py2.7.msi
+
+
 Despues de que pypm haya finalizado instalar greenlet con exito teclea "exit" y tu bitHopper esta listo
 para funcionar. Esta modalidad deberia funcionar en 99% de las instalaciones pero ha habido casos de
 personas que han tenido fallos. Si este es tu caso podrias probar el modulo greenlet precompilado desde:
@@ -74,6 +83,7 @@ Toma nota que estos no son binarios oficiales para Python. Siempre es mejor baja
 greenlet y compilarlo o utilizar el metodo pypm. Si no tienes otra alternativa y tienes que hacerlo asi
 el greenlet-0.3.1.win32-py2.7.exe es el instalador correcto que puedes bajarte. Se extraera en la carpeta
 adecuada automaticamente.
+
 
 
 # Configurando los ajustes de usuario
@@ -182,3 +192,4 @@ o tener la mina "Donation" activada en la pagina de Stats (ajusta el porcentaje 
  swordv2, bitcoindaddy, rkozola, ryouiki, starlightbreaker, hawks5999, erasmo, pueytan, macboy80, sdogi, joulesbeef,
  Seoulboy1, paraipan, Swicher, lucita777, TenthReality, dfc (Douglas Calvert), dadittoz, cutnpaster, simonk83, xzion,
  HolodeckJizzmopper, MartyChubbs, iongchun
+
