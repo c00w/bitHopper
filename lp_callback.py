@@ -18,7 +18,8 @@ class LP_Callback():
 
     def read(self):
         "Gets the New Block work unit to send to clients"
-        return self._event.wait()
+        self._event.wait()
+        return self.work
 
     def new_block(self, work, server):
         "Called by LP to indicate a new_block as well as the work to send to clients"
@@ -29,5 +30,6 @@ class LP_Callback():
         #Setup the new locks, store the data and then release the old lock
         old = self._event
         self._event = event.Event()
-        old.send(work)
+        self.work = work
+        old.set()
         

@@ -138,7 +138,10 @@ class LongPoll():
         """ Adds a new block. server must be the server the work is coming from """
         with self.lock:
             hook_start = plugins.Hook('plugins.lp.add_block.start')
-            hook_start.notify(self, block, work, server)
+            try:
+                hook_start.notify(self, block, work, server)
+            except:
+                traceback.print_exc()
             self.blocks[block]={}
             self.blocks[block]['_time'] = time.localtime()
             self.bitHopper.lp_callback.new_block(work, server)
@@ -211,7 +214,7 @@ class LongPoll():
             #timeout? Something bizarre?
             if self.errors[server] > 3 and info['role'] != 'mine_lp':
                 return
-        gevent.spawn(self.pull_lp, self.pool.servers[server]['lp_address'],server,output)
+        gevent.spawn_later(0, self.pull_lp, self.pool.servers[server]['lp_address'],server,output)
         
     def clear_lp(self,):
         pass

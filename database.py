@@ -29,13 +29,15 @@ class Database():
         self.shares = {}
         self.rejects = {}
         self.payout = {}
-        self.lock = threading.RLock()
+        self.lock = threading.Lock()
+        self.lock.acquire()
         thread = threading.Thread(target=self.__thread_init)
         thread.daemon = True
         thread.start()
         self.alive = True
         
     def __thread_init(self):
+        self.lock.release()
         self.check_database()
         self.write_database()
         
@@ -503,8 +505,7 @@ class Database():
         while not self.curs:
             time.sleep(1)
         sql = "CREATE TABLE IF NOT EXISTS "+server_name +" (diff REAL, shares INTEGER, rejects INTEGER, stored_payout REAL, user TEXT)"
-        with self.lock:
-            self.curs.execute(sql)
+        self.curs.execute(sql)
 
 
     def get_rejects(self, server):
