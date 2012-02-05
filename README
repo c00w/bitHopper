@@ -6,10 +6,11 @@ Based on a work at github.com
 
 
 # Ubuntu installation
-
-In order to run bitHopper you need to have Python installed in your system. Version 2.7 of Python is suggested
-although it has been tested and appears to work with version 2.6 too. To find out which version of Python your
-system currently has type "python -V" in a shell console.
+---------------------------------------------------------------------
+In order to run bitHopper you need to have Python installed on your 
+system. Version 2.7 of Python is suggested although it has been tested
+and appears to work with version 2.6 too. To find out which version of 
+Python your system currently has type "python -V" in a shell console.
 
 If you don't have Python installed at all you have to run:
 
@@ -19,11 +20,11 @@ After verifying that you have Python installed then you have to install some ext
 requires to function properly:
 
 sudo apt-get install python-dev python-setuptools
-sudo easy_install greenlet
-sudo easy_install importlib
+sudo pip install greenlet
+sudo pip install importlib
 
 If you would like to use the poclbm miner plugin do
-sudo easy_install numpy
+sudo pip install numpy
 
 Then download and run bitHopper
 
@@ -44,6 +45,7 @@ I know its weird but the pip version of greenlet causes segfaults in
 archlinux. So you have to install from the oficial repo on bitbucket.
 
 # Instructions for Windows users
+-----------------------------------------------------------------
 NOTE: IF YOU ARE RUNNING LOTS OF MINERS USE LINUX.
 
 ActiveState Python(recommended, use 32 bit even when you have 64 bit system)
