@@ -119,7 +119,7 @@ class Database():
                     
             try:
                 self.curs.execute('COMMIT')
-            except OperationalError:
+            except sqlite3.OperationalError:
                 pass
                 
             self.database.commit()
