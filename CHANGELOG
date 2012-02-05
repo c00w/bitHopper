@@ -1,4 +1,52 @@
 
+#Ver   0.3.0.1 (090d513)
+Change database write time once every 20 seconds
+Updated readme to have proper links for gevent
+Catch the error correctly
+Force users to install gevent
+Fix broken transactions in db
+
+
+#Ver   0.3 (e00999e)
+Updated a lot of things to use gevent. Some threading issues with sqlite
+Updated database to close properly
+Patched all the plugins to work with gevent
+Bundled new gevent with bitHopper and update README
+Deleted eventlet
+
+
+#Ver   0.2.6.7 (d3b002d)
+Add sqlite3 Transaction commands
+Vacuum databases
+Updated port for p2pool
+Updated btcnet_info
+Update project coding
+Added hashrate display for bitparking
+Removed rfcpool, swepool, btcworld.de, scbitparking
+fixed bclc mining address
+Updated pools info
+
+
+#Ver   0.2.6.6 (1a93381)
+Fix hookexample and remove some whitespace
+Fix stall issues in diff.py
+Added a bunch of payout_scheme info
+Added payout_scheme to existing pools
+Update to stable btcnet_info
+Updated Ozco.in to latest url, site should be stable now (+json format)
+Added backup config for bclc using "mine" role
+Fixed NMCbitBTC to scrape shares and not guess based off duration
+Added Simplecoin and Asspenny for block verification
+Updated Changelog, Proj_coding
+Added Alex's Pool and A1
+Update Alex Pool Stats + A1 Address fix
+Coinotron api fix
+Eligius mine + api fix
+Updated Bitparking
+Upd btcworld.de info, offline
+New pools to ES info&cfg
+Added btcnet_info repository
+
 
 #Ver   0.2.6.5 (605e585)
 Added unittest framework and actually wrote some tests
