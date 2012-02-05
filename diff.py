@@ -42,7 +42,8 @@ class Difficulty():
         gevent.spawn(self.update_difficulty)
 
     def __getitem__(self, key):
-        return self.diff[key]
+        with self.lock:
+            return self.diff[key]
 
     def updater(self, coin, short_coin):
 
@@ -68,7 +69,8 @@ class Difficulty():
                     diff_str = response.read()
                     output = json.loads(diff_str)
                     output = output[site['key']]
-                self.diff[short_coin] = float(output)
+                with self.lock:
+                    self.diff[short_coin] = float(output)
                 logging.debug('Retrieved Difficulty: ' + str(self[short_coin]))
                 break
             except Exception, e:
