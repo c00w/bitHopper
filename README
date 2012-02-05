@@ -20,7 +20,7 @@ After verifying that you have Python installed then you have to install some ext
 requires to function properly:
 
 sudo apt-get install python-dev python-setuptools
-sudo pip install greenlet
+sudo pip install gevent
 sudo pip install importlib
 
 If you would like to use the poclbm miner plugin do
@@ -38,6 +38,8 @@ pip2 install eventlet
 hg clone https://bitbucket.org/ambroff/greenlet
 cd greenlet
 python2 setup.py install
+
+pip install gevent
 
 Then download and run bitHopper
 
