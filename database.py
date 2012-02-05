@@ -135,18 +135,19 @@ class Database():
         version.write("0.2")
         version.close()
 
-        self.database = sqlite3.connect(DB_FN, check_same_thread = False)
-        self.curs = self.database.cursor()
-        self.curs.execute("VACUUM")
+        with self.lock:
+            self.database = sqlite3.connect(DB_FN, check_same_thread = False)
+            self.curs = self.database.cursor()
+            self.curs.execute("VACUUM")
 
-        if version == "0.1":
-            sql = "SELECT name FROM sqlite_master WHERE type='table'"
-            self.curs.execute(sql)
-            result = self.curs.fetchall()
-            for item in result:
-                sql = "ALTER TABLE " + item[0] + " ADD COLUMN user TEXT"
+            if version == "0.1":
+                sql = "SELECT name FROM sqlite_master WHERE type='table'"
                 self.curs.execute(sql)
-        self.database.commit()
+                result = self.curs.fetchall()
+                for item in result:
+                    sql = "ALTER TABLE " + item[0] + " ADD COLUMN user TEXT"
+                    self.curs.execute(sql)
+            self.database.commit()
 
     def get_users(self):
         """
@@ -220,7 +221,8 @@ class Database():
 
             sql = self.sql_update_set(server, value=value, amount=int(shareAmount), user=sharesDict[shares]['user'][listIterator], difficulty=diff)
             #print server, 'value=' + str(value), 'amount=' + str(int(shareAmount)), 'user=' + str(sharesDict[shares]['user'][listIterator]), 'difficulty=' + str(diff) 
-            self.curs.execute(sql)
+            with self.lock:
+                self.curs.execute(sql)
 
             listIterator += 1
             newDbSharesTotal += int(shareAmount)
@@ -327,15 +329,18 @@ class Database():
                 if requiredSharesTotal == 0:
                     logging.debug('Setting expected payout for ' + str(server) + ' to 0')
                     sql = 'UPDATE ' + str(server) + ' SET shares = 0'
-                    self.curs.execute(sql)
+                    with self.lock:
+                        self.curs.execute(sql)
                     sql = 'UPDATE ' + str(server) + ' SET rejects = 0'
-                    self.curs.execute(sql)
+                    with self.lock:
+                        self.curs.execute(sql)
                 else:
                     logging.debug('Starting to increase/decrease existing payouts for all users')
 
                     dbSharesTotal = 0
                     sql = 'select shares from ' + str(server)
-                    self.curs.execute(sql)
+                    with self.lock:
+                        self.curs.execute(sql)
 
                     for shares in self.curs.fetchall():
                         if shares[0] > 0:
@@ -357,12 +362,14 @@ class Database():
                         logging.debug('Making new user table for ' + str(server))
 
                         sql = 'DELETE FROM ' + str(server)
-                        self.curs.execute(sql)
+                        with self.lock:
+                            self.curs.execute(sql)
                         #self.database.commit()
 
                         for user in users:
                             sql = self.sql_insert(server, shares=users[user]['shares'], rejects=0, user=user)
-                            self.curs.execute(sql)
+                            with self.lock:
+                                self.curs.execute(sql)
                             dbSharesTotal += users[user]['shares']
                             dbRowCount += 1
 
@@ -381,7 +388,8 @@ class Database():
                     logging.debug('New total payout\'s percent: ' + str(newPayoutPercent))
 
                     sql = 'select user, shares, rejects, diff from ' + str(server)
-                    self.curs.execute(sql)
+                    with self.lock:
+                        self.curs.execute(sql)
 
                     # Build sharesDict and rejectsDict
                     # that contain new float share values
@@ -492,8 +500,11 @@ class Database():
             self.rejects[server][user] += shares
 
     def make_table(self, server_name):
+        while not self.curs:
+            time.sleep(1)
         sql = "CREATE TABLE IF NOT EXISTS "+server_name +" (diff REAL, shares INTEGER, rejects INTEGER, stored_payout REAL, user TEXT)"
-        self.curs.execute(sql)
+        with self.lock:
+            self.curs.execute(sql)
 
 
     def get_rejects(self, server):
