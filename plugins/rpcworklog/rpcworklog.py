@@ -3,8 +3,7 @@
 #bitHopper by Colin Rice is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-import traceback, logging, eventlet
-from eventlet.green import time, threading
+import logging
 
 from peak.util import plugins
 

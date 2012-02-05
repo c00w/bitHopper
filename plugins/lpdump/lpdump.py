@@ -3,8 +3,8 @@
 #bitHopper by Colin Rice is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-import random, re, eventlet, sys
-from eventlet.green import time, threading, socket
+import random, re, sys
+import time, threading, socket
 
 from peak.util import plugins
 # Global timeout for sockets in case something leaks

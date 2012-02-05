@@ -4,8 +4,8 @@
 #Based on a work at github.com.
 
 import traceback, logging
-import eventlet
-from eventlet.green import time, threading
+import gevent
+import time, threading
 
 class APIAngel():
     def __init__(self, bitHopper):
@@ -15,7 +15,7 @@ class APIAngel():
         self.parseConfig()
         self.log_msg("Check interval: " + str(self.interval))
         self.log_msg("Re-Incarnate interval: " + str(self.reincarnateInterval))
-        eventlet.spawn_n(self.run)
+        gevent.spawn(self.run)
         self.lock = threading.RLock()
             
     def parseConfig(self):
@@ -42,4 +42,4 @@ class APIAngel():
                     if delta > self.reincarnateInterval:
                         self.log_msg('Restoring server: ' + server)
                         info['role'] = info['default_role']
-            eventlet.sleep(self.interval)
+            gevent.sleep(self.interval)

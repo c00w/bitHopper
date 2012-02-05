@@ -57,7 +57,7 @@ class TestSpeed(unittest.TestCase):
 
     def setUp(self):
         import gevent.monkey
-        gevent.monkey.patch_all(os=True, select=True, socket=True, thread=False, time=True)
+        gevent.monkey.patch_all(os=True, select=True, socket=True, thread=False, time=False)
         self.speed = Speed()
 
     def test_shares_add(self):

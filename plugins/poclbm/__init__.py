@@ -9,7 +9,7 @@ from time import sleep
 import HttpTransport
 import pyopencl as cl
 import socket
-import eventlet
+import gevent
 
 def main(bitHopper):
     try:
@@ -51,7 +51,7 @@ class poclbmMiner():
         self.bitHopper.website.sites.append(poclbmSite(self))        
     #Taken from poclbm's public domain frontend.
     def new_miner(self, option_string):
-        eventlet.spawn_n(self._new_miner, option_string)
+        gevent.spawn(self._new_miner, option_string)
 
     def _new_miner(self, option_string):
 

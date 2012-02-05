@@ -1,8 +1,8 @@
 # tracks accuracy of block predictions as noted in lp.blocks['_owner']
 # required pident plugin to work
-import time, logging, eventlet, traceback
+import time, logging, gevent, traceback
 
-from eventlet.green import time, threading
+import time, threading
 from peak.util import plugins
 
 class BlockAccuracy:

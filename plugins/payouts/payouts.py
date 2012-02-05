@@ -9,8 +9,8 @@
 import traceback, logging
 from jsonrpc import ServiceProxy
 
-import eventlet, logging
-from eventlet.green import time, threading
+import gevent
+import time, threading
 
 class Payouts():
     def __init__(self, bitHopper):
@@ -18,7 +18,7 @@ class Payouts():
         self.interval = 600
         self.parseConfig()
         self.log_msg("Payouts interval: " + str(self.interval))
-        eventlet.spawn_n(self.run)
+        gevent.spawn(self.run)
         self.lock = threading.RLock()
             
     def parseConfig(self):
@@ -53,4 +53,4 @@ class Payouts():
                         self.log_dbg("Error getting getreceivedbyaddress")
                         self.log_dbg(e)
 
-            eventlet.sleep(self.interval)
+            gevent.sleep(self.interval)

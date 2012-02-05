@@ -1,8 +1,8 @@
 # example hooks
 import time
-import eventlet
+import gevent
 
-from eventlet.green import time, threading
+import time, threading
 from peak.util import plugins
 import logging
 

@@ -1,4 +1,4 @@
-from eventlet.green import os, socket
+import os, socket
 import json, logging
 import sys
 import webob

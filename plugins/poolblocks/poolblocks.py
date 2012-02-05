@@ -9,10 +9,9 @@
 #  If too many None responses for a particular block/hash/txid, we should stop trying
 #
 
-import eventlet
-from eventlet.green import os, threading, socket
-from eventlet import greenpool
-
+import gevent
+import os, threading, socket
+import gevent.pool
 import traceback, logging
 import random
 import time
@@ -45,8 +44,8 @@ class PoolBlocks:
         #self.blockexplorerRetryLimit
         #self.blockexplorerRetryDelay
         self.parseConfig()        
-        self.threadpool = greenpool.GreenPool(size=8)
-        self.execpool = greenpool.GreenPool(size=self.execpoolsize)
+        self.threadpool = gevent.pool.Pool(size=8)
+        self.execpool = gevent.pool.Pool(size=self.execpoolsize)
         
         hook = plugins.Hook('plugins.lp.announce')
         hook.register(self.lp_announce)
@@ -61,7 +60,7 @@ class PoolBlocks:
         self.log_msg(' - timeout: ' + str(self.timeout))
         self.log_msg(' - block_retrieve_limit: ' + str(self.block_retrieve_limit))
         self.cleanup()
-        eventlet.spawn_n(self.run)
+        gevent.spawn(self.run)
         
     def parseConfig(self):
         self.fetchconfig = RawConfigParser()
@@ -92,18 +91,18 @@ class PoolBlocks:
         while True:
             try:
                 self.fetchBlocks()
-                self.execpool.waitall()
-                self.threadpool.waitall()
+                self.execpool.join()
+                self.threadpool.join()
                 if self.bitHopper.options.trace:
                     #self.report()
                     pass
                 interval = self.refreshInterval
                 interval += random.randint(0, self.refreshRandomJitter)
                 self.log_dbg('sleep ' + str(interval))
-                eventlet.sleep(interval)
+                gevent.sleep(interval)
             except Exception, e:
                 traceback.print_exc()
-                eventlet.sleep(30)
+                gevent.sleep(30)
     
     def cleanup(self):
         try:
@@ -125,7 +124,7 @@ class PoolBlocks:
                     except: mode = 'b'
                     try: type = self.fetchconfig.get(pool, 'type')
                     except: type = None
-                    self.execpool.spawn_n(self.fetchBlocksFromPool, pool, url, searchStr, mode, type)
+                    self.execpool.spawn(self.fetchBlocksFromPool, pool, url, searchStr, mode, type)
                 except Exception, e:
                     if self.bitHopper.options.debug:
                         traceback.print_exc()
@@ -200,7 +199,7 @@ class PoolBlocks:
             data = urllib.urlencode(values)
             try:
                 response = opener.open(auth_url, data, self.timeout)
-                eventlet.sleep(2)
+                gevent.sleep(2)
                 response = opener.open(url, None, self.timeout)
                 outputs = searchPattern.findall(response.read())
                 if len(outputs) < 5:
@@ -256,7 +255,7 @@ class PoolBlocks:
                 else:
                     self.log_trace('[' + pool + '] block ' + str(blockNumber) + ' does not exist, adding')
                     matchCount += 1
-                    self.threadpool.spawn_n(self.fetchBlockFromPool, pool, blockNumber, mode)
+                    self.threadpool.spawn(self.fetchBlockFromPool, pool, blockNumber, mode)
                 
         elif mode == 'h':
             # pool reports block hash solved
@@ -277,7 +276,7 @@ class PoolBlocks:
                 if not found:
                     matchCount += 1
                     self.log_trace('[' + pool + '] Hash not found, looking up block number')
-                    self.threadpool.spawn_n(self.fetchBlockFromPool, pool, blockHash, mode)
+                    self.threadpool.spawn(self.fetchBlockFromPool, pool, blockHash, mode)
                     
         elif mode == 'g':
             # pool uses transaction id
@@ -298,7 +297,7 @@ class PoolBlocks:
                 if not found:
                     self.log_trace('[' + pool + '] TXID not found, looking up block number and hash')
                     matchCount += 1
-                    self.threadpool.spawn_n(self.fetchBlockFromPool, pool, txid, mode)               
+                    self.threadpool.spawn(self.fetchBlockFromPool, pool, txid, mode)               
         
         self.log_msg('[{0}] parsed {1} blocks, {2} matches'.format(pool, len(outputs), matchCount) )
 

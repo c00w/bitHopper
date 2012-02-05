@@ -4,10 +4,8 @@
 #Based on a work at github.com.
 
 import random, re, logging
-import re
-import eventlet
-from eventlet.green import time, threading, socket
-import eventlet.patcher
+import gevent
+import time, threading, socket
 import irclib
 SimpleIRCClient = irclib.SimpleIRCClient
 
@@ -32,14 +30,14 @@ class LpBot(SimpleIRCClient):
         hook_ann = plugins.Hook('plugins.lp.announce')
         hook_ann.register(self.announce)
 
-        eventlet.spawn_n(self.run)
-        eventlet.spawn_n(self.process_forever)
+        gevent.spawn(self.run)
+        gevent.spawn(self.process_forever)
         self.lock = threading.RLock()
 
     def process_forever(self):
         while True:
             self.ircobj.process_once(0.2)
-            eventlet.sleep(0.2)
+            gevent.sleep(0.2)
             
     def run(self):
         while True:
@@ -49,7 +47,7 @@ class LpBot(SimpleIRCClient):
                         self.chan_list = []
                         self._connect()
                         logging.info("Connect returned")
-                eventlet.sleep(self.bitHopper.config.getint('lpbot', 'run_interval'))
+                gevent.sleep(self.bitHopper.config.getint('lpbot', 'run_interval'))
     
     def _connect(self):
         logging.info( "Connecting...")
