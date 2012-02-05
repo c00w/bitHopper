@@ -97,12 +97,6 @@ info_2: Se quedaron con el sist. Proporcional (Canal IRC) - 36 GHash/s @ 08.23.1
 info_3: Caida unas horas, probablemente ataque ddos - 25 GHash/s @ 09.27.11
 
 
-[simplecoin]
-#http://simplecoin.us
-info_1: Pequena mina proporcional que tambien dispone de sistemas de pago y monedas alternativas (pagina de mina) - 8.67 Ghash/s @ 10.06.11
-info_2: Mineria unida esta implementada para cada tipo de pago BTC disponible (foro simplecoin) - 21.70 Ghash/s @ 10.08.11
-
-
 [slush]
 #http://mining.bitcoin.cz
 info_1: Buena para saltar hasta 10% de dificultad, utiliza mine_slush - 1872.64 GHash/s @ 08.23.11
@@ -258,6 +252,13 @@ info_3: Cambio a sistema PPLNS (pagina de mina) - 18.9 GHash/s @ 11.19.11
 [yourbtc]
 #http://yourbtc.net
 info_1: Utiliza el sistema DGM (pagina de mina + pagina 2 - hilo de mina en foro principal) - 4.3 GHash/s @ 09.21.11
+
+
+[simplecoin]
+#http://simplecoin.us
+info_1: Pequena mina proporcional que tambien dispone de sistemas de pago y monedas alternativas (pagina de mina) - 8.67 Ghash/s @ 10.06.11
+info_2: Mineria unida esta implementada para cada tipo de pago BTC disponible (foro simplecoin) - 21.70 Ghash/s @ 10.08.11
+info_3: Han eliminado los pagos prop para todas la monedas menos LTC (pagina de mina) - 29.70 Ghash/s @ 02.01.12
 
 
 #####################################
