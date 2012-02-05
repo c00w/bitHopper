@@ -68,6 +68,10 @@ Console will open up and to this console you have to type:
 
 pypm install greenlet
 
+Then download and run:
+
+http://code.google.com/p/gevent/downloads/detail?name=gevent-1.0a3.win32-py2.7.msi
+
 After pypm has finished installing greenlet successully type "exit" and your bitHopper is all set. Although
 using ActiveState Python's pypm should work 99% of the time there have been reports of people having issues
 with using it. If this is the case you could also download greenlet package from:
@@ -78,6 +82,8 @@ Please be aware that these are unofficial Windows binaries for Python. It is alw
 greenlet source yourself and compile it or use pypm method. If you have no other way and you have to use
 these unofficial binaries then greenlet-0.3.1.win32-py2.7.exe is the correct one to download. It will
 extract itself into correct directory.
+
+
 
 
 # Configuring user settings
