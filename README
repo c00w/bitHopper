@@ -58,7 +58,8 @@ github.com/c00w/bitHopper
 Go to downloads and hit zip. Extract the zip to your desktop
 
 Running bitHopper
-DoubleClick bitHopper.py
+DoubleClick bitHopper.py inside the bithopper folder.
+It may appear to just be bitHopper with no .py extension.
 
 # Configuring user settings
 
