@@ -10,13 +10,13 @@ Based on a work at github.com
 
 Run:
 
-sudo apt-get install python git python-dev python-setuptools
-sudo pip install gevent importlib
+sudo apt-get install python git python-dev python-setuptools python-pip
+sudo pip install gevent setuptools
 git clone git://github.com/c00w/bitHopper.git
 cd bitHopper
 python bitHopper.py
 
-Tested and working in Ubuntu 11.04, 10.10 and 10.04 LTS
+Tested and working in Ubuntu 11.10.
 
 
 #Archlinux installation
