@@ -22,7 +22,7 @@ __contributors__ = ["Thomas Broyer (t.broyer@ltgt.net)",
     "Sam Ruby",
     "Louis Nyffenegger"]
 __license__ = "MIT"
-__version__ = "0.7.0"
+__version__ = "0.7.2"
 
 import re
 import sys
@@ -147,6 +147,7 @@ class ServerNotFoundError(HttpLib2Error): pass
 class ProxiesUnavailableError(HttpLib2Error): pass
 class CertificateValidationUnsupported(HttpLib2Error): pass
 class SSLHandshakeError(HttpLib2Error): pass
+class NotSupportedOnThisPlatform(HttpLib2Error): pass
 class CertificateHostnameMismatch(SSLHandshakeError):
   def __init__(self, desc, host, cert):
     HttpLib2Error.__init__(self, desc)
@@ -529,6 +530,8 @@ class DigestAuthentication(Authentication):
                 self.challenge['nc'],
                 self.challenge['cnonce'],
                 )
+        if self.challenge.get('opaque'):
+            headers['authorization'] += ', opaque="%s"' % self.challenge['opaque']
         self.challenge['nc'] += 1
 
     def response(self, response, content):
@@ -866,7 +869,7 @@ class HTTPSConnectionWithTimeout(httplib.HTTPSConnection):
             host_re = host.replace('.', '\.').replace('*', '[^.]*')
             if re.search('^%s$' % (host_re,), hostname, re.I):
                 return True
-            return False
+        return False
 
     def connect(self):
         "Connect to a host on a given (SSL) port."
@@ -931,6 +934,9 @@ SCHEME_TO_CONNECTION = {
 
 # Use a different connection object for Google App Engine
 try:
+  from google.appengine.api import apiproxy_stub_map
+  if apiproxy_stub_map.apiproxy.GetStub('urlfetch') is None:
+    raise ImportError  # Bail out; we're not actually running on App Engine.
   from google.appengine.api.urlfetch import fetch
   from google.appengine.api.urlfetch import InvalidURLError
   from google.appengine.api.urlfetch import DownloadError
@@ -976,7 +982,8 @@ try:
             deadline=self.timeout,
             validate_certificate=self.validate_certificate)
         self.response = ResponseDict(response.headers)
-        self.response['status'] = response.status_code
+        self.response['status'] = str(response.status_code)
+        self.response.status = response.status_code
         setattr(self.response, 'read', lambda : response.content)
 
       # Make sure the exceptions raised match the exceptions expected.
@@ -986,7 +993,10 @@ try:
         raise httplib.HTTPException()
 
     def getresponse(self):
-      return self.response
+      if self.response:
+        return self.response
+      else:
+        raise httplib.HTTPException()
 
     def set_debuglevel(self, level):
       pass
@@ -1153,7 +1163,6 @@ and more.
                     conn.close()
                     conn.connect()
                     continue
-                pass
             try:
                 response = conn.getresponse()
             except (socket.error, httplib.HTTPException):
@@ -1281,7 +1290,6 @@ a string that contains the response entity body.
                 headers = self._normalize_headers(headers)
 
             if not headers.has_key('user-agent'):
-                # Could be this conflicting with miner headers forwarding ?
                 headers['user-agent'] = "Python-httplib2/%s (gzip)" % __version__
 
             uri = iri2uri(uri)

@@ -6,7 +6,7 @@
 import json, base64, traceback, logging
 
 import gevent
-import httplib20_7_1 as httplib2
+import httplib2_7_2 as httplib2
 from gevent import pool
 import socket
 
