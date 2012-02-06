@@ -67,7 +67,7 @@ pypm install greenlet
 
 Then download and run:
 
-http://www.lfd.uci.edu/~gohlke/pythonlibs/s7djd7gn/gevent-0.13.6.win32-py2.7.exe
+http://www.lfd.uci.edu/~gohlke/pythonlibs/#gevent You want the 32bit python2.7 gevent version.
 DO NOT USE GEVENT 1.0a3 1.0b1 or any other 1.0 series. They are broken. Badly.
 
 
