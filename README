@@ -23,9 +23,6 @@ sudo apt-get install python-dev python-setuptools
 sudo pip install gevent
 sudo pip install importlib
 
-If you would like to use the poclbm miner plugin do
-sudo pip install numpy
-
 Then download and run bitHopper
 
 Tested and working in Ubuntu 11.04, 10.10 and 10.04 LTS
@@ -70,7 +67,8 @@ pypm install greenlet
 
 Then download and run:
 
-http://code.google.com/p/gevent/downloads/detail?name=gevent-1.0a3.win32-py2.7.msi
+http://www.lfd.uci.edu/~gohlke/pythonlibs/s7djd7gn/gevent-0.13.6.win32-py2.7.exe
+DO NOT USE GEVENT 1.0a3 1.0b1 or any other 1.0 series. They are broken. Badly.
 
 
 After pypm has finished installing greenlet successully type "exit" and your bitHopper is all set. Although
