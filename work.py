@@ -73,7 +73,7 @@ class Work():
                 content = http.request( url, 'GET', headers=header)[1] # Returns response dict and content str
             except Exception, e:
                 logging.debug('Error with a work.get() http request: ' + str(e))
-                traceback.print_exc()
+                #traceback.print_exc()
                 content = ""
         return content
 
