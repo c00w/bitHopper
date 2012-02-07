@@ -48,18 +48,18 @@ http://pypi.python.org/packages/2.7/g/greenlet/greenlet-0.3.3.win32-py2.7.exe#md
 
 3. Gevent
 http://www.lfd.uci.edu/~gohlke/pythonlibs/#gevent
-Download win32-py2.7
+Bajate win32-py2.7
 
 4. SetupTools
 http://pypi.python.org/packages/2.7/s/setuptools/setuptools-0.6c11.win32-py2.7.exe#md5=57e1e64f6b7c7f1d2eddfc9746bbaf20
 
 5. BitHopper
 github.com/c00w/bitHopper
-Go to downloads and hit zip. Extract the zip to your desktop
+Ves a la carpeta bajadas y encuentra el zip. Extrae el zip a tu escritorio.
 
 Running bitHopper
-DoubleClick bitHopper.py inside the bithopper folder.
-It may appear to just be bitHopper with no .py extension.
+Haz un doble click sobre bitHopper.py en la carpeta bithopper.
+Podria aparecer solo como bitHopper sin la extension .py.
 
 
 # Configurando los ajustes de usuario
