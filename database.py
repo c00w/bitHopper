@@ -37,8 +37,8 @@ class Database():
         self.alive = True
         
     def __thread_init(self):
-        self.lock.release()
         self.check_database()
+        self.lock.release()
         self.write_database()
         
 
@@ -121,35 +121,13 @@ class Database():
             time.sleep(60)
 
     def check_database(self):
-        logging.info('Checking Database')
-        if os.path.exists(DB_FN):
-            try:
-                versionfd = open(VERSION_FN, 'rb')
-                version = versionfd.read()
-                logging.debug("DB: Version " + version)
-                if version == "0.1":
-                    logging.info('Old Database')
-                versionfd.close()
-            except:
-                os.remove(DB_FN)
+        logging.info('Cleaning Database')
 
-        version = open(VERSION_FN, 'wb')
-        version.write("0.2")
-        version.close()
+        self.database = sqlite3.connect(DB_FN, check_same_thread = False)
+        self.curs = self.database.cursor()
+        self.curs.execute("VACUUM")
 
-        with self.lock:
-            self.database = sqlite3.connect(DB_FN, check_same_thread = False)
-            self.curs = self.database.cursor()
-            self.curs.execute("VACUUM")
-
-            if version == "0.1":
-                sql = "SELECT name FROM sqlite_master WHERE type='table'"
-                self.curs.execute(sql)
-                result = self.curs.fetchall()
-                for item in result:
-                    sql = "ALTER TABLE " + item[0] + " ADD COLUMN user TEXT"
-                    self.curs.execute(sql)
-            self.database.commit()
+        self.database.commit()
 
     def get_users(self):
         """
