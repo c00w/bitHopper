@@ -37,7 +37,7 @@ archlinux. So you have to install from the oficial repo on bitbucket.
 # Instructions for Windows users
 -----------------------------------------------------------------
 NOTE: IF YOU ARE RUNNING LOTS OF MINERS USE LINUX.
-People have done it with miners but linux is a lot more stable and takes less modifications.
+Is a lot more stable and takes less modifications.
 
 Download and install
 1. Python
@@ -60,6 +60,7 @@ Go to downloads and hit zip. Extract the zip to your desktop
 Running bitHopper
 DoubleClick bitHopper.py inside the bithopper folder.
 It may appear to just be bitHopper with no .py extension.
+
 
 # Configuring user settings
 
