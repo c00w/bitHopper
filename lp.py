@@ -2,7 +2,7 @@
 #bitHopper by Colin Rice is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-import json, gevent, traceback, logging
+import json, gevent, traceback, logging, gevent.coros
 import time, threading, socket
 
 from peak.util import plugins
@@ -73,7 +73,7 @@ class LongPoll():
                 old_defer = self.blocks[block]['_defer']
             else:
                 old_defer = None
-            new_defer = threading.Lock()
+            new_defer = gevent.coros.Semaphore()
             new_defer.acquire()
             self.blocks[block]['_defer'] = new_defer
             if old_defer:
@@ -228,7 +228,7 @@ class LongPoll():
             info = self.bitHopper.pool.get_entry(server)
             info['lp_address'] = url
             if server not in self.polled:
-                self.polled[server] = threading.Lock()
+                self.polled[server] = gevent.coros.Semaphore()
             gevent.spawn(self.pull_lp, url,server)
         except Exception, e:
             logging.info('set_lp error')
