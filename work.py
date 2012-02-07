@@ -28,7 +28,7 @@ class Work():
         try:
             configured_timeout = self.bitHopper.config.getfloat('main','work_request_timeout')
         except:
-            configured_timeout = 2.5
+            configured_timeout = 5
         if not timeout:
             timeout = configured_timeout
             

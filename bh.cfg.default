@@ -33,7 +33,7 @@ calculate_profit = False
 user_drop_time = 3600
 
 # Connection timeout for work requests
-work_request_timeout = 2.5
+work_request_timeout = 5
 
 # Waiting time for checking pools conectivity
 delag_sleep = 20
