@@ -7,28 +7,16 @@ Basado en trabajo hecho en github.com
 
 # Instalar en Ubuntu
 ---------------------------------------------------------------------
-Para poder ejecutar bitHopper necesitas tener instalado Python en el
-sistema. La version 2.7 es la recomendada aunque funciona correctamente
-con la version previa, Python 2.6. Para averiguar que version tienes
-instalada teclea en una consola "python -V".
 
-Si no tienes Python instalado puedes hacerlo con el siguiente comando:
+Ejecuta:
 
-sudo apt-get install python
+sudo apt-get install python git python-dev python-setuptools python-pip
+sudo pip install gevent setuptools
+git clone git://github.com/c00w/bitHopper.git
+cd bitHopper
+python bitHopper.py
 
-Despues de comprobar haber instalado Python sigue con los paquetes extra que bitHopper necesita para funcionar
-correctamente:
-
-sudo apt-get install python-dev python-setuptools
-sudo pip install gevent
-sudo pip install importlib
-
-Si quieres hacer funcionar el minero poclbm incluido instala lo siguiente
-sudo pip install numpy
-
-Y despues baja e instala bitHopper
-
-Probado y funciona en Ubuntu 11.04, 10.10 y 10.04 LTS
+Probado y funciona en Ubuntu 11.10.
 
 
 #Instalacion en Archlinux
@@ -49,41 +37,29 @@ archlinux. Asi que tendras que instalarlo desde el repositorio oficial de bitbuc
 # Instrucciones para usuarios Windows
 -----------------------------------------------------------------
 NOTA: SI TIENES MUCHOS MINEROS MEJOR UTILIZA LINUX.
+Es mas estable y requiere menos modificaciones.
 
-ActiveState Python(recomendado, usa version 32 bit aunque tengas un sistema de 64 bit, funcionara igual)
+Baja e instala
+1. Python
 http://downloads.activestate.com/ActivePython/releases/2.7.2.5/ActivePython-2.7.2.5-win32-x86.msi
 
-Greenlet
-http://pypi.python.org/pypi/greenlet
+2. Greenlet
+http://pypi.python.org/packages/2.7/g/greenlet/greenlet-0.3.3.win32-py2.7.exe#md5=d4e5ecb9bf44a6a72ca73d7988994c6e
 
-Puedes probar bajarte greenlet desde la pagina oficial y compilar el codigo fuente manualmente aunque esta
-modalidad es conocida de causar problemas para muchos usuarios. Mas facil seria instalar el modulo greenlet
-en modo automatico utilizando el manager que viene con ActiveState Python.
+3. Gevent
+http://www.lfd.uci.edu/~gohlke/pythonlibs/#gevent
+Bajate win32-py2.7
 
-Para hacer esto tienes que hacer click:
+4. SetupTools
+http://pypi.python.org/packages/2.7/s/setuptools/setuptools-0.6c11.win32-py2.7.exe#md5=57e1e64f6b7c7f1d2eddfc9746bbaf20
 
-Inicio -> Todos los programas -> ActiveState ActivePython 2.7(32-bit) -> Python Package Manager
+5. BitHopper
+github.com/c00w/bitHopper
+Ves a la carpeta bajadas y encuentra el zip. Extrae el zip a tu escritorio.
 
-Se abrira una consola donde tienes que teclear:
-
-pypm install greenlet
-
-Y despues baja y ejecuta:
-
-http://code.google.com/p/gevent/downloads/detail?name=gevent-1.0a3.win32-py2.7.msi
-
-
-Despues de que pypm haya finalizado instalar greenlet con exito teclea "exit" y tu bitHopper esta listo
-para funcionar. Esta modalidad deberia funcionar en 99% de las instalaciones pero ha habido casos de
-personas que han tenido fallos. Si este es tu caso podrias probar el modulo greenlet precompilado desde:
-
-http://www.lfd.uci.edu/~gohlke/pythonlibs/
-
-Toma nota que estos no son binarios oficiales para Python. Siempre es mejor bajarte el codigo fuente de
-greenlet y compilarlo o utilizar el metodo pypm. Si no tienes otra alternativa y tienes que hacerlo asi
-el greenlet-0.3.1.win32-py2.7.exe es el instalador correcto que puedes bajarte. Se extraera en la carpeta
-adecuada automaticamente.
-
+Running bitHopper
+Haz un doble click sobre bitHopper.py en la carpeta bithopper.
+Podria aparecer solo como bitHopper sin la extension .py.
 
 
 # Configurando los ajustes de usuario

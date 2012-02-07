@@ -3,7 +3,7 @@
  of pools used for hopping, gathered
    here for orientation purposes.
 
-     Last update: Feb 5, 2012
+     Last update: Feb 7, 2012
 ######################################
 ######################################
    These Pools are added recently
@@ -162,7 +162,8 @@ info_2: Changed to SMPPS system (pool thread on main forum)
 #http://btcserv.net
 info_1: Small pool, pls report experience on forum - 2.94 GHash/s @ 08.23.11
 info_2: Alternate PPS payout available for use as backup if wanted - 4.60 GHash/s @ 08.31.11
-info_3: Op decides to have FIFO PPS implemented (page 4 - pool thread on main forum) -  11.36 GHash/s @ 09.09.11
+info_3: Op decides to have FIFO PPS implemented (page 4 - pool thread on main forum) - 11.36 GHash/s @ 09.09.11
+info_4: Pool was mysteriously hacked and more than 400 btc robbed (pool thread on main forum) - 0 GHash/s @ 02.07.12
 
 
 [btcg]
@@ -354,8 +355,8 @@ GPUTECH Bitcoin Mining Pool
 #https://gputech.net
 
 
-A1
-#http://a1bitcoinpool.com
+50Btc
+#https://50btc.com
 
 
 #####################################
