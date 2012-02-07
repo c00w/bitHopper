@@ -6,12 +6,13 @@
 import json, base64, traceback, logging
 
 import gevent
-import httplib20_7_1 as httplib2
+import httplib2_7_2 as httplib2
 from gevent import pool
 import socket
 
 from peak.util import plugins
 
+import ResourcePool
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
 
@@ -21,20 +22,17 @@ class Work():
     def __init__(self, bitHopper):
         self.bitHopper = bitHopper
         self.i = 0
-        self.connect_pool = {}
-
-    def get_http(self, address, timeout=0):
+        self.http_pool = ResourcePool.Pool(self._make_http)
+        
+    def _make_http(self, timeout = None):
         try:
             configured_timeout = self.bitHopper.config.getfloat('main','work_request_timeout')
         except:
             configured_timeout = 2.5
-            pass
-        if timeout == 0:
+        if not timeout:
             timeout = configured_timeout
-        
-        if address not in self.connect_pool:
-            self.connect_pool[address] =  httplib2.Http(disable_ssl_certificate_validation=True, timeout=timeout)
-        return self.connect_pool[address]
+            
+        return httplib2.Http(disable_ssl_certificate_validation=True, timeout=timeout)
 
     def jsonrpc_lpcall(self, server, url, lp):
         try:
@@ -45,13 +43,13 @@ class Work():
             if error:
                 return None
             header = {'Authorization':"Basic " +base64.b64encode(user+ ":" + passw).replace('\n',''), 'user-agent': 'poclbm/20110709', 'Content-Type': 'application/json', 'connection': 'keep-alive'}
-            http = self.get_http(url, timeout=15*60)
-            try:
-                resp, content = http.request( url, 'GET', headers=header)#, body=request)[1] # Returns response dict and content str
-            except Exception, e:
-                logging.debug('Error with a jsonrpc_lpcall http request')
-                logging.debug(e)
-                content = None
+            with self.http_pool(url, timeout=15*60) as http:
+                try:
+                    resp, content = http.request( url, 'GET', headers=header)#, body=request)[1] # Returns response dict and content str
+                except Exception, e:
+                    logging.debug('Error with a jsonrpc_lpcall http request')
+                    logging.debug(e)
+                    content = None
             lp.receive(content, server)
             return None
         except Exception, e:
@@ -70,12 +68,13 @@ class Work():
                 pass
         #logging.debug('user-agent: ' + useragent + ' for ' + str(url) )
         header = {'user-agent':useragent}
-        http = self.get_http(url)
-        try:
-            content = http.request( url, 'GET', headers=header)[1] # Returns response dict and content str
-        except Exception, e:
-            logging.debug('Error with a work.get() http request: ' + str(e))
-            content = ""
+        with self.http_pool(url) as http:
+            try:
+                content = http.request( url, 'GET', headers=header)[1] # Returns response dict and content str
+            except Exception, e:
+                logging.debug('Error with a work.get() http request: ' + str(e))
+                #traceback.print_exc()
+                content = ""
         return content
 
     def user_substitution(self, server, username, password):
@@ -111,12 +110,12 @@ class Work():
                     header[k] = v
 
             url = "http://" + info['mine_address']
-            http = self.get_http(url)
-            try:
-                resp, content = http.request( url, 'POST', headers=header, body=request)
-            except Exception, e:
-                logging.debug('jsonrpc_call http error: ' + str(e))
-                return None, None
+            with self.http_pool(url) as http:
+                try:
+                    resp, content = http.request( url, 'POST', headers=header, body=request)
+                except Exception, e:
+                    logging.debug('jsonrpc_call http error: ' + str(e))
+                    return None, None
 
             #Check for long polling header
             lp = self.bitHopper.lp
