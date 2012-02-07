@@ -3,7 +3,7 @@
 #Based on a work at github.com.
 
 import os, threading, socket
-import sqlite3, logging, sys, time
+import sqlite3, logging, sys, time, gevent
 
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
@@ -35,6 +35,15 @@ class Database():
         thread.daemon = True
         thread.start()
         self.alive = True
+        
+    def _lock_get(self, user=""):
+        while not self.lock.acquire(False):
+            gevent.sleep(0)
+        print 'Lock Acquired' + user
+            
+    def _lock_release(self):
+        self.lock.release()
+        print 'Lock Released'
         
     def __thread_init(self):
         self.check_database()
@@ -134,36 +143,41 @@ class Database():
         Get a dictionary of user information to seed data.py
         This is a direct database lookup and should only be called once
         """
-        with self.lock:
-            users = {}
-            servers = self.bitHopper.pool.get_servers()
-            for server in servers:
-                sql = 'select user, shares, rejects from ' + server
-                self.curs.execute(sql)
-                result = self.curs.fetchall()
-                for item in result:
-                    if item[0] not in users:
-                        users[item[0]] = {'shares':0,'rejects':0}
-                    users[item[0]]['shares'] += item[1]
-                    users[item[0]]['rejects'] += item[2]
-            return users
+        self._lock_get('get_users')
+        
+        users = {}
+        servers = self.bitHopper.pool.get_servers()
+        for server in servers:
+            sql = 'select user, shares, rejects from ' + server
+            self.curs.execute(sql)
+            result = self.curs.fetchall()
+            for item in result:
+                if item[0] not in users:
+                    users[item[0]] = {'shares':0,'rejects':0}
+                users[item[0]]['shares'] += item[1]
+                users[item[0]]['rejects'] += item[2]
+        self._lock_release()
+        return users
 
     def update_shares(self, server, shares, user, password):
-        with self.lock:
-            if server not in self.shares:
-                self.shares[server] = {}
-            if user not in self.shares[server]:
-                self.shares[server][user] = 0
-            self.shares[server][user] += shares
-
+        self._lock_get('update_shares')
+            
+        if server not in self.shares:
+            self.shares[server] = {}
+        if user not in self.shares[server]:
+            self.shares[server][user] = 0
+        self.shares[server][user] += shares
+        self._lock_release()
+        
     def get_shares(self, server):
-        with self.lock:
-            sql = 'select shares from ' + str(server)
-            self.curs.execute(sql)
-            shares = 0
-            for info in self.curs.fetchall():
-                shares += int(info[0])
-            return shares
+        self._lock_get('get_shares')
+        sql = 'select shares from ' + str(server)
+        self.curs.execute(sql)
+        shares = 0
+        for info in self.curs.fetchall():
+            shares += int(info[0])
+        self._lock_release()
+        return shares
 
     def expected_payout_dict_expander(self, sharesDict, dictKey, user, diff):
         sharesDict[dictKey]['user'].append(user)
@@ -201,8 +215,9 @@ class Database():
 
             sql = self.sql_update_set(server, value=value, amount=int(shareAmount), user=sharesDict[shares]['user'][listIterator], difficulty=diff)
             #print server, 'value=' + str(value), 'amount=' + str(int(shareAmount)), 'user=' + str(sharesDict[shares]['user'][listIterator]), 'difficulty=' + str(diff) 
-            with self.lock:
-                self.curs.execute(sql)
+            self._lock_get('expected_payout_sql_updater')
+            self.curs.execute(sql)
+            self._lock_release()
 
             listIterator += 1
             newDbSharesTotal += int(shareAmount)
@@ -293,222 +308,226 @@ class Database():
         sdogi 21.09.2011
 
         """
-        with self.lock:
-            try:
-                if server in self.shares:
-                    for user in self.shares[server]:
-                        self.shares[server][user] = 0
-                if server in self.rejects:
-                    for user in self.rejects[server]:
-                        self.rejects[server][user] = 0
+        self._lock_get(user="change expected payout")
+        try:
+            if server in self.shares:
+                for user in self.shares[server]:
+                    self.shares[server][user] = 0
+            if server in self.rejects:
+                for user in self.rejects[server]:
+                    self.rejects[server][user] = 0
 
-                newDbSharesTotal = 0
-                newDbRejectsTotal = 0
-                newExpPayoutTotal = 0.0
+            newDbSharesTotal = 0
+            newDbRejectsTotal = 0
+            newExpPayoutTotal = 0.0
 
-                if requiredSharesTotal == 0:
-                    logging.debug('Setting expected payout for ' + str(server) + ' to 0')
-                    sql = 'UPDATE ' + str(server) + ' SET shares = 0'
-                    with self.lock:
-                        self.curs.execute(sql)
-                    sql = 'UPDATE ' + str(server) + ' SET rejects = 0'
-                    with self.lock:
-                        self.curs.execute(sql)
+            if requiredSharesTotal == 0:
+                logging.debug('Setting expected payout for ' + str(server) + ' to 0')
+                sql = 'UPDATE ' + str(server) + ' SET shares = 0'
+                self.curs.execute(sql)
+                sql = 'UPDATE ' + str(server) + ' SET rejects = 0'
+                self.curs.execute(sql)
+            else:
+                logging.debug('Starting to increase/decrease existing payouts for all users')
+
+                dbSharesTotal = 0
+                sql = 'select shares from ' + str(server)
+                self.curs.execute(sql)
+
+                for shares in self.curs.fetchall():
+                    if shares[0] > 0:
+                        dbSharesTotal += shares[0]
+
+                if dbSharesTotal > 0:
+                    newPayoutPercent = requiredSharesTotal / float(dbSharesTotal)
                 else:
-                    logging.debug('Starting to increase/decrease existing payouts for all users')
+                    # When there are no users in the server table then we find out
+                    # global users and use them them to seed a new table.
+                    #
+                    # Global user shares get used because then we can do percentual
+                    # increase/decrease. This way globally well performing users get
+                    # more shares when compared to badly performing users
 
-                    dbSharesTotal = 0
-                    sql = 'select shares from ' + str(server)
-                    with self.lock:
+                    users = self.get_users()
+                    dbRowCount = 0
+
+                    logging.debug('Making new user table for ' + str(server))
+
+                    sql = 'DELETE FROM ' + str(server)
+                    self.curs.execute(sql)
+                    #self.database.commit()
+
+                    for user in users:
+                        sql = self.sql_insert(server, shares=users[user]['shares'], rejects=0, user=user)
                         self.curs.execute(sql)
+                        dbSharesTotal += users[user]['shares']
+                        dbRowCount += 1
 
-                    for shares in self.curs.fetchall():
-                        if shares[0] > 0:
-                            dbSharesTotal += shares[0]
-
-                    if dbSharesTotal > 0:
-                        newPayoutPercent = requiredSharesTotal / float(dbSharesTotal)
-                    else:
-                        # When there are no users in the server table then we find out
-                        # global users and use them them to seed a new table.
-                        #
-                        # Global user shares get used because then we can do percentual
-                        # increase/decrease. This way globally well performing users get
-                        # more shares when compared to badly performing users
-
-                        users = self.get_users()
-                        dbRowCount = 0
-
-                        logging.debug('Making new user table for ' + str(server))
-
-                        sql = 'DELETE FROM ' + str(server)
-                        with self.lock:
-                            self.curs.execute(sql)
-                        #self.database.commit()
-
-                        for user in users:
-                            sql = self.sql_insert(server, shares=users[user]['shares'], rejects=0, user=user)
-                            with self.lock:
-                                self.curs.execute(sql)
-                            dbSharesTotal += users[user]['shares']
-                            dbRowCount += 1
-
-                        if dbRowCount > 0:
-                            self.database.commit()
-                            if dbSharesTotal > 0:
-                                newPayoutPercent = requiredSharesTotal / float(dbSharesTotal)
-                            else:
-                                newPayoutPercent = requiredSharesTotal / float(dbRowCount)
-                            logging.debug('DB: New user table for ' + str(server) + ' generated')
-                        else:
-                            # If no users exist at all then return because
-                            # changing expected payout is not possible
-                            return -1, -1
-
-                    logging.debug('New total payout\'s percent: ' + str(newPayoutPercent))
-
-                    sql = 'select user, shares, rejects, diff from ' + str(server)
-                    with self.lock:
-                        self.curs.execute(sql)
-
-                    # Build sharesDict and rejectsDict
-                    # that contain new float share values
-                    # generated by multiplying each user shares
-                    # with percentage.
-
-                    sharesDict = {}
-                    rejectsDict = {}
-                    newSharesTotal = 0
-                    singleShareValuesTotal = 0.0
-
-                    for user, shares, rejects, diff in self.curs.fetchall():
+                    if dbRowCount > 0:
+                        self.database.commit()
                         if dbSharesTotal > 0:
-                            firstShareTypeSelected = True
-                            for selectedSharesCount in [shares, rejects]:
-                                if selectedSharesCount > 0:
-                                    floatingShare = float(selectedSharesCount * newPayoutPercent)
-
-                                    if firstShareTypeSelected:
-                                        selectedDict = sharesDict
-                                    else:
-                                        selectedDict = rejectsDict
-
-                                    if floatingShare not in selectedDict:
-                                        selectedDict[floatingShare] = {'user': [user], 'diff': [diff]}
-                                    else:
-                                        selectedDict = self.expected_payout_dict_expander(selectedDict, floatingShare, user, diff)
-
-                                    if firstShareTypeSelected:
-                                        newSharesTotal += int(floatingShare)
-                                        newExpPayoutTotal += int(floatingShare) / float(diff) * 50
-                                        singleShareValuesTotal += 1 / float(diff) * 50
-                                        firstShareTypeSelected = False
+                            newPayoutPercent = requiredSharesTotal / float(dbSharesTotal)
                         else:
-                            if newPayoutPercent not in sharesDict:
-                                sharesDict[newPayoutPercent] = {'user': [user], 'diff': [diff]}
-                            else:
-                                sharesDict = self.expected_payout_dict_expander(sharesDict, newPayoutPercent, user, diff)
-                            newSharesTotal += int(newPayoutPercent)
-                            newExpPayoutTotal += int(newPayoutPercent) / float(diff) * 50
-                            singleShareValuesTotal += 1 / float(diff) * 50
-
-                    payoutDifference = expectedPayout - newExpPayoutTotal
-                    logging.debug('Initial payout difference caused by percentage multiplication: ' + str(payoutDifference))
-
-                    if payoutDifference > 0:
-                        addShares = True # Add shares to make expected payout as close as possible
-                        logging.debug('  Payout difference is positive, going to add some shares')
+                            newPayoutPercent = requiredSharesTotal / float(dbRowCount)
+                        logging.debug('DB: New user table for ' + str(server) + ' generated')
                     else:
-                        addShares = False # Subtract shares to make expected payout as close as possible
-                        payoutDifference = payoutDifference * -1
-                        logging.debug('  Payout difference is negative, going to subtract some shares')
+                        # If no users exist at all then return because
+                        # changing expected payout is not possible
+                        self._lock_release()
+                        return -1, -1
 
-                    # This measures if one loop through all the shares
-                    # in sharesDict with +1 share addition can cover the payout difference.
-                    # If this is not possible then instead of adding +1 shares
-                    # enough shares will be added using loopsRequired to cover the difference
+                logging.debug('New total payout\'s percent: ' + str(newPayoutPercent))
 
-                    if (payoutDifference / singleShareValuesTotal) > 1:
-                        loopsRequired = int(payoutDifference / singleShareValuesTotal + 1)
+                sql = 'select user, shares, rejects, diff from ' + str(server)
+                self.curs.execute(sql)
+
+                # Build sharesDict and rejectsDict
+                # that contain new float share values
+                # generated by multiplying each user shares
+                # with percentage.
+
+                sharesDict = {}
+                rejectsDict = {}
+                newSharesTotal = 0
+                singleShareValuesTotal = 0.0
+
+                for user, shares, rejects, diff in self.curs.fetchall():
+                    if dbSharesTotal > 0:
+                        firstShareTypeSelected = True
+                        for selectedSharesCount in [shares, rejects]:
+                            if selectedSharesCount > 0:
+                                floatingShare = float(selectedSharesCount * newPayoutPercent)
+
+                                if firstShareTypeSelected:
+                                    selectedDict = sharesDict
+                                else:
+                                    selectedDict = rejectsDict
+
+                                if floatingShare not in selectedDict:
+                                    selectedDict[floatingShare] = {'user': [user], 'diff': [diff]}
+                                else:
+                                    selectedDict = self.expected_payout_dict_expander(selectedDict, floatingShare, user, diff)
+
+                                if firstShareTypeSelected:
+                                    newSharesTotal += int(floatingShare)
+                                    newExpPayoutTotal += int(floatingShare) / float(diff) * 50
+                                    singleShareValuesTotal += 1 / float(diff) * 50
+                                    firstShareTypeSelected = False
                     else:
-                        loopsRequired = 1
-                    logging.debug('  Loops to cover difference: ' + str(loopsRequired))
+                        if newPayoutPercent not in sharesDict:
+                            sharesDict[newPayoutPercent] = {'user': [user], 'diff': [diff]}
+                        else:
+                            sharesDict = self.expected_payout_dict_expander(sharesDict, newPayoutPercent, user, diff)
+                        newSharesTotal += int(newPayoutPercent)
+                        newExpPayoutTotal += int(newPayoutPercent) / float(diff) * 50
+                        singleShareValuesTotal += 1 / float(diff) * 50
 
-                    # This sorts all shares by numbers after decimal point to find out
-                    # which users should get accumulated leftover shares first. Should be
-                    # more fair this way since users closest to next integer get leftover
-                    # shares first.
-                    # sharesDict/rejectsDict template:
-                    # sharesDict = { 9.0313: {'user': [user], 'diff': [diff]} }
-                    # or
-                    # sharesDict = { 9.0313: {'user': [user1, user2, user3], 'diff': [diff1, diff2, diff3]}
+                payoutDifference = expectedPayout - newExpPayoutTotal
+                logging.debug('Initial payout difference caused by percentage multiplication: ' + str(payoutDifference))
 
-                    if addShares:
-                        for shares in sorted(sharesDict, key = lambda share: str(share).split('.')[1], reverse = True):
-                            (payoutDifference, newExpPayoutTotal, newDbSharesTotal) = self.expected_payout_share_modifier(payoutDifference, sharesDict, shares, loopsRequired, newExpPayoutTotal, newDbSharesTotal, server, addShares)
-                    else:
-                        for shares in sorted(sharesDict, reverse = True):
-                            (payoutDifference, newExpPayoutTotal, newDbSharesTotal) = self.expected_payout_share_modifier(payoutDifference, sharesDict, shares, loopsRequired, newExpPayoutTotal, newDbSharesTotal, server, addShares)
+                if payoutDifference > 0:
+                    addShares = True # Add shares to make expected payout as close as possible
+                    logging.debug('  Payout difference is positive, going to add some shares')
+                else:
+                    addShares = False # Subtract shares to make expected payout as close as possible
+                    payoutDifference = payoutDifference * -1
+                    logging.debug('  Payout difference is negative, going to subtract some shares')
 
-                    for rejects in rejectsDict:
-                        newDbRejectsTotal += self.expected_payout_sql_updater(server, rejectsDict, rejects, rejectsMode=True)
+                # This measures if one loop through all the shares
+                # in sharesDict with +1 share addition can cover the payout difference.
+                # If this is not possible then instead of adding +1 shares
+                # enough shares will be added using loopsRequired to cover the difference
 
-                logging.debug('DB: Commiting changes to the database')
-                self.database.commit()
-                return newDbSharesTotal, newDbRejectsTotal, newExpPayoutTotal
-            except Exception, e:
-                logging.info('Exception caught in bitHopper.database.change_expected_payout: ' + str(e))
+                if (payoutDifference / singleShareValuesTotal) > 1:
+                    loopsRequired = int(payoutDifference / singleShareValuesTotal + 1)
+                else:
+                    loopsRequired = 1
+                logging.debug('  Loops to cover difference: ' + str(loopsRequired))
+
+                # This sorts all shares by numbers after decimal point to find out
+                # which users should get accumulated leftover shares first. Should be
+                # more fair this way since users closest to next integer get leftover
+                # shares first.
+                # sharesDict/rejectsDict template:
+                # sharesDict = { 9.0313: {'user': [user], 'diff': [diff]} }
+                # or
+                # sharesDict = { 9.0313: {'user': [user1, user2, user3], 'diff': [diff1, diff2, diff3]}
+
+                if addShares:
+                    for shares in sorted(sharesDict, key = lambda share: str(share).split('.')[1], reverse = True):
+                        (payoutDifference, newExpPayoutTotal, newDbSharesTotal) = self.expected_payout_share_modifier(payoutDifference, sharesDict, shares, loopsRequired, newExpPayoutTotal, newDbSharesTotal, server, addShares)
+                else:
+                    for shares in sorted(sharesDict, reverse = True):
+                        (payoutDifference, newExpPayoutTotal, newDbSharesTotal) = self.expected_payout_share_modifier(payoutDifference, sharesDict, shares, loopsRequired, newExpPayoutTotal, newDbSharesTotal, server, addShares)
+
+                for rejects in rejectsDict:
+                    newDbRejectsTotal += self.expected_payout_sql_updater(server, rejectsDict, rejects, rejectsMode=True)
+
+            logging.debug('DB: Commiting changes to the database')
+            self.database.commit()
+            self._lock_release()
+            return newDbSharesTotal, newDbRejectsTotal, newExpPayoutTotal
+        except Exception, e:
+            logging.info('Exception caught in bitHopper.database.change_expected_payout: ' + str(e))
+        finally:
+            self._lock_release()
 
     def get_expected_payout(self, server):
-        with self.lock:
-            sql = 'select shares, diff, rejects from ' + str(server)
-            self.curs.execute(sql)
-            result = self.curs.fetchall()
-            expected = 0
-            for item in result:
-                shares = item[0] - item[2]
-                difficulty = item[1]
-                expected += float(shares)/difficulty * 50
+        self._lock_get('expected_payout')
+        sql = 'select shares, diff, rejects from ' + str(server)
+        self.curs.execute(sql)
+        result = self.curs.fetchall()
+        expected = 0
+        for item in result:
+            shares = item[0] - item[2]
+            difficulty = item[1]
+            expected += float(shares)/difficulty * 50
+            
+        self._lock_release()
         return expected
 
     def update_rejects(self, server, shares, user, password):
-        with self.lock:
-            if server not in self.rejects:
-                self.rejects[server] = {}
-            if user not in self.rejects[server]:
-                self.rejects[server][user] = 0
-            self.rejects[server][user] += shares
+        self._lock_get('update_rejects')
+        if server not in self.rejects:
+            self.rejects[server] = {}
+        if user not in self.rejects[server]:
+            self.rejects[server][user] = 0
+        self.rejects[server][user] += shares
+        self._lock_release()
 
     def make_table(self, server_name):
         while not self.curs:
-            time.sleep(1)
+            time.sleep(0.1)
         sql = "CREATE TABLE IF NOT EXISTS "+server_name +" (diff REAL, shares INTEGER, rejects INTEGER, stored_payout REAL, user TEXT)"
         self.curs.execute(sql)
 
 
     def get_rejects(self, server):
-        with self.lock:
-            self.make_table(server)
+        self._lock_get('get_rejects')
+        self.make_table(server)
 
-            sql = 'select rejects from ' + str(server)
-            self.curs.execute(sql)
-            shares = 0
-            for info in self.curs.fetchall():
-                shares += int(info[0])
-            return shares
+        sql = 'select rejects from ' + str(server)
+        self.curs.execute(sql)
+        shares = 0
+        for info in self.curs.fetchall():
+            shares += int(info[0])
+        self._lock_release()
+        return shares
 
     def set_payout(self, server, payout):
-        with self.lock:
-            if server not in self.payout:
-                self.payout[server] = None
-            self.payout[server] = payout
+        self._lock_get('set_payout')
+        if server not in self.payout:
+            self.payout[server] = None
+        self.payout[server] = payout
+        return self._lock_release()
 
     def get_payout(self, server):
-        with self.lock:
-            sql = 'select stored_payout from ' + server + ' where diff=1'
-            self.curs.execute(sql)
-            payout = 0
-            for info in self.curs.fetchall():
-                payout += float(info[0])
-            return payout
+        self._lock_get('get_payout')
+        sql = 'select stored_payout from ' + server + ' where diff=1'
+        self.curs.execute(sql)
+        payout = 0
+        for info in self.curs.fetchall():
+            payout += float(info[0])
+        self._lock_release()
+        return payout
 
