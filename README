@@ -11,33 +11,17 @@ Based on a work at github.com
 Run:
 
 sudo apt-get install python git python-dev python-setuptools python-pip
-sudo pip install gevent setuptools
+sudo pip install gevent setuptools gitpython
 git clone git://github.com/c00w/bitHopper.git
 cd bitHopper
 python bitHopper.py
 
 Tested and working in Ubuntu 11.10.
 
-
-#Archlinux installation
-
-pacman -Sy python2-pip mercurial
-pip2 install eventlet
-hg clone https://bitbucket.org/ambroff/greenlet
-cd greenlet
-python2 setup.py install
-
-pip install gevent
-
-Then download and run bitHopper
-
-I know its weird but the pip version of greenlet causes segfaults in 
-archlinux. So you have to install from the oficial repo on bitbucket.
-
 # Instructions for Windows users
 -----------------------------------------------------------------
 NOTE: IF YOU ARE RUNNING LOTS OF MINERS USE LINUX.
-Is a lot more stable and takes less modifications.
+It's a lot more stable and takes less modifications.
 
 Download and install
 1. Python
@@ -53,7 +37,11 @@ Download win32-py2.7
 4. SetupTools
 http://pypi.python.org/packages/2.7/s/setuptools/setuptools-0.6c11.win32-py2.7.exe#md5=57e1e64f6b7c7f1d2eddfc9746bbaf20
 
-5. BitHopper
+5. gitpython
+http://pypi.python.org/packages/source/G/GitPython/GitPython-0.3.2.RC1.tar.gz#md5=849082fe29adc653a3621465213cab96
+extract the item and run python setup.py install
+
+6. BitHopper
 github.com/c00w/bitHopper
 Go to downloads and hit zip. Extract the zip to your desktop
 
