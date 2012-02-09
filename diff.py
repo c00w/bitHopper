@@ -3,12 +3,23 @@
 # Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-import re, gevent, logging, ConfigParser
-import threading, socket, urllib2
+from git import Repo
+import threading, gevent
 
-# Global timeout for sockets in case something leaks
-socket.setdefaulttimeout(900)
+try:
+    repo = Repo("btcnet_info")
+except:
+    repo = Repo.init("btcnet_info")
+    repo = repo.clone("git://github.com/c00w/btcnet_info.git")
+    origin = repo.create_remote('origin', 'git://github.com/c00w/btcnet_info.git')
+    
+origin = repo.remotes.origin
+origin.fetch()
+origin.pull('master')
 
+import btcnet_info
+    
+    
 class Difficulty():
     """
     Stores difficulties and automatically updates them
@@ -23,20 +34,6 @@ class Difficulty():
 
         #Add Coins
         self.diff = {}
-        for attr_coin in bitHopper.altercoins.itervalues():
-            self.diff[attr_coin['short_name']] = attr_coin['recent_difficulty']
-
-        #Store bitHopper for logging
-        self.bitHopper = bitHopper
-
-        #Read in old diffs
-        cfg = ConfigParser.ConfigParser()
-        cfg.read(["diffwebs.cfg"])
-
-        #Add diff_sites
-        self.diff_sites = []
-        for site in cfg.sections():
-             self.diff_sites.append(dict(cfg.items(site)))
 
         self.lock = threading.RLock()
         gevent.spawn(self.update_difficulty)
@@ -45,49 +42,10 @@ class Difficulty():
         with self.lock:
             return self.diff[key]
 
-    def updater(self, coin, short_coin):
-
-        # Generic method to update the difficulty of a given currency
-        logging.info('Updating Difficulty of ' + coin)
-        config_diffcoin = [site for site in self.diff_sites if site['coin'] == short_coin]
-
-        useragent = {'User-Agent': self.bitHopper.config.get('main', 'work_user_agent')}
-        for site in config_diffcoin:
-            #Timeout in case stuff goes wrong
-            timeout = gevent.timeout.Timeout(5, Exception(''))
-            try:
-                #Really should use httplib2, but eh.
-                req = urllib2.Request(site['url'], headers = useragent)
-                response = urllib2.urlopen(req)
-                if site['get_method'] == 'direct': 
-                    output = response.read()
-                elif site['get_method'] == 'regexp':
-                    diff_str = response.read()
-                    output = re.search(site['pattern'], diff_str)
-                    output = output.group(1)
-                elif site['get_method'] == 'json':
-                    diff_str = response.read()
-                    output = json.loads(diff_str)
-                    output = output[site['key']]
-                with self.lock:
-                    self.diff[short_coin] = float(output)
-                logging.debug('Retrieved Difficulty: ' + str(self[short_coin]))
-                break
-            except Exception, e:
-                logging.debug('Unable to update difficulty for ' + coin + ' from ' + site['url'] + ' : ' + str(e))
-            finally:
-                timeout.cancel()
-
     def update_difficulty(self):
         while True:
-            "Tries to update difficulty from the internet"
             with self.lock:
-                output_diffs = ConfigParser.ConfigParser()
-                output_diffs.read("whatevercoin.cfg")   
-                for generic_title, attr_coin in self.bitHopper.altercoins.iteritems():
-                    self.updater(attr_coin['long_name'], attr_coin['short_name'])
-                    output_diffs.set(generic_title, 'recent_difficulty', self.diff[attr_coin['short_name']])
-                output = open("whatevercoin.cfg", 'wb')
-                output_diffs.write(output)
-                output.close()
+                for coin in btcnet_info.get_coins():
+                    if getattr(coin, 'difficulty', None):
+                        self.diff[coin.name] = float(coin.difficulty)
             gevent.sleep(60*10)
