@@ -39,11 +39,11 @@ class Database():
     def _lock_get(self, user=""):
         while not self.lock.acquire(False):
             gevent.sleep(0)
-        print 'Lock Acquired' + user
+        #print 'Lock Acquired' + user
             
     def _lock_release(self):
         self.lock.release()
-        print 'Lock Released'
+        #print 'Lock Released'
         
     def __thread_init(self):
         self.check_database()
