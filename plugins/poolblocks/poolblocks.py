@@ -25,7 +25,6 @@ import operator
 from peak.util import plugins
 from ConfigParser import RawConfigParser
 from cookielib import CookieJar
-from util import urlutil
 
 import blockexplorer
 
@@ -70,9 +69,6 @@ class PoolBlocks:
             self.refreshRandomJitter = self.bitHopper.config.getint('plugin.poolblocks', 'refreshRandomJitter')
             self.execpoolsize = self.bitHopper.config.getint('plugin.poolblocks', 'execpoolsize')
             self.block_retrieve_limit = self.bitHopper.config.getint('plugin.poolblocks', 'block_retrieve_limit')
-            self.rate_limit = self.bitHopper.config.getint('plugin.poolblocks', 'ratelimit')
-            if self.bitHopper.config.getboolean('plugin.poolblocks', 'use_ratelimit'):
-                self.fetch = urlutil.URLFetchRateLimit(self.bitHopper, self.rate_limit)
         except Exception, e:
             self.log_msg('ERROR parsing config, possible missing section or configuration items: ' + str(e))
             if self.bitHopper.options.debug:
@@ -218,12 +214,9 @@ class PoolBlocks:
         else:
             try:
                 data = None
-                if self.fetch != None:
-                    data = self.fetch.retrieve(url)
-                else:
-                    req = urllib2.Request(url)
-                    response = urllib2.urlopen(url, None, self.timeout)
-                    data = response.read()
+                req = urllib2.Request(url)
+                response = urllib2.urlopen(url, None, self.timeout)
+                data = response.read()
                 outputs = searchPattern.findall(data)
             except Exception, e:
                 self.log_msg('Error ' + str(pool) + ' : ' + str(e))
@@ -243,7 +236,7 @@ class PoolBlocks:
                         self.blocks[blockNumber].owner = pool
                         blockHash = self.blocks[blockNumber].hash
                         if blockHash is None:
-                            self.blocks[blockNumber].hash = blockexplorer.getBlockHashByNumber(blockNumber, urlfetch=self.fetch)
+                            self.blocks[blockNumber].hash = blockexplorer.getBlockHashByNumber(blockNumber)
                         if blockHash is not None:
                             hook = plugins.Hook('plugins.poolblocks.verified')
                             hook.notify(blockNumber, blockHash, pool)
