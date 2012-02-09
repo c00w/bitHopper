@@ -11,4 +11,9 @@ origin = repo.remotes.origin
 origin.fetch()
 origin.pull('master')
 
-import btcnet_info
+try:
+    import btcnet_info
+except:
+    print 'Install pythongit! See the readme for detailed instructions'
+    import os
+    os._exit(2)
