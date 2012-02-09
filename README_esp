@@ -10,7 +10,7 @@ Basado en trabajo hecho en github.com
 
 Ejecuta:
 
-sudo apt-get install python git python-dev python-setuptools python-pip
+sudo apt-get install python git python-dev python-setuptools python-pip libevent-dev
 sudo pip install gevent setuptools
 git clone git://github.com/c00w/bitHopper.git
 cd bitHopper
