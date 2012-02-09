@@ -10,7 +10,7 @@ Based on a work at github.com
 
 Run:
 
-sudo apt-get install python git python-dev python-setuptools python-pip
+sudo apt-get install python git python-dev python-setuptools python-pip libevent-dev 
 sudo pip install gevent setuptools gitpython
 git clone git://github.com/c00w/bitHopper.git
 cd bitHopper

@@ -33,7 +33,7 @@ calculate_profit = False
 user_drop_time = 3600
 
 # Tiempo de espera para las peticiones de trabajo
-work_request_timeout = 2.5
+work_request_timeout = 5
 
 # Tiempo de espera para comprobar conectividad con mina
 delag_sleep = 20
