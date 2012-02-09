@@ -29,12 +29,12 @@ class Database():
         self.shares = {}
         self.rejects = {}
         self.payout = {}
+        self.alive = True
         self.lock = threading.Lock()
         self.lock.acquire()
         thread = threading.Thread(target=self.__thread_init)
         thread.daemon = True
         thread.start()
-        self.alive = True
         
     def _lock_get(self, user=""):
         while not self.lock.acquire(False):
