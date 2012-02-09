@@ -18,6 +18,9 @@ import gevent.wsgi
 #Not patching thread so we can spin of db file ops.
 gevent.monkey.patch_all(thread=False, time=False)
 
+import logging, sys
+logging.basicConfig(stream=sys.stdout, format="%(asctime)s|%(module)s: %(message)s", datefmt="%H:%M:%S", level = logging.INFO)
+
 import os, time, socket, logging
 
 from peak.util import plugins
@@ -64,7 +67,7 @@ class BitHopper():
         self.scheduler = None
         self.lp_callback = lp_callback.LP_Callback(self)
         self.difficulty = diff.Difficulty(self)  
-        self.exchange = exchange.Exchange(self)
+        self.exchange = exchange.Exchange(self, self.difficulty)
         self.pool = None        
         self.db = database.Database(self)                       
         self.pool = pool.Pool_Parse(self)
