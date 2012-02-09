@@ -3,21 +3,9 @@
 # Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 #Based on a work at github.com.
 
-from git import Repo
+
 import threading, gevent
-
-try:
-    repo = Repo("btcnet_info")
-except:
-    repo = Repo.init("btcnet_info")
-    repo = repo.clone("git://github.com/c00w/btcnet_info.git")
-    origin = repo.create_remote('origin', 'git://github.com/c00w/btcnet_info.git')
-    
-origin = repo.remotes.origin
-origin.fetch()
-origin.pull('master')
-
-import btcnet_info
+from btcnet_wrapper import btcnet_info
     
     
 class Difficulty():
