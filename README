@@ -7,11 +7,11 @@ Based on a work at github.com
 
 # Ubuntu installation
 ---------------------------------------------------------------------
-
+Note: Use python2.7. There have been bugs with pythongit on 2.6
 Run:
 
-sudo apt-get install python git python-dev python-setuptools python-pip libevent-dev 
-sudo pip install gevent setuptools gitpython
+sudo apt-get install python2.7 git python2.7-dev python-setuptools python-pip libevent-dev 
+sudo pip install gevent setuptools gitpython httplib2
 git clone git://github.com/c00w/bitHopper.git
 cd bitHopper
 python bitHopper.py
@@ -41,7 +41,9 @@ http://pypi.python.org/packages/2.7/s/setuptools/setuptools-0.6c11.win32-py2.7.e
 http://pypi.python.org/packages/source/G/GitPython/GitPython-0.3.2.RC1.tar.gz#md5=849082fe29adc653a3621465213cab96
 extract the item and run python setup.py install
 
-6. BitHopper
+6. Httplib2
+
+7. BitHopper
 github.com/c00w/bitHopper
 Go to downloads and hit zip. Extract the zip to your desktop
 
