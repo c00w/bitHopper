@@ -37,11 +37,16 @@ Download win32-py2.7
 4. SetupTools
 http://pypi.python.org/packages/2.7/s/setuptools/setuptools-0.6c11.win32-py2.7.exe#md5=57e1e64f6b7c7f1d2eddfc9746bbaf20
 
-5. gitpython
+5. Install Git
+http://code.google.com/p/msysgit/downloads/list?can=3
+
+6. gitpython
 http://pypi.python.org/packages/source/G/GitPython/GitPython-0.3.2.RC1.tar.gz#md5=849082fe29adc653a3621465213cab96
 extract the item and run python setup.py install
 
 6. Httplib2
+http://httplib2.googlecode.com/files/httplib2-0.7.2.zip
+extract the folder and run python setup.py install
 
 7. BitHopper
 github.com/c00w/bitHopper
@@ -157,5 +162,5 @@ or have "Donation" pool enabled in your stats page (setup donation percent in yo
  flower1024, echiu64 (ed64), graphiclunarkid, elitak, Clipseza, littleant, bb-btc, gnaget, murfshake, Sukrim, gtrrkicw,
  swordv2, bitcoindaddy, rkozola, ryouiki, starlightbreaker, hawks5999, erasmo, pueytan, macboy80, sdogi, joulesbeef,
  Seoulboy1, paraipan, Swicher, lucita777, TenthReality, dfc (Douglas Calvert), dadittoz, cutnpaster, simonk83, xzion,
- HolodeckJizzmopper, MartyChubbs, iongchun
+ HolodeckJizzmopper, Locky7, iongchun
 
