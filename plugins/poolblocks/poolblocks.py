@@ -1,10 +1,10 @@
 #License#
-# poolblocks.py is created by echiu64 and licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
-# http://creativecommons.org/licenses/by-nc-sa/3.0/
-# Based on a work at github.com.
-#
-# Portions based on blockinfo.py by ryouiki and licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
-#
+#Copyright (C) 2011,2012 Colin Rice
+#This software is licensed under an included MIT license.
+#See the file entitled LICENSE
+#If you were not provided with a copy of the license please contact: 
+# Colin Rice colin@daedrum.net
+
 # TODO
 #  If too many None responses for a particular block/hash/txid, we should stop trying
 #
