@@ -168,6 +168,13 @@ role: info
 user: your_username
 pass: your_password
 
+[bitcash]
+#http://bitcash.cz/pool/ (Prop)
+#---Edit after this line if mined---
+role: mine
+user: your_username
+pass: your_password
+
 [a1]
 #http://www.a1bitcoinpool.com (Prop.)
 #---Edit after this line if mined--- (if you want)
