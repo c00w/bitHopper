@@ -29,7 +29,7 @@ class Difficulty():
 
     def __getitem__(self, key):
         with self.lock:
-            return self.diff[key]
+            return self.diff.get(key, 10**6)
 
     def update_difficulty(self):
         while True:
@@ -37,4 +37,4 @@ class Difficulty():
                 for coin in btcnet_info.get_coins():
                     if getattr(coin, 'difficulty', None):
                         self.diff[coin.name] = float(coin.difficulty)
-            gevent.sleep(60*10)
+            gevent.sleep(60)
