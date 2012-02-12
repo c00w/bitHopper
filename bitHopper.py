@@ -45,6 +45,7 @@ import lp_callback
 import plugin
 import api
 import exchange
+import Workers
 
 import ConfigParser
 import sys
@@ -82,6 +83,7 @@ class BitHopper():
         self.auth = None
         
         self.website = website.bitSite(self)
+        self.workers = Workers.Workers(self)
         self.plugin = plugin.Plugin(self)
         gevent.spawn(self.delag_server)
 

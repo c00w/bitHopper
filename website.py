@@ -258,8 +258,8 @@ class bitSite():
         self.site_names = ['','/']
         self.bitHopper = bitHopper
         self.dynamicSite = dynamicSite(self.bitHopper)
-        self.sites = [self, lpSite(self.bitHopper), dynamicSite(self.bitHopper),
-                      dataSite(self.bitHopper)]
+        self.sites = [self, lpSite(self.bitHopper), 
+            dynamicSite(self.bitHopper), dataSite(self.bitHopper)]
 
     def handle_start(self, env, start_response):
         use_site = nosite()
