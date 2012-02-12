@@ -11,7 +11,7 @@ Note: Use python2.7. There have been bugs with pythongit on 2.6
 Run:
 
 sudo apt-get install python2.7 git python2.7-dev python-setuptools python-pip libevent-dev 
-sudo pip install gevent setuptools gitpython httplib2
+sudo pip install gevent setuptools gitpython httplib2 --upgrade
 git clone git://github.com/c00w/bitHopper.git
 cd bitHopper
 python bitHopper.py
