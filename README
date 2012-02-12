@@ -18,6 +18,11 @@ python bitHopper.py
 
 Tested and working in Ubuntu 11.10.
 
+# Other Linux Installations
+---------------------------------------------------------------------
+Note: Use pip to install your libraries. We need fairly recent versions of everything. The libraries bundled with debian are too old.
+
+
 # Instructions for Windows users
 -----------------------------------------------------------------
 NOTE: IF YOU ARE RUNNING LOTS OF MINERS USE LINUX.
