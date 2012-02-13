@@ -7,7 +7,7 @@
 
 import threading, gevent
 from btcnet_wrapper import btcnet_info
-    
+from collections import defaultdict
     
 class Difficulty():
     """
@@ -23,6 +23,7 @@ class Difficulty():
 
         #Add Coins
         self.diff = {}
+        self.diff = defaultdict(lambda: 10**6, self.diff)
 
         self.lock = threading.RLock()
         gevent.spawn(self.update_difficulty)
