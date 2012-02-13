@@ -7,14 +7,14 @@
 """
 File for adding multiple worker support to pools
 """
-import threading, time, ConfigParser, random, gevent, webob, os
+import threading, time, ConfigParser, random, gevent, webob, os, json
 
 class Workers():
     def __init__(self, bitHopper):
+        self.pool = bitHopper.pool
         self.workers = {}
         self.lock = threading.Lock()
         self.parser = ConfigParser.RawConfigParser()
-        self.fd = open('worker.cfg', 'rwb')
         thread = threading.Thread(target=self.poll_thread)
         thread.daemon = True
         thread.start()
@@ -30,11 +30,14 @@ class Workers():
         self.lock.release()
         
     def poll_thread(self):
+        self.fd = open('worker.cfg', 'wrb')
+    
         with self.lock:
-            self.parser.read('workers.cfg')
-        
+            for item in self.pool.get_servers():
+                self.workers[item] = []
+            self.parser.read('worker.cfg')
             for item in self.parser.sections():
-                self.worker[item] = self.parser.items(item)
+                self.workers[item] = self.parser.items(item)
                 
         while True:
             with self.lock:
@@ -54,9 +57,9 @@ class Workers():
         self._nonblock_lock()
         if pool not in self.parser.section():
             self.parser.add_section(pool)
-            self.worker[pool] = []
+            self.workers[pool] = []
         self.parser.set(pool, worker, password)
-        self.worker[pool].append((worker, password))
+        self.workers[pool].append((worker, password))
         self._release()
         
     def remove_worker(self, pool, worker, password):
@@ -64,11 +67,11 @@ class Workers():
             return
         self._nonblock_lock()
         self.parser.remove_option(pool, worker)
-        self.worker[pool].remove((worker, password))
+        self.workers[pool].remove((worker, password))
         self._release()
         
     def get_workers(self):
-        return self.worker
+        return self.workers
         
 class WorkerSite():
     def __init__(self, bitHopper):
