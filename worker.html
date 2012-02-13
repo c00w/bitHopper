@@ -14,7 +14,7 @@
 
 			body {
 				margin:0;
-				padding:10px;
+				padding:0px;
 			}
 
 			a {
@@ -22,12 +22,15 @@
 			}
 
 			td, th {
-				padding:2px;
+				padding:0px;
 				padding-left:6px;
 				padding-right:6px;
 				margin:0px;
-				border-bottom:2px solid #00008B;
-				height:40px;
+				height:20px;
+			}
+			
+			#pool_name {
+			    border-bottom:2px solid #00008B;
 			}
 
 			th.head {
@@ -38,29 +41,25 @@
 		</style>
 		<title>bitHopper workers</title>
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
-		<script type="test/javascript">
-		    
+		<script type="text/javascript">
 		    $(document).ready(function(){
-#
-		    
                 $.getJSON('/worker_data', function(data){
-                        
-		                var rows = [];
-		                rows.append('<table>');
+		                table = '';
+		                table +='<table>';
                         for( var key in data)
-                            rows.append( '<tr><td>' + key + '<td><td></td><td></td></tr>');
-                            for(var item in data)
-                                rows.append('<tr><td></td><td>' + item[0] + '</td><td>' + item[1] + '<td></tr>');
-                        rows.append('</table>');
-                        $('#workers').append(rows.join(""));
+                            table += '<tr id=pool_name><td>' + key + '<td><td></td><td></td></tr>'; 
+                            list = data[key];
+                            for (item in list)
+                                table +='<tr><td></td><td>' + item[0] + '</td><td>' + item[1] + '<td></tr>';
+                        table += '</table>';
+                        $('#workers').append(table);
                         
-                    });
-                    
                 });
+                    
             });
 		</script>
     </head>
 <body>
-    <div class=workers>
+    <div id=workers>
     </div>
 </body>

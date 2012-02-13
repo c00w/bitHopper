@@ -35,6 +35,7 @@ class Workers():
         with self.lock:
             for item in self.pool.get_servers():
                 self.workers[item] = []
+                self.parser.add_section(item)
             self.parser.read('worker.cfg')
             for item in self.parser.sections():
                 self.workers[item] = self.parser.items(item)
