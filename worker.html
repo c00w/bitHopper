@@ -7,7 +7,7 @@
 				color:white;
 				font-family:Arial,Helvetica,sans-serif;
 				font-size:12px;
-			}
+		}
 			
 		table {
 		    padding:2px;
@@ -37,12 +37,13 @@
 		                table = '';
 		                table +='<table>';
                         for( var key in data){
-                            table += '<tr class="pool_name"><td class="name">' + key +  '<td><td></td><td></td></tr>'; 
+                            table += '<form action="worker_data" method="post">'
+                            table += '<tr class="pool_name"><td class="name">' + key +  '</td><td><input type="text" name="user"/></td><td><input type="text" name="user"/></td><td> <input type="submit" value="+" /></td></tr>'; 
                             var list = data[key];
                             for (var index in list){
-                                table +='<tr><td></td><td>' + list[index][0] + '</td><td>' + list[index][1] + '<td></tr>';
+                                table +='<tr><td></td><td>' + list[index][0] + '</td><td>' + list[index][1] + '</td><td></td></tr>';
                             }
-                            table += '<tr><td></td><td></td><td></td></tr>'
+                            table += '<tr><td></td><td></td><td></td><td></td></tr>'
                         }
                         table += '</table>';
                         $('#workers').append(table);
