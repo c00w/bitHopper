@@ -14,7 +14,7 @@ class Workers():
         self.workers = {}
         self.lock = threading.Lock()
         self.parser = ConfigParser.RawConfigParser()
-        self.fd = open('worker.cfg', 'rw')
+        self.fd = open('worker.cfg', 'rwb')
         thread = threading.Thread(target=self.poll_thread)
         thread.daemon = True
         thread.start()
@@ -87,7 +87,7 @@ class WorkerSite():
             index = os.path.join(application_path, file_name)
         except:
             index = os.path.join(os.curdir, file_name)
-        fd = open(index, 'r')
+        fd = open(index, 'rb')
         self.line_string = fd.read()
         fd.close()
         
