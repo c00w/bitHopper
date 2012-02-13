@@ -30,8 +30,8 @@ class Workers():
         self.lock.release()
         
     def poll_thread(self):
-        self.fd = open('worker.cfg', 'wrb')
-    
+        
+        self.fd = None
         with self.lock:
             for item in self.pool.get_servers():
                 self.workers[item] = []
@@ -42,6 +42,8 @@ class Workers():
                 
         while True:
             with self.lock:
+                if not self.fd:
+                    self.fd = open('worker.cfg', 'wrb')
                 self.parser.write(self.fd)
             time.sleep(60)
         

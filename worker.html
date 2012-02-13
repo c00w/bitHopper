@@ -1,43 +1,33 @@
 <html>
     <head>
         <style type="text/css">
-			* {
-				font-family:monospace;
-			}
-			html,body {
-				background: #AAAAAA;
+        body {
+				background: #000;
 				height:100%;
 				color:white;
 				font-family:Arial,Helvetica,sans-serif;
 				font-size:12px;
 			}
-
-			body {
-				margin:0;
-				padding:0px;
-			}
-
-			a {
-				text-decoration:none;
-			}
-
-			td, th {
-				padding:0px;
-				padding-left:6px;
-				padding-right:6px;
-				margin:0px;
-				height:20px;
-			}
 			
-			#pool_name {
-			    border-bottom:2px solid #00008B;
-			}
-
-			th.head {
-				border-bottom:2px solid white;
-			}
-			#headercontainer { position: fixed; top: 0; left: 0; right: 0; height: 105px; margin: 0; padding: 0; background-color: #272F87; }
-
+		table {
+		    padding:2px;
+			padding-left:6px;
+			padding-right:6px;
+			margin:0px;
+            border-collapse:collapse
+		}
+			
+		tr.pool_name td{
+		    border-bottom: 2px solid white;
+		}
+		tr.pool_name td.name{
+		    border: 2px solid white;
+		    font-size: 16px;
+		}
+		
+		tr.pool_name {
+		    padding-top: 5px;
+		}
 		</style>
 		<title>bitHopper workers</title>
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
@@ -46,11 +36,14 @@
                 $.getJSON('/worker_data', function(data){
 		                table = '';
 		                table +='<table>';
-                        for( var key in data)
-                            table += '<tr id=pool_name><td>' + key + '<td><td></td><td></td></tr>'; 
-                            list = data[key];
-                            for (item in list)
-                                table +='<tr><td></td><td>' + item[0] + '</td><td>' + item[1] + '<td></tr>';
+                        for( var key in data){
+                            table += '<tr class="pool_name"><td class="name">' + key +  '<td><td></td><td></td></tr>'; 
+                            var list = data[key];
+                            for (var index in list){
+                                table +='<tr><td></td><td>' + list[index][0] + '</td><td>' + list[index][1] + '<td></tr>';
+                            }
+                            table += '<tr><td></td><td></td><td></td></tr>'
+                        }
                         table += '</table>';
                         $('#workers').append(table);
                         
