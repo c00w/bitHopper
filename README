@@ -64,10 +64,13 @@ It may appear to just be bitHopper with no .py extension.
 
 # Configuring user settings
 
+Worker Configuration page: http://localhost:8337/worker
 BitHopper Stats page: http://localhost:8337/stats
 
-Copy "user.cfg.default" to a new file called "user.cfg" then modify the new file to include your pool 
-worker usernames and passwords. Repeat with "bh.cfg.default" and make sure default values work for you.
+Copy "user.cfg.default" to a new file called "user.cfg" then modify the new file to have correct roles. Ignore the usernames and passwords.
+Configure the usernames and passwords on http://localhost:8337/worker
+
+Repeat with "bh.cfg.default" and make sure default values work for you.
 Run "python bitHopper.py" in *nix or in Windows you can double click on run-bithopper.bat. After script
 updates info check if the pools have been added correctly to your stats page.
 

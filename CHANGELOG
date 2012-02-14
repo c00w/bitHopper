@@ -1,4 +1,7 @@
 
+#
+Workers on now configured on localhost:8337/worker
+
 #Ver   0.3.0.1 (090d513)
 Change database write time once every 20 seconds
 Updated readme to have proper links for gevent
