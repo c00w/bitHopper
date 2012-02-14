@@ -7,7 +7,7 @@
 """
 File for adding multiple worker support to pools
 """
-import threading, time, ConfigParser, random, gevent, webob, os, json
+import threading, time, ConfigParser, random, gevent, webob, os, json, Queue
 
 class Workers():
     def __init__(self, bitHopper):
@@ -18,6 +18,8 @@ class Workers():
         thread = threading.Thread(target=self.poll_thread)
         thread.daemon = True
         thread.start()
+        
+        self.queue = Queue.Queue(maxsize=-1)
         
         WorkerSite(bitHopper)
         WorkerDataSite(bitHopper)
@@ -41,11 +43,11 @@ class Workers():
                 self.workers[item] = self.parser.items(item)
                 
         while True:
+            self.queue.get()
             with self.lock:
                 if not self.fd:
                     self.fd = open('worker.cfg', 'wrb')
                 self.parser.write(self.fd)
-            time.sleep(60)
         
     def get_worker(self, pool):
         self._nonblock_lock()
@@ -64,6 +66,7 @@ class Workers():
         self.parser.set(pool, worker, password)
         self.workers[pool].append((worker, password))
         self._release()
+        self.queue.put(None)
         
     def remove_worker(self, pool, worker, password):
         if pool not in self.parser.sections():
@@ -72,6 +75,7 @@ class Workers():
         self.parser.remove_option(pool, worker)
         self.workers[pool].remove((worker, password))
         self._release()
+        self.queue.put(None)
         
     def get_workers(self):
         return self.workers
@@ -104,7 +108,6 @@ class WorkerSite():
         return self.line_string
         
     def handle_post(self, request):
-        print request.POST
         post = request.POST
             
         for item in ['method','user','pass', 'pool']:
@@ -115,7 +118,6 @@ class WorkerSite():
             self.bitHopper.workers.remove_worker(post['pool'],
                             post['user'], post['pass'])
         elif post['method'] == 'add':
-            print 'add'
             self.bitHopper.workers.add_worker(post['pool'],
                         post['user'], post['pass'])
     
