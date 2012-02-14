@@ -16,6 +16,11 @@
 			margin:0px;
             border-collapse:collapse
 		}
+		
+		.no_margin {
+		    margin: 0px;
+		
+		}
 			
 		tr.pool_name td{
 		    border-bottom: 2px solid white;
@@ -25,25 +30,38 @@
 		    font-size: 16px;
 		}
 		
-		tr.pool_name {
-		    padding-top: 5px;
+		.align_right {
+		    text-align: right;
 		}
 		</style>
 		<title>bitHopper workers</title>
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
 		<script type="text/javascript">
+		    var hide_input = function(name, value){
+		        return '<input type="hidden" name="' + name + '" value ="' + value + '">';
+		    }
 		    $(document).ready(function(){
                 $.getJSON('/worker_data', function(data){
 		                table = '';
 		                table +='<table>';
                         for( var key in data){
-                            table += '<form name="add" action="worker" method="post">'
-                            table += '<tr class="pool_name"><td class="name">' + key
-                            table +=  '</td><td><input type="hidden" name="method" value="add"><input type="hidden" name="pool" value="' 
+                            table += '<form name="add" action="worker" method="post">';
+                            table += '<tr class="pool_name"><td class="name">' + key;
+                            table +=  '</td><td>';
+                            table += '<input type="hidden" name="method" value="add">';
+                            table += '<input type="hidden" name="pool" value="' ;
                             table += key + '"><input type="text" name="user"></td><td><input type="text" name="pass"></td><td> <input type="submit" value="+" ></td></form></tr>'; 
                             var list = data[key];
                             for (var index in list){
-                                table +='<tr><td></td><td>' + list[index][0] + '</td><td>' + list[index][1] + '</td><td></td></tr>';
+                                table +='<tr><td class="align_right">';
+                                table += '<form name="remove" action="worker" method="post" class="no_margin">';
+                                table += hide_input('user', list[index][0]);
+                                table += hide_input('pass', list[index][0]);
+                                table += hide_input('method', 'remove');
+                                table += hide_input('pool', key);
+                                table += '<input type="submit" value="-">';
+                                table += '</form>';
+                                table += '</td><td class="align_right">' + list[index][0] + '</td><td class="align_right">' + list[index][1] + '</td><td></td></tr>';
                             }
                             table += '<tr><td></td><td></td><td></td><td></td></tr>'
                         }
