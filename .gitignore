@@ -8,4 +8,5 @@ user.cfg
 *.komodoproject
 objgraph.py
 bh.cfg
+worker.cfg
 *.*~
