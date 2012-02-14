@@ -168,6 +168,13 @@ role: info
 user: nombre_minero
 pass: contrasena_minero
 
+[bitcash]
+#http://bitcash.cz/pool/ (Prop)
+#---Modifica despues de esta linea si vas a minar---
+role: info
+user: nombre_minero
+pass: contrasena_minero
+
 [a1]
 #http://www.a1bitcoinpool.com (Prop.)
 #---Modifica despues de esta linea si vas a minar---
@@ -177,6 +184,13 @@ pass: contrasena_minero
 
 [alex]
 #http://pool.schaetter.us (Prop.)
+#---Modifica despues de esta linea si vas a minar---
+role: info
+user: nombre_minero
+pass: contrasena_minero
+
+[btcjapan]
+#https://bitcoin.ne.jp/
 #---Modifica despues de esta linea si vas a minar---
 role: info
 user: nombre_minero
