@@ -135,7 +135,7 @@ class BitHopper():
         server_list = [server for server in server_list 
                        if lambda x:self.pool.get_entry(x)['priority'] >= max_priority]
 
-        if len(server_list) == 0:
+        if len(server_list) == 0 and len(backup_list):
             try:
                 backup_type = self.config.get('main', 'backup_type')
             except:
@@ -154,10 +154,9 @@ class BitHopper():
             elif backup_type == 'latehop':
                 backup_list.sort(key=lambda pool: -1*self.pool.servers[pool]['shares'])
                 server_list = [backup_list[0]]
-
+                
         if len(server_list) == 0:
-            logging.error('FATAL Error, scheduler did not return any pool!')
-            os._exit(1)
+            logging.error('Fatal Error, No valid pools configured!')
 
         self.pool.current_list = server_list
         self.pool.build_server_map()

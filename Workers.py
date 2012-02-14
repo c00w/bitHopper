@@ -15,11 +15,11 @@ class Workers():
         self.workers = {}
         self.lock = threading.Lock()
         self.parser = ConfigParser.RawConfigParser()
+        self.queue = Queue.Queue(maxsize=-1)
+        
         thread = threading.Thread(target=self.poll_thread)
         thread.daemon = True
         thread.start()
-        
-        self.queue = Queue.Queue(maxsize=-1)
         
         WorkerSite(bitHopper)
         WorkerDataSite(bitHopper)
