@@ -60,8 +60,6 @@ def Pull_zip():
         f.write('true')
     
     logging.info('Done')
-        
-         
     
 def Install_btcnet():
     

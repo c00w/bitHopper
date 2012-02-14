@@ -37,8 +37,10 @@
 		                table = '';
 		                table +='<table>';
                         for( var key in data){
-                            table += '<form action="worker_data" method="post">'
-                            table += '<tr class="pool_name"><td class="name">' + key +  '</td><td><input type="text" name="user"/></td><td><input type="text" name="user"/></td><td> <input type="submit" value="+" /></td></tr>'; 
+                            table += '<form name="add" action="worker" method="post">'
+                            table += '<tr class="pool_name"><td class="name">' + key
+                            table +=  '</td><td><input type="hidden" name="method" value="add"><input type="hidden" name="pool" value="' 
+                            table += key + '"><input type="text" name="user"></td><td><input type="text" name="pass"></td><td> <input type="submit" value="+" ></td></form></tr>'; 
                             var list = data[key];
                             for (var index in list){
                                 table +='<tr><td></td><td>' + list[index][0] + '</td><td>' + list[index][1] + '</td><td></td></tr>';

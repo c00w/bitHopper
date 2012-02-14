@@ -58,7 +58,7 @@ class Workers():
         
     def add_worker(self, pool, worker, password):
         self._nonblock_lock()
-        if pool not in self.parser.section():
+        if pool not in self.parser.sections():
             self.parser.add_section(pool)
             self.workers[pool] = []
         self.parser.set(pool, worker, password)
@@ -66,7 +66,7 @@ class Workers():
         self._release()
         
     def remove_worker(self, pool, worker, password):
-        if pool not in self.parser.section():
+        if pool not in self.parser.sections():
             return
         self._nonblock_lock()
         self.parser.remove_option(pool, worker)
@@ -99,7 +99,25 @@ class WorkerSite():
         
     def handle(self, env, start_response):
         start_response('200 OK', [('Content-Type', 'html')])
+        
+        self.handle_post(webob.Request(env))
         return self.line_string
+        
+    def handle_post(self, request):
+        print request.POST
+        post = request.POST
+            
+        for item in ['method','user','pass', 'pool']:
+            if item not in post:
+                return
+        
+        if post['method'] == 'remove':
+            self.bitHopper.workers.remove_worker(post['pool'],
+                            post['user'], post['pass'])
+        elif post['method'] == 'add':
+            print 'add'
+            self.bitHopper.workers.add_worker(post['pool'],
+                        post['user'], post['pass'])
     
 class WorkerDataSite():
     def __init__(self, bitHopper):
@@ -111,26 +129,6 @@ class WorkerDataSite():
     def handle(self, env, start_response):
         start_response('200 OK', [('Content-Type', 'text/json')])
         
-        self.handle_post(webob.Request(env))
         output = self.bitHopper.workers.get_workers()
         return json.dumps(output)
-        
-    def handle_post(self, request):
-        for v in request.POST:
-            try:
-                request = json.loads(v)
-            except:
-                return
-            for item in ['method','worker','password','pool']:
-                if item not in request:
-                    return
-                    
-            if request['method'] == 'remove':
-                self.bitHopper.workers.remove_worker(request['pool'],
-                                request['worker'], request['password'])
-            elif request['method'] == 'add':
-                self.bitHopper.workers.add_worker(request['pool'],
-                            request['worker'], request['password'])
-
-        
-        
+    
