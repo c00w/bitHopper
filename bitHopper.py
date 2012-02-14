@@ -75,7 +75,6 @@ class BitHopper():
         self.pool = pool.Pool_Parse(self)
         self.api = api.API(self) 
         self.pool.setup(self)
-        self.work = work.Work(self)
         self.speed = speed.Speed()
         self.getwork_store = getwork_store.Getwork_store(self)
         self.data = data.Data(self)       
@@ -84,6 +83,9 @@ class BitHopper():
         
         self.website = website.bitSite(self)
         self.workers = Workers.Workers(self)
+        
+        self.work = work.Work(self)
+        
         self.plugin = plugin.Plugin(self)
         gevent.spawn(self.delag_server)
 
@@ -115,6 +117,10 @@ class BitHopper():
             backup_list = []
         else:
             server_list, backup_list = self.scheduler.select_best_server()
+
+        if getattr(self, 'workers', None):
+            server_list = [x for x in server_list if self.workers.get_worker(x)[0]]
+            backup_list = [x for x in backup_list if self.workers.get_worker(x)[0]]
 
         old_server = self.pool.get_current()
             

@@ -22,6 +22,7 @@ import webob
 class Work():
     def __init__(self, bitHopper):
         self.bitHopper = bitHopper
+        self.workers = self.bitHopper.workers
         self.i = 0
         self.http_pool = ResourcePool.Pool(self._make_http)
         
@@ -39,8 +40,7 @@ class Work():
         try:
             #self.i += 1
             #request = json.dumps({'method':'getwork', 'params':[], 'id':self.i}, ensure_ascii = True)
-            user, passw, error = self.user_substitution(server, None, None)
-            #Check if we are using {USER} or {PASSWORD}
+            user, passw, error = self.workers.get_worker(server)
             if error:
                 return None
             header = {'Authorization':"Basic " +base64.b64encode(user+ ":" + passw).replace('\n',''), 'user-agent': 'poclbm/20110709', 'Content-Type': 'application/json', 'connection': 'keep-alive'}
@@ -78,29 +78,14 @@ class Work():
                 content = ""
         return content
 
-    def user_substitution(self, server, username, password):
-        info = self.bitHopper.pool.get_entry(server)
-        if '{USER}' in info['user'] and username is not None:
-            user = info['user'].replace('{USER}', username)
-        else:
-            user = info['user']
-        if '{PASSWORD}' in info['pass'] and password is not None:
-            passw = info['pass'].replace('{PASSWORD}', password)
-        else:
-            passw = info['pass']
-        if '{USER}' in info['user'] and username is None or '{PASSWORD}' in info['pass'] and password is None:
-            error = True
-        else:
-            error = False
-        return user, passw, error
-
     def jsonrpc_call(self, server, data, client_header={}, username = None, password = None):
         try:
             request = json.dumps({'method':'getwork', 'params':data, 'id':self.i}, ensure_ascii = True)
             self.i += 1
             
             info = self.bitHopper.pool.get_entry(server)
-            user, passw, error = self.user_substitution(server, username, password)
+            user, passw, error = self.workers.get_worker(server)
+            
             header = {'Authorization':"Basic " +base64.b64encode(user + ":" + passw).replace('\n',''), 'connection': 'keep-alive'}
             header['user-agent'] = 'poclbm/20110709'
             for k,v in client_header.items():

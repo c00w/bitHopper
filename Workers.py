@@ -52,11 +52,11 @@ class Workers():
     def get_worker(self, pool):
         self._nonblock_lock()
         if pool in self.workers and self.workers[pool]:
-            result = random.choice(self.workers[pool])
+            user, passw, err = random.choice(self.workers[pool]), None
         else:
-            result = None
+            user, passw, err = None, None, "Not in pool"
         self._release()
-        return result
+        return user, passw, err
         
     def add_worker(self, pool, worker, password):
         self._nonblock_lock()
