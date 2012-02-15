@@ -74,7 +74,8 @@ class Workers():
             return
         self._nonblock_lock()
         self.parser.remove_option(pool, worker)
-        self.workers[pool].remove((worker, password))
+        if (worker, password) in self.workers[pool]:
+            self.workers[pool].remove((worker, password))
         self._release()
         self.queue.put(None)
         
