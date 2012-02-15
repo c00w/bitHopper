@@ -123,7 +123,8 @@ class Pool_Parse():
            Take the server map and cycles through it"""
            
         while not self.current_list:
-            logging.error('Please configure some pools')
+            logging.error('Please configure some pools!')
+            logging.error('Go to localhost:8337/worker')
             gevent.sleep(10)
            
         value = self.i
