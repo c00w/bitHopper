@@ -33,7 +33,7 @@ Download and install
 http://python.org/ftp/python/2.7.2/python-2.7.2.msi
 
 2. Greenlet
-http://pypi.python.org/packages/2.7/g/greenlet/greenlet-0.3.3.win32-py2.7.exe#md5=d4e5ecb9bf44a6a72ca73d7988994c6e
+http://pypi.python.org/packages/2.7/g/greenlet/greenlet-0.3.4.win32-py2.7.exe
 
 3. Gevent
 http://www.lfd.uci.edu/~gohlke/pythonlibs/#gevent
