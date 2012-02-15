@@ -47,6 +47,11 @@ info_3: Fakes json stats so you keep hopping them (page 184 - bH thread on main 
 info_4: Pool enforces a 50% penalty system for occasional miners (pool website) - 68.87 Ghash/s @ 09.06.11
 
 
+[bitcash]
+#http://bitcash.cz/pool/
+info_1: Please report experience on forum or IRC - 18 Ghash/s @ 02.15.12
+
+
 [bitclockers]
 #http://bitclockers.com
 info_1: Handle with care, possible anti-hopper measures in place
@@ -71,6 +76,17 @@ info_2: Hashing away for over a month without luck - 3.48 Ghash/s @ 09.09.11
 #https://btcmine.com
 info_1: Score based payout, try mining with mine_slush (page 164 - bH thread on main forum) - 356.68 Ghash/s @ 08.23.11
 info_2: You can try the new mine_c role available for score pools and setup c: 550 - 223.68 Ghash/s @ 09.21.11
+
+
+[bitcash]
+#http://bitcash.cz/pool/
+info_1: Please report experience on forum or IRC - 18 Ghash/s @ 02.15.12
+
+
+[btcjapan]
+#https://bitcoin.ne.jp/
+info_1: Score prop. pool, please report experience on forum or IRC - 2 Ghash/s @ 02.15.12
+info_2: Click the field title to enable the field for account/miner setup for the English version of the website @ 02.15.12 
 
 
 [coinotron]
