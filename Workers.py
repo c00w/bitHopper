@@ -46,7 +46,7 @@ class Workers():
             self.queue.get()
             with self.lock:
                 if not self.fd:
-                    self.fd = open('worker.cfg', 'wrb')
+                    self.fd = open('worker.cfg', 'rwb')
                 self.parser.write(self.fd)
         
     def get_worker(self, pool):
