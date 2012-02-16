@@ -44,23 +44,19 @@ http://pypi.python.org/packages/2.7/s/setuptools/setuptools-0.6c11.win32-py2.7.e
 
 5. Install Git
 http://code.google.com/p/msysgit/downloads/list?can=3
-
-6. gitpython
-http://pypi.python.org/packages/source/G/GitPython/GitPython-0.3.2.RC1.tar.gz#md5=849082fe29adc653a3621465213cab96
-extract the item and run python setup.py install
-
-6. Httplib2
-http://httplib2.googlecode.com/files/httplib2-0.7.2.zip
-extract the folder and run python setup.py install
+MAKE SURE TO SELECT THE OPTION TO RUN GIT IN THE WINDOWS COMMAND PROMPT.
 
 7. BitHopper
 github.com/c00w/bitHopper
 Go to downloads and hit zip. Extract the zip to your desktop
 
+8. Bundled Dependencies
+Enter the bitHopper folder
+Double click install.py, it may appear to just be install with no .py extension
+
 Running bitHopper
 DoubleClick bitHopper.py inside the bithopper folder.
 It may appear to just be bitHopper with no .py extension.
-
 
 # Configuring user settings
 
