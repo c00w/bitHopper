@@ -18,14 +18,14 @@ class Getwork_store:
         self.lock = threading.RLock()
         gevent.spawn(self.prune)
 
-    def add(self, server, merkle_root):
+    def add(self, server, merkle_root, auth):
         with self.lock:
-            self.data[merkle_root] = [server, time.time()]
+            self.data[merkle_root] = [server, time.time(), auth]
 
     def get_server(self, merkle_root):
         with self.lock:
             if self.data.has_key(merkle_root):
-                return self.data[merkle_root][0]
+                return self.data[merkle_root][0] , self.data[merkle_root][2]
             return None      
     
     def prune(self):

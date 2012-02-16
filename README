@@ -11,12 +11,17 @@ Note: Use python2.7. There have been bugs with pythongit on 2.6
 Run:
 
 sudo apt-get install python2.7 git python2.7-dev python-setuptools python-pip libevent-dev 
-sudo pip install gevent setuptools gitpython httplib2
+sudo pip install gevent setuptools gitpython httplib2 --upgrade
 git clone git://github.com/c00w/bitHopper.git
 cd bitHopper
 python bitHopper.py
 
 Tested and working in Ubuntu 11.10.
+
+# Other Linux Installations
+---------------------------------------------------------------------
+Note: Use pip to install your libraries. We need fairly recent versions of everything. The libraries bundled with debian are too old.
+
 
 # Instructions for Windows users
 -----------------------------------------------------------------
@@ -28,7 +33,7 @@ Download and install
 http://python.org/ftp/python/2.7.2/python-2.7.2.msi
 
 2. Greenlet
-http://pypi.python.org/packages/2.7/g/greenlet/greenlet-0.3.3.win32-py2.7.exe#md5=d4e5ecb9bf44a6a72ca73d7988994c6e
+http://pypi.python.org/packages/2.7/g/greenlet/greenlet-0.3.4.win32-py2.7.exe
 
 3. Gevent
 http://www.lfd.uci.edu/~gohlke/pythonlibs/#gevent
@@ -59,10 +64,13 @@ It may appear to just be bitHopper with no .py extension.
 
 # Configuring user settings
 
+Worker Configuration page: http://localhost:8337/worker
 BitHopper Stats page: http://localhost:8337/stats
 
-Copy "user.cfg.default" to a new file called "user.cfg" then modify the new file to include your pool 
-worker usernames and passwords. Repeat with "bh.cfg.default" and make sure default values work for you.
+Copy "user.cfg.default" to a new file called "user.cfg" then modify the new file to have correct roles. Ignore the usernames and passwords.
+Configure the usernames and passwords on http://localhost:8337/worker
+
+Repeat with "bh.cfg.default" and make sure default values work for you.
 Run "python bitHopper.py" in *nix or in Windows you can double click on run-bithopper.bat. After script
 updates info check if the pools have been added correctly to your stats page.
 

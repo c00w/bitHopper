@@ -45,6 +45,7 @@ import lp_callback
 import plugin
 import api
 import exchange
+import Workers
 
 import ConfigParser
 import sys
@@ -74,7 +75,6 @@ class BitHopper():
         self.pool = pool.Pool_Parse(self)
         self.api = api.API(self) 
         self.pool.setup(self)
-        self.work = work.Work(self)
         self.speed = speed.Speed()
         self.getwork_store = getwork_store.Getwork_store(self)
         self.data = data.Data(self)       
@@ -82,6 +82,10 @@ class BitHopper():
         self.auth = None
         
         self.website = website.bitSite(self)
+        self.workers = Workers.Workers(self)
+        
+        self.work = work.Work(self)
+        
         self.plugin = plugin.Plugin(self)
         gevent.spawn(self.delag_server)
 
@@ -114,6 +118,10 @@ class BitHopper():
         else:
             server_list, backup_list = self.scheduler.select_best_server()
 
+        if getattr(self, 'workers', None):
+            server_list = [x for x in server_list if self.workers.get_worker(x)[0]]
+            backup_list = [x for x in backup_list if self.workers.get_worker(x)[0]]
+
         old_server = self.pool.get_current()
             
         #Find the server with highest priority
@@ -127,7 +135,7 @@ class BitHopper():
         server_list = [server for server in server_list 
                        if lambda x:self.pool.get_entry(x)['priority'] >= max_priority]
 
-        if len(server_list) == 0:
+        if len(server_list) == 0 and len(backup_list):
             try:
                 backup_type = self.config.get('main', 'backup_type')
             except:
@@ -146,10 +154,9 @@ class BitHopper():
             elif backup_type == 'latehop':
                 backup_list.sort(key=lambda pool: -1*self.pool.servers[pool]['shares'])
                 server_list = [backup_list[0]]
-
+                
         if len(server_list) == 0:
-            logging.error('FATAL Error, scheduler did not return any pool!')
-            os._exit(1)
+            logging.error('Fatal Error, No valid pools configured!')
 
         self.pool.current_list = server_list
         self.pool.build_server_map()

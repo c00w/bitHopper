@@ -60,21 +60,24 @@ def Pull_zip():
         f.write('true')
     
     logging.info('Done')
-        
-         
     
 def Install_btcnet():
     
     if os.path.exists('.zip'):
-        Pull_zip()
+        try:
+            Pull_zip()
+        except Exception as error:
+            logging.error(traceback.format_exc())
     else:
         try:
             Pull_git()
             import btcnet_info
         except Exception as e:
             logging.error(traceback.format_exc())
-            Pull_zip()
-        
+            try:
+                Pull_zip()
+            except Exception as error:
+                logging.error(traceback.format_exc())
 
 Install_btcnet()
 try:

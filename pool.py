@@ -121,6 +121,12 @@ class Pool_Parse():
     def get_work_server(self):
         """A function which returns the server to query for work.
            Take the server map and cycles through it"""
+           
+        while not self.current_list:
+            logging.error('Please configure some pools!')
+            logging.error('Go to localhost:8337/worker')
+            gevent.sleep(10)
+           
         value = self.i
         self.i = (self.i +1) % 100
         if value in self.server_map:
@@ -143,7 +149,7 @@ class Pool_Parse():
             for _ in xrange(v):
                 server_map[i] = k
                 i += 1
-        while i <= 99:
+        while i <= 99 and self.current_list:
             server_map[i] = self.current_list[i%len(self.current_list)]
             i += 1
         self.server_map = server_map

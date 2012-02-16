@@ -22,6 +22,7 @@ import webob
 class Work():
     def __init__(self, bitHopper):
         self.bitHopper = bitHopper
+        self.workers = self.bitHopper.workers
         self.i = 0
         self.http_pool = ResourcePool.Pool(self._make_http)
         
@@ -39,8 +40,7 @@ class Work():
         try:
             #self.i += 1
             #request = json.dumps({'method':'getwork', 'params':[], 'id':self.i}, ensure_ascii = True)
-            user, passw, error = self.user_substitution(server, None, None)
-            #Check if we are using {USER} or {PASSWORD}
+            user, passw, error = self.workers.get_worker(server)
             if error:
                 return None
             header = {'Authorization':"Basic " +base64.b64encode(user+ ":" + passw).replace('\n',''), 'user-agent': 'poclbm/20110709', 'Content-Type': 'application/json', 'connection': 'keep-alive'}
@@ -78,29 +78,18 @@ class Work():
                 content = ""
         return content
 
-    def user_substitution(self, server, username, password):
-        info = self.bitHopper.pool.get_entry(server)
-        if '{USER}' in info['user'] and username is not None:
-            user = info['user'].replace('{USER}', username)
-        else:
-            user = info['user']
-        if '{PASSWORD}' in info['pass'] and password is not None:
-            passw = info['pass'].replace('{PASSWORD}', password)
-        else:
-            passw = info['pass']
-        if '{USER}' in info['user'] and username is None or '{PASSWORD}' in info['pass'] and password is None:
-            error = True
-        else:
-            error = False
-        return user, passw, error
-
     def jsonrpc_call(self, server, data, client_header={}, username = None, password = None):
         try:
             request = json.dumps({'method':'getwork', 'params':data, 'id':self.i}, ensure_ascii = True)
             self.i += 1
             
             info = self.bitHopper.pool.get_entry(server)
-            user, passw, error = self.user_substitution(server, username, password)
+            if username and password:
+                user = username
+                passw = password
+            else:
+                user, passw, error = self.workers.get_worker(server)
+            
             header = {'Authorization':"Basic " +base64.b64encode(user + ":" + passw).replace('\n',''), 'connection': 'keep-alive'}
             header['user-agent'] = 'poclbm/20110709'
             for k,v in client_header.items():
@@ -116,7 +105,7 @@ class Work():
                     resp, content = http.request( url, 'POST', headers=header, body=request)
                 except Exception, e:
                     logging.debug('jsonrpc_call http error: ' + str(e))
-                    return None, None
+                    return None, None, None
 
             #Check for long polling header
             lp = self.bitHopper.lp
@@ -130,21 +119,22 @@ class Work():
             logging.debug('jsonrpc_call error: ' + str(e))
             if self.bitHopper.options.debug:
                 traceback.print_exc()
-            return None, None
+            return None, None, None
 
         try:
             message = json.loads(content)
             value =  message['result']
-            return value, resp
+            return value, resp, (user, passw)
         except Exception, e:
             logging.debug( "Error in json decoding, Server probably down")
             logging.debug(server)
             logging.debug(content)
-            return None, None
+            return None, None, None
 
     def jsonrpc_getwork(self, server, data,  headers={}, username = None, password = None):
         tries = 0
         work = None
+        auth = None
         while work == None:
             if data == [] and tries > 1:
                 server = self.bitHopper.get_new_server(server)
@@ -154,13 +144,13 @@ class Work():
                 return None, {}, 'No Server'
             tries += 1
             try:
-                work, server_headers = self.jsonrpc_call(server, data, headers, username, password)
+                work, server_headers, auth = self.jsonrpc_call(server, data, headers, username, password)
             except Exception, e:
                 logging.debug( 'caught, inner jsonrpc_call loop')
                 logging.debug(server)
                 logging.debug(e)
                 work = None
-        return work, server_headers, server
+        return work, server_headers, server, auth
 
     def handle(self, env, start_request):
 
@@ -185,14 +175,16 @@ class Work():
             return [response]
 
         if data != []:
-            server = self.bitHopper.getwork_store.get_server(data[0][72:136])
+            server, auth = self.bitHopper.getwork_store.get_server(data[0][72:136])
+            serv_user, serv_pass = auth
         if data == [] or server == None:
             server = self.bitHopper.pool.get_work_server()
+            serv_user, serv_pass, err = self.workers.get_worker(server)
 
         auth_data = env.get('HTTP_AUTHORIZATION').split(None, 1)[1]
         username, password = auth_data.decode('base64').split(':', 1)
 
-        work, server_headers, server  = self.jsonrpc_getwork(server, data, client_headers, username, password)
+        work, server_headers, server, auth  = self.jsonrpc_getwork(server, data, client_headers, serv_user, serv_pass)
 
         to_delete = []
         for header in server_headers:
@@ -209,17 +201,17 @@ class Work():
             response = json.dumps({"result":None, 'error':{'message':'Cannot get work unit'}, 'id':j_id})
         else:
             response = json.dumps({"result":work, 'error':None, 'id':j_id}) 
-            gevent.spawn(self.handle_store, work, server, data, username, password, rpc_request)
+            gevent.spawn(self.handle_store, work, server, data, username, password, rpc_request, auth)
         return [response]       
 
-    def handle_store(self, work, server, data, username, password, rpc_request):
+    def handle_store(self, work, server, data, username, password, rpc_request, auth):
 
         #some reject callbacks and merkle root stores
         if str(work).lower() == 'false':
             self.bitHopper.reject_callback(server, data, username, password)
         elif str(work).lower() != 'true':
             merkle_root = work["data"][72:136]
-            self.bitHopper.getwork_store.add(server,merkle_root)
+            self.bitHopper.getwork_store.add(server,merkle_root, auth)
 
         #Fancy display methods
         hook = plugins.Hook('work.rpc.request')
