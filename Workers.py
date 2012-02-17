@@ -63,7 +63,7 @@ class Workers():
         self._nonblock_lock()
         if pool not in self.parser.sections():
             self.parser.add_section(pool)
-        if pool not in self.workers
+        if pool not in self.workers:
             self.workers[pool] = []
         self.parser.set(pool, worker, password)
         self.workers[pool].append((worker, password))
