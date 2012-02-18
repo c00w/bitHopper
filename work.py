@@ -144,7 +144,7 @@ class Work():
             elif data != [] and tries > 1:
                 self.bitHopper.get_new_server(server)
             if tries >2:
-                return None, {}, 'No Server'
+                return None, {}, 'No Server', None
             tries += 1
             try:
                 work, server_headers, auth = self.jsonrpc_call(server, data, headers, username, password)

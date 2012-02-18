@@ -66,7 +66,10 @@ class Scheduler(object):
         return server_name   
 
     def server_to_btc_shares(self,server):
-        return self.bitHopper.pool.get_entry(server).btc_shares()
+        if self.bitHopper.pool.get_entry(server):
+            return self.bitHopper.pool.get_entry(server).btc_shares()
+        else:
+            return 10**10, None
 
     def server_is_valid(self, server):
         info = self.bitHopper.pool.get_entry(server)
