@@ -47,6 +47,7 @@ class Workers():
             with self.lock:
                 if not self.fd:
                     self.fd = open('worker.cfg', 'rwb')
+                self.fd.seek(0)
                 self.parser.write(self.fd)
         
     def get_worker(self, pool):
