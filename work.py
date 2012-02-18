@@ -89,6 +89,9 @@ class Work():
                 passw = password
             else:
                 user, passw, error = self.workers.get_worker(server)
+                if error:
+                    logging.error(error)
+                    return None, None, None
             
             header = {'Authorization':"Basic " +base64.b64encode(user + ":" + passw).replace('\n',''), 'connection': 'keep-alive'}
             header['user-agent'] = 'poclbm/20110709'
