@@ -122,10 +122,19 @@ class Pool_Parse():
         """A function which returns the server to query for work.
            Take the server map and cycles through it"""
            
-        while not self.current_list:
+        if not self.server_map:
             logging.error('Please configure some pools!')
             logging.error('Go to localhost:8337/worker')
-            gevent.sleep(10)
+            logging.error('Then restart bitHopper')
+            gevent.sleep(1)
+            return None
+            
+        if not self.current_list:
+            logging.error('Please configure some pools!')
+            logging.error('Go to localhost:8337/worker')
+            logging.error('Then restart bitHopper')
+            gevent.sleep(1)
+            return None
            
         value = self.i
         self.i = (self.i +1) % 100

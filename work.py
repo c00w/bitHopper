@@ -89,6 +89,9 @@ class Work():
                 passw = password
             else:
                 user, passw, error = self.workers.get_worker(server)
+                if error:
+                    logging.error(error)
+                    return None, None, None
             
             header = {'Authorization':"Basic " +base64.b64encode(user + ":" + passw).replace('\n',''), 'connection': 'keep-alive'}
             header['user-agent'] = 'poclbm/20110709'
@@ -141,7 +144,7 @@ class Work():
             elif data != [] and tries > 1:
                 self.bitHopper.get_new_server(server)
             if tries >2:
-                return None, {}, 'No Server'
+                return None, {}, 'No Server', None
             tries += 1
             try:
                 work, server_headers, auth = self.jsonrpc_call(server, data, headers, username, password)

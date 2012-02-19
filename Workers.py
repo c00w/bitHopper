@@ -46,9 +46,15 @@ class Workers():
             self.queue.get()
             with self.lock:
                 if not self.fd:
-                    self.fd = open('worker.cfg', 'rwb')
-                self.parser.write(self.fd)
-        
+                    self.fd = open('worker.cfg', 'wb')
+                try:
+                    self.fd.seek(0)
+                    self.parser.write(self.fd)
+                except IOError as e:
+                    self.fd.close()
+                    self.fd = open('worker.cfg', 'wb')
+                    self.queue.put(None, False)
+                    
     def get_worker(self, pool):
         self._nonblock_lock()
         if pool in self.workers and self.workers[pool]:
@@ -63,11 +69,12 @@ class Workers():
         self._nonblock_lock()
         if pool not in self.parser.sections():
             self.parser.add_section(pool)
+        if pool not in self.workers:
             self.workers[pool] = []
         self.parser.set(pool, worker, password)
         self.workers[pool].append((worker, password))
         self._release()
-        self.queue.put(None)
+        self.queue.put(None, False)
         
     def remove_worker(self, pool, worker, password):
         if pool not in self.parser.sections():

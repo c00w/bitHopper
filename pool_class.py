@@ -144,6 +144,10 @@ class Pool():
             coin_proff = 1.0
         if self.bitHopper.exchange.profitability.get(self['coin'],0) < coin_proff and self['coin'] != 'btc':
             return False
+            
+        _, _, err = self.bitHopper.workers.get_worker(self['index_name'])
+        if err:
+            return False
         return True
 
     def __getitem__(self, key):
