@@ -48,7 +48,7 @@ info_4: Pool enforces a 50% penalty system for occasional miners (pool website) 
 
 
 [bitcash]
-#http://bitcash.cz/pool/
+#http://bitcash.cz/pool
 info_1: Please report experience on forum or IRC - 18 Ghash/s @ 02.15.12
 
 
@@ -79,7 +79,7 @@ info_2: You can try the new mine_c role available for score pools and setup c: 5
 
 
 [btcjapan]
-#https://bitcoin.ne.jp/
+#https://bitcoin.ne.jp
 info_1: Score prop. pool, please report experience on forum or IRC - 2 Ghash/s @ 02.15.12
 info_2: Click the field title to enable the field for account/miner setup (page 203 - bH thread on main forum) @ 02.16.12
 
@@ -92,7 +92,7 @@ info_1: Score prop. pool, use mine_c role and (test setting c: 6), multiple coin
 #https://deepbit.net
 info_1: Biggest pool around, mining with them should get your variance down - 5723 Ghash/s @ 08.23.11
 info_2: PPS payout available with a 10% fee - 3061 Ghash/s @ 10.14.11
-info_3: Added hopper detection with auto bans for hoppers with over 6gh – 3577 Ghash/s @ 02.01.12
+info_3: Added hopper detection with auto bans if you are over 6gh – 3577 Ghash/s @ 02.01.12
 
 
 [guildminers]
