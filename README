@@ -8,6 +8,7 @@
 # Ubuntu installation
 ---------------------------------------------------------------------
 Note: Use python2.7. There have been bugs with pythongit on 2.6
+
 Run:
 
 sudo apt-get install python2.7 git python2.7-dev python-setuptools python-pip libevent-dev 
@@ -20,7 +21,8 @@ Tested and working in Ubuntu 11.10.
 
 # Other Linux Installations
 ---------------------------------------------------------------------
-Note: Use pip to install your libraries. We need fairly recent versions of everything. The libraries bundled with debian are too old.
+Note: Use pip to install your libraries. We need fairly recent versions of everything.
+The libraries bundled with debian are too old.
 
 
 # Instructions for Windows users
@@ -51,7 +53,7 @@ Go to downloads and hit zip. Extract the zip to your desktop
 
 8. Bundled Dependencies
 Enter the bitHopper folder
-Double click install.py, it may appear to just be install with no .py extension
+Double click install.py, it may appear to just be "install" with no ".py" extension
 
 Running bitHopper
 DoubleClick bitHopper.py inside the bithopper folder.
@@ -62,8 +64,8 @@ It may appear to just be bitHopper with no .py extension.
 Worker Configuration page: http://localhost:8337/worker
 BitHopper Stats page: http://localhost:8337/stats
 
-Copy "user.cfg.default" to a new file called "user.cfg" then modify the new file to have correct roles. Ignore the usernames and passwords.
-Configure the usernames and passwords on http://localhost:8337/worker
+Copy "user.cfg.default" to a new file called "user.cfg" then modify the new file to have correct pool roles.
+Ignore the usernames and passwords. Configure the usernames and passwords on http://localhost:8337/worker
 
 Repeat with "bh.cfg.default" and make sure default values work for you.
 Run "python bitHopper.py" in *nix or in Windows you can double click on run-bithopper.bat. After script
