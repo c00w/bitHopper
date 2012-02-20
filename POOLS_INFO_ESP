@@ -3,7 +3,7 @@
    sobre la minas conocidas por bH,
  recogida aqui con fines informativos
 
-   Ultima actualizacion: Feb 7, 2012
+   Ultima actualizacion: Feb 15, 2012
 ######################################
 ######################################
    Minas anadidas recientemente,
@@ -47,6 +47,11 @@ info_3: Truca los stats json para que te quedes minando con ellos (pagina 184 - 
 info_4: La mina impone una penalidad de 50% solo para mineros ocasionales (pagina de mina) - 68.87 Ghash/s @ 09.06.11
 
 
+[bitcash]
+#http://bitcash.cz/pool
+info_1: Por favor reporta tu experiencia en el foro o IRC - 18 Ghash/s @ 02.15.12
+
+
 [bitclockers]
 #http://bitclockers.com
 info_1: Salta esta mina con precaucion, posibles medidas anti-hopper
@@ -73,6 +78,11 @@ info_1: Sistema de pago por puntuacion, intenta minar con mine_slush (pagina 164
 info_2: Puedes probar el nuevo rol mine_c disponible para minas con puntuacion y ajustar c: 550 - 223.68 Ghash/s @ 09.21.11
 
 
+[btcjapan]
+#https://bitcoin.ne.jp
+info_1: Mina con pagos prop, Por favor reporta tu experiencia en el foro o IRC - 2 Ghash/s @ 02.15.12
+info_2: Haz click en el campo de titulo para habilitar el ajuste de minero (pagina 203 - hilo bH en el foro principal) @ 02.16.12
+
 [coinotron]
 #http://coinotron.com
 info_1: Mina con sistema por puntuacion proporcional, usa el rol mine_c (prueba ajustando c: 6), mina de multiples monedas - 52.94 GHash/s @ 09.28.11
@@ -82,6 +92,7 @@ info_1: Mina con sistema por puntuacion proporcional, usa el rol mine_c (prueba 
 #https://deepbit.net
 info_1: La mina mas grande que hay, minar con ellos te ayudara cobrar regularmente - 5723 Ghash/s @ 08.23.11
 info_2: Tipo de paga PPS disponible con una comision de 10% - 3061 Ghash/s @ 10.14.11
+info_3: Habilitada la deteccion de hopers con auto-baneo si tienes por encima de 6gh – 3577 Ghash/s @ 02.01.12
 
 
 [guildminers]

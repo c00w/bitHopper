@@ -1,38 +1,29 @@
-# Licencia
-
-bitHopper por Colin Rice bajo licencia Creative Commons
-Attribution-NonCommercial-ShareAlike 3.0 Unported License
-Basado en trabajo hecho en github.com
+#Copyright (C) 2011,2012 Colin Rice
+#Este programa esta liberado bajo una licencia MIT.
+#Busca el archivo LICENSE
+#Si no se te ha facilitado una copia de la licencia contacta porfavor: 
+# Colin Rice colin@daedrum.net
 
 
 # Instalar en Ubuntu
 ---------------------------------------------------------------------
+Nota: Usa python2.7. Ha habido muchos fallos con el pythongit en 2.6
 
 Ejecuta:
 
-sudo apt-get install python git python-dev python-setuptools python-pip libevent-dev
-sudo pip install gevent setuptools
+sudo apt-get install python2.7 git python2.7-dev python-setuptools python-pip libevent-dev 
+sudo pip install gevent setuptools gitpython httplib2 --upgrade
 git clone git://github.com/c00w/bitHopper.git
 cd bitHopper
 python bitHopper.py
 
 Probado y funciona en Ubuntu 11.10.
 
+# Otras distribuciones de  Linux
+---------------------------------------------------------------------
+Nota: Usa pip para instalar las librerias. Se necesitan versiones relativamente nuevas de todas.
+Las librerias que vienen incluidas con debian son muy antiguas.
 
-#Instalacion en Archlinux
-
-pacman -Sy python2-pip mercurial
-pip2 install eventlet
-hg clone https://bitbucket.org/ambroff/greenlet
-cd greenlet
-python2 setup.py install
-
-pip install gevent
-
-Y despues baja e instala bitHopper
-
-Es un poco raro pero la version de greenlet que se baja pip causa errores de segmentacion en
-archlinux. Asi que tendras que instalarlo desde el repositorio oficial de bitbucket.
 
 # Instrucciones para usuarios Windows
 -----------------------------------------------------------------
@@ -41,36 +32,45 @@ Es mas estable y requiere menos modificaciones.
 
 Baja e instala
 1. Python
-http://downloads.activestate.com/ActivePython/releases/2.7.2.5/ActivePython-2.7.2.5-win32-x86.msi
+http://python.org/ftp/python/2.7.2/python-2.7.2.msi
 
 2. Greenlet
-http://pypi.python.org/packages/2.7/g/greenlet/greenlet-0.3.3.win32-py2.7.exe#md5=d4e5ecb9bf44a6a72ca73d7988994c6e
+http://pypi.python.org/packages/2.7/g/greenlet/greenlet-0.3.4.win32-py2.7.exe
 
 3. Gevent
-http://www.lfd.uci.edu/~gohlke/pythonlibs/#gevent
-Bajate win32-py2.7
+http://gevent.googlecode.com/files/gevent-1.0b1.win32-py2.7.msi
 
 4. SetupTools
 http://pypi.python.org/packages/2.7/s/setuptools/setuptools-0.6c11.win32-py2.7.exe#md5=57e1e64f6b7c7f1d2eddfc9746bbaf20
 
-5. BitHopper
+5. Instala Git
+http://code.google.com/p/msysgit/downloads/list?can=3
+ASEGURATE DE SELECCIONAR LA OPCION PARA EJECUTAR GIT EN LA LINEA DE COMANDOS.
+
+7. BitHopper
 github.com/c00w/bitHopper
 Ves a la carpeta bajadas y encuentra el zip. Extrae el zip a tu escritorio.
 
-Running bitHopper
+8. Dependencies incluidas
+Encuantra la carpeta de bitHopper
+Haz doble click en install.py, podria aparecer como "install" sin la extension ".py".
+
+Ejecutando bitHopper
 Haz un doble click sobre bitHopper.py en la carpeta bithopper.
 Podria aparecer solo como bitHopper sin la extension .py.
 
-
 # Configurando los ajustes de usuario
 
-BitHopper pagina de Stats: http://localhost:8337/stats
+Pagina de configuracion de mineros: http://localhost:8337/worker
+Estatisticas bitHopper: http://localhost:8337/stats
 
 Copia y pega el archivo "user.cfg.default" a un nuevo archivo llamado "user.cfg" despues modifica este
-archivo para que incluya tus nombres y contrasenas de mineros (worker). Repite el proceso con el archivo
-"bh.cfg.default" y comprueba que los reglajes por defecto te sirven. Ejecuta "python bitHopper.py"
-en *nix (Ubuntu) o haz doble click en "run-bithopper.bat" si estas en Windows. Despues de actualizarse
-comprueba que las minas estan configuradas correctamente a la pagina de Stats.
+archivo para que tenga roles de mina correctos. Ignora los nombres de usuario y contraseñas que se
+configuran en http://localhost:8337/worker.
+
+Repite el proceso con el archivo "bh.cfg.default" y comprueba que los reglajes por defecto te sirven.
+Ejecuta "python bitHopper.py" en linux (Ubuntu) o haz doble click en "run-bithopper.bat" si estas en Windows.
+Despues de actualizarse comprueba que las minas estan configuradas correctamente a la pagina de Stats.
 
 Si alguna mina se cambia en rojo seguro que te faltan datos por configurar en "user.cfg".
 
@@ -167,5 +167,5 @@ o tener la mina "Donation" activada en la pagina de Stats (ajusta el porcentaje 
  flower1024, echiu64 (ed64), graphiclunarkid, elitak, Clipseza, littleant, bb-btc, gnaget, murfshake, Sukrim, gtrrkicw,
  swordv2, bitcoindaddy, rkozola, ryouiki, starlightbreaker, hawks5999, erasmo, pueytan, macboy80, sdogi, joulesbeef,
  Seoulboy1, paraipan, Swicher, lucita777, TenthReality, dfc (Douglas Calvert), dadittoz, cutnpaster, simonk83, xzion,
- HolodeckJizzmopper, MartyChubbs, iongchun
+ HolodeckJizzmopper, Locky7, iongchun
 
