@@ -37,5 +37,8 @@ class Difficulty():
             with self.lock:
                 for coin in btcnet_info.get_coins():
                     if getattr(coin, 'difficulty', None):
-                        self.diff[coin.name] = float(coin.difficulty)
+                        try:
+                            self.diff[coin.name] = float(coin.difficulty)
+                        except:
+                            pass
             gevent.sleep(60)
