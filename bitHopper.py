@@ -182,7 +182,7 @@ class BitHopper():
             for server in self.pool.get_servers():
                 info = self.pool.servers[server]
                 if info['lag'] == True:
-                    data, headers = self.work.jsonrpc_call(server, [])
+                    data, headers, auth = self.work.jsonrpc_call(server, [])
                     logging.debug('Got' + server + ":" + str(data))
                     if data != None:
                         info['lag'] = False
