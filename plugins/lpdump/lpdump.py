@@ -36,9 +36,9 @@ class LpDump():
                 application_path = os.path.dirname(sys.executable)
             elif __file__:
                 application_path = os.path.dirname(__file__)
-            fd = open(os.path.join(application_path, self.file_name), 'brwa+')
+            fd = open(os.path.join(application_path, self.file_name), 'ab')
         except:
-            fd = open(self.file_name, 'brwa+')
+            fd = open(self.file_name, 'ab')
 
         fd.write(time.strftime('%H%M%S') + ":" + block + ":" + server + "\n" )
         fd.close()
