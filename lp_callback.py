@@ -22,11 +22,11 @@ class LP_Callback():
         self._event.wait()
         return self.work
 
-    def new_block(self, work, server):
+    def new_block(self, work, server, auth):
         "Called by LP to indicate a new_block as well as the work to send to clients"
         #Store the merkle root
         merkle_root = work['data'][72:136]
-        self.bitHopper.getwork_store.add(server, merkle_root)
+        self.bitHopper.getwork_store.add(server, merkle_root, auth)
 
         #Setup the new locks, store the data and then release the old lock
         old = self._event
