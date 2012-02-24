@@ -58,7 +58,7 @@ info_1: Please report experience on forum or IRC - 18 Ghash/s @ 02.15.12
 info_1: Handle with care, possible anti-hopper measures in place
 info_2: Their new servers work like clocks with zero stales, safe to mine with them - 276.20 Ghash/s @ 08.23.11
 info_3: Various issues with the load balancers and database (page 14 - pool thread on main forum) - 249.60 Ghash/s @ 09.20.11
-
+info_4: All pool stats are faked to penalize pool hoppers (page 22 - pool thread on main forum)
 
 [bithasher]
 #http://bithasher.com
