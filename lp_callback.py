@@ -24,6 +24,10 @@ class LP_Callback():
 
     def new_block(self, work, server, auth):
         "Called by LP to indicate a new_block as well as the work to send to clients"
+        
+        #Drop all current merkle roots
+        self.bitHopper.getwork_store.drop_roots()
+        
         #Store the merkle root
         merkle_root = work['data'][72:136]
         self.bitHopper.getwork_store.add(server, merkle_root, auth)

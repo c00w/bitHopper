@@ -26,7 +26,11 @@ class Getwork_store:
         with self.lock:
             if self.data.has_key(merkle_root):
                 return self.data[merkle_root][0] , self.data[merkle_root][2]
-            return None , None     
+            return None , None    
+            
+    def drop_roots(self):
+        with self.lock:
+            self.data = {} 
     
     def prune(self):
         while True:
