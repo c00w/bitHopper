@@ -22,35 +22,43 @@ except ImportError:
     from git.exc import GitCommandError
 
 def Pull_git():
+    """
+    Tries to load btcnet_info as git repository and download the files
+    """
     try:
-        logging.info('Trying to initialize btcnet_info repo')
+        logging.info('Trying to load btcnet_info submodule')
+        #Try load load btcnet_info as a git repo (Submodule)
         repo = Repo("btcnet_info")
-        try:
-            logging.info('Checking if it has been cloned properly')
-            repo = repo.clone_from("git://github.com/c00w/btcnet_info.git", 'btcnet_info')
-        except GitCommandError:
-            logging.info('It has been cloned properly')
-            
     except GitCommandError:
+        # Here we have some sort of error probably an empty directory in a zip download instead of 
+        # A git submodule
         logging.info('Making new btcnet_info repo')
         repo = Repo.init("btcnet_info")
         logging.info('Cloning into it')
         repo = repo.clone_from("git://github.com/c00w/btcnet_info.git", 'btcnet_info')
         try:
+            #For some reason the above doesn't always set the origin correctly.
             logging.info('Checking if we need to add the origin')
             origin = repo.create_remote('origin', 'git://github.com/c00w/btcnet_info.git')
         except GitCommandError:
             logging.info('We do not need to add the origin')
         
+        
     logging.info('Updating btcnet_info')
+    #Select the origin
     origin = repo.remotes.origin
+    #Update it
     origin.fetch()
+    #Pull the master branch
     origin.pull('master')
     logging.info('Done')
     
 def Pull_zip():
     logging.info('Downloading zip archive')
+    #Get the actual zip file
     headers, content = httplib2.Http(disable_ssl_certificate_validation=True).request('https://github.com/c00w/btcnet_info/zipball/master')
+    
+    #Proccess the zip file
     from StringIO import StringIO
     from zipfile import ZipFile
     zipfile = ZipFile(StringIO(content))
@@ -62,15 +70,19 @@ def Pull_zip():
         dest = name.split('/',1)[1]
         dest = os.path.join('btcnet_info',dest)
         destdir = os.path.dirname(dest)
+        #Make directory if we need it
         if not os.path.isdir(destdir):
           os.makedirs(destdir)
+        #Get the data
         data = zipfile.read(name)
+        
+        #Write the data to the correct file if we have data (Not a directory)
         if data:
             with open(dest, 'w') as f:
                 f.write(data)
             
     with open('.zip', 'w') as f:
-        f.write('true')
+        f.write('Switched to zip mode')
     
     logging.info('Done')
     
