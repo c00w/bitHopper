@@ -51,13 +51,12 @@ class Work():
                     logging.debug('Error with a jsonrpc_lpcall http request')
                     logging.debug(e)
                     content = None
-            lp.receive(content, server)
-            return None
+            lp.receive(content, server, (user, passw))
+            return
         except Exception, e:
             logging.debug('Error in lpcall work.py')
             logging.debug(e)
-            lp.receive(None, server)
-            return None
+            lp.receive(None, server, None)
 
     def get(self, url, useragent=None):
         """A utility method for getting webpages"""

@@ -140,7 +140,7 @@ class LongPoll():
                 self.bitHopper.pool.servers[server]['shares'] += old_shares
                 self.bitHopper.select_best_server()
 
-    def add_block(self, block, work, server):
+    def add_block(self, block, work, server, auth):
         """ Adds a new block. server must be the server the work is coming from """
         with self.lock:
             hook_start = plugins.Hook('plugins.lp.add_block.start')
@@ -150,13 +150,20 @@ class LongPoll():
                 traceback.print_exc()
             self.blocks[block]={}
             self.blocks[block]['_time'] = time.localtime()
-            self.bitHopper.lp_callback.new_block(work, server)
+            
+            #Trigger an LP
+            
+            #Store the merkle root
+            merkle_root = work['data'][72:136]
+            self.bitHopper.getwork_store.add(server, merkle_root, auth)
+            
+            self.bitHopper.lp_callback.new_block(work)
             self.blocks[block]["_owner"] = None
             self.lastBlock = block
         hook_end = plugins.Hook('plugins.lp.add_block.end')
         hook_end.notify(self, block, work, server)
 
-    def receive(self, body, server):
+    def receive(self, body, server, auth):
         hook_start = plugins.Hook('plugins.lp.receive.start')
         hook_start.notify(self, body, server)
         if server in self.polled:
@@ -192,7 +199,7 @@ class LongPoll():
                 if block not in self.blocks:
                     logging.info('New Block: ' + str(block))
                     logging.info('Block Owner ' + server)
-                    self.add_block(block, work, server)
+                    self.add_block(block, work, server, auth)
 
             #Add the lp_penalty if it exists.
             with self.lock:
