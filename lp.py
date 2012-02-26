@@ -97,9 +97,13 @@ class LongPoll():
                 #Figure out which server to source work from
                 source_server = self.bitHopper.pool.get_work_server()
                 work, _, source_server, auth = self.bitHopper.work.jsonrpc_getwork(source_server, [])
+                
+                #Store the merkle root
+                merkle_root = work['data'][72:136]
+                self.bitHopper.getwork_store.add(source_server, merkle_root, auth)
 
                 #Trigger the LP Callback with the new work.
-                self.bitHopper.lp_callback.new_block(work, source_server, auth) 
+                self.bitHopper.lp_callback.new_block(work) 
 
             hook_end = plugins.Hook('plugins.lp.set_owner.end')
             hook_end.notify(self, server, block)
