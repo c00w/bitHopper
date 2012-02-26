@@ -98,12 +98,8 @@ class LongPoll():
                 source_server = self.bitHopper.pool.get_work_server()
                 work, _, source_server, auth = self.bitHopper.work.jsonrpc_getwork(source_server, [])
                 
-                #Store the merkle root
-                merkle_root = work['data'][72:136]
-                self.bitHopper.getwork_store.add(source_server, merkle_root, auth)
-
                 #Trigger the LP Callback with the new work.
-                self.bitHopper.lp_callback.new_block(work) 
+                self.bitHopper.lp_callback.new_block(work, source_server, auth) 
 
             hook_end = plugins.Hook('plugins.lp.set_owner.end')
             hook_end.notify(self, server, block)
@@ -150,14 +146,10 @@ class LongPoll():
                 traceback.print_exc()
             self.blocks[block]={}
             self.blocks[block]['_time'] = time.localtime()
-            
-            #Trigger an LP
-            
-            #Store the merkle root
-            merkle_root = work['data'][72:136]
-            self.bitHopper.getwork_store.add(server, merkle_root, auth)
-            
-            self.bitHopper.lp_callback.new_block(work)
+            #Dump merkle roots
+            self.bitHopper.getwork_store.drop_roots()
+            #Trigger LP
+            self.bitHopper.lp_callback.new_block(work, server, auth)
             self.blocks[block]["_owner"] = None
             self.lastBlock = block
         hook_end = plugins.Hook('plugins.lp.add_block.end')

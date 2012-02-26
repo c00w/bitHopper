@@ -15,19 +15,20 @@ socket.setdefaulttimeout(900)
 class LP_Callback():
     def __init__(self, bitHopper):
         self.bitHopper = bitHopper
-        self._event = event.Event()
+        self._event = event.AsyncResult()
 
     def read(self):
         "Gets the New Block work unit to send to clients"
-        self._event.wait()
-        return self.work
+        return self._event.get()
 
-    def new_block(self, work):
+    def new_block(self, work, server, auth):
         "Called by LP to indicate a new_block as well as the work to send to clients"
 
+        merkle_root = work['data'][72:136]
+        self.bitHopper.getwork_store.add(server, merkle_root, auth)
+
         #Setup the new locks, store the data and then release the old lock
-        self.work = work
         old = self._event
-        self._event = event.Event()
-        old.set()
+        self._event = event.AsyncResult()
+        old.set(work)
         
