@@ -4,36 +4,49 @@
 #If you were not provided with a copy of the license please contact: 
 # Colin Rice colin@daedrum.net
 
+import sys
+import traceback
+import logging
+import httplib2
+import traceback
+import os.path
+
+# TODO : These imports should occur within Pull_git. If they're not present,
+# fall back to retrieving the zip.
 from git import Repo
-import git.exc
-import logging, httplib2, traceback, os.path
+try:
+    from git import GitCommandError
+except ImportError:
+    # Sometimes (apparently), the exception classes are in a subpackage.
+    # One of these should be deprecated, but I haven't figured out which.
+    from git.exc import GitCommandError
 
 def Pull_git():
     try:
-        logging.info( 'Trying to initialize btcnet_info repo')
+        logging.info('Trying to initialize btcnet_info repo')
         repo = Repo("btcnet_info")
         try:
             logging.info('Checking if it has been cloned properly')
             repo = repo.clone_from("git://github.com/c00w/btcnet_info.git", 'btcnet_info')
-        except git.exc.GitCommandError:
+        except GitCommandError:
             logging.info('It has been cloned properly')
             
-    except git.exc.GitCommandError:
-        logging.info( 'Making new btcnet_info repo')
+    except GitCommandError:
+        logging.info('Making new btcnet_info repo')
         repo = Repo.init("btcnet_info")
         logging.info('Cloning into it')
         repo = repo.clone_from("git://github.com/c00w/btcnet_info.git", 'btcnet_info')
         try:
             logging.info('Checking if we need to add the origin')
             origin = repo.create_remote('origin', 'git://github.com/c00w/btcnet_info.git')
-        except git.exc.GitCommandError:
+        except GitCommandError:
             logging.info('We do not need to add the origin')
         
-    logging.info( 'Updating btcnet_info')
+    logging.info('Updating btcnet_info')
     origin = repo.remotes.origin
     origin.fetch()
     origin.pull('master')
-    logging.info( 'Done')
+    logging.info('Done')
     
 def Pull_zip():
     logging.info('Downloading zip archive')
@@ -79,12 +92,24 @@ def Install_btcnet():
             except Exception as error:
                 logging.error(traceback.format_exc())
 
-Install_btcnet()
+# other modules should use:
+#   from bcnet_wrapper import btcnet_info
+# to import btcnet_nifo into their namespace, automatically downloading and
+# installing the module if necessary
 try:
+    # If we already have the module, we're done!  This will probably only work
+    # if the CWD is the parent of the btcnet_info submodule.
     import btcnet_info
-except ImportError,e :
-    logging.error( str(e))
-    logging.error( 'Could not install btcnet_info, please report logs online plus python version' )
-    import sys
-    sys.exit(2)
-    btcnet_info = None
+except ImportError:
+    # Fall-through to installation attempt
+    pass
+
+if 'btcnet_info' not in globals():
+    try:
+        Install_btcnet()
+        import btcnet_info
+    except Exception:
+        logging.error(traceback.format_exc())
+        logging.error('Could not install btcnet_info, please report logs online plus python version' )
+        sys.exit(2)
+        btcnet_info = None
