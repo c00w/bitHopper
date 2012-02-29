@@ -181,7 +181,7 @@ class Work():
             server, auth = self.bitHopper.getwork_store.get_server(data[0][72:136])
             if not auth:
                 start_request('200 OK', {})
-                return json.dumps({"result":None, 'error':{'message':'Root not found'}, 'id':j_id})
+                return json.dumps({"result":'false', 'error':None, 'id':j_id})
             serv_user, serv_pass = auth
         if data == [] or server == None:
             server = self.bitHopper.pool.get_work_server()
