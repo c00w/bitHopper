@@ -147,6 +147,9 @@ class LongPoll():
             self.blocks[block]={}
             self.blocks[block]['_time'] = time.localtime()
             
+            #Dump merkle roots
+            self.bitHopper.getwork_store.drop_roots()
+
             #Trigger LP
             self.bitHopper.lp_callback.new_block(work, server, auth)
             self.blocks[block]["_owner"] = None
