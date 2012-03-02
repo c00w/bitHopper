@@ -14,7 +14,7 @@ except Exception, e:
     print "You need to install greenlet and gevent. See the readme."
     raise e
 import gevent.monkey
-import gevent.wsgi
+import gevent.pywsgi
 
 #Not patching thread so we can spin of db file ops.
 gevent.monkey.patch_all(thread=False, time=False)
@@ -306,7 +306,7 @@ def main():
 
             #This ugly wrapper is required so wsgi server doesn't die
             socket.setdefaulttimeout(None)
-            gevent.wsgi.WSGIServer((options.ip, listen_port),
+            gevent.pywsgi.WSGIServer((options.ip, listen_port),
                 bithopper_instance.website.handle_start, 
                 backlog=512,  log=log).serve_forever()
             socket.setdefaulttimeout(lastDefaultTimeout)
