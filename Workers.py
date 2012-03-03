@@ -15,6 +15,8 @@ class Workers():
         self.workers = {}
         self.lock = threading.Lock()
         self.parser = ConfigParser.RawConfigParser()
+        # Override optionxform to avoid downcasing option names (usernames)
+        self.parser.optionxform = lambda x: x
         self.queue = Queue.Queue(maxsize=-1)
         
         thread = threading.Thread(target=self.poll_thread)
