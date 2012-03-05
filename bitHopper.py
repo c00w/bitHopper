@@ -209,6 +209,7 @@ def main():
 
     if options.debug:
         logging.getLogger().setLevel(logging.DEBUG)
+        logging.debug('Debugging Enabled')
     elif options.trace:
         logging.getLogger().setLevel(0)
     else:
