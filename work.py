@@ -8,7 +8,6 @@ import json, base64, traceback, logging
 
 import gevent
 import httplib2
-from gevent import pool
 import socket
 
 from peak.util import plugins
@@ -48,14 +47,12 @@ class Work():
                 try:
                     resp, content = http.request( url, 'GET', headers=header)#, body=request)[1] # Returns response dict and content str
                 except Exception, e:
-                    logging.debug('Error with a jsonrpc_lpcall http request')
-                    logging.debug(e)
+                    logging.debug(traceback.format_exc())
                     content = None
             lp.receive(content, server, (user, passw))
             return
         except Exception, e:
-            logging.debug('Error in lpcall work.py')
-            logging.debug(e)
+            logging.debug(traceback.format_exc())
             lp.receive(None, server, None)
 
     def get(self, url, useragent=None):
@@ -72,8 +69,7 @@ class Work():
             try:
                 content = http.request( url, 'GET', headers=header)[1] # Returns response dict and content str
             except Exception, e:
-                logging.debug('Error with a work.get() http request: ' + str(e))
-                #traceback.print_exc()
+                logging.debug(traceback.format_exc())
                 content = ""
         return content
 
@@ -106,7 +102,7 @@ class Work():
                 try:
                     resp, content = http.request( url, 'POST', headers=header, body=request)
                 except Exception, e:
-                    logging.debug('jsonrpc_call http error: ' + str(e))
+                    logging.debug(traceback.format_exc())
                     return None, None, None
 
             #Check for long polling header
@@ -118,9 +114,7 @@ class Work():
                         lp.set_lp(v,server)
                         break
         except Exception, e:
-            logging.debug('jsonrpc_call error: ' + str(e))
-            if self.bitHopper.options.debug:
-                traceback.print_exc()
+            logging.debug(traceback.format_exc())
             return None, None, None
 
         try:
@@ -128,7 +122,7 @@ class Work():
             value =  message['result']
             return value, resp, (user, passw)
         except Exception, e:
-            logging.debug( "Error in json decoding, Server probably down")
+            logging.debug(traceback.format_exc())
             logging.debug(server)
             logging.debug(content)
             return None, None, None
@@ -148,9 +142,7 @@ class Work():
             try:
                 work, server_headers, auth = self.jsonrpc_call(server, data, headers, username, password)
             except Exception, e:
-                logging.debug( 'caught, inner jsonrpc_call loop')
-                logging.debug(server)
-                logging.debug(e)
+                logging.debug(traceback.format_exc())
                 work = None
         return work, server_headers, server, auth
 
@@ -236,8 +228,7 @@ class Work():
             j_id = rpc_request['id']
 
         except Exception, e:
-            logging.debug('Error in json handle_LP')
-            logging.debug(e)
+            logging.debug(traceback.format_exc())
             if not j_id:
                 j_id = 1
         
@@ -247,6 +238,7 @@ class Work():
             data = env.get('HTTP_AUTHORIZATION').split(None, 1)[1]
             username = data.decode('base64').split(':', 1)[0] # Returns ['username', 'password']
         except Exception,e:
+            logging.debug(traceback.format_exc())
             username = ''
 
         logging.info('LP Callback for miner: '+ username)
