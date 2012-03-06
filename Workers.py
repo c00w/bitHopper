@@ -88,11 +88,14 @@ class Workers():
             
             for pool in self.workers:
                 for worker_tuple in self.worker_lock[pool]:
-                    if self.workers_lock[pool][worker_tuple].acquire(False):
+                    if self.worker_locks[pool][worker_tuple].acquire(False):
                         return worker_tuple[0]. worker_tuple[1], None
                         
             self._release()
             gevent.sleep(0)
+            
+    def release_worker_limited(self, pool, worker_tuple):
+        self.worker_locks[pool][worker_tuple].release()
                         
         
     def add_worker(self, pool, worker, password):

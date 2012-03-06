@@ -87,6 +87,7 @@ class Work():
                     user, passw, error = self.workers.get_worker_limited(server)
                 else:
                     user, passw, error = self.workers.get_worker(server)
+                    
                 if error:
                     logging.error(error)
                     return None, None, None
@@ -104,7 +105,11 @@ class Work():
             with self.http_pool(url) as http:
                 try:
                     resp, content = http.request( url, 'POST', headers=header, body=request)
+                    if data != []:
+                        self.workers.release_worker_limited(server, (user, passw))
                 except Exception, e:
+                    if data != []:
+                        self.workers.release_worker_limited(server, (user, passw))
                     logging.debug(traceback.format_exc())
                     return None, None, None
 
