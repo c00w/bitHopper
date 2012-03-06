@@ -175,13 +175,6 @@ role: info
 user: nombre_minero
 pass: contrasena_minero
 
-[a1]
-#http://www.a1bitcoinpool.com (Prop.)
-#---Modifica despues de esta linea si vas a minar---
-role: info
-user: nombre_minero
-pass: contrasena_minero
-
 [alex]
 #http://pool.schaetter.us (Prop.)
 #---Modifica despues de esta linea si vas a minar---
@@ -291,6 +284,13 @@ role: backup
 user: nombre_minero
 #las contrasenas no importan en bitparking
 pass: contrasena_minero
+
+[gpumax]
+#https://gpumax.com (PPS)
+#---Modifica despues de esta linea si vas a minar---
+role: backup
+user: nombre_minero
+pass: abc123
 
 ################################
  Minas que usan PPLNS, DGM u
