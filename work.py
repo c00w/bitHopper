@@ -83,7 +83,10 @@ class Work():
                 user = username
                 passw = password
             else:
-                user, passw, error = self.workers.get_worker(server)
+                if data != []:
+                    user, passw, error = self.workers.get_worker_limited(server)
+                else:
+                    user, passw, error = self.workers.get_worker(server)
                 if error:
                     logging.error(error)
                     return None, None, None
