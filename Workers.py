@@ -10,9 +10,13 @@ File for adding multiple worker support to pools
 import threading, time, ConfigParser, random, gevent, webob, os, json, Queue
 
 class Workers():
+    """
+    Worker information and management class
+    """
     def __init__(self, bitHopper):
         self.pool = bitHopper.pool
         self.workers = {}
+        self.worker_locks = {}
         self.lock = threading.Lock()
         self.parser = ConfigParser.RawConfigParser()
         # Override optionxform to avoid downcasing option names (usernames)
@@ -27,6 +31,9 @@ class Workers():
         WorkerDataSite(bitHopper)
         
     def _nonblock_lock(self):
+        """
+        Utility function for doing a non blocking lock on a thread lock.
+        """
         while not self.lock.acquire(False):
             gevent.sleep(0)
             
@@ -34,7 +41,9 @@ class Workers():
         self.lock.release()
         
     def poll_thread(self):
-        
+        """
+        Thread that checks for new workers and writes the to the file
+        """
         self.fd = None
         with self.lock:
             for item in self.pool.get_servers():
@@ -58,6 +67,9 @@ class Workers():
                     self.queue.put(None, False)
                     
     def get_worker(self, pool):
+        """
+        Returns a random worker from the pool
+        """
         self._nonblock_lock()
         if pool in self.workers and self.workers[pool]:
             user, passw = random.choice(self.workers[pool])
@@ -67,14 +79,43 @@ class Workers():
         self._release()
         return user, passw, err
         
+    def get_worker_limited(self, pool):
+        """
+        This is a rate limited get_worker. It only allows us to have one connection per pool per worker
+        """
+        while True:
+            self._nonblock_lock()
+            
+            for pool in self.workers:
+                for worker_tuple in self.worker_lock[pool]:
+                    if self.workers_lock[pool][worker_tuple].acquire(False):
+                        return worker_tuple[0]. worker_tuple[1], None
+                        
+            self._release()
+            gevent.sleep(0)
+                        
+        
     def add_worker(self, pool, worker, password):
         self._nonblock_lock()
+        
+        #Update the parser
         if pool not in self.parser.sections():
             self.parser.add_section(pool)
+            
+        #Update the worker info
         if pool not in self.workers:
             self.workers[pool] = []
+            
+        #Update the blocking info
+        if pool not in self.workers_lock:
+            self.workers_lock[pool] = {}
+            for item in self.workers[pool]:
+                self.workers_lock[pool][item] = threading.lock()
+                
         self.parser.set(pool, worker, password)
         self.workers[pool].append((worker, password))
+        self.workers_lock[pool][(worker, password)] = threading.lock()
+        
         self._release()
         self.queue.put(None, False)
         
