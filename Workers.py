@@ -95,7 +95,9 @@ class Workers():
             gevent.sleep(0)
             
     def release_worker_limited(self, pool, worker_tuple):
-        self.worker_locks[pool][worker_tuple].release()
+        if pool in self.worker_locks:
+            if worker in self.worker_locks[pool]:
+                self.worker_locks[pool][worker_tuple].release()
                         
         
     def add_worker(self, pool, worker, password):
