@@ -42,7 +42,7 @@ class Workers():
         
     def poll_thread(self):
         """
-        Thread that checks for new workers and writes the to the file
+        Thread that checks for new workers and writes them to the file
         """
         self.fd = None
         with self.lock:
@@ -50,9 +50,13 @@ class Workers():
                 self.workers[item] = []
                 self.parser.add_section(item)
             self.parser.read('worker.cfg')
-            for pool in self.parser.sections():
-                for worker, password in self.parser.items(item):
-                    self.add_worker(pool, worker, password)
+
+            for item in self.parser.sections():
+                self.workers[item] = self.parser.items(item)
+                self.workers_lock[item] = {}
+                
+                for work, passw in self.workers[item]:
+                    self.worker_locks[item][(work, passw)] = threading.Semaphore(2)
                 
         while True:
             self.queue.get()
@@ -90,7 +94,7 @@ class Workers():
             for pool in self.workers:
                 for worker_tuple in self.worker_lock[pool]:
                     if self.worker_locks[pool][worker_tuple].acquire(False):
-                        return worker_tuple[0]. worker_tuple[1], None
+                        return worker_tuple[0], worker_tuple[1], None
                         
             self._release()
             gevent.sleep(0)
@@ -120,7 +124,7 @@ class Workers():
                 
         self.parser.set(pool, worker, password)
         self.workers[pool].append((worker, password))
-        self.workers_lock[pool][(worker, password)] = threading.Semaphore(2)
+        self.worker_locks[pool][(worker, password)] = threading.Semaphore(2)
         
         self._release()
         self.queue.put(None, False)
