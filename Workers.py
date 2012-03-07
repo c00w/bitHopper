@@ -53,7 +53,7 @@ class Workers():
 
             for item in self.parser.sections():
                 self.workers[item] = self.parser.items(item)
-                self.workers_lock[item] = {}
+                self.worker_locks[item] = {}
                 
                 for work, passw in self.workers[item]:
                     self.worker_locks[item][(work, passw)] = threading.Semaphore(2)
