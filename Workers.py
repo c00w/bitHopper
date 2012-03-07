@@ -117,10 +117,10 @@ class Workers():
             self.workers[pool] = []
             
         #Update the blocking info
-        if pool not in self.workers_lock:
-            self.workers_lock[pool] = {}
+        if pool not in self.worker_locks:
+            self.worker_locks[pool] = {}
             for item in self.workers[pool]:
-                self.workers_lock[pool][item] = threading.Semaphore(2)
+                self.worker_locks[pool][item] = threading.Semaphore(2)
                 
         self.parser.set(pool, worker, password)
         self.workers[pool].append((worker, password))
