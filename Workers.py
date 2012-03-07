@@ -56,7 +56,7 @@ class Workers():
                 self.worker_locks[item] = {}
                 
                 for work, passw in self.workers[item]:
-                    self.worker_locks[item][(work, passw)] = threading.Semaphore(2)
+                    self.worker_locks[item][(work, passw)] = threading.Semaphore(5)
                 
         while True:
             self.queue.get()
@@ -120,11 +120,11 @@ class Workers():
         if pool not in self.worker_locks:
             self.worker_locks[pool] = {}
             for item in self.workers[pool]:
-                self.worker_locks[pool][item] = threading.Semaphore(2)
+                self.worker_locks[pool][item] = threading.Semaphore(5)
                 
         self.parser.set(pool, worker, password)
         self.workers[pool].append((worker, password))
-        self.worker_locks[pool][(worker, password)] = threading.Semaphore(2)
+        self.worker_locks[pool][(worker, password)] = threading.Semaphore(5)
         
         self._release()
         self.queue.put(None, False)
