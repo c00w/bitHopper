@@ -16,12 +16,12 @@ class ResourceGenerator:
             
         def __enter__(self):
             #Check if an item is available
-            while len(self.pool) > 5:
+            while len(self.pool) > 10:
                 for lock, item in self.pool:
                     if lock.acquire(False):
                         self.lock = lock
                         return item
-                if len(self.pool) > 5:
+                if len(self.pool) > 10:
                     gevent.sleep(0)
                     
             #Otherwise make a new item
