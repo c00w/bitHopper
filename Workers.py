@@ -50,8 +50,9 @@ class Workers():
                 self.workers[item] = []
                 self.parser.add_section(item)
             self.parser.read('worker.cfg')
-            for item in self.parser.sections():
-                self.workers[item] = self.parser.items(item)
+            for pool in self.parser.sections():
+                for worker, password in self.parser.items(item):
+                    self.add_worker(pool, worker, password)
                 
         while True:
             self.queue.get()
@@ -115,11 +116,11 @@ class Workers():
         if pool not in self.workers_lock:
             self.workers_lock[pool] = {}
             for item in self.workers[pool]:
-                self.workers_lock[pool][item] = threading.lock()
+                self.workers_lock[pool][item] = threading.Semaphore(2)
                 
         self.parser.set(pool, worker, password)
         self.workers[pool].append((worker, password))
-        self.workers_lock[pool][(worker, password)] = threading.lock()
+        self.workers_lock[pool][(worker, password)] = threading.Semaphore(2)
         
         self._release()
         self.queue.put(None, False)
