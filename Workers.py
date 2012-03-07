@@ -101,7 +101,7 @@ class Workers():
             
     def release_worker_limited(self, pool, worker_tuple):
         if pool in self.worker_locks:
-            if worker in self.worker_locks[pool]:
+            if worker_tuple in self.worker_locks[pool]:
                 self.worker_locks[pool][worker_tuple].release()
                         
         
