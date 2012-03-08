@@ -123,17 +123,6 @@ class BitHopper():
             backup_list = [x for x in backup_list if self.workers.get_worker(x)[0]]
 
         old_server = self.pool.get_current()
-            
-        #Find the server with highest priority
-        max_priority = 0;
-        for server in server_list:
-            info = self.pool.get_entry(server)
-            if info['priority'] > max_priority:
-                max_priority = info['priority']
-
-        #Return all servers with this priority
-        server_list = [server for server in server_list 
-                       if lambda x:self.pool.get_entry(x)['priority'] >= max_priority]
 
         if len(server_list) == 0 and len(backup_list):
             try:
@@ -157,6 +146,17 @@ class BitHopper():
                 
         if len(server_list) == 0:
             logging.error('Fatal Error, No valid pools configured!')
+
+        #Find the server with highest priority
+        max_priority = 0;
+        for server in server_list:
+            info = self.pool.get_entry(server)
+            if info['priority'] > max_priority:
+                max_priority = info['priority']
+
+        #Return all servers with this priority
+        server_list = [server for server in server_list 
+                       if lambda x:self.pool.get_entry(x)['priority'] >= max_priority]
 
         self.pool.current_list = server_list
         self.pool.build_server_map()
