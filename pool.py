@@ -113,9 +113,15 @@ class Pool_Parse():
             return None
 
     def get_servers(self, ):
+        """
+        Returns a servers dictionary
+        """
         return self.servers
 
     def get_current(self, ):
+        """
+        Returns current server name
+        """
         return self.get_work_server()
 
     def get_work_server(self):
@@ -164,7 +170,9 @@ class Pool_Parse():
         self.server_map = server_map
 
     def set_current(self, server):
-        self.current_server = server
+        print 'DEPRECATED SET_CURRENT CALLED'
+        import os
+        os._exit(-1)
 
 if __name__ == "__main__":
     print 'Run python bitHopper.py instead.'
