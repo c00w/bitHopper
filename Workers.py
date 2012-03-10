@@ -71,6 +71,14 @@ class Workers():
                     self.fd = open('worker.cfg', 'wb')
                     self.queue.put(None, False)
                     
+    def get_workers_from(self, pool):
+        """
+        Return all workers in a specified pool
+        """
+        if pool in self.workers:
+            return self.workers[pool]
+        return None
+                    
     def get_worker(self, pool):
         """
         Returns a random worker from the pool
