@@ -17,7 +17,7 @@ class Logic():
         gevent.spawn(self.generate_servers)
         gevent.sleep(0)
         
-    def self.difficulty_cutoff(self, source):
+    def difficulty_cutoff(self, source):
         """
         returns the difficulty cut off for the pool
         """
@@ -46,7 +46,7 @@ class Logic():
                 continue
                 
             #Check if this is a secure payout scheme
-            if source.payout_scheme.lower() in ['pps', 'smpps', 'pplns']
+            if source.payout_scheme.lower() in ['pps', 'smpps', 'pplns']:
                 yield source
             
             if source.payout_scheme.lower() in ['prop', 'score']:
@@ -64,7 +64,7 @@ class Logic():
         """
         Only allows through sites with valid credentials
         """
-        for site in source
+        for site in source:
         
             #Pull Name
             name = site.name
@@ -111,7 +111,7 @@ class Logic():
         if hoppable:
             min_ratio = min(float(pool.shares) / self.difficulty_cutoff(pool) for pool in hoppable)
             for pool in hoppable:
-                if float(pool.shares) / self.difficulty_cutoff(pool) = min_ratio:
+                if float(pool.shares) / self.difficulty_cutoff(pool) == min_ratio:
                     return set(pool)    
         
         #Select a backup pool
