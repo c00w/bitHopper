@@ -7,7 +7,9 @@ setup(
     description = ("A dummy package to install things correctly for bitHopper"),
     install_requires=[
 		'setuptools',
-		'gitpython',
-		'httplib2'
+		'httplib2',
+		'webob',
+		'gevent',
+		'btcnet_info',
 	],
 )
