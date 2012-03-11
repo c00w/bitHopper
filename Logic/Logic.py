@@ -1,9 +1,10 @@
 """
 File implementing the actuall logic for the business side
 """
-
-from btcnet_wrapper import btcnet_info
-import Workers
+try:
+    from btcnet_wrapper import btcnet_info
+except ImportError:
+    import btcnet_info
 import gevent
 
 class Logic():
@@ -11,11 +12,12 @@ class Logic():
     Logic wrapper class
     """
     
-    def __init__(self):
+    def __init__(self, Workers):
         self.i = 1
         self._server = set()
         gevent.spawn(self.generate_servers)
         gevent.sleep(0)
+        self.Workers = Workers
         
     def difficulty_cutoff(self, source):
         """
@@ -71,7 +73,7 @@ class Logic():
             if not name:
                 continue
                 
-            workers = Workers.get_worker_from(name)
+            workers = self.Workers.get_worker_from(name)
             if not workers:
                 continue
             
@@ -135,3 +137,5 @@ class Logic():
         
     def get_server(self):
         return self._select(self._servers)
+        
+
