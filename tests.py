@@ -12,11 +12,11 @@ class FakePool():
         self.coin = 'btc'
         self.shares = "123"
             
-class LogicTestCase(unittest.TestCase):
+class ServerLogicTestCase(unittest.TestCase):
 
     @classmethod
     def setUpClass(self):
-        self.logic = bitHopper.Logic.Logic.Logic()
+        self.logic = bitHopper.Logic.ServerLogic.Logic()
 
     def testdiff_cutoff(self):
         example = FakePool()
