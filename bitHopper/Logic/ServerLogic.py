@@ -4,7 +4,7 @@ File implementing the actuall logic for the business side
 
 import btcnet_info
 from .. import Workers
-
+from . import LLogic
 import logging, traceback, gevent
 
 class Logic():
@@ -81,8 +81,11 @@ class Logic():
             workers = Workers.get_worker_from(name)
             if not workers:
                 continue
+                
+            for user, password in workers:
+                if len(list(LLogic.filter_lag([(name, user, password)]))):
+                    yield site
             
-            yield site
             
     def filter_hoppable(self, source):
         """
@@ -140,8 +143,8 @@ class Logic():
             gevent.sleep(30)
             
         
-    def _select(pools):
-        self.i += 1
+    def _select(self, pools):
+        self.i = self.i + 1 if self.i < 10**10 else 0
         return pools[self.i % len(pools)]
         
     def get_server(self):

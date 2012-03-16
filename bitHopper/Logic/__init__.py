@@ -10,10 +10,18 @@ It has two external dependencies.
 
 
 """
+
+import LaggingLogic
+LLogic = LaggingLogic.Logic()
+
+import ServerLogic
+SLogic = ServerLogic.Logic()
+
 import Logic
+CLogic = Logic.Logic()
 
 def get_server():
-    return Logic.get_server()
+    return CLogic.get_server()
     
-def lag_server():
-    return Logic.lag_server()
+def lag(server, user, password):
+    return LLogic.lag(server, user, password)
