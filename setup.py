@@ -1,6 +1,15 @@
 import os
-if 'nt' in os.name:
-    string = "C:\python27\python.exe setup.py install"
-else: 
-    string = "python setup.py install"
-os.system(string)
+from setuptools import setup
+
+setup(
+    name = "dummy_bithopper_install",
+    version = "0.0.4",
+    description = ("A dummy package to install things correctly for bitHopper"),
+    install_requires=[
+		'setuptools',
+		'httplib2',
+		'webob',
+		'gevent',
+		'btcnet_info',
+	],
+)
