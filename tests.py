@@ -4,6 +4,7 @@ import bitHopper
 import btcnet_info
 #Logic Module Tests
 import bitHopper.Logic
+import gevent
 
 class FakePool():
     """Class for faking pool information from btnet"""    
@@ -11,15 +12,21 @@ class FakePool():
         self.payout_scheme = 'prop'
         self.coin = 'btc'
         self.shares = "123"
+        
+    def __getitem__(self, key):
+        return getattr(self, key, None)      
             
 class ServerLogicTestCase(unittest.TestCase):
 
     @classmethod
     def setUpClass(self):
         self.logic = bitHopper.Logic.ServerLogic
+        gevent.sleep(5)
 
     def testdiff_cutoff(self):
         example = FakePool()
+        print btcnet_info.get_difficulty(example.coin)
+        print self.logic.difficulty_cutoff(example)
         self.assertEqual(self.logic.difficulty_cutoff(example), 
             float(btcnet_info.get_difficulty(example.coin)) * 0.435)
             
@@ -27,7 +34,7 @@ class ServerLogicTestCase(unittest.TestCase):
     def testvalid_scheme(self):
         a = [FakePool(), FakePool(), FakePool()]
         a[0].payout_scheme = 'pps'
-        a[1].payout_scheme = 'score'
+        a[1].payout_scheme = 'smpps'
         a[2].payout_scheme = 'prop'
         a[2].shares = str(10**10)
         
