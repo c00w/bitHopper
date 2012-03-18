@@ -4,8 +4,12 @@ Class for raw network actions
 
 import httplib2
 from . import ResourcePool
+from .. import Logic
 
 class Raw():
+    """
+    A class for any operation that directly involves httplib2
+    """
     def __init__(self):
         self.i = 0
         self.http_pool = ResourcePool.Pool(self._make_http)
@@ -17,8 +21,53 @@ class Raw():
             timeout = configured_timeout
             
         return httplib2.Http(disable_ssl_certificate_validation=True, timeout=timeout)
+            
+    def request(self, url, body = '', headers = {}, method='GET', timeout = None):
+        """
+        Generic httplib2 wrapper function
+        """
+        with self.http_pool(url, timeout=timeout) as http:
+            headers, content = http.request( url, method, headers=headers, body=body)
+        return content, headers
         
-    def 
+    def send_work(self, url, worker, password, headers={}, body=[]):
+        """
+        Does preproccesing and header setup for sending a work unit
+        """
+        if not url:
+            return None, None
+        
+        body = json.dumps(body)
+        header['Authorization'] = "Basic " +base64.b64encode(worker+ ":" + password).replace('\n','')
+        header['Content-Type'] = 'application/json'
+        header['connection'] = 'keep-alive'
+        
+        return self.request(url, body = body, headers= headers)
+
+    def get_work(self, headers = {})
+        """
+        Gets a work item
+        """
+        while True
+            server, username, password = Logic.get_server()
+            url = btcnet_info.get_pool('url').mine.address
+            request = json.dumps({'... rpc stuff':None})
+            
+            try:
+                content, headers = self.send_work(self, url, username, password, headers, request)
+            except:
+                logging.error(traceback.format_exc())
+                content, headers = None, None
+                
+            if not content:
+                Logic.lag(server, username, password)
+                continue
+                
+            Tracking.work_unit(content, server, username, password)
+                
+            return content, headers
+            
+    
 
     def jsonrpc_lpcall(self, server, url, lp):
         try:
