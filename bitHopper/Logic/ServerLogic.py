@@ -3,7 +3,8 @@ File implementing the actuall logic for the business side
 """
 
 import btcnet_info
-from .. import Workers
+from .. import Configuration
+from ..Configuration import Workers
 from . import LaggingLogic, _select
 import logging, traceback, gevent
     
