@@ -60,7 +60,7 @@ def valid_scheme( source):
         if scheme.lower() in ['prop', 'score']:
         
             #Check if we have a share count
-            shares = float(site.shares)
+            shares = site.shares
             if not shares:
                 continue
                 
