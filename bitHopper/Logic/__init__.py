@@ -14,7 +14,7 @@ It has two external dependencies.
 
 import ServerLogic
 import LaggingLogic
-
+from .. import Workers
     
 def lag(server, user, password):
     """
@@ -28,7 +28,7 @@ def get_server():
     Note this isn't quite a perfectly even distribution but it 
     works well enough
     """
-    return _select(list(generate_tuples(SeverLogic.get_server())))
+    return _select(list(generate_tuples(ServerLogic.get_server())))
     
 i = 0
 
@@ -44,5 +44,6 @@ def _select( item):
     """
     Selection utility function
     """
+    global i
     i = i + 1 if i < 10**10 else 0
     return item[i % len(item)]

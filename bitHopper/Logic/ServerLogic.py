@@ -4,11 +4,11 @@ File implementing the actuall logic for the business side
 
 import btcnet_info
 from .. import Workers
-from . import LaggingLogic
+from . import LaggingLogic, _select
 import logging, traceback, gevent
     
 i = 1
-_server = set()
+Servers = set()
 gevent.spawn(generate_servers)
 gevent.sleep(0)
     
@@ -43,14 +43,14 @@ def valid_scheme( source):
     
         #Check if we have a payout scheme
         scheme = site.payout_scheme
-        if not source:
+        if not scheme:
             continue
             
         #Check if this is a secure payout scheme
-        if site.payout_scheme.lower() in ['pps', 'smpps', 'pplns']:
+        if scheme.lower() in ['pps', 'smpps', 'pplns']:
             yield source
         
-        if site.payout_scheme.lower() in ['prop', 'score']:
+        if scheme.lower() in ['prop', 'score']:
         
             #Check if we have a share count
             shares = float(site.shares)
@@ -113,9 +113,10 @@ def filter_best( source):
     hoppable = list(filter_hoppable( pools))
     
     if hoppable:
-        min_ratio = min(float(pool.shares) / difficulty_cutoff(pool) for pool in hoppable)
+        pool_ratio = lambda pool: float(pool.shares) / difficulty_cutoff(pool)
+        min_ratio = min( map(pool_ratio, hoppable))
         for pool in hoppable:
-            if float(pool.shares) / difficulty_cutoff(pool) == min_ratio:
+            if pool_ratio(pool) == min_ratio:
                 return set(pool)    
     
     #Select a backup pool
@@ -131,12 +132,19 @@ def generate_servers():
     """
     while True:
         try:
-            _servers = list(filter_best(valid_scheme(valid_credentials(btcnet_info.get_pools()))))
-        except Exception ,e:
+            global Servers
+            Servers = list(filter_best(
+                            valid_scheme(
+                             valid_credentials(
+                              btcnet_info.get_pools()))))
+        except Exception as error:
             logging.error(traceback.format_exc())
         gevent.sleep(30)
     
 def get_server():
-    return _select(_servers)
+    """
+    Returns an iterator of valid servers
+    """
+    return _select(Servers)
         
 
