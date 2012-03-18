@@ -21,6 +21,7 @@ def difficulty_cutoff(source):
     """
     
     diff = btcnet_info.get_difficulty(source.coin)
+    btc_diff = btcnet_info.get_difficulty(source.coin)
     if not diff:
         return 0
         #while not diff:
@@ -35,9 +36,11 @@ def difficulty_cutoff(source):
         
     #Score Hopping
     if source.payout_scheme in ['score']:
-        # Incorrect method. Just using it for now.
-        # TODO FIX IT TO USE MINE_C CONSTANTS 
-        return diff * 0.435
+        c = source.mine.c if source.mine.c else 300
+        c = float(c)
+        hashrate = float(source.rate) / (10. ** 9) if source.rate else 1
+        hopoff = btc_diff * (0.0164293 + 1.14254 / (1.8747 * (btc_diff / (c * hashrate)) + 2.71828))
+        return hopoff
     
 def valid_scheme( source):
     """
