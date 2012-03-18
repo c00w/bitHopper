@@ -11,17 +11,38 @@ It has two external dependencies.
 
 """
 
-import LaggingLogic
-LLogic = LaggingLogic.Logic()
 
 import ServerLogic
-SLogic = ServerLogic.Logic()
+import LaggingLogic
 
-import Logic
-CLogic = Logic.Logic()
-
-def get_server():
-    return CLogic.get_server()
     
 def lag(server, user, password):
-    return LLogic.lag(server, user, password)
+    """
+    Marks a server, worker, username combination as lagging
+    """
+    return LaggingLogic.lag(server, user, password)
+    
+def get_server():
+    """
+    Returns a valid server, worker, username tuple
+    Note this isn't quite a perfectly even distribution but it 
+    works well enough
+    """
+    return _select(list(generate_tuples(SeverLogic.get_server())))
+    
+i = 0
+
+def generate_tuples( server):
+    """
+    Generates a tuple of server, user, password for valid servers
+    """
+    tokens = Workers.get_worker_from(server)
+    for user, password in tokens:
+        yield (server, user, password)
+    
+def _select( item):
+    """
+    Selection utility function
+    """
+    i = i + 1 if i < 10**10 else 0
+    return item[i % len(item)]
