@@ -14,7 +14,7 @@ It has two external dependencies.
 
 import ServerLogic
 import LaggingLogic
-from .. import Workers
+import bitHopper.Configuration.Workers as Workers
     
 def lag(server, user, password):
     """
@@ -40,7 +40,7 @@ def generate_tuples( server):
     for user, password in tokens:
         yield (server, user, password)
     
-def _select( item):
+def _select(item):
     """
     Selection utility function
     """

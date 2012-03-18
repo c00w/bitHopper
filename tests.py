@@ -16,7 +16,7 @@ class ServerLogicTestCase(unittest.TestCase):
 
     @classmethod
     def setUpClass(self):
-        self.logic = bitHopper.Logic.ServerLogic.Logic()
+        self.logic = bitHopper.Logic.ServerLogic
 
     def testdiff_cutoff(self):
         example = FakePool()

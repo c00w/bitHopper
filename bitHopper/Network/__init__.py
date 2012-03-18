@@ -3,8 +3,8 @@ Stub for networking module
 """
 
 import httplib2
+import bitHopper.Logic, bitHopper.Tracking
 from . import ResourcePool
-from .. import Logic, Tracking
 
     
 def submit_work(work):
@@ -47,11 +47,11 @@ def send_work( url, worker, password, headers={}, body=[]):
     
     return request(url, body = body, headers= headers)
 
-def get_work( headers = {})
+def get_work( headers = {}):
     """
     Gets a work item
     """
-    while True
+    while True:
         server, username, password = Logic.get_server()
         url = btcnet_info.get_pool('url').mine.address
         request = json.dumps({'... rpc stuff':None})

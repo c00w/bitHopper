@@ -3,15 +3,17 @@ File implementing the actuall logic for the business side
 """
 
 import btcnet_info
-from .. import Configuration
-from ..Configuration import Workers
-from . import LaggingLogic, _select
+import bitHopper.Configuration.Workers as Workers
+from . import LaggingLogic
 import logging, traceback, gevent
     
-i = 1
-Servers = set()
-gevent.spawn(generate_servers)
-gevent.sleep(0)
+def _select(item):
+    """
+    Selection utility function
+    """
+    global i
+    i = i + 1 if i < 10**10 else 0
+    return item[i % len(item)]
     
 def difficulty_cutoff(source):
     """
@@ -20,9 +22,10 @@ def difficulty_cutoff(source):
     
     diff = btcnet_info.get_difficulty(source.coin)
     if not diff:
-        while not diff:
-            gevent.sleep(0)
-            diff = btcnet_info.get_difficulty(source.coin)
+        return 0
+        #while not diff:
+        #    gevent.sleep(0)
+        #    diff = btcnet_info.get_difficulty(source.coin)
             
     diff = float(diff)
     
@@ -138,6 +141,8 @@ def generate_servers():
                             valid_scheme(
                              valid_credentials(
                               btcnet_info.get_pools()))))
+        except ValueError as Error:
+            logging.warn(Error)
         except Exception as error:
             logging.error(traceback.format_exc())
         gevent.sleep(30)
@@ -148,4 +153,7 @@ def get_server():
     """
     return _select(Servers)
         
-
+i = 1
+Servers = set()
+gevent.spawn(generate_servers)
+gevent.sleep(0)
