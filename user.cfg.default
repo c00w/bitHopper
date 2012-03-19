@@ -287,9 +287,18 @@ pass: your_password
 
 [gpumax]
 #https://gpumax.com (PPS)
+#---Edit after this line if mined---
 role: backup
 user: your_username
 pass: abc123
+
+[fiftybtc]
+#https://50btc.com (PPS)
+#---Edit after this line if mined---
+role: disable
+user: your_username
+#passwords can be anything on 50btc
+pass: your_password
 
 ###############################
  Pools that use PPLNS, DGM or
@@ -360,6 +369,29 @@ pass: your_password
 #---Edit after this line if mined---
 role: info
 user: your_username
+pass: your_password
+
+[btcwarp]
+#http://BTCWARP.com (PPLNS)
+#---Edit after this line if mined---
+role: info
+user: your_username
+#password can be anything btcwarp
+pass: your_password
+
+[maxbtc]
+#https://MaxBTC.com (DGM)
+#---Edit after this line if mined---
+role: info
+user: your_username
+pass: your_password
+
+[bitminter]
+#http://BitMinter.com (MergeM-PPLNS)
+#---Edit after this line if mined---
+role: info
+user: your_username
+#password can be anything bitminter
 pass: your_password
 
 ######################################
