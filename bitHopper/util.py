@@ -1,3 +1,4 @@
+import json
 
 def validate_rpc(content):
     """
@@ -20,3 +21,11 @@ def extract_merkle(content):
         return None
     merkle = content['params']['data'][72:136]
     return merkle
+    
+
+def rpc_error(message = 'Invalid Request'):
+    """
+    Generates an rpc error message
+    """
+    return json.dumps({"result":None, 'error':{'message':message}, 'id':1})
+

@@ -5,7 +5,7 @@ Stub for networking module
 import httplib2
 import bitHopper.Logic, bitHopper.Tracking
 from . import ResourcePool
-
+from bitHopper.util import rpc_error
     
 def submit_work(work):
     pass
@@ -45,7 +45,7 @@ def send_work( url, worker, password, headers={}, body=[]):
     header['Content-Type'] = 'application/json'
     header['connection'] = 'keep-alive'
     
-    return request(url, body = body, headers= headers)
+    return request(url, body = body, headers= headers, method='POST')
 
 def get_work( headers = {}):
     """
@@ -70,3 +70,21 @@ def get_work( headers = {}):
             
         return content, headers
             
+def submit_work(rpc_request, headers = {}):
+    """
+    Submits a work item
+    """
+    server, username, password = bitHopper.Tracking.get_work_unit(rpc_request)
+        
+    if not server:
+        return error_rpc('Merkle Root Expired')
+        
+    url = btcnet_info.get_pool(server).mine.address
+    if not url:
+        logging.error('NO URL FOR %s', server)
+        return error_rpc('No Url for pool')
+        
+    content, headers = bitHopper.Network.send_work(url, username, password, headers = headers, body = rpc_request['params'])
+    
+    return content, headers
+    
