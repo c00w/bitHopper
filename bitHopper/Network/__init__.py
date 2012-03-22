@@ -40,7 +40,7 @@ def send_work( url, worker, password, headers={}, body=[]):
     if not url:
         return None, None
     
-    body = json.dumps(body)
+    body = json.dumps(body, ensure_ascii = True)
     header['Authorization'] = "Basic " +base64.b64encode(worker+ ":" + password).replace('\n','')
     header['Content-Type'] = 'application/json'
     header['connection'] = 'keep-alive'
@@ -54,7 +54,7 @@ def get_work( headers = {}):
     while True:
         server, username, password = Logic.get_server()
         url = btcnet_info.get_pool('url').mine.address
-        request = json.dumps({'... rpc stuff':None})
+        request = {'params':[], 'id':1, 'method':'getwork'}
         
         try:
             content, headers = send_work( url, username, password, headers, request)
@@ -66,7 +66,7 @@ def get_work( headers = {}):
             Logic.lag(server, username, password)
             continue
             
-        Tracking.work_unit(content, server, username, password)
+        Tracking.add_work_unit(content, server, username, password)
             
         return content, headers
             

@@ -4,38 +4,43 @@
 #If you were not provided with a copy of the license please contact: 
 # Colin Rice colin@daedrum.net
 
-import gevent
-import threading, time, socket
+import gevent, time, logging
 
-# Global timeout for sockets in case something leaks
-socket.setdefaulttimeout(900)
-
-class Getwork_store:
+class Getwork_Store:
+    """
+    Class that stores getworks so we can figure out the server again
+    """
     
-    def __init__(self, bitHopper):
+    def __init__(self):
         self.data = {}
-        self.bitHopper = bitHopper
-        self.lock = threading.RLock()
         gevent.spawn(self.prune)
 
-    def add(self, server, merkle_root, auth):
-        with self.lock:
-            self.data[merkle_root] = [server, time.time(), auth]
+    def add(self, merkle_root, data):
+        """
+        Adds a merkle_root and a data value
+        """
+        self.data[merkle_root] = (data, time.time())
 
-    def get_server(self, merkle_root):
-        with self.lock:
-            if self.data.has_key(merkle_root):
-                return self.data[merkle_root][0] , self.data[merkle_root][2]
-            return None , None    
+    def get(self, merkle_root):
+        ""
+        if self.data.has_key(merkle_root):
+            return self.data[merkle_root][0]
+        return None
             
     def drop_roots(self):
-        with self.lock:
-            self.data = {} 
+        """
+        Resets the merkle_root database
+        Very crude.
+        Should probably have an invalidate block function instead
+        """
+        self.data = {} 
     
     def prune(self):
+        """
+        Running greenlet that prunes old merkle_roots
+        """
         while True:
-            with self.lock:
-                for key, work in self.data.items():
-                    if work[1] < (time.time() - (60*5)):
-                        del self.data[key]
+            for key, work in self.data.items():
+                if work[1] < (time.time() - (60*3)):
+                    del self.data[key]
             gevent.sleep(60)
