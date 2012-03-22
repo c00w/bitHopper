@@ -5,7 +5,7 @@ __store = False
 
 def __patch():
     global __store
-    if note __store:
+    if not __store:
         __store = Getwork_Store()
         
     
