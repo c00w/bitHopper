@@ -1,5 +1,5 @@
 from Queue import Queue
-import logging, traceback, gevent, threading
+import logging, traceback, gevent, threading, os
 
 try:
     # determine if application is a script file or frozen exe
@@ -43,8 +43,8 @@ def __thread():
         
         while True:
             query, response = _db_queue.get()
-            result = curs.execute(query)
-            response.put(result)
+            curs.execute(query)
+            response.put(curs.fetchall())
             database.commit()
     except:
         logging.error(traceback.format_exc())
