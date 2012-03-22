@@ -1,7 +1,4 @@
-import unittest
-
-import bitHopper
-import btcnet_info
+import unittest, json, bitHopper, btcnet_info
 #Logic Module Tests
 import bitHopper.Logic
 import gevent
@@ -21,12 +18,10 @@ class ServerLogicTestCase(unittest.TestCase):
     @classmethod
     def setUpClass(self):
         self.logic = bitHopper.Logic.ServerLogic
-        gevent.sleep(5)
+        gevent.sleep(0.1)
 
     def testdiff_cutoff(self):
         example = FakePool()
-        print btcnet_info.get_difficulty(example.coin)
-        print self.logic.difficulty_cutoff(example)
         self.assertEqual(self.logic.difficulty_cutoff(example), 
             float(btcnet_info.get_difficulty(example.coin)) * 0.435)
             
@@ -59,6 +54,20 @@ class ServerLogicTestCase(unittest.TestCase):
         a[2].shares = str(10**10)
         
         self.assertEqual(len(list(self.logic.filter_secure(a))), 1)
+        
+class UtilTestCase(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(self):
+        self.util = bitHopper.util
+        
+    def valid_rpc(self, item, expect):
+        #item = json.dumps(item)
+        self.assertEqual(self.util.validate_rpc(item), expect)
+
+    def testvalidate(self):
+        self.valid_rpc({'hahaha':1}, False)
+        self.valid_rpc({'params':[], 'method':'getwork', 'id':1}, True)
         
 if __name__ == '__main__':
     unittest.main()
