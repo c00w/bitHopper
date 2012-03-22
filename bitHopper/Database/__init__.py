@@ -1,5 +1,5 @@
 from Queue import Queue
-import logging, traceback, gevent
+import logging, traceback, gevent, threading
 
 try:
     # determine if application is a script file or frozen exe
