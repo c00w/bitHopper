@@ -1,6 +1,7 @@
 import unittest, json, bitHopper, btcnet_info
 #Logic Module Tests
 import bitHopper.Logic
+import bitHopper.Configuration.Workers
 import gevent
 
 class FakePool():
@@ -68,6 +69,19 @@ class UtilTestCase(unittest.TestCase):
     def testvalidate(self):
         self.valid_rpc({'hahaha':1}, False)
         self.valid_rpc({'params':[], 'method':'getwork', 'id':1}, True)
+        
+class WorkersTestCase(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(self):
+        self.workers = bitHopper.Configuration.Workers
+        
+    def testInsertandGet(self):
+        before = len(self.workers.get_worker_from('test'))
+        self.workers.add('test','test','test')
+        self.assertTrue(len(self.workers.get_worker_from('test')) > 0)
+        self.workers.remove('test','test','test')
+        self.assertTrue(len(self.workers.get_worker_from('test')) == before)
         
 if __name__ == '__main__':
     unittest.main()

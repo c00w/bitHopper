@@ -1,5 +1,5 @@
 from Queue import Queue
-import logging, traceback, gevent, threading, os
+import logging, traceback, gevent, threading, os, sqlite3
 
 try:
     # determine if application is a script file or frozen exe
@@ -12,14 +12,14 @@ except:
 
 DB_FN = os.path.join(DB_DIR, 'bitHopper.db')
 
-__patch = False
+__patch_state = False
 def __patch():
     """
     Patch db function
     """
-    global __patch
-    if not __patch:
-        __patch = True
+    global __patch_state
+    if not __patch_state:
+        __patch_state = True
         __setup()
 
 _db_queue = Queue(maxsize = -1)
@@ -28,7 +28,7 @@ def __setup():
     """
     Makes a new thread and calls it
     """
-    thread = threading.Thread(target=self.__thread)
+    thread = threading.Thread(target=__thread)
     thread.daemon = True
     thread.start()
     
@@ -43,7 +43,11 @@ def __thread():
         
         while True:
             query, response = _db_queue.get()
-            curs.execute(query)
+            try:
+                curs.execute(query)
+            except sqlite3.OperationalError, e:
+                logging.error(traceback.format_exc())
+                logging.error(query)
             response.put(curs.fetchall())
             database.commit()
     except:
