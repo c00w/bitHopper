@@ -11,3 +11,6 @@ import Logic
 import Network
 import Website
 import Configuration
+
+import logging, sys
+logging.basicConfig(stream=sys.stdout, format="%(asctime)s|%(module)s: %(message)s", datefmt="%H:%M:%S", level = logging.INFO)
