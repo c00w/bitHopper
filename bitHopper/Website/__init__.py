@@ -5,8 +5,8 @@ import bitHopper.Network
 
 import flask
 
-app = flask.Flask(__name__, template_folder='./templates', 
-            static_folder = './static')
+app = flask.Flask(__name__, template_folder='bitHopper/templates', 
+            static_folder = 'bitHopper/static')
 app.Debug = False
 
 @app.teardown_request
