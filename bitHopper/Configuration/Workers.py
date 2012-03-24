@@ -15,7 +15,7 @@ workers = None
 
 def __patch():
     global workers
-    if not workers:
+    if workers == None:
         workers = load_from_db()
         
 def load_from_db():
@@ -52,6 +52,7 @@ def add(server, username, password):
     """
     Adds a worker into the database and the local cache
     """
+    __patch()
     if server not in workers:
         workers[server] = set()
     if (username, password) not in workers[server]:
@@ -62,6 +63,7 @@ def remove(server, username, password):
     """
     Removes a worker from the local cache and the database
     """
+    __patch()
     if server not in workers:
         return
     if (username, password) not in workers[server]:

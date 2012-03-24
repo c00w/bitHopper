@@ -48,8 +48,8 @@ def __thread():
             except sqlite3.OperationalError, e:
                 logging.error(traceback.format_exc())
                 logging.error(query)
-            response.put(curs.fetchall())
             database.commit()
+            response.put(curs.fetchall())
     except:
         logging.error(traceback.format_exc())
     finally:

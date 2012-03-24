@@ -77,6 +77,7 @@ class WorkersTestCase(unittest.TestCase):
         self.workers = bitHopper.Configuration.Workers
         
     def testInsertandGet(self):
+        
         before = len(self.workers.get_worker_from('test'))
         self.workers.add('test','test','test')
         self.assertTrue(len(self.workers.get_worker_from('test')) > 0)
