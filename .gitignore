@@ -1,11 +1,5 @@
 *.pyc
 *.py~
 *.swp
-db-version
-stats.db
-stats.db-journal
-user.cfg
-*.komodoproject
-objgraph.py
-bh.cfg
+*.db
 *.*~
