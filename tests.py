@@ -70,6 +70,14 @@ class UtilTestCase(unittest.TestCase):
         self.valid_rpc({'hahaha':1}, False)
         self.valid_rpc({'params':[], 'method':'getwork', 'id':1}, True)
         
+class MiningTestCase(unittest.TestCase):
+        
+
+    def testImport(self):
+        import bitHopper
+        bitHopper.setup_miner()
+        self.assertTrue(True)
+        
 class WorkersTestCase(unittest.TestCase):
 
     @classmethod

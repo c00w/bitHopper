@@ -14,3 +14,27 @@ import Configuration
 
 import logging, sys
 logging.basicConfig(stream=sys.stdout, format="%(asctime)s|%(module)s: %(message)s", datefmt="%H:%M:%S", level = logging.INFO)
+
+
+import gevent.wsgi, os
+import Mining_Site
+
+def setup_miner(port = 8337, host = ''):
+    """
+    Sets up the miner listening port
+    """
+    #Don't show the gevent logsg
+    log = open(os.devnull, 'wb')
+    server = gevent.wsgi.WSGIServer((host, port), Mining_Site.mine,  backlog=512,  log=log)
+    gevent.spawn(_tb_wrapper, server)
+    
+import logging, traceback
+def _tb_wrapper(server):
+    """
+    Traceback Wrapper
+    """
+    while True:
+        try:
+            server.serve_forever()
+        except (Exception, e):
+            logging.error(traceback.format_exc())
