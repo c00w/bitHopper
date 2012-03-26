@@ -71,12 +71,27 @@ class UtilTestCase(unittest.TestCase):
         self.valid_rpc({'params':[], 'method':'getwork', 'id':1}, True)
         
 class MiningTestCase(unittest.TestCase):
-        
 
     def testImport(self):
         import bitHopper
         bitHopper.setup_miner()
         self.assertTrue(True)
+        
+class ControlTestCase(unittest.TestCase):
+        
+    @classmethod
+    def setUpClass(self):
+        import bitHopper
+        bitHopper.setup_control()
+        
+    def testImport(self):
+        self.assertTrue(True)
+        
+    def testStatic(self):
+        import httplib2
+        http = httplib2.Http()
+        headers, content = http.request('http://localhost:8339/static/core.css')
+        self.assertTrue(content != None)
         
 class WorkersTestCase(unittest.TestCase):
 

@@ -27,6 +27,17 @@ def setup_miner(port = 8337, host = ''):
     log = open(os.devnull, 'wb')
     server = gevent.wsgi.WSGIServer((host, port), Mining_Site.mine,  backlog=512,  log=log)
     gevent.spawn(_tb_wrapper, server)
+    gevent.sleep(0)
+    
+def setup_control(port = 8339, host = ''):
+    """
+    Sets up the miner listening port
+    """
+    #Don't show the gevent logsg
+    log = open(os.devnull, 'wb')
+    server = gevent.wsgi.WSGIServer((host, port), Website.app,  backlog=512,  log=log)
+    gevent.spawn(_tb_wrapper, server)
+    gevent.sleep(0)
     
 import logging, traceback
 def _tb_wrapper(server):
