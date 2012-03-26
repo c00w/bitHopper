@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html>
+<head>
+    <title> btcProxy | {% block title %}{% endblock %} </title>
+    <link rel="stylesheet" type="text/css" href="/static/core.css" />
+</head>
+
+<body>
+<table id="wrapper_top" class="clean">
+<tr class="clean">
+<td class="clean">
+{% if not logged_in %}
+    <div id="left_top">
+        <div id="login_top" class="TopButton">
+        <a href="/login/"> Login </a>
+        </div>
+    </div>
+
+    <div id="right_top">    
+        <div id="register_top" class="TopButton">
+        <a href="/register/"> Register </a>
+        </div>
+    </div>
+    
+{% else %}
+
+    <div id="left_top">
+        <div id="home_top" class="TopButton">
+        <a href="/user/"> Home </a>
+        </div>
+        <div id="workers_top" class="TopButton">
+        <a href="/user/workers"> Workers </a>
+        </div>
+    </div>
+
+    <div id="right_top">
+        <div id="pools_top" class="TopButton">
+        <a href="/user/pools"> Pools </a>
+        </div>
+        <div id="logout_top" class="TopButton">
+        <a href="/logout/"> Logout </a>
+        </div>
+    </div>
+{% endif %}
+</td>
+</tr>
+</table>
+<br>
+<div id="body">
+{% block body %}
+{% endblock %}
+</div>
+</body>
+
+</html>
