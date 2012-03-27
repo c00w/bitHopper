@@ -90,8 +90,11 @@ class ControlTestCase(unittest.TestCase):
     def testStatic(self):
         import httplib2
         http = httplib2.Http()
-        headers, content = http.request('http://localhost:8339/static/core.css')
-        self.assertTrue(content != None)
+        import os
+        items = os.listdir('./bitHopper/static/')
+        for item in items:
+            headers, content = http.request('http://localhost:8339/static/' + item)
+            self.assertTrue(content != None)
         
 class WorkersTestCase(unittest.TestCase):
 

@@ -1,148 +1,32 @@
 body {
-    font-family: arial, helvetica, sans-serif;
-	background-color: #EEF;
-    border: 0px;
+		background: #000;
+		height:100%;
+		color:white;
+		font-family:Arial,Helvetica,sans-serif;
+		font-size:12px;
+}
+	
+table {
+    padding:2px;
+	padding-left:6px;
+	padding-right:6px;
+	margin:0px;
+    border-collapse:collapse
+}
+
+.no_margin {
     margin: 0px;
-    padding: 0px;
+
+}
+	
+tr.pool_name td{
+    border-bottom: 2px solid white;
+}
+tr.pool_name td.name{
+    border: 2px solid white;
+    font-size: 16px;
 }
 
-#wrapper_top{
-    margin: 0px; 
-    background: #fff;
-    text-align: center;
-    width: 100%;
-    padding: 0px;
-    position: absolute;
-    top: 0px;
-}
-
-.clean {
-    border-collapse: collapse;
-    margin: 0px;
-    border: 0px;
-    padding: 0px;
-    border-spacing: 0px;
-    
-}
-
-#login_top, #home_top, #pools_top {
-    background: #ccc;
-    width: 45%;
-    float: left;
-    font-size: 100%;
-} 
-
-#left_top {
-    float: left;
-    background: #fff;
-    width: 47.5%;
-}
-
-#right_top {
-    float: right;
-    background: #fff;
-    width: 47.5%;
-}
-
-#register_top, #workers_top, #logout_top {
-    background: #ccc;
-    width: 45%;
-    float: right;
-    font-size: 100%;
-}
-
-#left_align{
-    text-align: left;
-}
-
-label.register {
-width: 7em;
-float: left;
-text-align: right;
-margin-right: 0.25em;
-display: block
-}
-
-label.login {
-width: 4em;
-float: left;
-text-align: right;
-margin-right: 0.25em;
-display: block
-}
-
-.submit {
-margin-left: .5em;
-}
-
-#register_text {
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-#register_form {
-    background: #ccc;
-    width: 318px;
-    text-align: left;
-    margin-top: 25px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: auto;
-    -moz-border-radius: 15px;
-    border-radius: 15px;
-    padding-top:5px;
-    padding-bottom:5px;
-    padding-right:5px;
-    padding-left:5px;
-}
-
-.text {
-    background: #ccc;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 25px;
-    text-align: center;
-    -moz-border-radius: 15px;
-    border-radius: 15px;
-    padding-top:0px;
-    padding-bottom:5px;
-    padding-right:5px;
-    padding-left:5px;
-}
-
-#pool_text {
-    float:center;
-    width: 900px;
-}
-
-#worker_text {
-    width:875px;
-}
-
-#normal_text {
-    width: 630px;
-}
-
-#welcome_text{
-    width: 500px;
-}
-
-#index_text {
-    width: 600px;
-}
-
-#login_form {
-    margin-top: 25px;
-    background: #ccc;
-    margin-left: auto;
-    margin-right: auto;
-    width: 250px;
-    text-align: center;
-    padding-left: 5px;
-    padding-top: 5px;
-    padding-right: 5px;
-    padding-bottom: 5px;
-    -moz-border-radius: 15px;
-    border-radius: 15px;
+.align_right {
+    text-align: right;
 }

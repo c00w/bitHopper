@@ -1,12 +1,10 @@
-import logging, json
+import logging, json, flask, traceback, random
 import bitHopper.Tracking
 import bitHopper.util
 import bitHopper.Network
 
-import flask
-import random
-app = flask.Flask(__name__, template_folder='bitHopper/templates', 
-            static_folder = 'bitHopper/static')
+app = flask.Flask('bitHopper', template_folder='templates', 
+            static_folder = 'static')
 app.Debug = False
 
 # Set a secret key. Mainly used for CSRF. Should be random otherwise 
@@ -23,4 +21,6 @@ def teardown_request_wrap(exception):
     if exception:
         logging.error(traceback.format_exc())
         return json.dumps({"result":None, 'error':{'message':'Invalid request'}, 'id':1})
+        
+import Worker_Page
 
