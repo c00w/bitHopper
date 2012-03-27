@@ -38,6 +38,9 @@ def load_from_db():
         
     return workers
     
+def len_workers():
+    return len(workers)
+    
 def get_worker_from(pool):
     """
     Returns a list of workers in the given pool

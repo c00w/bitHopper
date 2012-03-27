@@ -88,6 +88,25 @@ class MiningTestCase(unittest.TestCase):
         for item in items:
             headers, content = http.request('http://localhost:8339' + item)
             self.assertTrue('Not Found' not in content)
+            
+    def testWorkers(self):
+        workers = bitHopper.Configuration.Workers
+        before = workers.len_workers()
+        import mechanize
+        br = mechanize.Browser()
+        br.open('http://localhost:8339/worker')
+        br.select_form(name="add")
+        br["username"] = 'test'
+        br["password"] = 'test'
+        response = br.submit()
+        self.assertTrue(workers.len_workers() > before)
+        print workers.len_workers()
+        br = mechanize.Browser()
+        br.open('http://localhost:8339/worker')
+        br.select_form(name="remove")
+        response = br.submit()
+        print before, workers.len_workers()
+        self.assertTrue(workers.len_workers() == before)
         
         
 class ControlTestCase(unittest.TestCase):
