@@ -3,7 +3,51 @@
 {%block title %} Workers {% endblock %}
 
 {%block body%}
+<div class=title>
+    Workers
+</div>
+<br>
 <table>
+{% for pool in pools %}
+<tr class=pool_name>
+<td class=name> {{pool}}</td><td>User</td><td>Password</td><td></td>
+</tr>
 
+    {% for item in pools[pool]%}
+    <tr>
+        <td> </td>
+        <td>{{item[0]}}</td>
+        <td>{{item[1]}}</td>
+        <td>
+            <form name="remove" action="worker" method="post" class=no_margin>
+            <input type="hidden" name="method" value="remove">
+            <input type="hidden" name="username" value="{{item[0]}}">
+            <input type="hidden" name="password" value="{{item[1]}}">
+            <input type="hidden" name="pool" value="{{pool}}">
+            <input type="submit" value="-">
+            </form>
+        </td>
+        </tr>
+    {% endfor %}
+    
+<tr>
+    <form name="add" action="worker" method="post">
+    <td  class=align_right>
+        <input type="submit" value="+">
+    </td>
+    <td>
+        <input type="text" name="username" value="">
+    </td>
+    <td>
+        <input type="text" name="password" value="">
+    </td>
+    <td>
+        <input type="hidden" name="method" value="add">
+        <input type="hidden" name="pool" value="{{pool}}">
+    </td>
+    </form>
+</tr>
+    
+{% endfor %}
 </table>
 {% endblock %}

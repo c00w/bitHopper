@@ -72,10 +72,23 @@ class UtilTestCase(unittest.TestCase):
         
 class MiningTestCase(unittest.TestCase):
 
-    def testImport(self):
+    @classmethod
+    def setUpClass(self):
         import bitHopper
         bitHopper.setup_miner()
+        
+    def testImport(self):
         self.assertTrue(True)
+
+    def testDynamic(self):
+        import httplib2
+        http = httplib2.Http()
+        import os
+        items = ['/worker']
+        for item in items:
+            headers, content = http.request('http://localhost:8339' + item)
+            self.assertTrue('Not Found' not in content)
+        
         
 class ControlTestCase(unittest.TestCase):
         
@@ -94,7 +107,7 @@ class ControlTestCase(unittest.TestCase):
         items = os.listdir('./bitHopper/static/')
         for item in items:
             headers, content = http.request('http://localhost:8339/static/' + item)
-            self.assertTrue(content != None)
+            self.assertTrue('Not Found' not in content)
         
 class WorkersTestCase(unittest.TestCase):
 
