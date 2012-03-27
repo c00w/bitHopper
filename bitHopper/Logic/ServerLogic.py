@@ -55,7 +55,7 @@ def valid_scheme( source):
             
         #Check if this is a secure payout scheme
         if scheme.lower() in ['pps', 'smpps', 'pplns']:
-            yield source
+            yield site
         
         if scheme.lower() in ['prop', 'score']:
         
@@ -66,7 +66,7 @@ def valid_scheme( source):
                 
             shares = float(shares)
             if shares < difficulty_cutoff(site):
-                yield source
+                yield site
                 
 def valid_credentials( source):
     """
@@ -115,7 +115,6 @@ def filter_best( source):
     returns the best pool or pools we have
     """
     pools = [x for x in source]
-    
     #See if we have a score or a prop pool
     hoppable = list(filter_hoppable( pools))
     
