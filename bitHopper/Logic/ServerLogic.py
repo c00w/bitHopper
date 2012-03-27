@@ -153,7 +153,7 @@ def get_server():
     """
     Returns an iterator of valid servers
     """
-    return _select(Servers)
+    return _select(Servers).name
         
 i = 1
 Servers = set()

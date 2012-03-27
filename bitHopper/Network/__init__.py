@@ -6,7 +6,8 @@ import httplib2
 import bitHopper.Logic, bitHopper.Tracking
 from . import ResourcePool
 from bitHopper.util import rpc_error
-    
+import btcnet_info
+
 def submit_work(work):
     pass
     
@@ -52,8 +53,8 @@ def get_work( headers = {}):
     Gets a work item
     """
     while True:
-        server, username, password = Logic.get_server()
-        url = btcnet_info.get_pool('url').mine.address
+        server, username, password = bitHopper.Logic.get_server()
+        url = btcnet_info.get_pool(server).mine.address
         request = {'params':[], 'id':1, 'method':'getwork'}
         
         try:
@@ -63,7 +64,7 @@ def get_work( headers = {}):
             content, headers = None, None
             
         if not content:
-            Logic.lag(server, username, password)
+            bitHopper.Logic.lag(server, username, password)
             continue
             
         Tracking.add_work_unit(content, server, username, password)

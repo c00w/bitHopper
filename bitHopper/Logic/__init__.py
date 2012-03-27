@@ -46,4 +46,6 @@ def _select(item):
     """
     global i
     i = i + 1 if i < 10**10 else 0
+    if len(item) == 0:
+        raise ValueError("No item available")
     return item[i % len(item)]
