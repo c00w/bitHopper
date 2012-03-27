@@ -4,7 +4,7 @@ import bitHopper.Configuration.Workers
     
 @app.route("/worker", methods=['POST', 'GET'])
 def worker():
-    print flask.request.form
+
     #Check if this is a form submission
     handle_worker_post(flask.request.form)
     
@@ -18,19 +18,14 @@ def worker():
     return flask.render_template('worker.html', pools = pools_workers)
     
 def handle_worker_post(post):
-    print post
     for item in ['method','username','password', 'pool']:
         if item not in post:
-            print 'Not post'
             return
     
     if post['method'] == 'remove':
-        print 'Removing'
         bitHopper.Configuration.Workers.remove(
                 post['pool'], post['username'], post['password'])
                 
     elif post['method'] == 'add':
-        print 'Adding'
         bitHopper.Configuration.Workers.add(
                 post['pool'], post['username'], post['password'])
-        print bitHopper.Configuration.Workers.workers

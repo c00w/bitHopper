@@ -14,26 +14,26 @@
 </tr>
 
     {% for item in pools[pool]%}
-    <tr>
-        <td> </td>
+    <tr class=worker>
+        <form name="remove" action="worker" method="post" class=no_margin>
+        <td class=align_right> <input type="submit" value="-"></td>
         <td>{{item[0]}}</td>
         <td>{{item[1]}}</td>
         <td>
-            <form name="remove" action="worker" method="post" class=no_margin>
             <input type="hidden" name="method" value="remove">
             <input type="hidden" name="username" value="{{item[0]}}">
             <input type="hidden" name="password" value="{{item[1]}}">
             <input type="hidden" name="pool" value="{{pool}}">
-            <input type="submit" value="-">
-            </form>
         </td>
-        </tr>
+        </form>
+    </tr>
     {% endfor %}
     
-<tr>
+<tr class=worker>
     <form name="add" action="worker" method="post">
-    <td  class=align_right>
-        <input type="submit" value="+">
+    <td>
+        <input type="hidden" name="method" value="add">
+        <input type="hidden" name="pool" value="{{pool}}">
     </td>
     <td>
         <input type="text" name="username" value="">
@@ -41,9 +41,8 @@
     <td>
         <input type="text" name="password" value="">
     </td>
-    <td>
-        <input type="hidden" name="method" value="add">
-        <input type="hidden" name="pool" value="{{pool}}">
+    <td class=align_right>
+        <input type="submit" value="+">
     </td>
     </form>
 </tr>
