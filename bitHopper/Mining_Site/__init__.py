@@ -19,18 +19,18 @@ def mine(environ, start_response):
     
     #This should never cause an error
     if 'wsgi.input' not in environ:
-        return bitHopper.util.error_rpc('No body passed')
+        return bitHopper.util.rpc_error('No body passed')
         
     #Read everything out
     request = _read_all(environ['wsgi.input'])
     try:
         rpc_request = json.loads(request)
     except ValueError, e:
-        return bitHopper.util.error_rpc()
+        return bitHopper.util.rpc_error()
         
     #Check for valid rpc_request
     if not bitHopper.util.validate_rpc(rpc_request):
-        return bitHopper.util.error_rpc()
+        return bitHopper.util.rpc_error()
         
     #If getworks just feed them data
     if rpc_request['params'] == []:
