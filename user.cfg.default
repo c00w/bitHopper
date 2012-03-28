@@ -300,6 +300,13 @@ user: your_username
 #passwords can be anything on 50btc
 pass: your_password
 
+[project2]
+#http://project2.tygrr.com (PPS)
+#---Edit after this line if mined---
+role: backup
+user: your_username
+pass: your_password
+
 ###############################
  Pools that use PPLNS, DGM or
  other payout system seen as
