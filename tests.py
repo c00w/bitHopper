@@ -122,7 +122,17 @@ class ControlTestCase(unittest.TestCase):
         br["username"] = 'test'
         br["password"] = 'test'
         response = br.submit()
-        self.assertTrue(workers.len_workers() > before)
+        #self.assertTrue(workers.len_workers() > before)
+        print workers.len_workers(), 'I'
+        for a in workers.workers:
+            print a
+            pool, username, password = a
+            if (username, password) == ('test','test'):
+                workers.remove(pool, username, password)
+                break
+        print workers.len_workers()
+        self.assertTrue(workers.len_workers() == before)
+        
         #Commented out because it doesn't test correctly
         #And it deletes too many workers
         """
@@ -131,7 +141,7 @@ class ControlTestCase(unittest.TestCase):
         br.select_form(name="remove")
         response = br.submit()
         print '%s is before %s after remove ' % (before, workers.len_workers())
-        self.assertTrue(workers.len_workers() == before)
+        
         """
         
 class WorkersTestCase(unittest.TestCase):
