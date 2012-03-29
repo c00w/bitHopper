@@ -4,13 +4,32 @@ import bitHopper.Network
 import json, logging
 
 def _read_all(fp):
+    """
+    Reads everything from a file pointer like object
+    """
     a = ''
     for b in fp:
         a += b
     return a
     
-def clean_headers(header):
-    valid = ['user_agent', 'x-mining-extensions']
+def clean_headers_client(header):
+    """
+    Only allows through headers which are safe to pass to the server
+    """
+    valid = ['user_agent', 'x-mining-extensions', 'x-mining-hashrate']
+    for name, value in header.items():
+        if name.lower() not in valid:
+            del header[name]
+        else:
+            del header[name]
+            header[name.lower()] = value
+    return header
+    
+def clean_headers_server(header):
+    """
+    Only allows through headers which are safe to pass to the client
+    """
+    valid = ['content-length', 'content-type', 'x-roll-ntime', 'x-reject-reason', 'noncerange']
     for name, value in header.items():
         if name.lower() not in valid:
             del header[name]
@@ -21,6 +40,9 @@ def clean_headers(header):
         
     
 def _get_headers(environ):
+    """
+    Returns headers from the environ
+    """
     headers = {}
     for name in environ:
         if name[0:5] == "HTTP_":
@@ -31,12 +53,11 @@ def mine(environ, start_response):
     """
     Function that does basic handling of work requests
     """
-    
-    #Do this at the top for now so we allways call it.
-    start_response('200 OK', [])
-    
+
+
     #This should never cause an error
     if 'wsgi.input' not in environ:
+        start_response('200 OK', [])
         return bitHopper.util.rpc_error('No body passed')
         
     #Read everything out
@@ -44,16 +65,19 @@ def mine(environ, start_response):
     try:
         rpc_request = json.loads(request)
     except ValueError, e:
+        start_response('200 OK', [])
         return bitHopper.util.rpc_error()
         
     #Check for valid rpc_request
     if not bitHopper.util.validate_rpc(rpc_request):
+        start_response('200 OK', [])
         return bitHopper.util.rpc_error()
         
     #Get client headers
     headers = _get_headers(environ)
+    
     #Remove everything we don't want
-    headers = clean_headers(headers)
+    headers = clean_headers_client(headers)
     
     #If getworks just feed them data
     if rpc_request['params'] == []:
@@ -64,4 +88,6 @@ def mine(environ, start_response):
     else:
         content, headers = bitHopper.Network.submit_work(rpc_request)
     
+    headers = clean_headers_server(headers)
+    start_response('200 OK', [])
     return content

@@ -72,7 +72,7 @@ def get_work( headers = {}):
             
         Tracking.add_work_unit(content, server, username, password)
             
-        return content, headers
+        return content, server_headers
             
 def submit_work(rpc_request, headers = {}):
     """
