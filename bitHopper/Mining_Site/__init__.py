@@ -8,7 +8,25 @@ def _read_all(fp):
     for b in fp:
         a += b
     return a
-
+    
+def clean_headers(header):
+    valid = ['user_agent', 'x-mining-extensions']
+    for name, value in header.items():
+        if name.lower() not in valid:
+            del header[name]
+        else:
+            del header[name]
+            header[name.lower()] = value
+    return header
+        
+    
+def _get_headers(environ):
+    headers = {}
+    for name in environ:
+        if name[0:5] == "HTTP_":
+            headers[name[5:]] = environ[name]
+    return headers
+    
 def mine(environ, start_response):
     """
     Function that does basic handling of work requests
@@ -32,10 +50,15 @@ def mine(environ, start_response):
     if not bitHopper.util.validate_rpc(rpc_request):
         return bitHopper.util.rpc_error()
         
+    #Get client headers
+    headers = _get_headers(environ)
+    #Remove everything we don't want
+    headers = clean_headers(headers)
+    
     #If getworks just feed them data
     if rpc_request['params'] == []:
         #TODO, pass in headers
-        content, headers = bitHopper.Network.get_work()
+        content, headers = bitHopper.Network.get_work(headers = headers)
     
     #Otherwise submit the work unit
     else:
