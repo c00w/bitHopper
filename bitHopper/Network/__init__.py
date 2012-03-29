@@ -2,9 +2,10 @@
 Stub for networking module
 """
 
-import httplib2
-import bitHopper.Logic, bitHopper.Tracking
-from . import ResourcePool
+import httplib2, logging, traceback, json, base64
+import bitHopper.Logic
+import bitHopper.Tracking as Tracking
+import ResourcePool
 from bitHopper.util import rpc_error
 import btcnet_info
 
@@ -42,9 +43,11 @@ def send_work( url, worker, password, headers={}, body=[]):
         return None, None
     
     body = json.dumps(body, ensure_ascii = True)
-    header['Authorization'] = "Basic " +base64.b64encode(worker+ ":" + password).replace('\n','')
-    header['Content-Type'] = 'application/json'
-    header['connection'] = 'keep-alive'
+    headers['Authorization'] = "Basic " +base64.b64encode(worker+ ":" + password).replace('\n','')
+    headers['Content-Type'] = 'application/json'
+    headers['connection'] = 'keep-alive'
+    if 'http' not in url:
+        url = 'http://' + url
     
     return request(url, body = body, headers= headers, method='POST')
 
@@ -54,14 +57,14 @@ def get_work( headers = {}):
     """
     while True:
         server, username, password = bitHopper.Logic.get_server()
-        url = btcnet_info.get_pool(server).mine.address
+        url = btcnet_info.get_pool(server)['mine.address']
         request = {'params':[], 'id':1, 'method':'getwork'}
         
         try:
-            content, headers = send_work( url, username, password, headers, request)
+            content, server_headers = send_work( url, username, password, headers, request)
         except:
             logging.error(traceback.format_exc())
-            content, headers = None, None
+            content, server_headers = None, None
             
         if not content:
             bitHopper.Logic.lag(server, username, password)
@@ -80,12 +83,12 @@ def submit_work(rpc_request, headers = {}):
     if not server:
         return error_rpc('Merkle Root Expired')
         
-    url = btcnet_info.get_pool(server).mine.address
+    url = btcnet_info.get_pool(server)['mine.address']
     if not url:
         logging.error('NO URL FOR %s', server)
         return error_rpc('No Url for pool')
         
-    content, headers = bitHopper.Network.send_work(url, username, password, headers = headers, body = rpc_request['params'])
+    content, server_headers = bitHopper.Network.send_work(url, username, password, headers = headers, body = rpc_request['params'])
     
-    return content, headers
+    return content, server_headers
     

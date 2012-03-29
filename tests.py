@@ -83,6 +83,20 @@ class MiningTestCase(unittest.TestCase):
     def testGetWorkers(self):
         import bitHopper.Logic
         self.assertTrue(bitHopper.Logic.get_server() != None)
+        
+    def testMining(self):
+        import httplib2, json
+        http = httplib2.Http()
+        body = json.dumps({'params':[], 'id':1, 'method':'getwork'})
+        headers, content = http.request('http://localhost:8337/','POST', body=body)
+        try:
+            response = json.loads(content) 
+        except:
+            self.assertFalse("invalid json response")
+        self.assertTrue('result' in response)
+        self.assertTrue('id' in response)
+        self.assertTrue('error' in response)
+        self.assertTrue(response['error'] == None)
                 
 class ControlTestCase(unittest.TestCase):
         
@@ -124,12 +138,11 @@ class ControlTestCase(unittest.TestCase):
         response = br.submit()
         #self.assertTrue(workers.len_workers() > before)
         print workers.len_workers(), 'I'
-        for a in workers.workers:
-            print a
-            pool, username, password = a
-            if (username, password) == ('test','test'):
-                workers.remove(pool, username, password)
-                break
+        for pool in workers.workers:
+            for username, password in workers.workers[pool]:
+                if (username, password) == ('test','test'):
+                    workers.remove(pool, username, password)
+                    break
         print workers.len_workers()
         self.assertTrue(workers.len_workers() == before)
         
