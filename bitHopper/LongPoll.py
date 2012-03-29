@@ -12,7 +12,7 @@ def trigger(work):
     """
     Call to trigger a LP
     """
-
-    old = self._event
-    self._event = event.AsyncResult()
+    global _event
+    old = _event
+    _event = AsyncResult()
     old.set(work)

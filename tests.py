@@ -97,6 +97,18 @@ class MiningTestCase(unittest.TestCase):
         self.assertTrue('id' in response)
         self.assertTrue('error' in response)
         self.assertTrue(response['error'] == None)
+        
+class LongPollingTestCase(unittest.TestCase):
+    def testBlocking(self):
+        import bitHopper.LongPoll as lp
+        import gevent
+        def trigger():
+            lp.wait()
+        gevent.spawn(trigger)
+        lp.trigger('Not used right now')
+        gevent.sleep(0.1)
+        self.assertTrue(True)
+         
                 
 class ControlTestCase(unittest.TestCase):
         
