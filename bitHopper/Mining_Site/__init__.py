@@ -2,6 +2,7 @@ import bitHopper.Tracking
 import bitHopper.util
 import bitHopper.Network
 import json, logging
+import bitHopper.LongPoll
 
 def _read_all(fp):
     """
@@ -53,7 +54,9 @@ def mine(environ, start_response):
     """
     Function that does basic handling of work requests
     """
-
+    #If this is an LP, do something different
+    if 'longpoll' in environ['PATH_INFO']:
+        bitHopper.LongPoll.wait()
 
     #This should never cause an error
     if 'wsgi.input' not in environ:
@@ -89,5 +92,9 @@ def mine(environ, start_response):
         content, headers = bitHopper.Network.submit_work(rpc_request)
     
     headers = clean_headers_server(headers)
-    start_response('200 OK', [])
+    
+    #Set Long Polling Header
+    headers['x-long-polling'] = '/longpoll'
+    
+    start_response('200 OK', headers.items())
     return content
