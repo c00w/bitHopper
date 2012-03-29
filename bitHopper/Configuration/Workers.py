@@ -73,6 +73,8 @@ def remove(server, username, password):
     if (username, password) not in workers[server]:
         return
     workers[server].remove((username, password))
+    if workers[server] == set([]):
+        del workers[server]
     bitHopper.Database.execute("DELETE FROM Workers WHERE Server = '%s' AND Username = '%s' AND Password = '%s'" % (server, username, password))
         
 
