@@ -47,5 +47,5 @@ def _tb_wrapper(server):
     while True:
         try:
             server.serve_forever()
-        except (Exception, e):
+        except:
             logging.error(traceback.format_exc())
