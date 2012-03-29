@@ -14,8 +14,6 @@ def _read_all(fp):
         a += b
     return a
     
-    
-    
 def mine(environ, start_response):
     """
     Function that does basic handling of work requests
@@ -43,7 +41,7 @@ def mine(environ, start_response):
         return bitHopper.util.rpc_error()
         
     #Get client headers
-    headers = _get_headers(environ)
+    headers = get_headers(environ)
     
     #Remove everything we don't want
     headers = clean_headers_client(headers)

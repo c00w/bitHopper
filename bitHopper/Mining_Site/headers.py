@@ -25,7 +25,7 @@ def clean_headers_server(header):
     return header
         
     
-def _get_headers(environ):
+def get_headers(environ):
     """
     Returns headers from the environ
     """
