@@ -11,5 +11,6 @@ setup(
 		'webob',
 		'gevent',
 		'btcnet_info',
+		'flask',
 	],
 )
