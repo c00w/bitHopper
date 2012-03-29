@@ -137,13 +137,11 @@ class ControlTestCase(unittest.TestCase):
         br["password"] = 'test'
         response = br.submit()
         #self.assertTrue(workers.len_workers() > before)
-        print workers.len_workers(), 'I'
         for pool in workers.workers:
             for username, password in workers.workers[pool]:
                 if (username, password) == ('test','test'):
                     workers.remove(pool, username, password)
                     break
-        print workers.len_workers()
         self.assertTrue(workers.len_workers() == before)
         
         #Commented out because it doesn't test correctly

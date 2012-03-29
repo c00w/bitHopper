@@ -39,7 +39,8 @@ def load_from_db():
     return workers
     
 def len_workers():
-    return len(workers)
+    return sum(map(len, workers.values()))
+        
     
 def get_worker_from(pool):
     """
