@@ -7,6 +7,7 @@ gevent.monkey.patch_all(thread=False, time=False)
 #geventhttpclient.httplib.patch()
 import httplib2
 import gevent
+import btcnet_info
 
 import Logic
 import Network
@@ -20,6 +21,24 @@ def setup_logging(level=logging.INFO):
 
 import gevent.wsgi, os
 import Mining_Site
+
+def custom_pools():
+    """
+    Loads custom pool filenames and tells btcnet_info about them
+    """
+    #Ugly hack to figure out where we are
+    try:
+        # determine if application is a script file or frozen exe
+        if hasattr(sys, 'frozen'):
+            FD_DIR = os.path.dirname(sys.executable)
+        else:
+            FD_DIR = os.path.dirname(os.path.abspath(__file__))
+    except:
+        FD_DIR = os.curdir
+        
+    filenames = [name for name in os.listdir(os.path.join(FD_DIR,'../custom_pools')) if '.ignore' not in name]
+    btcnet_info.add_pools(filenames)
+        
 
 def setup_miner(port = 8337, host = ''):
     """

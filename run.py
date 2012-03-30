@@ -4,6 +4,9 @@ import argparse
 import logging
 
 def parse_config():
+    """
+    Parses the low level bitHopper configuration
+    """
     parser = argparse.ArgumentParser(description='Process bitHopper CommandLine Arguments')
     parser.add_argument('--mine_port', metavar='mp', type=int, 
                     default=8337, help='Mining Port Number')
@@ -26,12 +29,18 @@ def parse_config():
 if __name__ == "__main__":
 
     args = parse_config()
-    if args.debug:
-        bitHopper.setup_logging(logging.DEBUG)
-    else:
-        bitHopper.setup_logging()
+    
+    #Setup debugging output
+    bitHopper.setup_logging(logging.DEBUG if args.debug else logging.INFO)
+        
+    #Setup mining port
     bitHopper.setup_miner(port = args.mine_port, host=args.mine_localname)
+    
+    #Set up the control website
     bitHopper.setup_control(port = args.config_port, host=args.config_localname)
+    
+    #Setup Custom Pools
+    bitHopper.custom_pools()
 
     while True:
         gevent.sleep(100)
