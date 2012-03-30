@@ -6,6 +6,7 @@ gevent.monkey.patch_all(thread=False, time=False)
 #import geventhttpclient.httplib
 #geventhttpclient.httplib.patch()
 import httplib2
+import gevent
 
 import Logic
 import Network
@@ -50,3 +51,4 @@ def _tb_wrapper(server):
             server.serve_forever()
         except:
             logging.error(traceback.format_exc())
+            gevent.sleep(10)
