@@ -48,7 +48,6 @@ def mine(environ, start_response):
     
     #If getworks just feed them data
     if rpc_request['params'] == []:
-        #TODO, pass in headers
         content, headers = bitHopper.Network.get_work(headers = headers)
     
     #Otherwise submit the work unit

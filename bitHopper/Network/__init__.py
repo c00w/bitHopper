@@ -90,5 +90,7 @@ def submit_work(rpc_request, headers = {}):
         
     content, server_headers = bitHopper.Network.send_work(url, username, password, headers = headers, body = rpc_request['params'])
     
+    Tracking.add_result(content, server, username, password)
+    
     return content, server_headers
     
