@@ -1,18 +1,16 @@
 from getwork_store import Getwork_Store
-from bitHopper.util import extract_merkle
-
+from bitHopper.util import extract_merkle, extract_result
+import Tracking
 __store = False
 
 def __patch():
     global __store
     if not __store:
         __store = Getwork_Store()
-        
-    
 
 def add_work_unit(content, server, username, password):
     """
-    Does wrapping and stores the result
+    Does wrapping and stores the submission
     """
     __patch()
     merkle_root = extract_merkle(content)
@@ -20,12 +18,19 @@ def add_work_unit(content, server, username, password):
         return
     auth = (server, username, password)
     __store.add(merkle_root, auth)
+    Tracking.add_getwork(server, username, password)
     
-def add_worker_unit(content, server, username, password):
+def add_result(content, server, username, password):
     """
-    Does wrapping and stores the submission
+    Does wrapping and stores the result
     """
     __patch()
+    result = extract_result(content)
+    print result
+    if result.lower() in ['false']
+        Tracking.add_rejected(server, username, password)
+    else:
+        Tracking.add_accepted(server, username, password)
     
     
 def get_work_unit(content):

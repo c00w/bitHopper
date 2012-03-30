@@ -22,6 +22,13 @@ def extract_merkle(content):
     merkle = content['params']['data'][72:136]
     return merkle
     
+def extract_result(content):
+    """
+    extracts the result
+    """
+    result = content['params']
+    return result
+    
 
 def rpc_error(message = 'Invalid Request'):
     """
