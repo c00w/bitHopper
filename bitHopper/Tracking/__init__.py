@@ -27,7 +27,7 @@ def add_result(content, server, username, password):
     __patch()
     result = extract_result(content)
     print result
-    if result.lower() in ['false']
+    if result.lower() in ['false']:
         Tracking.add_rejected(server, username, password)
     else:
         Tracking.add_accepted(server, username, password)
