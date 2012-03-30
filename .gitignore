@@ -2,4 +2,5 @@
 *.py~
 *.swp
 *.db
+*.db-journal
 *.*~
