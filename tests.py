@@ -3,6 +3,8 @@ import unittest, json, bitHopper, btcnet_info
 import bitHopper.Logic
 import bitHopper.Configuration.Workers
 import gevent
+import bitHopper
+bitHopper.setup_logging()
 
 class FakePool():
     """Class for faking pool information from btnet"""    

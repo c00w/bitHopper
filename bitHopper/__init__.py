@@ -13,7 +13,8 @@ import Website
 import Configuration
 
 import logging, sys
-logging.basicConfig(stream=sys.stdout, format="%(asctime)s|%(module)s: %(message)s", datefmt="%H:%M:%S", level = logging.INFO)
+def setup_logging(level=logging.INFO):
+    logging.basicConfig(stream=sys.stdout, format="%(asctime)s|%(module)s: %(message)s", datefmt="%H:%M:%S", level = level)
 
 
 import gevent.wsgi, os
