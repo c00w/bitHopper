@@ -8,7 +8,7 @@ setup(
     install_requires=[
 		'setuptools',
 		'httplib2',
-		'webob',
+		'mechanize',
 		'gevent',
 		'btcnet_info',
 		'flask',
