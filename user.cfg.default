@@ -278,7 +278,7 @@ user: c00w1456testhop
 pass: x
 
 [bitparking]
-#http://mmpool.bitparking.com (PPS)
+#http://mmpool.bitparking.com (MergeM-PPS)
 #---Edit after this line if mined---
 role: backup
 user: your_username
@@ -314,7 +314,7 @@ pass: your_password
 ###############################
 
 [eclipsemc]
-#https://eclipsemc.com (DGM)
+#https://eclipsemc.com (MergeM-DGM)
 #---Edit after this line if mined---
 role: disable
 eclipsemc_apikey: bd0eded7e35b1b5fc48f8d10214d98
@@ -343,7 +343,7 @@ user: your_username
 pass: your_password
 
 [ozco]
-#https://ozco.in (DGM)
+#https://ozco.in (MergeM-DGM)
 #---Edit after this line if mined---
 role: info
 user:c00w.1
@@ -387,7 +387,7 @@ user: your_username
 pass: your_password
 
 [maxbtc]
-#https://MaxBTC.com (DGM)
+#https://MaxBTC.com (MergeM-DGM)
 #---Edit after this line if mined---
 role: info
 user: your_username
