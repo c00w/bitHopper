@@ -3,7 +3,7 @@
  of pools used for hopping, gathered
    here for orientation purposes.
 
-     Last update: March 29, 2012
+     Last update: April 3, 2012
 
 ######################################
 
@@ -233,6 +233,7 @@ info_1: Mid-size pool from the Balkans - 54.35 GH/s  @ 03.22.12
 [maxbtc]
 #https://www.maxbtc.com
 info_1: DGM - 150.9 GH/s @ 03.22.12
+info_2: Merged Mining enabled - 195.9 GH/s @ 04.04.12
 
 
 [bitminter]
