@@ -11,6 +11,7 @@ TODO: FIX ALL THE SQL INJECTIONS. EVERYONE OF THESE THINGS IS FULL OF THEM
 """
 import bitHopper.Database.Commands
 import bitHopper.Database
+import random
 workers = None
 
 def __patch():
@@ -45,12 +46,22 @@ def len_workers():
 def get_worker_from(pool):
     """
     Returns a list of workers in the given pool
-    In the form of [Server, Username, Password], ...
+    In the form of [(Username, Password), ... ]
     """
     __patch()
     if pool not in workers:
         return []
     return workers[pool]
+    
+def get_single_worker(pool):
+    """
+    Returns username, password or None, None
+    """
+    possible = get_worker_from(pool)
+    if possible == []:
+        return None, None
+        
+    return random.choice(possible)
     
 def add(server, username, password):
     """

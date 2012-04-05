@@ -35,7 +35,7 @@ def request( url, body = '', headers = {}, method='GET', timeout = None):
         headers, content = http.request( url, method, headers=headers, body=body)
     return content, headers
     
-def send_work( url, worker, password, headers={}, body=[]):
+def send_work( url, worker, password, headers={}, body=[], timeout = None):
     """
     Does preproccesing and header setup for sending a work unit
     """
@@ -49,7 +49,7 @@ def send_work( url, worker, password, headers={}, body=[]):
     if 'http' not in url:
         url = 'http://' + url
     
-    return request(url, body = body, headers= headers, method='POST')
+    return request(url, body = body, headers= headers, method='POST', timeout = timeout)
 
 def get_work( headers = {}):
     """
@@ -71,6 +71,7 @@ def get_work( headers = {}):
             continue
             
         Tracking.add_work_unit(content, server, username, password)
+        Tracking.headers(server_headers, server)
             
         return content, server_headers
             
@@ -91,6 +92,7 @@ def submit_work(rpc_request, headers = {}):
     content, server_headers = bitHopper.Network.send_work(url, username, password, headers = headers, body = rpc_request['params'])
     
     Tracking.add_result(content, server, username, password)
+    Tracking.headers(server_headers, server)
     
     return content, server_headers
     

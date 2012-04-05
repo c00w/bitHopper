@@ -1,12 +1,22 @@
 from getwork_store import Getwork_Store
 from bitHopper.util import extract_merkle, extract_result
 import Tracking
+import bitHopper.LongPoll_Listener
 __store = False
 
 def __patch():
     global __store
     if not __store:
         __store = Getwork_Store()
+        
+def headers(headers, server):
+    """
+    Deals with headers from the server, mainly for LP
+    but we could do other things
+    """
+    for k,v in headers.items():
+        if k.lower() == 'x-long-polling':
+            bitHopper.LongPoll_Listener.add_address(v, server)
 
 def add_work_unit(content, server, username, password):
     """
