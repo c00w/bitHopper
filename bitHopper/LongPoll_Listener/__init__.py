@@ -31,7 +31,7 @@ def poll(server):
             url = known[server]
             request = {'params':[], 'id':1, 'method':'getwork'}
             headers = None
-            username, password = bitHopper.Configuration.Workers.get_single_worker(pool)
+            username, password = bitHopper.Configuration.Workers.get_single_worker(server)
             
             #If we have no user wait 5 minutes and try again
             if username == None:
