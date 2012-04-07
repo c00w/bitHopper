@@ -21,7 +21,7 @@ def handle(content):
     """
     Handles the content returned from a lp poll
     """
-    print content
+    logging.info(content)
     
 def poll(server):
     """
