@@ -1,3 +1,8 @@
+"""
+Functions for manipulating headers for bitHopper
+"""
+
+
 def clean_headers_client(header):
     """
     Only allows through headers which are safe to pass to the server
@@ -15,7 +20,8 @@ def clean_headers_server(header):
     """
     Only allows through headers which are safe to pass to the client
     """
-    valid = ['content-length', 'content-type', 'x-roll-ntime', 'x-reject-reason', 'noncerange']
+    valid = ['content-length', 'content-type', 'x-roll-ntime', 
+             'x-reject-reason', 'noncerange']
     for name, value in header.items():
         if name.lower() not in valid:
             del header[name]

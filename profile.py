@@ -1,3 +1,8 @@
+"""
+Starts up with a gevent based profiler. Probably superfluous and
+the profiler doesn't work
+"""
+
 import bitHopper
 import gevent
 import argparse
@@ -7,7 +12,8 @@ def parse_config():
     """
     Parses the low level bitHopper configuration
     """
-    parser = argparse.ArgumentParser(description='Process bitHopper CommandLine Arguments')
+    parser = argparse.ArgumentParser(
+            description='Process bitHopper CommandLine Arguments')
     parser.add_argument('--mine_port', metavar='mp', type=int, 
                     default=8337, help='Mining Port Number')
                    
@@ -32,6 +38,7 @@ if __name__ == "__main__":
     run()
     
 def run():
+    """Main driver function"""
     args = parse_config()
     
     #Setup debugging output

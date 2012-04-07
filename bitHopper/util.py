@@ -1,3 +1,7 @@
+"""
+Utility functions for bitHopper
+"""
+
 import json
 
 def validate_rpc(content):

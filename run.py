@@ -1,3 +1,8 @@
+"""
+Main command line interface for bitHopper
+Parses arguments and start bitHopper up
+"""
+
 import bitHopper
 import gevent
 import argparse
@@ -7,7 +12,8 @@ def parse_config():
     """
     Parses the low level bitHopper configuration
     """
-    parser = argparse.ArgumentParser(description='Process bitHopper CommandLine Arguments')
+    parser = argparse.ArgumentParser(
+                    description='Process bitHopper CommandLine Arguments')
     parser.add_argument('--mine_port', metavar='mp', type=int, 
                     default=8337, help='Mining Port Number')
                    
@@ -22,9 +28,7 @@ def parse_config():
                     
     parser.add_argument('--debug', action="store_true", default=False)
                     
-    args = parser.parse_args()
-    return args
-    
+    return parser.parse_args()
 
 if __name__ == "__main__":
 

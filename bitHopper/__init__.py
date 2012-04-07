@@ -1,3 +1,12 @@
+"""
+BitHopper Library which handles everything.
+The following functions need to be called
+custom_pools() sets up additional pools for btcnet_info
+setup_miner sets the port for the miner
+setup_control sets the port for the control website
+setup_logging() sets up the logging level
+"""
+
 import gevent.monkey
 #Not patching thread so we can spin of db file ops.
 gevent.monkey.patch_all(thread=False, time=False)
@@ -9,18 +18,25 @@ import httplib2
 import gevent
 import btcnet_info
 
-import Logic
-import Network
-import Website
-import Configuration
+import bitHopper.Logic
+import bitHopper.Network
+import bitHopper.Website
+import bitHopper.Configuration
+import bitHopper.Mining_Site
 
 import logging, sys
 def setup_logging(level=logging.INFO):
-    logging.basicConfig(stream=sys.stdout, format="%(asctime)s|%(module)s: %(message)s", datefmt="%H:%M:%S", level = level)
+    """
+    Sets up the logging output we want
+    """
+    logging.basicConfig(
+            stream=sys.stdout, 
+            format="%(asctime)s|%(module)s: %(message)s", 
+            datefmt="%H:%M:%S", 
+            level = level)
 
 
 import gevent.wsgi, os
-import Mining_Site
 
 def custom_pools():
     """
@@ -36,7 +52,9 @@ def custom_pools():
     except:
         FD_DIR = os.curdir
         
-    filenames = [name for name in os.listdir(os.path.join(FD_DIR,'../custom_pools')) if '.ignore' not in name]
+    filenames = [name for name in os.listdir(
+                    os.path.join(FD_DIR,'../custom_pools')) 
+                    if '.ignore' not in name]
     btcnet_info.add_pools(filenames)
         
 
@@ -46,7 +64,10 @@ def setup_miner(port = 8337, host = ''):
     """
     #Don't show the gevent logsg
     log = open(os.devnull, 'wb')
-    server = gevent.wsgi.WSGIServer((host, port), Mining_Site.mine,  backlog=512,  log=log)
+    server = gevent.wsgi.WSGIServer((host, port), 
+            bitHopper.Mining_Site.mine,  
+            backlog=512,  
+            log=log)
     gevent.spawn(_tb_wrapper, server)
     gevent.sleep(0)
     
@@ -56,11 +77,14 @@ def setup_control(port = 8339, host = ''):
     """
     #Don't show the gevent logsg
     log = open(os.devnull, 'wb')
-    server = gevent.wsgi.WSGIServer((host, port), Website.app,  backlog=512,  log=log)
+    server = gevent.wsgi.WSGIServer((host, port), 
+            bitHopper.Website.app,  
+            backlog=512,  
+            log=log)
     gevent.spawn(_tb_wrapper, server)
     gevent.sleep(0)
     
-import logging, traceback
+import traceback
 def _tb_wrapper(server):
     """
     Traceback Wrapper

@@ -1,4 +1,6 @@
-import os
+"""
+Dummy file to install bitHopper dependencies
+"""
 from setuptools import setup
 
 setup(
