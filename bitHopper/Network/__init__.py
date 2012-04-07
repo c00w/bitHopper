@@ -8,9 +8,6 @@ import bitHopper.Tracking as Tracking
 import ResourcePool
 from bitHopper.util import rpc_error
 import btcnet_info
-
-def submit_work(work):
-    pass
     
 i = 0
 def _make_http( timeout = None):
@@ -82,12 +79,12 @@ def submit_work(rpc_request, headers = {}):
     server, username, password = bitHopper.Tracking.get_work_unit(rpc_request)
         
     if not server:
-        return error_rpc('Merkle Root Expired')
+        return rpc_error('Merkle Root Expired')
         
     url = btcnet_info.get_pool(server)['mine.address']
     if not url:
         logging.error('NO URL FOR %s', server)
-        return error_rpc('No Url for pool')
+        return rpc_error('No Url for pool')
         
     content, server_headers = bitHopper.Network.send_work(url, username, password, headers = headers, body = rpc_request['params'])
     

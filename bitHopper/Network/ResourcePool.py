@@ -4,35 +4,35 @@
 #If you were not provided with a copy of the license please contact: 
 # Colin Rice colin@daedrum.net
 
-import threading
+import threading, gevent
 
 class ResourceGenerator:
-        def __init__(self, generate = lambda:None, pool = None, timeout = None):
-            #Pool is a list of items
-            #Generate creates a new item
-            self.generate = generate
-            self.pool = pool
-            self.timeout = timeout
-            
-        def __enter__(self):
-            #Check if an item is available
-            while len(self.pool) > 100:
-                for lock, item in self.pool:
-                    if lock.acquire(False):
-                        self.lock = lock
-                        return item
-                if len(self.pool) > 100:
-                    gevent.sleep(0)
-                    
-            #Otherwise make a new item
-            (lock, item) = (threading.Lock(), self.generate(self.timeout))
-            lock.acquire()
-            self.lock = lock
-            self.pool.add((lock,item))
-            return item
-            
-        def __exit__(self, type, value, traceback):
-            self.lock.release()
+    def __init__(self, generate = lambda:None, pool = None, timeout = None):
+        #Pool is a list of items
+        #Generate creates a new item
+        self.generate = generate
+        self.pool = pool
+        self.timeout = timeout
+        
+    def __enter__(self):
+        #Check if an item is available
+        while len(self.pool) > 100:
+            for lock, item in self.pool:
+                if lock.acquire(False):
+                    self.lock = lock
+                    return item
+            if len(self.pool) > 100:
+                gevent.sleep(0)
+                
+        #Otherwise make a new item
+        (lock, item) = (threading.Lock(), self.generate(self.timeout))
+        lock.acquire()
+        self.lock = lock
+        self.pool.add((lock,item))
+        return item
+        
+    def __exit__(self, type, value, traceback):
+        self.lock.release()
             
 class Pool:
     def __init__(self, generate):

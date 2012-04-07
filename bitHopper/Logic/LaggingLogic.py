@@ -2,8 +2,9 @@
 Deals with lagging logic for the system
 """
 
+import btcnet_info
 import gevent
-from .. import Network
+import bitHopper.Network as Network
 
 lagged = set() #A list of tuples (server, worker, password)
     
@@ -19,10 +20,15 @@ def _unlag( server, worker, password):
     """
     sleep_time = 1
     while True:
-        work = Network.get_work_credentials(server, worker, password)
-        if work:
-            lagged.remove((server, worker, password))
-            return
+        try:
+            url = btcnet_info.get_pool(server)['mine.address']
+            work = Network.send_work(url, worker, password)
+            if work:
+                lagged.remove((server, worker, password))
+                return
+        except:
+            pass
+                
         gevent.sleep(60 * sleep_time)
         sleep_time = sleep_time+1 if sleep_time < 10 else 10
         

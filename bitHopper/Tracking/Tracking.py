@@ -48,7 +48,7 @@ def load_from_db():
         
     return getworks, accepted, rejected
 
-def get_key(server, username, pool):
+def get_key(server, username, password):
     """
     Builds a key to access the dictionaries
     """
@@ -56,36 +56,36 @@ def get_key(server, username, pool):
     key = (server, username, password, difficulty)
     return key
     
-def add_getwork(server, username, pool):
+def add_getwork(server, username, password):
     """
     Adds a getwork to the database
     """
     __patch()
     global getworks
-    key = get_key(server, username, pool)
+    key = get_key(server, username, password)
     if key not in getworks:
         getworks[key] = 0
     getworks[key] += 1
     
 
-def add_accepted(server, username, pool):
+def add_accepted(server, username, password):
     """
     Adds an accepted result to the database
     """
     __patch()
     global accepted
-    key = get_key(server, username, pool)
+    key = get_key(server, username, password)
     if key not in accepted:
         accepted[key] = 0
     accepted[key] += 1
     
-def add_rejected(server, username, pool):
+def add_rejected(server, username, password):
     """
     Adds a rejected result to the database
     """
     __patch()
     global rejected
-    key = get_key(server, username, pool)
+    key = get_key(server, username, password)
     if key not in rejected:
         rejected[key] = 0
     rejected[key] += 1

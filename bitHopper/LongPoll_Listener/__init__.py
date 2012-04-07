@@ -2,6 +2,7 @@ import gevent, logging, traceback
 import btcnet_info
 import bitHopper.Configuration.Workers
 import bitHopper.Network
+import bitHopper.Tracking
 
 known = {}
 def add_address(server, url):
@@ -40,7 +41,7 @@ def poll(server):
                 
             content, server_headers = bitHopper.Network.send_work( url, username, password, headers, request, timeout = 60*30)
                 
-            Tracking.add_work_unit(content, server, username, password)
+            bitHopper.Tracking.add_work_unit(content, server, username, password)
             
             handle(content)
             
