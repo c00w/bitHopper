@@ -1,6 +1,7 @@
 import bitHopper.Database
 import bitHopper.Database.Commands
 import btcnet_info
+import logging
 
 def get_diff(pool):
     coin = btcnet_info.get_pool(pool)
@@ -15,10 +16,15 @@ accepted = None
 rejected = None
 
 def __patch():
-    global workers, accepted, rejected
+    global getworks, accepted, rejected
     
     if getworks == None:
-        workers, accepted, rejected = load_from_db()
+        getworks, accepted, rejected = load_from_db()
+        
+def shorten(name):
+    if len(name) > 10:
+        name = name[:10] + '...'
+    return name
         
 def load_from_db():
     """
@@ -66,7 +72,7 @@ def add_getwork(server, username, password):
     if key not in getworks:
         getworks[key] = 0
     getworks[key] += 1
-    
+    username = shorten(username)
     logging.info('Getwork: %s:%s@%s' % (username, password, server))
     
 
@@ -80,7 +86,7 @@ def add_accepted(server, username, password):
     if key not in accepted:
         accepted[key] = 0
     accepted[key] += 1
-    
+    username = shorten(username)
     logging.info('Accepted: %s:%s@%s' % (username, password, server))
     
 def add_rejected(server, username, password):
@@ -93,5 +99,5 @@ def add_rejected(server, username, password):
     if key not in rejected:
         rejected[key] = 0
     rejected[key] += 1
-    
+    username = shorten(username)
     logging.info('Rejected: %s:%s@%s' % (username, password, server))

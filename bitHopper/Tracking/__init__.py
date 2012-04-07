@@ -1,7 +1,9 @@
 from getwork_store import Getwork_Store
-from bitHopper.util import extract_merkle, extract_result
+from bitHopper.util import extract_merkle, extract_result, extract_merkle_recieved
 import Tracking
 import bitHopper.LongPoll_Listener
+import json
+
 __store = False
 
 def __patch():
@@ -23,7 +25,11 @@ def add_work_unit(content, server, username, password):
     Does wrapping and stores the submission
     """
     __patch()
-    merkle_root = extract_merkle(content)
+    try:
+        content = json.loads(content)
+    except:
+        return
+    merkle_root = extract_merkle_recieved(content)
     if not merkle_root:
         return
     auth = (server, username, password)
@@ -36,7 +42,6 @@ def add_result(content, server, username, password):
     """
     __patch()
     result = extract_result(content)
-    print result
     if result.lower() in ['false']:
         Tracking.add_rejected(server, username, password)
     else:

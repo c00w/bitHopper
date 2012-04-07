@@ -8,6 +8,7 @@ import bitHopper.Tracking as Tracking
 import ResourcePool
 from bitHopper.util import rpc_error
 import btcnet_info
+import socket
     
 i = 0
 def _make_http( timeout = None):
@@ -59,6 +60,8 @@ def get_work( headers = {}):
         
         try:
             content, server_headers = send_work( url, username, password, headers, request)
+        except socket.error:
+            content, server_headers = None, None
         except:
             logging.error(traceback.format_exc())
             content, server_headers = None, None
