@@ -31,7 +31,7 @@ def setup_logging(level=logging.INFO):
     """
     logging.basicConfig(
             stream=sys.stdout, 
-            format="%(asctime)s|%(module)s: %(message)s", 
+            format="%(asctime)s|%(module)s|%(funcName)s: %(message)s", 
             datefmt="%H:%M:%S", 
             level = level)
 
