@@ -11,7 +11,10 @@ def add_address(server, url):
     """
     global known
     if server not in known:
+        logging.info('Spawning Listener %s' % server)
         gevent.spawn(poll, server)
+    if url[0] == '/' or url[0] == '\\':
+        url = btcnet_info.get_pool(server)['mine.address'] + url
     known[server] = url
     
 def handle(content):
@@ -31,7 +34,7 @@ def poll(server):
             #Figure out everthing we need
             url = known[server]
             request = {'params':[], 'id':1, 'method':'getwork'}
-            headers = None
+            headers = {}
             username, password = bitHopper.Configuration.Workers.get_single_worker(server)
             
             #If we have no user wait 5 minutes and try again

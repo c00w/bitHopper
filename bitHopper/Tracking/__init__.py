@@ -18,7 +18,7 @@ def headers(headers, server):
     """
     for k,v in headers.items():
         if k.lower() == 'x-long-polling':
-            bitHopper.LongPoll_Listener.add_address(v, server)
+            bitHopper.LongPoll_Listener.add_address(server, v)
 
 def add_work_unit(content, server, username, password):
     """

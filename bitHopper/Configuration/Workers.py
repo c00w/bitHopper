@@ -58,10 +58,10 @@ def get_single_worker(pool):
     Returns username, password or None, None
     """
     possible = get_worker_from(pool)
-    if possible == []:
+    if len(possible) == 0:
         return None, None
         
-    return random.choice(possible)
+    return random.choice(list(possible))
     
 def add(server, username, password):
     """
