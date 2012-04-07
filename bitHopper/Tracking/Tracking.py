@@ -67,6 +67,8 @@ def add_getwork(server, username, password):
         getworks[key] = 0
     getworks[key] += 1
     
+    logging.info('Getwork: %s:%s@%s' % (username, password, server))
+    
 
 def add_accepted(server, username, password):
     """
@@ -79,6 +81,8 @@ def add_accepted(server, username, password):
         accepted[key] = 0
     accepted[key] += 1
     
+    logging.info('Accepted: %s:%s@%s' % (username, password, server))
+    
 def add_rejected(server, username, password):
     """
     Adds a rejected result to the database
@@ -90,3 +94,4 @@ def add_rejected(server, username, password):
         rejected[key] = 0
     rejected[key] += 1
     
+    logging.info('Rejected: %s:%s@%s' % (username, password, server))
