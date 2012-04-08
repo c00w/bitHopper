@@ -1,8 +1,9 @@
-import gevent, logging, traceback
+import gevent, logging, traceback, json
 import btcnet_info
 import bitHopper.Configuration.Workers
 import bitHopper.Network
 import bitHopper.Tracking
+import Conversion
 
 known = {}
 def add_address(server, url):
@@ -21,6 +22,12 @@ def handle(content):
     """
     Handles the content returned from a lp poll
     """
+    try:
+        content = json.loads(content)
+    except:
+        logging.debug(traceback.format_exc())
+        return
+    block = Conversion.extract_block(content)
     logging.info(content)
     
 def poll(server):
