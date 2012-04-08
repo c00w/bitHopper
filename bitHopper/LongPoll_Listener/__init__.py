@@ -1,11 +1,13 @@
-import gevent, logging, traceback, json
+import gevent, logging, traceback, json, time
 import btcnet_info
 import bitHopper.Configuration.Workers
 import bitHopper.Network
 import bitHopper.Tracking
+import bitHopper.LongPoll
 import Conversion
 
 known = {}
+blocks = {}
 def add_address(server, url):
     """
     Adds an address and starts the polling function
@@ -18,7 +20,7 @@ def add_address(server, url):
         url = btcnet_info.get_pool(server)['mine.address'] + url
     known[server] = url
     
-def handle(content):
+def handle(content, server):
     """
     Handles the content returned from a lp poll
     """
@@ -28,8 +30,16 @@ def handle(content):
         logging.debug(traceback.format_exc())
         return
     block = Conversion.extract_block(content)
-    logging.info(content)
     
+    
+    global blocks
+    if block not in blocks:
+        blocks[block] = {}
+        bitHopper.LongPoll.trigger(content)
+        
+    if server not in blocks[block]:
+        blocks[block][server] = int(time.time())
+        logging.info('%s, %s' % (server, block))
 def poll(server):
     """
     Function for polling the LP servers and getting the results
@@ -53,7 +63,7 @@ def poll(server):
                 
             bitHopper.Tracking.add_work_unit(content, server, username, password)
             
-            handle(content)
+            handle(content, server)
             
         except:
             logging.error(traceback.format_exc())
