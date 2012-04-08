@@ -147,7 +147,7 @@ def generate_servers():
             logging.warn(Error)
         except Exception as error:
             logging.error(traceback.format_exc())
-        gevent.sleep(30)
+        gevent.sleep(5)
     
 def get_server():
     """
