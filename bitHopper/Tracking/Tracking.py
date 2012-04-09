@@ -23,11 +23,17 @@ def __patch():
         gevent.spawn(looping_store)
         
 def shorten(name):
+    """
+    Shortens a name and adds some ellipses
+    """
     if len(name) > 10:
         name = name[:10] + '...'
     return name
     
 def looping_store():
+    """
+    repeatedly calls store_current and sleep in between
+    """
     while True:
         gevent.sleep(30)
         try:
@@ -36,10 +42,12 @@ def looping_store():
             logging.error(traceback.format_exc())
     
 def store_current():
-    global getworks, accepted, rejected
+    """
+    Stores the current logs in the database
+    """
     for key, getwork_c in getworks.items():
-        accepted_c = accepted.get(key,0)
-        rejected_c = rejected.get(key,0)
+        accepted_c = accepted.get(key, 0)
+        rejected_c = rejected.get(key, 0)
         #Extract key information
         server = key[0]
         username = key[1]
