@@ -1,7 +1,7 @@
 import bitHopper.Database
 import bitHopper.Database.Commands
 import btcnet_info
-import logging
+import logging, time, traceback, gevent
 
 def get_diff(pool):
     coin = btcnet_info.get_pool(pool)
@@ -20,11 +20,51 @@ def __patch():
     
     if getworks == None:
         getworks, accepted, rejected = load_from_db()
+        gevent.spawn(looping_store)
         
 def shorten(name):
     if len(name) > 10:
         name = name[:10] + '...'
     return name
+    
+def looping_store():
+    while True:
+        gevent.sleep(30)
+        try:
+            store_current()
+        except:
+            logging.error(traceback.format_exc())
+    
+def store_current():
+    global getworks, accepted, rejected
+    for key, getwork_c in getworks.items():
+        accepted_c = accepted.get(key,0)
+        rejected_c = rejected.get(key,0)
+        #Extract key information
+        server = key[0]
+        username = key[1]
+        password = key[2]
+        difficulty = key[3]
+        timestamp = time.asctime(time.gmtime())
+        
+        #If this isn't the current difficulty we are not responsible for storing it
+        if get_diff(server) != difficulty:
+            continue
+            
+        #Do an update
+        sql = "UPDATE Statistics SET Getworks = %s, Accepted = %s, Rejected = %s, Timestamp = '%s' WHERE Server = '%s' AND Username = '%s' AND Password = '%s' AND Difficulty = %s" % (getwork_c, accepted_c, rejected_c, timestamp, server, username, password, difficulty)
+        bitHopper.Database.execute(sql)
+        
+        #Check if we actually updated something
+        result = bitHopper.Database.execute('SELECT Getworks from Statistics WHERE Server = "%s" AND Username = "%s" AND Password = "%s" AND Difficulty = %s' % (server, username, password, difficulty))
+        result = list(result)
+        
+        #If we didn't do an insert
+        if len(result) == 0:
+            sql = "INSERT INTO Statistics (Server, Username, Password, Difficulty, Timestamp, Getworks, Accepted, Rejected) VALUES ('%s', '%s', '%s', %s, '%s', %s, %s, %s)" % (server, username, password, difficulty, timestamp, getwork_c, accepted_c, rejected_c)
+            bitHopper.Database.execute(sql)
+        
+            
         
 def load_from_db():
     """

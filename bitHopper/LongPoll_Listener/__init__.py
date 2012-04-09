@@ -39,7 +39,8 @@ def handle(content, server):
         
     if server not in blocks[block]:
         blocks[block][server] = int(time.time())
-        logging.info('%s, %s' % (server, block))
+        logging.debug('%s, %s' % (server, block))
+        
 def poll(server):
     """
     Function for polling the LP servers and getting the results
