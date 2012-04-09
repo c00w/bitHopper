@@ -21,10 +21,10 @@ def parse_config():
                     default=8339, help='Configuration Port Number')
                     
     parser.add_argument('--mine_localname', metavar='cp', type=str, 
-                    default='', help='Dns name to bind to')
+                    default='', help='Mining IP address to bind to')
                     
     parser.add_argument('--config_localname', metavar='cp', type=str, 
-                    default='', help='Dns name to bind to')
+                    default='', help='Configuration IP address to bind to')
                     
     parser.add_argument('--debug', action="store_true", default=False)
                     
