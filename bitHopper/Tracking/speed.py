@@ -5,7 +5,7 @@
 # Colin Rice colin@daedrum.net
 
 import gevent
-import threading, time, socket
+import time, socket
 
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
@@ -29,16 +29,16 @@ class Speed():
         self.shares = 0
         gevent.spawn(self.update_rate)
         self.rate = 0
+        self.old_time = time.time()
 
     def add_shares(self, share):
         self.shares += share
 
     def update_rate(self, loop=True):
-        self.old_time=time.time()
         while True:
             now = time.time()
             diff = now -self.old_time
-            if diff <=0:
+            if diff <= 0:
                 diff = 1e-10
             self.old_time = now
             self.rate = int((float(self.shares) * (2**32)) / (diff * 1000000))
@@ -52,23 +52,3 @@ class Speed():
 
     def get_rate(self):
         return self.rate
-        
-import unittest
-class TestSpeed(unittest.TestCase):
-
-    def setUp(self):
-        import gevent.monkey
-        gevent.monkey.patch_all(os=True, select=True, socket=True, thread=False, time=False)
-        self.speed = Speed()
-
-    def test_shares_add(self):
-        self.speed.add_shares(100)
-        self.speed.update_rate(loop=False)
-        self.assertTrue(self.speed.get_rate() > 0)
-   
-    def test_shares_zero(self):
-        self.speed.update_rate(loop=False)
-        self.assertTrue(self.speed.get_rate() == 0)
-
-if __name__ == '__main__':
-    unittest.main()

@@ -1,5 +1,5 @@
 from getwork_store import Getwork_Store
-from bitHopper.util import extract_merkle, extract_result, extract_merkle_recieved
+from bitHopper.util import *
 import Tracking
 import bitHopper.LongPoll_Listener
 import json

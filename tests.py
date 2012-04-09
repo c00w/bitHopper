@@ -135,7 +135,7 @@ class ControlTestCase(unittest.TestCase):
         import httplib2
         http = httplib2.Http()
         import os
-        items = ['/worker']
+        items = ['/worker', '/']
         for item in items:
             headers, content = http.request('http://localhost:8339' + item)
             self.assertTrue('Not Found' not in content)
@@ -182,6 +182,21 @@ class WorkersTestCase(unittest.TestCase):
         self.assertTrue(len(self.workers.get_worker_from('test')) > 0)
         self.workers.remove('test','test','test')
         self.assertTrue(len(self.workers.get_worker_from('test')) == before)
+        
+class TestSpeed(unittest.TestCase):
+
+    def setUp(self):
+        import bitHopper.Tracking.speed
+        self.speed = bitHopper.Tracking.speed.Speed()
+
+    def test_shares_add(self):
+        self.speed.add_shares(100)
+        self.speed.update_rate(loop=False)
+        self.assertTrue(self.speed.get_rate() > 0)
+   
+    def test_shares_zero(self):
+        self.speed.update_rate(loop=False)
+        self.assertTrue(self.speed.get_rate() == 0)
         
 if __name__ == '__main__':
     unittest.main()
