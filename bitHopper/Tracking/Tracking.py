@@ -115,7 +115,6 @@ def add_getwork(server, username, password):
     Adds a getwork to the database
     """
     __patch()
-    global getworks
     key = get_key(server, username, password)
     if key not in getworks:
         getworks[key] = 0
@@ -129,7 +128,6 @@ def add_accepted(server, username, password):
     Adds an accepted result to the database
     """
     __patch()
-    global accepted
     key = get_key(server, username, password)
     if key not in accepted:
         accepted[key] = 0
@@ -142,7 +140,6 @@ def add_rejected(server, username, password):
     Adds a rejected result to the database
     """
     __patch()
-    global rejected
     key = get_key(server, username, password)
     if key not in rejected:
         rejected[key] = 0

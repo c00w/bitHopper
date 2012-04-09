@@ -28,7 +28,7 @@ class ResourceGenerator:
         (lock, item) = (threading.Lock(), self.generate(self.timeout))
         lock.acquire()
         self.lock = lock
-        self.pool.add((lock,item))
+        self.pool.add((lock, item))
         return item
         
     def __exit__(self, type, value, traceback):

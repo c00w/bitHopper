@@ -16,7 +16,7 @@ def headers(headers, server):
     Deals with headers from the server, mainly for LP
     but we could do other things
     """
-    for k,v in headers.items():
+    for k, v in headers.items():
         if k.lower() == 'x-long-polling':
             bitHopper.LongPoll_Listener.add_address(server, v)
 

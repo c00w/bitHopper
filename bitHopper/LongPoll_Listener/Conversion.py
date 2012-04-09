@@ -8,8 +8,8 @@ def bytereverse(value):
     Byte reverses data
     """
     bytes = []
-    for i in xrange(0,len(value)):
-        if i%2 == 1:
+    for i in xrange(0, len(value)):
+        if i % 2 == 1:
             bytes.append(value[i-1:i+1])
     return "".join(bytes[::-1])
 
