@@ -24,3 +24,6 @@ def teardown_request_wrap(exception):
         
 import Worker_Page
 
+@app.route("/")
+def frontpage():
+    return flask.render_template('index.html')
