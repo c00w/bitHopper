@@ -23,6 +23,7 @@ def teardown_request_wrap(exception):
         return json.dumps({"result":None, 'error':{'message':'Invalid request'}, 'id':1})
         
 import Worker_Page
+import Pool_Page
 
 @app.route("/")
 def frontpage():

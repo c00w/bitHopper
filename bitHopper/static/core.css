@@ -38,6 +38,12 @@ tr.worker tr{
     text-align: right;
 }
 
+tr.pool_counts td{
+    font-size: 16px;
+    font-weight:bold;
+    text-align: right;
+}
+
 div.title {
     border-bottom: 2px solid white;
     font-size: 20px;

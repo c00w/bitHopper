@@ -15,6 +15,30 @@ getworks = None
 accepted = None
 rejected = None
 
+def build_dict():
+    """
+    Returns a dict with tuples of getworks, accepted, reject
+    """
+    __patch()
+    res = {}
+    global getworks, accepted, rejected
+    for key in getworks:
+        server, username, password, diff = key
+        if key not in accepted:
+            accepted[key] = 0
+        if key not in rejected:
+            rejected[key] = 0
+        if server not in res:
+            res[server] = {}
+        name = ":".join([username, password])
+        if name not in res[server]:
+            res[server][name] = [0,0,0]
+        res[server][name][0] += getworks[key]
+        res[server][name][1] += accepted[key]
+        res[server][name][2] += rejected[key]
+        res[server][name] = map(int, res[server][name])
+    return res
+
 def __patch():
     global getworks, accepted, rejected
     
