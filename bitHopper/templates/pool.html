@@ -15,7 +15,7 @@
 
     {% for name in pools[pool]%}
     <tr class=pool_counts>
-        <td class=align_right></td>
+        <td class=align_right>{{name}}</td>
         <td>{{pools[pool][name][0]}}</td>
         <td>{{pools[pool][name][1]}}</td>
         <td>{{pools[pool][name][2]}}</td>

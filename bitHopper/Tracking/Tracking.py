@@ -30,7 +30,7 @@ def build_dict():
             rejected[key] = 0
         if server not in res:
             res[server] = {}
-        name = ":".join([username, password])
+        name = ":".join([shorten(username), password])
         if name not in res[server]:
             res[server][name] = [0,0,0]
         res[server][name][0] += getworks[key]
