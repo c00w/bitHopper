@@ -55,6 +55,8 @@ def custom_pools():
     filenames = [name for name in os.listdir(
                     os.path.join(FD_DIR,'../custom_pools')) 
                     if '.ignore' not in name]
+    filenames = map(lambda x: os.path.join(os.path.join(FD_DIR,'../custom_pools'), x), filenames)
+    filenames = map(os.path.abspath, filenames)
     btcnet_info.add_pools(filenames)
         
 
