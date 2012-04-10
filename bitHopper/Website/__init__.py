@@ -22,8 +22,9 @@ def teardown_request_wrap(exception):
         logging.error(traceback.format_exc())
         return json.dumps({"result":None, 'error':{'message':'Invalid request'}, 'id':1})
         
-import Worker_Page
 import Pool_Page
+import Worker_Page
+
 
 @app.route("/")
 def frontpage():

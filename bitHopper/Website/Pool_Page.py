@@ -2,7 +2,7 @@ from bitHopper.Website import app, flask
 import bitHopper.Tracking.Tracking
 
 @app.route("/pool", methods=['POST', 'GET'])
-def worker():
+def pool():
 
     pools = bitHopper.Tracking.Tracking.build_dict()
         
