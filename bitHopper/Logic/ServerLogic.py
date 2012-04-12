@@ -36,7 +36,7 @@ def difficulty_cutoff(source):
         
     #Score Hopping
     if source.payout_scheme in ['score']:
-        c = source.mine.c if source.mine.c else 300
+        c = source.mine.c if source.mine and source.mine.c else 300
         c = float(c)
         hashrate = float(source.rate) / (10. ** 9) if source.rate else 1
         hopoff = btc_diff * (0.0164293 + 1.14254 / (1.8747 * (btc_diff / (c * hashrate)) + 2.71828))
