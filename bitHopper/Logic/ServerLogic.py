@@ -29,6 +29,7 @@ def difficulty_cutoff(source):
         #    diff = btcnet_info.get_difficulty(source.coin)
             
     diff = float(diff)
+    btc_diff = float(btc_diff)
     
     #Propositional Hopping
     if source.payout_scheme in ['prop']:
