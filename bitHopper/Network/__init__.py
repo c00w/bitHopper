@@ -43,7 +43,7 @@ def send_work( url, worker, password, headers={}, body=[], timeout = None):
     body = json.dumps(body, ensure_ascii = True)
     headers['Authorization'] = "Basic " +base64.b64encode(worker+ ":" + password).replace('\n','')
     headers['Content-Type'] = 'application/json'
-    headers['connection'] = 'keep-alive'
+    #headers['connection'] = 'keep-alive'
     if 'http' not in url:
         url = 'http://' + url
     
