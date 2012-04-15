@@ -42,7 +42,7 @@ class Work():
             user, passw, error = self.workers.get_worker(server)
             if error:
                 return None
-            header = {'Authorization':"Basic " +base64.b64encode(user+ ":" + passw).replace('\n',''), 'user-agent': 'poclbm/20110709', 'Content-Type': 'application/json', 'connection': 'keep-alive'}
+            header = {'Authorization':"Basic " +base64.b64encode(user+ ":" + passw).replace('\n',''), 'user-agent': 'poclbm/20110709', 'Content-Type': 'application/json', 'Connection': 'close'}
             with self.http_pool(url, timeout=15*60) as http:
                 try:
                     resp, content = http.request( url, 'GET', headers=header)#, body=request)[1] # Returns response dict and content str
@@ -92,7 +92,7 @@ class Work():
                     logging.error(error)
                     return None, None, None
             
-            header = {'Authorization':"Basic " +base64.b64encode(user + ":" + passw).replace('\n',''), 'connection': 'keep-alive'}
+            header = {'Authorization':"Basic " +base64.b64encode(user + ":" + passw).replace('\n',''), 'Connection': 'close'}
             header['user-agent'] = 'poclbm/20110709'
             for k,v in client_header.items():
                 #Ugly hack to deal with httplib trying to be smart and supplying its own user agent.
