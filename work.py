@@ -64,7 +64,7 @@ class Work():
                 useragent = 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)'
                 pass
         #logging.debug('user-agent: ' + useragent + ' for ' + str(url) )
-        header = {'user-agent':useragent}
+        header = {'user-agent':useragent, 'Connection':'close'}
         with self.http_pool(url) as http:
             try:
                 content = http.request( url, 'GET', headers=header)[1] # Returns response dict and content str
