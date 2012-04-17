@@ -29,6 +29,10 @@ def request( url, body = '', headers = {}, method='GET', timeout = None):
     """
     Generic httplib2 wrapper function
     """
+    
+    if 'Connection' not in headers:
+        headers['Connection'] = 'close'
+    
     with http_pool(url, timeout=timeout) as http:
         headers, content = http.request( url, method, headers=headers, body=body)
     return content, headers
