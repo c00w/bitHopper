@@ -92,7 +92,7 @@ class Work():
                     logging.error(error)
                     return None, None, None
             
-            header = {'Authorization':"Basic " +base64.b64encode(user + ":" + passw).replace('\n',''), 'Connection': 'close'}
+            header = {'Authorization':"Basic " +base64.b64encode(user + ":" + passw).replace('\n',''), 'Connection': 'keep-alive'}
             header['user-agent'] = 'poclbm/20110709'
             for k,v in client_header.items():
                 #Ugly hack to deal with httplib trying to be smart and supplying its own user agent.
