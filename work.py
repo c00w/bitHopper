@@ -102,7 +102,7 @@ class Work():
 
             http = self.get_http(url)
             try:
-                resp = http.get(url, headers=header, body=request)
+                resp = http.post(url, headers=header, body=request)
                 content, headers = str(resp), dict(resp.headers)
                     
                 if data != []:
