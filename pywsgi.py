@@ -332,6 +332,8 @@ class WSGIHandler(object):
         return True  # read more requests
 
     def finalize_headers(self):
+        if type(self.response_headers) == type({}):
+            self.response_headers = self.response_headers.items()
         if self.provided_date is None:
             self.response_headers.append(('Date', format_date_time(time.time())))
 
