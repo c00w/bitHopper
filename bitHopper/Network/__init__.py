@@ -29,8 +29,8 @@ def request( url, body = '', headers = {}, method='GET', timeout = None):
     
     
     http = get_http(url)
-    resp = http.get(url, headers=headers)
-    content, headers = str(resp), dict(resp.headers)
+    resp = http.request(method, url, headers=headers, body=body)
+    content, headers = resp.read(), dict(resp.headers)
         
     return content, headers
     
