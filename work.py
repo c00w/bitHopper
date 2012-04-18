@@ -37,7 +37,7 @@ class Work():
         if lp == True:
             key = url + "|LP"
         else:
-            key - url
+            key = url
         if key not in self.http_pool:
             if not lp:
                 self.http_pool[key] = geventhttpclient.HTTPClient.from_url(url, concurrency=50)
