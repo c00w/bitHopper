@@ -2,29 +2,22 @@
 Stub for networking module
 """
 
-import httplib2, logging, traceback, json, base64
+import geventhttpclient, logging, traceback, json, base64
 import bitHopper.Logic
 import bitHopper.Tracking as Tracking
 import ResourcePool
 from bitHopper.util import rpc_error
 import btcnet_info
 import socket
-import HTTPCloser
     
 i = 0
-def _make_http( timeout = None):
-    """
-    Magic method that makes an httplib2 object
-    """
-    configured_timeout = 5
-    if not timeout:
-        timeout = configured_timeout
+http_pool = {}
+def get_http( url):
+    global http_pool
+    if url not in http_pool:
+        http_pool[url] = geventhttpclient.HTTPClient.from_url(url, concurrency=50)
         
-    return httplib2.Http(disable_ssl_certificate_validation=True, timeout=timeout)
-        
-http_pool = ResourcePool.Pool(_make_http)
-        
-    
+    return http_pool[url]
             
 def request( url, body = '', headers = {}, method='GET', timeout = None):
     """
@@ -34,10 +27,11 @@ def request( url, body = '', headers = {}, method='GET', timeout = None):
     if 'Connection' not in headers:
         headers['Connection'] = 'close'
     
-    with http_pool(url, timeout=timeout) as http:
-        if headers['Connection'] == 'keep-alive':
-            HTTPCloser.used(url, http)
-        headers, content = http.request( url, method, headers=headers, body=body)
+    
+    http = get_http(url)
+    resp = http.get(url, headers=headers)
+    content, headers = str(resp), dict(resp.headers)
+        
     return content, headers
     
 def send_work( url, worker, password, headers={}, body=[], timeout = None):
