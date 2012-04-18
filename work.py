@@ -55,7 +55,7 @@ class Work():
             if error:
                 return None
             header = {'Authorization':"Basic " +base64.b64encode(user+ ":" + passw).replace('\n',''), 'user-agent': 'poclbm/20110709', 'Content-Type': 'application/json', 'Connection': 'close'}
-            http = self.get_http(url)
+            http = self.get_http(url, lp=True)
             try:
                 resp = http.get(url, headers=header)
                 content, headers = _read(resp), dict(resp.headers)
