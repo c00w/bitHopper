@@ -17,6 +17,15 @@ socket.setdefaulttimeout(900)
 
 import webob
 
+def _read(item):
+    a = ""
+    while True
+        b = item.read()
+        a += b
+        if b == '':
+            break
+    return a
+
 class Work():
     def __init__(self, bitHopper):
         self.bitHopper = bitHopper
@@ -41,7 +50,7 @@ class Work():
             http = self.get_http(url)
             try:
                 resp = http.get(url, headers=header)
-                content, headers = str(resp), dict(resp.headers)
+                content, headers = _read(resp), dict(resp.headers)
             except Exception, e:
                 logging.debug(traceback.format_exc())
                 content = None
@@ -64,7 +73,7 @@ class Work():
         http = self.get_http(url)
         try:
             resp = http.get(url, headers=header)
-            content, headers = str(resp), dict(resp.headers)
+            content, headers = _read(resp), dict(resp.headers)
         except Exception, e:
             logging.debug(traceback.format_exc())
             content = ""
@@ -103,7 +112,7 @@ class Work():
             http = self.get_http(url)
             try:
                 resp = http.post(url, headers=header, body=request)
-                content, headers = str(resp), dict(resp.headers)
+                content, headers = _read(resp), dict(resp.headers)
                     
                 if data != []:
                     self.workers.release_worker_limited(server, (user, passw))
