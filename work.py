@@ -19,7 +19,7 @@ import webob
 
 def _read(item):
     a = ""
-    while True
+    while True:
         b = item.read()
         a += b
         if b == '':
