@@ -33,9 +33,17 @@ class Work():
         self.i = 0
         self.http_pool = {}
         
-    def get_http(self, url):
-        if url not in self.http_pool:
-            self.http_pool[url] = geventhttpclient.HTTPClient.from_url(url, concurrency=50)
+    def get_http(self, url, lp=False):
+        if lp == True:
+            key = url + "|LP"
+        else:
+            key - url
+        if key not in self.http_pool:
+            if not lp:
+                self.http_pool[key] = geventhttpclient.HTTPClient.from_url(url, concurrency=50)
+            else:
+                self.http_pool[key] = geventhttpclient.HTTPClient.from_url(url, concurrency=3, connection_timeout=60*30,
+            network_timeout=60*30)
             
         return self.http_pool[url]
 
@@ -109,7 +117,7 @@ class Work():
 
             url = "http://" + info['mine_address']
 
-            http = self.get_http(url)
+            http = self.get_http(url, lp=True)
             try:
                 resp = http.post(url, headers=header, body=request)
                 content, headers = _read(resp), dict(resp.headers)
