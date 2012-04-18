@@ -16,6 +16,7 @@ gevent.monkey.patch_all(thread=False, time=False)
 #geventhttpclient.httplib.patch()
 import httplib2
 import gevent
+import gevent.pywsgi
 import btcnet_info
 
 import bitHopper.Logic
@@ -66,7 +67,7 @@ def setup_miner(port = 8337, host = ''):
     """
     #Don't show the gevent logsg
     log = open(os.devnull, 'wb')
-    server = gevent.wsgi.WSGIServer((host, port), 
+    server = gevent.pywsgi.WSGIServer((host, port), 
             bitHopper.Mining_Site.mine,  
             backlog=512,  
             log=log)
@@ -79,7 +80,7 @@ def setup_control(port = 8339, host = ''):
     """
     #Don't show the gevent logsg
     log = open(os.devnull, 'wb')
-    server = gevent.wsgi.WSGIServer((host, port), 
+    server = gevent.pywsgi.WSGIServer((host, port), 
             bitHopper.Website.app,  
             backlog=512,  
             log=log)
