@@ -14,7 +14,7 @@ def __patch():
         
 def clean():
     while True:
-        for k, last_seen in seen.items:
+        for k, last_seen in seen.items():
             if time.time()-last_seen < 0.3:
                 continue
             
