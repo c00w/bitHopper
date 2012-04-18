@@ -31,12 +31,6 @@ def parse_config():
     args = parser.parse_args()
     return args
     
-
-if __name__ == "__main__":
-    import gevent_profiler
-    gevent_profiler.attach()
-    run()
-    
 def run():
     """Main driver function"""
     args = parse_config()
@@ -56,3 +50,8 @@ def run():
     while True:
         gevent.sleep(100)
 
+
+if __name__ == "__main__":
+    import gevent_profiler
+    gevent_profiler.attach()
+    run()
