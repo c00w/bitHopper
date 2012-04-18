@@ -41,7 +41,7 @@ class Work():
             http = self.get_http(url)
             try:
                 resp = http.get(url, headers=header)
-                content, headers = str(resp), resp.headers
+                content, headers = str(resp), dict(resp.headers)
             except Exception, e:
                 logging.debug(traceback.format_exc())
                 content = None
@@ -64,7 +64,7 @@ class Work():
         http = self.get_http(url)
         try:
             resp = http.get(url, headers=header)
-            content, headers = str(resp), resp.headers
+            content, headers = str(resp), dict(resp.headers)
         except Exception, e:
             logging.debug(traceback.format_exc())
             content = ""
@@ -101,7 +101,7 @@ class Work():
             http = self.get_http(url)
             try:
                 resp = http.get(url, headers=header, body=request)
-                content, headers = str(resp), resp.headers
+                content, headers = str(resp), dict(resp.headers)
                     
                 if data != []:
                     self.workers.release_worker_limited(server, (user, passw))
