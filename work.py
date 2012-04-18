@@ -98,6 +98,8 @@ class Work():
                 if k.lower() in ['x-mining-extensions', 'x-mining-hashrate']:
                     header[k] = v
 
+            url = "http://" + info['mine_address']
+
             http = self.get_http(url)
             try:
                 resp = http.get(url, headers=header, body=request)
