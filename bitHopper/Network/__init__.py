@@ -9,6 +9,7 @@ import ResourcePool
 from bitHopper.util import rpc_error
 import btcnet_info
 import socket
+import HTTPCloser
     
 i = 0
 def _make_http( timeout = None):
@@ -34,6 +35,8 @@ def request( url, body = '', headers = {}, method='GET', timeout = None):
         headers['Connection'] = 'close'
     
     with http_pool(url, timeout=timeout) as http:
+        if headers['Connection'] == 'keep-alive':
+            HTTPCloser.used(url, http)
         headers, content = http.request( url, method, headers=headers, body=body)
     return content, headers
     
