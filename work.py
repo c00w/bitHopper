@@ -7,13 +7,11 @@
 import json, base64, traceback, logging
 
 import gevent
-import httplib2
 import socket
 
 from peak.util import plugins
 
-import ResourcePool
-import HTTPCloser
+import geventhttpclient
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
 
@@ -24,17 +22,13 @@ class Work():
         self.bitHopper = bitHopper
         self.workers = self.bitHopper.workers
         self.i = 0
-        self.http_pool = ResourcePool.Pool(self._make_http)
+        self.http_pool = {}
         
-    def _make_http(self, timeout = None):
-        try:
-            configured_timeout = self.bitHopper.config.getfloat('main','work_request_timeout')
-        except:
-            configured_timeout = 5
-        if not timeout:
-            timeout = configured_timeout
+    def get_http(self, url):
+        if url not in self.http_pool:
+            self.http_pool[url] = geventhttpclient.HTTPClient.from_url(url, concurrency=50)
             
-        return httplib2.Http(disable_ssl_certificate_validation=True, timeout=timeout)
+        return self.http_pool[url]
 
     def jsonrpc_lpcall(self, server, url, lp):
         try:
@@ -44,12 +38,13 @@ class Work():
             if error:
                 return None
             header = {'Authorization':"Basic " +base64.b64encode(user+ ":" + passw).replace('\n',''), 'user-agent': 'poclbm/20110709', 'Content-Type': 'application/json', 'Connection': 'close'}
-            with self.http_pool(url, timeout=15*60) as http:
-                try:
-                    resp, content = http.request( url, 'GET', headers=header)#, body=request)[1] # Returns response dict and content str
-                except Exception, e:
-                    logging.debug(traceback.format_exc())
-                    content = None
+            http = self.get_http(url)
+            try:
+                resp = http.get(url, headers=header)
+                content, headers = str(resp), resp.headers
+            except Exception, e:
+                logging.debug(traceback.format_exc())
+                content = None
             lp.receive(content, server, (user, passw))
             return
         except Exception, e:
@@ -66,12 +61,13 @@ class Work():
                 pass
         #logging.debug('user-agent: ' + useragent + ' for ' + str(url) )
         header = {'user-agent':useragent, 'Connection':'close'}
-        with self.http_pool(url) as http:
-            try:
-                content = http.request( url, 'GET', headers=header)[1] # Returns response dict and content str
-            except Exception, e:
-                logging.debug(traceback.format_exc())
-                content = ""
+        http = self.get_http(url)
+        try:
+            resp = http.get(url, headers=header)
+            content, headers = str(resp), resp.headers
+        except Exception, e:
+            logging.debug(traceback.format_exc())
+            content = ""
         return content
 
     def jsonrpc_call(self, server, data, client_header={}, username = None, password = None):
@@ -102,18 +98,18 @@ class Work():
                 if k.lower() in ['x-mining-extensions', 'x-mining-hashrate']:
                     header[k] = v
 
-            url = "http://" + info['mine_address']
-            with self.http_pool(url) as http:
-                try:
-                    HTTPCloser.used(url, http)
-                    resp, content = http.request( url, 'POST', headers=header, body=request)
-                    if data != []:
-                        self.workers.release_worker_limited(server, (user, passw))
-                except Exception, e:
-                    if data != []:
-                        self.workers.release_worker_limited(server, (user, passw))
-                    logging.debug(traceback.format_exc())
-                    return None, None, None
+            http = self.get_http(url)
+            try:
+                resp = http.get(url, headers=header, body=request)
+                content, headers = str(resp), resp.headers
+                    
+                if data != []:
+                    self.workers.release_worker_limited(server, (user, passw))
+            except Exception, e:
+                if data != []:
+                    self.workers.release_worker_limited(server, (user, passw))
+                logging.debug(traceback.format_exc())
+                return None, None, None
 
             #Check for long polling header
             lp = self.bitHopper.lp
