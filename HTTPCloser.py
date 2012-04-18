@@ -20,5 +20,6 @@ def clean():
             
             url, pool = k
             pool.request(url, 'GET', headers = {'Connection':'close'})
+        gevent.sleep(0.3)
             
                 
