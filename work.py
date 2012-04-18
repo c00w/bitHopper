@@ -126,7 +126,7 @@ class Work():
             lp = self.bitHopper.lp
             if lp.check_lp(server):
                 #bitHopper.log_msg('Inside LP check')
-                for k,v in resp.items():
+                for k,v in headers.items():
                     if k.lower() == 'x-long-polling':
                         lp.set_lp(v,server)
                         break
@@ -137,7 +137,7 @@ class Work():
         try:
             message = json.loads(content)
             value =  message['result']
-            return value, resp, (user, passw)
+            return value, headers, (user, passw)
         except Exception, e:
             logging.debug(traceback.format_exc())
             logging.debug(server)
