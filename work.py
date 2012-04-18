@@ -45,7 +45,7 @@ class Work():
                 self.http_pool[key] = geventhttpclient.HTTPClient.from_url(url, concurrency=3, connection_timeout=60*30,
             network_timeout=60*30)
             
-        return self.http_pool[url]
+        return self.http_pool[key]
 
     def jsonrpc_lpcall(self, server, url, lp):
         try:
