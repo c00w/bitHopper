@@ -13,6 +13,7 @@ import socket
 from peak.util import plugins
 
 import ResourcePool
+import HTTPCloser
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
 
@@ -104,6 +105,7 @@ class Work():
             url = "http://" + info['mine_address']
             with self.http_pool(url) as http:
                 try:
+                    HTTPCloser.used(url, http)
                     resp, content = http.request( url, 'POST', headers=header, body=request)
                     if data != []:
                         self.workers.release_worker_limited(server, (user, passw))

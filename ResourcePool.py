@@ -43,5 +43,10 @@ class Pool:
         key = url+str(timeout)
         if url not in self.pools:
         
-            self.pools[key] = set()
+            self.pools[key] = []
         return ResourceGenerator(self.generate, pool = self.pools[key], timeout=timeout)
+        
+    def __prune(self):
+        while True:
+            gevent.sleep(1)
+            
