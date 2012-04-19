@@ -57,7 +57,7 @@ class Work():
             header = {'Authorization':"Basic " +base64.b64encode(user+ ":" + passw).replace('\n',''), 'user-agent': 'poclbm/20110709', 'Content-Type': 'application/json', 'Connection': 'close'}
             http = self.get_http(url, lp=True)
             try:
-                resp = http.get(url, headers=header)
+                resp = http.get('', headers=header)
                 content, headers = _read(resp), dict(resp.headers)
             except Exception, e:
                 logging.debug(traceback.format_exc())
@@ -80,7 +80,7 @@ class Work():
         header = {'user-agent':useragent, 'Connection':'close'}
         http = self.get_http(url)
         try:
-            resp = http.get(url, headers=header)
+            resp = http.get('', headers=header)
             content, headers = _read(resp), dict(resp.headers)
         except Exception, e:
             logging.debug(traceback.format_exc())
@@ -119,7 +119,7 @@ class Work():
 
             http = self.get_http(url, lp=True)
             try:
-                resp = http.post(url, headers=header, body=request)
+                resp = http.post('', headers=header, body=request)
                 content, headers = _read(resp), dict(resp.headers)
                     
                 if data != []:
