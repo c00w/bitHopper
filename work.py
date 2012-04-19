@@ -37,7 +37,7 @@ class Work():
         if lp == True:
             key = url + "|LP"
         else:
-            key - url
+            key = url
         if key not in self.http_pool:
             if not lp:
                 self.http_pool[key] = geventhttpclient.HTTPClient.from_url(url, concurrency=50)
@@ -45,7 +45,7 @@ class Work():
                 self.http_pool[key] = geventhttpclient.HTTPClient.from_url(url, concurrency=3, connection_timeout=60*30,
             network_timeout=60*30)
             
-        return self.http_pool[url]
+        return self.http_pool[key]
 
     def jsonrpc_lpcall(self, server, url, lp):
         try:
