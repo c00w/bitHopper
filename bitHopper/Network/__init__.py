@@ -2,7 +2,7 @@
 Stub for networking module
 """
 
-import geventhttpclient, logging, traceback, json, base64
+import httplib2, logging, traceback, json, base64
 import bitHopper.Logic
 import bitHopper.Tracking as Tracking
 import ResourcePool
@@ -11,13 +11,19 @@ import btcnet_info
 import socket
     
 i = 0
-http_pool = {}
-def get_http( url):
-    global http_pool
-    if url not in http_pool:
-        http_pool[url] = geventhttpclient.HTTPClient.from_url(url, concurrency=50)
+def _make_http( timeout = None):
+    """
+    Magic method that makes an httplib2 object
+    """
+    configured_timeout = 5
+    if not timeout:
+        timeout = configured_timeout
         
-    return http_pool[url]
+    return httplib2.Http(disable_ssl_certificate_validation=True, timeout=timeout)
+        
+http_pool = ResourcePool.Pool(_make_http)
+        
+    
             
 def request( url, body = '', headers = {}, method='GET', timeout = None):
     """
@@ -27,11 +33,8 @@ def request( url, body = '', headers = {}, method='GET', timeout = None):
     if 'Connection' not in headers:
         headers['Connection'] = 'close'
     
-    
-    http = get_http(url)
-    resp = http.request(method, url, headers=headers, body=body)
-    content, headers = resp.read(), dict(resp.headers)
-        
+    with http_pool(url, timeout=timeout) as http:
+        headers, content = http.request( url, method, headers=headers, body=body)
     return content, headers
     
 def send_work( url, worker, password, headers={}, body=[], timeout = None):

@@ -28,7 +28,7 @@ class ResourceGenerator:
         (lock, item) = (threading.Lock(), self.generate(self.timeout))
         lock.acquire()
         self.lock = lock
-        self.pool.append((lock, item))
+        self.pool.add((lock, item))
         return item
         
     def __exit__(self, type, value, traceback):
@@ -43,5 +43,5 @@ class Pool:
         key = url+str(timeout)
         if url not in self.pools:
         
-            self.pools[key] = []
+            self.pools[key] = set()
         return ResourceGenerator(self.generate, pool = self.pools[key], timeout=timeout)
