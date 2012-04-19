@@ -16,19 +16,16 @@ class ResourceGenerator:
             
         def __enter__(self):
             #Check if an item is available
-            while len(self.pool) > 75:
-                for lock, item in self.pool:
-                    if lock.acquire(False):
-                        self.lock = lock
-                        return item
-                if len(self.pool) > 75:
-                    gevent.sleep(0)
+            for lock, item in self.pool:
+                if lock.acquire(False):
+                    self.lock = lock
+                    return item
                     
             #Otherwise make a new item
             (lock, item) = (threading.Lock(), self.generate(self.timeout))
             lock.acquire()
             self.lock = lock
-            self.pool.append((lock,item))
+            self.pool.add((lock,item))
             return item
             
         def __exit__(self, type, value, traceback):
@@ -43,10 +40,5 @@ class Pool:
         key = url+str(timeout)
         if url not in self.pools:
         
-            self.pools[key] = []
+            self.pools[key] = set()
         return ResourceGenerator(self.generate, pool = self.pools[key], timeout=timeout)
-        
-    def __prune(self):
-        while True:
-            gevent.sleep(1)
-            

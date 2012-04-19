@@ -7,45 +7,34 @@
 import json, base64, traceback, logging
 
 import gevent
+import httplib2
+from gevent import pool
 import socket
 
 from peak.util import plugins
 
-import geventhttpclient
+import ResourcePool
 # Global timeout for sockets in case something leaks
 socket.setdefaulttimeout(900)
 
 import webob
-
-def _read(item):
-    a = ""
-    while True:
-        b = item.read()
-        a += b
-        if b == '':
-            break
-    return a
 
 class Work():
     def __init__(self, bitHopper):
         self.bitHopper = bitHopper
         self.workers = self.bitHopper.workers
         self.i = 0
-        self.http_pool = {}
+        self.http_pool = ResourcePool.Pool(self._make_http)
         
-    def get_http(self, url, lp=False):
-        if lp == True:
-            key = url + "|LP"
-        else:
-            key = url
-        if key not in self.http_pool:
-            if not lp:
-                self.http_pool[key] = geventhttpclient.HTTPClient.from_url(url, concurrency=50)
-            else:
-                self.http_pool[key] = geventhttpclient.HTTPClient.from_url(url, concurrency=3, connection_timeout=60*30,
-            network_timeout=60*30)
+    def _make_http(self, timeout = None):
+        try:
+            configured_timeout = self.bitHopper.config.getfloat('main','work_request_timeout')
+        except:
+            configured_timeout = 5
+        if not timeout:
+            timeout = configured_timeout
             
-        return self.http_pool[key]
+        return httplib2.Http(disable_ssl_certificate_validation=True, timeout=timeout)
 
     def jsonrpc_lpcall(self, server, url, lp):
         try:
@@ -54,18 +43,19 @@ class Work():
             user, passw, error = self.workers.get_worker(server)
             if error:
                 return None
-            header = {'Authorization':"Basic " +base64.b64encode(user+ ":" + passw).replace('\n',''), 'user-agent': 'poclbm/20110709', 'Content-Type': 'application/json', 'Connection': 'close'}
-            http = self.get_http(url, lp=True)
-            try:
-                resp = http.get(url, headers=header)
-                content, headers = _read(resp), dict(resp.headers)
-            except Exception, e:
-                logging.debug(traceback.format_exc())
-                content = None
+            header = {'Authorization':"Basic " +base64.b64encode(user+ ":" + passw).replace('\n',''), 'user-agent': 'poclbm/20110709', 'Content-Type': 'application/json', 'connection': 'keep-alive'}
+            with self.http_pool(url, timeout=15*60) as http:
+                try:
+                    resp, content = http.request( url, 'GET', headers=header)#, body=request)[1] # Returns response dict and content str
+                except Exception, e:
+                    logging.debug('Error with a jsonrpc_lpcall http request')
+                    logging.debug(e)
+                    content = None
             lp.receive(content, server, (user, passw))
             return
         except Exception, e:
-            logging.debug(traceback.format_exc())
+            logging.debug('Error in lpcall work.py')
+            logging.debug(e)
             lp.receive(None, server, None)
 
     def get(self, url, useragent=None):
@@ -77,14 +67,14 @@ class Work():
                 useragent = 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)'
                 pass
         #logging.debug('user-agent: ' + useragent + ' for ' + str(url) )
-        header = {'user-agent':useragent, 'Connection':'close'}
-        http = self.get_http(url)
-        try:
-            resp = http.get(url, headers=header)
-            content, headers = _read(resp), dict(resp.headers)
-        except Exception, e:
-            logging.debug(traceback.format_exc())
-            content = ""
+        header = {'user-agent':useragent}
+        with self.http_pool(url) as http:
+            try:
+                content = http.request( url, 'GET', headers=header)[1] # Returns response dict and content str
+            except Exception, e:
+                logging.debug('Error with a work.get() http request: ' + str(e))
+                #traceback.print_exc()
+                content = ""
         return content
 
     def jsonrpc_call(self, server, data, client_header={}, username = None, password = None):
@@ -97,16 +87,12 @@ class Work():
                 user = username
                 passw = password
             else:
-                if data != []:
-                    user, passw, error = self.workers.get_worker_limited(server)
-                else:
-                    user, passw, error = self.workers.get_worker(server)
-                    
+                user, passw, error = self.workers.get_worker(server)
                 if error:
                     logging.error(error)
                     return None, None, None
             
-            header = {'Authorization':"Basic " +base64.b64encode(user + ":" + passw).replace('\n',''), 'Connection': 'keep-alive'}
+            header = {'Authorization':"Basic " +base64.b64encode(user + ":" + passw).replace('\n',''), 'connection': 'keep-alive'}
             header['user-agent'] = 'poclbm/20110709'
             for k,v in client_header.items():
                 #Ugly hack to deal with httplib trying to be smart and supplying its own user agent.
@@ -116,38 +102,33 @@ class Work():
                     header[k] = v
 
             url = "http://" + info['mine_address']
-
-            http = self.get_http(url, lp=True)
-            try:
-                resp = http.post(url, headers=header, body=request)
-                content, headers = _read(resp), dict(resp.headers)
-                    
-                if data != []:
-                    self.workers.release_worker_limited(server, (user, passw))
-            except Exception, e:
-                if data != []:
-                    self.workers.release_worker_limited(server, (user, passw))
-                logging.debug(traceback.format_exc())
-                return None, None, None
+            with self.http_pool(url) as http:
+                try:
+                    resp, content = http.request( url, 'POST', headers=header, body=request)
+                except Exception, e:
+                    logging.debug('jsonrpc_call http error: ' + str(e))
+                    return None, None, None
 
             #Check for long polling header
             lp = self.bitHopper.lp
             if lp.check_lp(server):
                 #bitHopper.log_msg('Inside LP check')
-                for k,v in headers.items():
+                for k,v in resp.items():
                     if k.lower() == 'x-long-polling':
                         lp.set_lp(v,server)
                         break
         except Exception, e:
-            logging.debug(traceback.format_exc())
+            logging.debug('jsonrpc_call error: ' + str(e))
+            if self.bitHopper.options.debug:
+                traceback.print_exc()
             return None, None, None
 
         try:
             message = json.loads(content)
             value =  message['result']
-            return value, headers, (user, passw)
+            return value, resp, (user, passw)
         except Exception, e:
-            logging.debug(traceback.format_exc())
+            logging.debug( "Error in json decoding, Server probably down")
             logging.debug(server)
             logging.debug(content)
             return None, None, None
@@ -167,7 +148,9 @@ class Work():
             try:
                 work, server_headers, auth = self.jsonrpc_call(server, data, headers, username, password)
             except Exception, e:
-                logging.debug(traceback.format_exc())
+                logging.debug( 'caught, inner jsonrpc_call loop')
+                logging.debug(server)
+                logging.debug(e)
                 work = None
         return work, server_headers, server, auth
 
@@ -253,7 +236,8 @@ class Work():
             j_id = rpc_request['id']
 
         except Exception, e:
-            logging.debug(traceback.format_exc())
+            logging.debug('Error in json handle_LP')
+            logging.debug(e)
             if not j_id:
                 j_id = 1
         
@@ -263,7 +247,6 @@ class Work():
             data = env.get('HTTP_AUTHORIZATION').split(None, 1)[1]
             username = data.decode('base64').split(':', 1)[0] # Returns ['username', 'password']
         except Exception,e:
-            logging.debug(traceback.format_exc())
             username = ''
 
         logging.info('LP Callback for miner: '+ username)
