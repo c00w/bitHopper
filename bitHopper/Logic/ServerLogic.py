@@ -6,7 +6,7 @@ import btcnet_info
 import bitHopper.Configuration.Workers as Workers
 import bitHopper.Configuration.Pools as Pools
 from . import LaggingLogic
-import logging, traceback, gevent
+import logging, traceback, gevent, random
     
 def _select(item):
     """
@@ -178,6 +178,16 @@ def get_server():
     """
     Returns an iterator of valid servers
     """
+    perc_map = []
+    map_ods = 0.0
+    percentage = Pools.percentage_server()
+    for server, percentage in percentage:
+        for i in range(percentage):
+            perc_map.append(server)
+            map_ods += 0.01
+    if random.random() < map_ods:
+        return _select(perc_map)
+    
     return _select(Servers).name
         
 i = 1

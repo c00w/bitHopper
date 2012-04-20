@@ -197,6 +197,7 @@ class PoolsTestCase(unittest.TestCase):
         self.pools.set_percentage('test', 1)
         per = self.pools.get_percentage('test')
         self.assertEqual(per, 1)
+        self.assertTrue(len(list(self.pools.percentage_server()))>0)
         prio = self.pools.get_priority('test')
         self.assertEqual(prio, 0)
         self.pools.set_priority('test',1)

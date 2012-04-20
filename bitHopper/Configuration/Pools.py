@@ -86,6 +86,14 @@ def get_percentage(server):
     if server not in pools:
         return 0
     return pools[server]['percentage']
+    
+def percentage_server():
+    """
+    Gets all server with a percentage
+    """
+    for server, info in pools.items():
+        if info['percentage'] > 0:
+            yield server, info['percentage']
 
         
 
