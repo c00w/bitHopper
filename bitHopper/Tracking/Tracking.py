@@ -2,6 +2,7 @@ import bitHopper.Database
 import bitHopper.Database.Commands
 import btcnet_info
 import logging, time, traceback, gevent
+import bitHopper.Configuration.Pools
 
 def get_diff(pool):
     coin = btcnet_info.get_pool(pool)
@@ -17,7 +18,7 @@ rejected = None
 
 def build_dict():
     """
-    Returns a dict with tuples of getworks, accepted, reject
+    Returns a dict with tuples of getworks, accepted, reject, priority, percentage
     """
     __patch()
     res = {}
@@ -32,10 +33,12 @@ def build_dict():
             res[server] = {}
         name = ":".join([shorten(username), password])
         if name not in res[server]:
-            res[server][name] = [0,0,0]
+            res[server][name] = [0,0,0,0,0]
         res[server][name][0] += getworks[key]
         res[server][name][1] += accepted[key]
         res[server][name][2] += rejected[key]
+        res[server][name][3] += bitHopper.Configuration.Pools.get_priority(server)
+        res[server][name][4] += bitHopper.Configuration.Pools.get_percentage(server0
         res[server][name] = map(int, res[server][name])
     return res
 
