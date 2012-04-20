@@ -4,3 +4,4 @@
 *.db
 *.db-journal
 *.*~
+custom_pools/*
