@@ -4,6 +4,7 @@ File implementing the actuall logic for the business side
 
 import btcnet_info
 import bitHopper.Configuration.Workers as Workers
+import bitHopper.Configuration.Pools as Pools
 from . import LaggingLogic
 import logging, traceback, gevent
     
@@ -44,6 +45,26 @@ def difficulty_cutoff(source):
         hashrate = float(source.rate) / (10. ** 9) if source.rate else 1
         hopoff = btc_diff * (0.0164293 + 1.14254 / (1.8747 * (btc_diff / (c * hashrate)) + 2.71828))
         return hopoff
+        
+def highest_priority(source):
+    """
+    Filters pools by highest priority
+    """
+    max_prio = 0
+    pools = list(source)
+    for pool in pools:
+        name = pool.name
+        if not name:
+            continue
+        if Pools.get_priority(name)>max_prio:
+            max_prio = Pools.get_priority(name)
+            
+    for pool in pools:
+        name = pool.name
+        if not name:
+            continue
+        if Pools.get_priority(name)>=max_prio:
+            yield pool
     
 def valid_scheme( source):
     """
@@ -143,9 +164,10 @@ def generate_servers():
         try:
             global Servers
             Servers = list(filter_best(
-                            valid_scheme(
-                             valid_credentials(
-                              btcnet_info.get_pools()))))
+                            highest_priority(
+                             valid_scheme(
+                              valid_credentials(
+                               btcnet_info.get_pools())))))
         except ValueError as Error:
             logging.warn(Error)
         except Exception as error:
