@@ -1,8 +1,13 @@
-import unittest, json, bitHopper, btcnet_info
-#Logic Module Tests
+import unittest, json, bitHopper, btcnet_info, httplib2, json
+
+import bitHopper
 import bitHopper.Logic
 import bitHopper.Configuration.Workers
+import bitHopper.Configuration.Pools
+import bitHopper.Tracking.speed
+
 import gevent
+
 import bitHopper
 bitHopper.setup_logging()
 
@@ -76,18 +81,15 @@ class MiningTestCase(unittest.TestCase):
 
     @classmethod
     def setUpClass(self):
-        import bitHopper
         bitHopper.setup_miner()
         
     def testImport(self):
         self.assertTrue(True)
         
     def testGetWorkers(self):
-        import bitHopper.Logic
         self.assertTrue(bitHopper.Logic.get_server() != None)
         
     def testMining(self):
-        import httplib2, json
         http = httplib2.Http()
         body = json.dumps({'params':[], 'id':1, 'method':'getwork'})
         headers, content = http.request('http://localhost:8337/','POST', body=body)
@@ -183,10 +185,33 @@ class WorkersTestCase(unittest.TestCase):
         self.workers.remove('test','test','test')
         self.assertTrue(len(self.workers.get_worker_from('test')) == before)
         
+class PoolsTestCase(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(self):
+        self.pools = bitHopper.Configuration.Pools
+        
+    def testSetandGet(self):
+        
+        self.pools.set_priority('test',0)
+        self.pools.set_percentage('test', 1)
+        per = self.pools.get_percentage('test')
+        self.assertEqual(per, 1)
+        prio = self.pools.get_priority('test')
+        self.assertEqual(prio, 0)
+        self.pools.set_priority('test',1)
+        prio = self.pools.get_priority('test')
+        self.assertEqual(prio, 1)
+        self.assertTrue(self.pools.len_pools() > 0)
+        self.pools.set_priority('test',0)
+        self.pools.set_percentage('test', 0)
+        prio = self.pools.get_priority('test')
+        per = self.pools.get_percentage('test')
+        self.assertTrue(prio == per == 0)
+        
 class TestSpeed(unittest.TestCase):
 
     def setUp(self):
-        import bitHopper.Tracking.speed
         self.speed = bitHopper.Tracking.speed.Speed()
 
     def test_shares_add(self):
