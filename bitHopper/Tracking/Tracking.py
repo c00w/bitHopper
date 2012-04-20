@@ -38,7 +38,7 @@ def build_dict():
         res[server][name][1] += accepted[key]
         res[server][name][2] += rejected[key]
         res[server][name][3] += bitHopper.Configuration.Pools.get_priority(server)
-        res[server][name][4] += bitHopper.Configuration.Pools.get_percentage(server0
+        res[server][name][4] += bitHopper.Configuration.Pools.get_percentage(server)
         res[server][name] = map(int, res[server][name])
     return res
 
