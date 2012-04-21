@@ -8,7 +8,7 @@ def validate_rpc(content):
     """
     Validates that this is a valid rpc message for our purposes
     """
-    if type(content) != type({]):
+    if type(content) != type({}):
         return False
     required = {'params':None, 'id':None, 'method':'getwork'}
     for key, value in required.items():
