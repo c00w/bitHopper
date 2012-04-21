@@ -11,6 +11,14 @@
 {% for pool in pools %}
 <tr class=pool_name>
 <td class=name> {{pool}}</td><td>Getworks</td><td>Accepted</td><td>Rejected</td>
+
+<form name="set" action="pool" method="post" class=no_margin>
+<input type="hidden" name="method" value="set">
+<input type="hidden" name="server" value="{{pool}}">
+<td>Priority<input type="text" name="priority" value="{{priority[pool]}}" size="2" maxLength=2>
+Percentage<input type="text" name="percentage" value="{{percentage[pool]}}" size="2" maxLength=2>
+<input type="submit" value="Update">
+</td>
 </tr>
 
     {% for name in pools[pool]%}
@@ -19,6 +27,8 @@
         <td>{{pools[pool][name][0]}}</td>
         <td>{{pools[pool][name][1]}}</td>
         <td>{{pools[pool][name][2]}}</td>
+        <td></td>
+        <td></td>
     </tr>
     {% endfor %}
 {% endfor %}
