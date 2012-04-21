@@ -8,6 +8,8 @@ def validate_rpc(content):
     """
     Validates that this is a valid rpc message for our purposes
     """
+    if type(content) != type({]):
+        return False
     required = {'params':None, 'id':None, 'method':'getwork'}
     for key, value in required.items():
         if key not in content:
@@ -35,6 +37,10 @@ def extract_merkle(content):
     extracts the merkle root
     """
     if not validate_rpc(content):
+        return None
+    if 'params' not in content:
+        return None
+    if 'data' not in content['params']:
         return None
     merkle = content['params']['data'][72:136]
     return merkle
