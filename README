@@ -33,6 +33,7 @@ It's a lot more stable and takes less modifications.
 Download and install
 1. Python
 http://python.org/ftp/python/2.7.2/python-2.7.2.msi
+Make sure you are using the 32 bit version.
 
 2. Greenlet
 http://pypi.python.org/packages/2.7/g/greenlet/greenlet-0.3.4.win32-py2.7.exe
