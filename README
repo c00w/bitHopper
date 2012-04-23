@@ -38,7 +38,7 @@ http://python.org/ftp/python/2.7.2/python-2.7.2.msi
 http://pypi.python.org/packages/2.7/g/greenlet/greenlet-0.3.4.win32-py2.7.exe
 
 3. Gevent
-http://gevent.googlecode.com/files/gevent-1.0b1.win32-py2.7.msi
+http://gevent.googlecode.com/files/gevent-1.0b2.win32-py2.7.msi
 
 4. SetupTools
 http://pypi.python.org/packages/2.7/s/setuptools/setuptools-0.6c11.win32-py2.7.exe#md5=57e1e64f6b7c7f1d2eddfc9746bbaf20
