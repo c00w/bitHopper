@@ -170,7 +170,7 @@ def generate_servers():
                                btcnet_info.get_pools())))))
         except ValueError as Error:
             logging.warn(Error)
-        except Exception as error:
+        except Exception as Error:
             logging.error(traceback.format_exc())
         gevent.sleep(5)
     
@@ -182,8 +182,8 @@ def get_server():
     map_ods = 0.0
     percentage = Pools.percentage_server()
     for server, percentage in percentage:
-        for i in range(percentage):
-            perc_map.append(server)
+        for perc in range(percentage):
+            perc_map.append(perc)
             map_ods += 0.01
     if random.random() < map_ods:
         return random.choice(perc_map)

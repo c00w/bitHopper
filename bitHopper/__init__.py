@@ -7,16 +7,13 @@ setup_control sets the port for the control website
 setup_logging() sets up the logging level
 """
 
+import gevent
+import gevent.pywsgi
 import gevent.monkey
 #Not patching thread so we can spin of db file ops.
 gevent.monkey.patch_all(thread=False, time=False)
 
-#Monkey Patch httplib2
-#import geventhttpclient.httplib
-#geventhttpclient.httplib.patch()
 import httplib2
-import gevent
-import gevent.pywsgi
 import btcnet_info
 
 import bitHopper.Logic

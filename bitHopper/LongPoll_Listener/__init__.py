@@ -12,7 +12,7 @@ def add_address(server, url):
     """
     Adds an address and starts the polling function
     """
-    global known
+    
     if server not in known:
         logging.info('Spawning Listener %s' % server)
         gevent.spawn(poll, server)
@@ -31,8 +31,6 @@ def handle(content, server):
         return
     block = Conversion.extract_block(content)
     
-    
-    global blocks
     if block not in blocks:
         blocks[block] = {}
         bitHopper.LongPoll.trigger(content)
@@ -46,7 +44,6 @@ def poll(server):
     Function for polling the LP servers and getting the results
     calls handle for everything it recieves
     """
-    global known
     while True:
         try:
             #Figure out everthing we need

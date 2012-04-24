@@ -13,6 +13,7 @@ class ResourceGenerator:
         self.generate = generate
         self.pool = pool
         self.timeout = timeout
+        self.lock = None
         
     def __enter__(self):
         #Check if an item is available
@@ -28,7 +29,7 @@ class ResourceGenerator:
         self.pool.add((lock, item))
         return item
         
-    def __exit__(self, type, value, traceback):
+    def __exit__(self, ctype, value, traceback):
         self.lock.release()
             
 class Pool:

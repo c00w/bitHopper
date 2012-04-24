@@ -22,7 +22,6 @@ def build_dict():
     """
     __patch()
     res = {}
-    global getworks, accepted, rejected
     for key in getworks:
         server, username, password, diff = key
         if key not in accepted:
@@ -33,7 +32,7 @@ def build_dict():
             res[server] = {}
         name = ":".join([shorten(username), password])
         if name not in res[server]:
-            res[server][name] = [0,0,0,0,0]
+            res[server][name] = [0, 0, 0, 0, 0]
         res[server][name][0] += getworks[key]
         res[server][name][1] += accepted[key]
         res[server][name][2] += rejected[key]

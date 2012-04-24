@@ -7,11 +7,11 @@ def bytereverse(value):
     """ 
     Byte reverses data
     """
-    bytes = []
+    bytearray = []
     for i in xrange(0, len(value)):
         if i % 2 == 1:
-            bytes.append(value[i-1:i+1])
-    return "".join(bytes[::-1])
+            bytearray.append(value[i-1:i+1])
+    return "".join(bytearray[::-1])
 
 def wordreverse(in_buf):
     """

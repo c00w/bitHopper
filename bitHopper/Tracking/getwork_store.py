@@ -25,6 +25,7 @@ class Getwork_Store:
         ""
         if self.data.has_key(merkle_root):
             return self.data[merkle_root][0]
+        logging.debug('Merkle Root Not Found %s', merkle_root)
         return None
             
     def drop_roots(self):
