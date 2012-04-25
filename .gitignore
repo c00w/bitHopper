@@ -5,3 +5,5 @@
 *.db-journal
 *.*~
 custom_pools/*
+bh.cfg
+user.cfg
