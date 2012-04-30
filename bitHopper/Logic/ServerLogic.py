@@ -147,12 +147,15 @@ def filter_best( source):
         min_ratio = min( map(pool_ratio, hoppable))
         for pool in hoppable:
             if pool_ratio(pool) == min_ratio:
-                return set(pool)    
-    
+                yield pool 
+        return
+        
     #Select a backup pool
     backup = list(filter_secure(pools))
     if backup:
-        return set(backup)
+        for x in backup:
+            yield x
+        return
         
     raise ValueError("No valid pools configured")
     
