@@ -9,6 +9,7 @@ import ResourcePool
 from bitHopper.util import rpc_error
 import btcnet_info
 import socket
+import gevent
     
 i = 0
 def _make_http( timeout = None):
@@ -74,8 +75,8 @@ def get_work( headers = {}):
             bitHopper.Logic.lag(server, username, password)
             continue
             
-        Tracking.add_work_unit(content, server, username, password)
-        Tracking.headers(server_headers, server)
+        gevent.spawn(Tracking.add_work_unit, content, server, username, password)
+        gevent.spawn(Tracking.headers, server_headers, server)
             
         return content, server_headers
             
@@ -95,8 +96,8 @@ def submit_work(rpc_request, headers = {}):
         
     content, server_headers = bitHopper.Network.send_work(url, username, password, headers = headers, body = rpc_request['params'])
     
-    Tracking.add_result(content, server, username, password)
-    Tracking.headers(server_headers, server)
+    gevent.spawn(Tracking.add_result, content, server, username, password)
+    gevent.spawn(Tracking.headers, server_headers, server)
     
     return content, server_headers
     
