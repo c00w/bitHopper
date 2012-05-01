@@ -14,7 +14,7 @@ except Exception, e:
     print "You need to install greenlet and gevent. See the readme."
     raise e
 import gevent.monkey
-import gevent.pywsgi as pywsgi
+import pywsgi
 
 #Not patching thread so we can spin of db file ops.
 gevent.monkey.patch_all(thread=False, time=False)
