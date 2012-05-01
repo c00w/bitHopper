@@ -21,7 +21,7 @@ def request( url, body = '', headers = {}, method='GET', timeout = 30):
     r = requests.request(method, url=url, data=body, headers=headers, timeout=timeout, prefetch=True, verify=False)
     return r.content, r.headers
     
-def send_work( url, worker, password, headers={}, body=[], timeout = None):
+def send_work( url, worker, password, headers={}, body=[], timeout = 30):
     """
     Does preproccesing and header setup for sending a work unit
     """
@@ -47,7 +47,7 @@ def get_work( headers = {}):
         request = {'params':[], 'id':1, 'method':'getwork'}
         
         try:
-            content, server_headers = send_work( url, username, password, headers, request)
+            content, server_headers = send_work( url, username, password, headers, request, timeout=1)
         except socket.error:
             content, server_headers = None, None
         except:
