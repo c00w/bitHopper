@@ -309,7 +309,7 @@ def main():
             socket.setdefaulttimeout(None)
             pywsgi.WSGIServer((options.ip, listen_port),
                 bithopper_instance.website.handle_start, 
-                backlog=512,  log=log).serve_forever()
+                backlog=32,  log=log).serve_forever()
             socket.setdefaulttimeout(lastDefaultTimeout)
             break
         except Exception, e:
