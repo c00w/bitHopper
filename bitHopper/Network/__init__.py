@@ -11,6 +11,7 @@ import btcnet_info
 import socket
 import gevent
 import requests
+import traceback
     
 i = 0
 def request( url, body = '', headers = {}, method='GET', timeout = 30):
@@ -18,10 +19,12 @@ def request( url, body = '', headers = {}, method='GET', timeout = 30):
     Generic network wrapper function
     """
     
+    #traceback.print_stack()
+    
     r = requests.request(method, url=url, data=body, headers=headers, timeout=timeout, prefetch=True, verify=False)
     return r.content, r.headers
     
-def send_work( url, worker, password, headers={}, body=[], timeout = 30):
+def send_work( url, worker, password, headers={}, body=[], timeout = 30, method='POST'):
     """
     Does preproccesing and header setup for sending a work unit
     """
@@ -35,7 +38,7 @@ def send_work( url, worker, password, headers={}, body=[], timeout = 30):
     if 'http' not in url:
         url = 'http://' + url
     
-    return request(url, body = body, headers= headers, method='POST', timeout = timeout)
+    return request(url, body = body, headers= headers, method=method, timeout = timeout)
 
 def get_work( headers = {}):
     """
@@ -48,7 +51,7 @@ def get_work( headers = {}):
         
         try:
             content, server_headers = send_work( url, username, password, headers, request, timeout=1)
-        except socket.error:
+        except socket.error, requests.ConnectionError:
             content, server_headers = None, None
         except:
             logging.error(traceback.format_exc())

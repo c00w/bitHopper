@@ -13,12 +13,15 @@ def add_address(server, url):
     Adds an address and starts the polling function
     """
     
-    if server not in known:
-        logging.info('Spawning Listener %s' % server)
-        gevent.spawn(poll, server)
     if url[0] == '/' or url[0] == '\\':
         url = btcnet_info.get_pool(server)['mine.address'] + url
-    known[server] = url
+        
+    if server not in known:
+        known[server] = url
+        logging.info('Spawning Listener %s' % server)
+        gevent.spawn(poll, server)
+    elif known[server] != url:
+        known[server] = url
     
 def handle(content, server):
     """
@@ -28,6 +31,7 @@ def handle(content, server):
         content = json.loads(content)
     except:
         logging.debug(traceback.format_exc())
+        gevent.sleep(5)
         return
     block = Conversion.extract_block(content)
     
@@ -57,8 +61,8 @@ def poll(server):
                 gevent.sleep(5*60)
                 continue
                 
-            content, server_headers = bitHopper.Network.send_work( url, username, password, headers, request, timeout = 60*30)
-                
+            content, server_headers = bitHopper.Network.send_work( url, username, password, headers, request, timeout = 60*30, method='GET')
+            
             bitHopper.Tracking.add_work_unit(content, server, username, password)
             
             handle(content, server)
