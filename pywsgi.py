@@ -398,6 +398,9 @@ class WSGIHandler(object):
         self.provided_date = None
         self.provided_content_length = None
 
+        
+        self.response_headers = list(self.response_headers)
+
         for header, value in headers:
             header = header.lower()
             if header == 'connection':
