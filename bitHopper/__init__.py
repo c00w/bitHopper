@@ -66,7 +66,7 @@ def setup_miner(port = 8337, host = ''):
     log = open(os.devnull, 'wb')
     server = gevent.pywsgi.WSGIServer((host, port), 
             bitHopper.Mining_Site.mine,  
-            backlog=512,  
+            backlog=32,  
             log=log)
     gevent.spawn(_tb_wrapper, server)
     gevent.sleep(0)
