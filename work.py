@@ -173,14 +173,14 @@ class Work():
 
         #check if they are sending a valid message
         if rpc_request['method'] != "getwork":
-            start_request('200 OK', {})
+            start_request('200 OK', {}.items())
             response = json.dumps({"result":None, 'error':{'message':'Invalid method'}, 'id':j_id})
             return [response]
 
         if data != []:
             server, auth = self.bitHopper.getwork_store.get_server(data[0][72:136])
             if not auth:
-                start_request('200 OK', {})
+                start_request('200 OK', {}.items())
                 return json.dumps({"result":'false', 'error':None, 'id':j_id})
             serv_user, serv_pass = auth
         if data == [] or server == None:
