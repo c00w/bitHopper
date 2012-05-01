@@ -10,33 +10,16 @@ from bitHopper.util import rpc_error
 import btcnet_info
 import socket
 import gevent
+import requests
     
 i = 0
-def _make_http( timeout = None):
+def request( url, body = '', headers = {}, method='GET', timeout = 30):
     """
-    Magic method that makes an httplib2 object
-    """
-    configured_timeout = 5
-    if not timeout:
-        timeout = configured_timeout
-        
-    return httplib2.Http(disable_ssl_certificate_validation=True, timeout=timeout)
-        
-http_pool = ResourcePool.Pool(_make_http)
-        
-    
-            
-def request( url, body = '', headers = {}, method='GET', timeout = None):
-    """
-    Generic httplib2 wrapper function
+    Generic network wrapper function
     """
     
-    if 'Connection' not in headers:
-        headers['Connection'] = 'close'
-    
-    with http_pool(url, timeout=timeout) as http:
-        headers, content = http.request( url, method, headers=headers, body=body)
-    return content, headers
+    r = requests.request(method, url=url, data=body, headers=headers, timeout=timeout, prefetch=True, verify=False)
+    return r.content, r.headers
     
 def send_work( url, worker, password, headers={}, body=[], timeout = None):
     """
