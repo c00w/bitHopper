@@ -8,7 +8,7 @@ setup_logging() sets up the logging level
 """
 
 import gevent
-import gevent.pywsgi
+import pywsgi
 import gevent.monkey
 #Not patching thread so we can spin of db file ops.
 gevent.monkey.patch_all(thread=False, time=False)
@@ -64,7 +64,7 @@ def setup_miner(port = 8337, host = ''):
     """
     #Don't show the gevent logsg
     log = open(os.devnull, 'wb')
-    server = gevent.pywsgi.WSGIServer((host, port), 
+    server = pywsgi.WSGIServer((host, port), 
             bitHopper.Mining_Site.mine,  
             backlog=32,  
             log=log)
@@ -77,7 +77,7 @@ def setup_control(port = 8339, host = ''):
     """
     #Don't show the gevent logsg
     log = open(os.devnull, 'wb')
-    server = gevent.pywsgi.WSGIServer((host, port), 
+    server = pywsgi.WSGIServer((host, port), 
             bitHopper.Website.app,  
             backlog=512,  
             log=log)
