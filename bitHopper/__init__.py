@@ -79,7 +79,7 @@ def setup_control(port = 8339, host = ''):
     log = open(os.devnull, 'wb')
     server = pywsgi.WSGIServer((host, port), 
             bitHopper.Website.app,  
-            backlog=512,  
+            backlog=1024,  
             log=log)
     gevent.spawn(_tb_wrapper, server)
     gevent.sleep(0)
