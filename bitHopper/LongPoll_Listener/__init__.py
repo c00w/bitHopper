@@ -55,7 +55,7 @@ def poll(server):
             request = {'params':[], 'id':1, 'method':'getwork'}
             headers = {}
             username, password = bitHopper.Configuration.Workers.get_single_worker(server)
-            
+            print url, username, password
             #If we have no user wait 5 minutes and try again
             if username == None:
                 gevent.sleep(5*60)

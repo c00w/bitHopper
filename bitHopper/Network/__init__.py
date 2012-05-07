@@ -2,7 +2,7 @@
 Stub for networking module
 """
 
-import httplib2, logging, traceback, json, base64
+import logging, traceback, json, base64
 import bitHopper.Logic
 import bitHopper.Tracking as Tracking
 import ResourcePool
