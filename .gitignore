@@ -9,3 +9,9 @@ user.cfg
 objgraph.py
 bh.cfg
 *.*~
+*.db
+bin
+lib
+custom_pools
+include
+local
