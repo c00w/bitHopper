@@ -67,6 +67,7 @@ def mine_real(environ, start_response):
     
     #Set Long Polling Header
     headers['x-long-polling'] = '/longpoll'
+    headers['Connection'] = 'Keep-Alive'
     
     start_response('200 OK', headers.items())
     return content
