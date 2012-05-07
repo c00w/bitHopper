@@ -46,7 +46,12 @@ def get_work( headers = {}):
     """
     while True:
         server, username, password = bitHopper.Logic.get_server()
-        url = btcnet_info.get_pool(server)['mine.address']
+        url = btcnet_info.get_pool(server)
+        if not url:
+            bitHopper.Logic.lag(server, username, password)
+            continue
+            
+        url = url['mine.address']
         request = {'params':[], 'id':1, 'method':'getwork'}
         
         try:

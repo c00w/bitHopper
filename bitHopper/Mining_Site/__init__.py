@@ -4,6 +4,7 @@ import bitHopper.Network
 import json, logging
 import bitHopper.LongPoll
 from headers import *
+import traceback
 
 def _read_all(fp):
     """
@@ -15,6 +16,14 @@ def _read_all(fp):
     return a
     
 def mine(environ, start_response):
+    try:
+        return mine_real(environ, start_response)
+    except:
+        logging.error(traceback.format_exc())
+        start_response('200 OK', [])
+        return bitHopper.util.rpc_error('Unknown Error')
+    
+def mine_real(environ, start_response):
     """
     Function that does basic handling of work requests
     """
