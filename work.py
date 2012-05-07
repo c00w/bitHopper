@@ -200,7 +200,7 @@ class Work():
             del server_headers[item]  
 
         server_headers['X-Long-Polling'] = '/LP'
-
+        server_headers['Connection'] = 'Keep-Alive'
         start_request('200 OK', server_headers.items())
 
         if work == None:
