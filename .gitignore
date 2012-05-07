@@ -7,3 +7,7 @@
 custom_pools/*
 bh.cfg
 user.cfg
+bin
+include
+local
+lib
