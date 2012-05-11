@@ -12,17 +12,34 @@ import socket
 import gevent
 import requests
 import traceback
+from copy import deepcopy
     
+session = requests.session()
 i = 0
-def request( url, body = '', headers = {}, method='GET', timeout = 30):
+def request( url, body = '', headers = {}, method='POST', timeout = 30):
     """
     Generic network wrapper function
     """
     
     #traceback.print_stack()
     
-    r = requests.request(method, url=url, data=body, headers=headers, timeout=timeout, prefetch=True, verify=False)
+    r = session.request(method, url=url, data=body, headers=headers, timeout=timeout, prefetch=True, verify=False)
     return r.content, r.headers
+    
+def get_lp(url, username, password):
+    """
+    Gets a lp
+    """
+    headers = {}
+    headers['Authorization'] = "Basic " +base64.b64encode(username+ ":" + password).replace('\n','')
+    
+    if 'http' not in url:
+        url = "http://" + url
+    
+    r = session.request('GET', url, headers=headers, timeout=30*60, prefetch=True, verify=False)
+    
+    return r.content, r.headers
+    
     
 def send_work( url, worker, password, headers={}, body=[], timeout = 30, method='POST'):
     """
@@ -34,7 +51,6 @@ def send_work( url, worker, password, headers={}, body=[], timeout = 30, method=
     body = json.dumps(body, ensure_ascii = True)
     headers['Authorization'] = "Basic " +base64.b64encode(worker+ ":" + password).replace('\n','')
     headers['Content-Type'] = 'application/json'
-    #headers['connection'] = 'keep-alive'
     if 'http' not in url:
         url = 'http://' + url
     
@@ -69,7 +85,7 @@ def get_work( headers = {}):
         gevent.spawn(Tracking.add_work_unit, content, server, username, password)
         gevent.spawn(Tracking.headers, server_headers, server)
             
-        return content, server_headers
+        return content, deepcopy(server_headers)
             
 def submit_work(rpc_request, headers = {}):
     """
@@ -90,5 +106,5 @@ def submit_work(rpc_request, headers = {}):
     gevent.spawn(Tracking.add_result, content, server, username, password)
     gevent.spawn(Tracking.headers, server_headers, server)
     
-    return content, server_headers
+    return content, deepcopy(server_headers)
     

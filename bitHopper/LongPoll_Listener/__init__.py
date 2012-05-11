@@ -52,16 +52,16 @@ def poll(server):
         try:
             #Figure out everthing we need
             url = known[server]
-            request = {'params':[], 'id':1, 'method':'getwork'}
-            headers = {}
+            
             username, password = bitHopper.Configuration.Workers.get_single_worker(server)
-            print url, username, password
+            
             #If we have no user wait 5 minutes and try again
             if username == None:
                 gevent.sleep(5*60)
                 continue
                 
-            content, server_headers = bitHopper.Network.send_work( url, username, password, headers, request, timeout = 60*30, method='GET')
+            print url
+            content, server_headers = bitHopper.Network.get_lp( url, username, password)
             
             bitHopper.Tracking.add_work_unit(content, server, username, password)
             
