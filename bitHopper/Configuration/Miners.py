@@ -21,13 +21,25 @@ def load_from_db():
     miners = set()
     
     for username, password in results:
-        miners.append(username, password)
+        miners.add((username, password))
         
     return miners
     
 def len_miners():
+    """
+    Returns the length of the worker table
+    """
     __patch()
     return len(miners)
+    
+def get_miners():
+    """
+    Returns a list of workers
+    """
+    __patch()
+    miners_l = list(miners)
+    miners_l.sort()
+    return miners_l
         
 def valid(username, password):
     """

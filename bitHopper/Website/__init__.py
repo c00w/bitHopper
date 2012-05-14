@@ -24,6 +24,7 @@ def teardown_request_wrap(exception):
         
 import Pool_Page
 import Worker_Page
+import Miner_Page
 
 
 @app.route("/")

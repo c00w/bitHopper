@@ -139,7 +139,7 @@ class ControlTestCase(unittest.TestCase):
         import httplib2
         http = httplib2.Http()
         import os
-        items = ['/worker', '/']
+        items = ['/worker', '/', '/miners']
         for item in items:
             headers, content = http.request('http://localhost:8339' + item)
             self.assertTrue('Not Found' not in content)
@@ -197,7 +197,21 @@ class MinersTestCase(unittest.TestCase):
         miners.add('Test','Test')
         assert miners.len_miners() == a+1
         miners.remove('Test', 'Test')
-        assert miners.len_miners() == a    
+        assert miners.len_miners() == a   
+        
+    def testWeb(self):
+        miners = bitHopper.Configuration.Miners
+        before = miners.len_miners()
+        import mechanize
+        br = mechanize.Browser()
+        br.open('http://localhost:8339/miners')
+        br.select_form(name="add")
+        br["username"] = 'test'
+        br["password"] = 'test'
+        response = br.submit()
+        #self.assertTrue(workers.len_workers() > before)
+        miners.remove('test', 'test')
+        self.assertTrue(miners.len_miners() == before)
 
         
 class PoolsTestCase(unittest.TestCase):
