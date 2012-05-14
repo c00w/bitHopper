@@ -34,9 +34,9 @@ def valid(username, password):
     Check if a username, password combination is valid
     """
     __patch()
-    if len(workers) == 0:
+    if len(miners) == 0:
         return True
-    return (username, password) in workers    
+    return (username, password) in miners    
     
 def add(username, password):
     """

@@ -92,8 +92,9 @@ class MiningTestCase(unittest.TestCase):
         
     def testMining(self):
         http = httplib2.Http()
+        headers = {'Authorization':'Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ=='}
         body = json.dumps({'params':[], 'id':1, 'method':'getwork'})
-        headers, content = http.request('http://localhost:8337/','POST', body=body)
+        headers, content = http.request('http://localhost:8337/','POST', body=body, headers=headers)
         try:
             response = json.loads(content) 
         except:

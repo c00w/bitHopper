@@ -1,7 +1,8 @@
 import bitHopper.Tracking
 import bitHopper.util
 import bitHopper.Network
-import json, logging
+import bitHopper.Configuration.Miners
+import json, logging, base64
 import bitHopper.LongPoll
 from headers import *
 import traceback
@@ -14,6 +15,28 @@ def _read_all(fp):
     for b in fp:
         a += b
     return a
+    
+def getBasicCredentials(both):
+    """Parses the HTTP_AUTHORIZATION item for basic credentials"""
+    encd = both.split()[-1]
+    values = base64.b64decode(encd).split(':', 1)
+    if len(values)==2:
+        return values[0],values[1]
+    return None, None
+    
+def validate_miner(environ):
+    """
+    Verifies that the user is a valid miner
+    """
+    auth_response = environ.get("HTTP_AUTHORIZATION",None)
+    if auth_response is None:
+        return False
+        
+    username, password = getBasicCredentials(auth_response)
+    if username is None:
+        return False
+        
+    return bitHopper.Configuration.Miners.valid(username, password)
     
 def mine(environ, start_response):
     try:
@@ -48,6 +71,11 @@ def mine_real(environ, start_response):
     if not bitHopper.util.validate_rpc(rpc_request):
         start_response('200 OK', [])
         return bitHopper.util.rpc_error()
+    
+    #Check for a valid username, password
+    if not validate_miner(environ):
+        start_response('200 OK', [])
+        return bitHopper.util.rpc_error('Invalid Authorisation')
         
     #Get client headers
     headers = get_headers(environ)
