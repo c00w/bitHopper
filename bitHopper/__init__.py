@@ -8,7 +8,7 @@ setup_logging() sets up the logging level
 """
 
 import gevent
-import pywsgi
+import gevent.pywsgi as pywsgi
 import gevent.monkey
 #Not patching thread so we can spin of db file ops.
 gevent.monkey.patch_all(thread=False, time=False)
