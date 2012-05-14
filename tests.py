@@ -82,6 +82,7 @@ class MiningTestCase(unittest.TestCase):
     @classmethod
     def setUpClass(self):
         bitHopper.setup_miner()
+        gevent.sleep(0.2)
         
     def testImport(self):
         self.assertTrue(True)
