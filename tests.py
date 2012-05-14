@@ -184,6 +184,19 @@ class WorkersTestCase(unittest.TestCase):
         self.assertTrue(len(self.workers.get_worker_from('test')) > 0)
         self.workers.remove('test','test','test')
         self.assertTrue(len(self.workers.get_worker_from('test')) == before)
+
+
+class MinersTestCase(unittest.TestCase):
+    def testnormal(self):
+        import bitHopper.Configuration.Miners
+        miners = bitHopper.Configuration.Miners
+        miners.remove('Test', 'Test')
+        a = miners.len_miners()
+        miners.add('Test','Test')
+        assert miners.len_miners() == a+1
+        miners.remove('Test', 'Test')
+        assert miners.len_miners() == a    
+
         
 class PoolsTestCase(unittest.TestCase):
 
