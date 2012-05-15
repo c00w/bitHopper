@@ -1,6 +1,7 @@
 from bitHopper.Website import app, flask
 import btcnet_info
 import bitHopper.Configuration.Workers
+import logging
     
 @app.route("/worker", methods=['POST', 'GET'])
 def worker():
