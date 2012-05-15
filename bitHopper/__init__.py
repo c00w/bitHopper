@@ -20,17 +20,40 @@ import bitHopper.Network
 import bitHopper.Website
 import bitHopper.Configuration
 import bitHopper.Mining_Site
+import logging
+
+def print_btcni_ver():
+    """
+    Prints btcnet_info version info
+    """
+    if '__version__' not in dir(btcnet_info):
+        logging.info('btcnet_info older than 0.1.2.22')
+    else:
+        logging.info('btcnet_info version %s', btcnet_info.__version__)
+    
+__patched = False
+def __patch():
+    """
+    One Time things should be done here
+    """
+    global __patched
+    if __patched == False:
+        __patched = True
+        print_btcni_ver()
+        
 
 import logging, sys
 def setup_logging(level=logging.INFO):
     """
     Sets up the logging output we want
     """
+    
     logging.basicConfig(
             stream=sys.stdout, 
             format="%(asctime)s|%(module)s|%(funcName)s: %(message)s", 
             datefmt="%H:%M:%S", 
             level = level)
+    __patch()
 
 
 import gevent.wsgi, os
