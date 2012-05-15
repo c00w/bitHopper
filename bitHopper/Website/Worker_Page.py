@@ -11,7 +11,8 @@ def worker():
     #Get a list of currently configured workers
     pools_workers = {}
     for pool in btcnet_info.get_pools():
-        if not pool.name:
+        if pool.name is None:
+            logging.debug('Ignoring %s', pool)
             continue
         pools_workers[pool.name] = bitHopper.Configuration.Workers.get_worker_from(pool.name)
         
