@@ -40,9 +40,9 @@ def extract_merkle(content):
         return None
     if 'params' not in content:
         return None
-    if 'data' not in content['params']:
+    if 'data' not in content['params'][0]:
         return None
-    merkle = content['params']['data'][72:136]
+    merkle = content['params'][0]['data'][72:136]
     return merkle
 
 def extract_merkle_recieved(content):

@@ -41,6 +41,12 @@ def add_result(content, server, username, password):
     Does wrapping and stores the result
     """
     __patch()
+    
+    try:
+        content = json.loads(content)
+    except:
+        return
+    
     result = extract_result(content)
     if result.lower() in ['false']:
         Tracking.add_rejected(server, username, password)

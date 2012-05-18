@@ -143,7 +143,7 @@ class MiningTestCase(unittest.TestCase):
         import bitHopper.Configuration.Workers
         bitHopper.Configuration.Workers.add('test_pool', 'test', 'test')
         import bitHopper.Configuration.Pools
-        #bitHopper.Configuration.Pools.set_priority('test_pool', 1)
+        bitHopper.Configuration.Pools.set_priority('test_pool', 1)
         gevent.sleep(0)
         bitHopper.custom_pools()
         gevent.sleep(0)
@@ -172,7 +172,23 @@ class MiningTestCase(unittest.TestCase):
         self.assertTrue('error' in response)
         self.assertTrue(response['error'] == None)
         
-        #bitHopper.Configuration.Workers.remove('fake_pool', 'test', 'test')
+    def testSubmit(self):
+        http = httplib2.Http()
+        headers = {'Authorization':'Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ=='}
+        body = json.dumps({'params':[{'data':'F'*200}], 'id':1, 'method':'getwork'})
+        headers, content = http.request('http://localhost:8337/','POST', body=body, headers=headers)
+        try:
+            response = json.loads(content)
+            print response 
+        except:
+            self.assertFalse(content)
+        self.assertTrue('result' in response)
+        self.assertTrue('id' in response)
+        self.assertTrue('error' in response)
+        self.assertTrue(response['error'] == None)
+        self.assertTrue(response['result'] == 'true')
+        
+    
         
 class LongPollingTestCase(unittest.TestCase):
     def testBlocking(self):

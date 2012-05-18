@@ -101,7 +101,7 @@ def submit_work(rpc_request, headers = {}):
         logging.error('NO URL FOR %s', server)
         return rpc_error('No Url for pool'), {}
         
-    content, server_headers = bitHopper.Network.send_work(url, username, password, headers = headers, body = rpc_request['params'])
+    content, server_headers = bitHopper.Network.send_work(url, username, password, headers = headers, body = rpc_request)
     
     gevent.spawn(Tracking.add_result, content, server, username, password)
     gevent.spawn(Tracking.headers, server_headers, server)
