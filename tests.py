@@ -159,8 +159,6 @@ class MiningTestCase(unittest.TestCase):
         
     def testMining(self):
         
-        print bitHopper.Logic.ServerLogic.Servers
-        #return
         http = httplib2.Http()
         headers = {'Authorization':'Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ=='}
         body = json.dumps({'params':[], 'id':1, 'method':'getwork'})
@@ -168,7 +166,7 @@ class MiningTestCase(unittest.TestCase):
         try:
             response = json.loads(content) 
         except:
-            self.assertFalse("invalid json response")
+            self.assertFalse(content)
         self.assertTrue('result' in response)
         self.assertTrue('id' in response)
         self.assertTrue('error' in response)
