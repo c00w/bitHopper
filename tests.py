@@ -179,7 +179,7 @@ class MiningTestCase(unittest.TestCase):
         headers, content = http.request('http://localhost:8337/','POST', body=body, headers=headers)
         try:
             response = json.loads(content)
-            print response 
+            #print response 
         except:
             self.assertFalse(content)
         self.assertTrue('result' in response)

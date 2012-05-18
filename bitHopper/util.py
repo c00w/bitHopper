@@ -58,7 +58,7 @@ def extract_result(content):
     """
     extracts the result
     """
-    result = content['params']
+    result = content['result']
     return result
     
 

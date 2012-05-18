@@ -36,6 +36,5 @@ def serve(env, start_response):
     if body['params'] != []:
         return handle_submit()
     return handle_getwork()
-    logging.info('Fake Work Server')
 
     
