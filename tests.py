@@ -19,14 +19,68 @@ class FakePool():
         self.shares = "123"
         
     def __getitem__(self, key):
-        return getattr(self, key, None)      
+        return getattr(self, key, None)   
+        
+import btcnet_info
+
+class CustomPools(unittest.TestCase):
+    @classmethod
+    def setUpClass(self):
+        import fake_pool
+        #fake_pool.initialize()
+        gevent.sleep(0)
+        import bitHopper.Configuration.Workers
+        bitHopper.Configuration.Workers.add('test_pool', 'test', 'test')
+        import bitHopper.Configuration.Pools
+        #bitHopper.Configuration.Pools.set_priority('test_pool', 1)
+        gevent.sleep(0)
+        bitHopper.custom_pools()
+        gevent.sleep(0)
+        bitHopper.Logic.ServerLogic.rebuild_servers()
+        gevent.sleep(0)
+        
+    def testName(self):
+        found = False
+        for item in btcnet_info.get_pools():
+            if item.name == 'test_pool':
+                found = True
+        
+        self.assertTrue(found)
+        
+    def testCredentials(Self):
+        import bitHopper.Configuration.Workers as Workers
+        workers = Workers.get_worker_from('test_pool')
+        if not workers:
+            assert False
+        assert True
+        
+    
+    def testValid(self):
+        def test_in_list(list_s, k):
+            for item in list_s:
+                if item.name == 'test_pool':
+                    return True
+            return False
+    
+        from bitHopper.Logic.ServerLogic import filters
+        import btcnet_info
+        servers = list(btcnet_info.get_pools())
+        assert test_in_list(servers, 'origin')
+        for filter_f in bitHopper.Logic.ServerLogic.filters:
+            servers = list(filter_f(servers))
+            assert test_in_list(servers, filter_f)
             
+        
+    def testAdded(self):
+        import bitHopper.Logic.ServerLogic
+        print bitHopper.Logic.ServerLogic.Servers
+          
 class ServerLogicTestCase(unittest.TestCase):
 
     @classmethod
     def setUpClass(self):
         self.logic = bitHopper.Logic.ServerLogic
-        gevent.sleep(0.1)
+        gevent.sleep(0)
 
     def testdiff_cutoff(self):
         example = FakePool()
@@ -81,8 +135,22 @@ class MiningTestCase(unittest.TestCase):
 
     @classmethod
     def setUpClass(self):
+        import bitHopper
         bitHopper.setup_miner()
-        gevent.sleep(0.2)
+        gevent.sleep(0)
+        import fake_pool
+        fake_pool.initialize()
+        gevent.sleep(0)
+        import bitHopper.Configuration.Workers
+        bitHopper.Configuration.Workers.add('test_pool', 'test', 'test')
+        import bitHopper.Configuration.Pools
+        #bitHopper.Configuration.Pools.set_priority('test_pool', 1)
+        gevent.sleep(0)
+        bitHopper.custom_pools()
+        gevent.sleep(0)
+        bitHopper.Logic.ServerLogic.rebuild_servers()
+        gevent.sleep(0)
+        
         
     def testImport(self):
         self.assertTrue(True)
@@ -91,6 +159,9 @@ class MiningTestCase(unittest.TestCase):
         self.assertTrue(bitHopper.Logic.get_server() != None)
         
     def testMining(self):
+        
+        print bitHopper.Logic.ServerLogic.Servers
+        return
         http = httplib2.Http()
         headers = {'Authorization':'Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ=='}
         body = json.dumps({'params':[], 'id':1, 'method':'getwork'})
@@ -104,6 +175,8 @@ class MiningTestCase(unittest.TestCase):
         self.assertTrue('error' in response)
         self.assertTrue(response['error'] == None)
         
+        #bitHopper.Configuration.Workers.remove('fake_pool', 'test', 'test')
+        
 class LongPollingTestCase(unittest.TestCase):
     def testBlocking(self):
         import bitHopper.LongPoll as lp
@@ -112,7 +185,7 @@ class LongPollingTestCase(unittest.TestCase):
             lp.wait()
         gevent.spawn(trigger)
         lp.trigger('Not used right now')
-        gevent.sleep(0.1)
+        gevent.sleep(0)
         self.assertTrue(True)
          
                 
@@ -151,13 +224,13 @@ class ControlTestCase(unittest.TestCase):
         br = mechanize.Browser()
         br.open('http://localhost:8339/worker')
         br.select_form(name="add")
-        br["username"] = 'test'
+        br["username"] = 'test_worker'
         br["password"] = 'test'
         response = br.submit()
         #self.assertTrue(workers.len_workers() > before)
         for pool in workers.workers.keys():
             for username, password in workers.workers[pool]:
-                if (username, password) == ('test','test'):
+                if (username, password) == ('test_worker','test'):
                     workers.remove(pool, username, password)
                     break
         self.assertTrue(workers.len_workers() == before)
@@ -189,6 +262,7 @@ class WorkersTestCase(unittest.TestCase):
 
 
 class MinersTestCase(unittest.TestCase):
+
     def testnormal(self):
         import bitHopper.Configuration.Miners
         miners = bitHopper.Configuration.Miners

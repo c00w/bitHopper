@@ -164,18 +164,25 @@ def generate_servers():
     Method that generate the best server
     """
     while True:
-        try:
-            global Servers
-            Servers = list(filter_best(
-                            highest_priority(
-                             valid_scheme(
-                              valid_credentials(
-                               btcnet_info.get_pools())))))
-        except ValueError as Error:
-            logging.warn(Error)
-        except Exception as Error:
-            logging.error(traceback.format_exc())
+        rebuild_servers()
         gevent.sleep(5)
+           
+filters = [valid_credentials, valid_scheme, highest_priority, filter_best]
+
+def rebuild_servers():
+    """
+    The function the rebuilds the set of servers
+    """
+    try:
+        global Servers
+        servers = btcnet_info.get_pools()
+        for filter_f in filters:
+                servers = filter_f(servers)
+        Servers = list(servers)
+    except ValueError as Error:
+        logging.warn(Error)
+    except Exception as Error:
+        logging.error(traceback.format_exc())
     
 def get_server():
     """
