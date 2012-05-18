@@ -73,7 +73,6 @@ class CustomPools(unittest.TestCase):
         
     def testAdded(self):
         import bitHopper.Logic.ServerLogic
-        print bitHopper.Logic.ServerLogic.Servers
           
 class ServerLogicTestCase(unittest.TestCase):
 
@@ -161,7 +160,7 @@ class MiningTestCase(unittest.TestCase):
     def testMining(self):
         
         print bitHopper.Logic.ServerLogic.Servers
-        return
+        #return
         http = httplib2.Http()
         headers = {'Authorization':'Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ=='}
         body = json.dumps({'params':[], 'id':1, 'method':'getwork'})
