@@ -10,7 +10,7 @@ from bitHopper.util import rpc_error
 import btcnet_info
 import socket
 import gevent
-import requests
+import requests, requests.exceptions
 import traceback
 from copy import deepcopy
     
@@ -72,7 +72,7 @@ def get_work( headers = {}):
         
         try:
             content, server_headers = send_work( url, username, password, headers, request, timeout=1)
-        except socket.error, requests.ConnectionError:
+        except (socket.error, requests.exceptions.ConnectionError) as e:
             content, server_headers = None, None
         except:
             logging.error(traceback.format_exc())

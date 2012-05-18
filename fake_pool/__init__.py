@@ -23,7 +23,8 @@ def read_input(env):
     return r
 
 def initialize():
-    server = gevent.pywsgi.WSGIServer(('127.0.0.1', 8338), serve)
+    log = open(os.devnull, 'wb')
+    server = gevent.pywsgi.WSGIServer(('127.0.0.1', 8338), serve, log=log)
     gevent.spawn(server.serve_forever)
         
 def serve(env, start_response):
