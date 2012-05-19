@@ -48,7 +48,7 @@ def add_result(content, server, username, password):
         return
     
     result = extract_result(content)
-    if result.lower() in ['false']:
+    if result in [False]:
         Tracking.add_rejected(server, username, password)
     else:
         Tracking.add_accepted(server, username, password)

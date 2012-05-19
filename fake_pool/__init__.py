@@ -9,7 +9,7 @@ def handle_getwork():
     return json.dumps(response) 
     
 def handle_submit():
-    response = {'result':'true', 'id':1, 'error':None}
+    response = {'result':True, 'id':1, 'error':None}
     return json.dumps(response)
 
 def read_input(env):
