@@ -186,7 +186,7 @@ class MiningTestCase(unittest.TestCase):
         self.assertTrue('id' in response)
         self.assertTrue('error' in response)
         self.assertTrue(response['error'] == None)
-        self.assertTrue(response['result'] == 'true')
+        self.assertTrue(response['result'] == True)
         
     
         
