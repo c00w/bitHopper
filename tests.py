@@ -175,7 +175,7 @@ class MiningTestCase(unittest.TestCase):
     def testSubmit(self):
         http = httplib2.Http()
         headers = {'Authorization':'Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ=='}
-        body = json.dumps({'params':[{'data':'F'*200}], 'id':1, 'method':'getwork'})
+        body = json.dumps({'params':[{'data':'0000000141eb2ea2dff39b792c3c4112408b930de8fb7e3aef8a75f400000709000000001d716842411d0488da0d1ccd34e8f3e7d5f0682632efec00b80c7e3f84e175854fb7bead1a09ae0200000000000000800000000000000000000000000000000000000000000000000000000000000000000000000000000080020000'}], 'id':1, 'method':'getwork'})
         headers, content = http.request('http://localhost:8337/','POST', body=body, headers=headers)
         try:
             response = json.loads(content)

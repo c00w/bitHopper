@@ -2,7 +2,7 @@
 Utility functions for bitHopper
 """
 
-import json
+import json, logging
 
 def validate_rpc(content):
     """
@@ -36,6 +36,8 @@ def extract_merkle(content):
     """
     extracts the merkle root
     """
+    logging.info(content)
+    logging.info(content['params'][0])
     if not validate_rpc(content):
         return None
     if 'params' not in content:
