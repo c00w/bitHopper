@@ -38,13 +38,17 @@ def extract_merkle(content):
     """
     logging.info(content)
     logging.info(content['params'][0])
-    if not validate_rpc(content):
-        return None
     if 'params' not in content:
+        logging.info('Malformed sendwork')
         return None
-    if 'data' not in content['params'][0]:
+    if len(content['params']) != 1:
+        logging.info('Malformed sendwork')
         return None
-    merkle = content['params'][0]['data'][72:136]
+    if len(content['params'][0])<136:
+        logging.info('Malformed sendwork')
+        return None
+        
+    merkle = content['params'][0][72:136]
     return merkle
 
 def extract_merkle_recieved(content):
