@@ -36,8 +36,6 @@ def extract_merkle(content):
     """
     extracts the merkle root
     """
-    logging.info(content)
-    logging.info(content['params'][0])
     if 'params' not in content:
         logging.info('Malformed sendwork')
         return None
