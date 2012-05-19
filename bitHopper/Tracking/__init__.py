@@ -2,7 +2,7 @@ from getwork_store import Getwork_Store
 from bitHopper.util import *
 import Tracking
 import bitHopper.LongPoll_Listener
-import json
+import json, logging
 
 __store = False
 
@@ -59,10 +59,13 @@ def get_work_unit(content):
     Does wrapping and returns the result
     """
     __patch()
+    
     merkle_root = extract_merkle(content)
     if not merkle_root:
+        logging.info('No merkle root found')
         return (None, None, None)
     auth = __store.get(merkle_root)
     if not auth:
+        logging.info('Root %s not in %s', merkle_root, __store)
         return (None, None, None)
     return auth

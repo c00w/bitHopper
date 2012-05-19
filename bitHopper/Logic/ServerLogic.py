@@ -96,7 +96,7 @@ def valid_credentials( source):
     """
     Only allows through sites with valid credentials
     """
-    for site in source.copy():
+    for site in source:
     
         #Pull Name
         name = site.name
