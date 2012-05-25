@@ -32,7 +32,7 @@ def serve(env, start_response):
     
     body = read_input(env)
     body = json.loads(body)
-    print body
+    
     if body['params'] != []:
         return handle_submit()
     return handle_getwork()

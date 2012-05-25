@@ -40,6 +40,7 @@ def load_from_db():
     return workers
     
 def len_workers():
+    __patch()
     return sum(map(len, workers.values()))
         
     

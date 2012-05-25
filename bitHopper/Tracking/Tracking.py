@@ -80,7 +80,11 @@ def store_current():
         timestamp = time.asctime(time.gmtime())
         
         #If this isn't the current difficulty we are not responsible for storing it
-        if get_diff(server) != difficulty:
+        try:
+            if get_diff(server) != difficulty:
+                continue
+        except:
+            logging.error(traceback.format_exc())
             continue
             
         #Do an update
