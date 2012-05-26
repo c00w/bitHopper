@@ -8,6 +8,7 @@
 import threading, gevent
 from btcnet_wrapper import btcnet_info
 from collections import defaultdict
+import logging
     
 class Difficulty():
     """
@@ -38,6 +39,7 @@ class Difficulty():
                 for coin in btcnet_info.get_coins():
                     if getattr(coin, 'difficulty', None):
                         try:
+                            logging.info('Difficulty for %s:%s' % (coin.name, coin.difficulty))
                             self.diff[coin.name] = float(coin.difficulty)
                         except:
                             pass
