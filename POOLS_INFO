@@ -47,6 +47,7 @@ info_2: Their new servers work like clocks with zero stales, safe to mine with t
 info_3: Various issues with the load balancers and database (page 14 - pool thread on main forum) - 249.60 Ghash/s @ 09.20.11
 info_4: All pool stats are faked to penalize pool hoppers (page 22 - pool thread on main forum)
 info_5: Merged mining enabled - 125.20 Ghash/s @ 05.25.12
+info_6: Pool switched to PPS with 8% Fee; started block 650 - 168.62 @ 5.28.12
 
 
 [bithasher]
