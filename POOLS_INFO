@@ -3,7 +3,7 @@
  of pools used for hopping, gathered
    here for orientation purposes.
 
-     Last update: May 28th, 2012
+     Last update: June 4th, 2012
 
 ######################################
 
@@ -22,14 +22,6 @@ info_2: The most "unlucky" pool ever made but you could get some pennies though 
 info_3: Op is testing polling for work from bitcoind serv. placed in various countries (pool thread on main forum) - 3.1 Ghash/s @ 10.03.11
 info_4: Merged mining implemented, some issues are being fixed atm (pool thread on main forum) - 30 Ghash/s @ 10.19.11
 info_5: Merged mining off, use default port on pool website - 5 Ghash/s @ 05.25.12
-
-
-[bclc]
-#http://www.bitcoins.lc
-info_1: Delaying stats and not very civic attitude with occasional miners (page 95 - bH thread on main forum)
-info_2: You could try mining here with the mine_lp role - 466.02 Ghash/s @ 08.23.11
-info_3: Short disconnects due to scheduled firewall upgrade (twitter) - 295.14 Ghash/s @ 09.19.11
-info_4: Bitlc.net is now validated with DNSSEC for extra security (twitter) - 282.64 Ghash/s @ 01.27.12
 
 
 [bcpool]
@@ -206,6 +198,15 @@ info_3: They need some help solving this long block (found) - 61.2 GHash/s @ 09.
 info_4: 10% bonus on next 10 rounds (pool website) - 53.85 GHash/s @ 10.03.11
 info_5: Changing payout to DGM on next block (page 1 - pool thread on main forum) - 18.92 GHash/s @ 12.10.11
 info_6: Pool was hacked and funds compromised, they're working around the clock to fix it (pool thread on main forum) - 307.70 GHash/s @ 02.05.12
+
+
+[bclc]
+#http://www.bitcoins.lc
+info_1: Delaying stats and not very civic attitude with occasional miners (page 95 - bH thread on main forum)
+info_2: You could try mining here with the mine_lp role - 466.02 Ghash/s @ 08.23.11
+info_3: Short disconnects due to scheduled firewall upgrade (twitter) - 295.14 Ghash/s @ 09.19.11
+info_4: Bitlc.net is now validated with DNSSEC for extra security (twitter) - 282.64 Ghash/s @ 01.27.12
+info_5: Switched from Prop to PPLNS - 194.89 Ghash/s @ 6/2/2012
 
 
 [p2pool]
