@@ -111,13 +111,6 @@ role: info
 user: your_username
 pass: your_password
 
-[bclc]
-#https://www.bitlc.net (Prop)
-#---Edit after this line if mined---
-role: info
-user: FSkyvM
-pass: xndzEU
-
 [kiwipool]
 #http://www.kiwipool.me (Prop)
 #---Edit after this line if mined---
@@ -334,6 +327,13 @@ pass: your_password
 role: disable
 user: c00w.test
 pass: x
+
+[bclc]
+#https://www.bitlc.net (PPLNS)
+#---Edit after this line if mined---
+role: info
+user: FSkyvM
+pass: xndzEU
 
 [mkalinin]
 #http://pool.mkalinin.ru (PPLNS)

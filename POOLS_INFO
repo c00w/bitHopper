@@ -3,7 +3,7 @@
  of pools used for hopping, gathered
    here for orientation purposes.
 
-     Last update: April 3, 2012
+     Last update: June 4th, 2012
 
 ######################################
 
@@ -21,14 +21,7 @@ info_1: New pool on the "block", prop. payouts, please report experience - 3.1 G
 info_2: The most "unlucky" pool ever made but you could get some pennies though - 10.1 Ghash/s @ 09.08.11
 info_3: Op is testing polling for work from bitcoind serv. placed in various countries (pool thread on main forum) - 3.1 Ghash/s @ 10.03.11
 info_4: Merged mining implemented, some issues are being fixed atm (pool thread on main forum) - 30 Ghash/s @ 10.19.11
-
-
-[bclc]
-#http://www.bitcoins.lc
-info_1: Delaying stats and not very civic attitude with occasional miners (page 95 - bH thread on main forum)
-info_2: You could try mining here with the mine_lp role - 466.02 Ghash/s @ 08.23.11
-info_3: Short disconnects due to scheduled firewall upgrade (twitter) - 295.14 Ghash/s @ 09.19.11
-info_4: Bitlc.net is now validated with DNSSEC for extra security (twitter) - 282.64 Ghash/s @ 01.27.12
+info_5: Merged mining off, use default port on pool website - 5 Ghash/s @ 05.25.12
 
 
 [bcpool]
@@ -37,14 +30,6 @@ info_1: Anti-hopping method based on "window of participation" (page 36 - bH thr
 info_2: Disables anti-hopper measures if you donate (page 111 - bH thread on main forum)
 info_3: Fakes json stats so you keep hopping them (page 184 - bH thread on main forum) - 88.63 Ghash/s @ 08.23.11
 info_4: Pool enforces a 50% penalty system for occasional miners (pool website) - 68.87 Ghash/s @ 09.06.11
-
-
-[bitclockers]
-#http://bitclockers.com
-info_1: Handle with care, possible anti-hopper measures in place
-info_2: Their new servers work like clocks with zero stales, safe to mine with them - 276.20 Ghash/s @ 08.23.11
-info_3: Various issues with the load balancers and database (page 14 - pool thread on main forum) - 249.60 Ghash/s @ 09.20.11
-info_4: All pool stats are faked to penalize pool hoppers (page 22 - pool thread on main forum)
 
 
 [bithasher]
@@ -117,13 +102,6 @@ info_2: Merge mining now supported @ 10.12.11
 info_3: Register a NMC addy to get some free namecoins (page 20 - pool thread on main forum) - 446.09 GHash/s @ 10.12.11
 
 
-[arsbitcoin]
-#https://arsbitcoin.com
-info_1: 0% fee PPS pool - 484.4 GHash/s @ 08.23.11
-info_2: Small issues processing payouts, fixed (page 30 - pool thread on main forum) - 969.10 GHash/s @ 10.03.11
-info_3: Intermitent issues with their servers, admin claims personal problems (page 40 - pool thread on main forum) - 394.3 GHash/s @ 12.08.11
-
-
 [abc]
 #http://www.abcpool.co
 info_1: PPS, intro. 0% fee, pays stales
@@ -183,6 +161,16 @@ info_3: Pool is open again with merged mining enabled, payout is pure PPS (pool 
 info_1: Medium sized PPS pool- 248.64 Gh/sec @ 03.22.12
 
 
+[bitclockers]
+#http://bitclockers.com
+info_1: Handle with care, possible anti-hopper measures in place
+info_2: Their new servers work like clocks with zero stales, safe to mine with them - 276.20 Ghash/s @ 08.23.11
+info_3: Various issues with the load balancers and database (page 14 - pool thread on main forum) - 249.60 Ghash/s @ 09.20.11
+info_4: All pool stats are faked to penalize pool hoppers (page 22 - pool thread on main forum)
+info_5: Merged mining enabled - 125.20 Ghash/s @ 05.25.12
+info_6: Pool switched to PPS with 8% Fee; started block 650 - 168.62 @ 5.28.12
+
+
 ###############################
  Pools that use PPLNS, DGM or
  other payout system seen as
@@ -210,6 +198,15 @@ info_3: They need some help solving this long block (found) - 61.2 GHash/s @ 09.
 info_4: 10% bonus on next 10 rounds (pool website) - 53.85 GHash/s @ 10.03.11
 info_5: Changing payout to DGM on next block (page 1 - pool thread on main forum) - 18.92 GHash/s @ 12.10.11
 info_6: Pool was hacked and funds compromised, they're working around the clock to fix it (pool thread on main forum) - 307.70 GHash/s @ 02.05.12
+
+
+[bclc]
+#http://www.bitcoins.lc
+info_1: Delaying stats and not very civic attitude with occasional miners (page 95 - bH thread on main forum)
+info_2: You could try mining here with the mine_lp role - 466.02 Ghash/s @ 08.23.11
+info_3: Short disconnects due to scheduled firewall upgrade (twitter) - 295.14 Ghash/s @ 09.19.11
+info_4: Bitlc.net is now validated with DNSSEC for extra security (twitter) - 282.64 Ghash/s @ 01.27.12
+info_5: Switched from Prop to PPLNS - 194.89 Ghash/s @ 6/2/2012
 
 
 [p2pool]
@@ -241,13 +238,6 @@ info_2: Merged Mining enabled - 195.9 GH/s @ 04.04.12
 info_1: PPLNS pool - 135.63 Ghash/s @ 03.22.12
 
 
-[simplecoin]
-#http://simplecoin.us
-info_1: Small Prop pool with alternative payouts and coins available (pool website) - 8.67 Ghash/s @ 10.06.11
-info_2: Merged mining implemented for every BTC payout available (simplecoin forum) - 21.70 Ghash/s @ 10.08.11
-info_3: Discontinued prop payouts for all coins but LTC (pool website) - 29.70 Ghash/s @ 02.01.12
-
-
 [coinotron]
 #http://coinotron.com
 info_1: Score prop. pool, use mine_c role and (test setting c: 6), multiple coin pool - 52.94 GHash/s @ 09.28.11
@@ -266,12 +256,6 @@ info_2: Pool will change to DGM after next block (pool website) - 9.95 Ghash/s @
 #http://nmcbit.com
 info_1: Nmc pool (mine_nmc) - 9.94 Ghash/s @ 08.23.11
 info_2: Pool has merged mining working with PPS payout system (pool website) - 16.21 Ghash/s @ 10.08.11
-
-
-[namebit]
-#http://www.namebit.org
-info_1: Payouts are automatic and no need to signup - 8.35 Ghash/s @ 08.23.11
-
 
 #scc pools
 
@@ -565,3 +549,24 @@ info_2: Yourbtc.net closed down. 2/22/2012; Source forum thread.
 info_1: Changed to PPLNS (page 94 - bH thread on main forum) - 79 Ghash/s @ 08.23.11
 info_2: Pool Closed 2.23.12
 
+
+[simplecoin]
+#http://simplecoin.us
+info_1: Small Prop pool with alternative payouts and coins available (pool website) - 8.67 Ghash/s @ 10.06.11
+info_2: Merged mining implemented for every BTC payout available (simplecoin forum) - 21.70 Ghash/s @ 10.08.11
+info_3: Discontinued prop payouts for all coins but LTC (pool website) - 29.70 Ghash/s @ 02.01.12
+info_4: Website down. 5/25/2012
+
+
+[arsbitcoin]
+#https://arsbitcoin.com
+info_1: 0% fee PPS pool - 484.4 GHash/s @ 08.23.11
+info_2: Small issues processing payouts, fixed (page 30 - pool thread on main forum) - 969.10 GHash/s @ 10.03.11
+info_3: Intermitent issues with their servers, admin claims personal problems (page 40 - pool thread on main forum) - 394.3 GHash/s @ 12.08.11
+info_4: Website down. 5/25/2012
+ 
+
+[namebit]
+#http://www.namebit.org
+info_1: Payouts are automatic and no need to signup - 8.35 Ghash/s @ 08.23.11
+info_4: Website down. 5/28/2012
