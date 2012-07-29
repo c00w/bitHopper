@@ -1,3 +1,7 @@
+#ver 0.3.2.0
+Lots of cleanup
+Configuration is now on localhost:8339
+Miners should be pointed to localhost:8337
 
 #
 Workers on now configured on localhost:8337/worker
