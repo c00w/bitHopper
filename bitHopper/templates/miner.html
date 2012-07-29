@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{%block title %} Miners {% endblock %}
+
+{%block body%}
+<div class=title>
+    Miners
+</div>
+<br>
+<table>
+<tr class=pool_name>
+<td>User</td><td>Password</td><td></td>
+</tr>
+{% for miner in miners %}
+<tr class=worker>
+    <form name="remove" action="miners" method="post" class=no_margin>
+    
+    <td>{{miner[0]}}</td>
+    <td>{{miner[1]}}</td>
+    <td>
+        <input type="hidden" name="method" value="remove">
+        <input type="hidden" name="username" value="{{miner[0]}}">
+        <input type="hidden" name="password" value="{{miner[1]}}">
+        <input type="submit" value="-">
+    </td>
+    </form>
+</tr>
+{% endfor %}
+    
+<tr class=worker>
+    <form name="add" action="miners" method="post">
+    <td>
+        <input type="text" name="username" value="">
+        <input type="hidden" name="method" value="add">
+    </td>
+    <td>
+        <input type="text" name="password" value="">
+    </td>
+    <td class=align_right>
+        <input type="submit" value="+">
+    </td>
+    </form>
+</tr>
+    
+</table>
+{% endblock %}

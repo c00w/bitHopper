@@ -1,13 +1,8 @@
 *.pyc
 *.py~
 *.swp
-db-version
-stats.db
-stats.db-journal
-user.cfg
-*.komodoproject
-objgraph.py
-bh.cfg
+*.db
+*.db-journal
 *.*~
 *.db
 bin
@@ -15,3 +10,11 @@ lib
 custom_pools
 include
 local
+custom_pools/*
+bh.cfg
+user.cfg
+bin
+include
+local
+lib
+.coverage
