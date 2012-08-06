@@ -3,7 +3,7 @@
  of pools used for hopping, gathered
    here for orientation purposes.
 
-     Last update: June 4th, 2012
+     Last update: August 6th, 2012
 
 ######################################
 
@@ -87,7 +87,7 @@ info_2: Pool has full LP support implemented, still some issues with Phoenix min
 info_3: Pool now supports merged mining (page 184 - pool thread on main forum) - 1306.41 GHash/s @ 10.11.11
 info_4: Temp. closed while searching for another hosting service (page 203 - pool thread on main forum) - 0 GHash/s @ 10.20.11
 info_5: Back in business, hope botnets leave them alone (page 205 - pool thread on main forum) - 683.54 GHash/s @ 10.20.11
-info_6: Mining over TOR available at http://pool57wkuu5yuhzb.onion port 8332 (page 208 - pool thread on main forum) - 1088.30 GHash/s @ 10.23.11
+info_6: Mining over TOR available at pool57wkuu5yuhzb.onion port 8332 (page 208 - pool thread on main forum) - 1088.30 GHash/s @ 10.23.11
 
 
 ##################################
@@ -321,6 +321,7 @@ info_1: Pool abandoned after finding its first block in mid-July (see "Blocks" p
 Phiral Research bitcoin mining pool
 #http://pool.phiral.com
 info_1: The pool appears to be abandoned and the second (and last) block was generated in June 2011 @ August 5, 2012
+
 
 Ecki.net
 #https://miner.ecki.net:444

@@ -40,6 +40,7 @@ http://pypi.python.org/packages/2.7/g/greenlet/greenlet-0.3.4.win32-py2.7.exe
 
 3. Gevent
 http://gevent.googlecode.com/files/gevent-1.0b2.win32-py2.7.msi
+It is recommended that you install the latest version because some users reported that earlier versions to 1.x cause problems with the latest versions of BitHopper (see https://github.com/c00w/bitHopper/issues/671#issuecomment-7496513 )
 
 4. SetupTools
 http://pypi.python.org/packages/2.7/s/setuptools/setuptools-0.6c11.win32-py2.7.exe#md5=57e1e64f6b7c7f1d2eddfc9746bbaf20
@@ -53,8 +54,7 @@ Enter the bitHopper folder
 Double click install.py, it may appear to just be "install" with no ".py" extension
 
 Running bitHopper
-DoubleClick run.py inside the bithopper folder.
-It may appear to just be bitHopper with no .py extension.
+Open a console, navigate to the directory where you unzipped the BitHopper (with cd) and type the following: python setup.py install
 
 #Where to point you miners
 
