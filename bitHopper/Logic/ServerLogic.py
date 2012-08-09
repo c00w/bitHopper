@@ -175,7 +175,7 @@ def rebuild_servers():
     """
     try:
         global Servers
-        servers = btcnet_info.get_pools()
+        servers = btcnet_info.get_pools().copy()
         for filter_f in filters:
                 servers = filter_f(servers)
         Servers = list(servers)
