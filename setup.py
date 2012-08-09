@@ -11,8 +11,8 @@ setup(
 		'setuptools',
 		'requests',
 		'mechanize',
-		'gevent',
-		'btcnet_info',
+		'gevent>=0.13.7',
+		'btcnet_info>=0.1.2.22',
 		'flask',
 	],
 )
