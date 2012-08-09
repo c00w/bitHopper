@@ -3,7 +3,7 @@
  of pools used for hopping, gathered
    here for orientation purposes.
 
-     Last update: June 4th, 2012
+     Last update: August 6th, 2012
 
 ######################################
 
@@ -37,6 +37,7 @@ info_4: Pool enforces a 50% penalty system for occasional miners (pool website) 
 info_1: Please report experience on forum or IRC - 7.12 Ghash/s @ 08.23.11
 info_2: Having troubles finding a block, 28 days atm - 1.19 Ghash/s @ 09.09.11
 info_3: 16 blocks found untill nowadays - 2.13 Ghash/s @ 11.10.11
+info_4: Currently shows low activity and the last block was found on November 30, 2011 - 0.01 Ghash/s @ 6 August, 2012
 
 
 [bloodys]
@@ -68,6 +69,7 @@ info_3: Added hopper detection with auto bans if you are over 6gh – 3577 Ghash
 #http://guildminers.com
 info_1: BTC withdrawal available only to campbx exchange, 1btc minimum (pool website) - 14.3 GHash/s @ 09.21.11
 info_2: Mining address could be wrong, they impose a custom miner software (pool website) - 20.1 GHash/s @ 09.25.11
+info_3: Appears "500 - Internal server error." message when access at the home page @ August 5, 2012
 
 
 [kiwipool]
@@ -85,7 +87,7 @@ info_2: Pool has full LP support implemented, still some issues with Phoenix min
 info_3: Pool now supports merged mining (page 184 - pool thread on main forum) - 1306.41 GHash/s @ 10.11.11
 info_4: Temp. closed while searching for another hosting service (page 203 - pool thread on main forum) - 0 GHash/s @ 10.20.11
 info_5: Back in business, hope botnets leave them alone (page 205 - pool thread on main forum) - 683.54 GHash/s @ 10.20.11
-info_6: Mining over TOR available at lcir2ce5utha5xoo.onion port 8332 (page 208 - pool thread on main forum) - 1088.30 GHash/s @ 10.23.11
+info_6: Mining over TOR available at pool57wkuu5yuhzb.onion port 8332 (page 208 - pool thread on main forum) - 1088.30 GHash/s @ 10.23.11
 
 
 ##################################
@@ -147,6 +149,7 @@ info_3: You could try mining here with the mine_lp role - 137.48 Ghash/s @ 08.23
 info_4: Smaller payouts just for hoppers based on 30btc blocks (page 174 - bH thread on main forum)
 info_5: Pool only delays stats as anti-hopper measure, blocks are shared 100% between all miners - 96.89 Ghash/s @ 10.09.11
 info_6: Changed payout to PPS retroactively (http://forum.polmine.pl/index.php?topic=756.15) - 34.94 Ghash/s @ 12.03.11
+info_7: Currently allows mine Bitcoin, Namecoin (with or without merged mining), Ixcoin and I0coin @ August 5, 2012
 
 
 [bitparking]
@@ -262,12 +265,14 @@ info_2: Pool has merged mining working with PPS payout system (pool website) - 1
 [squid]
 #http://pool.squidnet.org
 info_1: Solidcoin pool, use mine_scc - 23.64 Ghash/s @ 08.28.11
+info_2: Currently allows mine Solidcoin, Bitcoin (and Namecoin with merged mining) and Litecoin @ August 5, 2012
 
 
 [mine4us]
 #http://solid.mine-for.us
 info_1: Solidcoin pool, use mine_scc - 2.51 Ghash/s @ 08.28.11
 info_2: Currently mining NMC until SolidCoin vulnerability it's fixed, use mine_nmc (pool website) - 1.98 GH/s @ 10.10.11
+info_3: Redirects to https://server30.gabama.com/ and only see an authentication page in Italian @ August 5, 2012
 
 
 #ixc pools
@@ -287,10 +292,6 @@ info_2: Website down. 2/22/2012
 #######################################
 
 
-Bitcoin-Station
-#https://bitcoin-station.com
-
-
 BTCMP.com
 #http://btcmp.com/
 
@@ -299,16 +300,13 @@ BtcPool.ru
 #http://www.btcpool.ru
 
 
-Betcoin.co
-#http://pool.betcoin.co
-
-
 BitlottoPool
 #http://www.bitlottopool.com
 
 
 Donate@Home
 #http://donateathome.org/
+info_1: It uses the BOINC platform for mining operations (see http://donateathome.org/stats.php ) @ August 5, 2012
 
 
 TheFrenchPool
@@ -317,10 +315,12 @@ TheFrenchPool
 
 AlaskaMiningPool
 #http://akpool.org
+info_1: Pool abandoned after finding its first block in mid-July (see "Blocks" page) @ August 5, 2012
 
 
 Phiral Research bitcoin mining pool
 #http://pool.phiral.com
+info_1: The pool appears to be abandoned and the second (and last) block was generated in June 2011 @ August 5, 2012
 
 
 Ecki.net
@@ -350,7 +350,7 @@ info_3: Offline, domain is redirecting to another service - @ 12.31.11
 info_1: Nice small pool
 info_2: Pool is closed down (page 178 - bH thread on main forum)
 info_3: Pool is online and accepting miners, changed payout to PPLNS (pool website) - 25.51 GHash/s @ 08.23.11
-info_4: Pool closed without warning (pool website) - 11.01.11
+info_4: Pool closed due to server problems and low hashrate (pool website) - 11.01.11
 
 
 [bitfarms]
@@ -380,6 +380,7 @@ info_4: Closed down indefinitely (pool website)
 #http://www.digbtc.net
 info_1: Small pool, recommended you change user-agent (page 154 - bH thread on main forum) - 5.5 Ghash/s @ 08.23.11
 info_2: Abandoned pool - 0 Ghash/s @ 11.16.11
+info_3: The site's domain expired on July 21, 2012 (renovation or deletion pending) @ August 5, 2012
 
 
 [btcgpps]
@@ -446,6 +447,7 @@ info_1: Nice small pool - 1.917 Ghash/s @ 08.23.11
 info_2: Pool went offline after supposedly finding a block @ 08.29.11
 info_3: Online and running fine @ 08.30.11
 info_4: Abandoned pool - 0 Ghash/s @ 10.14.11
+info_5: The site's domain expired and currently is on sale @ August 5, 2012
 
 
 [unitedminers]
@@ -472,6 +474,7 @@ info_3: The home page redirects to http://www.btcnetwork.com @ 09.23.11
 [btcpool24]
 #http://www.btcpool24.com
 info_1: Changed payout system and delays stats, allot (page 116 - bH thread on main forum) - 31.3 Ghash/s @ 08.23.11
+info_2: Abandoned for months and in the BitcoinTalk official thread, the owner thereof is inactive since September 2011 - 0 Ghash/s @ August 5, 2012
 
 
 [poolmunity]
@@ -570,3 +573,13 @@ info_4: Website down. 5/25/2012
 #http://www.namebit.org
 info_1: Payouts are automatic and no need to signup - 8.35 Ghash/s @ 08.23.11
 info_4: Website down. 5/28/2012
+
+
+Betcoin.co
+#http://pool.betcoin.co
+info_1: The domain has expired and is now suspended. Will be available for registration on Aug 20, 2012 @ August 5, 2012
+
+
+Bitcoin-Station
+#https://bitcoin-station.com
+info_1: Redirect to main Google page @ August 5, 2012
