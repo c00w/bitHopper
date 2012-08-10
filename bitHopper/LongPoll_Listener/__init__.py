@@ -38,6 +38,11 @@ def handle(content, server):
     if block not in blocks:
         blocks[block] = {}
         bitHopper.LongPoll.trigger(content)
+    else:
+        #Some pools like p2pool need to send a lot of longpolls
+        #Always pass through the longpoll
+        bitHopper.LongPoll.trigger(content)
+        return
         
     if server not in blocks[block]:
         blocks[block][server] = int(time.time())
