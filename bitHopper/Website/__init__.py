@@ -26,6 +26,7 @@ import Pool_Page
 import Worker_Page
 import Miner_Page
 import Data_Page
+import Stats_Page
 
 
 @app.route("/")

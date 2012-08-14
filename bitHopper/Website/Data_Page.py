@@ -10,7 +10,6 @@ from flask import Response
 def data():
     response = {}
     response['current'] = ', '.join([s.name for s in get_current_servers()])
-    print response['current'], get_current_servers()
     response['mhash'] = ''
     response['diffs'] = ''
     response['sliceinfo'] = None

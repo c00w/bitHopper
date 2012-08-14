@@ -4,4 +4,4 @@ import bitHopper.Configuration.Miners
     
 @app.route("/stats", methods=['POST', 'GET'])
 def stats():
-    return flask.render_template('stats.html', miners=miners) 
+    return flask.render_template('stats.html') 
