@@ -72,7 +72,7 @@ def get_work( headers = {}):
         
         try:
             content, server_headers = send_work( url, username, password, headers, request, timeout=1)
-        except (socket.error, requests.exceptions.ConnectionError) as e:
+        except (socket.error, requests.exceptions.ConnectionError, requests.exceptions.Timeout) as e:
             content, server_headers = None, None
         except:
             logging.error(traceback.format_exc())
