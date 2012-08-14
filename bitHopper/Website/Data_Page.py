@@ -7,7 +7,7 @@ import json
 from flask import Response
     
 @app.route("/data", methods=['POST', 'GET'])
-def worker():
+def data():
     response = {}
     response['current'] = ', '.join([s.name for s in get_current_servers()])
     print response['current'], get_current_servers()
