@@ -196,9 +196,12 @@ def get_server():
             perc_map.append(perc)
             map_ods += 0.01
     if random.random() < map_ods:
-        return random.choice(perc_map)
+        return [random.choice(perc_map)]
     
     return _select(Servers).name
+
+def get_current_servers():
+    return Servers
         
 i = 1
 Servers = set()
