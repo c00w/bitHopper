@@ -7,8 +7,6 @@
 
 # Ubuntu installation
 ---------------------------------------------------------------------
-Note: Use python2.7. There have been bugs with pythongit on 2.6
-
 Run:
 
 sudo apt-get install python2.7 git python2.7-dev python-setuptools python-pip libevent-dev
@@ -17,13 +15,12 @@ cd bitHopper
 sudo python setup.py install
 python run.py
 
-Tested and working in Ubuntu 11.10.
+Tested and working in Ubuntu 12.04.
 
 # Other Linux Installations
 ---------------------------------------------------------------------
 Note: Use pip to install your libraries. We need fairly recent versions of everything.
 The libraries bundled with debian are too old.
-
 
 # Instructions for Windows users
 -----------------------------------------------------------------
@@ -57,13 +54,23 @@ Running bitHopper
 Open a console, navigate to the directory where you unzipped the BitHopper (with cd) and type the following: python setup.py install
 
 #Where to point you miners
-
 Have your miner use http://localhost:8337/
 
 # Configuring user settings
-
 Worker Configuration page: http://localhost:8339/worker
 BitHopper Stats page: http://localhost:8339/stats
+
+# Large Scale Users
+-------------------------
+If you are mining with more than ~5GH/s you should make sure to do the following.
+1) 
+Make sure you have libevent installed if you are on linux
+2) 
+Put in a couple of workers for each pool you are mining at.
+Lots of pools have a global rate limiter for how fast they will accept
+work from a single worker
+3) If you are running out of connection sockets on the client side send me
+an email and I'll walk your through setting up bitHopper to run with uwsgi
 
 
 # More help
