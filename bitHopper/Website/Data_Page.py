@@ -16,6 +16,8 @@ def transform_data(servers):
                 item[value] = getattr(server, value)
             else:
                 item[value] = 'undefined'
+        item['payout'] = 0.0
+        item['expected_payout'] = 0.0
         yield item
    
 @app.route("/data", methods=['POST', 'GET'])
