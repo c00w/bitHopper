@@ -5,8 +5,19 @@ from bitHopper.Logic.ServerLogic import get_current_servers
 from bitHopper.Tracking.Tracking import get_hashrate
 import logging
 import json
+import btcnet_info
 from flask import Response
-    
+ 
+def transform_data(servers):
+    for server in servers:
+        item = {}
+        for value in ['name', 'role', 'shares']:
+            if getattr(server, value) != None:
+                item[value] = getattr(server, value)
+            else:
+                item[value] = 'undefined'
+        yield item
+   
 @app.route("/data", methods=['POST', 'GET'])
 def data():
     response = {}
@@ -14,7 +25,8 @@ def data():
     response['mhash'] = get_hashrate() 
     response['diffs'] = ''
     response['sliceinfo'] = None
-    response['servers'] = []
+    response['servers'] = list(transform_data(btcnet_info.get_pools())) 
+    print response['servers']
     response['user'] = None
     
     return Response(json.dumps(response), mimetype='text/json') 

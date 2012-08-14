@@ -50,14 +50,14 @@
 		<script type="text/javascript">
 
 			function getName(payload, srv) {
-				if(payload['servers'][payload['current']]['name'] == srv['name']) {
+				if(payload['current'].indexOf(srv['name']) != -1) {
 					return "<a href='" + srv['url']  + "' target='_blank' style='font-weight:bold;font-size:16px;text-decoration:underline;color:" + getColor(payload,srv) + ";'>" + srv['name'] + "</href>";
 				}
 				else return "<a href='" + srv['url']  + "' target='_blank' style='font-size:12px;text-decoration:underline;color:" + getColor(payload,srv) + ";'>" + srv['name'] + "</href>";
 			}
 
 			function getColor(payload, srv) {
-				if(payload['servers'][payload['current']]['name'] == srv['name']) {
+				if(payload['current'].indexOf(srv['name']) != -1) {
 					return 'yellow';
 				}
 
