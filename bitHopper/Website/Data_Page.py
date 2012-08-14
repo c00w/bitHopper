@@ -28,7 +28,6 @@ def data():
     response['diffs'] = ''
     response['sliceinfo'] = None
     response['servers'] = list(transform_data(btcnet_info.get_pools())) 
-    print response['servers']
     response['user'] = None
     
     return Response(json.dumps(response), mimetype='text/json') 
