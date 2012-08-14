@@ -65,9 +65,7 @@ def poll(server):
                 gevent.sleep(5*60)
                 continue
                 
-            print url
             content, server_headers = bitHopper.Network.get_lp( url, username, password)
-            
             bitHopper.Tracking.add_work_unit(content, server, username, password)
             
             handle(content, server)
