@@ -3,6 +3,7 @@ import bitHopper.Database.Commands
 import btcnet_info
 import logging, time, traceback, gevent
 import bitHopper.Configuration.Pools
+from speed import Speed
 
 def get_diff(pool):
     coin = btcnet_info.get_pool(pool)
@@ -15,6 +16,7 @@ def get_diff(pool):
 getworks = None
 accepted = None
 rejected = None
+hashrate = Speed()
 
 def build_dict():
     """
@@ -161,6 +163,7 @@ def add_accepted(server, username, password):
         accepted[key] = 0
     accepted[key] += 1
     username = shorten(username)
+    hashrate.add_shares(1) 
     logging.info('Accepted: %s:%s@%s' % (username, password, server))
     
 def add_rejected(server, username, password):
@@ -173,4 +176,8 @@ def add_rejected(server, username, password):
         rejected[key] = 0
     rejected[key] += 1
     username = shorten(username)
+    hashrate.add_shares(1)
     logging.info('Rejected: %s:%s@%s' % (username, password, server))
+
+def get_hashrate():
+    return hashrate.get_rate()

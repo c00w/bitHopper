@@ -2,6 +2,7 @@ from bitHopper.Website import app, flask
 import btcnet_info
 import bitHopper.Configuration.Workers
 from bitHopper.Logic.ServerLogic import get_current_servers
+from bitHopper.Tracking.Tracking import get_hashrate
 import logging
 import json
 from flask import Response
@@ -10,7 +11,7 @@ from flask import Response
 def data():
     response = {}
     response['current'] = ', '.join([s.name for s in get_current_servers()])
-    response['mhash'] = ''
+    response['mhash'] = get_hashrate() 
     response['diffs'] = ''
     response['sliceinfo'] = None
     response['servers'] = []
