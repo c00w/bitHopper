@@ -1,7 +1,7 @@
 from bitHopper.Website import app, flask
 import btcnet_info
 import bitHopper.Configuration.Workers
-from bitHopper.Logic.ServerLogic import get_current_servers
+from bitHopper.Logic.ServerLogic import get_current_servers, valid_scheme
 from bitHopper.Tracking.Tracking import get_hashrate
 import logging
 import json
@@ -11,13 +11,14 @@ from flask import Response
 def transform_data(servers):
     for server in servers:
         item = {}
-        for value in ['name', 'role', 'shares']:
+        for value in ['name', 'shares']:
             if getattr(server, value) != None:
                 item[value] = getattr(server, value)
             else:
                 item[value] = 'undefined'
         item['payout'] = 0.0
         item['expected_payout'] = 0.0
+        item['role'] = 'mine/backup' if server in valid_scheme([server]) else 'info'
         yield item
    
 @app.route("/data", methods=['POST', 'GET'])
