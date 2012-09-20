@@ -73,9 +73,6 @@
 
 			function getShares(payload, srv) {
 				shares = srv['shares'];
-				if(srv["role"].substring(0,4) != "mine" && srv["role"] != 'info' && srv["role"].substring(0,6) != "backup") {
-					return "N/A";
-				}
 
 				diff = payload["diffs"][srv["role"].substring(5,8)];
 				if (diff == undefined) { diff = payload["diffs"]["btc"]; }
