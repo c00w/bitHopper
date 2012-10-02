@@ -1,0 +1,9 @@
+[general]
+coin = btc
+name = p2pool
+payout_scheme = pplns
+payout_mm = False
+
+[mine]
+address = localhost:9332
+
