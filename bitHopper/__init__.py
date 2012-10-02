@@ -28,6 +28,9 @@ def print_btcni_ver():
     """
     if '__version__' not in dir(btcnet_info):
         logging.info('btcnet_info older than 0.1.2.22')
+        logging.info('Please run sudo python setup.py install')
+        import sys
+        sys.exit(0)
     else:
         logging.info('btcnet_info version %s', btcnet_info.__version__)
     
