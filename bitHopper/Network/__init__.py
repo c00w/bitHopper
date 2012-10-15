@@ -26,7 +26,7 @@ def request( url, body = '', headers = {}, method='POST', timeout = 30):
     r = session.request(method, url=url, data=body, headers=headers, timeout=timeout, prefetch=True, verify=False)
     return r.content, r.headers
     
-def get_lp(url, username, password):
+def get_lp(url, username, password, server):
     """
     Gets a lp
     """
@@ -37,6 +37,8 @@ def get_lp(url, username, password):
         url = "http://" + url
     
     r = session.request('GET', url, headers=headers, timeout=30*60, prefetch=True, verify=False)
+   
+    gevent.spawn(Tracking.add_work_unit, r.content, server, username, password)
     
     return r.content, r.headers
     

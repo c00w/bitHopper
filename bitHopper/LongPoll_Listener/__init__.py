@@ -2,7 +2,6 @@ import gevent, logging, traceback, json, time
 import btcnet_info
 import bitHopper.Configuration.Workers
 import bitHopper.Network
-import bitHopper.Tracking
 import bitHopper.LongPoll
 import Conversion
 from Learning import learn_block
@@ -67,8 +66,7 @@ def poll(server):
                 gevent.sleep(5*60)
                 continue
                 
-            content, server_headers = bitHopper.Network.get_lp( url, username, password)
-            bitHopper.Tracking.add_work_unit(content, server, username, password)
+            content, server_headers = bitHopper.Network.get_lp( url, username, password, server)
             
             handle(content, server)
             
