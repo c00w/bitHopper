@@ -47,6 +47,7 @@ def handle(content, server):
     if server not in blocks[block]:
         blocks[block][server] = int(time.time())
         logging.debug('%s, %s' % (server, block))
+    gevent.spawn(learn_block, blocks, block)
         
 def poll(server):
     """
