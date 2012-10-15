@@ -1,6 +1,7 @@
 import gevent, logging, traceback, json, time
 import btcnet_info
 import bitHopper.Configuration.Workers
+from bitHopper.Configuration.Workers import get_single_worker
 import bitHopper.Network
 import bitHopper.LongPoll
 import Conversion
@@ -59,7 +60,7 @@ def poll(server):
             #Figure out everthing we need
             url = known[server]
             
-            username, password = bitHopper.Configuration.Workers.get_single_worker(server)
+            username, password = get_single_worker(server)
             
             #If we have no user wait 5 minutes and try again
             if username == None:

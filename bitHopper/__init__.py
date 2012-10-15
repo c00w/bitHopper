@@ -28,6 +28,9 @@ import sys
 import bitHopper.LaggingLogic.Unlag
 
 def btcni_version_ok(min_version, version_string):
+    """
+    returns whether or not the current btcnet_info version is ok
+    """
     version = [int(i) for i in version_string.split('.')]
     for i, j in zip(min_version, version):
         if j < i:
@@ -47,7 +50,8 @@ def print_btcni_ver():
 
     min_version = [0, 1, 2, 27]
     if not btcni_version_ok([0, 1, 2, 27], btcnet_info.__version__):
-        logging.info('Version to old, please use a version >= %s' % '.'.join(min_version))
+        logging.info('Version to old, please use a version >= %s',
+                     '.'.join(min_version))
         logging.info('Please run sudo python setup.py install')
         sys.exit(0)
 
@@ -95,8 +99,9 @@ def custom_pools():
     filenames = [name for name in os.listdir(
                     os.path.join(FD_DIR,'../custom_pools')) 
                     if '.ignore' not in name]
-    filenames = map(lambda x: os.path.join(os.path.join(FD_DIR,'../custom_pools'), x), filenames)
-    filenames = map(os.path.abspath, filenames)
+    filenames = [os.path.join(os.path.join(FD_DIR,'../custom_pools'), x) 
+                    for x in filenames]
+    filenames = [os.path.abspath(x) for x in filenames]
     btcnet_info.add_pools(filenames)
         
 

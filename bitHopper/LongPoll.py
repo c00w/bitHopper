@@ -1,3 +1,7 @@
+"""
+Simple module that blocks longpoll sockets until we get a longpoll back
+"""
+
 from gevent.event import AsyncResult
 
 _event = AsyncResult()
