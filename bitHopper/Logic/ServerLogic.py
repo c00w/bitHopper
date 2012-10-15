@@ -5,7 +5,7 @@ File implementing the actuall logic for the business side
 import btcnet_info
 import bitHopper.Configuration.Workers as Workers
 import bitHopper.Configuration.Pools as Pools
-from bitHopper import LaggingLogic
+import bitHopper.LaggingLogic
 import logging, traceback, gevent, random
     
 def _select(item):
@@ -108,7 +108,7 @@ def valid_credentials( source):
             continue
             
         for user, password in workers:
-            if len(list(LaggingLogic.filter_lag([(name, user, password)]))):
+            if len(list(bitHopper.LaggingLogic.filter_lag([(name, user, password)]))):
                 yield site
         
         
