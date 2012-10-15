@@ -177,7 +177,7 @@ def rebuild_servers():
         global Servers
         servers = btcnet_info.get_pools().copy()
         for filter_f in filters:
-                servers = filter_f(servers)
+            servers = filter_f(servers)
         Servers = list(servers)
     except ValueError as Error:
         logging.warn(Error)

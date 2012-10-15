@@ -4,7 +4,7 @@
 #If you were not provided with a copy of the license please contact: 
 # Colin Rice colin@daedrum.net
 
-import threading, gevent
+import threading
 
 class ResourceGenerator:
     def __init__(self, generate = lambda:None, pool = None, timeout = None):
