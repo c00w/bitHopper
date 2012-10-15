@@ -5,6 +5,7 @@ import bitHopper.Network
 import bitHopper.Tracking
 import bitHopper.LongPoll
 import Conversion
+from Learning import learn_block
 
 known = {}
 blocks = {}
