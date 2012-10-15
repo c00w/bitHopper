@@ -1,8 +1,7 @@
 """
-This module contains all of the business logic.
-It supplies two functions:
+This module contains all of the server selection logic.
+It supplies one function:
 get_server() which returns the name of a server to mine.
-lag_server(name) tells the logic module that the server lagged.
 
 It has two external dependencies.
 1) btcnet_info via btcnet_wrapper
@@ -13,14 +12,7 @@ It has two external dependencies.
 
 
 import ServerLogic
-import LaggingLogic
 import bitHopper.Configuration.Workers as Workers
-    
-def lag(server, user, password):
-    """
-    Marks a server, worker, username combination as lagging
-    """
-    return LaggingLogic.lag(server, user, password)
     
 def get_server():
     """

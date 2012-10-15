@@ -4,6 +4,7 @@ Stub for networking module
 
 import logging, traceback, json, base64
 import bitHopper.Logic
+import bitHopper.LaggingLogic
 import bitHopper.Tracking as Tracking
 import ResourcePool
 from bitHopper.util import rpc_error
@@ -64,7 +65,7 @@ def get_work( headers = {}):
         server, username, password = bitHopper.Logic.get_server()
         url = btcnet_info.get_pool(server)
         if not url:
-            bitHopper.Logic.lag(server, username, password)
+            bitHopper.LaggingLogic.lag(server, username, password)
             continue
             
         url = url['mine.address']
@@ -79,7 +80,7 @@ def get_work( headers = {}):
             content, server_headers = None, None
             
         if not content:
-            bitHopper.Logic.lag(server, username, password)
+            bitHopper.LaggingLogic.lag(server, username, password)
             continue
             
         gevent.spawn(Tracking.add_work_unit, content, server, username, password)

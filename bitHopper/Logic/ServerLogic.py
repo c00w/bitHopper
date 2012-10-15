@@ -5,7 +5,7 @@ File implementing the actuall logic for the business side
 import btcnet_info
 import bitHopper.Configuration.Workers as Workers
 import bitHopper.Configuration.Pools as Pools
-from . import LaggingLogic
+from bitHopper import LaggingLogic
 import logging, traceback, gevent, random
     
 def _select(item):

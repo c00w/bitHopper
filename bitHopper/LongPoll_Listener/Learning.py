@@ -3,6 +3,10 @@ import btcnet_info
 import gevent
 import logging
 
+import bitHopper.Logic
+import bitHopper.Network
+
+
 blocks_timing = {}
 blocks_calculated = {}
 blocks_actual = {}
@@ -50,10 +54,6 @@ def calculate_block(current_block):
 
 #Connect to deepbit if possible    
 def poke_deepbit():
-    #Dodge cylic imports
-    import bitHopper.Logic
-    import bitHopper.Network
-
     choices = list(bitHopper.Logic.generate_tuples('deepbit'))
     if len(choices) == 0:
         logging.info('No workers for deepbit. Disabling machine learning') 
