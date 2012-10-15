@@ -21,11 +21,12 @@ import bitHopper.Website
 import bitHopper.Configuration
 import bitHopper.Mining_Site
 import logging
+import sys
 
 def btcni_version_ok(min_version, version_string):
-    version = version_string.split('.')
-    for i,j in zip(min_version, version_string):
-        if j<i:
+    version = [int(i) for i in version_string.split('.')]
+    for i, j in zip(min_version, version):
+        if j < i:
             return False
     return True
 
@@ -36,7 +37,6 @@ def print_btcni_ver():
     if '__version__' not in dir(btcnet_info):
         logging.info('btcnet_info older than 0.1.2.22')
         logging.info('Please run sudo python setup.py install')
-        import sys
         sys.exit(0)
 
     logging.info('btcnet_info version %s', btcnet_info.__version__)
@@ -45,7 +45,6 @@ def print_btcni_ver():
     if not btcni_version_ok([0, 1, 2, 27], btcnet_info.__version__):
         logging.info('Version to old, please use a version >= %s' % '.'.join(min_version))
         logging.info('Please run sudo python setup.py install')
-        import sys
         sys.exit(0)
 
     
@@ -60,7 +59,6 @@ def __patch():
         print_btcni_ver()
         
 
-import logging, sys
 def setup_logging(level=logging.INFO):
     """
     Sets up the logging output we want

@@ -36,8 +36,8 @@ def have_all_data(block_info):
             return False
     return True
 
-def vec_mult(a,b):
-    return sum([i*j for i,j in zip(a,b)])
+def vec_mult(a, b):
+    return sum([i*j for i, j in zip(a,b)])
 
 def extract_vector(current_block):
     result = [1]
@@ -60,7 +60,7 @@ def poke_deepbit():
         return
     server, username, password = random.choice(choices)
     url = btcnet_info.get_pool(server)['mine.address']
-    work = bitHopper.Network.send_work(url, username, password)
+    bitHopper.Network.send_work(url, username, password)
 
 gevent.spawn(poke_deepbit)
 

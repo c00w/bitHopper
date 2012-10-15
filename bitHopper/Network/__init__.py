@@ -12,7 +12,6 @@ import btcnet_info
 import socket
 import gevent
 import requests, requests.exceptions
-import traceback
 from copy import deepcopy
     
 session = requests.session()
