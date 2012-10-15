@@ -12,7 +12,7 @@ setup(
 		'requests',
 		'mechanize',
 		'gevent>=0.13.7',
-		'btcnet_info>=0.1.2.23',
+		'btcnet_info>=0.1.2.27',
 		'flask',
 	],
 )
