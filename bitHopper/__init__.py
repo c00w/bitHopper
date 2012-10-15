@@ -23,6 +23,10 @@ import bitHopper.Mining_Site
 import logging
 import sys
 
+#Second block of active imports
+# Mainly to avoid cyclic imports
+import bitHopper.LaggingLogic.Unlag
+
 def btcni_version_ok(min_version, version_string):
     version = [int(i) for i in version_string.split('.')]
     for i, j in zip(min_version, version):
