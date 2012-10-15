@@ -1,4 +1,7 @@
-from collections import defaultdict
+import random
+import btcnet_info
+import gevent
+import logging
 
 blocks_timing = {}
 blocks_calculated = {}
@@ -29,6 +32,9 @@ def have_all_data(block_info):
             return False
     return True
 
+def vec_mult(a,b):
+    return sum([i*j for i,j in zip(a,b)])
+
 def extract_vector(current_block):
     result = [1]
     for pool in used_pools:
@@ -41,4 +47,20 @@ def calculate_block(current_block):
         print 'triggered'
         btcnet_info.get_pool('deepbit').namespace.get_node('shares').set_value(0)
         #Reset shares on deepbit
-    
+
+#Connect to deepbit if possible    
+def poke_deepbit():
+    #Dodge cylic imports
+    import bitHopper.Logic
+    import bitHopper.Network
+
+    choices = list(bitHopper.Logic.generate_tuples('deepbit'))
+    if len(choices) == 0:
+        logging.info('No workers for deepbit. Disabling machine learning') 
+        return
+    server, username, password = random.choice(choices)
+    url = btcnet_info.get_pool(server)['mine.address']
+    work = bitHopper.Network.send_work(url, username, password)
+
+gevent.spawn(poke_deepbit)
+
