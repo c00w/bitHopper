@@ -6,6 +6,7 @@ import btcnet_info
 import gevent
 import bitHopper.Network as Network
 import bitHopper.LaggingLogic
+import logging, traceback
 
 def _unlag_fetcher(server, worker, password):
     """
@@ -15,9 +16,10 @@ def _unlag_fetcher(server, worker, password):
         url = btcnet_info.get_pool(server)['mine.address']
         work = Network.send_work(url, worker, password)
         if work:
-            bitHopper.laggingLogic.lagged.remove((server, worker, password))
+            bitHopper.LaggingLogic.lagged.remove((server, worker, password))
             return
     except:
+        logging.debug(traceback.format_exc())
         pass
    
 def _unlag():
