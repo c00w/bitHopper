@@ -9,7 +9,7 @@ setup(
     description = ("A dummy package to install things correctly for bitHopper"),
     install_requires=[
 		'setuptools',
-		'requests',
+		'requests>=0.14.1',
 		'mechanize',
 		'gevent>=0.13.7',
 		'btcnet_info>=0.1.2.27',
