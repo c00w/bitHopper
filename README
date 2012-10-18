@@ -7,13 +7,28 @@
 
 # Ubuntu installation
 ---------------------------------------------------------------------
-Run:
+Run the following in your terminal:
 
-sudo apt-get install python2.7 git python2.7-dev python-setuptools python-pip libevent-dev
+#Install dependencies
+sudo apt-get install python2.7 git python2.7-dev python-setuptools python-pip libevent-dev git
+
+#Download bitHopper
 git clone git://github.com/c00w/bitHopper.git
+
+#Move into the folder
 cd bitHopper
-sudo python setup.py install
+
+#install python dependencies
+sudo python setup.py install --upgrade
+
+#run bitHopper
 python run.py
+
+# Go to localhost:8339 and click on workers. Add some pool login informaiton
+# Make sure to add some backup pools such as eligius or mtred
+# bitHopper will return no work if there are no safe pools to mine
+
+# Point your miner at localhost:8337
 
 Tested and working in Ubuntu 12.04.
 
@@ -70,14 +85,15 @@ Put in a couple of workers for each pool you are mining at.
 Lots of pools have a global rate limiter for how fast they will accept
 work from a single worker
 3) If you are running out of connection sockets on the client side send me
-an email and I'll walk your through setting up bitHopper to run with uwsgi
+an email and I'll walk you through setting up bitHopper to run with uwsgi
 
 
 # More help
 
-You can go to http://www.bitHopper.org and start reading the bitHopper wiki or ask for help in the oficial forum
-at https://bitcointalk.org/index.php?topic=26866. Join us on Freenode (http://webchat.freenode.net/) #bithopper channel.
+Email the author at colin@daedrum.net
 
+You can also ask for help in the oficial forum at https://bitcointalk.org/index.php?topic=26866. 
+Join us on Freenode (http://webchat.freenode.net/) #bithopper channel.
 
 # Donations
 
