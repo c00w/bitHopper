@@ -59,8 +59,8 @@ def check_learning():
     while True:
         gevent.sleep(60)
         deepbit_blocks = btcnet_info.get_pool('deepbit').blocks
-        for block in block_timing:
-            if block not in block_actual:
+        for block in blocks_timing:
+            if block not in blocks_actual:
                 block_actual[block] = 1 if block in deepbit_blocks else 0
                 print 'Block %s has training value %s' % (block, block_actual[block])
                 print 'deepbit_blocks'
