@@ -54,6 +54,7 @@ def calculate_block(current_block):
     else:
         block_calculated[current_block] = 0
 
+
 def check_learning():
     print 'Check learning started'
     while True:
