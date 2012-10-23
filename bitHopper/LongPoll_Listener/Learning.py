@@ -6,7 +6,6 @@ import logging
 import bitHopper.Logic
 import bitHopper.Network
 
-
 blocks_timing = {}
 blocks_calculated = {}
 blocks_actual = {}
@@ -51,6 +50,22 @@ def calculate_block(current_block):
         print 'triggered'
         btcnet_info.get_pool('deepbit').namespace.get_node('shares').set_value(0)
         #Reset shares on deepbit
+        block_calculated[current_block] = 1
+    else:
+        block_calculated[current_block] = 0
+
+def check_learning():
+    print 'Check learning started'
+    while True:
+        gevent.sleep(60)
+        deepbit_blocks = btcnet_info.get_pool('deepbit').blocks
+        for block in block_timing:
+            if block not in block_actual:
+                block_actual[block] = 1 if block in deepbit_blocks else 0
+                print 'Block %s has training value %s' % (block, block_actual[block])
+                print 'deepbit_blocks'
+
+gevent.spawn(check_learning)
 
 #Connect to deepbit if possible    
 def poke_deepbit():
