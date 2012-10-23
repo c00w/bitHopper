@@ -10,7 +10,7 @@
 Run the following in your terminal:
 
 #Install dependencies
-sudo apt-get install python2.7 git python2.7-dev python-setuptools python-pip libevent-dev git
+sudo apt-get install python2.7 git python2.7-dev python-setuptools python-pip libevent-dev git python-dev
 
 #Download bitHopper
 git clone git://github.com/c00w/bitHopper.git
@@ -24,7 +24,7 @@ sudo python setup.py install --upgrade
 #run bitHopper
 python run.py
 
-# Go to localhost:8339 and click on workers. Add some pool login informaiton
+# Go to localhost:8339 and click on workers. Add some pool login information
 # Make sure to add some backup pools such as eligius or mtred
 # bitHopper will return no work if there are no safe pools to mine
 
