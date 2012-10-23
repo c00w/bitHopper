@@ -20,6 +20,7 @@ cd bitHopper
 
 #install python dependencies
 sudo python setup.py install --upgrade
+(If this doesn't work run sudo pip install --upgrade requests btcnet_info flask gevent mechanize setuptools)
 
 #run bitHopper
 python run.py
