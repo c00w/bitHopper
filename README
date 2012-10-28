@@ -64,7 +64,9 @@ Go to downloads and hit zip. Extract the zip to your desktop
 
 8. Bundled Dependencies
 Enter the bitHopper folder
-Double click install.py, it may appear to just be "install" with no ".py" extension
+Open a console as an administrator and nvavigate to the directory where you unzipped BitHopper.
+Run the command
+> python setup.py install
 
 Running bitHopper
 Open a console, navigate to the directory where you unzipped the BitHopper (with cd) and type the following: python setup.py install
