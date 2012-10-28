@@ -66,10 +66,13 @@ Go to downloads and hit zip. Extract the zip to your desktop
 Enter the bitHopper folder
 Open a console and navigate to the directory where you unzipped BitHopper.
 Run the command
-> python setup.py install
+> C:\Python27\python.exe setup.py install
+
 
 Running bitHopper
-Open a console, navigate to the directory where you unzipped the BitHopper (with cd) and type the following: python setup.py install
+Open a console and navigate to the directory where you unzipped BitHopper.
+Run the command
+> C:\Python27\python.exe run.py 
 
 #Where to point you miners
 Have your miner use http://localhost:8337/
