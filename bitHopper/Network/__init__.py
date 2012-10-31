@@ -13,7 +13,7 @@ import gevent
 import requests, requests.exceptions
 from copy import deepcopy
 
-config = {'pool_maxsize':100}
+config = {'pool_maxsize':1000}
 session = requests.session(config=config)
 i = 0
 
