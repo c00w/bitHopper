@@ -12,9 +12,11 @@ import socket
 import gevent
 import requests, requests.exceptions
 from copy import deepcopy
-    
-session = requests.session()
+
+config = {'pool_maxsize':100}
+session = requests.session(config=config)
 i = 0
+
 def request( url, body = '', headers = {}, method='POST', timeout = 30):
     """
     Generic network wrapper function
