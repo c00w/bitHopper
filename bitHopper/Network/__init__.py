@@ -6,7 +6,6 @@ import logging, traceback, json, base64
 import bitHopper.Logic
 import bitHopper.LaggingLogic
 import bitHopper.Tracking as Tracking
-import ResourcePool
 from bitHopper.util import rpc_error
 import btcnet_info
 import socket
