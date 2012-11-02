@@ -6,6 +6,7 @@ import json, logging, base64
 import bitHopper.LongPoll
 from headers import *
 import traceback
+import gevent
 
 def _read_all(fp):
     """
@@ -57,7 +58,8 @@ def mine_real(environ, start_response):
     #This should never cause an error
     if 'wsgi.input' not in environ:
         start_response('200 OK', [])
-        return bitHopper.util.rpc_error('No body passed')
+        yield bitHopper.util.rpc_error('No body passed')
+        return
         
     #Read everything out
     request = _read_all(environ['wsgi.input'])
@@ -65,31 +67,48 @@ def mine_real(environ, start_response):
         rpc_request = json.loads(request)
     except ValueError, e:
         start_response('200 OK', [])
-        return bitHopper.util.rpc_error()
+        yield bitHopper.util.rpc_error()
+        return
         
     #Check for valid rpc_request
     if not bitHopper.util.validate_rpc(rpc_request):
         start_response('200 OK', [])
-        return bitHopper.util.rpc_error()
+        yield bitHopper.util.rpc_error()
+        return
     
     #Check for a valid username, password
     if not validate_miner(environ):
         start_response('200 OK', [])
-        return bitHopper.util.rpc_error('Invalid Authorisation')
+        yield bitHopper.util.rpc_error('Invalid Authorisation')
+        return
         
     #Get client headers
     headers = get_headers(environ)
     
     #Remove everything we don't want
     headers = clean_headers_client(headers)
-    
+
     #If getworks just feed them data
     if rpc_request['params'] == []:
-        content, headers = bitHopper.Network.get_work(headers = headers)
+        g = gevent.spawn(bitHopper.Network.get_work, headers = headers)
+        while True:
+            yield ''
+            try:
+                content, headers = g.get(timeout=0.1)
+                break
+            except gevent.Timeout:
+                pass
     
     #Otherwise submit the work unit
     else:
-        content, headers = bitHopper.Network.submit_work(rpc_request)
+        g = gevent.spawn(bitHopper.Network.submit_work, rpc_request)
+        while True:
+            yield ''
+            try:
+                content, headers = g.get(timeout=0.1)
+                break
+            except gevent.Timeout:
+                pass
     
     headers = clean_headers_server(headers)
     
@@ -98,4 +117,5 @@ def mine_real(environ, start_response):
     headers['Connection'] = 'Keep-Alive'
     
     start_response('200 OK', headers.items())
-    return content
+    yield content
+    return
