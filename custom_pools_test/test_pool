@@ -1,0 +1,9 @@
+[general]
+coin = btc
+name = test_pool
+payout_scheme = pplns
+payout_mm = False
+
+[mine]
+address = localhost:8338
+
