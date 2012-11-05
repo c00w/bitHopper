@@ -56,7 +56,7 @@ class CustomPools(unittest.TestCase):
         
     
     def testValid(self):
-        def test_in_list(list_s, k):
+        def test_in_list(list_s):
             for item in list_s:
                 if item.name == 'test_pool':
                     return True
@@ -65,7 +65,7 @@ class CustomPools(unittest.TestCase):
         from bitHopper.Logic.ServerLogic import filters
         import btcnet_info
         servers = list(btcnet_info.get_pools())
-        assert test_in_list(servers, 'origin')
+        assert test_in_list(servers)
         for filter_f in bitHopper.Logic.ServerLogic.filters:
             servers = list(filter_f(servers))
             assert test_in_list(servers, filter_f)
