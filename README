@@ -93,6 +93,9 @@ work from a single worker
 3) If you are running out of connection sockets on the client side send me
 an email and I'll walk you through setting up bitHopper to run with uwsgi
 
+# Running the test suite
+mv custom_pools_test/test_pool custom_pools
+python tests.py
 
 # More help
 
