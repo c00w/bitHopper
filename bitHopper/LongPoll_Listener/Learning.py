@@ -2,6 +2,7 @@ import random
 import btcnet_info
 import gevent
 import logging
+from collections import defaultdict
 
 import bitHopper.Logic
 import bitHopper.Network
@@ -78,5 +79,38 @@ def poke_deepbit():
     url = btcnet_info.get_pool(server)['mine.address']
     bitHopper.Network.send_work(url, username, password)
 
+def calc_good_servers():
+    used_pools = set()
+    used_pools.add('deepbit')
+    def yield_timings_block(block):
+        for server in block:
+            yield server
+    times_found = list(yield_timings_block(block for name, block in blocks_timing))
+    def make_count_map(servers):
+        count = defaultdict(int)
+        for server in servers:
+            count[server] += 1
+        return sorted(list(count.iteritems()), key=lambda x: -1 * x[1])
+
+    counts = make_count_map(times_found)
+    #Use the top level of info, plus deepbit
+    if not counts:
+        return used_pools
+    cutoff = counts[0][1]
+    for server, count in counts:
+        if count >= cutoff:
+            used_pools.add(server)
+
+    return used_pools
+
+def train_data():
+    while True:
+        servers = calc_good_servers()
+        
+        global used_pools
+        used_pools = servers
+        gevent.sleep(60)
+
+gevent.spawn(train_data)
 gevent.spawn(poke_deepbit)
 
