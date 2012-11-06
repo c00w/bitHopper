@@ -68,7 +68,7 @@ class CustomPools(unittest.TestCase):
         assert test_in_list(servers)
         for filter_f in bitHopper.Logic.ServerLogic.filters:
             servers = list(filter_f(servers))
-            assert test_in_list(servers, filter_f)
+            assert test_in_list(servers)
             
         
     def testAdded(self):
