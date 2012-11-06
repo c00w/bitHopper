@@ -67,8 +67,6 @@ def check_learning():
                 print 'Block %s has training value %s' % (block, block_actual[block])
                 print 'deepbit_blocks'
 
-gevent.spawn(check_learning)
-
 #Connect to deepbit if possible    
 def poke_deepbit():
     choices = list(bitHopper.Logic.generate_tuples('deepbit'))
@@ -103,14 +101,31 @@ def calc_good_servers():
 
     return used_pools
 
+def linreg(data):
+    ydata = [p[-1] for p in data]
+    xdata = [[1] + p[:-1] for p in data]
+    return [1 for x in xdata]
+
 def train_data():
     while True:
         servers = calc_good_servers()
         
         global used_pools
         used_pools = servers
-        gevent.sleep(60)
+
+        data = []
+        for block in blocks_timing:
+            if not blocks_actual.get(block, None):
+                continue
+            point = [block.get(server, 10000) for server in servers]
+            point.append(block_actual.get(block))
+            data.append(point)
+
+        global weights
+        weights = linreg(data)
+
+        gevent.sleep(60*5)
 
 gevent.spawn(train_data)
 gevent.spawn(poke_deepbit)
-
+gevent.spawn(check_learning)
