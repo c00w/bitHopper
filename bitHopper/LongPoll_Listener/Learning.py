@@ -85,10 +85,13 @@ def poke_deepbit():
 def calc_good_servers():
     used_pools = set()
     used_pools.add('deepbit')
-    def yield_timings_block(block):
-        for server in block:
-            yield server
+
+    def yield_timings_block(blocks):
+        for block in blocks:
+            for server in block:
+                yield server
     times_found = list(yield_timings_block(block for name, block in blocks_timing.iteritems()))
+    print times_found
     def make_count_map(servers):
         count = defaultdict(int)
         for server in servers:
