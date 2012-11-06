@@ -7,6 +7,11 @@ from collections import defaultdict
 import bitHopper.Logic
 import bitHopper.Network
 
+try:
+    import numpy as np
+except ImportError:
+    np = None
+
 blocks_timing = {}
 blocks_calculated = {}
 blocks_actual = {}
@@ -104,12 +109,17 @@ def calc_good_servers():
 def linreg(data):
     ydata = [p[-1] for p in data]
     xdata = [[1] + p[:-1] for p in data]
-    return [1 for x in xdata]
+    n = len(xdata[0])
+    Z = np.matrix(xdata)
+    wreg = (Z.T * Z + np.identity(n)*l).I*Z.T*np.matrix(ydata).T
+    return [float(d) for d in list(wreg)]
 
 def train_data():
+    if np == None:
+        return
     while True:
         servers = calc_good_servers()
-        
+
         global used_pools
         used_pools = servers
 
@@ -120,9 +130,10 @@ def train_data():
             point = [block.get(server, 10000) for server in servers]
             point.append(block_actual.get(block))
             data.append(point)
-
+        
         global weights
-        weights = linreg(data)
+        if data:
+            weights = linreg(data)
 
         gevent.sleep(60*5)
 
