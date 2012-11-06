@@ -68,8 +68,8 @@ def check_learning():
         deepbit_blocks = btcnet_info.get_pool('deepbit').blocks
         for block in blocks_timing:
             if block not in blocks_actual:
-                block_actual[block] = 1 if block in deepbit_blocks else 0
-                print 'Block %s has training value %s' % (block, block_actual[block])
+                blocks_actual[block] = 1 if block in deepbit_blocks else 0
+                print 'Block %s has training value %s' % (block, blocks_actual[block])
                 print 'deepbit_blocks'
 
 #Connect to deepbit if possible    
@@ -88,7 +88,7 @@ def calc_good_servers():
     def yield_timings_block(block):
         for server in block:
             yield server
-    times_found = list(yield_timings_block(block for name, block in blocks_timing))
+    times_found = list(yield_timings_block(block for name, block in blocks_timing.iteritems()))
     def make_count_map(servers):
         count = defaultdict(int)
         for server in servers:
@@ -128,7 +128,7 @@ def train_data():
             if not blocks_actual.get(block, None):
                 continue
             point = [block.get(server, 10000) for server in servers]
-            point.append(block_actual.get(block))
+            point.append(blocks_actual.get(block))
             data.append(point)
         
         global weights
