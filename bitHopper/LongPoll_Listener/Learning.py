@@ -57,10 +57,7 @@ def extract_vector(current_block):
 
 def calculate_block(current_block):
     print 'calculate block called'
-    if len(weights) != len(extract_vector(current_block)):
-        print 'Lengths do not match'
-        print weights, extract_vector(current_block)
-    if sum(vec_mult(weights, extract_vector(current_block))) > 0:
+    if vec_mult(weights, extract_vector(current_block)) > 0:
         print 'triggered'
         btcnet_info.get_pool('deepbit').namespace.get_node('shares').set_value(0)
         #Reset shares on deepbit
