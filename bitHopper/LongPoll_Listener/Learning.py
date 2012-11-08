@@ -18,7 +18,11 @@ blocks_actual = {}
 
 #wait for these pools before calculating results
 used_pools = ['deepbit']
-weights = [0, 1]
+weights = [-1, 0]
+
+def set_neg(block):
+    if block not in blocks_actual:
+        blocks_actual[block] = 0
 
 def learn_block(blocks, current_block):
     print 'learn_block called'
@@ -26,6 +30,7 @@ def learn_block(blocks, current_block):
     for block in blocks:
         if block not in blocks_timing:
             blocks_timing[block] = blocks[block]
+            gevent.spawn_later(60*60*1.5, set_neg, block)
 
     #update current_block
     if len(blocks[current_block]) < len(blocks_timing[current_block]):
@@ -67,10 +72,9 @@ def check_learning():
         deepbit_blocks = btcnet_info.get_pool('deepbit').blocks
         limit = max(deepbit_blocks)
         for block in blocks_timing:
-            if block not in blocks_actual and block < limit:
-                blocks_actual[block] = 1 if block in deepbit_blocks else 0
+            if block in deepbit_blocks:
+                blocks_actual[block] = 1
                 print 'Block %s has training value %s' % (block, blocks_actual[block])
-                print 'deepbit_blocks'
 
 #Connect to deepbit if possible    
 def poke_deepbit():
