@@ -89,7 +89,11 @@ def get_work( headers = {}):
         gevent.spawn(Tracking.headers, server_headers, server)
             
         return content, deepcopy(server_headers)
-            
+   
+def send_work_lp(url, username, password, server):
+    _, server_headers = send_work(url, username, password)
+    gevent.spawn(Tracking.headers, server_headers, server)
+
 def submit_work(rpc_request, headers = {}):
     """
     Submits a work item

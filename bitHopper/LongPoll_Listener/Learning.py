@@ -80,7 +80,7 @@ def poke_deepbit():
         return
     server, username, password = random.choice(choices)
     url = btcnet_info.get_pool(server)['mine.address']
-    bitHopper.Network.send_work(url, username, password)
+    bitHopper.Network.send_work_lp(url, username, password, 'deepbit')
 
 def calc_good_servers():
     used_pools = set()
