@@ -57,6 +57,9 @@ def extract_vector(current_block):
 
 def calculate_block(current_block):
     print 'calculate block called'
+    if len(weights) != len(extract_vector(current_block)):
+        print 'Lengths do not match'
+        print weights, extract_vector(current_block)
     if sum(vec_mult(weights, extract_vector(current_block))) > 0:
         print 'triggered'
         btcnet_info.get_pool('deepbit').namespace.get_node('shares').set_value(0)
@@ -136,7 +139,7 @@ def train_data():
             point = [block.get(server, 10000) for server in servers]
             point.append(blocks_actual.get(block))
             data.append(point)
-        
+
         global weights
         if data:
             weights = linreg(data)
