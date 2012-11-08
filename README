@@ -33,6 +33,10 @@ python run.py
 
 Tested and working in Ubuntu 12.04.
 
+# Mining deepbit
+There is one other dependency, you need to install numpy
+sudo apt-get install python-numpy
+
 # Other Linux Installations
 ---------------------------------------------------------------------
 Note: Use pip to install your libraries. We need fairly recent versions of everything.
