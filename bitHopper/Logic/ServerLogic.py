@@ -78,7 +78,7 @@ def valid_scheme( source):
             continue
             
         #Check if this is a secure payout scheme
-        if scheme.lower() in ['pps', 'smpps', 'pplns']:
+        if scheme.lower() in ['pps', 'smpps', 'pplns', 'dgm']:
             yield site
         
         if scheme.lower() in ['prop', 'score']:
