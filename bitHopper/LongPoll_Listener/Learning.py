@@ -61,9 +61,9 @@ def calculate_block(current_block):
         print 'triggered'
         btcnet_info.get_pool('deepbit').namespace.get_node('shares').set_value(0)
         #Reset shares on deepbit
-        block_calculated[current_block] = 1
+        blocks_calculated[current_block] = 1
     else:
-        block_calculated[current_block] = 0
+        blocks_calculated[current_block] = 0
 
 def check_learning():
     print 'Check learning started'
