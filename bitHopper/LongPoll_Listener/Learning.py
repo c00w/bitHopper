@@ -115,6 +115,7 @@ def calc_good_servers():
 def linreg(data):
     ydata = [p[-1] for p in data]
     xdata = [[1] + p[:-1] for p in data]
+    l = 0.00001
     n = len(xdata[0])
     Z = np.matrix(xdata)
     wreg = (Z.T * Z + np.identity(n)*l).I*Z.T*np.matrix(ydata).T
