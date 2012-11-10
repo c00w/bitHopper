@@ -67,6 +67,8 @@
 
 				return 'white';
 			}
+		
+
 			function numberWithCommas(x) {
 				return x.toString().replace(/\B(?=(?:\d{3})+(?!\d))/g, ",");
 			}
@@ -433,6 +435,12 @@
 						if( !showInfoPools && row_role == "info" ){
 							continue; //Skip info pools
 						}
+						
+						var htmlRepresentationOfShares = columns['Shares']['data'](payload, row, r);
+    						var intRepresentationOfShares = htmlRepresentationOfShares.replace(/[^0-9]/g, '');
+						if(intRepresentationOfShares == 0 || intRepresentationOfShares > 50000000) {
+							continue;
+						}
 					}
 
 					html += "<tr id=\"row_" + i + "\">";
@@ -545,8 +553,9 @@
 					);
 
 					users = data["user"];
-
-					buildTable("#users", users, users,
+					
+					//buildTable has been commented out because none of the getUserX calls are working and I don't know what is supposed to be happening. Functionality may one day be readded
+					/*buildTable("#users", users, users,
 						{
 							"User": { 'data':getUserName } ,
 							"Last Seen": { 'data':getUserTime, 'align':'left' },
@@ -559,7 +568,7 @@
 						function(c,d){
 							return c > d;
 						},""
-					);
+					);*/
 
 				});
 			}
