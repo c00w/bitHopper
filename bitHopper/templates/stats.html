@@ -131,6 +131,11 @@
 				if(srv["rejects"] > 0) {
 					pp = parseFloat(srv["rejects"]) / parseFloat(srv["user_shares"]) * 100;
 				}
+
+				if(srv["user_shares"] == undefined) {
+					return "0" + "&nbsp;/&nbsp;" + "0<br>" + fixLength(pp.toFixed(2), 5) + "%";
+				}
+
 				return srv["user_shares"]
 					+ "&nbsp;/&nbsp;"
 					+ srv["rejects"]
@@ -434,6 +439,14 @@
 						if( !showInfoPools && row_role == "info" ){
 							continue; //Skip info pools
 						}
+						
+						var htmlShares = columns['Shares']['data'](payload, row, r);
+						var endOfShares = htmlShares.indexOf('<');
+						var poolSharesWCommas = htmlShares.substring(0,endOfShares);
+						var intPoolShares = poolSharesWCommas.replace(/[^0-9]/g, '');
+						
+						if(intPoolShares == undefined || intPoolShares == 0 || intPoolShares >= 50000000)
+							continue;
 					}
 
 					html += "<tr id=\"row_" + i + "\">";
@@ -515,16 +528,7 @@
 				$.getJSON('/data', function(data) {
 					document.title = data["current"] + ' @ '+ parseInt(data["mhash"]) + " MHash - bitHopper";
 					$("#current").html("<span style='font-weight:bold;color:yellow;'>" + data["current"] + "</span> @" + parseInt(data["mhash"]) + "MHash");
-					
 
-					//Use this function to see what is inside of data.
-					//for some reason, the field inside of data that should be giving the difficulty is empty
-					/*var output = '';
-					for (property in data) {
- 						 output += property + ': ' + data[property]+'; ';
-					}
-					alert(output);*/
-							
 					updateData(data);
 
 					buildTable("#table", data['servers'], data,
