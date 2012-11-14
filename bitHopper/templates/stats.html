@@ -78,7 +78,6 @@
 
 				diff = payload["diffs"][srv["role"].substring(5,8)];
 				if (diff == undefined) { diff = payload["diffs"]["btc"]; }
-
 				return numberWithCommas(shares)
 					+ "<br>"
 					+ fixLength((shares / diff * 100).toFixed(2), 6)
@@ -522,7 +521,16 @@
 				$.getJSON('/data', function(data) {
 					document.title = data["current"] + ' @ '+ parseInt(data["mhash"]) + " MHash - bitHopper";
 					$("#current").html("<span style='font-weight:bold;color:yellow;'>" + data["current"] + "</span> @" + parseInt(data["mhash"]) + "MHash");
+					
 
+					//Use this function to see what is inside of data.
+					//for some reason, the field inside of data that should be giving the difficulty is empty
+					/*var output = '';
+					for (property in data) {
+ 						 output += property + ': ' + data[property]+'; ';
+					}
+					alert(output);*/
+							
 					updateData(data);
 
 					buildTable("#table", data['servers'], data,
