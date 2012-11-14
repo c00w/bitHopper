@@ -66,9 +66,12 @@ def poll(server):
             if username == None:
                 gevent.sleep(5*60)
                 continue
-                
-            content, server_headers = bitHopper.Network.get_lp( url, username, password, server)
-            
+            try:
+                content, server_headers = bitHopper.Network.get_lp( url, username, password, server)
+            except:
+                logging.debug(traceback.format_exc())
+                gevent.sleep(60)
+                continue
             handle(content, server)
             
         except:

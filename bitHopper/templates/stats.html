@@ -76,7 +76,7 @@
 			function getShares(payload, srv) {
 				shares = srv['shares'];
 
-				diff = payload["diffs"][srv["role"].substring(5,8)];
+				diff = payload["diffs"][srv["coin"]];
 				if (diff == undefined) { diff = payload["diffs"]["btc"]; }
 				return numberWithCommas(shares)
 					+ "<br>"
@@ -433,12 +433,6 @@
 						}
 						if( !showInfoPools && row_role == "info" ){
 							continue; //Skip info pools
-						}
-						
-						var htmlRepresentationOfShares = columns['Shares']['data'](payload, row, r);
-    						var intRepresentationOfShares = htmlRepresentationOfShares.replace(/[^0-9]/g, '');
-						if(intRepresentationOfShares == 0 || intRepresentationOfShares > 50000000) {
-							continue;
 						}
 					}
 

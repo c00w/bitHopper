@@ -6,16 +6,17 @@ import logging, traceback, json, base64
 import bitHopper.Logic
 import bitHopper.LaggingLogic
 import bitHopper.Tracking as Tracking
-import ResourcePool
 from bitHopper.util import rpc_error
 import btcnet_info
 import socket
 import gevent
 import requests, requests.exceptions
 from copy import deepcopy
-    
-session = requests.session()
+
+config = {'pool_maxsize':1000}
+session = requests.session(config=config)
 i = 0
+
 def request( url, body = '', headers = {}, method='POST', timeout = 30):
     """
     Generic network wrapper function
@@ -88,7 +89,11 @@ def get_work( headers = {}):
         gevent.spawn(Tracking.headers, server_headers, server)
             
         return content, deepcopy(server_headers)
-            
+   
+def send_work_lp(url, username, password, server):
+    _, server_headers = send_work(url, username, password)
+    gevent.spawn(Tracking.headers, server_headers, server)
+
 def submit_work(rpc_request, headers = {}):
     """
     Submits a work item
