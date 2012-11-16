@@ -2,6 +2,7 @@ import random
 import btcnet_info
 import gevent
 import logging
+import json
 from collections import defaultdict
 
 import bitHopper.Logic
@@ -69,7 +70,7 @@ def check_learning():
     print 'Check learning started'
     while True:
         gevent.sleep(60)
-        deepbit_blocks = btcnet_info.get_pool('deepbit').blocks
+        deepbit_blocks = set(json.loads(btcnet_info.get_pool('deepbit').blocks))
         for block in blocks_timing:
             if blocks_actual[block] == 1:
                 continue
