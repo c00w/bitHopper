@@ -72,7 +72,7 @@ def check_learning():
         gevent.sleep(60)
         deepbit_blocks = set(json.loads(btcnet_info.get_pool('deepbit').blocks))
         for block in blocks_timing:
-            if blocks_actual[block] == 1:
+            if block in blocks_actual and blocks_actual[block] == 1:
                 continue
             if block in deepbit_blocks:
                 blocks_actual[block] = 1
