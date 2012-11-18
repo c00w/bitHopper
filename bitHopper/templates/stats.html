@@ -75,7 +75,6 @@
 
 			function getShares(payload, srv) {
 				shares = srv['shares'];
-
 				diff = payload["diffs"][srv["coin"]];
 				if (diff == undefined) { diff = payload["diffs"]["btc"]; }
 				return numberWithCommas(shares)
