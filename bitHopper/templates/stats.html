@@ -70,6 +70,13 @@
 		
 
 			function numberWithCommas(x) {
+				//some of the numbers have a random decimal point in them
+				//not knowing where the decimal point is actually coming from, I truncated every thing following the decimal point with the next three lines
+
+				var indexOfDecimalPoint = x.toString().indexOf('.');
+				if(indexOfDecimalPoint != -1) 
+					x = x.toString().substring(0,indexOfDecimalPoint);
+
 				return x.toString().replace(/\B(?=(?:\d{3})+(?!\d))/g, ",");
 			}
 
@@ -438,14 +445,30 @@
 						if( !showInfoPools && row_role == "info" ){
 							continue; //Skip info pools
 						}
-						
+
+
+						//this first way of getting shares looks at what would go in the html. It works pretty much flawlessly
 						var htmlShares = columns['Shares']['data'](payload, row, r);
 						var endOfShares = htmlShares.indexOf('<');
 						var poolSharesWCommas = htmlShares.substring(0,endOfShares);
-						var intPoolShares = poolSharesWCommas.replace(/[^0-9]/g, '');
+						var htmlPoolShares = poolSharesWCommas.replace(/[^0-9]/g, '');
 						
-						if(intPoolShares == undefined || intPoolShares == 0 || intPoolShares >= 50000000)
+						//this second way of getting shares looks at what is in the JSON data.
+						//the problem is that by this point everything has been sorted alphabetically, and you can't look back into the raw data to get a proper match
+						/*var htmlServerName = columns['Server']['data'](payload, row, r);
+						var nameStart = htmlServerName.indexOf('>');
+						htmlServerName = htmlServerName.substring(nameStart);
+						var nameEnd = htmlServerName.indexOf('<');
+						htmlServerName = htmlServerName.substring(1, nameEnd);
+						JSONserverName = "'" + htmlServerName + "'";
+						//var dataPoolShares = payload['servers']['abc']['shares'];
+						alert(JSON.stringify(payload['servers']));
+						*/
+						
+						//because htmlPoolShares seems to work better, this is the method chosen, even though it's not 'pure'
+						if(htmlPoolShares == "undefined" || htmlPoolShares == 0 || htmlPoolShares >= 50000000) {
 							continue;
+						}
 					}
 
 					html += "<tr id=\"row_" + i + "\">";
