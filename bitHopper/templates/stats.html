@@ -70,15 +70,20 @@
 		
 
 			function numberWithCommas(x) {
+				//some of the numbers have a random decimal point in them
+				//not knowing where the decimal point is actually coming from, I truncated every thing following the decimal point with the next three lines
+
+				var indexOfDecimalPoint = x.toString().indexOf('.');
+				if(indexOfDecimalPoint != -1) 
+					x = x.toString().substring(0,indexOfDecimalPoint);
+
 				return x.toString().replace(/\B(?=(?:\d{3})+(?!\d))/g, ",");
 			}
 
 			function getShares(payload, srv) {
 				shares = srv['shares'];
-
 				diff = payload["diffs"][srv["coin"]];
 				if (diff == undefined) { diff = payload["diffs"]["btc"]; }
-
 				return numberWithCommas(shares)
 					+ "<br>"
 					+ fixLength((shares / diff * 100).toFixed(2), 6)
@@ -132,6 +137,11 @@
 				if(srv["rejects"] > 0) {
 					pp = parseFloat(srv["rejects"]) / parseFloat(srv["user_shares"]) * 100;
 				}
+
+				if(srv["user_shares"] == undefined) {
+					return "0" + "&nbsp;/&nbsp;" + "0<br>" + fixLength(pp.toFixed(2), 5) + "%";
+				}
+
 				return srv["user_shares"]
 					+ "&nbsp;/&nbsp;"
 					+ srv["rejects"]
@@ -434,6 +444,30 @@
 						}
 						if( !showInfoPools && row_role == "info" ){
 							continue; //Skip info pools
+						}
+
+
+						//this first way of getting shares looks at what would go in the html. It works pretty much flawlessly
+						var htmlShares = columns['Shares']['data'](payload, row, r);
+						var endOfShares = htmlShares.indexOf('<');
+						var poolSharesWCommas = htmlShares.substring(0,endOfShares);
+						var htmlPoolShares = poolSharesWCommas.replace(/[^0-9]/g, '');
+						
+						//this second way of getting shares looks at what is in the JSON data.
+						//the problem is that by this point everything has been sorted alphabetically, and you can't look back into the raw data to get a proper match
+						/*var htmlServerName = columns['Server']['data'](payload, row, r);
+						var nameStart = htmlServerName.indexOf('>');
+						htmlServerName = htmlServerName.substring(nameStart);
+						var nameEnd = htmlServerName.indexOf('<');
+						htmlServerName = htmlServerName.substring(1, nameEnd);
+						JSONserverName = "'" + htmlServerName + "'";
+						//var dataPoolShares = payload['servers']['abc']['shares'];
+						alert(JSON.stringify(payload['servers']));
+						*/
+						
+						//because htmlPoolShares seems to work better, this is the method chosen, even though it's not 'pure'
+						if(htmlPoolShares == "undefined" || htmlPoolShares == 0 || htmlPoolShares >= 50000000) {
+							continue;
 						}
 					}
 
