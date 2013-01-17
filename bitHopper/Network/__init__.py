@@ -13,8 +13,17 @@ import gevent
 import requests, requests.exceptions
 from copy import deepcopy
 
-config = {'pool_maxsize':1000}
-session = requests.session(config=config)
+try:
+    config = {'pool_maxsize':1000}
+    session = requests.session(config=config)
+except TypeError:
+    # Fix broken behavior in requests.
+    # See https://github.com/kennethreitz/requests/issues/1104
+    import requests.adapters
+    session = requests.Session()
+    session.mount('http://', requests.adapters.HTTPAdapter(pool_connections=1000, pool_maxsize=1000))
+    session.mount('https://', requests.adapters.HTTPAdapter(pool_connections=1000, pool_maxsize=1000))
+
 i = 0
 
 def request( url, body = '', headers = {}, method='POST', timeout = 30):
