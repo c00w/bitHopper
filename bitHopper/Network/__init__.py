@@ -33,7 +33,7 @@ def request( url, body = '', headers = {}, method='POST', timeout = 30):
     
     #traceback.print_stack()
     
-    r = session.request(method, url=url, data=body, headers=headers, timeout=timeout, prefetch=True, verify=False)
+    r = session.request(method, url=url, data=body, headers=headers, timeout=timeout, verify=False)
     return r.content, r.headers
     
 def get_lp(url, username, password, server):
