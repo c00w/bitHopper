@@ -14,6 +14,11 @@ def clean_headers_client(header):
         else:
             del header[name]
             header[name.lower()] = value
+        if name.lower() == 'x-mining-extensions':
+            allowed_extensions=['midstate', 'rollntime']
+            header[name.lower()] = ' '.join([
+                x for x in header[name.lower()].split(' ') if
+                x in allowed_extensions])
     return header
     
 def clean_headers_server(header):
