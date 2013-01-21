@@ -131,7 +131,7 @@ def filter_secure( source):
     for pool in source:
         if not pool.payout_scheme:
             continue
-        if pool.payout_scheme.lower() in ['pplns', 'smpps', 'pps']:
+        if pool.payout_scheme.lower() in ['pplns', 'smpps', 'pps', 'dgm']:
             yield pool
 
 def filter_best( source):

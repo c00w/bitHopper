@@ -88,33 +88,36 @@ class ServerLogicTestCase(unittest.TestCase):
             
             
     def testvalid_scheme(self):
-        a = [FakePool(), FakePool(), FakePool()]
+        a = [FakePool(), FakePool(), FakePool(), FakePool()]
         a[0].payout_scheme = 'pps'
         a[1].payout_scheme = 'smpps'
         a[2].payout_scheme = 'prop'
         a[2].shares = str(10**10)
+        a[3].payout_scheme = 'dgm'
         
         self.assertEqual(len(list(self.logic.valid_scheme(a))),
-            2)
+            3)
             
     def testfilter_hoppable(self):
-        a = [FakePool(), FakePool(), FakePool()]
+        a = [FakePool(), FakePool(), FakePool(), FakePool()]
         a[0].payout_scheme = 'pps'
         a[1].payout_scheme = 'score'
         a[2].payout_scheme = 'prop'
         a[2].shares = str(10**10)
+        a[3].payout_scheme = 'dgm'
         
         self.assertEqual(len(list(self.logic.filter_hoppable(a))), 2)
         
     def testfilter_secure(self):
     
-        a = [FakePool(), FakePool(), FakePool()]
+        a = [FakePool(), FakePool(), FakePool(), FakePool()]
         a[0].payout_scheme = 'pps'
         a[1].payout_scheme = 'score'
         a[2].payout_scheme = 'prop'
         a[2].shares = str(10**10)
+        a[3].payout_scheme = 'dgm'
         
-        self.assertEqual(len(list(self.logic.filter_secure(a))), 1)
+        self.assertEqual(len(list(self.logic.filter_secure(a))), 2)
         
 class UtilTestCase(unittest.TestCase):
 
